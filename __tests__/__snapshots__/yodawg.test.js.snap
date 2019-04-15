@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tomo testing tools can format objects for use as snapshots 1`] = `
+"{
+    type: directory,
+    children: [
+        {
+            type: file
+        },
+        {
+            type: directory,
+            children: [
+                {
+                    type: directory,
+                    children: [
+                        {
+                            type: file
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+"
+`;
+
+exports[`Tomo testing tools get directory tree 1`] = `
+"{
+    name: test-fold,
+    children: [
+        {
+            name: a.txt,
+            size: 279,
+            extension: .txt,
+            type: file
+        },
+        {
+            name: b,
+            children: [
+                {
+                    name: b.txt,
+                    size: 167,
+                    extension: .txt,
+                    type: file
+                }
+            ],
+            size: 167,
+            type: directory
+        },
+        {
+            name: c,
+            children: [
+                {
+                    name: c.txt,
+                    size: 130,
+                    extension: .txt,
+                    type: file
+                },
+                {
+                    name: d,
+                    children: [
+                        {
+                            name: d.txt,
+                            size: 113,
+                            extension: .txt,
+                            type: file
+                        }
+                    ],
+                    size: 113,
+                    type: directory
+                }
+            ],
+            size: 243,
+            type: directory
+        }
+    ],
+    size: 689,
+    type: directory
+}
+"
+`;
+
+exports[`Tomo testing tools get directory tree 2`] = `
+"{
+    children: [
+        {
+            size: 279,
+            extension: .txt,
+            type: file
+        },
+        {
+            children: [
+                {
+                    size: 167,
+                    extension: .txt,
+                    type: file
+                }
+            ],
+            size: 167,
+            type: directory
+        },
+        {
+            children: [
+                {
+                    size: 130,
+                    extension: .txt,
+                    type: file
+                },
+                {
+                    children: [
+                        {
+                            size: 113,
+                            extension: .txt,
+                            type: file
+                        }
+                    ],
+                    size: 113,
+                    type: directory
+                }
+            ],
+            size: 243,
+            type: directory
+        }
+    ],
+    size: 689,
+    type: directory
+}
+"
+`;

@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Task component can render (completed) 1`] = `"   [1m[32m✔[39m[22m [2mtest task text[22m"`;
+
+exports[`Task component can render 1`] = `"   [36m⠋[39m[39m [39m[39mtest task text[39m"`;
+
+exports[`Task component can render with defaults 1`] = `"   [1m[32m✔[39m[22m [2mtask description[22m"`;
+
+exports[`TaskList component can render 1`] = `
+"[36m[39m
+[36m ╭────────────╮[39m
+ [36m│[39m [37m[1madd eslint[22m[39m [36m│[39m
+[36m ╰────────────╯[39m
+   [36m⠋[39m[39m [39m[39mCreate Babel config file[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel dependencies[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel presets[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel plugins[39m
+   [36m⠋[39m[39m [39m[39mCreate ESLint config file[39m
+   [36m⠋[39m[39m [39m[39mAdd lint tasks to package.json[39m
+   [36m⠋[39m[39m [39m[39mInstall ESLint dependencies[39m
+
+"
+`;
+
+exports[`Warning can render 1`] = `
+"[33m[39m
+[33m ┌─────────┐[39m
+ [33m│[39m [33moops...[39m [33m│[39m
+[33m └─────────┘[39m
+    ↳ Hello World
+
+      [2mPress [22m[1mENTER[22m[2m to continue[22m
+"
+`;
+
+exports[`tomo add 1`] = `
+"
+ [36m[1m→[22m[39m [39m[36m[1ma11y[22m[39m[39m
+   babel
+   docs
+   eslint
+   jest
+   postcss
+   webpack
+"
+`;
+
+exports[`tomo add 2`] = `
+"
+   a11y
+ [36m[1m→[22m[39m [39m[36m[1mbabel[22m[39m[39m
+   docs
+   eslint
+   jest
+   postcss
+   webpack
+"
+`;
+
+exports[`tomo add eslint --use-react 1`] = `
+"[36m[39m
+[36m ╭────────────╮[39m
+ [36m│[39m [37m[1madd eslint[22m[39m [36m│[39m
+[36m ╰────────────╯[39m
+   [36m⠋[39m[39m [39m[39mCreate Babel config file[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel dependencies[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel presets[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel plugins[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel React preset[39m
+   [36m⠋[39m[39m [39m[39mAdd React support to Babel configuration file[39m
+   [36m⠋[39m[39m [39m[39mCreate ESLint config file[39m
+   [36m⠋[39m[39m [39m[39mAdd lint tasks to package.json[39m
+   [36m⠋[39m[39m [39m[39mInstall ESLint dependencies[39m
+   [36m⠋[39m[39m [39m[39mInstall ESLint React plugins[39m
+   [36m⠋[39m[39m [39m[39mAdd React support to ESLint configuration file[39m
+
+"
+`;
+
+exports[`tomo add eslint 1`] = `
+"[36m[39m
+[36m ╭────────────╮[39m
+ [36m│[39m [37m[1madd eslint[22m[39m [36m│[39m
+[36m ╰────────────╯[39m
+   [36m⠋[39m[39m [39m[39mCreate Babel config file[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel dependencies[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel presets[39m
+   [36m⠋[39m[39m [39m[39mInstall Babel plugins[39m
+   [36m⠋[39m[39m [39m[39mCreate ESLint config file[39m
+   [36m⠋[39m[39m [39m[39mAdd lint tasks to package.json[39m
+   [36m⠋[39m[39m [39m[39mInstall ESLint dependencies[39m
+
+"
+`;

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: commands/add-marionette/templates/mn.radio.logging.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: commands/add-marionette/templates/mn.radio.logging.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint strict: 0 */
+/* eslint no-console: 0 */
+/* eslint complexity: ['warn', 6] */
+/**
+ * @file Logging module that leverages Backbone.Radio
+ * @module plugins/logging
+ * @example &lt;caption>Extend application object&lt;/caption>
+ * var logging = require('./plugins/radio.logging');
+ * var app = new Marionette.Application();
+ * module.exports = Object.assign(app, logging);
+ * @example &lt;caption>Use console message methods with custom stylized output&lt;/caption>
+ * var app = require('app');
+ * app.log('hello world');
+ * app.info('hello world');
+ * app.warn('hello world');
+ * app.error('hello world');
+ * @example &lt;caption>Leverage Backbone.Radio to "tune" in and out on channels&lt;/caption>
+ * var app = require('app');
+ * setInterval(function() {
+ *    app.radio.channel('test').trigger('log', 'message');
+ * }, 1000);
+ * app.radio.level('log');   //set logging level
+ * app.radio.tuneIn('test'); //no need to create the channel first
+ * // See some beautiful log messages in the console
+ * app.radio.tuneOut('test'); //messages on test channel will no longer be shown
+ * //Note: Remove 'test' channel with app.radio.reset('test')
+ * @example &lt;caption>Choose what level gets shown&lt;/caption>
+ * var app = require('app');
+ * app.radio.level('log'); //show all logs
+ * app.radio.tuneIn('test'); //no need to create the channel first
+ * setInterval(function() {
+ *    app.radio.channel('test').trigger('log', 'message');
+ *    app.radio.channel('test').trigger('info', 'message');
+ *    app.radio.channel('test').trigger('warn', 'message');
+ *    app.radio.channel('test').trigger('error', 'message');
+ * }, 1000);
+ * app.radio.level('none');  //show no logs
+ * app.radio.level('error'); //only show 'error' logs
+ * app.radio.level('warn');  //show 'error' and 'warn' logs
+ * // Note: Unless directly set with level(), the default behavior is to show no logs
+ * // Note: Return current logging level with app.radio.level()
+ * // Note: Return channels with app.radio.channels()
+**/
+'use strict';
+
+const _ = require('lodash');
+const Radio = require('backbone.radio');
+
+Radio.DEBUG = false;// Show &amp; Hide Backbone.Radio debug messages
+const APP_LOGGING = true;// Show &amp; Hide Application console messages
+const MSG_PREFIX = '%c APP ❱❱ %c';
+const MSG_TYPES = ['error', 'warn', 'info', 'log', 'trace'];
+const zipObject = _.isFunction(_.zipObject) ? _.zipObject : _.object;
+const MSG_DICT = zipObject(MSG_TYPES, MSG_TYPES.map((type, i) => i));
+
+const STYLE = {
+    none: 'background:inherit;color:inherit;',
+    error: 'background:red;color:white;',
+    warn: 'background:yellow;color:black;',
+    info: 'background:blue;color:white;',
+    log: 'background:#333;color:white;'
+};
+
+function consoleMessage(type) {
+    return Function.prototype.bind.call(console[type], console, MSG_PREFIX, STYLE[type], STYLE.none);
+}
+
+const channelMethods = Object.create(null);
+channelMethods.getChannels = function() {
+    return Object.keys(Radio._channels);
+};
+channelMethods.level = function(value) {
+    if (typeof (value) !== 'undefined') {
+        let level;
+        if (_.isNumber(value) &amp;&amp; value &lt; MSG_TYPES.length) {
+            level = value;
+        } else if (_.isString(value)) {
+            level = _.includes(MSG_TYPES, value) ? MSG_DICT[value] + 1 : 0;
+        }
+        channelMethods._level = level;
+    }
+    return channelMethods._level;
+};
+
+Radio.log = function(channelName, type, ...args) {
+    type = _.includes(MSG_TYPES, type) ? type : 'log';
+    const level = MSG_DICT[type];
+    const msg = args.length > 2 ? args[2] : args[1];
+    if (level &lt; channelMethods.level()) {
+        consoleMessage(type)(`[${channelName}] `, msg, Date.now());
+    }
+};
+
+exports.radio = _.extend(Radio, channelMethods);
+
+MSG_TYPES.forEach(type => {
+    exports[type] = APP_LOGGING ? consoleMessage(type) : function() { };
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-commands.html">commands</a></li><li><a href="module-plugins_logging.html">plugins/logging</a></li><li><a href="module-ui.html">ui</a></li><li><a href="module-utils.html">utils</a></li><li><a href="plugins_redux.module_state.html">plugins/redux.state</a></li></ul><h3>Classes</h3><ul><li><a href="module-ui-Task.html">Task</a></li><li><a href="module-ui-TaskList.html">TaskList</a></li><li><a href="module-ui-Warning.html">Warning</a></li><li><a href="module-utils-BabelConfigModuleEditor.html">BabelConfigModuleEditor</a></li><li><a href="module-utils-EslintConfigModuleEditor.html">EslintConfigModuleEditor</a></li><li><a href="module-utils-PackageJsonEditor.html">PackageJsonEditor</a></li><li><a href="module-utils-PostcssConfigEditor.html">PostcssConfigEditor</a></li><li><a href="module-utils-Scaffolder.html">Scaffolder</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Marionette">Marionette</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Apr 14 2019 20:34:48 GMT+0300 (East Africa Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

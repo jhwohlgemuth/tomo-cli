@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`.eslintrc.js mem-fs editor create 1`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint'
+};"
+`;
+
+exports[`.eslintrc.js mem-fs editor delete 1`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint',
+    key: {
+        foo: 'foo',
+        bar: 'bar'
+    }
+};"
+`;
+
+exports[`.eslintrc.js mem-fs editor extend 1`] = `
+"const {join} = require('path');
+const {existsSync} = require('fs-extra');
+
+module.exports = {
+    env: {es6: true, jest: true},
+    extends: ['omaha-prime-grade'],
+    parser: 'babel-eslint',
+    key: {foo: 'foo', bar: 'bar', baz: baz}
+};"
+`;
+
+exports[`.eslintrc.js mem-fs editor extend 2`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint',
+    key: {
+        foo: 'foo'
+    }
+};"
+`;
+
+exports[`.eslintrc.js mem-fs editor extend 3`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint',
+    key: {
+        foo: 'foo',
+        bar: 'bar'
+    }
+};"
+`;
+
+exports[`.eslintrc.js mem-fs editor prepend 1`] = `
+"const {existsSync} = require('fs-extra');
+
+module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint',
+    key: {
+        foo: 'foo',
+        bar: 'bar'
+    }
+};"
+`;
+
+exports[`.eslintrc.js mem-fs editor prepend 2`] = `
+"const {join} = require('path');
+const {existsSync} = require('fs-extra');
+
+module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint',
+    key: {
+        foo: 'foo',
+        bar: 'bar'
+    }
+};"
+`;
+
+exports[`.eslintrc.js mem-fs editor prepend 3`] = `
+"const {join} = require('path');
+const {existsSync} = require('fs-extra');
+
+module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint',
+    key: {
+        foo: 'foo',
+        bar: 'bar',
+        baz: baz
+    }
+};"
+`;
+
+exports[`.eslintrc.js mem-fs editor read 1`] = `
+"const {join} = require('path');
+const {existsSync} = require('fs-extra');
+
+module.exports = {
+    env: {es6: true, jest: true},
+    extends: ['omaha-prime-grade'],
+    parser: 'babel-eslint',
+    key: {foo: 'foo', bar: 'bar', baz: baz}
+};"
+`;
+
+exports[`getVersions format response from npm 1`] = `
+Array [
+  "1.0.0",
+  "2.0.0",
+  "3.0.0",
+]
+`;
+
+exports[`package.json mem-fs editor copy 1`] = `
+Object {
+  "author": "",
+  "description": "",
+  "keywords": Array [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "fixtures",
+  "scripts": Object {
+    "test": "echo \\"Error: no test specified\\" && exit 1",
+  },
+  "version": "1.0.0",
+}
+`;
+
+exports[`package.json mem-fs editor create 1`] = `
+Object {
+  "description": "A super cool app/server/tool/library/widget/thingy",
+  "keywords": Array [],
+  "license": "MIT",
+  "name": "my-project",
+  "version": "0.0.0",
+}
+`;
+
+exports[`package.json mem-fs editor delete 1`] = `
+Object {
+  "description": "A super cool app/server/tool/library/widget/thingy",
+  "keywords": Array [],
+  "license": "MIT",
+  "name": "my-project",
+  "version": "0.0.0",
+}
+`;
+
+exports[`package.json mem-fs editor extend 1`] = `
+Object {
+  "author": "",
+  "description": "",
+  "keywords": Array [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "fixtures",
+  "scripts": Object {
+    "foo": "bar",
+    "test": "echo \\"Error: no test specified\\" && exit 1",
+  },
+  "version": "1.0.0",
+}
+`;
+
+exports[`package.json mem-fs editor read 1`] = `
+Object {
+  "author": "",
+  "description": "",
+  "keywords": Array [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "fixtures",
+  "scripts": Object {
+    "test": "echo \\"Error: no test specified\\" && exit 1",
+  },
+  "version": "1.0.0",
+}
+`;

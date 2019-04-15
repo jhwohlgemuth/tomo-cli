@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Commands add-marionette 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: assets,
+            children: [
+                {
+                    name: css,
+                    children: [
+                        {
+                            name: style.css,
+                            size: 38,
+                            type: file
+                        }
+                    ],
+                    size: 38,
+                    type: directory
+                },
+                {
+                    name: templates,
+                    children: [
+                        {
+                            name: example.hbs,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                }
+            ],
+            size: 38,
+            type: directory
+        },
+        {
+            name: src,
+            children: [
+                {
+                    name: app.js,
+                    size: 435,
+                    type: file
+                },
+                {
+                    name: index.html,
+                    size: 536,
+                    type: file
+                },
+                {
+                    name: main.js,
+                    size: 1034,
+                    type: file
+                },
+                {
+                    name: plugins,
+                    children: [
+                        {
+                            name: mn.radio.logging.js,
+                            size: 3807,
+                            type: file
+                        },
+                        {
+                            name: mn.redux.state.js,
+                            size: 2184,
+                            type: file
+                        }
+                    ],
+                    size: 5991,
+                    type: directory
+                },
+                {
+                    name: shims,
+                    children: [
+                        {
+                            name: mn.renderer.shim.js,
+                            size: 486,
+                            type: file
+                        },
+                        {
+                            name: mn.templates.shim.js,
+                            size: 662,
+                            type: file
+                        }
+                    ],
+                    size: 1148,
+                    type: directory
+                }
+            ],
+            size: 9144,
+            type: directory
+        }
+    ],
+    size: 9182,
+    type: directory
+}
+"
+`;
