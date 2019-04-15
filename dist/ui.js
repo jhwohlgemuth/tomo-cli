@@ -353,7 +353,7 @@ const TaskList = ({
               yield queue.add(() => task(options)).then(() => dispatch({
                 type: 'complete',
                 payload: index
-              })).catch(() => process.exit(0));
+              })).catch(() => console.error('Error adding task to queue...'));
             } else {
               dispatch({
                 type: 'skipped',

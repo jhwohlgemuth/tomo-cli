@@ -19,7 +19,7 @@ var _ui = _interopRequireDefault(require("./ui"));
 // updateNotifier({pkg}).notify();
 const help = `
 	${_chalk.gray.bold('Usage')}
-		$ ${(0, _chalk.cyan)('tomo [command] [terms]')}
+		$ ${(0, _chalk.cyan)('tomo [command] [term] [options]')}
 
 	${_chalk.gray.bold('Options')}
 
