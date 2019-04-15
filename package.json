@@ -22,7 +22,6 @@
         "test": "jest .*.test.js --coverage",
         "test:e2e": "jest .*.e2e.js",
         "test:watch": "npm test -- --watchAll",
-        "test:coveralls": "npm test && cat ./coverage/lcov.info | coveralls",
         "open:coverage": "opn ./coverage/lcov-report/index.html",
         "open:docs": "opn ./docs/index.html",
         "lint": "eslint . -c ./.eslintrc.js --fix",
