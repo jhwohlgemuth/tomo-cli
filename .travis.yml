@@ -2,10 +2,11 @@ sudo: false
 language: node_js
 install:
   - npm link
-  - npm install -g codecov
+  - npm install -g codecov coveralls
 script:
   - npm test
   - codecov
+  - npm run test:coveralls
 node_js:
   - 'node'
   - '10'
