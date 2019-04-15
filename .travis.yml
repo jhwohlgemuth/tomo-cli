@@ -1,5 +1,8 @@
 sudo: false
 language: node_js
+os:
+  - linux
+  - windows
 install:
   - npm link
   - npm install -g codecov
