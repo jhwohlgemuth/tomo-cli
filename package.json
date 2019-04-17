@@ -22,7 +22,7 @@
         "postbuild": "npm run copy:assets",
         "build:clean": "rm -frd ./dist",
         "build:watch": "watch 'npm run build' ./src",
-        "build:docs": "jsdoc ./src -r --destination ./docs",
+        "build:docs": "jsdoc ./src -c ./jsdoc.conf.js -r --destination ./docs",
         "test": "jest .*.test.js --coverage",
         "test:e2e": "jest .*.e2e.js",
         "test:watch": "npm test -- --watchAll",
