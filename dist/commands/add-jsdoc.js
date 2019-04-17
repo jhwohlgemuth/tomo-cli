@@ -14,7 +14,7 @@ var _default = [{
     sourceDirectory
   }) => pkg.extend({
     script: {
-      'lint:docs': `eslint ${sourceDirectory}/*.js ${sourceDirectory}/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
+      'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
       'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
       'open:docs': 'opn ./docs/index.html',
       predocs: 'npm run lint:docs',

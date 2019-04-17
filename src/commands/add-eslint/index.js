@@ -1,10 +1,12 @@
+import {join} from 'path';
 import {
     allDoNotExist,
     install,
     EslintConfigModuleEditor,
     PackageJsonEditor,
+    Scaffolder,
     someDoExist
-} from '../utils';
+} from '../../utils';
 
 const pkg = new PackageJsonEditor();
 const cfg = new EslintConfigModuleEditor();
@@ -18,18 +20,28 @@ const ESLINT_DEPENDENCIES = [
 const ESLINT_REACT_PLUGINS = [
     'eslint-plugin-react'
 ];
+
+const sourceDirectory = join(__dirname, 'templates');
+const scaffolder = new Scaffolder({sourceDirectory});
+
 export default [
     {
-        text: 'Create ESLint config file',
-        task: () => cfg.create(),
+        text: 'Create ESLint configuration and ignore files',
+        task: async ({sourceDirectory}) => {
+            cfg.create();
+            await scaffolder
+                .target(sourceDirectory)
+                .copy('index.html');
+        },
         condition: () => allDoNotExist('.eslintrc.js', '.eslintrc', '.eslintrc.json', '.eslintrc.yml')
     },
     {
         text: 'Add lint tasks to package.json',
         task: ({sourceDirectory}) => pkg.extend({
             script: {
-                lint: `eslint -c ./.eslintrc.js ${sourceDirectory}/**/*.js --fix`,
-                'lint:watch': `watch 'npm run lint' ${sourceDirectory}`
+                lint: `eslint . -c ./.eslintrc.js --fix`,
+                'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
+                'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
             }
         }),
         condition: () => someDoExist('package.json')

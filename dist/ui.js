@@ -353,7 +353,7 @@ const TaskList = ({
               yield queue.add(() => task(options)).then(() => dispatch({
                 type: 'complete',
                 payload: index
-              })).catch(() => console.error('Error adding task to queue...'));
+              })).catch(() => console.error('Error adding task to queue...')); // eslint-disable-line no-console
             } else {
               dispatch({
                 type: 'skipped',
