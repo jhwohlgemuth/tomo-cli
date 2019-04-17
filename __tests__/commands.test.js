@@ -6,7 +6,7 @@ import addMarionette from '../src/commands/add-marionette';
 
 jest.mock('execa');
 
-describe('Commands', () => {
+xdescribe('Commands', () => {
     let tempDirectory;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
