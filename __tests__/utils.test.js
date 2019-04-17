@@ -22,27 +22,31 @@ describe('package.json mem-fs editor', () => {
     beforeEach(() => {
         pkg = new PackageJsonEditor(testDirectory);
     });
-    test('create', () => {
+    test('create', async () => {
         pkg = new PackageJsonEditor('/some/directory');
         expect(pkg.read()).toEqual('');
-        expect(pkg.create(false).read()).toMatchSnapshot();
+        await pkg.create(false);
+        expect(pkg.read()).toMatchSnapshot();
     });
     test('read', () => {
         expect(pkg.read()).toMatchSnapshot();
     });
-    test('extend', () => {
-        expect(pkg.extend({scripts: {foo: 'bar'}}, false).read()).toMatchSnapshot();
+    test('extend', async () => {
+        await pkg.extend({ scripts: { foo: 'bar' } }, false);
+        expect(pkg.read()).toMatchSnapshot();
     });
-    test('copy', () => {
+    test('copy', async () => {
         const newDirPath = join(testDirectory, 'new');
-        pkg.copy(newDirPath, false);
+        await pkg.copy(newDirPath, false);
         expect(pkg.fs.readJSON(join(newDirPath, 'package.json'))).toMatchSnapshot();
     });
-    test('delete', () => {
+    test('delete', async () => {
         pkg = new PackageJsonEditor('/some/directory');
         expect(pkg.read()).toEqual('');
-        expect(pkg.create(false).read()).toMatchSnapshot();
-        expect(pkg.delete(false).read()).toEqual('');
+        await pkg.create(false);
+        expect(pkg.read()).toMatchSnapshot();
+        await pkg.delete(false);
+        expect(pkg.read()).toEqual('');
     });
 });
 describe('.eslintrc.js mem-fs editor', () => {
@@ -50,29 +54,37 @@ describe('.eslintrc.js mem-fs editor', () => {
     beforeEach(() => {
         cfg = new EslintConfigModuleEditor(testDirectory);
     });
-    test('create', () => {
+    test('create', async () => {
         cfg = new EslintConfigModuleEditor('/some/directory');
         expect(cfg.read()).toEqual('');
-        expect(cfg.create(false).read()).toMatchSnapshot();
+        await cfg.create(false);
+        expect(cfg.read()).toMatchSnapshot();
     });
     test('read', () => {
         expect(cfg.read()).toMatchSnapshot();
     });
-    test('extend', () => {
+    test('extend', async () => {
         expect(cfg.read()).toMatchSnapshot();
-        expect(cfg.extend({key: {foo: `'foo'`}}, false).read()).toMatchSnapshot();
-        expect(cfg.extend({key: {bar: `'bar'`}}, false).read()).toMatchSnapshot();
+        await cfg.extend({ key: { foo: `'foo'` } }, false);
+        expect(cfg.read()).toMatchSnapshot();
+        await cfg.extend({ key: { bar: `'bar'` } }, false);
+        expect(cfg.read()).toMatchSnapshot();
     });
-    test('delete', () => {
+    test('delete', async () => {
         cfg = new EslintConfigModuleEditor('/some/directory');
         expect(cfg.read()).toEqual('');
-        expect(cfg.create(false).read()).toMatchSnapshot();
-        expect(cfg.delete(false).read()).toEqual('');
+        await cfg.create(false);
+        expect(cfg.read()).toMatchSnapshot();
+        await cfg.delete(false);
+        expect(cfg.read()).toEqual('');
     });
-    test('prepend', () => {
-        expect(cfg.prepend(`const {existsSync} = require('fs-extra');`, false).read()).toMatchSnapshot();
-        expect(cfg.prepend(`const {join} = require('path');`, false).read()).toMatchSnapshot();
-        expect(cfg.extend({key: {baz: 'baz'}}, false).read()).toMatchSnapshot();
+    test('prepend', async () => {
+        await cfg.prepend(`const {existsSync} = require('fs-extra');`, false);
+        expect(cfg.read()).toMatchSnapshot();
+        await cfg.prepend(`const {join} = require('path');`, false);
+        expect(cfg.read()).toMatchSnapshot();
+        await cfg.extend({key: {baz: 'baz'}}, false);
+        expect(cfg.read()).toMatchSnapshot();
     });
 });
 describe('File & folder scaffolder', () => {

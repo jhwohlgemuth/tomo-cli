@@ -181,6 +181,66 @@ function () {
 
 
 const verifyRustInstallation = () => {};
+
+class BasicEditor {
+  constructor() {
+    const fs = _memFsEditor.default.create(_memFs.default.create());
+
+    const queue = new _pQueue.default({
+      concurrency: 1
+    });
+    assign(this, {
+      fs,
+      queue
+    });
+  }
+
+  copy(destination, shouldCommit = true) {
+    const self = this;
+    const {
+      fs,
+      path,
+      queue
+    } = self;
+    const [filename] = path.split('/').reverse();
+    queue.add(() => fs.copy(path, (0, _path.join)(destination, filename)));
+    shouldCommit && queue.add(() => self.commit());
+    return self;
+  }
+
+  delete(shouldCommit = true) {
+    const self = this;
+    const {
+      fs,
+      path,
+      queue
+    } = self;
+    queue.add(() => fs.delete(path));
+    shouldCommit && queue.add(() => self.commit());
+    return self;
+  }
+
+  done() {
+    var _this = this;
+
+    return (0, _asyncToGenerator2.default)(function* () {
+      return yield _this.queue.onEmpty();
+    })();
+  }
+
+  commit() {
+    var _this2 = this;
+
+    return (0, _asyncToGenerator2.default)(function* () {
+      const {
+        fs
+      } = _this2;
+      yield new Promise(resolve => fs.commit(resolve));
+      yield _this2.done();
+    })();
+  }
+
+}
 /**
  * @function createJsonEditor
  * @param {string} filename Name of file to edit
@@ -192,60 +252,51 @@ const verifyRustInstallation = () => {};
 const createJsonEditor = (filename, contents = {}) => {
   var _temp;
 
-  return _temp = class JsonEditor {
+  return _temp = class JsonEditor extends BasicEditor {
     constructor(cwd = process.cwd()) {
+      super();
       (0, _defineProperty2.default)(this, "contents", contents);
-      this.fs = _memFsEditor.default.create(_memFs.default.create());
-      this.path = (0, _path.join)(cwd, filename);
+      const path = (0, _path.join)(cwd, filename);
+      assign(this, {
+        path
+      });
     }
 
-    create(shouldCommit = true, commitCallback = _lodash.noop) {
+    create(shouldCommit = true) {
+      const self = this;
       const {
+        contents,
         fs,
         path,
-        contents
-      } = this;
+        queue
+      } = self;
 
       if (!(0, _fsExtra.existsSync)(path)) {
-        fs.writeJSON(path, contents, null, INDENT_SPACES);
-        shouldCommit && fs.commit(commitCallback);
+        queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));
+        shouldCommit && queue.add(() => self.commit());
       }
 
-      return this;
+      return self;
     }
 
     read() {
-      return this.fs.readJSON(this.path) || '';
-    }
-
-    extend(contents, shouldCommit = true, commitCallback = _lodash.noop) {
       const {
         fs,
         path
       } = this;
-      fs.extendJSON(path, contents, null, INDENT_SPACES);
-      shouldCommit && fs.commit(commitCallback);
-      return this;
+      return fs.readJSON(path) || '';
     }
 
-    copy(destination, shouldCommit = true, commitCallback = _lodash.noop) {
+    extend(contents, shouldCommit = true) {
+      const self = this;
       const {
         fs,
-        path
-      } = this;
-      fs.copy(path, (0, _path.join)(destination, filename));
-      shouldCommit && fs.commit(commitCallback);
-      return this;
-    }
-
-    delete(shouldCommit = true, commitCallback = _lodash.noop) {
-      const {
-        fs,
-        path
-      } = this;
-      fs.delete(path);
-      shouldCommit && fs.commit(commitCallback);
-      return this;
+        path,
+        queue
+      } = self;
+      queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));
+      shouldCommit && queue.add(() => self.commit());
+      return self;
     }
 
   }, _temp;
@@ -262,34 +313,26 @@ const createJsonEditor = (filename, contents = {}) => {
 const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => {
   var _temp2;
 
-  return _temp2 = class ModuleEditor {
+  return _temp2 = class ModuleEditor extends BasicEditor {
     constructor(cwd = process.cwd()) {
+      super();
       (0, _defineProperty2.default)(this, "contents", contents);
       (0, _defineProperty2.default)(this, "prependedContents", prependedContents);
       (0, _defineProperty2.default)(this, "created", false);
-      this.fs = _memFsEditor.default.create(_memFs.default.create());
-      this.path = (0, _path.join)(cwd, filename);
-    }
-
-    write(content, shouldCommit = true, commitCallback = _lodash.noop) {
-      const {
-        fs,
-        path,
-        prependedContents
-      } = this;
-      const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
-      fs.write(path, formatted);
-      shouldCommit && fs.commit(commitCallback);
+      const path = (0, _path.join)(cwd, filename);
+      assign(this, {
+        path
+      });
     }
 
     create(...args) {
       const self = this;
       const {
         contents,
-        path
+        path,
+        queue
       } = self;
-      self.created || (0, _fsExtra.existsSync)(path) || self.write(contents, ...args);
-      self.created = (0, _fsExtra.existsSync)(path);
+      self.created || (0, _fsExtra.existsSync)(path) || queue.add(() => self.write(contents, ...args)).then(() => self.created = (0, _fsExtra.existsSync)(path));
       return self;
     }
 
@@ -301,33 +344,36 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
       return fs.exists(path) ? fs.read(path) : '';
     }
 
-    extend(code, shouldCommit = true, commitCallback = _lodash.noop) {
+    write(content, shouldCommit = true) {
+      const self = this;
+      const {
+        fs,
+        path,
+        prependedContents,
+        queue
+      } = self;
+      const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
+      queue.add(() => fs.write(path, formatted));
+      shouldCommit && queue.add(() => self.commit());
+    }
+
+    extend(code, shouldCommit = true) {
       this.contents = (0, _lodash.merge)(contents, code);
-      this.write(this.contents, shouldCommit, commitCallback);
+      this.write(this.contents, shouldCommit);
       return this;
     }
 
-    prepend(code, shouldCommit = true, commitCallback = _lodash.noop) {
+    prepend(code, shouldCommit = true) {
       const self = this;
       const {
         contents,
-        fs,
-        prependedContents
+        prependedContents,
+        queue
       } = self;
       self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
       self.write(contents, shouldCommit);
-      shouldCommit && fs.commit(commitCallback);
+      shouldCommit && queue.add(() => self.commit());
       return self;
-    }
-
-    delete(shouldCommit = true, commitCallback = _lodash.noop) {
-      const {
-        fs,
-        path
-      } = this;
-      fs.delete(path);
-      shouldCommit && fs.commit(commitCallback);
-      return this;
     }
 
   }, _temp2;
@@ -395,13 +441,13 @@ class Scaffolder {
   }
 
   commit() {
-    var _this = this;
+    var _this3 = this;
 
     return (0, _asyncToGenerator2.default)(function* () {
       const {
         fs,
         queue
-      } = _this;
+      } = _this3;
       yield new Promise(resolve => fs.commit(resolve));
       yield queue.onEmpty();
     })();

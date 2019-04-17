@@ -35,7 +35,7 @@ import {join} from 'path';
 import execa from 'execa';
 import Queue from 'p-queue';
 import prettier from 'prettier';
-import {first, merge, noop} from 'lodash';
+import {first, merge} from 'lodash';
 import {existsSync, pathExists} from 'fs-extra';
 import memFs from 'mem-fs';
 import editor from 'mem-fs-editor';
@@ -138,45 +138,71 @@ const verifyRustInstallation = () => {
 
 };
 /**
+ * @private
+ * @class BasicEditor
+ */
+class BasicEditor {
+    constructor() {
+        const fs = editor.create(memFs.create());
+        const queue = new Queue({concurrency: 1});
+        assign(this, {fs, queue});
+    }
+    copy(destination, shouldCommit = true) {
+        const self = this;
+        const {fs, path, queue} = self;
+        const [filename] = path.split('/').reverse();
+        queue.add(() => fs.copy(path, join(destination, filename)));
+        shouldCommit &amp;&amp; queue.add(() => self.commit());
+        return self;
+    }
+    delete(shouldCommit = true) {
+        const self = this;
+        const {fs, path, queue} = self;
+        queue.add(() => fs.delete(path));
+        shouldCommit &amp;&amp; queue.add(() => self.commit());
+        return self;
+    }
+    async done() {
+        return await this.queue.onEmpty();
+    }
+    async commit() {
+        const {fs} = this;
+        await new Promise(resolve => fs.commit(resolve));
+        await this.done();
+    }
+}
+/**
  * @function createJsonEditor
  * @param {string} filename Name of file to edit
  * @param {object} [contents={}] Contents of file
- * @return {JsonEditor} JsonEditor class
+ * @return {JsonEditor} JsonEditor class (extends BasicEditor)
  */
-const createJsonEditor = (filename, contents = {}) => class JsonEditor {
+const createJsonEditor = (filename, contents = {}) => class JsonEditor extends BasicEditor {
     contents = contents;
     constructor(cwd = process.cwd()) {
-        this.fs = editor.create(memFs.create());
-        this.path = join(cwd, filename);
+        super();
+        const path = join(cwd, filename);
+        assign(this, {path});
     }
-    create(shouldCommit = true, commitCallback = noop) {
-        const {fs, path, contents} = this;
+    create(shouldCommit = true) {
+        const self = this;
+        const {contents, fs, path, queue} = self;
         if (!existsSync(path)) {
-            fs.writeJSON(path, contents, null, INDENT_SPACES);
-            shouldCommit &amp;&amp; fs.commit(commitCallback);
+            queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));
+            shouldCommit &amp;&amp; queue.add(() => self.commit());
         }
-        return this;
+        return self;
     }
     read() {
-        return this.fs.readJSON(this.path) || '';
-    }
-    extend(contents, shouldCommit = true, commitCallback = noop) {
         const {fs, path} = this;
-        fs.extendJSON(path, contents, null, INDENT_SPACES);
-        shouldCommit &amp;&amp; fs.commit(commitCallback);
-        return this;
+        return fs.readJSON(path) || '';
     }
-    copy(destination, shouldCommit = true, commitCallback = noop) {
-        const {fs, path} = this;
-        fs.copy(path, join(destination, filename));
-        shouldCommit &amp;&amp; fs.commit(commitCallback);
-        return this;
-    }
-    delete(shouldCommit = true, commitCallback = noop) {
-        const {fs, path} = this;
-        fs.delete(path);
-        shouldCommit &amp;&amp; fs.commit(commitCallback);
-        return this;
+    extend(contents, shouldCommit = true) {
+        const self = this;
+        const {fs, path, queue} = self;
+        queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));
+        shouldCommit &amp;&amp; queue.add(() => self.commit());
+        return self;
     }
 };
 /**
@@ -184,51 +210,46 @@ const createJsonEditor = (filename, contents = {}) => class JsonEditor {
  * @param {string} filename Name of file to edit
  * @param {string} [contents='module.exports = {};'] Contents of file
  * @param {string} [prependedContents=''] Content prepended to top of file
- * @return {ModuleEditor} ModuleEditor class
+ * @return {ModuleEditor} ModuleEditor class (extends BasicEditor)
  */
-const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => class ModuleEditor {
+const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => class ModuleEditor extends BasicEditor {
     contents = contents;
     prependedContents = prependedContents;
     created = false;
     constructor(cwd = process.cwd()) {
-        this.fs = editor.create(memFs.create());
-        this.path = join(cwd, filename);
-    }
-    write(content, shouldCommit = true, commitCallback = noop) {
-        const {fs, path, prependedContents} = this;
-        const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
-        fs.write(path, formatted);
-        shouldCommit &amp;&amp; fs.commit(commitCallback);
+        super();
+        const path = join(cwd, filename);
+        assign(this, {path});
     }
     create(...args) {
         const self = this;
-        const {contents, path} = self;
-        self.created || (existsSync(path) || self.write(contents, ...args));
-        self.created = existsSync(path);
+        const {contents, path, queue} = self;
+        self.created || (existsSync(path) || queue.add(() => self.write(contents, ...args)).then(() => self.created = existsSync(path)));
         return self;
     }
     read() {
         const {fs, path} = this;
         return fs.exists(path) ? fs.read(path) : '';
     }
-    extend(code, shouldCommit = true, commitCallback = noop) {
+    write(content, shouldCommit = true) {
+        const self = this;
+        const {fs, path, prependedContents, queue} = self;
+        const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
+        queue.add(() => fs.write(path, formatted));
+        shouldCommit &amp;&amp; queue.add(() => self.commit());
+    }
+    extend(code, shouldCommit = true) {
         this.contents = merge(contents, code);
-        this.write(this.contents, shouldCommit, commitCallback);
+        this.write(this.contents, shouldCommit);
         return this;
     }
-    prepend(code, shouldCommit = true, commitCallback = noop) {
+    prepend(code, shouldCommit = true) {
         const self = this;
-        const {contents, fs, prependedContents} = self;
+        const {contents, prependedContents, queue} = self;
         self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
         self.write(contents, shouldCommit);
-        shouldCommit &amp;&amp; fs.commit(commitCallback);
+        shouldCommit &amp;&amp; queue.add(() => self.commit());
         return self;
-    }
-    delete(shouldCommit = true, commitCallback = noop) {
-        const {fs, path} = this;
-        fs.delete(path);
-        shouldCommit &amp;&amp; fs.commit(commitCallback);
-        return this;
     }
 };
 /**
@@ -394,7 +415,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Apr 17 2019 19:14:05 GMT+0300 (East Africa Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Apr 17 2019 23:04:06 GMT+0300 (East Africa Time)
 </footer>
 
 <script> prettyPrint(); </script>
