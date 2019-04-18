@@ -23,7 +23,9 @@ const POSTCSS_DEPENDENCIES = [
 export default [
     {
         text: 'Create PostCSS config file',
-        task: () => cfg.create(),
+        task: async () => {
+            await cfg.create().commit();
+        },
         condition: () => allDoNotExist('postcss.config.js')
     },
     {

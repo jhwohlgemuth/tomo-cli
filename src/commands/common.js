@@ -7,9 +7,9 @@ import {
 export const createPackageJson = [
     {
         text: 'Create package.json',
-        task: () => {
+        task: async () => {
             const pkg = new PackageJsonEditor();
-            pkg.create();
+            await pkg.create().commit();
         },
         condition: () => allDoNotExist('package.json')
     }

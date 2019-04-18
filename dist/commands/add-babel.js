@@ -1,9 +1,13 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _utils = require("../utils");
 
@@ -14,7 +18,15 @@ const BABEL_PLUGINS = ['@babel/plugin-transform-runtime', '@babel/plugin-proposa
 const BABEL_REACT_PRESET = ['@babel/preset-react'];
 var _default = [{
   text: 'Create Babel config file',
-  task: () => cfg.create(),
+  task: function () {
+    var _ref = (0, _asyncToGenerator2.default)(function* () {
+      yield cfg.create().commit();
+    });
+
+    return function task() {
+      return _ref.apply(this, arguments);
+    };
+  }(),
   condition: () => (0, _utils.allDoNotExist)('babel.config.js', '.babelrc', '.babelrc.js')
 }, {
   text: 'Install Babel dependencies',
@@ -59,9 +71,17 @@ var _default = [{
   }) => useReact
 }, {
   text: 'Add React support to Babel configuration file',
-  task: () => cfg.extend({
-    presets: [...BABEL_PRESETS, ...BABEL_REACT_PRESET]
-  }),
+  task: function () {
+    var _ref2 = (0, _asyncToGenerator2.default)(function* () {
+      yield cfg.extend({
+        presets: [...BABEL_PRESETS, ...BABEL_REACT_PRESET]
+      }).commit();
+    });
+
+    return function task() {
+      return _ref2.apply(this, arguments);
+    };
+  }(),
   condition: ({
     useReact
   }) => useReact && (0, _utils.someDoExist)('babel.config.js'),

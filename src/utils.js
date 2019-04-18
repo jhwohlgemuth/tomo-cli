@@ -48,7 +48,7 @@ const allDoNotExist = async (...args) => {
  * @param {*} [code=''] Code to be formatted
  * @return {string} Code formatted by Prettier
  */
-const format = (code = '') => prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/"/g, '');
+const format = (code = {}) => prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/"/g, '');
 /**
  * @private
  * @function getIntendedInput
@@ -109,6 +109,7 @@ const install = async (dependencies = [], options = {dev: false, latest: true, s
 const verifyRustInstallation = () => {
 
 };
+const silent = () => { };
 /**
  * @private
  * @class BasicEditor
@@ -124,14 +125,14 @@ class BasicEditor {
         const {fs, path, queue} = self;
         const [filename] = path.split('/').reverse();
         queue.add(() => fs.copy(path, join(destination, filename)));
-        shouldCommit && queue.add(() => self.commit());
+        shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
     delete(shouldCommit = true) {
         const self = this;
         const {fs, path, queue} = self;
         queue.add(() => fs.delete(path));
-        shouldCommit && queue.add(() => self.commit());
+        shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
     async done() {
@@ -161,7 +162,7 @@ const createJsonEditor = (filename, contents = {}) => class JsonEditor extends B
         const {contents, fs, path, queue} = self;
         if (!existsSync(path)) {
             queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));
-            shouldCommit && queue.add(() => self.commit());
+            shouldCommit && queue.add(() => self.commit()).catch(silent);
         }
         return self;
     }
@@ -173,7 +174,7 @@ const createJsonEditor = (filename, contents = {}) => class JsonEditor extends B
         const self = this;
         const {fs, path, queue} = self;
         queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));
-        shouldCommit && queue.add(() => self.commit());
+        shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
 };
@@ -195,8 +196,8 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
     }
     create(...args) {
         const self = this;
-        const {contents, path, queue} = self;
-        self.created || (existsSync(path) || queue.add(() => self.write(contents, ...args)).then(() => self.created = existsSync(path)));
+        const {contents, path} = self;
+        self.created || (existsSync(path) || self.write(contents, ...args));
         return self;
     }
     read() {
@@ -207,8 +208,11 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
         const self = this;
         const {fs, path, prependedContents, queue} = self;
         const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
-        queue.add(() => fs.write(path, formatted));
-        shouldCommit && queue.add(() => self.commit());
+        queue
+            .add(() => fs.write(path, formatted))
+            .then(() => self.created = existsSync(path))
+            .catch(silent);
+        shouldCommit && queue.add(() => self.commit()).catch(silent);
     }
     extend(code, shouldCommit = true) {
         this.contents = merge(contents, code);
@@ -220,7 +224,7 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
         const {contents, prependedContents, queue} = self;
         self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
         self.write(contents, shouldCommit);
-        shouldCommit && queue.add(() => self.commit());
+        shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
 };
@@ -259,7 +263,7 @@ class Scaffolder {
         const {fs, queue, sourceDirectory, targetDirectory} = self;
         const source = join(sourceDirectory, path);
         const target = join(process.cwd(), targetDirectory, ...path.split('/'));
-        queue.add(() => fs.copy(source, target));
+        queue.add(() => fs.copy(source, target)).catch(silent);
         return self;
     }
     async commit() {
@@ -273,12 +277,13 @@ class Scaffolder {
  * @extends ModuleEditor
  * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>
  * const cfg = new BabelConfigModuleEditor();
- * cfg
+ * await cfg
  *     .create()
  *     .extend({
  *         presets: [`'@babel/preset-env'`]
  *     })
- *     .prepend(`const {existsSync} = require('fs-extra');`);
+ *     .prepend(`const {existsSync} = require('fs-extra');`)
+ *     .commit();
  */
 const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {
     plugins: [
@@ -294,7 +299,7 @@ const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {
  * @extends ModuleEditor
  * @example
  * const cfg = new EslintConfigModuleEditor();
- * cfg.create();
+ * await cfg.create().commit();
  */
 const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
     env: {
@@ -311,24 +316,25 @@ const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
  * @extends JsonEditor
  * @example <caption>Create a new package.json</caption>
  * const pkg = new PackageJsonEditor();
- * pkg.create();
+ * await pkg.create().commit();
  * @example <caption>Create a new package.json and read its contents (chaining OK)</caption>
  * const pkg = new PackageJsonEditor();
  * const contents = pkg.create().read();
  * @example <caption>Extend a package.json</caption>
- * pkg.extend({
+ * await pkg.extend({
  *     script: {
  *         test: 'jest --coverage'
  *     }
- * });
+ * }).commit();
  * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>
- * pkg
+ * await pkg
  *     .create(false)
  *     .extend({
  *         script: {
  *             lint: 'eslint index.js -c ./.eslintrc.js'
  *         }
- *     }, false);
+ *     }, false)
+ *     .commit();
  */
 const PackageJsonEditor = createJsonEditor('package.json', {
     name: 'my-project',
@@ -342,7 +348,7 @@ const PackageJsonEditor = createJsonEditor('package.json', {
  * @extends ModuleEditor
  * @example
  * const cfg = new PostcssConfigEditor();
- * cfg.create();
+ * await cfg.create().commit();
  */
 const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
     parser: `require('postcss-safe-parser')`,

@@ -28,7 +28,7 @@ var _default = [{
       sourceDirectory
     }) {
       yield cfg.create();
-      yield scaffolder.target(sourceDirectory).copy('index.html');
+      yield scaffolder.target(sourceDirectory).copy('index.html').commit();
     });
 
     return function task(_x) {
@@ -48,7 +48,7 @@ var _default = [{
           'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
           'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
         }
-      });
+      }).commit();
     });
 
     return function task(_x2) {
@@ -97,7 +97,7 @@ var _default = [{
           }
         },
         extends: ['omaha-prime-grade', 'plugin:react/recommended']
-      });
+      }).commit();
     });
 
     return function task(_x3) {

@@ -87,7 +87,7 @@ function () {
  */
 
 
-const format = (code = '') => _prettier.default.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/"/g, '');
+const format = (code = {}) => _prettier.default.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/"/g, '');
 /**
  * @private
  * @function getIntendedInput
@@ -181,6 +181,8 @@ function () {
 
 
 const verifyRustInstallation = () => {};
+
+const silent = () => {};
 /**
  * @private
  * @class BasicEditor
@@ -209,7 +211,7 @@ class BasicEditor {
     } = self;
     const [filename] = path.split('/').reverse();
     queue.add(() => fs.copy(path, (0, _path.join)(destination, filename)));
-    shouldCommit && queue.add(() => self.commit());
+    shouldCommit && queue.add(() => self.commit()).catch(silent);
     return self;
   }
 
@@ -221,7 +223,7 @@ class BasicEditor {
       queue
     } = self;
     queue.add(() => fs.delete(path));
-    shouldCommit && queue.add(() => self.commit());
+    shouldCommit && queue.add(() => self.commit()).catch(silent);
     return self;
   }
 
@@ -278,7 +280,7 @@ const createJsonEditor = (filename, contents = {}) => {
 
       if (!(0, _fsExtra.existsSync)(path)) {
         queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));
-        shouldCommit && queue.add(() => self.commit());
+        shouldCommit && queue.add(() => self.commit()).catch(silent);
       }
 
       return self;
@@ -300,7 +302,7 @@ const createJsonEditor = (filename, contents = {}) => {
         queue
       } = self;
       queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));
-      shouldCommit && queue.add(() => self.commit());
+      shouldCommit && queue.add(() => self.commit()).catch(silent);
       return self;
     }
 
@@ -334,10 +336,9 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
       const self = this;
       const {
         contents,
-        path,
-        queue
+        path
       } = self;
-      self.created || (0, _fsExtra.existsSync)(path) || queue.add(() => self.write(contents, ...args)).then(() => self.created = (0, _fsExtra.existsSync)(path));
+      self.created || (0, _fsExtra.existsSync)(path) || self.write(contents, ...args);
       return self;
     }
 
@@ -358,8 +359,8 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
         queue
       } = self;
       const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
-      queue.add(() => fs.write(path, formatted));
-      shouldCommit && queue.add(() => self.commit());
+      queue.add(() => fs.write(path, formatted)).then(() => self.created = (0, _fsExtra.existsSync)(path)).catch(silent);
+      shouldCommit && queue.add(() => self.commit()).catch(silent);
     }
 
     extend(code, shouldCommit = true) {
@@ -377,7 +378,7 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
       } = self;
       self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
       self.write(contents, shouldCommit);
-      shouldCommit && queue.add(() => self.commit());
+      shouldCommit && queue.add(() => self.commit()).catch(silent);
       return self;
     }
 
@@ -441,7 +442,7 @@ class Scaffolder {
     } = self;
     const source = (0, _path.join)(sourceDirectory, path);
     const target = (0, _path.join)(process.cwd(), targetDirectory, ...path.split('/'));
-    queue.add(() => fs.copy(source, target));
+    queue.add(() => fs.copy(source, target)).catch(silent);
     return self;
   }
 
@@ -464,12 +465,13 @@ class Scaffolder {
  * @extends ModuleEditor
  * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>
  * const cfg = new BabelConfigModuleEditor();
- * cfg
+ * await cfg
  *     .create()
  *     .extend({
  *         presets: [`'@babel/preset-env'`]
  *     })
- *     .prepend(`const {existsSync} = require('fs-extra');`);
+ *     .prepend(`const {existsSync} = require('fs-extra');`)
+ *     .commit();
  */
 
 
@@ -482,7 +484,7 @@ const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {
  * @extends ModuleEditor
  * @example
  * const cfg = new EslintConfigModuleEditor();
- * cfg.create();
+ * await cfg.create().commit();
  */
 
 const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
@@ -498,24 +500,25 @@ const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
  * @extends JsonEditor
  * @example <caption>Create a new package.json</caption>
  * const pkg = new PackageJsonEditor();
- * pkg.create();
+ * await pkg.create().commit();
  * @example <caption>Create a new package.json and read its contents (chaining OK)</caption>
  * const pkg = new PackageJsonEditor();
  * const contents = pkg.create().read();
  * @example <caption>Extend a package.json</caption>
- * pkg.extend({
+ * await pkg.extend({
  *     script: {
  *         test: 'jest --coverage'
  *     }
- * });
+ * }).commit();
  * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>
- * pkg
+ * await pkg
  *     .create(false)
  *     .extend({
  *         script: {
  *             lint: 'eslint index.js -c ./.eslintrc.js'
  *         }
- *     }, false);
+ *     }, false)
+ *     .commit();
  */
 
 const PackageJsonEditor = createJsonEditor('package.json', {
@@ -530,7 +533,7 @@ const PackageJsonEditor = createJsonEditor('package.json', {
  * @extends ModuleEditor
  * @example
  * const cfg = new PostcssConfigEditor();
- * cfg.create();
+ * await cfg.create().commit();
  */
 
 const PostcssConfigEditor = createModuleEditor('postcss.config.js', {

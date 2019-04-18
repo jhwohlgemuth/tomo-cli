@@ -13,12 +13,14 @@ const JEST_DEPENDENCIES = [
 export default [
     {
         text: 'Add test tasks to package.json',
-        task: () => pkg.extend({
-            script: {
-                test: 'jest .*.test.js --coverage',
-                'test:watch': 'npm test -- --watchAll'
-            }
-        }),
+        task: async () => {
+            await pkg.extend({
+                script: {
+                    test: 'jest .*.test.js --coverage',
+                    'test:watch': 'npm test -- --watchAll'
+                }
+            }).commit();
+        },
         condition: () => someDoExist('package.json')
     },
     {

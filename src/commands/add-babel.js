@@ -27,7 +27,9 @@ const BABEL_REACT_PRESET = [
 export default [
     {
         text: 'Create Babel config file',
-        task: () => cfg.create(),
+        task: async () => {
+            await cfg.create().commit();
+        },
         condition: () => allDoNotExist('babel.config.js', '.babelrc', '.babelrc.js')
     },
     {
@@ -53,9 +55,11 @@ export default [
     },
     {
         text: 'Add React support to Babel configuration file',
-        task: () => cfg.extend({
-            presets: [...BABEL_PRESETS, ...BABEL_REACT_PRESET]
-        }),
+        task: async () => {
+            await cfg.extend({
+                presets: [...BABEL_PRESETS, ...BABEL_REACT_PRESET]
+            }).commit();
+        },
         condition: ({useReact}) => (useReact && someDoExist('babel.config.js')),
         optional: ({useReact}) => useReact
     }

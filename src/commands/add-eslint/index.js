@@ -31,7 +31,8 @@ export default [
             await cfg.create();
             await scaffolder
                 .target(sourceDirectory)
-                .copy('index.html');
+                .copy('index.html')
+                .commit();
         },
         condition: () => allDoNotExist('.eslintrc.js', '.eslintrc', '.eslintrc.json', '.eslintrc.yml')
     },
@@ -44,7 +45,7 @@ export default [
                     'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
                     'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
                 }
-            });
+            }).commit();
         },
         condition: () => someDoExist('package.json')
     },
@@ -74,7 +75,7 @@ export default [
                     }
                 },
                 extends: ['omaha-prime-grade', 'plugin:react/recommended']
-            });
+            }).commit();
         },
         condition: ({useReact}) => (useReact && someDoExist('.eslintrc.js')),
         optional: ({useReact}) => useReact
