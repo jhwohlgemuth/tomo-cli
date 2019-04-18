@@ -28,7 +28,7 @@ export default [
     {
         text: 'Create ESLint configuration and ignore files',
         task: async ({sourceDirectory}) => {
-            cfg.create();
+            await cfg.create();
             await scaffolder
                 .target(sourceDirectory)
                 .copy('index.html');
@@ -37,13 +37,15 @@ export default [
     },
     {
         text: 'Add lint tasks to package.json',
-        task: ({sourceDirectory}) => pkg.extend({
-            script: {
-                lint: `eslint . -c ./.eslintrc.js --fix`,
-                'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
-                'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
-            }
-        }),
+        task: async ({sourceDirectory}) => {
+            await pkg.extend({
+                script: {
+                    lint: `eslint . -c ./.eslintrc.js --fix`,
+                    'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
+                    'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
+                }
+            });
+        },
         condition: () => someDoExist('package.json')
     },
     {
@@ -59,19 +61,21 @@ export default [
     },
     {
         text: 'Add React support to ESLint configuration file',
-        task: ({reactVersion}) => cfg.extend({
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
-            settings: {
-                react: {
-                    version: `'${reactVersion}'`
-                }
-            },
-            extends: ['omaha-prime-grade', 'plugin:react/recommended']
-        }),
+        task: async ({reactVersion}) => {
+            await cfg.extend({
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                },
+                settings: {
+                    react: {
+                        version: `'${reactVersion}'`
+                    }
+                },
+                extends: ['omaha-prime-grade', 'plugin:react/recommended']
+            });
+        },
         condition: ({useReact}) => (useReact && someDoExist('.eslintrc.js')),
         optional: ({useReact}) => useReact
     }

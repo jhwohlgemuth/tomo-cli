@@ -27,7 +27,7 @@ var _default = [{
     var _ref = (0, _asyncToGenerator2.default)(function* ({
       sourceDirectory
     }) {
-      cfg.create();
+      yield cfg.create();
       yield scaffolder.target(sourceDirectory).copy('index.html');
     });
 
@@ -38,15 +38,23 @@ var _default = [{
   condition: () => (0, _utils.allDoNotExist)('.eslintrc.js', '.eslintrc', '.eslintrc.json', '.eslintrc.yml')
 }, {
   text: 'Add lint tasks to package.json',
-  task: ({
-    sourceDirectory
-  }) => pkg.extend({
-    script: {
-      lint: `eslint . -c ./.eslintrc.js --fix`,
-      'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
-      'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
-    }
-  }),
+  task: function () {
+    var _ref2 = (0, _asyncToGenerator2.default)(function* ({
+      sourceDirectory
+    }) {
+      yield pkg.extend({
+        script: {
+          lint: `eslint . -c ./.eslintrc.js --fix`,
+          'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
+          'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
+        }
+      });
+    });
+
+    return function task(_x2) {
+      return _ref2.apply(this, arguments);
+    };
+  }(),
   condition: () => (0, _utils.someDoExist)('package.json')
 }, {
   text: 'Install ESLint dependencies',
@@ -73,21 +81,29 @@ var _default = [{
   }) => useReact
 }, {
   text: 'Add React support to ESLint configuration file',
-  task: ({
-    reactVersion
-  }) => cfg.extend({
-    parserOptions: {
-      ecmaFeatures: {
-        jsx: true
-      }
-    },
-    settings: {
-      react: {
-        version: `'${reactVersion}'`
-      }
-    },
-    extends: ['omaha-prime-grade', 'plugin:react/recommended']
-  }),
+  task: function () {
+    var _ref3 = (0, _asyncToGenerator2.default)(function* ({
+      reactVersion
+    }) {
+      yield cfg.extend({
+        parserOptions: {
+          ecmaFeatures: {
+            jsx: true
+          }
+        },
+        settings: {
+          react: {
+            version: `'${reactVersion}'`
+          }
+        },
+        extends: ['omaha-prime-grade', 'plugin:react/recommended']
+      });
+    });
+
+    return function task(_x3) {
+      return _ref3.apply(this, arguments);
+    };
+  }(),
   condition: ({
     useReact
   }) => useReact && (0, _utils.someDoExist)('.eslintrc.js'),
