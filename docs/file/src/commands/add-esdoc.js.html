@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/commands/index.js | tomo-cli</title>
+  <title data-ice="title">src/commands/add-esdoc.js | tomo-cli</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -52,114 +52,98 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/commands/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable no-magic-numbers */
-/**
- * @file tomo commands
- * @author Jason Wohlgemuth
- * @module commands
- * @requires module:utils
- */
-import delay from &apos;delay&apos;;
-import {
+<div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-esdoc.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
     allDoNotExist,
+    createJsonEditor,
+    install,
+    PackageJsonEditor,
     someDoExist
 } from &apos;../utils&apos;;
-import {
-    createPackageJson,
-    createSourceDirectory
-} from &apos;./common&apos;;
-import addBabel from &apos;./add-babel&apos;;
-import addEsdoc from &apos;./add-esdoc&apos;;
-import addEslint from &apos;./add-eslint&apos;;
-import addJest from &apos;./add-jest&apos;;
-import addPostcss from &apos;./add-postcss&apos;;
 
-const ALWAYS = async () =&gt; true;
-const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
-
-const newWebapp = [
-    {
-        text: &apos;Install development dependencies&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
-    },
-    {
-        text: &apos;Install production dependencies&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
-    },
-    {
-        text: &apos;Scaffold webapp folder structure&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
-    }
+const ESDOC_CONF = {
+    source: &apos;./src&apos;,
+    destination: &apos;./docs&apos;,
+    plugins: [
+        {
+            name: &apos;esdoc-standard-plugin&apos;
+        },
+        {
+            name: &apos;esdoc-ecmascript-proposal-plugin&apos;,
+            option: {
+                all: true
+            }
+        }
+    ]
+};
+const ESDOC_DEPENDENCIES = [
+    &apos;esdoc&apos;,
+    &apos;esdoc-ecmascript-proposal-plugin&apos;,
+    &apos;esdoc-standard-plugin&apos;
 ];
-const addA11y = [
+const ESDOC_REACT_PLUGINS = [
+    &apos;esdoc-jsx-plugin&apos;
+];
+const EsdocJsonEditor = createJsonEditor(&apos;esdoc.conf.json&apos;, ESDOC_CONF);
+const cfg = new EsdocJsonEditor();
+const pkg = new PackageJsonEditor();
+
+/**
+ * @ignore
+ */
+export const tasks = [
     {
-        text: &apos;Add a11y tasks to package.json&apos;,
-        task: testAsyncFunction(),
+        text: &apos;Create esdoc configuration file&apos;,
+        task: async () =&gt; {
+            await cfg.create().commit();
+        },
+        condition: () =&gt; allDoNotExist(&apos;esdoc.conf.json&apos;, &apos;.esdoc.json&apos;)
+    },
+    {
+        text: &apos;Add documentation tasks to package.json&apos;,
+        task: async ({sourceDirectory}) =&gt; {
+            await pkg.extend({
+                script: {
+                    &apos;lint:docs&apos;: `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
+                    &apos;build:docs&apos;: `jsdoc ${sourceDirectory} -r --destination ./docs`,
+                    &apos;open:docs&apos;: &apos;opn ./docs/index.html&apos;,
+                    predocs: &apos;npm run lint:docs&apos;,
+                    docs: &apos;npm run build:docs&apos;,
+                    postdocs: &apos;npm run open:docs&apos;
+                }
+            }).commit();
+        },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
     },
     {
-        text: &apos;Install a11y dependencies&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
-    }
-];
-const addWebpack = [
-    {
-        text: &apos;Create Webpack config file&apos;,
-        task: testAsyncFunction(),
-        condition: () =&gt; allDoNotExist(&apos;webpack.config.js&apos;)
+        text: &apos;Install esdoc dependencies&apos;,
+        task: ({skipInstall}) =&gt; install([...ESDOC_DEPENDENCIES, &apos;opn-cli&apos;], {dev: true, skipInstall}),
+        condition: () =&gt; someDoExist(&apos;package.json&apos;)
     },
     {
-        text: &apos;Install Webpack dependencies&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
+        text: &apos;Install esdoc React plugins&apos;,
+        task: ({skipInstall}) =&gt; install(ESDOC_REACT_PLUGINS, {dev: true, skipInstall}),
+        condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;package.json&apos;)),
+        optional: ({useReact}) =&gt; useReact
+    },
+    {
+        text: &apos;Add esdoc React plugin to configuration file&apos;,
+        task: async () =&gt; {
+            const {plugins} = ESDOC_CONF;
+            await cfg
+                .extend({
+                    plugins: [...plugins, {
+                        name: &apos;esdoc-jsx-plugin&apos;,
+                        options: {enable: true}
+                    }]
+                })
+                .commit();
+        },
+        condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;esdoc.conf.json&apos;)),
+        optional: ({useReact}) =&gt; useReact
     }
 ];
-const create = {
-    app: [
-        ...createPackageJson,
-        ...createSourceDirectory,
-        ...addBabel,
-        ...addEslint,
-        ...addJest
-    ],
-    webapp: [
-        ...createPackageJson,
-        ...createSourceDirectory,
-        ...addBabel,
-        ...addEslint,
-        ...addJest,
-        ...newWebapp
-    ],
-    server: [
-
-    ]
-};
-const add = {
-    a11y: addA11y,
-    babel: addBabel,
-    docs: addEsdoc,
-    eslint: [
-        ...addBabel,
-        ...addEslint
-    ],
-    jest: [
-        ...addBabel,
-        ...addJest
-    ],
-    postcss: addPostcss,
-    webpack: addWebpack
-};
-
-module.exports = {
-    add,
-    create,
-    new: create// alias for create
-};</code></pre>
+export default tasks;</code></pre>
 
 </div>
 

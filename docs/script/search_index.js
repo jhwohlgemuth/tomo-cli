@@ -402,6 +402,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/commands/add-esdoc.js",
+    "file/src/commands/add-esdoc.js.html",
+    "src/commands/add-esdoc.js",
+    "file"
+  ],
+  [
     "src/commands/add-eslint/index.js",
     "file/src/commands/add-eslint/index.js.html",
     "src/commands/add-eslint/index.js",
@@ -411,12 +417,6 @@ window.esdocSearchIndex = [
     "src/commands/add-jest.js",
     "file/src/commands/add-jest.js.html",
     "src/commands/add-jest.js",
-    "file"
-  ],
-  [
-    "src/commands/add-jsdoc.js",
-    "file/src/commands/add-jsdoc.js.html",
-    "src/commands/add-jsdoc.js",
     "file"
   ],
   [

@@ -1,6 +1,6 @@
 {
-  "coverage": "31.81%",
-  "expectCount": 132,
+  "coverage": "30.65%",
+  "expectCount": 137,
   "actualCount": 42,
   "files": {
     "src/commands/add-babel.js": {
@@ -12,6 +12,18 @@
         15,
         18,
         24
+      ]
+    },
+    "src/commands/add-esdoc.js": {
+      "expectCount": 7,
+      "actualCount": 1,
+      "undocumentLines": [
+        9,
+        24,
+        29,
+        32,
+        33,
+        34
       ]
     },
     "src/commands/add-eslint/index.js": {
@@ -32,13 +44,6 @@
       "undocumentLines": [
         7,
         9
-      ]
-    },
-    "src/commands/add-jsdoc.js": {
-      "expectCount": 2,
-      "actualCount": 1,
-      "undocumentLines": [
-        7
       ]
     },
     "src/commands/add-marionette/index.js": {

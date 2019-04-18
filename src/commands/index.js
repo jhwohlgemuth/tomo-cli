@@ -15,7 +15,7 @@ import {
     createSourceDirectory
 } from './common';
 import addBabel from './add-babel';
-import addJsdoc from './add-jsdoc';
+import addEsdoc from './add-esdoc';
 import addEslint from './add-eslint';
 import addJest from './add-jest';
 import addPostcss from './add-postcss';
@@ -87,7 +87,7 @@ const create = {
 const add = {
     a11y: addA11y,
     babel: addBabel,
-    docs: addJsdoc,
+    docs: addEsdoc,
     eslint: [
         ...addBabel,
         ...addEslint

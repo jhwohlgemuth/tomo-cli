@@ -702,6 +702,163 @@
   {
     "__docId__": 55,
     "kind": "file",
+    "name": "src/commands/add-esdoc.js",
+    "content": "import {\n    allDoNotExist,\n    createJsonEditor,\n    install,\n    PackageJsonEditor,\n    someDoExist\n} from '../utils';\n\nconst ESDOC_CONF = {\n    source: './src',\n    destination: './docs',\n    plugins: [\n        {\n            name: 'esdoc-standard-plugin'\n        },\n        {\n            name: 'esdoc-ecmascript-proposal-plugin',\n            option: {\n                all: true\n            }\n        }\n    ]\n};\nconst ESDOC_DEPENDENCIES = [\n    'esdoc',\n    'esdoc-ecmascript-proposal-plugin',\n    'esdoc-standard-plugin'\n];\nconst ESDOC_REACT_PLUGINS = [\n    'esdoc-jsx-plugin'\n];\nconst EsdocJsonEditor = createJsonEditor('esdoc.conf.json', ESDOC_CONF);\nconst cfg = new EsdocJsonEditor();\nconst pkg = new PackageJsonEditor();\n\n/**\n * @ignore\n */\nexport const tasks = [\n    {\n        text: 'Create esdoc configuration file',\n        task: async () => {\n            await cfg.create().commit();\n        },\n        condition: () => allDoNotExist('esdoc.conf.json', '.esdoc.json')\n    },\n    {\n        text: 'Add documentation tasks to package.json',\n        task: async ({sourceDirectory}) => {\n            await pkg.extend({\n                script: {\n                    'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,\n                    'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,\n                    'open:docs': 'opn ./docs/index.html',\n                    predocs: 'npm run lint:docs',\n                    docs: 'npm run build:docs',\n                    postdocs: 'npm run open:docs'\n                }\n            }).commit();\n        },\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Install esdoc dependencies',\n        task: ({skipInstall}) => install([...ESDOC_DEPENDENCIES, 'opn-cli'], {dev: true, skipInstall}),\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Install esdoc React plugins',\n        task: ({skipInstall}) => install(ESDOC_REACT_PLUGINS, {dev: true, skipInstall}),\n        condition: ({useReact}) => (useReact && someDoExist('package.json')),\n        optional: ({useReact}) => useReact\n    },\n    {\n        text: 'Add esdoc React plugin to configuration file',\n        task: async () => {\n            const {plugins} = ESDOC_CONF;\n            await cfg\n                .extend({\n                    plugins: [...plugins, {\n                        name: 'esdoc-jsx-plugin',\n                        options: {enable: true}\n                    }]\n                })\n                .commit();\n        },\n        condition: ({useReact}) => (useReact && someDoExist('esdoc.conf.json')),\n        optional: ({useReact}) => useReact\n    }\n];\nexport default tasks;",
+    "static": true,
+    "longname": "/home/vagrant/dev/tomo-cli/src/commands/add-esdoc.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 56,
+    "kind": "variable",
+    "name": "ESDOC_CONF",
+    "memberof": "src/commands/add-esdoc.js",
+    "static": true,
+    "longname": "src/commands/add-esdoc.js~ESDOC_CONF",
+    "access": "public",
+    "export": false,
+    "importPath": "tomo-cli/src/commands/add-esdoc.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"source\": string, \"destination\": string, \"plugins\": *}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 57,
+    "kind": "variable",
+    "name": "ESDOC_DEPENDENCIES",
+    "memberof": "src/commands/add-esdoc.js",
+    "static": true,
+    "longname": "src/commands/add-esdoc.js~ESDOC_DEPENDENCIES",
+    "access": "public",
+    "export": false,
+    "importPath": "tomo-cli/src/commands/add-esdoc.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 24,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string[]"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 58,
+    "kind": "variable",
+    "name": "ESDOC_REACT_PLUGINS",
+    "memberof": "src/commands/add-esdoc.js",
+    "static": true,
+    "longname": "src/commands/add-esdoc.js~ESDOC_REACT_PLUGINS",
+    "access": "public",
+    "export": false,
+    "importPath": "tomo-cli/src/commands/add-esdoc.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 29,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string[]"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 59,
+    "kind": "variable",
+    "name": "EsdocJsonEditor",
+    "memberof": "src/commands/add-esdoc.js",
+    "static": true,
+    "longname": "src/commands/add-esdoc.js~EsdocJsonEditor",
+    "access": "public",
+    "export": false,
+    "importPath": "tomo-cli/src/commands/add-esdoc.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 32,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 60,
+    "kind": "variable",
+    "name": "cfg",
+    "memberof": "src/commands/add-esdoc.js",
+    "static": true,
+    "longname": "src/commands/add-esdoc.js~cfg",
+    "access": "public",
+    "export": false,
+    "importPath": "tomo-cli/src/commands/add-esdoc.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 33,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 61,
+    "kind": "variable",
+    "name": "pkg",
+    "memberof": "src/commands/add-esdoc.js",
+    "static": true,
+    "longname": "src/commands/add-esdoc.js~pkg",
+    "access": "public",
+    "export": false,
+    "importPath": "tomo-cli/src/commands/add-esdoc.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 34,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 62,
+    "kind": "variable",
+    "name": "tasks",
+    "memberof": "src/commands/add-esdoc.js",
+    "static": true,
+    "longname": "src/commands/add-esdoc.js~tasks",
+    "access": "public",
+    "export": true,
+    "importPath": "tomo-cli/src/commands/add-esdoc.js",
+    "importStyle": "{tasks}",
+    "description": "",
+    "lineNumber": 39,
+    "ignore": true,
+    "type": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 63,
+    "kind": "file",
     "name": "src/commands/add-eslint/index.js",
     "content": "import {join} from 'path';\nimport {\n    allDoNotExist,\n    install,\n    EslintConfigModuleEditor,\n    PackageJsonEditor,\n    Scaffolder,\n    someDoExist\n} from '../../utils';\n\nconst pkg = new PackageJsonEditor();\nconst cfg = new EslintConfigModuleEditor();\n\nconst ESLINT_DEPENDENCIES = [\n    'eslint',\n    'babel-eslint',\n    'eslint-config-omaha-prime-grade',\n    'watch'\n];\nconst ESLINT_REACT_PLUGINS = [\n    'eslint-plugin-react'\n];\n\nconst sourceDirectory = join(__dirname, 'templates');\nconst scaffolder = new Scaffolder({sourceDirectory});\n/**\n * @ignore\n */\nexport const tasks = [\n    {\n        text: 'Create ESLint configuration and ignore files',\n        task: async ({sourceDirectory}) => {\n            await cfg.create();\n            await scaffolder\n                .target(sourceDirectory)\n                .copy('index.html')\n                .commit();\n        },\n        condition: () => allDoNotExist('.eslintrc.js', '.eslintrc', '.eslintrc.json', '.eslintrc.yml')\n    },\n    {\n        text: 'Add lint tasks to package.json',\n        task: async ({sourceDirectory}) => {\n            await pkg.extend({\n                script: {\n                    lint: `eslint . -c ./.eslintrc.js --fix`,\n                    'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,\n                    'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'\n                }\n            }).commit();\n        },\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Install ESLint dependencies',\n        task: ({skipInstall}) => install(ESLINT_DEPENDENCIES, {dev: true, skipInstall}),\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Install ESLint React plugins',\n        task: ({skipInstall}) => install(ESLINT_REACT_PLUGINS, {dev: true, skipInstall}),\n        condition: ({useReact}) => (useReact && someDoExist('package.json')),\n        optional: ({useReact}) => useReact\n    },\n    {\n        text: 'Add React support to ESLint configuration file',\n        task: async ({reactVersion}) => {\n            await cfg.extend({\n                parserOptions: {\n                    ecmaFeatures: {\n                        jsx: true\n                    }\n                },\n                settings: {\n                    react: {\n                        version: `'${reactVersion}'`\n                    }\n                },\n                extends: ['omaha-prime-grade', 'plugin:react/recommended']\n            }).commit();\n        },\n        condition: ({useReact}) => (useReact && someDoExist('.eslintrc.js')),\n        optional: ({useReact}) => useReact\n    }\n];\nexport default tasks;",
     "static": true,
@@ -711,7 +868,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 56,
+    "__docId__": 64,
     "kind": "variable",
     "name": "pkg",
     "memberof": "src/commands/add-eslint/index.js",
@@ -732,7 +889,7 @@
     "ignore": true
   },
   {
-    "__docId__": 57,
+    "__docId__": 65,
     "kind": "variable",
     "name": "cfg",
     "memberof": "src/commands/add-eslint/index.js",
@@ -753,7 +910,7 @@
     "ignore": true
   },
   {
-    "__docId__": 58,
+    "__docId__": 66,
     "kind": "variable",
     "name": "ESLINT_DEPENDENCIES",
     "memberof": "src/commands/add-eslint/index.js",
@@ -774,7 +931,7 @@
     "ignore": true
   },
   {
-    "__docId__": 59,
+    "__docId__": 67,
     "kind": "variable",
     "name": "ESLINT_REACT_PLUGINS",
     "memberof": "src/commands/add-eslint/index.js",
@@ -795,7 +952,7 @@
     "ignore": true
   },
   {
-    "__docId__": 60,
+    "__docId__": 68,
     "kind": "variable",
     "name": "sourceDirectory",
     "memberof": "src/commands/add-eslint/index.js",
@@ -816,7 +973,7 @@
     "ignore": true
   },
   {
-    "__docId__": 61,
+    "__docId__": 69,
     "kind": "variable",
     "name": "scaffolder",
     "memberof": "src/commands/add-eslint/index.js",
@@ -837,7 +994,7 @@
     "ignore": true
   },
   {
-    "__docId__": 62,
+    "__docId__": 70,
     "kind": "variable",
     "name": "tasks",
     "memberof": "src/commands/add-eslint/index.js",
@@ -857,7 +1014,7 @@
     }
   },
   {
-    "__docId__": 63,
+    "__docId__": 71,
     "kind": "file",
     "name": "src/commands/add-jest.js",
     "content": "import {\n    install,\n    someDoExist,\n    PackageJsonEditor\n} from '../utils';\n\nconst pkg = new PackageJsonEditor();\n\nconst JEST_DEPENDENCIES = [\n    'jest',\n    'babel-jest'\n];\n/**\n * @ignore\n */\nexport const tasks = [\n    {\n        text: 'Add test tasks to package.json',\n        task: async () => {\n            await pkg.extend({\n                script: {\n                    test: 'jest .*.test.js --coverage',\n                    'test:watch': 'npm test -- --watchAll'\n                }\n            }).commit();\n        },\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Install Jest dependencies',\n        task: ({skipInstall}) => install(JEST_DEPENDENCIES, {dev: true, skipInstall}),\n        condition: () => someDoExist('package.json')\n    }\n];\nexport default tasks;",
@@ -868,7 +1025,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 64,
+    "__docId__": 72,
     "kind": "variable",
     "name": "pkg",
     "memberof": "src/commands/add-jest.js",
@@ -889,7 +1046,7 @@
     "ignore": true
   },
   {
-    "__docId__": 65,
+    "__docId__": 73,
     "kind": "variable",
     "name": "JEST_DEPENDENCIES",
     "memberof": "src/commands/add-jest.js",
@@ -910,7 +1067,7 @@
     "ignore": true
   },
   {
-    "__docId__": 66,
+    "__docId__": 74,
     "kind": "variable",
     "name": "tasks",
     "memberof": "src/commands/add-jest.js",
@@ -930,59 +1087,7 @@
     }
   },
   {
-    "__docId__": 67,
-    "kind": "file",
-    "name": "src/commands/add-jsdoc.js",
-    "content": "import {\n    install,\n    PackageJsonEditor,\n    someDoExist\n} from '../utils';\n\nconst pkg = new PackageJsonEditor();\n/**\n * @ignore\n */\nexport const tasks = [\n    {\n        text: 'Add documentation tasks to package.json',\n        task: async ({sourceDirectory}) => {\n            await pkg.extend({\n                script: {\n                    'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,\n                    'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,\n                    'open:docs': 'opn ./docs/index.html',\n                    predocs: 'npm run lint:docs',\n                    docs: 'npm run build:docs',\n                    postdocs: 'npm run open:docs'\n                }\n            }).commit();\n        },\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Install Documentation.js dependencies',\n        task: ({skipInstall}) => install(['jsdoc', 'opn-cli'], {dev: true, skipInstall}),\n        condition: () => someDoExist('package.json')\n    }\n];\nexport default tasks;",
-    "static": true,
-    "longname": "/home/vagrant/dev/tomo-cli/src/commands/add-jsdoc.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 68,
-    "kind": "variable",
-    "name": "pkg",
-    "memberof": "src/commands/add-jsdoc.js",
-    "static": true,
-    "longname": "src/commands/add-jsdoc.js~pkg",
-    "access": "public",
-    "export": false,
-    "importPath": "tomo-cli/src/commands/add-jsdoc.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 7,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 69,
-    "kind": "variable",
-    "name": "tasks",
-    "memberof": "src/commands/add-jsdoc.js",
-    "static": true,
-    "longname": "src/commands/add-jsdoc.js~tasks",
-    "access": "public",
-    "export": true,
-    "importPath": "tomo-cli/src/commands/add-jsdoc.js",
-    "importStyle": "{tasks}",
-    "description": "",
-    "lineNumber": 11,
-    "ignore": true,
-    "type": {
-      "types": [
-        "undefined[]"
-      ]
-    }
-  },
-  {
-    "__docId__": 70,
+    "__docId__": 75,
     "kind": "file",
     "name": "src/commands/add-marionette/index.js",
     "content": "import {join} from 'path';\nimport {\n    install,\n    Scaffolder,\n    someDoExist\n} from '../../utils';\n\nconst MARIONETTE_DEPENDENCIES = [\n    'backbone',\n    'backbone.marionette',\n    'backbone.radio',\n    'handlebars',\n    'lodash',\n    'redux'\n];\n\nconst ALWAYS = async () => true;\nconst sourceDirectory = join(__dirname, 'templates');\nconst scaffolder = new Scaffolder({sourceDirectory});\n\nexport default [\n    {\n        text: 'Add Marionette.js Webapp boilerplate',\n        task: async ({sourceDirectory}) => {\n            await scaffolder\n                .target(sourceDirectory)\n                .copy('index.html')\n                .copy('main.js')\n                .copy('app.js')\n                .target(`${sourceDirectory}/plugins`)\n                .copy('mn.radio.logging.js')\n                .copy('mn.redux.state.js')\n                .target(`${sourceDirectory}/shims`)\n                .copy('mn.renderer.shim.js')\n                .commit();\n        },\n        condition: ALWAYS\n    },\n    {\n        text: 'Add webapp CSS assets',\n        task: async () => {\n            await scaffolder\n                .target('assets/css')\n                .copy('style.css')\n                .commit();\n        },\n        condition: ALWAYS\n    },\n    {\n        text: 'Add webapp template assets',\n        task: async ({sourceDirectory}) => {\n            await scaffolder\n                .target(`${sourceDirectory}/shims`)\n                .copy('mn.templates.shim.js')\n                .target('assets/templates')\n                .copy('example.hbs')\n                .commit();\n        },\n        condition: ALWAYS\n    },\n    {\n        text: 'Install Marionette.js dependencies',\n        task: ({skipInstall}) => install(MARIONETTE_DEPENDENCIES, {skipInstall}),\n        condition: () => someDoExist('package.json')\n    }\n];",
@@ -993,7 +1098,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 71,
+    "__docId__": 76,
     "kind": "variable",
     "name": "MARIONETTE_DEPENDENCIES",
     "memberof": "src/commands/add-marionette/index.js",
@@ -1014,7 +1119,7 @@
     "ignore": true
   },
   {
-    "__docId__": 72,
+    "__docId__": 77,
     "kind": "function",
     "name": "ALWAYS",
     "memberof": "src/commands/add-marionette/index.js",
@@ -1034,7 +1139,7 @@
     "ignore": true
   },
   {
-    "__docId__": 73,
+    "__docId__": 78,
     "kind": "variable",
     "name": "sourceDirectory",
     "memberof": "src/commands/add-marionette/index.js",
@@ -1055,7 +1160,7 @@
     "ignore": true
   },
   {
-    "__docId__": 74,
+    "__docId__": 79,
     "kind": "variable",
     "name": "scaffolder",
     "memberof": "src/commands/add-marionette/index.js",
@@ -1076,7 +1181,7 @@
     "ignore": true
   },
   {
-    "__docId__": 75,
+    "__docId__": 80,
     "kind": "file",
     "name": "src/commands/add-marionette/templates/app.js",
     "content": "/**\n * @file Application Core\n * @version 1.0.0\n * @license MIT\n * @module app\n * @exports app\n**/\n\nconst Mn = require('backbone.marionette');\nconst logging = require('./plugins/mn.radio.logging');\nconst state = require('./plugins/mn.redux.state');\n\n// require('./shims/mn.renderer.shim');\n\nconst Application = Mn.Application.extend({\n    region: 'body'\n});\n\nmodule.exports = Object.assign(new Application(),\n    logging,\n    state\n);\n",
@@ -1087,7 +1192,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 76,
+    "__docId__": 81,
     "kind": "variable",
     "name": "Mn",
     "memberof": "src/commands/add-marionette/templates/app.js",
@@ -1126,7 +1231,7 @@
     "ignore": true
   },
   {
-    "__docId__": 77,
+    "__docId__": 82,
     "kind": "variable",
     "name": "logging",
     "memberof": "src/commands/add-marionette/templates/app.js",
@@ -1147,7 +1252,7 @@
     "ignore": true
   },
   {
-    "__docId__": 78,
+    "__docId__": 83,
     "kind": "variable",
     "name": "state",
     "memberof": "src/commands/add-marionette/templates/app.js",
@@ -1168,7 +1273,7 @@
     "ignore": true
   },
   {
-    "__docId__": 79,
+    "__docId__": 84,
     "kind": "variable",
     "name": "Application",
     "memberof": "src/commands/add-marionette/templates/app.js",
@@ -1189,7 +1294,7 @@
     "ignore": true
   },
   {
-    "__docId__": 80,
+    "__docId__": 85,
     "kind": "file",
     "name": "src/commands/add-marionette/templates/main.js",
     "content": "/* eslint-env browser */\n/**\n * @file Main entry point for application\n * @requires app\n**/\n\nconst Backbone = require('backbone');\nconst Mn = require('backbone.marionette');\nconst app = require('app');\n// const JST = require('templates');\n\nconst name = app.getState('name');\n\nconst RouterController = Mn.Object.extend({\n    foo: function() {\n        // code to be executed for 'foo' route\n    }\n});\nconst AppRouter = Mn.AppRouter.extend({\n    appRoutes: {\n        foo: 'foo'\n    },\n    controller: new RouterController()\n});\nconst ExampleModel = Backbone.Model.extend({\n    defaults: {name}\n});\nconst View = Mn.View.extend({\n    // view code goes here\n    template: `<div>Hello world</div>`,\n    model: new ExampleModel()\n});\napp.on('before:start', () => {\n    app.info(`${name} is starting...`);\n    app.router = new AppRouter();\n});\napp.on('start', () => {\n    Backbone.history.start();\n    app.info(`${name} is started!`);\n    app.getRegion().show(new View());\n});\ndocument.addEventListener('DOMContentLoaded', () => app.start());\n",
@@ -1200,7 +1305,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 81,
+    "__docId__": 86,
     "kind": "variable",
     "name": "Backbone",
     "memberof": "src/commands/add-marionette/templates/main.js",
@@ -1230,7 +1335,7 @@
     "ignore": true
   },
   {
-    "__docId__": 82,
+    "__docId__": 87,
     "kind": "variable",
     "name": "Mn",
     "memberof": "src/commands/add-marionette/templates/main.js",
@@ -1251,7 +1356,7 @@
     "ignore": true
   },
   {
-    "__docId__": 83,
+    "__docId__": 88,
     "kind": "variable",
     "name": "app",
     "memberof": "src/commands/add-marionette/templates/main.js",
@@ -1272,7 +1377,7 @@
     "ignore": true
   },
   {
-    "__docId__": 84,
+    "__docId__": 89,
     "kind": "variable",
     "name": "name",
     "memberof": "src/commands/add-marionette/templates/main.js",
@@ -1293,7 +1398,7 @@
     "ignore": true
   },
   {
-    "__docId__": 85,
+    "__docId__": 90,
     "kind": "variable",
     "name": "RouterController",
     "memberof": "src/commands/add-marionette/templates/main.js",
@@ -1314,7 +1419,7 @@
     "ignore": true
   },
   {
-    "__docId__": 86,
+    "__docId__": 91,
     "kind": "variable",
     "name": "AppRouter",
     "memberof": "src/commands/add-marionette/templates/main.js",
@@ -1335,7 +1440,7 @@
     "ignore": true
   },
   {
-    "__docId__": 87,
+    "__docId__": 92,
     "kind": "variable",
     "name": "ExampleModel",
     "memberof": "src/commands/add-marionette/templates/main.js",
@@ -1356,7 +1461,7 @@
     "ignore": true
   },
   {
-    "__docId__": 88,
+    "__docId__": 93,
     "kind": "variable",
     "name": "View",
     "memberof": "src/commands/add-marionette/templates/main.js",
@@ -1377,7 +1482,7 @@
     "ignore": true
   },
   {
-    "__docId__": 89,
+    "__docId__": 94,
     "kind": "file",
     "name": "src/commands/add-marionette/templates/mn.radio.logging.js",
     "content": "/* eslint strict: 0 */\n/* eslint no-console: 0 */\n/* eslint complexity: ['warn', 6] */\n/**\n * @file Logging module that leverages Backbone.Radio\n * @module plugins/logging\n * @example <caption>Extend application object</caption>\n * var logging = require('./plugins/radio.logging');\n * var app = new Marionette.Application();\n * module.exports = Object.assign(app, logging);\n * @example <caption>Use console message methods with custom stylized output</caption>\n * var app = require('app');\n * app.log('hello world');\n * app.info('hello world');\n * app.warn('hello world');\n * app.error('hello world');\n * @example <caption>Leverage Backbone.Radio to \"tune\" in and out on channels</caption>\n * var app = require('app');\n * setInterval(function() {\n *    app.radio.channel('test').trigger('log', 'message');\n * }, 1000);\n * app.radio.level('log');   //set logging level\n * app.radio.tuneIn('test'); //no need to create the channel first\n * // See some beautiful log messages in the console\n * app.radio.tuneOut('test'); //messages on test channel will no longer be shown\n * //Note: Remove 'test' channel with app.radio.reset('test')\n * @example <caption>Choose what level gets shown</caption>\n * var app = require('app');\n * app.radio.level('log'); //show all logs\n * app.radio.tuneIn('test'); //no need to create the channel first\n * setInterval(function() {\n *    app.radio.channel('test').trigger('log', 'message');\n *    app.radio.channel('test').trigger('info', 'message');\n *    app.radio.channel('test').trigger('warn', 'message');\n *    app.radio.channel('test').trigger('error', 'message');\n * }, 1000);\n * app.radio.level('none');  //show no logs\n * app.radio.level('error'); //only show 'error' logs\n * app.radio.level('warn');  //show 'error' and 'warn' logs\n * // Note: Unless directly set with level(), the default behavior is to show no logs\n * // Note: Return current logging level with app.radio.level()\n * // Note: Return channels with app.radio.channels()\n**/\n'use strict';\n\nconst _ = require('lodash');\nconst Radio = require('backbone.radio');\n\nRadio.DEBUG = false;// Show & Hide Backbone.Radio debug messages\nconst APP_LOGGING = true;// Show & Hide Application console messages\nconst MSG_PREFIX = '%c APP ❱❱ %c';\nconst MSG_TYPES = ['error', 'warn', 'info', 'log', 'trace'];\nconst zipObject = _.isFunction(_.zipObject) ? _.zipObject : _.object;\nconst MSG_DICT = zipObject(MSG_TYPES, MSG_TYPES.map((type, i) => i));\n\nconst STYLE = {\n    none: 'background:inherit;color:inherit;',\n    error: 'background:red;color:white;',\n    warn: 'background:yellow;color:black;',\n    info: 'background:blue;color:white;',\n    log: 'background:#333;color:white;'\n};\n\nfunction consoleMessage(type) {\n    return Function.prototype.bind.call(console[type], console, MSG_PREFIX, STYLE[type], STYLE.none);\n}\n\nconst channelMethods = Object.create(null);\nchannelMethods.getChannels = function() {\n    return Object.keys(Radio._channels);\n};\nchannelMethods.level = function(value) {\n    if (typeof (value) !== 'undefined') {\n        let level;\n        if (_.isNumber(value) && value < MSG_TYPES.length) {\n            level = value;\n        } else if (_.isString(value)) {\n            level = _.includes(MSG_TYPES, value) ? MSG_DICT[value] + 1 : 0;\n        }\n        channelMethods._level = level;\n    }\n    return channelMethods._level;\n};\n\nRadio.log = function(channelName, type, ...args) {\n    type = _.includes(MSG_TYPES, type) ? type : 'log';\n    const level = MSG_DICT[type];\n    const msg = args.length > 2 ? args[2] : args[1];\n    if (level < channelMethods.level()) {\n        consoleMessage(type)(`[${channelName}] `, msg, Date.now());\n    }\n};\n\nexports.radio = _.extend(Radio, channelMethods);\n\nMSG_TYPES.forEach(type => {\n    exports[type] = APP_LOGGING ? consoleMessage(type) : function() { };\n});\n",
@@ -1388,7 +1493,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 90,
+    "__docId__": 95,
     "kind": "variable",
     "name": "_",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1409,7 +1514,7 @@
     "ignore": true
   },
   {
-    "__docId__": 91,
+    "__docId__": 96,
     "kind": "variable",
     "name": "Radio",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1430,7 +1535,7 @@
     "ignore": true
   },
   {
-    "__docId__": 92,
+    "__docId__": 97,
     "kind": "variable",
     "name": "APP_LOGGING",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1451,7 +1556,7 @@
     "ignore": true
   },
   {
-    "__docId__": 93,
+    "__docId__": 98,
     "kind": "variable",
     "name": "MSG_PREFIX",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1472,7 +1577,7 @@
     "ignore": true
   },
   {
-    "__docId__": 94,
+    "__docId__": 99,
     "kind": "variable",
     "name": "MSG_TYPES",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1493,7 +1598,7 @@
     "ignore": true
   },
   {
-    "__docId__": 95,
+    "__docId__": 100,
     "kind": "variable",
     "name": "zipObject",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1514,7 +1619,7 @@
     "ignore": true
   },
   {
-    "__docId__": 96,
+    "__docId__": 101,
     "kind": "variable",
     "name": "MSG_DICT",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1535,7 +1640,7 @@
     "ignore": true
   },
   {
-    "__docId__": 97,
+    "__docId__": 102,
     "kind": "variable",
     "name": "STYLE",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1556,7 +1661,7 @@
     "ignore": true
   },
   {
-    "__docId__": 98,
+    "__docId__": 103,
     "kind": "function",
     "name": "consoleMessage",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1587,7 +1692,7 @@
     "ignore": true
   },
   {
-    "__docId__": 99,
+    "__docId__": 104,
     "kind": "variable",
     "name": "channelMethods",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1608,7 +1713,7 @@
     "ignore": true
   },
   {
-    "__docId__": 100,
+    "__docId__": 105,
     "kind": "function",
     "name": "getChannels",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1632,7 +1737,7 @@
     "ignore": true
   },
   {
-    "__docId__": 101,
+    "__docId__": 106,
     "kind": "function",
     "name": "level",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1663,7 +1768,7 @@
     "ignore": true
   },
   {
-    "__docId__": 102,
+    "__docId__": 107,
     "kind": "function",
     "name": "log",
     "memberof": "src/commands/add-marionette/templates/mn.radio.logging.js",
@@ -1703,7 +1808,7 @@
     "ignore": true
   },
   {
-    "__docId__": 103,
+    "__docId__": 108,
     "kind": "file",
     "name": "src/commands/add-marionette/templates/mn.redux.state.js",
     "content": "/**\n * @file Add Redux store to application\n * @description Features:\n * - Enhanced getState that accepts path parameter\n * - \"dispatch logging\" middleware\n * - Basic reducer showcasing how to leverage lodash for updating state\n * @module plugins/redux.state\n * @example <caption>Extend application object</caption>\n * var state = require('./plugins/redux.state');\n * var app = new Marionette.Application();\n * module.exports = Object.assign(app, state);\n * @example <caption>Enhanced getState accepts path parameter</caption>\n * app.getState();// {name: 'omaha-project', count: 42}\n * app.getState('count');// 42\n * @example <caption>Update state with Redux API</caption>\n * app.getState('count');// 42\n * app.dispatch({type: 'INCREMENT'});\n * app.getState('count');// 43\n**/\n\nconst {get, update} = require('lodash');\nconst {applyMiddleware, compose, createStore} = require('redux');\n\nconst initialState = {\n    name: 'omaha-project',\n    count: 42\n};\n\nmodule.exports = createStore(\n    reducer,\n    initialState,\n    compose(\n        applyMiddleware(dispatchLogger),\n        addGetStatePathParameter()\n    )\n);\n\n// state reducer\nfunction reducer(state, action) {\n    switch (action.type) {\n        case 'INCREMENT':\n            return update(state, 'count', increment);\n        case 'DECREMENT':\n            return update(state, 'count', decrement);\n        default:\n            return state;\n    }\n}\n// middleware\nfunction dispatchLogger() {\n    return next => action =>\n        // console.log(`Dispatch: ${action.type}`);\n        next(action)\n    ;\n}\n// store enhancer\nfunction addGetStatePathParameter() {\n    return createStore => (reducer, preloadedState, enhancer) => {\n        const store = createStore(reducer, preloadedState, enhancer);\n        const getState = path => {\n            if (typeof (path) === 'string') {\n                return get(store.getState(), path);\n            } else {\n                return store.getState();\n            }\n        };\n        const {dispatch, subscribe} = store;\n        return {getState, dispatch, subscribe};\n    };\n}\n// pure functions\nfunction increment(val) {\n    return val + 1;\n}\nfunction decrement(val) {\n    return val - 1;\n}\n",
@@ -1714,7 +1819,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 104,
+    "__docId__": 109,
     "kind": "variable",
     "name": "get",
     "memberof": "src/commands/add-marionette/templates/mn.redux.state.js",
@@ -1753,7 +1858,7 @@
     "ignore": true
   },
   {
-    "__docId__": 105,
+    "__docId__": 110,
     "kind": "variable",
     "name": "applyMiddleware",
     "memberof": "src/commands/add-marionette/templates/mn.redux.state.js",
@@ -1774,7 +1879,7 @@
     "ignore": true
   },
   {
-    "__docId__": 106,
+    "__docId__": 111,
     "kind": "variable",
     "name": "initialState",
     "memberof": "src/commands/add-marionette/templates/mn.redux.state.js",
@@ -1795,7 +1900,7 @@
     "ignore": true
   },
   {
-    "__docId__": 107,
+    "__docId__": 112,
     "kind": "function",
     "name": "reducer",
     "memberof": "src/commands/add-marionette/templates/mn.redux.state.js",
@@ -1832,7 +1937,7 @@
     "ignore": true
   },
   {
-    "__docId__": 108,
+    "__docId__": 113,
     "kind": "function",
     "name": "dispatchLogger",
     "memberof": "src/commands/add-marionette/templates/mn.redux.state.js",
@@ -1856,7 +1961,7 @@
     "ignore": true
   },
   {
-    "__docId__": 109,
+    "__docId__": 114,
     "kind": "function",
     "name": "addGetStatePathParameter",
     "memberof": "src/commands/add-marionette/templates/mn.redux.state.js",
@@ -1880,7 +1985,7 @@
     "ignore": true
   },
   {
-    "__docId__": 110,
+    "__docId__": 115,
     "kind": "function",
     "name": "increment",
     "memberof": "src/commands/add-marionette/templates/mn.redux.state.js",
@@ -1911,7 +2016,7 @@
     "ignore": true
   },
   {
-    "__docId__": 111,
+    "__docId__": 116,
     "kind": "function",
     "name": "decrement",
     "memberof": "src/commands/add-marionette/templates/mn.redux.state.js",
@@ -1942,7 +2047,7 @@
     "ignore": true
   },
   {
-    "__docId__": 112,
+    "__docId__": 117,
     "kind": "file",
     "name": "src/commands/add-marionette/templates/mn.renderer.shim.js",
     "content": "/**\n * @file Shim Marionette template renderer to use morphdom\n * Other options include: inferno, snabbdom, rivets, idom and virtual-dom\n * @see https://github.com/blikblum/marionette.renderers\n**/\n\nconst Marionette = require('backbone.marionette');\nconst morphdom = require('morphdom');\n\nMarionette.View.setRenderer(function(template, data) {\n    const {el} = this;\n    const node = el.cloneNode(false);// shallow clone\n    node.innerHTML = template(data);\n    morphdom(el, node);\n});\n",
@@ -1953,7 +2058,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 113,
+    "__docId__": 118,
     "kind": "variable",
     "name": "Marionette",
     "memberof": "src/commands/add-marionette/templates/mn.renderer.shim.js",
@@ -1982,7 +2087,7 @@
     "ignore": true
   },
   {
-    "__docId__": 114,
+    "__docId__": 119,
     "kind": "variable",
     "name": "morphdom",
     "memberof": "src/commands/add-marionette/templates/mn.renderer.shim.js",
@@ -2003,7 +2108,7 @@
     "ignore": true
   },
   {
-    "__docId__": 115,
+    "__docId__": 120,
     "kind": "file",
     "name": "src/commands/add-marionette/templates/mn.templates.shim.js",
     "content": "/**\n * This shim replaces lodash template functions with Handlebars.js\n * (not needed if templates are pre-compiled)\n**/\n\nconst Marionette = require('backbone.marionette');\nconst Handlebars = require('handlebars');\n\n//Override MarionetteJS template retrieval & compilation to use Handlebars.js\nMarionette.TemplateCache.prototype.loadTemplate = function(rawTemplate) {\n    // Pass straight through to compileTemplate function\n    return rawTemplate;\n};\nMarionette.TemplateCache.prototype.compileTemplate = function(rawTemplate) {\n    //If you use pre-compiled Handlebars templates, you can simply return rawTemplate\n    return Handlebars.compile(rawTemplate);\n};\n",
@@ -2014,7 +2119,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 116,
+    "__docId__": 121,
     "kind": "variable",
     "name": "Marionette",
     "memberof": "src/commands/add-marionette/templates/mn.templates.shim.js",
@@ -2034,7 +2139,7 @@
     "ignore": true
   },
   {
-    "__docId__": 117,
+    "__docId__": 122,
     "kind": "variable",
     "name": "Handlebars",
     "memberof": "src/commands/add-marionette/templates/mn.templates.shim.js",
@@ -2055,7 +2160,7 @@
     "ignore": true
   },
   {
-    "__docId__": 118,
+    "__docId__": 123,
     "kind": "function",
     "name": "loadTemplate",
     "memberof": "src/commands/add-marionette/templates/mn.templates.shim.js",
@@ -2086,7 +2191,7 @@
     "ignore": true
   },
   {
-    "__docId__": 119,
+    "__docId__": 124,
     "kind": "function",
     "name": "compileTemplate",
     "memberof": "src/commands/add-marionette/templates/mn.templates.shim.js",
@@ -2117,7 +2222,7 @@
     "ignore": true
   },
   {
-    "__docId__": 120,
+    "__docId__": 125,
     "kind": "file",
     "name": "src/commands/add-postcss.js",
     "content": "import {\n    allDoNotExist,\n    install,\n    PackageJsonEditor,\n    PostcssConfigEditor,\n    someDoExist\n} from '../utils';\n\nconst pkg = new PackageJsonEditor();\nconst cfg = new PostcssConfigEditor();\n\nconst POSTCSS_DEPENDENCIES = [\n    'cssnano',\n    'postcss-cli',\n    'postcss-reporter',\n    'postcss-safe-parser',\n    'postcss-import',\n    'postcss-cssnext',\n    'stylelint',\n    'uncss'\n];\n/**\n * @ignore\n */\nexport const tasks = [\n    {\n        text: 'Create PostCSS config file',\n        task: async () => {\n            await cfg.create().commit();\n        },\n        condition: () => allDoNotExist('postcss.config.js')\n    },\n    {\n        text: 'Install PostCSS dependencies',\n        task: ({skipInstall}) => install([POSTCSS_DEPENDENCIES], {dev: true, skipInstall}),\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Add PostCSS tasks to package.json',\n        task: () => pkg.extend({\n\n        }),\n        condition: () => someDoExist('package.json')\n    }\n];\nexport default tasks;",
@@ -2128,7 +2233,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 121,
+    "__docId__": 126,
     "kind": "variable",
     "name": "pkg",
     "memberof": "src/commands/add-postcss.js",
@@ -2149,7 +2254,7 @@
     "ignore": true
   },
   {
-    "__docId__": 122,
+    "__docId__": 127,
     "kind": "variable",
     "name": "cfg",
     "memberof": "src/commands/add-postcss.js",
@@ -2170,7 +2275,7 @@
     "ignore": true
   },
   {
-    "__docId__": 123,
+    "__docId__": 128,
     "kind": "variable",
     "name": "POSTCSS_DEPENDENCIES",
     "memberof": "src/commands/add-postcss.js",
@@ -2191,7 +2296,7 @@
     "ignore": true
   },
   {
-    "__docId__": 124,
+    "__docId__": 129,
     "kind": "variable",
     "name": "tasks",
     "memberof": "src/commands/add-postcss.js",
@@ -2211,7 +2316,7 @@
     }
   },
   {
-    "__docId__": 125,
+    "__docId__": 130,
     "kind": "file",
     "name": "src/commands/add-rust.js",
     "content": "/* eslint-disable max-len */\nimport {arrowRight} from 'figures';\nimport {\n    PackageJsonEditor,\n    someDoExist\n} from '../utils';\n\nconst pkg = new PackageJsonEditor();\n/**\n * @ignore\n */\nexport const tasks = [\n    {\n        text: `Add Rust ${arrowRight} WASM build tasks to package.json`,\n        task: async ({assetsDirectory}) => {\n            await pkg.extend({\n                script: {\n                    'build:wasm': `rustc +nightly --target wasm32-unknown-unknown -O --crate-type=cdylib ${assetsDirectory}/rust/main.rs -o ./${assetsDirectory}/rust/main.wasm`,\n                    'postbuild:wasm': `wasm-gc ${assetsDirectory}/rust/main.wasm ${assetsDirectory}/rust/main.min.wasm`\n                }\n            }).commit();\n        },\n        condition: () => someDoExist('package.json')\n    }\n];\nexport default tasks;",
@@ -2222,7 +2327,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 126,
+    "__docId__": 131,
     "kind": "variable",
     "name": "pkg",
     "memberof": "src/commands/add-rust.js",
@@ -2243,7 +2348,7 @@
     "ignore": true
   },
   {
-    "__docId__": 127,
+    "__docId__": 132,
     "kind": "variable",
     "name": "tasks",
     "memberof": "src/commands/add-rust.js",
@@ -2263,7 +2368,7 @@
     }
   },
   {
-    "__docId__": 128,
+    "__docId__": 133,
     "kind": "file",
     "name": "src/commands/common.js",
     "content": "import {mkdirp} from 'fs-extra';\nimport {\n    allDoNotExist,\n    PackageJsonEditor\n} from '../utils';\n\n/**\n * @ignore\n */\nexport const createPackageJson = [\n    {\n        text: 'Create package.json',\n        task: async () => {\n            const pkg = new PackageJsonEditor();\n            await pkg.create().commit();\n        },\n        condition: () => allDoNotExist('package.json')\n    }\n];\n/**\n * @ignore\n */\nexport const createSourceDirectory = [\n    {\n        text: 'Create source directory',\n        task: ({sourceDirectory}) => mkdirp(sourceDirectory),\n        condition: ({sourceDirectory}) => allDoNotExist(sourceDirectory)\n    }\n];",
@@ -2274,7 +2379,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 129,
+    "__docId__": 134,
     "kind": "variable",
     "name": "createPackageJson",
     "memberof": "src/commands/common.js",
@@ -2294,7 +2399,7 @@
     }
   },
   {
-    "__docId__": 130,
+    "__docId__": 135,
     "kind": "variable",
     "name": "createSourceDirectory",
     "memberof": "src/commands/common.js",
@@ -2314,10 +2419,10 @@
     }
   },
   {
-    "__docId__": 131,
+    "__docId__": 136,
     "kind": "file",
     "name": "src/commands/index.js",
-    "content": "/* eslint-disable no-magic-numbers */\n/**\n * @file tomo commands\n * @author Jason Wohlgemuth\n * @module commands\n * @requires module:utils\n */\nimport delay from 'delay';\nimport {\n    allDoNotExist,\n    someDoExist\n} from '../utils';\nimport {\n    createPackageJson,\n    createSourceDirectory\n} from './common';\nimport addBabel from './add-babel';\nimport addJsdoc from './add-jsdoc';\nimport addEslint from './add-eslint';\nimport addJest from './add-jest';\nimport addPostcss from './add-postcss';\n\nconst ALWAYS = async () => true;\nconst testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());\n\nconst newWebapp = [\n    {\n        text: 'Install development dependencies',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    },\n    {\n        text: 'Install production dependencies',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    },\n    {\n        text: 'Scaffold webapp folder structure',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    }\n];\nconst addA11y = [\n    {\n        text: 'Add a11y tasks to package.json',\n        task: testAsyncFunction(),\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Install a11y dependencies',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    }\n];\nconst addWebpack = [\n    {\n        text: 'Create Webpack config file',\n        task: testAsyncFunction(),\n        condition: () => allDoNotExist('webpack.config.js')\n    },\n    {\n        text: 'Install Webpack dependencies',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    }\n];\nconst create = {\n    app: [\n        ...createPackageJson,\n        ...createSourceDirectory,\n        ...addBabel,\n        ...addEslint,\n        ...addJest\n    ],\n    webapp: [\n        ...createPackageJson,\n        ...createSourceDirectory,\n        ...addBabel,\n        ...addEslint,\n        ...addJest,\n        ...newWebapp\n    ],\n    server: [\n\n    ]\n};\nconst add = {\n    a11y: addA11y,\n    babel: addBabel,\n    docs: addJsdoc,\n    eslint: [\n        ...addBabel,\n        ...addEslint\n    ],\n    jest: [\n        ...addBabel,\n        ...addJest\n    ],\n    postcss: addPostcss,\n    webpack: addWebpack\n};\n\nmodule.exports = {\n    add,\n    create,\n    new: create// alias for create\n};",
+    "content": "/* eslint-disable no-magic-numbers */\n/**\n * @file tomo commands\n * @author Jason Wohlgemuth\n * @module commands\n * @requires module:utils\n */\nimport delay from 'delay';\nimport {\n    allDoNotExist,\n    someDoExist\n} from '../utils';\nimport {\n    createPackageJson,\n    createSourceDirectory\n} from './common';\nimport addBabel from './add-babel';\nimport addEsdoc from './add-esdoc';\nimport addEslint from './add-eslint';\nimport addJest from './add-jest';\nimport addPostcss from './add-postcss';\n\nconst ALWAYS = async () => true;\nconst testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());\n\nconst newWebapp = [\n    {\n        text: 'Install development dependencies',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    },\n    {\n        text: 'Install production dependencies',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    },\n    {\n        text: 'Scaffold webapp folder structure',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    }\n];\nconst addA11y = [\n    {\n        text: 'Add a11y tasks to package.json',\n        task: testAsyncFunction(),\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Install a11y dependencies',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    }\n];\nconst addWebpack = [\n    {\n        text: 'Create Webpack config file',\n        task: testAsyncFunction(),\n        condition: () => allDoNotExist('webpack.config.js')\n    },\n    {\n        text: 'Install Webpack dependencies',\n        task: testAsyncFunction(),\n        condition: ALWAYS\n    }\n];\nconst create = {\n    app: [\n        ...createPackageJson,\n        ...createSourceDirectory,\n        ...addBabel,\n        ...addEslint,\n        ...addJest\n    ],\n    webapp: [\n        ...createPackageJson,\n        ...createSourceDirectory,\n        ...addBabel,\n        ...addEslint,\n        ...addJest,\n        ...newWebapp\n    ],\n    server: [\n\n    ]\n};\nconst add = {\n    a11y: addA11y,\n    babel: addBabel,\n    docs: addEsdoc,\n    eslint: [\n        ...addBabel,\n        ...addEslint\n    ],\n    jest: [\n        ...addBabel,\n        ...addJest\n    ],\n    postcss: addPostcss,\n    webpack: addWebpack\n};\n\nmodule.exports = {\n    add,\n    create,\n    new: create// alias for create\n};",
     "static": true,
     "longname": "/home/vagrant/dev/tomo-cli/src/commands/index.js",
     "access": "public",
@@ -2325,7 +2430,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 132,
+    "__docId__": 137,
     "kind": "function",
     "name": "ALWAYS",
     "memberof": "src/commands/index.js",
@@ -2345,7 +2450,7 @@
     "ignore": true
   },
   {
-    "__docId__": 133,
+    "__docId__": 138,
     "kind": "function",
     "name": "testAsyncFunction",
     "memberof": "src/commands/index.js",
@@ -2365,7 +2470,7 @@
     "ignore": true
   },
   {
-    "__docId__": 134,
+    "__docId__": 139,
     "kind": "variable",
     "name": "newWebapp",
     "memberof": "src/commands/index.js",
@@ -2386,7 +2491,7 @@
     "ignore": true
   },
   {
-    "__docId__": 135,
+    "__docId__": 140,
     "kind": "variable",
     "name": "addA11y",
     "memberof": "src/commands/index.js",
@@ -2407,7 +2512,7 @@
     "ignore": true
   },
   {
-    "__docId__": 136,
+    "__docId__": 141,
     "kind": "variable",
     "name": "addWebpack",
     "memberof": "src/commands/index.js",
@@ -2428,7 +2533,7 @@
     "ignore": true
   },
   {
-    "__docId__": 137,
+    "__docId__": 142,
     "kind": "variable",
     "name": "create",
     "memberof": "src/commands/index.js",
@@ -2449,7 +2554,7 @@
     "ignore": true
   },
   {
-    "__docId__": 138,
+    "__docId__": 143,
     "kind": "variable",
     "name": "add",
     "memberof": "src/commands/index.js",
@@ -2470,7 +2575,7 @@
     "ignore": true
   },
   {
-    "__docId__": 139,
+    "__docId__": 144,
     "kind": "file",
     "name": "src/index.js",
     "content": "#!/usr/bin/env node\n\nimport React from 'react';\nimport {render} from 'ink';\nimport meow from 'meow';\nimport {cyan, dim, gray} from 'chalk';\nimport Tomo from './ui';\n// import updateNotifier from 'update-notifier';\n// Notify updater\n// const pkg = require(`../package.json`);\n// updateNotifier({pkg}).notify();\n\nconst help = `\n\t${gray.bold('Usage')}\n\t\t$ ${cyan('tomo [command] [term] [options]')}\n\n\t${gray.bold('Options')}\n\n        --source-directory, -d  Directory for source code [Default: ./src]\n        --assets-directory,     Directory for assets [Default: ./assets]\n        --use-react, -r         Add React support to workflow [Default: false]\n        --react-version         React version for ESLint configuration [Default: '16.8']\n\t\t--ignore-warnings, -i   Ignore warning messages [Default: false]\n\t\t--skip-install, -s      Skip npm installations [Default: false]\n\n\t${gray.bold('Examples')}\n\n\t\t$ tomo\n\t\t    ${dim('I love Ink')}\n\t\t$ tomo --name=ponies\n\t\t    ${dim('I love ponies')}\t\n`;\nconst options = {\n    help,\n    flags: {\n        sourceDirectory: {\n            type: 'string',\n            default: './src',\n            alias: 'd'\n        },\n        assetsDirectory: {\n            type: 'string',\n            default: './assets'\n        },\n        useReact: {\n            type: 'boolean',\n            default: false,\n            alias: 'r'\n        },\n        reactVersion: {\n            type: 'string',\n            default: '16.8'\n        },\n        ignoreWarnings: {\n            type: 'boolean',\n            default: false,\n            alias: 'i'\n        },\n        skipInstall: {\n            type: 'boolean',\n            default: false,\n            alias: 's'\n        }\n    }\n};\nconst cli = meow(options);\n\nconst {input, flags} = cli;\nrender(<Tomo input={input} flags={flags}/>, {exitOnCtrlC: true});",
@@ -2481,7 +2586,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 140,
+    "__docId__": 145,
     "kind": "variable",
     "name": "help",
     "memberof": "src/index.js",
@@ -2502,7 +2607,7 @@
     "ignore": true
   },
   {
-    "__docId__": 141,
+    "__docId__": 146,
     "kind": "variable",
     "name": "options",
     "memberof": "src/index.js",
@@ -2523,7 +2628,7 @@
     "ignore": true
   },
   {
-    "__docId__": 142,
+    "__docId__": 147,
     "kind": "variable",
     "name": "cli",
     "memberof": "src/index.js",
@@ -2544,7 +2649,7 @@
     "ignore": true
   },
   {
-    "__docId__": 143,
+    "__docId__": 148,
     "kind": "variable",
     "name": "input",
     "memberof": "src/index.js",
@@ -2565,7 +2670,7 @@
     "ignore": true
   },
   {
-    "__docId__": 144,
+    "__docId__": 149,
     "kind": "file",
     "name": "src/ui.js",
     "content": "/**\n * @file UI Components\n * @author Jason Wohlgemuth\n * @module ui\n * @requires module:utils\n * @requires module:commands\n */\nimport React, {useContext, useEffect, useReducer, Component} from 'react';\nimport PropTypes from 'prop-types';\nimport {isFunction, isString, isUndefined} from 'lodash';\nimport Queue from 'p-queue';\nimport {Box, Color, Text, StdinContext} from 'ink';\nimport {default as InkBox} from 'ink-box';\nimport Spinner from 'ink-spinner';\nimport SelectInput from 'ink-select-input';\nimport figures from 'figures';\nimport commands from './commands';\nimport {getIntendedInput} from './utils';\n\nconst Check = ({isSkipped}) => (<Text bold>\n    <Color green={!isSkipped} dim={isSkipped}>{figures.tick}</Color>\n</Text>);\nconst Item = ({isSelected, label}) => <Color bold={isSelected} cyan={isSelected}>{label}</Color>;\nconst Indicator = ({isSelected}) => <Box marginRight={1}>{isSelected ? <Color bold cyan>{figures.arrowRight}</Color> : ' '}</Box>;\nconst SubCommandSelect = ({items, onSelect}) => <Box paddingTop={1} paddingBottom={1} paddingLeft={1}>\n    <SelectInput\n        items={items}\n        onSelect={onSelect}\n        itemComponent={Item}\n        indicatorComponent={Indicator}\n    ></SelectInput>\n</Box>;\n/**\n * @private\n * @function UnderConstruction\n * @constructor\n * @description Component to display \"under construction\" warning for capabilities not yet implemented.\n */\nconst UnderConstruction = () => <Box marginBottom={1}>\n    <InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}>\n        <Color bold yellow>UNDER CONSTRUCTION</Color>\n    </InkBox>\n</Box>;\n/**\n * @private\n * @function ErrorMessage\n * @constructor\n * @description Used by ErrorBoundary component to display error message and data\n * @property {Object} props\n * @property {string} props.info Error details\n * @return {string} HTML markup for ErrorMessage component\n */\nconst ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>\n    <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>\n        <Color yellow>(╯°□ °)╯ ┻━┻ arrrgh...</Color>\n    </InkBox>\n    <Box marginLeft={4}>\n        ↳ <Color dim>Something went wrong...</Color>\n    </Box>\n    <Box marginLeft={6} marginTop={1}>\n        <Color dim><Box>{info}</Box></Color>\n    </Box>\n</Box>;\n/**\n * @private\n * @function ErrorBoundary\n * @constructor\n * @extends React.Component\n * @description Error boundary used around UI component\n */\nclass ErrorBoundary extends React.Component {\n    constructor(props) {\n        super(props);\n        this.state = {\n            info: '',\n            error: {},\n            hasError: false\n        };\n    }\n    static getDerivedStateFromError() {\n        return {hasError: true};\n    }\n    componentDidCatch(error, info) {\n        this.setState({error, info});\n    }\n    render() {\n        const {error, hasError} = this.state;\n        const {children} = this.props;\n        return hasError ? <ErrorMessage error={error}/> : children;\n    }\n}\n/**\n * @function Warning\n * @constructor\n * @description Component to display warning message requiring user input\n * @property {Object} props\n * @property {function} props.callback Function to be called after user interacts with warning\n */\nexport const Warning = ({callback, children}) => {\n    const {setRawMode, stdin} = useContext(StdinContext);\n    useEffect(() => {\n        setRawMode && setRawMode(true);\n        stdin.on('data', callback);\n        return function cleanup() {\n            stdin.removeListener('data', callback);\n            setRawMode && setRawMode(false);\n        };\n    });\n    return <Box flexDirection={'column'} marginBottom={1}>\n        <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>\n            <Color yellow>oops...</Color>\n        </InkBox>\n        <Box marginLeft={4}>\n            ↳ {children}\n        </Box>\n        <Box marginLeft={6} marginTop={1}>\n            <Color dim>Press </Color><Text bold>ENTER</Text><Color dim> to continue</Color>\n        </Box>\n    </Box>;\n};\n/**\n * @function Task\n * @constructor\n * @description Task component\n * @property {Object} props\n * @property {boolean} props.isComplete Control display of check (true) or loading (false)\n * @property {boolean} props.isSkipped Control color of check - green (false) or dim (true)\n * @property {string} props.text Task text\n * @example\n * <Task text={'This task is done before it starts'} isComplete={true}></Task>\n */\nexport const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' marginLeft={3}>\n    {isComplete ?\n        <Check isSkipped={isSkipped}></Check> :\n        <Color cyan><Spinner></Spinner></Color>\n    } <Text><Color dim={isComplete}>{text}</Color></Text>\n</Box>;\n/**\n * @function TaskList\n * @constructor\n * @description Task list component\n * @property {Object} props\n * @property {string} props.command Command - new | create | add\n * @property {Object} props.options Command line flags (see help)\n * @property {string[]} props.terms Terms - eslint | babel | jest | postcss | docs\n * @example\n * <TaskList command={'add'} terms={'eslint'} options={{skipInstall: true}}></TaskList>\n */\nexport const TaskList = ({command, options, terms}) => {\n    const reducer = (state, {type, payload}) => {\n        const {completed, errors, skipped} = state;\n        if (type === 'complete') {\n            return {\n                completed: [...completed, payload],\n                skipped,\n                errors\n            };\n        } else if (type === 'skipped') {\n            return {\n                completed,\n                skipped: [...skipped, payload],\n                errors\n            };\n        } else if (type === 'error') {\n            return {\n                completed,\n                skipped,\n                errors: [...errors, {details: payload}]\n            };\n        }\n    };\n    const initialState = {\n        completed: [],\n        skipped: [],\n        errors: []\n    };\n    const [state, dispatch] = useReducer(reducer, initialState);\n    const queue = new Queue({concurrency: 1});\n    const tasks = commands[command][terms[0]];\n    useEffect(() => {\n        async function populateQueue() {\n            for (const [index, item] of tasks.entries()) {\n                const {condition, task} = item;\n                try {\n                    if (await condition(options)) {\n                        await queue\n                            .add(() => task(options))\n                            .then(() => dispatch({type: 'complete', payload: index}))\n                            .catch(() => dispatch({type: 'error', payload: 'Error adding task to queue'}));\n                    } else {\n                        dispatch({type: 'skipped', payload: index});\n                    }\n                } catch (error) {\n                    dispatch({type: 'error', payload: error});\n                }\n            }\n        }\n        populateQueue();\n    }, []);\n    return <Box flexDirection={'column'} marginBottom={1}>\n        <InkBox\n            margin={{left: 1, top: 1}}\n            padding={{left: 1, right: 1}}\n            borderColor={((state.completed.length + state.skipped.length) === tasks.length) ? 'green' : 'cyan'}\n            borderStyle={'round'}>\n            <Color bold white>{command} {terms.join(' ')}</Color>\n        </InkBox>\n        <Box flexDirection='column' marginBottom={1}>\n            {tasks.map(({optional, text}, index) => {\n                const {completed, skipped} = state;\n                const isSkipped = skipped.includes(index);\n                const isComplete = completed.includes(index) || isSkipped;\n                const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));\n                return shouldBeShown ?\n                    <Task text={text} isSkipped={isSkipped} isComplete={isComplete} key={index}></Task> :\n                    <Box key={index}></Box>;\n            })}\n        </Box>\n    </Box>;\n};\nclass UI extends Component {\n    constructor(props) {\n        super(props);\n        const {input} = props;\n        const [command, ...terms] = input;\n        const hasCommand = isString(command);\n        const hasTerms = terms.length > 0;\n        const [intendedCommand, intendedTerms] = hasCommand ? getIntendedInput(commands, command, terms) : [, []];\n        const compareTerms = (term, index) => (term !== terms[index]);\n        const showWarning = (command !== intendedCommand) || (intendedTerms.map(compareTerms).some(Boolean));\n        this.state = {\n            hasTerms,\n            hasCommand,\n            showWarning,\n            intendedTerms,\n            intendedCommand\n        };\n        this.updateWarning = this.updateWarning.bind(this);\n        this.updateTerms = this.updateTerms.bind(this);\n    }\n    render() {\n        const {flags} = this.props;\n        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;\n        const {ignoreWarnings} = flags;\n        const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];\n        const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({label: command, value: command})) : [];\n        return <ErrorBoundary>\n            {(showWarning && !ignoreWarnings) ?\n                <Warning callback={this.updateWarning}>\n                    <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>\n                </Warning> :\n                (hasCommand && hasTerms) ?\n                    <TaskList command={intendedCommand} terms={intendedTerms} options={flags}></TaskList> :\n                    hasCommand ?\n                        <SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}></SubCommandSelect> :\n                        <UnderConstruction/>\n            }\n        </ErrorBoundary>;\n    }\n    updateWarning(data) {\n        const key = String(data);\n        (key === '\\r') ? this.setState({showWarning: false}) : process.exit(0);\n    }\n    updateTerms({value}) {\n        this.setState({\n            hasTerms: true,\n            intendedTerms: [value]\n        });\n    }\n}\nCheck.propTypes = {\n    isSkipped: PropTypes.bool\n};\nCheck.defaultProps = {\n    isSkipped: false\n};\nSubCommandSelect.propTypes = {\n    items: PropTypes.arrayOf(PropTypes.object),\n    onSelect: PropTypes.func\n};\nIndicator.propTypes = {\n    isSelected: PropTypes.bool\n};\nIndicator.defaultProps = {\n    isSelected: false\n};\nItem.propTypes = {\n    isSelected: PropTypes.bool,\n    label: PropTypes.string.isRequired\n};\nItem.defaultProps = {\n    isSelected: false\n};\nErrorMessage.propTypes = {\n    info: PropTypes.string\n};\nErrorBoundary.propTypes = {\n    children: PropTypes.node\n};\nTask.propTypes = {\n    isComplete: PropTypes.bool,\n    isSkipped: PropTypes.bool,\n    text: PropTypes.string\n};\nTask.defaultProps = {\n    isComplete: false,\n    isSkipped: false,\n    text: 'task description'\n};\nTaskList.propTypes = {\n    command: PropTypes.string,\n    options: PropTypes.any,\n    terms: PropTypes.arrayOf(PropTypes.string)\n};\nTaskList.defaultProps = {\n    command: '',\n    options: {skipInstall: false},\n    terms: []\n};\nWarning.propTypes = {\n    callback: PropTypes.func,\n    children: PropTypes.node\n};\nUI.propTypes = {\n    input: PropTypes.array,\n    flags: PropTypes.object\n};\nUI.defaultProps = {\n    input: [],\n    flags: {}\n};\n\nexport default UI;\n",
@@ -2576,7 +2681,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 145,
+    "__docId__": 150,
     "kind": "function",
     "name": "Check",
     "memberof": "src/ui.js",
@@ -2607,7 +2712,7 @@
     "ignore": true
   },
   {
-    "__docId__": 146,
+    "__docId__": 151,
     "kind": "function",
     "name": "Item",
     "memberof": "src/ui.js",
@@ -2639,7 +2744,7 @@
     "ignore": true
   },
   {
-    "__docId__": 147,
+    "__docId__": 152,
     "kind": "function",
     "name": "Indicator",
     "memberof": "src/ui.js",
@@ -2670,7 +2775,7 @@
     "ignore": true
   },
   {
-    "__docId__": 148,
+    "__docId__": 153,
     "kind": "function",
     "name": "SubCommandSelect",
     "memberof": "src/ui.js",
@@ -2702,7 +2807,7 @@
     "ignore": true
   },
   {
-    "__docId__": 149,
+    "__docId__": 154,
     "kind": "function",
     "name": "UnderConstruction",
     "memberof": "src/ui.js",
@@ -2735,7 +2840,7 @@
     "ignore": true
   },
   {
-    "__docId__": 150,
+    "__docId__": 155,
     "kind": "function",
     "name": "ErrorMessage",
     "memberof": "src/ui.js",
@@ -2808,7 +2913,7 @@
     "ignore": true
   },
   {
-    "__docId__": 151,
+    "__docId__": 156,
     "kind": "class",
     "name": "ErrorBoundary",
     "memberof": "src/ui.js",
@@ -2841,7 +2946,7 @@
     "ignore": true
   },
   {
-    "__docId__": 152,
+    "__docId__": 157,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/ui.js~ErrorBoundary",
@@ -2855,7 +2960,7 @@
     "undocument": true
   },
   {
-    "__docId__": 153,
+    "__docId__": 158,
     "kind": "member",
     "name": "state",
     "memberof": "src/ui.js~ErrorBoundary",
@@ -2872,7 +2977,7 @@
     }
   },
   {
-    "__docId__": 154,
+    "__docId__": 159,
     "kind": "method",
     "name": "getDerivedStateFromError",
     "memberof": "src/ui.js~ErrorBoundary",
@@ -2892,7 +2997,7 @@
     }
   },
   {
-    "__docId__": 155,
+    "__docId__": 160,
     "kind": "method",
     "name": "componentDidCatch",
     "memberof": "src/ui.js~ErrorBoundary",
@@ -2921,7 +3026,7 @@
     "return": null
   },
   {
-    "__docId__": 156,
+    "__docId__": 161,
     "kind": "method",
     "name": "render",
     "memberof": "src/ui.js~ErrorBoundary",
@@ -2941,7 +3046,7 @@
     }
   },
   {
-    "__docId__": 157,
+    "__docId__": 162,
     "kind": "function",
     "name": "Warning",
     "memberof": "src/ui.js",
@@ -3011,7 +3116,7 @@
     }
   },
   {
-    "__docId__": 158,
+    "__docId__": 163,
     "kind": "function",
     "name": "Task",
     "memberof": "src/ui.js",
@@ -3101,7 +3206,7 @@
     "return": null
   },
   {
-    "__docId__": 159,
+    "__docId__": 164,
     "kind": "function",
     "name": "TaskList",
     "memberof": "src/ui.js",
@@ -3195,7 +3300,7 @@
     }
   },
   {
-    "__docId__": 160,
+    "__docId__": 165,
     "kind": "class",
     "name": "UI",
     "memberof": "src/ui.js",
@@ -3214,7 +3319,7 @@
     ]
   },
   {
-    "__docId__": 161,
+    "__docId__": 166,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/ui.js~UI",
@@ -3228,7 +3333,7 @@
     "undocument": true
   },
   {
-    "__docId__": 162,
+    "__docId__": 167,
     "kind": "member",
     "name": "state",
     "memberof": "src/ui.js~UI",
@@ -3245,7 +3350,7 @@
     }
   },
   {
-    "__docId__": 165,
+    "__docId__": 170,
     "kind": "method",
     "name": "render",
     "memberof": "src/ui.js~UI",
@@ -3265,7 +3370,7 @@
     }
   },
   {
-    "__docId__": 166,
+    "__docId__": 171,
     "kind": "method",
     "name": "updateWarning",
     "memberof": "src/ui.js~UI",
@@ -3288,7 +3393,7 @@
     "return": null
   },
   {
-    "__docId__": 167,
+    "__docId__": 172,
     "kind": "method",
     "name": "updateTerms",
     "memberof": "src/ui.js~UI",
@@ -3315,7 +3420,7 @@
     "return": null
   },
   {
-    "__docId__": 168,
+    "__docId__": 173,
     "kind": "file",
     "name": "src/utils.js",
     "content": "/**\n * @file Utility functions for tomo\n * @author Jason Wohlgemuth\n * @module utils\n */\nimport {join} from 'path';\nimport execa from 'execa';\nimport Queue from 'p-queue';\nimport prettier from 'prettier';\nimport {first, merge} from 'lodash';\nimport {existsSync, pathExists} from 'fs-extra';\nimport memFs from 'mem-fs';\nimport editor from 'mem-fs-editor';\nimport {findBestMatch} from 'string-similarity';\n\nconst {assign} = Object;\nconst INDENT_SPACES = 4;\nconst PRETTIER_OPTIONS = {\n    bracketSpacing: false,\n    parser: 'json-stringify',\n    printWidth: 80,\n    tabWidth: 4,\n    quotes: true\n};\n/**\n * Check that at least one file or files exist\n * @param  {...string} args File or folder path(s)\n * @example\n * // some/folder/\n * //   ├─ foo.js\n * //   └── bar.js\n * const hasFoo = someDoExist('some/folder/foo.js');\n * const hasBaz = someDoExist('some/folder/baz.js');\n * const hasSomething = someDoExist('some/folder/bar.js', 'some/folder/baz.js');\n * console.log(hasFoo); // true\n * console.log(hasBaz); // false\n * console.log(hasSomething); // true\n * @return {boolean} Some files/path do exist (true) or all do not exist (false)\n */\nexport const someDoExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.some(Boolean);\n};\n/**\n * Check that all files do not exist\n * @example\n * // some/folder/\n * //   ├─ foo.js\n * //   └── bar.js\n * const noPackageJson = allDoNotExist('some/folder/package.json');\n * console.log(noPackageJson); // true\n * @param  {...string} args File or folder path(s)\n * @return {boolean} All files/paths do not exist (true) or some do (false)\n */\nexport const allDoNotExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.every(val => !val);\n};\n/**\n * Format input code using Prettier\n * @param {*} [code=''] Code to be formatted\n * @example <caption>Prettier options</caption>\n * {\n *     bracketSpacing: false,\n *     parser: 'json-stringify',\n *     printWidth: 80,\n *     tabWidth: 4,\n *     quotes: true\n * }\n * @return {string} Code formatted by Prettier\n */\nexport const format = (code = {}) => prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/\"/g, '');\n/**\n * Use string-similarity module to determine closest matching string\n * @param {Object} commands Object with commands as key values, terms as key values for each command object\n * @param {string} command Command string input\n * @param {string[]} [terms=[]] Terms input\n * @example\n * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);\n * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)\n */\nexport const getIntendedInput = (commands, command, terms = []) => {\n    const VALID_COMMANDS = Object.keys(commands);\n    const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);\n    const VALID_TERMS = Object.keys(commands[intendedCommand]);\n    const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);\n    return [intendedCommand, intendedTerms];\n};\n/**\n * Use npm CLI to return array of module versions\n * @param {string} name npm module name\n * @example\n * const versions = getVersions('react');\n * @return {string[]} Array of versions\n */\nexport const getVersions = async (name = '') => (name.length === 0) ? [] : (await execa('npm', ['view', name, 'versions']))\n    .stdout\n    .split(',\\n')\n    .map(str => str.match(/\\d+[.]\\d+[.]\\d+/))\n    .map(first);\n/**\n * Install dependencies with npm\n * @param {string[]} [dependencies=[]] Modules to install\n * @param {Object} options Options to configure installation\n * @param {boolean} [options.dev=false] If true, add \"--save-dev\"\n * @param {boolean} [options.latest=true] If true, add \"@latest\" to all module names\n * @param {boolean} [options.skipInstall=false] Do not install (mostly for testing)\n * @example <caption>Install production dependencies</caption>\n * install(['react']);\n * @example <caption>Install development dependencies</caption>\n * install(['jest', 'babel-jest'], {dev: true});\n * @return {string[]} Array of inputs (mostly for testing)\n */\nexport const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) => {\n    const {dev, latest, skipInstall} = options;\n    const identity = i => i;\n    const concat = val => str => str + val;\n    const args = ['install']\n        .concat(dependencies.map(latest ? concat('@latest') : identity))\n        .concat(dev ? '--save-dev' : []);\n    skipInstall || await execa('npm', args);\n    return args;\n};\n/**\n * Determine if system supports Rust (necessary Rust dependencies are installed)\n * @return {boolean} Are Rust components installed?\n */\nexport const verifyRustInstallation = () => {\n\n};\nconst silent = () => { };\n/**\n * Base class to serve as base for JSON and module builder classes\n */\nexport class BasicEditor {\n    constructor() {\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {fs, queue});\n    }\n    /**\n     *\n     * @param {string} destination Destination to copy file\n     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)\n     * @return {BasicEditor} Chaining OK\n     */\n    copy(destination, shouldCommit = true) {\n        const self = this;\n        const {fs, path, queue} = self;\n        const [filename] = path.split('/').reverse();\n        queue.add(() => fs.copy(path, join(destination, filename)));\n        shouldCommit && queue.add(() => self.commit()).catch(silent);\n        return self;\n    }\n    /**\n     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)\n     * @return {BasicEditor} Chaining OK\n     */\n    delete(shouldCommit = true) {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.delete(path));\n        shouldCommit && queue.add(() => self.commit()).catch(silent);\n        return self;\n    }\n    /**\n     * @return {Promise} Resolves when queue is empty\n     */\n    async done() {\n        return await this.queue.onEmpty();\n    }\n    async commit() {\n        const {fs} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await this.done();\n    }\n}\n/**\n * Create and edit a JSON file with a fluent API\n * @param {string} filename Name of file to edit\n * @param {object} [contents={}] Contents of file\n * @return {JsonEditor} JsonEditor class (extends {@link BasicEditor})\n */\nexport const createJsonEditor = (filename, contents = {}) => class JsonEditor extends BasicEditor {\n    contents = contents;\n    constructor(cwd = process.cwd()) {\n        super();\n        const path = join(cwd, filename);\n        assign(this, {path});\n    }\n    create(shouldCommit = true) {\n        const self = this;\n        const {contents, fs, path, queue} = self;\n        if (!existsSync(path)) {\n            queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));\n            shouldCommit && queue.add(() => self.commit()).catch(silent);\n        }\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.readJSON(path) || '';\n    }\n    extend(contents, shouldCommit = true) {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));\n        shouldCommit && queue.add(() => self.commit()).catch(silent);\n        return self;\n    }\n};\n/**\n * Create and edit a JS module with a fluent API\n * @param {string} filename Name of file to edit\n * @param {string} [contents='module.exports = {};'] Contents of file\n * @param {string} [prependedContents=''] Content prepended to top of file\n * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})\n */\nexport const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => class ModuleEditor extends BasicEditor {\n    contents = contents;\n    prependedContents = prependedContents;\n    created = false;\n    constructor(cwd = process.cwd()) {\n        super();\n        const path = join(cwd, filename);\n        assign(this, {path});\n    }\n    create(...args) {\n        const self = this;\n        const {contents, path} = self;\n        self.created || (existsSync(path) || self.write(contents, ...args));\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.exists(path) ? fs.read(path) : '';\n    }\n    write(content, shouldCommit = true) {\n        const self = this;\n        const {fs, path, prependedContents, queue} = self;\n        const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\\r*\\n$/g, ';');\n        queue\n            .add(() => fs.write(path, formatted))\n            .then(() => self.created = existsSync(path))\n            .catch(silent);\n        shouldCommit && queue.add(() => self.commit()).catch(silent);\n        return self;\n    }\n    extend(code, shouldCommit = true) {\n        this.contents = merge(contents, code);\n        this.write(this.contents, shouldCommit);\n        return this;\n    }\n    prepend(code, shouldCommit = true) {\n        const self = this;\n        const {contents, prependedContents, queue} = self;\n        self.prependedContents = `${code}\\n${prependedContents}`.replace(/\\n*$/, '\\n\\n');\n        self.write(contents, shouldCommit);\n        shouldCommit && queue.add(() => self.commit()).catch(silent);\n        return self;\n    }\n};\n/**\n * Class to create scaffolders when creating folders, and copying files/templates\n * @example\n * import {Scaffolder} from './utils';\n * const scaffolder = new Scaffolder();\n * await scaffolder\n *     .target('/path/to/copy/files')\n *     .copy('foo.js')\n *     .copy('bar.js')\n *     .commit();\n */\nexport class Scaffolder {\n    /**\n     *\n     * @param {Object} options Scaffolding options\n     * @param {string} options.sourceDirectory Source directory for template files\n     */\n    constructor(options = {sourceDirectory: join(__dirname, 'templates')}) {\n        const {sourceDirectory} = options;\n        const targetDirectory = './';\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {fs, queue, sourceDirectory, targetDirectory});\n    }\n    /**\n     * Set source directory\n     * @param {string} path Source directory of template files\n     * @returns {Scaffolder} Chaining OK\n     */\n    source(path) {\n        this.sourceDirectory = path;\n        return this;\n    }\n    /**\n     * Set target directory\n     * @param {string} path Target directory of template files\n     * @returns {Scaffolder} Chaining OK\n     */\n    target(path) {\n        this.targetDirectory = path;\n        return this;\n    }\n    /**\n     * Copy a file\n     * @param {string} path Path string of file to be copied\n     * @returns {Scaffolder} Chaining OK\n     */\n    copy(path) {\n        const self = this;\n        const {fs, queue, sourceDirectory, targetDirectory} = self;\n        const source = join(sourceDirectory, path);\n        const target = join(process.cwd(), targetDirectory, ...path.split('/'));\n        queue.add(() => fs.copy(source, target)).catch(silent);\n        return self;\n    }\n    /**\n     * Write changes to disk\n     * @return {Promise} Resolves when queue is empty\n     */\n    async commit() {\n        const {fs, queue} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await queue.onEmpty();\n    }\n}\n/**\n * Create and edit a Babel.js configuration file with a fluent API\n * @type {ModuleEditor}\n * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>\n * const cfg = new BabelConfigModuleEditor();\n * await cfg\n *     .create()\n *     .extend({\n *         presets: [`'@babel/preset-env'`]\n *     })\n *     .prepend(`const {existsSync} = require('fs-extra');`)\n *     .commit();\n */\nexport const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {\n    plugins: [\n        `'@babel/plugin-transform-runtime'`,\n        `'@babel/plugin-proposal-class-properties'`,\n        `'@babel/plugin-proposal-export-default-from'`,\n        `'@babel/plugin-proposal-optional-chaining'`\n    ],\n    presets: [`'@babel/preset-env'`]\n});\n/**\n * Create and edit an ESLint configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new EslintConfigModuleEditor();\n * await cfg.create().commit();\n */\nexport const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {\n    env: {\n        es6: true,\n        jest: true\n    },\n    extends: [\n        `'omaha-prime-grade'`\n    ],\n    parser: `'babel-eslint'`\n});\n/**\n * Create and edit a package.json manifest file with a fluent API\n * @type {JsonEditor}\n * @example <caption>Create a new package.json</caption>\n * const pkg = new PackageJsonEditor();\n * await pkg.create().commit();\n * @example <caption>Create a new package.json and read its contents (chaining OK)</caption>\n * const pkg = new PackageJsonEditor();\n * const contents = pkg.create().read();\n * @example <caption>Extend a package.json</caption>\n * await pkg.extend({\n *     script: {\n *         test: 'jest --coverage'\n *     }\n * }).commit();\n * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>\n * const script = {\n *     lint: 'eslint index.js -c ./.eslintrc.js'\n * };\n * await pkg\n *     .create(false)\n *     .extend({script}, false)\n *     .commit();\n */\nexport const PackageJsonEditor = createJsonEditor('package.json', {\n    name: 'my-project',\n    version: '0.0.0',\n    description: 'A super cool app/server/tool/library/widget/thingy',\n    license: 'MIT',\n    keywords: []\n});\n/**\n * Create and edit an PostCSS configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new PostcssConfigEditor();\n * await cfg.create().commit();\n */\nexport const PostcssConfigEditor = createModuleEditor('postcss.config.js', {\n    parser: `require('postcss-safe-parser')`,\n    processors: [\n        `require('stylelint')()`,\n        `require('postcss-import')()`,\n        `require('postcss-cssnext')()`,\n        `require('uncss').postcssPlugin({html: ['index.html']})`,\n        `require('cssnano')()`,\n        `require('postcss-reporter')({clearReportedMessages: true})`\n    ]\n});",
@@ -3326,7 +3431,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 169,
+    "__docId__": 174,
     "kind": "variable",
     "name": "assign",
     "memberof": "src/utils.js",
@@ -3347,7 +3452,7 @@
     "ignore": true
   },
   {
-    "__docId__": 170,
+    "__docId__": 175,
     "kind": "variable",
     "name": "INDENT_SPACES",
     "memberof": "src/utils.js",
@@ -3368,7 +3473,7 @@
     "ignore": true
   },
   {
-    "__docId__": 171,
+    "__docId__": 176,
     "kind": "variable",
     "name": "PRETTIER_OPTIONS",
     "memberof": "src/utils.js",
@@ -3389,7 +3494,7 @@
     "ignore": true
   },
   {
-    "__docId__": 172,
+    "__docId__": 177,
     "kind": "function",
     "name": "someDoExist",
     "memberof": "src/utils.js",
@@ -3428,7 +3533,7 @@
     }
   },
   {
-    "__docId__": 173,
+    "__docId__": 178,
     "kind": "function",
     "name": "allDoNotExist",
     "memberof": "src/utils.js",
@@ -3467,7 +3572,7 @@
     }
   },
   {
-    "__docId__": 174,
+    "__docId__": 179,
     "kind": "function",
     "name": "format",
     "memberof": "src/utils.js",
@@ -3508,7 +3613,7 @@
     }
   },
   {
-    "__docId__": 175,
+    "__docId__": 180,
     "kind": "function",
     "name": "getIntendedInput",
     "memberof": "src/utils.js",
@@ -3569,7 +3674,7 @@
     }
   },
   {
-    "__docId__": 176,
+    "__docId__": 181,
     "kind": "function",
     "name": "getVersions",
     "memberof": "src/utils.js",
@@ -3608,7 +3713,7 @@
     }
   },
   {
-    "__docId__": 177,
+    "__docId__": 182,
     "kind": "function",
     "name": "install",
     "memberof": "src/utils.js",
@@ -3696,7 +3801,7 @@
     }
   },
   {
-    "__docId__": 178,
+    "__docId__": 183,
     "kind": "function",
     "name": "verifyRustInstallation",
     "memberof": "src/utils.js",
@@ -3721,7 +3826,7 @@
     "params": []
   },
   {
-    "__docId__": 179,
+    "__docId__": 184,
     "kind": "function",
     "name": "silent",
     "memberof": "src/utils.js",
@@ -3741,7 +3846,7 @@
     "ignore": true
   },
   {
-    "__docId__": 180,
+    "__docId__": 185,
     "kind": "class",
     "name": "BasicEditor",
     "memberof": "src/utils.js",
@@ -3756,7 +3861,7 @@
     "interface": false
   },
   {
-    "__docId__": 181,
+    "__docId__": 186,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/utils.js~BasicEditor",
@@ -3770,7 +3875,7 @@
     "undocument": true
   },
   {
-    "__docId__": 182,
+    "__docId__": 187,
     "kind": "method",
     "name": "copy",
     "memberof": "src/utils.js~BasicEditor",
@@ -3813,7 +3918,7 @@
     }
   },
   {
-    "__docId__": 183,
+    "__docId__": 188,
     "kind": "method",
     "name": "delete",
     "memberof": "src/utils.js~BasicEditor",
@@ -3846,7 +3951,7 @@
     }
   },
   {
-    "__docId__": 184,
+    "__docId__": 189,
     "kind": "method",
     "name": "done",
     "memberof": "src/utils.js~BasicEditor",
@@ -3868,7 +3973,7 @@
     "params": []
   },
   {
-    "__docId__": 185,
+    "__docId__": 190,
     "kind": "method",
     "name": "commit",
     "memberof": "src/utils.js~BasicEditor",
@@ -3884,7 +3989,7 @@
     "return": null
   },
   {
-    "__docId__": 186,
+    "__docId__": 191,
     "kind": "function",
     "name": "createJsonEditor",
     "memberof": "src/utils.js",
@@ -3932,7 +4037,7 @@
     }
   },
   {
-    "__docId__": 187,
+    "__docId__": 192,
     "kind": "function",
     "name": "createModuleEditor",
     "memberof": "src/utils.js",
@@ -3990,7 +4095,7 @@
     }
   },
   {
-    "__docId__": 188,
+    "__docId__": 193,
     "kind": "class",
     "name": "Scaffolder",
     "memberof": "src/utils.js",
@@ -4008,7 +4113,7 @@
     "interface": false
   },
   {
-    "__docId__": 189,
+    "__docId__": 194,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/utils.js~Scaffolder",
@@ -4043,7 +4148,7 @@
     ]
   },
   {
-    "__docId__": 190,
+    "__docId__": 195,
     "kind": "method",
     "name": "source",
     "memberof": "src/utils.js~Scaffolder",
@@ -4082,7 +4187,7 @@
     }
   },
   {
-    "__docId__": 191,
+    "__docId__": 196,
     "kind": "member",
     "name": "sourceDirectory",
     "memberof": "src/utils.js~Scaffolder",
@@ -4099,7 +4204,7 @@
     }
   },
   {
-    "__docId__": 192,
+    "__docId__": 197,
     "kind": "method",
     "name": "target",
     "memberof": "src/utils.js~Scaffolder",
@@ -4138,7 +4243,7 @@
     }
   },
   {
-    "__docId__": 193,
+    "__docId__": 198,
     "kind": "member",
     "name": "targetDirectory",
     "memberof": "src/utils.js~Scaffolder",
@@ -4155,7 +4260,7 @@
     }
   },
   {
-    "__docId__": 194,
+    "__docId__": 199,
     "kind": "method",
     "name": "copy",
     "memberof": "src/utils.js~Scaffolder",
@@ -4194,7 +4299,7 @@
     }
   },
   {
-    "__docId__": 195,
+    "__docId__": 200,
     "kind": "method",
     "name": "commit",
     "memberof": "src/utils.js~Scaffolder",
@@ -4216,7 +4321,7 @@
     "params": []
   },
   {
-    "__docId__": 196,
+    "__docId__": 201,
     "kind": "variable",
     "name": "BabelConfigModuleEditor",
     "memberof": "src/utils.js",
@@ -4241,7 +4346,7 @@
     }
   },
   {
-    "__docId__": 197,
+    "__docId__": 202,
     "kind": "variable",
     "name": "EslintConfigModuleEditor",
     "memberof": "src/utils.js",
@@ -4266,7 +4371,7 @@
     }
   },
   {
-    "__docId__": 198,
+    "__docId__": 203,
     "kind": "variable",
     "name": "PackageJsonEditor",
     "memberof": "src/utils.js",
@@ -4294,7 +4399,7 @@
     }
   },
   {
-    "__docId__": 199,
+    "__docId__": 204,
     "kind": "variable",
     "name": "PostcssConfigEditor",
     "memberof": "src/utils.js",

@@ -12,7 +12,7 @@ var _common = require("./common");
 
 var _addBabel = _interopRequireDefault(require("./add-babel"));
 
-var _addJsdoc = _interopRequireDefault(require("./add-jsdoc"));
+var _addEsdoc = _interopRequireDefault(require("./add-esdoc"));
 
 var _addEslint = _interopRequireDefault(require("./add-eslint"));
 
@@ -93,7 +93,7 @@ const create = {
 const add = {
   a11y: addA11y,
   babel: _addBabel.default,
-  docs: _addJsdoc.default,
+  docs: _addEsdoc.default,
   eslint: [..._addBabel.default, ..._addEslint.default],
   jest: [..._addBabel.default, ..._addJest.default],
   postcss: _addPostcss.default,
