@@ -68,12 +68,13 @@ const MARIONETTE_DEPENDENCIES = [
     &apos;lodash&apos;,
     &apos;redux&apos;
 ];
-
 const ALWAYS = async () =&gt; true;
 const sourceDirectory = join(__dirname, &apos;templates&apos;);
 const scaffolder = new Scaffolder({sourceDirectory});
-
-export default [
+/**
+ * @ignore
+ */
+export const tasks = [
     {
         text: &apos;Add Marionette.js Webapp boilerplate&apos;,
         task: async ({sourceDirectory}) =&gt; {
@@ -118,7 +119,8 @@ export default [
         task: ({skipInstall}) =&gt; install(MARIONETTE_DEPENDENCIES, {skipInstall}),
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
     }
-];</code></pre>
+];
+export default tasks;</code></pre>
 
 </div>
 

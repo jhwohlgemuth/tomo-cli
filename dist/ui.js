@@ -79,13 +79,6 @@ const SubCommandSelect = ({
   itemComponent: Item,
   indicatorComponent: Indicator
 }));
-/**
- * @private
- * @function UnderConstruction
- * @constructor
- * @description Component to display "under construction" warning for capabilities not yet implemented.
- */
-
 
 const UnderConstruction = () => _react.default.createElement(_ink.Box, {
   marginBottom: 1
@@ -102,16 +95,6 @@ const UnderConstruction = () => _react.default.createElement(_ink.Box, {
   bold: true,
   yellow: true
 }, "UNDER CONSTRUCTION")));
-/**
- * @private
- * @function ErrorMessage
- * @constructor
- * @description Used by ErrorBoundary component to display error message and data
- * @property {Object} props
- * @property {string} props.info Error details
- * @return {string} HTML markup for ErrorMessage component
- */
-
 
 const ErrorMessage = ({
   info
@@ -140,14 +123,6 @@ const ErrorMessage = ({
 }, _react.default.createElement(_ink.Color, {
   dim: true
 }, _react.default.createElement(_ink.Box, null, info))));
-/**
- * @private
- * @function ErrorBoundary
- * @constructor
- * @extends React.Component
- * @description Error boundary used around UI component
- */
-
 
 class ErrorBoundary extends _react.default.Component {
   constructor(props) {
@@ -187,11 +162,11 @@ class ErrorBoundary extends _react.default.Component {
 
 }
 /**
- * @function Warning
- * @constructor
- * @description Component to display warning message requiring user input
- * @property {Object} props
- * @property {function} props.callback Function to be called after user interacts with warning
+ * Component to display warning message requiring user input
+ * @param {Object} props Function component props
+ * @param {ReactNode} props.children Function component children
+ * @param {function} props.callback Function to be called after user interacts with warning
+ * @return {ReactComponent} Warning component
  */
 
 
@@ -240,15 +215,14 @@ const Warning = ({
   }, " to continue")));
 };
 /**
- * @function Task
- * @constructor
- * @description Task component
- * @property {Object} props
- * @property {boolean} props.isComplete Control display of check (true) or loading (false)
- * @property {boolean} props.isSkipped Control color of check - green (false) or dim (true)
- * @property {string} props.text Task text
+ * Task component
+ * @param {Object} props Function component props
+ * @param {boolean} props.isComplete Control display of check (true) or loading (false)
+ * @param {boolean} props.isSkipped Control color of check - green (false) or dim (true)
+ * @param {string} props.text Task text
  * @example
  * <Task text={'This task is done before it starts'} isComplete={true}></Task>
+ * @return {ReactComponent} Task component
  */
 
 
@@ -269,15 +243,14 @@ const Task = ({
   dim: isComplete
 }, text)));
 /**
- * @function TaskList
- * @constructor
- * @description Task list component
- * @property {Object} props
- * @property {string} props.command Command - new | create | add
- * @property {Object} props.options Command line flags (see help)
- * @property {string[]} props.terms Terms - eslint | babel | jest | postcss | docs
+ * Task list component
+ * @param {Object} props Function component props
+ * @param {string} props.command Command - new | create | add
+ * @param {Object} props.options Command line flags (see help)
+ * @param {string[]} props.terms Terms - eslint | babel | jest | postcss | docs
  * @example
  * <TaskList command={'add'} terms={'eslint'} options={{skipInstall: true}}></TaskList>
+ * @return {ReactComponent} Task list component
  */
 
 
@@ -413,6 +386,10 @@ const TaskList = ({
     });
   })));
 };
+/**
+ * Main tomo UI class
+ */
+
 
 exports.TaskList = TaskList;
 
@@ -474,6 +451,12 @@ class UI extends _react.Component {
       onSelect: this.updateTerms
     }) : _react.default.createElement(UnderConstruction, null));
   }
+  /**
+   * Callback function for warning component
+   * @param {string} data Character data from stdin
+   * @return {undefined} Returns nothing
+   */
+
 
   updateWarning(data) {
     const key = String(data);
@@ -481,6 +464,12 @@ class UI extends _react.Component {
       showWarning: false
     }) : process.exit(0);
   }
+  /**
+   * @param {Object} args Function options
+   * @param {string} args.value Intended term
+   * @return {undefined} Returns nothing
+   */
+
 
   updateTerms({
     value

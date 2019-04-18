@@ -11,8 +11,8 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _utils = require("../utils");
 
-const pkg = new _utils.PackageJsonEditor();
 const JEST_DEPENDENCIES = ['jest', 'babel-jest'];
+const pkg = new _utils.PackageJsonEditor();
 /**
  * @ignore
  */

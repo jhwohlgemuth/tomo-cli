@@ -61,9 +61,6 @@
     someDoExist
 } from &apos;../utils&apos;;
 
-const pkg = new PackageJsonEditor();
-const cfg = new PostcssConfigEditor();
-
 const POSTCSS_DEPENDENCIES = [
     &apos;cssnano&apos;,
     &apos;postcss-cli&apos;,
@@ -74,6 +71,8 @@ const POSTCSS_DEPENDENCIES = [
     &apos;stylelint&apos;,
     &apos;uncss&apos;
 ];
+const pkg = new PackageJsonEditor();
+const cfg = new PostcssConfigEditor();
 /**
  * @ignore
  */

@@ -30,26 +30,11 @@ const SubCommandSelect = ({items, onSelect}) => <Box paddingTop={1} paddingBotto
         indicatorComponent={Indicator}
     ></SelectInput>
 </Box>;
-/**
- * @private
- * @function UnderConstruction
- * @constructor
- * @description Component to display "under construction" warning for capabilities not yet implemented.
- */
 const UnderConstruction = () => <Box marginBottom={1}>
     <InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}>
         <Color bold yellow>UNDER CONSTRUCTION</Color>
     </InkBox>
 </Box>;
-/**
- * @private
- * @function ErrorMessage
- * @constructor
- * @description Used by ErrorBoundary component to display error message and data
- * @property {Object} props
- * @property {string} props.info Error details
- * @return {string} HTML markup for ErrorMessage component
- */
 const ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>
     <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>
         <Color yellow>(╯°□ °)╯ ┻━┻ arrrgh...</Color>
@@ -61,13 +46,6 @@ const ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>
         <Color dim><Box>{info}</Box></Color>
     </Box>
 </Box>;
-/**
- * @private
- * @function ErrorBoundary
- * @constructor
- * @extends React.Component
- * @description Error boundary used around UI component
- */
 class ErrorBoundary extends React.Component {
     constructor(props) {
         super(props);
@@ -90,11 +68,11 @@ class ErrorBoundary extends React.Component {
     }
 }
 /**
- * @function Warning
- * @constructor
- * @description Component to display warning message requiring user input
- * @property {Object} props
- * @property {function} props.callback Function to be called after user interacts with warning
+ * Component to display warning message requiring user input
+ * @param {Object} props Function component props
+ * @param {ReactNode} props.children Function component children
+ * @param {function} props.callback Function to be called after user interacts with warning
+ * @return {ReactComponent} Warning component
  */
 export const Warning = ({callback, children}) => {
     const {setRawMode, stdin} = useContext(StdinContext);
@@ -119,15 +97,14 @@ export const Warning = ({callback, children}) => {
     </Box>;
 };
 /**
- * @function Task
- * @constructor
- * @description Task component
- * @property {Object} props
- * @property {boolean} props.isComplete Control display of check (true) or loading (false)
- * @property {boolean} props.isSkipped Control color of check - green (false) or dim (true)
- * @property {string} props.text Task text
+ * Task component
+ * @param {Object} props Function component props
+ * @param {boolean} props.isComplete Control display of check (true) or loading (false)
+ * @param {boolean} props.isSkipped Control color of check - green (false) or dim (true)
+ * @param {string} props.text Task text
  * @example
  * <Task text={'This task is done before it starts'} isComplete={true}></Task>
+ * @return {ReactComponent} Task component
  */
 export const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' marginLeft={3}>
     {isComplete ?
@@ -136,15 +113,14 @@ export const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' 
     } <Text><Color dim={isComplete}>{text}</Color></Text>
 </Box>;
 /**
- * @function TaskList
- * @constructor
- * @description Task list component
- * @property {Object} props
- * @property {string} props.command Command - new | create | add
- * @property {Object} props.options Command line flags (see help)
- * @property {string[]} props.terms Terms - eslint | babel | jest | postcss | docs
+ * Task list component
+ * @param {Object} props Function component props
+ * @param {string} props.command Command - new | create | add
+ * @param {Object} props.options Command line flags (see help)
+ * @param {string[]} props.terms Terms - eslint | babel | jest | postcss | docs
  * @example
  * <TaskList command={'add'} terms={'eslint'} options={{skipInstall: true}}></TaskList>
+ * @return {ReactComponent} Task list component
  */
 export const TaskList = ({command, options, terms}) => {
     const reducer = (state, {type, payload}) => {
@@ -218,6 +194,9 @@ export const TaskList = ({command, options, terms}) => {
         </Box>
     </Box>;
 };
+/**
+ * Main tomo UI class
+ */
 class UI extends Component {
     constructor(props) {
         super(props);
@@ -257,10 +236,20 @@ class UI extends Component {
             }
         </ErrorBoundary>;
     }
+    /**
+     * Callback function for warning component
+     * @param {string} data Character data from stdin
+     * @return {undefined} Returns nothing
+     */
     updateWarning(data) {
         const key = String(data);
         (key === '\r') ? this.setState({showWarning: false}) : process.exit(0);
     }
+    /**
+     * @param {Object} args Function options
+     * @param {string} args.value Intended term
+     * @return {undefined} Returns nothing
+     */
     updateTerms({value}) {
         this.setState({
             hasTerms: true,

@@ -71,13 +71,14 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span><span class="code" data-ice="signature">(objectPattern: {&quot;isComplete&quot;: <span>*</span>, &quot;isSkipped&quot;: <span>*</span>, &quot;text&quot;: <span>*</span>})</span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span><span class="code" data-ice="signature">(props: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span>ReactComponent</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Task component</p>
+</div>
       </div>
     </td>
     <td>
@@ -99,13 +100,14 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span><span class="code" data-ice="signature">(objectPattern: {&quot;command&quot;: <span>*</span>, &quot;options&quot;: <span>*</span>, &quot;terms&quot;: <span>*</span>}): <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span><span class="code" data-ice="signature">(props: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span>ReactComponent</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Task list component</p>
+</div>
       </div>
     </td>
     <td>
@@ -127,13 +129,14 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span><span class="code" data-ice="signature">(objectPattern: {&quot;callback&quot;: <span>*</span>, &quot;children&quot;: <span>*</span>}): <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span><span class="code" data-ice="signature">(props: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span>ReactComponent</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Component to display warning message requiring user input</p>
+</div>
       </div>
     </td>
     <td>
@@ -415,18 +418,19 @@
     
     
     
-    <span class="code" data-ice="name">Task</span><span class="code" data-ice="signature">(objectPattern: {&quot;isComplete&quot;: <span>*</span>, &quot;isSkipped&quot;: <span>*</span>, &quot;text&quot;: <span>*</span>})</span>
+    <span class="code" data-ice="name">Task</span><span class="code" data-ice="signature">(props: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span>ReactComponent</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber132">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber109">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Task} from &apos;<span><a href="file/src/ui.js.html#lineNumber132">tomo-cli/src/ui.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Task} from &apos;<span><a href="file/src/ui.js.html#lineNumber109">tomo-cli/src/ui.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>Task component</p>
+</div>
 
   
 
@@ -439,17 +443,52 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">objectPattern</td>
-      <td data-ice="type" class="code">{&quot;isComplete&quot;: <span>*</span>, &quot;isSkipped&quot;: <span>*</span>, &quot;text&quot;: <span>*</span>}</td>
-      <td data-ice="appendix"><ul><li>default: {&quot;isComplete&quot;:null,&quot;isSkipped&quot;:null,&quot;text&quot;:null}</li></ul></td>
-      <td data-ice="description"></td>
+      <td data-ice="name" class="code" data-depth="0">props</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Function component props</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">props.isComplete</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Control display of check (true) or loading (false)</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">props.isSkipped</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Control color of check - green (false) or dim (true)</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">props.text</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Task text</p>
+</td>
     </tr>
 </tbody>
   </table>
 </div>
 </div>
 
-  
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>ReactComponent</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Task component</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
 
   
 
@@ -481,18 +520,19 @@
     
     
     
-    <span class="code" data-ice="name">TaskList</span><span class="code" data-ice="signature">(objectPattern: {&quot;command&quot;: <span>*</span>, &quot;options&quot;: <span>*</span>, &quot;terms&quot;: <span>*</span>}): <span>*</span></span>
+    <span class="code" data-ice="name">TaskList</span><span class="code" data-ice="signature">(props: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span>ReactComponent</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber149">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber125">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {TaskList} from &apos;<span><a href="file/src/ui.js.html#lineNumber149">tomo-cli/src/ui.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {TaskList} from &apos;<span><a href="file/src/ui.js.html#lineNumber125">tomo-cli/src/ui.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>Task list component</p>
+</div>
 
   
 
@@ -505,39 +545,11 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">objectPattern</td>
-      <td data-ice="type" class="code">{&quot;command&quot;: <span>*</span>, &quot;options&quot;: <span>*</span>, &quot;terms&quot;: <span>*</span>}</td>
-      <td data-ice="appendix"><ul><li>default: {&quot;command&quot;:null,&quot;options&quot;:null,&quot;terms&quot;:null}</li></ul></td>
-      <td data-ice="description"></td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties"><div data-ice="properties">
-  <h4 data-ice="title">Return Properties:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">props</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
+      <td data-ice="description"><p>Function component props</p>
+</td>
     </tr>
 <tr data-ice="property" data-depth="1">
       <td data-ice="name" class="code" data-depth="1">props.command</td>
@@ -563,6 +575,20 @@
 </tbody>
   </table>
 </div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>ReactComponent</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Task list component</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
 </div>
   </div>
 
@@ -596,18 +622,19 @@
     
     
     
-    <span class="code" data-ice="name">Warning</span><span class="code" data-ice="signature">(objectPattern: {&quot;callback&quot;: <span>*</span>, &quot;children&quot;: <span>*</span>}): <span>*</span></span>
+    <span class="code" data-ice="name">Warning</span><span class="code" data-ice="signature">(props: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span>ReactComponent</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber99">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber77">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Warning} from &apos;<span><a href="file/src/ui.js.html#lineNumber99">tomo-cli/src/ui.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Warning} from &apos;<span><a href="file/src/ui.js.html#lineNumber77">tomo-cli/src/ui.js</a></span>&apos;</code></pre></div>
   
   
-  
+  <div data-ice="description"><p>Component to display warning message requiring user input</p>
+</div>
 
   
 
@@ -620,39 +647,18 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">objectPattern</td>
-      <td data-ice="type" class="code">{&quot;callback&quot;: <span>*</span>, &quot;children&quot;: <span>*</span>}</td>
-      <td data-ice="appendix"><ul><li>default: {&quot;callback&quot;:null,&quot;children&quot;:null}</li></ul></td>
-      <td data-ice="description"></td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span>*</span></td>
-          
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties"><div data-ice="properties">
-  <h4 data-ice="title">Return Properties:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">props</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
+      <td data-ice="description"><p>Function component props</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">props.children</td>
+      <td data-ice="type" class="code"><span>ReactNode</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Function component children</p>
+</td>
     </tr>
 <tr data-ice="property" data-depth="1">
       <td data-ice="name" class="code" data-depth="1">props.callback</td>
@@ -664,6 +670,20 @@
 </tbody>
   </table>
 </div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>ReactComponent</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Warning component</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
 </div>
   </div>
 

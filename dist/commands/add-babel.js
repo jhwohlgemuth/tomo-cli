@@ -11,11 +11,11 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _utils = require("../utils");
 
-const cfg = new _utils.BabelConfigModuleEditor();
 const BABEL_DEPENDENCIES = ['@babel/cli', '@babel/core', '@babel/runtime'];
 const BABEL_PRESETS = ['@babel/preset-env'];
 const BABEL_PLUGINS = ['@babel/plugin-transform-runtime', '@babel/plugin-proposal-class-properties', '@babel/plugin-proposal-export-default-from', '@babel/plugin-proposal-optional-chaining'];
 const BABEL_REACT_PRESET = ['@babel/preset-react'];
+const cfg = new _utils.BabelConfigModuleEditor();
 /**
  * @ignore
  */

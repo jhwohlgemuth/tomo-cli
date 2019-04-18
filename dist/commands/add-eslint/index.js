@@ -13,10 +13,10 @@ var _path = require("path");
 
 var _utils = require("../../utils");
 
-const pkg = new _utils.PackageJsonEditor();
-const cfg = new _utils.EslintConfigModuleEditor();
 const ESLINT_DEPENDENCIES = ['eslint', 'babel-eslint', 'eslint-config-omaha-prime-grade', 'watch'];
 const ESLINT_REACT_PLUGINS = ['eslint-plugin-react'];
+const pkg = new _utils.PackageJsonEditor();
+const cfg = new _utils.EslintConfigModuleEditor();
 const sourceDirectory = (0, _path.join)(__dirname, 'templates');
 const scaffolder = new _utils.Scaffolder({
   sourceDirectory
