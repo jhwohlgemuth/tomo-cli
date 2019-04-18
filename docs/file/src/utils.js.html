@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/utils.js | tomo-cli</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A friendly command line tool designed to help create sustainable software using web technology"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="tomo-cli"><meta property="twitter:description" content="A friendly command line tool designed to help create sustainable software using web technology"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/jhwohlgemuth/tomo-cli"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~Scaffolder.html">Scaffolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PackageJsonEditor">PackageJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/utils.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * @file Utility functions for tomo
+ * @author Jason Wohlgemuth
+ * @module utils
+ */
+import {join} from &apos;path&apos;;
+import execa from &apos;execa&apos;;
+import Queue from &apos;p-queue&apos;;
+import prettier from &apos;prettier&apos;;
+import {first, merge} from &apos;lodash&apos;;
+import {existsSync, pathExists} from &apos;fs-extra&apos;;
+import memFs from &apos;mem-fs&apos;;
+import editor from &apos;mem-fs-editor&apos;;
+import {findBestMatch} from &apos;string-similarity&apos;;
+
+const {assign} = Object;
+const INDENT_SPACES = 4;
+const PRETTIER_OPTIONS = {
+    bracketSpacing: false,
+    parser: &apos;json-stringify&apos;,
+    printWidth: 80,
+    tabWidth: 4,
+    quotes: true
+};
+/**
+ * Check that at least one file or files exist
+ * @param  {...string} args File or folder path(s)
+ * @example
+ * // some/folder/
+ * //   &#x251C;&#x2500; foo.js
+ * //   &#x2514;&#x2500;&#x2500; bar.js
+ * const hasFoo = someDoExist(&apos;some/folder/foo.js&apos;);
+ * const hasBaz = someDoExist(&apos;some/folder/baz.js&apos;);
+ * const hasSomething = someDoExist(&apos;some/folder/bar.js&apos;, &apos;some/folder/baz.js&apos;);
+ * console.log(hasFoo); // true
+ * console.log(hasBaz); // false
+ * console.log(hasSomething); // true
+ * @return {boolean} Some files/path do exist (true) or all do not exist (false)
+ */
+export const someDoExist = async (...args) =&gt; {
+    const checks = await Promise.all(args.map(val =&gt; pathExists(join(process.cwd(), val))));
+    return checks.some(Boolean);
+};
+/**
+ * Check that all files do not exist
+ * @example
+ * // some/folder/
+ * //   &#x251C;&#x2500; foo.js
+ * //   &#x2514;&#x2500;&#x2500; bar.js
+ * const noPackageJson = allDoNotExist(&apos;some/folder/package.json&apos;);
+ * console.log(noPackageJson); // true
+ * @param  {...string} args File or folder path(s)
+ * @return {boolean} All files/paths do not exist (true) or some do (false)
+ */
+export const allDoNotExist = async (...args) =&gt; {
+    const checks = await Promise.all(args.map(val =&gt; pathExists(join(process.cwd(), val))));
+    return checks.every(val =&gt; !val);
+};
+/**
+ * Format input code using Prettier
+ * @param {*} [code=&apos;&apos;] Code to be formatted
+ * @example &lt;caption&gt;Prettier options&lt;/caption&gt;
+ * {
+ *     bracketSpacing: false,
+ *     parser: &apos;json-stringify&apos;,
+ *     printWidth: 80,
+ *     tabWidth: 4,
+ *     quotes: true
+ * }
+ * @return {string} Code formatted by Prettier
+ */
+export const format = (code = {}) =&gt; prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/&quot;/g, &apos;&apos;);
+/**
+ * Use string-similarity module to determine closest matching string
+ * @param {Object} commands Object with commands as key values, terms as key values for each command object
+ * @param {string} command Command string input
+ * @param {string[]} [terms=[]] Terms input
+ * @example
+ * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);
+ * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)
+ */
+export const getIntendedInput = (commands, command, terms = []) =&gt; {
+    const VALID_COMMANDS = Object.keys(commands);
+    const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);
+    const VALID_TERMS = Object.keys(commands[intendedCommand]);
+    const intendedTerms = terms.map(term =&gt; findBestMatch(term, VALID_TERMS).bestMatch.target);
+    return [intendedCommand, intendedTerms];
+};
+/**
+ * Use npm CLI to return array of module versions
+ * @param {string} name npm module name
+ * @example
+ * const versions = getVersions(&apos;react&apos;);
+ * @return {string[]} Array of versions
+ */
+export const getVersions = async (name = &apos;&apos;) =&gt; (name.length === 0) ? [] : (await execa(&apos;npm&apos;, [&apos;view&apos;, name, &apos;versions&apos;]))
+    .stdout
+    .split(&apos;,\n&apos;)
+    .map(str =&gt; str.match(/\d+[.]\d+[.]\d+/))
+    .map(first);
+/**
+ * Install dependencies with npm
+ * @param {string[]} [dependencies=[]] Modules to install
+ * @param {Object} options Options to configure installation
+ * @param {boolean} [options.dev=false] If true, add &quot;--save-dev&quot;
+ * @param {boolean} [options.latest=true] If true, add &quot;@latest&quot; to all module names
+ * @param {boolean} [options.skipInstall=false] Do not install (mostly for testing)
+ * @example &lt;caption&gt;Install production dependencies&lt;/caption&gt;
+ * install([&apos;react&apos;]);
+ * @example &lt;caption&gt;Install development dependencies&lt;/caption&gt;
+ * install([&apos;jest&apos;, &apos;babel-jest&apos;], {dev: true});
+ * @return {string[]} Array of inputs (mostly for testing)
+ */
+export const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) =&gt; {
+    const {dev, latest, skipInstall} = options;
+    const identity = i =&gt; i;
+    const concat = val =&gt; str =&gt; str + val;
+    const args = [&apos;install&apos;]
+        .concat(dependencies.map(latest ? concat(&apos;@latest&apos;) : identity))
+        .concat(dev ? &apos;--save-dev&apos; : []);
+    skipInstall || await execa(&apos;npm&apos;, args);
+    return args;
+};
+/**
+ * Determine if system supports Rust (necessary Rust dependencies are installed)
+ * @return {boolean} Are Rust components installed?
+ */
+export const verifyRustInstallation = () =&gt; {
+
+};
+const silent = () =&gt; { };
+/**
+ * Base class to serve as base for JSON and module builder classes
+ */
+export class BasicEditor {
+    constructor() {
+        const fs = editor.create(memFs.create());
+        const queue = new Queue({concurrency: 1});
+        assign(this, {fs, queue});
+    }
+    /**
+     *
+     * @param {string} destination Destination to copy file
+     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
+     * @return {BasicEditor} Chaining OK
+     */
+    copy(destination, shouldCommit = true) {
+        const self = this;
+        const {fs, path, queue} = self;
+        const [filename] = path.split(&apos;/&apos;).reverse();
+        queue.add(() =&gt; fs.copy(path, join(destination, filename)));
+        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
+        return self;
+    }
+    /**
+     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
+     * @return {BasicEditor} Chaining OK
+     */
+    delete(shouldCommit = true) {
+        const self = this;
+        const {fs, path, queue} = self;
+        queue.add(() =&gt; fs.delete(path));
+        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
+        return self;
+    }
+    /**
+     * @return {Promise} Resolves when queue is empty
+     */
+    async done() {
+        return await this.queue.onEmpty();
+    }
+    async commit() {
+        const {fs} = this;
+        await new Promise(resolve =&gt; fs.commit(resolve));
+        await this.done();
+    }
+}
+/**
+ * Create and edit a JSON file with a fluent API
+ * @param {string} filename Name of file to edit
+ * @param {object} [contents={}] Contents of file
+ * @return {JsonEditor} JsonEditor class (extends {@link BasicEditor})
+ */
+export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor extends BasicEditor {
+    contents = contents;
+    constructor(cwd = process.cwd()) {
+        super();
+        const path = join(cwd, filename);
+        assign(this, {path});
+    }
+    create(shouldCommit = true) {
+        const self = this;
+        const {contents, fs, path, queue} = self;
+        if (!existsSync(path)) {
+            queue.add(() =&gt; fs.writeJSON(path, contents, null, INDENT_SPACES));
+            shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
+        }
+        return self;
+    }
+    read() {
+        const {fs, path} = this;
+        return fs.readJSON(path) || &apos;&apos;;
+    }
+    extend(contents, shouldCommit = true) {
+        const self = this;
+        const {fs, path, queue} = self;
+        queue.add(() =&gt; fs.extendJSON(path, contents, null, INDENT_SPACES));
+        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
+        return self;
+    }
+};
+/**
+ * Create and edit a JS module with a fluent API
+ * @param {string} filename Name of file to edit
+ * @param {string} [contents=&apos;module.exports = {};&apos;] Contents of file
+ * @param {string} [prependedContents=&apos;&apos;] Content prepended to top of file
+ * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})
+ */
+export const createModuleEditor = (filename, contents = &apos;module.exports = {};&apos;, prependedContents = &apos;&apos;) =&gt; class ModuleEditor extends BasicEditor {
+    contents = contents;
+    prependedContents = prependedContents;
+    created = false;
+    constructor(cwd = process.cwd()) {
+        super();
+        const path = join(cwd, filename);
+        assign(this, {path});
+    }
+    create(...args) {
+        const self = this;
+        const {contents, path} = self;
+        self.created || (existsSync(path) || self.write(contents, ...args));
+        return self;
+    }
+    read() {
+        const {fs, path} = this;
+        return fs.exists(path) ? fs.read(path) : &apos;&apos;;
+    }
+    write(content, shouldCommit = true) {
+        const self = this;
+        const {fs, path, prependedContents, queue} = self;
+        const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, &apos;;&apos;);
+        queue
+            .add(() =&gt; fs.write(path, formatted))
+            .then(() =&gt; self.created = existsSync(path))
+            .catch(silent);
+        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
+        return self;
+    }
+    extend(code, shouldCommit = true) {
+        this.contents = merge(contents, code);
+        this.write(this.contents, shouldCommit);
+        return this;
+    }
+    prepend(code, shouldCommit = true) {
+        const self = this;
+        const {contents, prependedContents, queue} = self;
+        self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, &apos;\n\n&apos;);
+        self.write(contents, shouldCommit);
+        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
+        return self;
+    }
+};
+/**
+ * Class to create scaffolders when creating folders, and copying files/templates
+ * @example
+ * import {Scaffolder} from &apos;./utils&apos;;
+ * const scaffolder = new Scaffolder();
+ * await scaffolder
+ *     .target(&apos;/path/to/copy/files&apos;)
+ *     .copy(&apos;foo.js&apos;)
+ *     .copy(&apos;bar.js&apos;)
+ *     .commit();
+ */
+export class Scaffolder {
+    /**
+     *
+     * @param {Object} options Scaffolding options
+     * @param {string} options.sourceDirectory Source directory for template files
+     */
+    constructor(options = {sourceDirectory: join(__dirname, &apos;templates&apos;)}) {
+        const {sourceDirectory} = options;
+        const targetDirectory = &apos;./&apos;;
+        const fs = editor.create(memFs.create());
+        const queue = new Queue({concurrency: 1});
+        assign(this, {fs, queue, sourceDirectory, targetDirectory});
+    }
+    /**
+     * Set source directory
+     * @param {string} path Source directory of template files
+     * @returns {Scaffolder} Chaining OK
+     */
+    source(path) {
+        this.sourceDirectory = path;
+        return this;
+    }
+    /**
+     * Set target directory
+     * @param {string} path Target directory of template files
+     * @returns {Scaffolder} Chaining OK
+     */
+    target(path) {
+        this.targetDirectory = path;
+        return this;
+    }
+    /**
+     * Copy a file
+     * @param {string} path Path string of file to be copied
+     * @returns {Scaffolder} Chaining OK
+     */
+    copy(path) {
+        const self = this;
+        const {fs, queue, sourceDirectory, targetDirectory} = self;
+        const source = join(sourceDirectory, path);
+        const target = join(process.cwd(), targetDirectory, ...path.split(&apos;/&apos;));
+        queue.add(() =&gt; fs.copy(source, target)).catch(silent);
+        return self;
+    }
+    /**
+     * Write changes to disk
+     * @return {Promise} Resolves when queue is empty
+     */
+    async commit() {
+        const {fs, queue} = this;
+        await new Promise(resolve =&gt; fs.commit(resolve));
+        await queue.onEmpty();
+    }
+}
+/**
+ * Create and edit a Babel.js configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example &lt;caption&gt;Extend module.exports content and prepend text to the top of the file&lt;/caption&gt;
+ * const cfg = new BabelConfigModuleEditor();
+ * await cfg
+ *     .create()
+ *     .extend({
+ *         presets: [`&apos;@babel/preset-env&apos;`]
+ *     })
+ *     .prepend(`const {existsSync} = require(&apos;fs-extra&apos;);`)
+ *     .commit();
+ */
+export const BabelConfigModuleEditor = createModuleEditor(&apos;babel.config.js&apos;, {
+    plugins: [
+        `&apos;@babel/plugin-transform-runtime&apos;`,
+        `&apos;@babel/plugin-proposal-class-properties&apos;`,
+        `&apos;@babel/plugin-proposal-export-default-from&apos;`,
+        `&apos;@babel/plugin-proposal-optional-chaining&apos;`
+    ],
+    presets: [`&apos;@babel/preset-env&apos;`]
+});
+/**
+ * Create and edit an ESLint configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example
+ * const cfg = new EslintConfigModuleEditor();
+ * await cfg.create().commit();
+ */
+export const EslintConfigModuleEditor = createModuleEditor(&apos;.eslintrc.js&apos;, {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        `&apos;omaha-prime-grade&apos;`
+    ],
+    parser: `&apos;babel-eslint&apos;`
+});
+/**
+ * Create and edit a package.json manifest file with a fluent API
+ * @type {JsonEditor}
+ * @example &lt;caption&gt;Create a new package.json&lt;/caption&gt;
+ * const pkg = new PackageJsonEditor();
+ * await pkg.create().commit();
+ * @example &lt;caption&gt;Create a new package.json and read its contents (chaining OK)&lt;/caption&gt;
+ * const pkg = new PackageJsonEditor();
+ * const contents = pkg.create().read();
+ * @example &lt;caption&gt;Extend a package.json&lt;/caption&gt;
+ * await pkg.extend({
+ *     script: {
+ *         test: &apos;jest --coverage&apos;
+ *     }
+ * }).commit();
+ * @example &lt;caption&gt;Create and extend a package.json without writing to disk (chaining OK)&lt;/caption&gt;
+ * const script = {
+ *     lint: &apos;eslint index.js -c ./.eslintrc.js&apos;
+ * };
+ * await pkg
+ *     .create(false)
+ *     .extend({script}, false)
+ *     .commit();
+ */
+export const PackageJsonEditor = createJsonEditor(&apos;package.json&apos;, {
+    name: &apos;my-project&apos;,
+    version: &apos;0.0.0&apos;,
+    description: &apos;A super cool app/server/tool/library/widget/thingy&apos;,
+    license: &apos;MIT&apos;,
+    keywords: []
+});
+/**
+ * Create and edit an PostCSS configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example
+ * const cfg = new PostcssConfigEditor();
+ * await cfg.create().commit();
+ */
+export const PostcssConfigEditor = createModuleEditor(&apos;postcss.config.js&apos;, {
+    parser: `require(&apos;postcss-safe-parser&apos;)`,
+    processors: [
+        `require(&apos;stylelint&apos;)()`,
+        `require(&apos;postcss-import&apos;)()`,
+        `require(&apos;postcss-cssnext&apos;)()`,
+        `require(&apos;uncss&apos;).postcssPlugin({html: [&apos;index.html&apos;]})`,
+        `require(&apos;cssnano&apos;)()`,
+        `require(&apos;postcss-reporter&apos;)({clearReportedMessages: true})`
+    ]
+});</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

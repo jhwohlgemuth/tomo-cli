@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/ui.js | tomo-cli</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A friendly command line tool designed to help create sustainable software using web technology"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="tomo-cli"><meta property="twitter:description" content="A friendly command line tool designed to help create sustainable software using web technology"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/jhwohlgemuth/tomo-cli"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~Scaffolder.html">Scaffolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PackageJsonEditor">PackageJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/ui.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * @file UI Components
+ * @author Jason Wohlgemuth
+ * @module ui
+ * @requires module:utils
+ * @requires module:commands
+ */
+import React, {useContext, useEffect, useReducer, Component} from &apos;react&apos;;
+import PropTypes from &apos;prop-types&apos;;
+import {isFunction, isString, isUndefined} from &apos;lodash&apos;;
+import Queue from &apos;p-queue&apos;;
+import {Box, Color, Text, StdinContext} from &apos;ink&apos;;
+import {default as InkBox} from &apos;ink-box&apos;;
+import Spinner from &apos;ink-spinner&apos;;
+import SelectInput from &apos;ink-select-input&apos;;
+import figures from &apos;figures&apos;;
+import commands from &apos;./commands&apos;;
+import {getIntendedInput} from &apos;./utils&apos;;
+
+const Check = ({isSkipped}) =&gt; (&lt;Text bold&gt;
+    &lt;Color green={!isSkipped} dim={isSkipped}&gt;{figures.tick}&lt;/Color&gt;
+&lt;/Text&gt;);
+const Item = ({isSelected, label}) =&gt; &lt;Color bold={isSelected} cyan={isSelected}&gt;{label}&lt;/Color&gt;;
+const Indicator = ({isSelected}) =&gt; &lt;Box marginRight={1}&gt;{isSelected ? &lt;Color bold cyan&gt;{figures.arrowRight}&lt;/Color&gt; : &apos; &apos;}&lt;/Box&gt;;
+const SubCommandSelect = ({items, onSelect}) =&gt; &lt;Box paddingTop={1} paddingBottom={1} paddingLeft={1}&gt;
+    &lt;SelectInput
+        items={items}
+        onSelect={onSelect}
+        itemComponent={Item}
+        indicatorComponent={Indicator}
+    &gt;&lt;/SelectInput&gt;
+&lt;/Box&gt;;
+/**
+ * @private
+ * @function UnderConstruction
+ * @constructor
+ * @description Component to display &quot;under construction&quot; warning for capabilities not yet implemented.
+ */
+const UnderConstruction = () =&gt; &lt;Box marginBottom={1}&gt;
+    &lt;InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}&gt;
+        &lt;Color bold yellow&gt;UNDER CONSTRUCTION&lt;/Color&gt;
+    &lt;/InkBox&gt;
+&lt;/Box&gt;;
+/**
+ * @private
+ * @function ErrorMessage
+ * @constructor
+ * @description Used by ErrorBoundary component to display error message and data
+ * @property {Object} props
+ * @property {string} props.info Error details
+ * @return {string} HTML markup for ErrorMessage component
+ */
+const ErrorMessage = ({info}) =&gt; &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;
+    &lt;InkBox borderColor={&apos;yellow&apos;} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}&gt;
+        &lt;Color yellow&gt;(&#x256F;&#xB0;&#x25A1; &#xB0;)&#x256F; &#x253B;&#x2501;&#x253B; arrrgh...&lt;/Color&gt;
+    &lt;/InkBox&gt;
+    &lt;Box marginLeft={4}&gt;
+        &#x21B3; &lt;Color dim&gt;Something went wrong...&lt;/Color&gt;
+    &lt;/Box&gt;
+    &lt;Box marginLeft={6} marginTop={1}&gt;
+        &lt;Color dim&gt;&lt;Box&gt;{info}&lt;/Box&gt;&lt;/Color&gt;
+    &lt;/Box&gt;
+&lt;/Box&gt;;
+/**
+ * @private
+ * @function ErrorBoundary
+ * @constructor
+ * @extends React.Component
+ * @description Error boundary used around UI component
+ */
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            info: &apos;&apos;,
+            error: {},
+            hasError: false
+        };
+    }
+    static getDerivedStateFromError() {
+        return {hasError: true};
+    }
+    componentDidCatch(error, info) {
+        this.setState({error, info});
+    }
+    render() {
+        const {error, hasError} = this.state;
+        const {children} = this.props;
+        return hasError ? &lt;ErrorMessage error={error}/&gt; : children;
+    }
+}
+/**
+ * @function Warning
+ * @constructor
+ * @description Component to display warning message requiring user input
+ * @property {Object} props
+ * @property {function} props.callback Function to be called after user interacts with warning
+ */
+export const Warning = ({callback, children}) =&gt; {
+    const {setRawMode, stdin} = useContext(StdinContext);
+    useEffect(() =&gt; {
+        setRawMode &amp;&amp; setRawMode(true);
+        stdin.on(&apos;data&apos;, callback);
+        return function cleanup() {
+            stdin.removeListener(&apos;data&apos;, callback);
+            setRawMode &amp;&amp; setRawMode(false);
+        };
+    });
+    return &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;
+        &lt;InkBox borderColor={&apos;yellow&apos;} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}&gt;
+            &lt;Color yellow&gt;oops...&lt;/Color&gt;
+        &lt;/InkBox&gt;
+        &lt;Box marginLeft={4}&gt;
+            &#x21B3; {children}
+        &lt;/Box&gt;
+        &lt;Box marginLeft={6} marginTop={1}&gt;
+            &lt;Color dim&gt;Press &lt;/Color&gt;&lt;Text bold&gt;ENTER&lt;/Text&gt;&lt;Color dim&gt; to continue&lt;/Color&gt;
+        &lt;/Box&gt;
+    &lt;/Box&gt;;
+};
+/**
+ * @function Task
+ * @constructor
+ * @description Task component
+ * @property {Object} props
+ * @property {boolean} props.isComplete Control display of check (true) or loading (false)
+ * @property {boolean} props.isSkipped Control color of check - green (false) or dim (true)
+ * @property {string} props.text Task text
+ * @example
+ * &lt;Task text={&apos;This task is done before it starts&apos;} isComplete={true}&gt;&lt;/Task&gt;
+ */
+export const Task = ({isComplete, isSkipped, text}) =&gt; &lt;Box flexDirection=&apos;row&apos; marginLeft={3}&gt;
+    {isComplete ?
+        &lt;Check isSkipped={isSkipped}&gt;&lt;/Check&gt; :
+        &lt;Color cyan&gt;&lt;Spinner&gt;&lt;/Spinner&gt;&lt;/Color&gt;
+    } &lt;Text&gt;&lt;Color dim={isComplete}&gt;{text}&lt;/Color&gt;&lt;/Text&gt;
+&lt;/Box&gt;;
+/**
+ * @function TaskList
+ * @constructor
+ * @description Task list component
+ * @property {Object} props
+ * @property {string} props.command Command - new | create | add
+ * @property {Object} props.options Command line flags (see help)
+ * @property {string[]} props.terms Terms - eslint | babel | jest | postcss | docs
+ * @example
+ * &lt;TaskList command={&apos;add&apos;} terms={&apos;eslint&apos;} options={{skipInstall: true}}&gt;&lt;/TaskList&gt;
+ */
+export const TaskList = ({command, options, terms}) =&gt; {
+    const reducer = (state, {type, payload}) =&gt; {
+        const {completed, errors, skipped} = state;
+        if (type === &apos;complete&apos;) {
+            return {
+                completed: [...completed, payload],
+                skipped,
+                errors
+            };
+        } else if (type === &apos;skipped&apos;) {
+            return {
+                completed,
+                skipped: [...skipped, payload],
+                errors
+            };
+        } else if (type === &apos;error&apos;) {
+            return {
+                completed,
+                skipped,
+                errors: [...errors, {details: payload}]
+            };
+        }
+    };
+    const initialState = {
+        completed: [],
+        skipped: [],
+        errors: []
+    };
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const queue = new Queue({concurrency: 1});
+    const tasks = commands[command][terms[0]];
+    useEffect(() =&gt; {
+        async function populateQueue() {
+            for (const [index, item] of tasks.entries()) {
+                const {condition, task} = item;
+                try {
+                    if (await condition(options)) {
+                        await queue
+                            .add(() =&gt; task(options))
+                            .then(() =&gt; dispatch({type: &apos;complete&apos;, payload: index}))
+                            .catch(() =&gt; dispatch({type: &apos;error&apos;, payload: &apos;Error adding task to queue&apos;}));
+                    } else {
+                        dispatch({type: &apos;skipped&apos;, payload: index});
+                    }
+                } catch (error) {
+                    dispatch({type: &apos;error&apos;, payload: error});
+                }
+            }
+        }
+        populateQueue();
+    }, []);
+    return &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;
+        &lt;InkBox
+            margin={{left: 1, top: 1}}
+            padding={{left: 1, right: 1}}
+            borderColor={((state.completed.length + state.skipped.length) === tasks.length) ? &apos;green&apos; : &apos;cyan&apos;}
+            borderStyle={&apos;round&apos;}&gt;
+            &lt;Color bold white&gt;{command} {terms.join(&apos; &apos;)}&lt;/Color&gt;
+        &lt;/InkBox&gt;
+        &lt;Box flexDirection=&apos;column&apos; marginBottom={1}&gt;
+            {tasks.map(({optional, text}, index) =&gt; {
+                const {completed, skipped} = state;
+                const isSkipped = skipped.includes(index);
+                const isComplete = completed.includes(index) || isSkipped;
+                const shouldBeShown = isUndefined(optional) || (isFunction(optional) &amp;&amp; optional(options));
+                return shouldBeShown ?
+                    &lt;Task text={text} isSkipped={isSkipped} isComplete={isComplete} key={index}&gt;&lt;/Task&gt; :
+                    &lt;Box key={index}&gt;&lt;/Box&gt;;
+            })}
+        &lt;/Box&gt;
+    &lt;/Box&gt;;
+};
+class UI extends Component {
+    constructor(props) {
+        super(props);
+        const {input} = props;
+        const [command, ...terms] = input;
+        const hasCommand = isString(command);
+        const hasTerms = terms.length &gt; 0;
+        const [intendedCommand, intendedTerms] = hasCommand ? getIntendedInput(commands, command, terms) : [, []];
+        const compareTerms = (term, index) =&gt; (term !== terms[index]);
+        const showWarning = (command !== intendedCommand) || (intendedTerms.map(compareTerms).some(Boolean));
+        this.state = {
+            hasTerms,
+            hasCommand,
+            showWarning,
+            intendedTerms,
+            intendedCommand
+        };
+        this.updateWarning = this.updateWarning.bind(this);
+        this.updateTerms = this.updateTerms.bind(this);
+    }
+    render() {
+        const {flags} = this.props;
+        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
+        const {ignoreWarnings} = flags;
+        const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
+        const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command =&gt; ({label: command, value: command})) : [];
+        return &lt;ErrorBoundary&gt;
+            {(showWarning &amp;&amp; !ignoreWarnings) ?
+                &lt;Warning callback={this.updateWarning}&gt;
+                    &lt;Text&gt;Did you mean &lt;Color bold green&gt;{intendedCommand} {intendedTerms.join(&apos; &apos;)}&lt;/Color&gt;?&lt;/Text&gt;
+                &lt;/Warning&gt; :
+                (hasCommand &amp;&amp; hasTerms) ?
+                    &lt;TaskList command={intendedCommand} terms={intendedTerms} options={flags}&gt;&lt;/TaskList&gt; :
+                    hasCommand ?
+                        &lt;SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}&gt;&lt;/SubCommandSelect&gt; :
+                        &lt;UnderConstruction/&gt;
+            }
+        &lt;/ErrorBoundary&gt;;
+    }
+    updateWarning(data) {
+        const key = String(data);
+        (key === &apos;\r&apos;) ? this.setState({showWarning: false}) : process.exit(0);
+    }
+    updateTerms({value}) {
+        this.setState({
+            hasTerms: true,
+            intendedTerms: [value]
+        });
+    }
+}
+Check.propTypes = {
+    isSkipped: PropTypes.bool
+};
+Check.defaultProps = {
+    isSkipped: false
+};
+SubCommandSelect.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object),
+    onSelect: PropTypes.func
+};
+Indicator.propTypes = {
+    isSelected: PropTypes.bool
+};
+Indicator.defaultProps = {
+    isSelected: false
+};
+Item.propTypes = {
+    isSelected: PropTypes.bool,
+    label: PropTypes.string.isRequired
+};
+Item.defaultProps = {
+    isSelected: false
+};
+ErrorMessage.propTypes = {
+    info: PropTypes.string
+};
+ErrorBoundary.propTypes = {
+    children: PropTypes.node
+};
+Task.propTypes = {
+    isComplete: PropTypes.bool,
+    isSkipped: PropTypes.bool,
+    text: PropTypes.string
+};
+Task.defaultProps = {
+    isComplete: false,
+    isSkipped: false,
+    text: &apos;task description&apos;
+};
+TaskList.propTypes = {
+    command: PropTypes.string,
+    options: PropTypes.any,
+    terms: PropTypes.arrayOf(PropTypes.string)
+};
+TaskList.defaultProps = {
+    command: &apos;&apos;,
+    options: {skipInstall: false},
+    terms: []
+};
+Warning.propTypes = {
+    callback: PropTypes.func,
+    children: PropTypes.node
+};
+UI.propTypes = {
+    input: PropTypes.array,
+    flags: PropTypes.object
+};
+UI.defaultProps = {
+    input: [],
+    flags: {}
+};
+
+export default UI;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

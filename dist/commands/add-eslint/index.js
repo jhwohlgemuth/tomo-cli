@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = exports.tasks = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -21,7 +21,11 @@ const sourceDirectory = (0, _path.join)(__dirname, 'templates');
 const scaffolder = new _utils.Scaffolder({
   sourceDirectory
 });
-var _default = [{
+/**
+ * @ignore
+ */
+
+const tasks = [{
   text: 'Create ESLint configuration and ignore files',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* ({
@@ -111,4 +115,6 @@ var _default = [{
     useReact
   }) => useReact
 }];
+exports.tasks = tasks;
+var _default = tasks;
 exports.default = _default;

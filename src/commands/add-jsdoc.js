@@ -5,8 +5,10 @@ import {
 } from '../utils';
 
 const pkg = new PackageJsonEditor();
-
-export default [
+/**
+ * @ignore
+ */
+export const tasks = [
     {
         text: 'Add documentation tasks to package.json',
         task: async ({sourceDirectory}) => {
@@ -29,3 +31,4 @@ export default [
         condition: () => someDoExist('package.json')
     }
 ];
+export default tasks;

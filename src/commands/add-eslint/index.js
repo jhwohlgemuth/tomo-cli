@@ -23,8 +23,10 @@ const ESLINT_REACT_PLUGINS = [
 
 const sourceDirectory = join(__dirname, 'templates');
 const scaffolder = new Scaffolder({sourceDirectory});
-
-export default [
+/**
+ * @ignore
+ */
+export const tasks = [
     {
         text: 'Create ESLint configuration and ignore files',
         task: async ({sourceDirectory}) => {
@@ -81,3 +83,4 @@ export default [
         optional: ({useReact}) => useReact
     }
 ];
+export default tasks;

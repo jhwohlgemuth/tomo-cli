@@ -4,6 +4,9 @@ import {
     PackageJsonEditor
 } from '../utils';
 
+/**
+ * @ignore
+ */
 export const createPackageJson = [
     {
         text: 'Create package.json',
@@ -14,6 +17,9 @@ export const createPackageJson = [
         condition: () => allDoNotExist('package.json')
     }
 ];
+/**
+ * @ignore
+ */
 export const createSourceDirectory = [
     {
         text: 'Create source directory',

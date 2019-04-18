@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = exports.tasks = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -15,7 +15,11 @@ var _utils = require("../utils");
 
 /* eslint-disable max-len */
 const pkg = new _utils.PackageJsonEditor();
-var _default = [{
+/**
+ * @ignore
+ */
+
+const tasks = [{
   text: `Add Rust ${_figures.arrowRight} WASM build tasks to package.json`,
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* ({
@@ -35,4 +39,6 @@ var _default = [{
   }(),
   condition: () => (0, _utils.someDoExist)('package.json')
 }];
+exports.tasks = tasks;
+var _default = tasks;
 exports.default = _default;

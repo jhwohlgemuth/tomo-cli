@@ -23,35 +23,55 @@ const PRETTIER_OPTIONS = {
     quotes: true
 };
 /**
- * @async
- * @function someDoExist
+ * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
+ * @example
+ * // some/folder/
+ * //   ├─ foo.js
+ * //   └── bar.js
+ * const hasFoo = someDoExist('some/folder/foo.js');
+ * const hasBaz = someDoExist('some/folder/baz.js');
+ * const hasSomething = someDoExist('some/folder/bar.js', 'some/folder/baz.js');
+ * console.log(hasFoo); // true
+ * console.log(hasBaz); // false
+ * console.log(hasSomething); // true
  * @return {boolean} Some files/path do exist (true) or all do not exist (false)
  */
-const someDoExist = async (...args) => {
+export const someDoExist = async (...args) => {
     const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));
     return checks.some(Boolean);
 };
 /**
- * @async
- * @function allDoNotExist
+ * Check that all files do not exist
+ * @example
+ * // some/folder/
+ * //   ├─ foo.js
+ * //   └── bar.js
+ * const noPackageJson = allDoNotExist('some/folder/package.json');
+ * console.log(noPackageJson); // true
  * @param  {...string} args File or folder path(s)
  * @return {boolean} All files/paths do not exist (true) or some do (false)
  */
-const allDoNotExist = async (...args) => {
+export const allDoNotExist = async (...args) => {
     const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));
     return checks.every(val => !val);
 };
 /**
- * @function format
- * @description Format input code using Prettier
+ * Format input code using Prettier
  * @param {*} [code=''] Code to be formatted
+ * @example <caption>Prettier options</caption>
+ * {
+ *     bracketSpacing: false,
+ *     parser: 'json-stringify',
+ *     printWidth: 80,
+ *     tabWidth: 4,
+ *     quotes: true
+ * }
  * @return {string} Code formatted by Prettier
  */
-const format = (code = {}) => prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/"/g, '');
+export const format = (code = {}) => prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/"/g, '');
 /**
- * @private
- * @function getIntendedInput
+ * Use string-similarity module to determine closest matching string
  * @param {Object} commands Object with commands as key values, terms as key values for each command object
  * @param {string} command Command string input
  * @param {string[]} [terms=[]] Terms input
@@ -59,7 +79,7 @@ const format = (code = {}) => prettier.format(JSON.stringify(code), PRETTIER_OPT
  * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);
  * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)
  */
-const getIntendedInput = (commands, command, terms = []) => {
+export const getIntendedInput = (commands, command, terms = []) => {
     const VALID_COMMANDS = Object.keys(commands);
     const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);
     const VALID_TERMS = Object.keys(commands[intendedCommand]);
@@ -67,20 +87,19 @@ const getIntendedInput = (commands, command, terms = []) => {
     return [intendedCommand, intendedTerms];
 };
 /**
- * @async
- * @function getVersions
- * @description Use npm CLI to return array of module versions
+ * Use npm CLI to return array of module versions
  * @param {string} name npm module name
+ * @example
+ * const versions = getVersions('react');
  * @return {string[]} Array of versions
  */
-const getVersions = async (name = '') => (name.length === 0) ? [] : (await execa('npm', ['view', name, 'versions']))
+export const getVersions = async (name = '') => (name.length === 0) ? [] : (await execa('npm', ['view', name, 'versions']))
     .stdout
     .split(',\n')
     .map(str => str.match(/\d+[.]\d+[.]\d+/))
     .map(first);
 /**
- * @async
- * @function install
+ * Install dependencies with npm
  * @param {string[]} [dependencies=[]] Modules to install
  * @param {Object} options Options to configure installation
  * @param {boolean} [options.dev=false] If true, add "--save-dev"
@@ -92,7 +111,7 @@ const getVersions = async (name = '') => (name.length === 0) ? [] : (await execa
  * install(['jest', 'babel-jest'], {dev: true});
  * @return {string[]} Array of inputs (mostly for testing)
  */
-const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) => {
+export const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) => {
     const {dev, latest, skipInstall} = options;
     const identity = i => i;
     const concat = val => str => str + val;
@@ -103,23 +122,28 @@ const install = async (dependencies = [], options = {dev: false, latest: true, s
     return args;
 };
 /**
- * @function verifyRustInstallation
+ * Determine if system supports Rust (necessary Rust dependencies are installed)
  * @return {boolean} Are Rust components installed?
  */
-const verifyRustInstallation = () => {
+export const verifyRustInstallation = () => {
 
 };
 const silent = () => { };
 /**
- * @private
- * @class BasicEditor
+ * Base class to serve as base for JSON and module builder classes
  */
-class BasicEditor {
+export class BasicEditor {
     constructor() {
         const fs = editor.create(memFs.create());
         const queue = new Queue({concurrency: 1});
         assign(this, {fs, queue});
     }
+    /**
+     *
+     * @param {string} destination Destination to copy file
+     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
+     * @return {BasicEditor} Chaining OK
+     */
     copy(destination, shouldCommit = true) {
         const self = this;
         const {fs, path, queue} = self;
@@ -128,6 +152,10 @@ class BasicEditor {
         shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
+    /**
+     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
+     * @return {BasicEditor} Chaining OK
+     */
     delete(shouldCommit = true) {
         const self = this;
         const {fs, path, queue} = self;
@@ -135,6 +163,9 @@ class BasicEditor {
         shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
+    /**
+     * @return {Promise} Resolves when queue is empty
+     */
     async done() {
         return await this.queue.onEmpty();
     }
@@ -145,12 +176,12 @@ class BasicEditor {
     }
 }
 /**
- * @function createJsonEditor
+ * Create and edit a JSON file with a fluent API
  * @param {string} filename Name of file to edit
  * @param {object} [contents={}] Contents of file
- * @return {JsonEditor} JsonEditor class (extends BasicEditor)
+ * @return {JsonEditor} JsonEditor class (extends {@link BasicEditor})
  */
-const createJsonEditor = (filename, contents = {}) => class JsonEditor extends BasicEditor {
+export const createJsonEditor = (filename, contents = {}) => class JsonEditor extends BasicEditor {
     contents = contents;
     constructor(cwd = process.cwd()) {
         super();
@@ -179,13 +210,13 @@ const createJsonEditor = (filename, contents = {}) => class JsonEditor extends B
     }
 };
 /**
- * @function createModuleEditor
+ * Create and edit a JS module with a fluent API
  * @param {string} filename Name of file to edit
  * @param {string} [contents='module.exports = {};'] Contents of file
  * @param {string} [prependedContents=''] Content prepended to top of file
- * @return {ModuleEditor} ModuleEditor class (extends BasicEditor)
+ * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})
  */
-const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => class ModuleEditor extends BasicEditor {
+export const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => class ModuleEditor extends BasicEditor {
     contents = contents;
     prependedContents = prependedContents;
     created = false;
@@ -213,6 +244,7 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
             .then(() => self.created = existsSync(path))
             .catch(silent);
         shouldCommit && queue.add(() => self.commit()).catch(silent);
+        return self;
     }
     extend(code, shouldCommit = true) {
         this.contents = merge(contents, code);
@@ -229,10 +261,7 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
     }
 };
 /**
- * @class Scaffolder
- * @description Class to create scaffolders when creating folders, and copying files/templates
- * @param {Object} options Configure scaffolder
- * @param {string} [options.sourceDirectory='<__dirname>/templates'] Root directory to look for templates
+ * Class to create scaffolders when creating folders, and copying files/templates
  * @example
  * import {Scaffolder} from './utils';
  * const scaffolder = new Scaffolder();
@@ -242,7 +271,12 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
  *     .copy('bar.js')
  *     .commit();
  */
-class Scaffolder {
+export class Scaffolder {
+    /**
+     *
+     * @param {Object} options Scaffolding options
+     * @param {string} options.sourceDirectory Source directory for template files
+     */
     constructor(options = {sourceDirectory: join(__dirname, 'templates')}) {
         const {sourceDirectory} = options;
         const targetDirectory = './';
@@ -250,14 +284,29 @@ class Scaffolder {
         const queue = new Queue({concurrency: 1});
         assign(this, {fs, queue, sourceDirectory, targetDirectory});
     }
+    /**
+     * Set source directory
+     * @param {string} path Source directory of template files
+     * @returns {Scaffolder} Chaining OK
+     */
     source(path) {
         this.sourceDirectory = path;
         return this;
     }
+    /**
+     * Set target directory
+     * @param {string} path Target directory of template files
+     * @returns {Scaffolder} Chaining OK
+     */
     target(path) {
         this.targetDirectory = path;
         return this;
     }
+    /**
+     * Copy a file
+     * @param {string} path Path string of file to be copied
+     * @returns {Scaffolder} Chaining OK
+     */
     copy(path) {
         const self = this;
         const {fs, queue, sourceDirectory, targetDirectory} = self;
@@ -266,6 +315,10 @@ class Scaffolder {
         queue.add(() => fs.copy(source, target)).catch(silent);
         return self;
     }
+    /**
+     * Write changes to disk
+     * @return {Promise} Resolves when queue is empty
+     */
     async commit() {
         const {fs, queue} = this;
         await new Promise(resolve => fs.commit(resolve));
@@ -273,8 +326,8 @@ class Scaffolder {
     }
 }
 /**
- * @class BabelConfigModuleEditor
- * @extends ModuleEditor
+ * Create and edit a Babel.js configuration file with a fluent API
+ * @type {ModuleEditor}
  * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>
  * const cfg = new BabelConfigModuleEditor();
  * await cfg
@@ -285,7 +338,7 @@ class Scaffolder {
  *     .prepend(`const {existsSync} = require('fs-extra');`)
  *     .commit();
  */
-const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {
+export const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {
     plugins: [
         `'@babel/plugin-transform-runtime'`,
         `'@babel/plugin-proposal-class-properties'`,
@@ -295,13 +348,13 @@ const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {
     presets: [`'@babel/preset-env'`]
 });
 /**
- * @class EslintConfigModuleEditor
- * @extends ModuleEditor
+ * Create and edit an ESLint configuration file with a fluent API
+ * @type {ModuleEditor}
  * @example
  * const cfg = new EslintConfigModuleEditor();
  * await cfg.create().commit();
  */
-const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
+export const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
     env: {
         es6: true,
         jest: true
@@ -312,8 +365,8 @@ const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
     parser: `'babel-eslint'`
 });
 /**
- * @class PackageJsonEditor
- * @extends JsonEditor
+ * Create and edit a package.json manifest file with a fluent API
+ * @type {JsonEditor}
  * @example <caption>Create a new package.json</caption>
  * const pkg = new PackageJsonEditor();
  * await pkg.create().commit();
@@ -327,16 +380,15 @@ const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
  *     }
  * }).commit();
  * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>
+ * const script = {
+ *     lint: 'eslint index.js -c ./.eslintrc.js'
+ * };
  * await pkg
  *     .create(false)
- *     .extend({
- *         script: {
- *             lint: 'eslint index.js -c ./.eslintrc.js'
- *         }
- *     }, false)
+ *     .extend({script}, false)
  *     .commit();
  */
-const PackageJsonEditor = createJsonEditor('package.json', {
+export const PackageJsonEditor = createJsonEditor('package.json', {
     name: 'my-project',
     version: '0.0.0',
     description: 'A super cool app/server/tool/library/widget/thingy',
@@ -344,13 +396,13 @@ const PackageJsonEditor = createJsonEditor('package.json', {
     keywords: []
 });
 /**
- * @class PostcssConfigEditor
- * @extends ModuleEditor
+ * Create and edit an PostCSS configuration file with a fluent API
+ * @type {ModuleEditor}
  * @example
  * const cfg = new PostcssConfigEditor();
  * await cfg.create().commit();
  */
-const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
+export const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
     parser: `require('postcss-safe-parser')`,
     processors: [
         `require('stylelint')()`,
@@ -361,20 +413,3 @@ const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
         `require('postcss-reporter')({clearReportedMessages: true})`
     ]
 });
-
-module.exports = {
-    allDoNotExist,
-    someDoExist,
-    format,
-    getIntendedInput,
-    getVersions,
-    install,
-    createJsonEditor,
-    createModuleEditor,
-    BabelConfigModuleEditor,
-    EslintConfigModuleEditor,
-    PackageJsonEditor,
-    PostcssConfigEditor,
-    Scaffolder,
-    verifyRustInstallation
-};

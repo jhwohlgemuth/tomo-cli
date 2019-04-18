@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/commands/index.js | tomo-cli</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A friendly command line tool designed to help create sustainable software using web technology"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="tomo-cli"><meta property="twitter:description" content="A friendly command line tool designed to help create sustainable software using web technology"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/jhwohlgemuth/tomo-cli"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~Scaffolder.html">Scaffolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PackageJsonEditor">PackageJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/commands/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable no-magic-numbers */
+/**
+ * @file tomo commands
+ * @author Jason Wohlgemuth
+ * @module commands
+ * @requires module:utils
+ */
+import delay from &apos;delay&apos;;
+import {
+    allDoNotExist,
+    someDoExist
+} from &apos;../utils&apos;;
+import {
+    createPackageJson,
+    createSourceDirectory
+} from &apos;./common&apos;;
+import addBabel from &apos;./add-babel&apos;;
+import addJsdoc from &apos;./add-jsdoc&apos;;
+import addEslint from &apos;./add-eslint&apos;;
+import addJest from &apos;./add-jest&apos;;
+import addPostcss from &apos;./add-postcss&apos;;
+
+const ALWAYS = async () =&gt; true;
+const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
+
+const newWebapp = [
+    {
+        text: &apos;Install development dependencies&apos;,
+        task: testAsyncFunction(),
+        condition: ALWAYS
+    },
+    {
+        text: &apos;Install production dependencies&apos;,
+        task: testAsyncFunction(),
+        condition: ALWAYS
+    },
+    {
+        text: &apos;Scaffold webapp folder structure&apos;,
+        task: testAsyncFunction(),
+        condition: ALWAYS
+    }
+];
+const addA11y = [
+    {
+        text: &apos;Add a11y tasks to package.json&apos;,
+        task: testAsyncFunction(),
+        condition: () =&gt; someDoExist(&apos;package.json&apos;)
+    },
+    {
+        text: &apos;Install a11y dependencies&apos;,
+        task: testAsyncFunction(),
+        condition: ALWAYS
+    }
+];
+const addWebpack = [
+    {
+        text: &apos;Create Webpack config file&apos;,
+        task: testAsyncFunction(),
+        condition: () =&gt; allDoNotExist(&apos;webpack.config.js&apos;)
+    },
+    {
+        text: &apos;Install Webpack dependencies&apos;,
+        task: testAsyncFunction(),
+        condition: ALWAYS
+    }
+];
+const create = {
+    app: [
+        ...createPackageJson,
+        ...createSourceDirectory,
+        ...addBabel,
+        ...addEslint,
+        ...addJest
+    ],
+    webapp: [
+        ...createPackageJson,
+        ...createSourceDirectory,
+        ...addBabel,
+        ...addEslint,
+        ...addJest,
+        ...newWebapp
+    ],
+    server: [
+
+    ]
+};
+const add = {
+    a11y: addA11y,
+    babel: addBabel,
+    docs: addJsdoc,
+    eslint: [
+        ...addBabel,
+        ...addEslint
+    ],
+    jest: [
+        ...addBabel,
+        ...addJest
+    ],
+    postcss: addPostcss,
+    webpack: addWebpack
+};
+
+module.exports = {
+    add,
+    create,
+    new: create// alias for create
+};</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

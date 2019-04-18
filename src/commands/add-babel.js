@@ -24,7 +24,10 @@ const BABEL_PLUGINS = [
 const BABEL_REACT_PRESET = [
     '@babel/preset-react'
 ];
-export default [
+/**
+ * @ignore
+ */
+export const tasks = [
     {
         text: 'Create Babel config file',
         task: async () => {
@@ -64,3 +67,4 @@ export default [
         optional: ({useReact}) => useReact
     }
 ];
+export default tasks;

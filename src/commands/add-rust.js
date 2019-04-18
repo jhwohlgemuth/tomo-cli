@@ -6,8 +6,10 @@ import {
 } from '../utils';
 
 const pkg = new PackageJsonEditor();
-
-export default [
+/**
+ * @ignore
+ */
+export const tasks = [
     {
         text: `Add Rust ${arrowRight} WASM build tasks to package.json`,
         task: async ({assetsDirectory}) => {
@@ -21,3 +23,4 @@ export default [
         condition: () => someDoExist('package.json')
     }
 ];
+export default tasks;

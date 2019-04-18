@@ -23,8 +23,8 @@ $ tomo --help
     --assets-directory,     Directory for assets [Default: ./assets]
     --use-react, -r         Add React support to workflow [Default: false]
     --react-version         React version for ESLint configuration [Default: '16.8']
-		--ignore-warnings, -i   Ignore warning messages [Default: false]
-		--skip-install, -s      Skip npm installations [Default: false]
+    --ignore-warnings, -i   Ignore warning messages [Default: false]
+    --skip-install, -s      Skip npm installations [Default: false]
 
   Examples
     $ tomo
