@@ -350,13 +350,20 @@ const TaskList = ({
 
           try {
             if (yield condition(options)) {
-              yield queue.add(() => task(options)).then(() => dispatch({
-                type: 'complete',
-                payload: index
-              })).catch(() => dispatch({
-                type: 'error',
-                payload: 'Error adding task to queue'
-              }));
+              try {
+                yield queue.add(() => task(options)).then(() => dispatch({
+                  type: 'complete',
+                  payload: index
+                })).catch(() => dispatch({
+                  type: 'error',
+                  payload: 'Error adding task to queue'
+                }));
+              } catch (error) {
+                dispatch({
+                  type: 'error',
+                  payload: error
+                });
+              }
             } else {
               dispatch({
                 type: 'skipped',
