@@ -181,6 +181,11 @@ function () {
 
 
 const verifyRustInstallation = () => {};
+/**
+ * @private
+ * @class BasicEditor
+ */
+
 
 class BasicEditor {
   constructor() {
@@ -245,7 +250,7 @@ class BasicEditor {
  * @function createJsonEditor
  * @param {string} filename Name of file to edit
  * @param {object} [contents={}] Contents of file
- * @return {JsonEditor} JsonEditor class
+ * @return {JsonEditor} JsonEditor class (extends BasicEditor)
  */
 
 
@@ -306,7 +311,7 @@ const createJsonEditor = (filename, contents = {}) => {
  * @param {string} filename Name of file to edit
  * @param {string} [contents='module.exports = {};'] Contents of file
  * @param {string} [prependedContents=''] Content prepended to top of file
- * @return {ModuleEditor} ModuleEditor class
+ * @return {ModuleEditor} ModuleEditor class (extends BasicEditor)
  */
 
 
