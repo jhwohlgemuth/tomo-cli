@@ -189,14 +189,10 @@ export const TaskList = ({command, options, terms}) => {
                 const {condition, task} = item;
                 try {
                     if (await condition(options)) {
-                        try {
-                            await queue
-                                .add(() => task(options))
-                                .then(() => dispatch({type: 'complete', payload: index}))
-                                .catch(() => dispatch({type: 'error', payload: 'Error adding task to queue'}));
-                        } catch (error) {
-                            dispatch({type: 'error', payload: error});
-                        }
+                        await queue
+                            .add(() => task(options))
+                            .then(() => dispatch({type: 'complete', payload: index}))
+                            .catch(() => dispatch({type: 'error', payload: 'Error adding task to queue'}));
                     } else {
                         dispatch({type: 'skipped', payload: index});
                     }
