@@ -5,8 +5,6 @@ import {
     someDoExist
 } from '../utils';
 
-const cfg = new BabelConfigModuleEditor();
-
 const BABEL_DEPENDENCIES = [
     '@babel/cli',
     '@babel/core',
@@ -24,6 +22,7 @@ const BABEL_PLUGINS = [
 const BABEL_REACT_PRESET = [
     '@babel/preset-react'
 ];
+const cfg = new BabelConfigModuleEditor();
 /**
  * @ignore
  */

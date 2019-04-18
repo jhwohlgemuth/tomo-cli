@@ -8,9 +8,6 @@ import {
     someDoExist
 } from '../../utils';
 
-const pkg = new PackageJsonEditor();
-const cfg = new EslintConfigModuleEditor();
-
 const ESLINT_DEPENDENCIES = [
     'eslint',
     'babel-eslint',
@@ -20,7 +17,8 @@ const ESLINT_DEPENDENCIES = [
 const ESLINT_REACT_PLUGINS = [
     'eslint-plugin-react'
 ];
-
+const pkg = new PackageJsonEditor();
+const cfg = new EslintConfigModuleEditor();
 const sourceDirectory = join(__dirname, 'templates');
 const scaffolder = new Scaffolder({sourceDirectory});
 /**

@@ -32,7 +32,7 @@ describe('package.json mem-fs editor', () => {
         expect(pkg.read()).toMatchSnapshot();
     });
     test('extend', async () => {
-        await pkg.extend({ scripts: { foo: 'bar' } }, false);
+        await pkg.extend({scripts: {foo: 'bar'}}, false);
         expect(pkg.read()).toMatchSnapshot();
     });
     test('copy', async () => {
@@ -65,9 +65,9 @@ describe('.eslintrc.js mem-fs editor', () => {
     });
     test('extend', async () => {
         expect(cfg.read()).toMatchSnapshot();
-        await cfg.extend({ key: { foo: `'foo'` } }, false);
+        await cfg.extend({key: {foo: `'foo'`}}, false);
         expect(cfg.read()).toMatchSnapshot();
-        await cfg.extend({ key: { bar: `'bar'` } }, false);
+        await cfg.extend({key: {bar: `'bar'`}}, false);
         expect(cfg.read()).toMatchSnapshot();
     });
     test('delete', async () => {

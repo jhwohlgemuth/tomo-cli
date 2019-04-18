@@ -32,7 +32,6 @@ const ESDOC_REACT_PLUGINS = [
 const EsdocJsonEditor = createJsonEditor('esdoc.conf.json', ESDOC_CONF);
 const cfg = new EsdocJsonEditor();
 const pkg = new PackageJsonEditor();
-
 /**
  * @ignore
  */

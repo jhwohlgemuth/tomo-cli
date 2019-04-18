@@ -4,12 +4,11 @@ import {
     PackageJsonEditor
 } from '../utils';
 
-const pkg = new PackageJsonEditor();
-
 const JEST_DEPENDENCIES = [
     'jest',
     'babel-jest'
 ];
+const pkg = new PackageJsonEditor();
 /**
  * @ignore
  */

@@ -13,12 +13,13 @@ const MARIONETTE_DEPENDENCIES = [
     'lodash',
     'redux'
 ];
-
 const ALWAYS = async () => true;
 const sourceDirectory = join(__dirname, 'templates');
 const scaffolder = new Scaffolder({sourceDirectory});
-
-export default [
+/**
+ * @ignore
+ */
+export const tasks = [
     {
         text: 'Add Marionette.js Webapp boilerplate',
         task: async ({sourceDirectory}) => {
@@ -64,3 +65,4 @@ export default [
         condition: () => someDoExist('package.json')
     }
 ];
+export default tasks;

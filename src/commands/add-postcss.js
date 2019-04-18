@@ -6,9 +6,6 @@ import {
     someDoExist
 } from '../utils';
 
-const pkg = new PackageJsonEditor();
-const cfg = new PostcssConfigEditor();
-
 const POSTCSS_DEPENDENCIES = [
     'cssnano',
     'postcss-cli',
@@ -19,6 +16,8 @@ const POSTCSS_DEPENDENCIES = [
     'stylelint',
     'uncss'
 ];
+const pkg = new PackageJsonEditor();
+const cfg = new PostcssConfigEditor();
 /**
  * @ignore
  */
