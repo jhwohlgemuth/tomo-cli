@@ -148,37 +148,31 @@ export const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' 
  */
 export const TaskList = ({command, options, terms}) => {
     const reducer = (state, {type, payload}) => {
-        const {completed, error, skipped} = state;
+        const {completed, errors, skipped} = state;
         if (type === 'complete') {
             return {
                 completed: [...completed, payload],
-                error,
-                skipped
+                skipped,
+                errors
             };
         } else if (type === 'skipped') {
             return {
                 completed,
-                error,
-                skipped: [...skipped, payload]
+                skipped: [...skipped, payload],
+                errors
             };
         } else if (type === 'error') {
             return {
                 completed,
-                error: {
-                    status: Symbol('Error'),
-                    details: payload
-                },
-                skipped
+                skipped,
+                errors: [...errors, {details: payload}]
             };
         }
     };
     const initialState = {
         completed: [],
-        error: {
-            status: Symbol('OK'),
-            details: ''
-        },
-        skipped: []
+        skipped: [],
+        errors: []
     };
     const [state, dispatch] = useReducer(reducer, initialState);
     const queue = new Queue({concurrency: 1});

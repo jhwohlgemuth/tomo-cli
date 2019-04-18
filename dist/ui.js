@@ -294,41 +294,37 @@ const TaskList = ({
   }) => {
     const {
       completed,
-      error,
+      errors,
       skipped
     } = state;
 
     if (type === 'complete') {
       return {
         completed: [...completed, payload],
-        error,
-        skipped
+        skipped,
+        errors
       };
     } else if (type === 'skipped') {
       return {
         completed,
-        error,
-        skipped: [...skipped, payload]
+        skipped: [...skipped, payload],
+        errors
       };
     } else if (type === 'error') {
       return {
         completed,
-        error: {
-          status: Symbol('Error'),
+        skipped,
+        errors: [...errors, {
           details: payload
-        },
-        skipped
+        }]
       };
     }
   };
 
   const initialState = {
     completed: [],
-    error: {
-      status: Symbol('OK'),
-      details: ''
-    },
-    skipped: []
+    skipped: [],
+    errors: []
   };
   const [state, dispatch] = (0, _react.useReducer)(reducer, initialState);
   const queue = new _pQueue.default({
