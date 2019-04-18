@@ -82,12 +82,12 @@ function () {
 /**
  * @function format
  * @description Format input code using Prettier
- * @param {*} code Code to be formatted
+ * @param {*} [code=''] Code to be formatted
  * @return {string} Code formatted by Prettier
  */
 
 
-const format = code => _prettier.default.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/"/g, '');
+const format = (code = '') => _prettier.default.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/"/g, '');
 /**
  * @private
  * @function getIntendedInput
