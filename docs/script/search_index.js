@@ -426,42 +426,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/commands/add-marionette/templates/app.js",
-    "file/src/commands/add-marionette/templates/app.js.html",
-    "src/commands/add-marionette/templates/app.js",
-    "file"
-  ],
-  [
-    "src/commands/add-marionette/templates/main.js",
-    "file/src/commands/add-marionette/templates/main.js.html",
-    "src/commands/add-marionette/templates/main.js",
-    "file"
-  ],
-  [
-    "src/commands/add-marionette/templates/mn.radio.logging.js",
-    "file/src/commands/add-marionette/templates/mn.radio.logging.js.html",
-    "src/commands/add-marionette/templates/mn.radio.logging.js",
-    "file"
-  ],
-  [
-    "src/commands/add-marionette/templates/mn.redux.state.js",
-    "file/src/commands/add-marionette/templates/mn.redux.state.js.html",
-    "src/commands/add-marionette/templates/mn.redux.state.js",
-    "file"
-  ],
-  [
-    "src/commands/add-marionette/templates/mn.renderer.shim.js",
-    "file/src/commands/add-marionette/templates/mn.renderer.shim.js.html",
-    "src/commands/add-marionette/templates/mn.renderer.shim.js",
-    "file"
-  ],
-  [
-    "src/commands/add-marionette/templates/mn.templates.shim.js",
-    "file/src/commands/add-marionette/templates/mn.templates.shim.js.html",
-    "src/commands/add-marionette/templates/mn.templates.shim.js",
-    "file"
-  ],
-  [
     "src/commands/add-postcss.js",
     "file/src/commands/add-postcss.js.html",
     "src/commands/add-postcss.js",

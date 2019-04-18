@@ -1,6 +1,17 @@
 {
     "source": "./src",
     "destination": "./docs",
+    "includes": [
+        "\\.js$"
+    ],
+    "excludes": [
+        "commands/add-marionette/templates/app.js",
+        "commands/add-marionette/templates/main.js",
+        "commands/add-marionette/templates/mn.radio.logging.js",
+        "commands/add-marionette/templates/mn.redux.state.js",
+        "commands/add-marionette/templates/mn.renderer.shim.js",
+        "commands/add-marionette/templates/mn.templates.shim.js"
+    ],
     "plugins": [
         {
             "name": "esdoc-standard-plugin"
