@@ -228,26 +228,28 @@ export const TaskList = ({command, options, terms}) =&gt; {
         }
         populateQueue();
     }, []);
-    return &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;
-        &lt;InkBox
-            margin={{left: 1, top: 1}}
-            padding={{left: 1, right: 1}}
-            borderColor={((state.completed.length + state.skipped.length) === tasks.length) ? &apos;green&apos; : &apos;cyan&apos;}
-            borderStyle={&apos;round&apos;}&gt;
-            &lt;Color bold white&gt;{command} {terms.join(&apos; &apos;)}&lt;/Color&gt;
-        &lt;/InkBox&gt;
-        &lt;Box flexDirection=&apos;column&apos; marginBottom={1}&gt;
-            {tasks.map(({optional, text}, index) =&gt; {
-                const {completed, skipped} = state;
-                const isSkipped = skipped.includes(index);
-                const isComplete = completed.includes(index) || isSkipped;
-                const shouldBeShown = isUndefined(optional) || (isFunction(optional) &amp;&amp; optional(options));
-                return shouldBeShown ?
-                    &lt;Task text={text} isSkipped={isSkipped} isComplete={isComplete} key={index}&gt;&lt;/Task&gt; :
-                    &lt;Box key={index}&gt;&lt;/Box&gt;;
-            })}
+    return &lt;ErrorBoundary&gt;
+        &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;
+            &lt;InkBox
+                margin={{left: 1, top: 1}}
+                padding={{left: 1, right: 1}}
+                borderColor={((state.completed.length + state.skipped.length) === tasks.length) ? &apos;green&apos; : &apos;cyan&apos;}
+                borderStyle={&apos;round&apos;}&gt;
+                &lt;Color bold white&gt;{command} {terms.join(&apos; &apos;)}&lt;/Color&gt;
+            &lt;/InkBox&gt;
+            &lt;Box flexDirection=&apos;column&apos; marginBottom={1}&gt;
+                {tasks.map(({optional, text}, index) =&gt; {
+                    const {completed, skipped} = state;
+                    const isSkipped = skipped.includes(index);
+                    const isComplete = completed.includes(index) || isSkipped;
+                    const shouldBeShown = isUndefined(optional) || (isFunction(optional) &amp;&amp; optional(options));
+                    return shouldBeShown ?
+                        &lt;Task text={text} isSkipped={isSkipped} isComplete={isComplete} key={index}&gt;&lt;/Task&gt; :
+                        &lt;Box key={index}&gt;&lt;/Box&gt;;
+                })}
+            &lt;/Box&gt;
         &lt;/Box&gt;
-    &lt;/Box&gt;;
+    &lt;/ErrorBoundary&gt;;
 };
 /**
  * Main tomo UI class

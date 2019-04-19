@@ -345,7 +345,7 @@ const TaskList = ({
 
     populateQueue();
   }, []);
-  return _react.default.createElement(_ink.Box, {
+  return _react.default.createElement(ErrorBoundary, null, _react.default.createElement(_ink.Box, {
     flexDirection: 'column',
     marginBottom: 1
   }, _react.default.createElement(_inkBox.default, {
@@ -384,7 +384,7 @@ const TaskList = ({
     }) : _react.default.createElement(_ink.Box, {
       key: index
     });
-  })));
+  }))));
 };
 /**
  * Main tomo UI class

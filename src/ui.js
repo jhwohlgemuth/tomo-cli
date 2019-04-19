@@ -173,26 +173,28 @@ export const TaskList = ({command, options, terms}) => {
         }
         populateQueue();
     }, []);
-    return <Box flexDirection={'column'} marginBottom={1}>
-        <InkBox
-            margin={{left: 1, top: 1}}
-            padding={{left: 1, right: 1}}
-            borderColor={((state.completed.length + state.skipped.length) === tasks.length) ? 'green' : 'cyan'}
-            borderStyle={'round'}>
-            <Color bold white>{command} {terms.join(' ')}</Color>
-        </InkBox>
-        <Box flexDirection='column' marginBottom={1}>
-            {tasks.map(({optional, text}, index) => {
-                const {completed, skipped} = state;
-                const isSkipped = skipped.includes(index);
-                const isComplete = completed.includes(index) || isSkipped;
-                const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));
-                return shouldBeShown ?
-                    <Task text={text} isSkipped={isSkipped} isComplete={isComplete} key={index}></Task> :
-                    <Box key={index}></Box>;
-            })}
+    return <ErrorBoundary>
+        <Box flexDirection={'column'} marginBottom={1}>
+            <InkBox
+                margin={{left: 1, top: 1}}
+                padding={{left: 1, right: 1}}
+                borderColor={((state.completed.length + state.skipped.length) === tasks.length) ? 'green' : 'cyan'}
+                borderStyle={'round'}>
+                <Color bold white>{command} {terms.join(' ')}</Color>
+            </InkBox>
+            <Box flexDirection='column' marginBottom={1}>
+                {tasks.map(({optional, text}, index) => {
+                    const {completed, skipped} = state;
+                    const isSkipped = skipped.includes(index);
+                    const isComplete = completed.includes(index) || isSkipped;
+                    const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));
+                    return shouldBeShown ?
+                        <Task text={text} isSkipped={isSkipped} isComplete={isComplete} key={index}></Task> :
+                        <Box key={index}></Box>;
+                })}
+            </Box>
         </Box>
-    </Box>;
+    </ErrorBoundary>;
 };
 /**
  * Main tomo UI class
