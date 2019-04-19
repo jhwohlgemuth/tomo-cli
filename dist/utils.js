@@ -5,11 +5,13 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PostcssConfigEditor = exports.PackageJsonEditor = exports.EslintConfigModuleEditor = exports.BabelConfigModuleEditor = exports.Scaffolder = exports.createModuleEditor = exports.createJsonEditor = exports.BasicEditor = exports.verifyRustInstallation = exports.install = exports.getVersions = exports.getIntendedInput = exports.format = exports.allDoNotExist = exports.someDoExist = void 0;
+exports.WebpackConfigEditor = exports.PostcssConfigEditor = exports.PackageJsonEditor = exports.EslintConfigModuleEditor = exports.BabelConfigModuleEditor = exports.Scaffolder = exports.createModuleEditor = exports.createJsonEditor = exports.BasicEditor = exports.verifyRustInstallation = exports.install = exports.getVersions = exports.getIntendedInput = exports.format = exports.allDoNotExist = exports.someDoExist = exports.testAsyncFunction = void 0;
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _delay = _interopRequireDefault(require("delay"));
 
 var _path = require("path");
 
@@ -29,11 +31,6 @@ var _memFsEditor = _interopRequireDefault(require("mem-fs-editor"));
 
 var _stringSimilarity = require("string-similarity");
 
-/**
- * @file Utility functions for tomo
- * @author Jason Wohlgemuth
- * @module utils
- */
 const {
   assign
 } = Object;
@@ -44,7 +41,21 @@ const PRETTIER_OPTIONS = {
   printWidth: 80,
   tabWidth: 4,
   quotes: true
-};
+}; // eslint-disable-next-line no-magic-numbers
+
+const testAsyncFunction = () =>
+/*#__PURE__*/
+function () {
+  var _ref = (0, _asyncToGenerator2.default)(function* ({
+    skipInstall
+  }) {
+    return yield (0, _delay.default)(skipInstall ? 0 : 1000 * Math.random());
+  });
+
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -61,16 +72,19 @@ const PRETTIER_OPTIONS = {
  * @return {boolean} Some files/path do exist (true) or all do not exist (false)
  */
 
+
+exports.testAsyncFunction = testAsyncFunction;
+
 const someDoExist =
 /*#__PURE__*/
 function () {
-  var _ref = (0, _asyncToGenerator2.default)(function* (...args) {
+  var _ref2 = (0, _asyncToGenerator2.default)(function* (...args) {
     const checks = yield Promise.all(args.map(val => (0, _fsExtra.pathExists)((0, _path.join)(process.cwd(), val))));
     return checks.some(Boolean);
   });
 
   return function someDoExist() {
-    return _ref.apply(this, arguments);
+    return _ref2.apply(this, arguments);
   };
 }();
 /**
@@ -91,13 +105,13 @@ exports.someDoExist = someDoExist;
 const allDoNotExist =
 /*#__PURE__*/
 function () {
-  var _ref2 = (0, _asyncToGenerator2.default)(function* (...args) {
+  var _ref3 = (0, _asyncToGenerator2.default)(function* (...args) {
     const checks = yield Promise.all(args.map(val => (0, _fsExtra.pathExists)((0, _path.join)(process.cwd(), val))));
     return checks.every(val => !val);
   });
 
   return function allDoNotExist() {
-    return _ref2.apply(this, arguments);
+    return _ref3.apply(this, arguments);
   };
 }();
 /**
@@ -156,12 +170,12 @@ exports.getIntendedInput = getIntendedInput;
 const getVersions =
 /*#__PURE__*/
 function () {
-  var _ref3 = (0, _asyncToGenerator2.default)(function* (name = '') {
+  var _ref4 = (0, _asyncToGenerator2.default)(function* (name = '') {
     return name.length === 0 ? [] : (yield (0, _execa.default)('npm', ['view', name, 'versions'])).stdout.split(',\n').map(str => str.match(/\d+[.]\d+[.]\d+/)).map(_lodash.first);
   });
 
   return function getVersions() {
-    return _ref3.apply(this, arguments);
+    return _ref4.apply(this, arguments);
   };
 }();
 /**
@@ -184,7 +198,7 @@ exports.getVersions = getVersions;
 const install =
 /*#__PURE__*/
 function () {
-  var _ref4 = (0, _asyncToGenerator2.default)(function* (dependencies = [], options = {
+  var _ref5 = (0, _asyncToGenerator2.default)(function* (dependencies = [], options = {
     dev: false,
     latest: true,
     skipInstall: false
@@ -205,7 +219,7 @@ function () {
   });
 
   return function install() {
-    return _ref4.apply(this, arguments);
+    return _ref5.apply(this, arguments);
   };
 }();
 /**
@@ -436,7 +450,6 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
       } = self;
       self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
       self.write(contents, shouldCommit);
-      shouldCommit && queue.add(() => self.commit()).catch(silent);
       return self;
     }
 
@@ -628,4 +641,34 @@ const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
   parser: `require('postcss-safe-parser')`,
   processors: [`require('stylelint')()`, `require('postcss-import')()`, `require('postcss-cssnext')()`, `require('uncss').postcssPlugin({html: ['index.html']})`, `require('cssnano')()`, `require('postcss-reporter')({clearReportedMessages: true})`]
 });
+/**
+ * Create and edit a Webpack configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example
+ * const cfg = new WebpackConfigEditor();
+ * await cfg.create().commit();
+ */
+
 exports.PostcssConfigEditor = PostcssConfigEditor;
+const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
+  mode: `'development'`,
+  entry: {
+    app: `'./src/main.js'`
+  },
+  output: {
+    path: `resolve('./dist')`,
+    filename: `'bundle.min.js'`
+  },
+  module: {
+    rules: [{
+      test: `/\.js?$/`,
+      exclude: `/node_modules/`,
+      loader: `'babel-loader'`,
+      query: {
+        presets: [`'env'`]
+      }
+    }]
+  },
+  plugins: [`new DashboardPlugin()`]
+});
+exports.WebpackConfigEditor = WebpackConfigEditor;

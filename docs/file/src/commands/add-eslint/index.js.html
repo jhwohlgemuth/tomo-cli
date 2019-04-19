@@ -43,11 +43,13 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PackageJsonEditor">PackageJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-WebpackConfigEditor">WebpackConfigEditor</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -76,17 +78,14 @@ const pkg = new PackageJsonEditor();
 const cfg = new EslintConfigModuleEditor();
 const sourceDirectory = join(__dirname, &apos;templates&apos;);
 const scaffolder = new Scaffolder({sourceDirectory});
-/**
- * @ignore
- */
+/** @ignore */
 export const tasks = [
     {
-        text: &apos;Create ESLint configuration and ignore files&apos;,
-        task: async ({sourceDirectory}) =&gt; {
+        text: &apos;Create ESLint configuration and .eslintignore files&apos;,
+        task: async () =&gt; {
             await cfg.create();
             await scaffolder
-                .target(sourceDirectory)
-                .copy(&apos;index.html&apos;)
+                .copy(&apos;.eslintignore&apos;)
                 .commit();
         },
         condition: () =&gt; allDoNotExist(&apos;.eslintrc.js&apos;, &apos;.eslintrc&apos;, &apos;.eslintrc.json&apos;, &apos;.eslintrc.yml&apos;)
@@ -94,13 +93,14 @@ export const tasks = [
     {
         text: &apos;Add lint tasks to package.json&apos;,
         task: async ({sourceDirectory}) =&gt; {
-            await pkg.extend({
-                script: {
-                    lint: `eslint . -c ./.eslintrc.js --fix`,
-                    &apos;lint:watch&apos;: `watch &apos;npm run lint&apos; ${sourceDirectory}`,
-                    &apos;lint:tests&apos;: &apos;eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore&apos;
-                }
-            }).commit();
+            const script = {
+                lint: `eslint . -c ./.eslintrc.js --fix`,
+                &apos;lint:watch&apos;: `watch &apos;npm run lint&apos; ${sourceDirectory}`,
+                &apos;lint:tests&apos;: &apos;eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore&apos;
+            };
+            await pkg
+                .extend({script})
+                .commit();
         },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
     },
@@ -118,7 +118,7 @@ export const tasks = [
     {
         text: &apos;Add React support to ESLint configuration file&apos;,
         task: async ({reactVersion}) =&gt; {
-            await cfg.extend({
+            const REACT_BABEL_SETTINGS = {
                 parserOptions: {
                     ecmaFeatures: {
                         jsx: true
@@ -130,7 +130,10 @@ export const tasks = [
                     }
                 },
                 extends: [&apos;omaha-prime-grade&apos;, &apos;plugin:react/recommended&apos;]
-            }).commit();
+            };
+            await cfg
+                .extend(REACT_BABEL_SETTINGS)
+                .commit();
         },
         condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;.eslintrc.js&apos;)),
         optional: ({useReact}) =&gt; useReact

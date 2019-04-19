@@ -1,8 +1,15 @@
 {
-  "coverage": "38.38%",
-  "expectCount": 99,
-  "actualCount": 38,
+  "coverage": "40.19%",
+  "expectCount": 102,
+  "actualCount": 41,
   "files": {
+    "src/commands/add-a11y.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        7
+      ]
+    },
     "src/commands/add-babel.js": {
       "expectCount": 6,
       "actualCount": 1,
@@ -72,22 +79,26 @@
         8
       ]
     },
+    "src/commands/add-webpack.js": {
+      "expectCount": 3,
+      "actualCount": 1,
+      "undocumentLines": [
+        8,
+        15
+      ]
+    },
     "src/commands/common.js": {
       "expectCount": 2,
       "actualCount": 2,
       "undocumentLines": []
     },
     "src/commands/index.js": {
-      "expectCount": 7,
+      "expectCount": 3,
       "actualCount": 0,
       "undocumentLines": [
-        23,
-        24,
-        26,
-        43,
-        55,
-        67,
-        87
+        15,
+        22,
+        32
       ]
     },
     "src/index.js": {
@@ -122,17 +133,18 @@
       ]
     },
     "src/utils.js": {
-      "expectCount": 31,
-      "actualCount": 23,
+      "expectCount": 33,
+      "actualCount": 24,
       "undocumentLines": [
-        16,
-        17,
-        18,
-        131,
-        136,
-        172,
-        293,
-        302
+        12,
+        13,
+        14,
+        22,
+        129,
+        134,
+        170,
+        290,
+        299
       ]
     }
   }

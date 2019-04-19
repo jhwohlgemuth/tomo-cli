@@ -60,6 +60,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils.js~webpackconfigeditor",
+    "variable/index.html#static-variable-WebpackConfigEditor",
+    "<span>WebpackConfigEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "variable"
+  ],
+  [
     "tomo-cli/src/utils.js~alldonotexist",
     "function/index.html#static-function-allDoNotExist",
     "<span>allDoNotExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
@@ -105,6 +111,12 @@ window.esdocSearchIndex = [
     "tomo-cli/src/utils.js~somedoexist",
     "function/index.html#static-function-someDoExist",
     "<span>someDoExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "tomo-cli/src/utils.js~testasyncfunction",
+    "function/index.html#static-function-testAsyncFunction",
+    "<span>testAsyncFunction</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
     "function"
   ],
   [
@@ -396,6 +408,12 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "src/commands/add-a11y.js",
+    "file/src/commands/add-a11y.js.html",
+    "src/commands/add-a11y.js",
+    "file"
+  ],
+  [
     "src/commands/add-babel.js",
     "file/src/commands/add-babel.js.html",
     "src/commands/add-babel.js",
@@ -435,6 +453,12 @@ window.esdocSearchIndex = [
     "src/commands/add-rust.js",
     "file/src/commands/add-rust.js.html",
     "src/commands/add-rust.js",
+    "file"
+  ],
+  [
+    "src/commands/add-webpack.js",
+    "file/src/commands/add-webpack.js.html",
+    "src/commands/add-webpack.js",
     "file"
   ],
   [

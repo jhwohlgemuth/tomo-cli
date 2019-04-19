@@ -1,8 +1,4 @@
-/**
- * @file Utility functions for tomo
- * @author Jason Wohlgemuth
- * @module utils
- */
+import delay from 'delay';
 import {join} from 'path';
 import execa from 'execa';
 import Queue from 'p-queue';
@@ -22,6 +18,8 @@ const PRETTIER_OPTIONS = {
     tabWidth: 4,
     quotes: true
 };
+// eslint-disable-next-line no-magic-numbers
+export const testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -256,7 +254,6 @@ export const createModuleEditor = (filename, contents = 'module.exports = {};', 
         const {contents, prependedContents, queue} = self;
         self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
         self.write(contents, shouldCommit);
-        shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
 };
@@ -411,5 +408,37 @@ export const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
         `require('uncss').postcssPlugin({html: ['index.html']})`,
         `require('cssnano')()`,
         `require('postcss-reporter')({clearReportedMessages: true})`
+    ]
+});
+/**
+ * Create and edit a Webpack configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example
+ * const cfg = new WebpackConfigEditor();
+ * await cfg.create().commit();
+ */
+export const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
+    mode: `'development'`,
+    entry: {
+        app: `'./src/main.js'`
+    },
+    output: {
+        path: `resolve('./dist')`,
+        filename: `'bundle.min.js'`
+    },
+    module: {
+        rules: [
+            {
+                test: `/\.js?$/`,
+                exclude: `/node_modules/`,
+                loader: `'babel-loader'`,
+                query: {
+                    presets: [`'env'`]
+                }
+            }
+        ]
+    },
+    plugins: [
+        `new DashboardPlugin()`
     ]
 });

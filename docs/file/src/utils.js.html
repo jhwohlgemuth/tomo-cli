@@ -43,21 +43,19 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PackageJsonEditor">PackageJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-WebpackConfigEditor">WebpackConfigEditor</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * @file Utility functions for tomo
- * @author Jason Wohlgemuth
- * @module utils
- */
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import delay from &apos;delay&apos;;
 import {join} from &apos;path&apos;;
 import execa from &apos;execa&apos;;
 import Queue from &apos;p-queue&apos;;
@@ -77,6 +75,8 @@ const PRETTIER_OPTIONS = {
     tabWidth: 4,
     quotes: true
 };
+// eslint-disable-next-line no-magic-numbers
+export const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -311,7 +311,6 @@ export const createModuleEditor = (filename, contents = &apos;module.exports = {
         const {contents, prependedContents, queue} = self;
         self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, &apos;\n\n&apos;);
         self.write(contents, shouldCommit);
-        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
         return self;
     }
 };
@@ -466,6 +465,38 @@ export const PostcssConfigEditor = createModuleEditor(&apos;postcss.config.js&ap
         `require(&apos;uncss&apos;).postcssPlugin({html: [&apos;index.html&apos;]})`,
         `require(&apos;cssnano&apos;)()`,
         `require(&apos;postcss-reporter&apos;)({clearReportedMessages: true})`
+    ]
+});
+/**
+ * Create and edit a Webpack configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example
+ * const cfg = new WebpackConfigEditor();
+ * await cfg.create().commit();
+ */
+export const WebpackConfigEditor = createModuleEditor(&apos;webpack.config.js&apos;, {
+    mode: `&apos;development&apos;`,
+    entry: {
+        app: `&apos;./src/main.js&apos;`
+    },
+    output: {
+        path: `resolve(&apos;./dist&apos;)`,
+        filename: `&apos;bundle.min.js&apos;`
+    },
+    module: {
+        rules: [
+            {
+                test: `/\.js?$/`,
+                exclude: `/node_modules/`,
+                loader: `&apos;babel-loader&apos;`,
+                query: {
+                    presets: [`&apos;env&apos;`]
+                }
+            }
+        ]
+    },
+    plugins: [
+        `new DashboardPlugin()`
     ]
 });</code></pre>
 

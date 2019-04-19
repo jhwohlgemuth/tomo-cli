@@ -21,21 +21,17 @@ const sourceDirectory = (0, _path.join)(__dirname, 'templates');
 const scaffolder = new _utils.Scaffolder({
   sourceDirectory
 });
-/**
- * @ignore
- */
+/** @ignore */
 
 const tasks = [{
-  text: 'Create ESLint configuration and ignore files',
+  text: 'Create ESLint configuration and .eslintignore files',
   task: function () {
-    var _ref = (0, _asyncToGenerator2.default)(function* ({
-      sourceDirectory
-    }) {
+    var _ref = (0, _asyncToGenerator2.default)(function* () {
       yield cfg.create();
-      yield scaffolder.target(sourceDirectory).copy('index.html').commit();
+      yield scaffolder.copy('.eslintignore').commit();
     });
 
-    return function task(_x) {
+    return function task() {
       return _ref.apply(this, arguments);
     };
   }(),
@@ -46,16 +42,17 @@ const tasks = [{
     var _ref2 = (0, _asyncToGenerator2.default)(function* ({
       sourceDirectory
     }) {
+      const script = {
+        lint: `eslint . -c ./.eslintrc.js --fix`,
+        'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
+        'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
+      };
       yield pkg.extend({
-        script: {
-          lint: `eslint . -c ./.eslintrc.js --fix`,
-          'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
-          'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
-        }
+        script
       }).commit();
     });
 
-    return function task(_x2) {
+    return function task(_x) {
       return _ref2.apply(this, arguments);
     };
   }(),
@@ -89,7 +86,7 @@ const tasks = [{
     var _ref3 = (0, _asyncToGenerator2.default)(function* ({
       reactVersion
     }) {
-      yield cfg.extend({
+      const REACT_BABEL_SETTINGS = {
         parserOptions: {
           ecmaFeatures: {
             jsx: true
@@ -101,10 +98,11 @@ const tasks = [{
           }
         },
         extends: ['omaha-prime-grade', 'plugin:react/recommended']
-      }).commit();
+      };
+      yield cfg.extend(REACT_BABEL_SETTINGS).commit();
     });
 
-    return function task(_x3) {
+    return function task(_x2) {
       return _ref3.apply(this, arguments);
     };
   }(),

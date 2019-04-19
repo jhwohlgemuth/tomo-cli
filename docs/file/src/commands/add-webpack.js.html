@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/commands/add-rust.js | tomo-cli</title>
+  <title data-ice="title">src/commands/add-webpack.js | tomo-cli</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -54,29 +54,40 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-rust.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable max-len */
-import {arrowRight} from &apos;figures&apos;;
-import {
-    PackageJsonEditor,
-    someDoExist
+<div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-webpack.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+    allDoNotExist,
+    someDoExist,
+    install,
+    WebpackConfigEditor
 } from &apos;../utils&apos;;
 
-const pkg = new PackageJsonEditor();
-/**
- * @ignore
- */
+const WEBPACK_DEPENDENCIES = [
+    &apos;webpack&apos;,
+    &apos;webpack-cli&apos;,
+    &apos;webpack-dashboard&apos;,
+    &apos;webpack-jarvis&apos;,
+    &apos;webpack-dev-server&apos;
+];
+const cfg = new WebpackConfigEditor();
+/** @ignore */
 export const tasks = [
     {
-        text: `Add Rust ${arrowRight} WASM build tasks to package.json`,
-        task: async ({assetsDirectory}) =&gt; {
-            await pkg.extend({
-                script: {
-                    &apos;build:wasm&apos;: `rustc +nightly --target wasm32-unknown-unknown -O --crate-type=cdylib ${assetsDirectory}/rust/main.rs -o ./${assetsDirectory}/rust/main.wasm`,
-                    &apos;postbuild:wasm&apos;: `wasm-gc ${assetsDirectory}/rust/main.wasm ${assetsDirectory}/rust/main.min.wasm`
-                }
-            }).commit();
+        text: &apos;Create Webpack configuration file&apos;,
+        task: async ({sourceDirectory}) =&gt; {
+            const entry = {
+                app: `${sourceDirectory}/main.js`
+            };
+            await cfg.create().done();
+            await cfg.prepend(`const DashboardPlugin = require(&apos;webpack-dashboard/plugin&apos;);`).done();
+            await cfg.prepend(`const {resolve} = require(&apos;path&apos;);`).done();
+            await cfg.extend({entry}).done();
         },
+        condition: () =&gt; allDoNotExist(&apos;webpack.config.js&apos;)
+    },
+    {
+        text: &apos;Install Webpack dependencies&apos;,
+        task: ({skipInstall}) =&gt; install(WEBPACK_DEPENDENCIES, {dev: true, skipInstall}),
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
     }
 ];

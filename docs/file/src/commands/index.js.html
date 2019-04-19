@@ -43,100 +43,47 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PackageJsonEditor">PackageJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-WebpackConfigEditor">WebpackConfigEditor</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/commands/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable no-magic-numbers */
-/**
- * @file tomo commands
- * @author Jason Wohlgemuth
- * @module commands
- * @requires module:utils
- */
-import delay from &apos;delay&apos;;
-import {
-    allDoNotExist,
-    someDoExist
-} from &apos;../utils&apos;;
 import {
     createPackageJson,
     createSourceDirectory
 } from &apos;./common&apos;;
+import addA11y from &apos;./add-a11y&apos;;
 import addBabel from &apos;./add-babel&apos;;
 import addEsdoc from &apos;./add-esdoc&apos;;
 import addEslint from &apos;./add-eslint&apos;;
 import addJest from &apos;./add-jest&apos;;
+import addMarionette from &apos;./add-marionette&apos;;
 import addPostcss from &apos;./add-postcss&apos;;
+import addWebpack from &apos;./add-webpack&apos;;
 
-const ALWAYS = async () =&gt; true;
-const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
-
-const newWebapp = [
-    {
-        text: &apos;Install development dependencies&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
-    },
-    {
-        text: &apos;Install production dependencies&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
-    },
-    {
-        text: &apos;Scaffold webapp folder structure&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
-    }
-];
-const addA11y = [
-    {
-        text: &apos;Add a11y tasks to package.json&apos;,
-        task: testAsyncFunction(),
-        condition: () =&gt; someDoExist(&apos;package.json&apos;)
-    },
-    {
-        text: &apos;Install a11y dependencies&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
-    }
-];
-const addWebpack = [
-    {
-        text: &apos;Create Webpack config file&apos;,
-        task: testAsyncFunction(),
-        condition: () =&gt; allDoNotExist(&apos;webpack.config.js&apos;)
-    },
-    {
-        text: &apos;Install Webpack dependencies&apos;,
-        task: testAsyncFunction(),
-        condition: ALWAYS
-    }
+const createProject = [
+    ...createPackageJson,
+    ...createSourceDirectory,
+    ...addBabel,
+    ...addEslint,
+    ...addJest
 ];
 const create = {
+    project: createProject,
     app: [
-        ...createPackageJson,
-        ...createSourceDirectory,
-        ...addBabel,
-        ...addEslint,
-        ...addJest
-    ],
-    webapp: [
-        ...createPackageJson,
-        ...createSourceDirectory,
-        ...addBabel,
-        ...addEslint,
-        ...addJest,
-        ...newWebapp
+        ...createProject,
+        ...addMarionette
     ],
     server: [
-
+        ...createProject
     ]
 };
 const add = {

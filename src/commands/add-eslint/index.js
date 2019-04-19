@@ -21,17 +21,14 @@ const pkg = new PackageJsonEditor();
 const cfg = new EslintConfigModuleEditor();
 const sourceDirectory = join(__dirname, 'templates');
 const scaffolder = new Scaffolder({sourceDirectory});
-/**
- * @ignore
- */
+/** @ignore */
 export const tasks = [
     {
-        text: 'Create ESLint configuration and ignore files',
-        task: async ({sourceDirectory}) => {
+        text: 'Create ESLint configuration and .eslintignore files',
+        task: async () => {
             await cfg.create();
             await scaffolder
-                .target(sourceDirectory)
-                .copy('index.html')
+                .copy('.eslintignore')
                 .commit();
         },
         condition: () => allDoNotExist('.eslintrc.js', '.eslintrc', '.eslintrc.json', '.eslintrc.yml')
@@ -39,13 +36,14 @@ export const tasks = [
     {
         text: 'Add lint tasks to package.json',
         task: async ({sourceDirectory}) => {
-            await pkg.extend({
-                script: {
-                    lint: `eslint . -c ./.eslintrc.js --fix`,
-                    'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
-                    'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
-                }
-            }).commit();
+            const script = {
+                lint: `eslint . -c ./.eslintrc.js --fix`,
+                'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
+                'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
+            };
+            await pkg
+                .extend({script})
+                .commit();
         },
         condition: () => someDoExist('package.json')
     },
@@ -63,7 +61,7 @@ export const tasks = [
     {
         text: 'Add React support to ESLint configuration file',
         task: async ({reactVersion}) => {
-            await cfg.extend({
+            const REACT_BABEL_SETTINGS = {
                 parserOptions: {
                     ecmaFeatures: {
                         jsx: true
@@ -75,7 +73,10 @@ export const tasks = [
                     }
                 },
                 extends: ['omaha-prime-grade', 'plugin:react/recommended']
-            }).commit();
+            };
+            await cfg
+                .extend(REACT_BABEL_SETTINGS)
+                .commit();
         },
         condition: ({useReact}) => (useReact && someDoExist('.eslintrc.js')),
         optional: ({useReact}) => useReact
