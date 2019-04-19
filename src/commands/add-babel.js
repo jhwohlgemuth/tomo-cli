@@ -22,12 +22,12 @@ const BABEL_PLUGINS = [
 const BABEL_REACT_PRESET = [
     '@babel/preset-react'
 ];
-const cfg = new BabelConfigModuleEditor();
 /** @ignore */
 export const tasks = [
     {
         text: 'Create Babel config file',
         task: async () => {
+            const cfg = new BabelConfigModuleEditor();
             await cfg.create().commit();
         },
         condition: () => allDoNotExist('babel.config.js', '.babelrc', '.babelrc.js')
@@ -57,6 +57,7 @@ export const tasks = [
         text: 'Add React support to Babel configuration file',
         task: async () => {
             const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESET];
+            const cfg = new BabelConfigModuleEditor();
             await cfg.extend({presets}).commit();
         },
         condition: ({useReact}) => (useReact && someDoExist('babel.config.js')),

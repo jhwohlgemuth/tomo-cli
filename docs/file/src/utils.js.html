@@ -215,15 +215,13 @@ export class BasicEditor {
         return self;
     }
     /**
+     * Write changes to disk
      * @return {Promise} Resolves when queue is empty
      */
-    async done() {
-        return await this.queue.onEmpty();
-    }
     async commit() {
-        const {fs} = this;
+        const {fs, queue} = this;
         await new Promise(resolve =&gt; fs.commit(resolve));
-        await this.done();
+        await queue.onEmpty();
     }
 }
 /**

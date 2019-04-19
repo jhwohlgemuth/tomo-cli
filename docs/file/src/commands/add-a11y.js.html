@@ -61,7 +61,6 @@
     someDoExist
 } from &apos;../utils&apos;;
 
-const pkg = new PackageJsonEditor();
 /** @ignore */
 export const tasks = [
     {
@@ -70,9 +69,8 @@ export const tasks = [
             const script = {
                 &apos;lint:a11y&apos;: `${sourceDirectory}/index.html`
             };
-            await pkg
-                .extend({script})
-                .commit();
+            const pkg = new PackageJsonEditor();
+            await pkg.extend({script}).commit();
         },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
     },

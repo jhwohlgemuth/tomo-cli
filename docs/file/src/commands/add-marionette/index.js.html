@@ -73,9 +73,7 @@ const MARIONETTE_DEPENDENCIES = [
 const ALWAYS = async () =&gt; true;
 const sourceDirectory = join(__dirname, &apos;templates&apos;);
 const scaffolder = new Scaffolder({sourceDirectory});
-/**
- * @ignore
- */
+/** @ignore */
 export const tasks = [
     {
         text: &apos;Add Marionette.js Webapp boilerplate&apos;,

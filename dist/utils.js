@@ -255,7 +255,6 @@ class BasicEditor {
   /**
    *
    * @param {string} destination Destination to copy file
-   * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
    * @return {BasicEditor} Chaining OK
    */
 
@@ -272,7 +271,6 @@ class BasicEditor {
     return self;
   }
   /**
-   * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
    * @return {BasicEditor} Chaining OK
    */
 
@@ -288,27 +286,21 @@ class BasicEditor {
     return self;
   }
   /**
+   * Write changes to disk
    * @return {Promise} Resolves when queue is empty
    */
 
 
-  done() {
+  commit() {
     var _this = this;
 
     return (0, _asyncToGenerator2.default)(function* () {
-      return yield _this.queue.onEmpty();
-    })();
-  }
-
-  commit() {
-    var _this2 = this;
-
-    return (0, _asyncToGenerator2.default)(function* () {
       const {
-        fs
-      } = _this2;
+        fs,
+        queue
+      } = _this;
       yield new Promise(resolve => fs.commit(resolve));
-      yield _this2.done();
+      yield queue.onEmpty();
     })();
   }
 
@@ -535,13 +527,13 @@ class Scaffolder {
 
 
   commit() {
-    var _this3 = this;
+    var _this2 = this;
 
     return (0, _asyncToGenerator2.default)(function* () {
       const {
         fs,
         queue
-      } = _this3;
+      } = _this2;
       yield new Promise(resolve => fs.commit(resolve));
       yield queue.onEmpty();
     })();

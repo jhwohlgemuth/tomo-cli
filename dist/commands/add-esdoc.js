@@ -26,14 +26,13 @@ const ESDOC_CONF = {
 const ESDOC_DEPENDENCIES = ['esdoc', 'esdoc-ecmascript-proposal-plugin', 'esdoc-standard-plugin'];
 const ESDOC_REACT_PLUGINS = ['esdoc-jsx-plugin'];
 const EsdocJsonEditor = (0, _utils.createJsonEditor)('esdoc.conf.json', ESDOC_CONF);
-const cfg = new EsdocJsonEditor();
-const pkg = new _utils.PackageJsonEditor();
 /** @ignore */
 
 const tasks = [{
   text: 'Create esdoc configuration file',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
+      const cfg = new EsdocJsonEditor();
       yield cfg.create().commit();
     });
 
@@ -56,6 +55,7 @@ const tasks = [{
         docs: 'npm run build:docs',
         postdocs: 'npm run open:docs'
       };
+      const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({
         script
       }).commit();
@@ -96,6 +96,7 @@ const tasks = [{
       const {
         plugins
       } = ESDOC_CONF;
+      const cfg = new EsdocJsonEditor();
       yield cfg.extend({
         plugins: [...plugins, {
           name: 'esdoc-jsx-plugin',

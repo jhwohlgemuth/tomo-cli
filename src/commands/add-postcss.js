@@ -16,27 +16,27 @@ const POSTCSS_DEPENDENCIES = [
     'stylelint',
     'uncss'
 ];
-const pkg = new PackageJsonEditor();
-const cfg = new PostcssConfigEditor();
 /** @ignore */
 export const tasks = [
     {
         text: 'Create PostCSS config file',
         task: async () => {
+            const cfg = new PostcssConfigEditor();
             await cfg.create().commit();
         },
         condition: () => allDoNotExist('postcss.config.js')
     },
     {
-        text: 'Install PostCSS dependencies',
-        task: ({skipInstall}) => install([POSTCSS_DEPENDENCIES], {dev: true, skipInstall}),
+        text: 'Add PostCSS tasks to package.json',
+        task: async () => {
+            const pkg = new PackageJsonEditor();
+            await pkg.extend({}).commit();
+        },
         condition: () => someDoExist('package.json')
     },
     {
-        text: 'Add PostCSS tasks to package.json',
-        task: () => pkg.extend({
-
-        }),
+        text: 'Install PostCSS dependencies',
+        task: ({skipInstall}) => install([POSTCSS_DEPENDENCIES], {dev: true, skipInstall}),
         condition: () => someDoExist('package.json')
     }
 ];

@@ -69,7 +69,6 @@ const WEBPACK_DEPENDENCIES = [
     &apos;webpack-jarvis&apos;,
     &apos;webpack-dev-server&apos;
 ];
-const cfg = new WebpackConfigEditor();
 /** @ignore */
 export const tasks = [
     {
@@ -78,10 +77,12 @@ export const tasks = [
             const entry = {
                 app: `${sourceDirectory}/main.js`
             };
-            await cfg.create().done();
-            await cfg.prepend(`const DashboardPlugin = require(&apos;webpack-dashboard/plugin&apos;);`).done();
-            await cfg.prepend(`const {resolve} = require(&apos;path&apos;);`).done();
-            await cfg.extend({entry}).done();
+            await (new WebpackConfigEditor())
+                .create()
+                .prepend(`const DashboardPlugin = require(&apos;webpack-dashboard/plugin&apos;);`)
+                .prepend(`const {resolve} = require(&apos;path&apos;);`)
+                .extend({entry})
+                .commit();
         },
         condition: () =&gt; allDoNotExist(&apos;webpack.config.js&apos;)
     },

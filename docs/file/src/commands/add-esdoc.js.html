@@ -87,13 +87,12 @@ const ESDOC_REACT_PLUGINS = [
     &apos;esdoc-jsx-plugin&apos;
 ];
 const EsdocJsonEditor = createJsonEditor(&apos;esdoc.conf.json&apos;, ESDOC_CONF);
-const cfg = new EsdocJsonEditor();
-const pkg = new PackageJsonEditor();
 /** @ignore */
 export const tasks = [
     {
         text: &apos;Create esdoc configuration file&apos;,
         task: async () =&gt; {
+            const cfg = new EsdocJsonEditor();
             await cfg.create().commit();
         },
         condition: () =&gt; allDoNotExist(&apos;esdoc.conf.json&apos;, &apos;.esdoc.json&apos;)
@@ -109,6 +108,7 @@ export const tasks = [
                 docs: &apos;npm run build:docs&apos;,
                 postdocs: &apos;npm run open:docs&apos;
             };
+            const pkg = new PackageJsonEditor();
             await pkg.extend({script}).commit();
         },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
@@ -128,6 +128,7 @@ export const tasks = [
         text: &apos;Add esdoc React plugin to configuration file&apos;,
         task: async () =&gt; {
             const {plugins} = ESDOC_CONF;
+            const cfg = new EsdocJsonEditor();
             await cfg
                 .extend({
                     plugins: [...plugins, {

@@ -97,3 +97,19 @@ exports[`Commands add-marionette 1`] = `
 }
 "
 `;
+
+exports[`Commands add-webpack 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: webpack.config.js,
+            size: 641,
+            type: file
+        }
+    ],
+    size: 641,
+    type: directory
+}
+"
+`;

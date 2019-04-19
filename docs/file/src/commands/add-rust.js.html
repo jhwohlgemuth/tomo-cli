@@ -62,7 +62,6 @@ import {
     someDoExist
 } from &apos;../utils&apos;;
 
-const pkg = new PackageJsonEditor();
 /** @ignore */
 export const tasks = [
     {
@@ -72,6 +71,7 @@ export const tasks = [
                 &apos;build:wasm&apos;: `rustc +nightly --target wasm32-unknown-unknown -O --crate-type=cdylib ${assetsDirectory}/rust/main.rs -o ./${assetsDirectory}/rust/main.wasm`,
                 &apos;postbuild:wasm&apos;: `wasm-gc ${assetsDirectory}/rust/main.wasm ${assetsDirectory}/rust/main.min.wasm`
             };
+            const pkg = new PackageJsonEditor();
             await pkg.extend({script}).commit();
         },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)

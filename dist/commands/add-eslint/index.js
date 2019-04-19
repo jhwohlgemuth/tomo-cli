@@ -15,8 +15,6 @@ var _utils = require("../../utils");
 
 const ESLINT_DEPENDENCIES = ['eslint', 'babel-eslint', 'eslint-config-omaha-prime-grade', 'watch'];
 const ESLINT_REACT_PLUGINS = ['eslint-plugin-react'];
-const pkg = new _utils.PackageJsonEditor();
-const cfg = new _utils.EslintConfigModuleEditor();
 const sourceDirectory = (0, _path.join)(__dirname, 'templates');
 const scaffolder = new _utils.Scaffolder({
   sourceDirectory
@@ -27,7 +25,7 @@ const tasks = [{
   text: 'Create ESLint configuration and .eslintignore files',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
-      yield cfg.create().commit();
+      yield new _utils.EslintConfigModuleEditor().create().commit();
       yield scaffolder.copy('.eslintignore').commit();
     });
 
@@ -47,7 +45,7 @@ const tasks = [{
         'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
         'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
       };
-      yield pkg.extend({
+      yield new _utils.PackageJsonEditor().extend({
         script
       }).commit();
     });
@@ -99,7 +97,7 @@ const tasks = [{
         },
         extends: ['omaha-prime-grade', 'plugin:react/recommended']
       };
-      yield cfg.extend(REACT_BABEL_SETTINGS).commit();
+      yield new _utils.EslintConfigModuleEditor().extend(REACT_BABEL_SETTINGS).commit();
     });
 
     return function task(_x2) {

@@ -15,13 +15,13 @@ const BABEL_DEPENDENCIES = ['@babel/cli', '@babel/core', '@babel/runtime'];
 const BABEL_PRESETS = ['@babel/preset-env'];
 const BABEL_PLUGINS = ['@babel/plugin-transform-runtime', '@babel/plugin-proposal-class-properties', '@babel/plugin-proposal-export-default-from', '@babel/plugin-proposal-optional-chaining'];
 const BABEL_REACT_PRESET = ['@babel/preset-react'];
-const cfg = new _utils.BabelConfigModuleEditor();
 /** @ignore */
 
 const tasks = [{
   text: 'Create Babel config file',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
+      const cfg = new _utils.BabelConfigModuleEditor();
       yield cfg.create().commit();
     });
 
@@ -76,6 +76,7 @@ const tasks = [{
   task: function () {
     var _ref2 = (0, _asyncToGenerator2.default)(function* () {
       const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESET];
+      const cfg = new _utils.BabelConfigModuleEditor();
       yield cfg.extend({
         presets
       }).commit();

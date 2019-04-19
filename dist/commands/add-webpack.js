@@ -12,7 +12,6 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 var _utils = require("../utils");
 
 const WEBPACK_DEPENDENCIES = ['webpack', 'webpack-cli', 'webpack-dashboard', 'webpack-jarvis', 'webpack-dev-server'];
-const cfg = new _utils.WebpackConfigEditor();
 /** @ignore */
 
 const tasks = [{
@@ -24,12 +23,9 @@ const tasks = [{
       const entry = {
         app: `${sourceDirectory}/main.js`
       };
-      yield cfg.create().done();
-      yield cfg.prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`).done();
-      yield cfg.prepend(`const {resolve} = require('path');`).done();
-      yield cfg.extend({
+      yield new _utils.WebpackConfigEditor().create().prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`).prepend(`const {resolve} = require('path');`).extend({
         entry
-      }).done();
+      }).commit();
     });
 
     return function task(_x) {

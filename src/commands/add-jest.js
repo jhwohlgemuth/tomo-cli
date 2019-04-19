@@ -8,7 +8,6 @@ const JEST_DEPENDENCIES = [
     'jest',
     'babel-jest'
 ];
-const pkg = new PackageJsonEditor();
 /** @ignore */
 export const tasks = [
     {
@@ -18,6 +17,7 @@ export const tasks = [
                 test: 'jest .*.test.js --coverage',
                 'test:watch': 'npm test -- --watchAll'
             };
+            const pkg = new PackageJsonEditor();
             await pkg.extend({script}).commit();
         },
         condition: () => someDoExist('package.json')

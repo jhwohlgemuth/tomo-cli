@@ -546,12 +546,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/utils.js~basiceditor#done",
-    "class/src/utils.js~BasicEditor.html#instance-method-done",
-    "src/utils.js~BasicEditor#done",
-    "method"
-  ],
-  [
     "src/utils.js~scaffolder#commit",
     "class/src/utils.js~Scaffolder.html#instance-method-commit",
     "src/utils.js~Scaffolder#commit",

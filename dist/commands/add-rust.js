@@ -14,9 +14,8 @@ var _figures = require("figures");
 var _utils = require("../utils");
 
 /* eslint-disable max-len */
-const pkg = new _utils.PackageJsonEditor();
-/** @ignore */
 
+/** @ignore */
 const tasks = [{
   text: `Add Rust ${_figures.arrowRight} WASM build tasks to package.json`,
   task: function () {
@@ -27,6 +26,7 @@ const tasks = [{
         'build:wasm': `rustc +nightly --target wasm32-unknown-unknown -O --crate-type=cdylib ${assetsDirectory}/rust/main.rs -o ./${assetsDirectory}/rust/main.wasm`,
         'postbuild:wasm': `wasm-gc ${assetsDirectory}/rust/main.wasm ${assetsDirectory}/rust/main.min.wasm`
       };
+      const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({
         script
       }).commit();

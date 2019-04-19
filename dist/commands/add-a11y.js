@@ -11,9 +11,7 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _utils = require("../utils");
 
-const pkg = new _utils.PackageJsonEditor();
 /** @ignore */
-
 const tasks = [{
   text: 'Add a11y tasks to package.json',
   task: function () {
@@ -23,6 +21,7 @@ const tasks = [{
       const script = {
         'lint:a11y': `${sourceDirectory}/index.html`
       };
+      const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({
         script
       }).commit();

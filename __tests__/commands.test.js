@@ -7,8 +7,6 @@ import addEslint from '../src/commands/add-eslint';
 import addMarionette from '../src/commands/add-marionette';
 import addWebpack from '../src/commands/add-webpack';
 
-jest.mock('execa');
-
 describe('Commands', () => {
     let tempDirectory;
     const skipInstall = true;
@@ -28,19 +26,18 @@ describe('Commands', () => {
         console.log(tree);
         // expect(tree).toMatchSnapshot();
     });
-    xtest('add-marionette', async () => {
+    test('add-marionette', async () => {
         const sourceDirectory = 'src';
         const options = {skipInstall, sourceDirectory};
         await run(addMarionette, options);
         const tree = getDirectoryTree(tempDirectory, {omit: ['extension', 'path']});
         expect(tree).toMatchSnapshot();
     });
-    xtest('add-webpack', async () => {
+    test('add-webpack', async () => {
         const sourceDirectory = 'src';
         const options = {skipInstall, sourceDirectory};
         await run(addWebpack, options);
         const tree = getDirectoryTree(tempDirectory, {omit: ['extension', 'path']});
-        console.log(tree);
-        // expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 });

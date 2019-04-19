@@ -74,8 +74,6 @@ const ESLINT_DEPENDENCIES = [
 const ESLINT_REACT_PLUGINS = [
     &apos;eslint-plugin-react&apos;
 ];
-const pkg = new PackageJsonEditor();
-const cfg = new EslintConfigModuleEditor();
 const sourceDirectory = join(__dirname, &apos;templates&apos;);
 const scaffolder = new Scaffolder({sourceDirectory});
 /** @ignore */
@@ -83,7 +81,9 @@ export const tasks = [
     {
         text: &apos;Create ESLint configuration and .eslintignore files&apos;,
         task: async () =&gt; {
-            await cfg.create().commit();
+            await (new EslintConfigModuleEditor())
+                .create()
+                .commit();
             await scaffolder
                 .copy(&apos;.eslintignore&apos;)
                 .commit();
@@ -98,7 +98,9 @@ export const tasks = [
                 &apos;lint:watch&apos;: `watch &apos;npm run lint&apos; ${sourceDirectory}`,
                 &apos;lint:tests&apos;: &apos;eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore&apos;
             };
-            await pkg.extend({script}).commit();
+            await (new PackageJsonEditor())
+                .extend({script})
+                .commit();
         },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
     },
@@ -129,7 +131,9 @@ export const tasks = [
                 },
                 extends: [&apos;omaha-prime-grade&apos;, &apos;plugin:react/recommended&apos;]
             };
-            await cfg.extend(REACT_BABEL_SETTINGS).commit();
+            await (new EslintConfigModuleEditor())
+                .extend(REACT_BABEL_SETTINGS)
+                .commit();
         },
         condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;.eslintrc.js&apos;)),
         optional: ({useReact}) =&gt; useReact

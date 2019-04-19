@@ -12,7 +12,6 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 var _utils = require("../utils");
 
 const JEST_DEPENDENCIES = ['jest', 'babel-jest'];
-const pkg = new _utils.PackageJsonEditor();
 /** @ignore */
 
 const tasks = [{
@@ -23,6 +22,7 @@ const tasks = [{
         test: 'jest .*.test.js --coverage',
         'test:watch': 'npm test -- --watchAll'
       };
+      const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({
         script
       }).commit();
