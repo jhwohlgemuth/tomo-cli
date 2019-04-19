@@ -32,9 +32,7 @@ const ESDOC_REACT_PLUGINS = [
 const EsdocJsonEditor = createJsonEditor('esdoc.conf.json', ESDOC_CONF);
 const cfg = new EsdocJsonEditor();
 const pkg = new PackageJsonEditor();
-/**
- * @ignore
- */
+/** @ignore */
 export const tasks = [
     {
         text: 'Create esdoc configuration file',
@@ -46,16 +44,15 @@ export const tasks = [
     {
         text: 'Add documentation tasks to package.json',
         task: async ({sourceDirectory}) => {
-            await pkg.extend({
-                script: {
-                    'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
-                    'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
-                    'open:docs': 'opn ./docs/index.html',
-                    predocs: 'npm run lint:docs',
-                    docs: 'npm run build:docs',
-                    postdocs: 'npm run open:docs'
-                }
-            }).commit();
+            const script = {
+                'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
+                'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
+                'open:docs': 'opn ./docs/index.html',
+                predocs: 'npm run lint:docs',
+                docs: 'npm run build:docs',
+                postdocs: 'npm run open:docs'
+            };
+            await pkg.extend({script}).commit();
         },
         condition: () => someDoExist('package.json')
     },

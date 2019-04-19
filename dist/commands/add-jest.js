@@ -13,19 +13,18 @@ var _utils = require("../utils");
 
 const JEST_DEPENDENCIES = ['jest', 'babel-jest'];
 const pkg = new _utils.PackageJsonEditor();
-/**
- * @ignore
- */
+/** @ignore */
 
 const tasks = [{
   text: 'Add test tasks to package.json',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
+      const script = {
+        test: 'jest .*.test.js --coverage',
+        'test:watch': 'npm test -- --watchAll'
+      };
       yield pkg.extend({
-        script: {
-          test: 'jest .*.test.js --coverage',
-          'test:watch': 'npm test -- --watchAll'
-        }
+        script
       }).commit();
     });
 

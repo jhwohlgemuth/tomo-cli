@@ -260,7 +260,7 @@ class BasicEditor {
    */
 
 
-  copy(destination, shouldCommit = true) {
+  copy(destination) {
     const self = this;
     const {
       fs,
@@ -269,7 +269,6 @@ class BasicEditor {
     } = self;
     const [filename] = path.split('/').reverse();
     queue.add(() => fs.copy(path, (0, _path.join)(destination, filename)));
-    shouldCommit && queue.add(() => self.commit()).catch(silent);
     return self;
   }
   /**
@@ -278,7 +277,7 @@ class BasicEditor {
    */
 
 
-  delete(shouldCommit = true) {
+  delete() {
     const self = this;
     const {
       fs,
@@ -286,7 +285,6 @@ class BasicEditor {
       queue
     } = self;
     queue.add(() => fs.delete(path));
-    shouldCommit && queue.add(() => self.commit()).catch(silent);
     return self;
   }
   /**
@@ -338,7 +336,7 @@ const createJsonEditor = (filename, contents = {}) => {
       });
     }
 
-    create(shouldCommit = true) {
+    create() {
       const self = this;
       const {
         contents,
@@ -346,12 +344,7 @@ const createJsonEditor = (filename, contents = {}) => {
         path,
         queue
       } = self;
-
-      if (!(0, _fsExtra.existsSync)(path)) {
-        queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));
-        shouldCommit && queue.add(() => self.commit()).catch(silent);
-      }
-
+      (0, _fsExtra.existsSync)(path) || queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));
       return self;
     }
 
@@ -363,7 +356,7 @@ const createJsonEditor = (filename, contents = {}) => {
       return fs.readJSON(path) || '';
     }
 
-    extend(contents, shouldCommit = true) {
+    extend(contents) {
       const self = this;
       const {
         fs,
@@ -371,7 +364,6 @@ const createJsonEditor = (filename, contents = {}) => {
         queue
       } = self;
       queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));
-      shouldCommit && queue.add(() => self.commit()).catch(silent);
       return self;
     }
 
@@ -421,7 +413,7 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
       return fs.exists(path) ? fs.read(path) : '';
     }
 
-    write(content, shouldCommit = true) {
+    write(content) {
       const self = this;
       const {
         fs,
@@ -431,25 +423,23 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
       } = self;
       const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
       queue.add(() => fs.write(path, formatted)).then(() => self.created = (0, _fsExtra.existsSync)(path)).catch(silent);
-      shouldCommit && queue.add(() => self.commit()).catch(silent);
       return self;
     }
 
-    extend(code, shouldCommit = true) {
+    extend(code) {
       this.contents = (0, _lodash.merge)(contents, code);
-      this.write(this.contents, shouldCommit);
+      this.write(this.contents);
       return this;
     }
 
-    prepend(code, shouldCommit = true) {
+    prepend(code) {
       const self = this;
       const {
         contents,
-        prependedContents,
-        queue
+        prependedContents
       } = self;
       self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
-      self.write(contents, shouldCommit);
+      self.write(contents);
       return self;
     }
 
@@ -605,11 +595,8 @@ const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
  * const pkg = new PackageJsonEditor();
  * const contents = pkg.create().read();
  * @example <caption>Extend a package.json</caption>
- * await pkg.extend({
- *     script: {
- *         test: 'jest --coverage'
- *     }
- * }).commit();
+ * const script = {test: 'jest --coverage'};
+ * await pkg.extend({script}).commit();
  * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>
  * const script = {
  *     lint: 'eslint index.js -c ./.eslintrc.js'

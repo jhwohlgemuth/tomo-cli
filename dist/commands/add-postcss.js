@@ -14,9 +14,7 @@ var _utils = require("../utils");
 const POSTCSS_DEPENDENCIES = ['cssnano', 'postcss-cli', 'postcss-reporter', 'postcss-safe-parser', 'postcss-import', 'postcss-cssnext', 'stylelint', 'uncss'];
 const pkg = new _utils.PackageJsonEditor();
 const cfg = new _utils.PostcssConfigEditor();
-/**
- * @ignore
- */
+/** @ignore */
 
 const tasks = [{
   text: 'Create PostCSS config file',

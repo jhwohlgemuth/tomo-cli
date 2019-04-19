@@ -13,9 +13,7 @@ var _fsExtra = require("fs-extra");
 
 var _utils = require("../utils");
 
-/**
- * @ignore
- */
+/** @ignore */
 const createPackageJson = [{
   text: 'Create package.json',
   task: function () {
@@ -30,9 +28,7 @@ const createPackageJson = [{
   }(),
   condition: () => (0, _utils.allDoNotExist)('package.json')
 }];
-/**
- * @ignore
- */
+/** @ignore */
 
 exports.createPackageJson = createPackageJson;
 const createSourceDirectory = [{

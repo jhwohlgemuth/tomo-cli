@@ -7,6 +7,8 @@ import dirTree from 'directory-tree';
 import {omit} from 'lodash';
 import {format} from '../src/utils';
 
+const noop = () => {};
+
 const createTemporaryDirectory = async () => {
     const tempDir = join(tmpdir(), `tomo-test-${crypto.randomBytes(20).toString('hex')}`);// eslint-disable-line no-magic-numbers
     await mkdirp(tempDir);
@@ -36,4 +38,10 @@ export const getDirectoryTree = (directory, options = {omit: ['path']}) => {
     const tree = dirTree(directory);
     const result = Object.assign(tree, {name: tree.name.substring(0, 'tomo-test'.length)});
     return format(removeAttributes(result, ...omit));
+};
+export const run = (command, options) => {
+    const tasks = command
+        .map(({task}) => task)
+        .map(task => task(options).catch(noop));
+    return Promise.all(tasks).catch(noop);
 };

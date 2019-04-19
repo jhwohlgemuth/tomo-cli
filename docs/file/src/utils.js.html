@@ -196,26 +196,22 @@ export class BasicEditor {
     /**
      *
      * @param {string} destination Destination to copy file
-     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
      * @return {BasicEditor} Chaining OK
      */
-    copy(destination, shouldCommit = true) {
+    copy(destination) {
         const self = this;
         const {fs, path, queue} = self;
         const [filename] = path.split(&apos;/&apos;).reverse();
         queue.add(() =&gt; fs.copy(path, join(destination, filename)));
-        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
         return self;
     }
     /**
-     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
      * @return {BasicEditor} Chaining OK
      */
-    delete(shouldCommit = true) {
+    delete() {
         const self = this;
         const {fs, path, queue} = self;
         queue.add(() =&gt; fs.delete(path));
-        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
         return self;
     }
     /**
@@ -243,24 +239,20 @@ export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor
         const path = join(cwd, filename);
         assign(this, {path});
     }
-    create(shouldCommit = true) {
+    create() {
         const self = this;
         const {contents, fs, path, queue} = self;
-        if (!existsSync(path)) {
-            queue.add(() =&gt; fs.writeJSON(path, contents, null, INDENT_SPACES));
-            shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
-        }
+        existsSync(path) || queue.add(() =&gt; fs.writeJSON(path, contents, null, INDENT_SPACES));
         return self;
     }
     read() {
         const {fs, path} = this;
         return fs.readJSON(path) || &apos;&apos;;
     }
-    extend(contents, shouldCommit = true) {
+    extend(contents) {
         const self = this;
         const {fs, path, queue} = self;
         queue.add(() =&gt; fs.extendJSON(path, contents, null, INDENT_SPACES));
-        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
         return self;
     }
 };
@@ -290,7 +282,7 @@ export const createModuleEditor = (filename, contents = &apos;module.exports = {
         const {fs, path} = this;
         return fs.exists(path) ? fs.read(path) : &apos;&apos;;
     }
-    write(content, shouldCommit = true) {
+    write(content) {
         const self = this;
         const {fs, path, prependedContents, queue} = self;
         const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, &apos;;&apos;);
@@ -298,19 +290,18 @@ export const createModuleEditor = (filename, contents = &apos;module.exports = {
             .add(() =&gt; fs.write(path, formatted))
             .then(() =&gt; self.created = existsSync(path))
             .catch(silent);
-        shouldCommit &amp;&amp; queue.add(() =&gt; self.commit()).catch(silent);
         return self;
     }
-    extend(code, shouldCommit = true) {
+    extend(code) {
         this.contents = merge(contents, code);
-        this.write(this.contents, shouldCommit);
+        this.write(this.contents);
         return this;
     }
-    prepend(code, shouldCommit = true) {
+    prepend(code) {
         const self = this;
-        const {contents, prependedContents, queue} = self;
+        const {contents, prependedContents} = self;
         self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, &apos;\n\n&apos;);
-        self.write(contents, shouldCommit);
+        self.write(contents);
         return self;
     }
 };
@@ -428,11 +419,8 @@ export const EslintConfigModuleEditor = createModuleEditor(&apos;.eslintrc.js&ap
  * const pkg = new PackageJsonEditor();
  * const contents = pkg.create().read();
  * @example &lt;caption&gt;Extend a package.json&lt;/caption&gt;
- * await pkg.extend({
- *     script: {
- *         test: &apos;jest --coverage&apos;
- *     }
- * }).commit();
+ * const script = {test: &apos;jest --coverage&apos;};
+ * await pkg.extend({script}).commit();
  * @example &lt;caption&gt;Create and extend a package.json without writing to disk (chaining OK)&lt;/caption&gt;
  * const script = {
  *     lint: &apos;eslint index.js -c ./.eslintrc.js&apos;

@@ -83,7 +83,7 @@ export const tasks = [
     {
         text: &apos;Create ESLint configuration and .eslintignore files&apos;,
         task: async () =&gt; {
-            await cfg.create();
+            await cfg.create().commit();
             await scaffolder
                 .copy(&apos;.eslintignore&apos;)
                 .commit();
@@ -98,9 +98,7 @@ export const tasks = [
                 &apos;lint:watch&apos;: `watch &apos;npm run lint&apos; ${sourceDirectory}`,
                 &apos;lint:tests&apos;: &apos;eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore&apos;
             };
-            await pkg
-                .extend({script})
-                .commit();
+            await pkg.extend({script}).commit();
         },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
     },
@@ -131,9 +129,7 @@ export const tasks = [
                 },
                 extends: [&apos;omaha-prime-grade&apos;, &apos;plugin:react/recommended&apos;]
             };
-            await cfg
-                .extend(REACT_BABEL_SETTINGS)
-                .commit();
+            await cfg.extend(REACT_BABEL_SETTINGS).commit();
         },
         condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;.eslintrc.js&apos;)),
         optional: ({useReact}) =&gt; useReact

@@ -80,9 +80,7 @@ const BABEL_REACT_PRESET = [
     &apos;@babel/preset-react&apos;
 ];
 const cfg = new BabelConfigModuleEditor();
-/**
- * @ignore
- */
+/** @ignore */
 export const tasks = [
     {
         text: &apos;Create Babel config file&apos;,
@@ -115,9 +113,8 @@ export const tasks = [
     {
         text: &apos;Add React support to Babel configuration file&apos;,
         task: async () =&gt; {
-            await cfg.extend({
-                presets: [...BABEL_PRESETS, ...BABEL_REACT_PRESET]
-            }).commit();
+            const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESET];
+            await cfg.extend({presets}).commit();
         },
         condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;babel.config.js&apos;)),
         optional: ({useReact}) =&gt; useReact

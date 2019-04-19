@@ -27,7 +27,7 @@ const tasks = [{
   text: 'Create ESLint configuration and .eslintignore files',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
-      yield cfg.create();
+      yield cfg.create().commit();
       yield scaffolder.copy('.eslintignore').commit();
     });
 

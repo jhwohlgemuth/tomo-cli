@@ -1,13 +1,17 @@
 import {
     getDirectoryTree,
+    run,
     useTemporaryDirectory
 } from './tomo-test';
+import addEslint from '../src/commands/add-eslint';
 import addMarionette from '../src/commands/add-marionette';
+import addWebpack from '../src/commands/add-webpack';
 
 jest.mock('execa');
 
 describe('Commands', () => {
     let tempDirectory;
+    const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
         tempDirectory = await setTempDir();
@@ -16,18 +20,27 @@ describe('Commands', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    test('add-marionette', async () => {
+    xtest('add-eslint', async () => {
         const sourceDirectory = 'src';
-        const skipInstall = true;
         const options = {skipInstall, sourceDirectory};
-        const tasks = addMarionette
-            .map(({task}) => task)
-            .map(task => task(options).catch(() => {}));
-        await Promise.all(tasks).catch(() => {});
+        await run(addEslint, options);
+        const tree = getDirectoryTree(tempDirectory, {omit: ['extension', 'path']});
+        console.log(tree);
+        // expect(tree).toMatchSnapshot();
+    });
+    xtest('add-marionette', async () => {
+        const sourceDirectory = 'src';
+        const options = {skipInstall, sourceDirectory};
+        await run(addMarionette, options);
         const tree = getDirectoryTree(tempDirectory, {omit: ['extension', 'path']});
         expect(tree).toMatchSnapshot();
     });
-    test('add-lit-html', () => {
-        expect(true).toEqual(true);
+    xtest('add-webpack', async () => {
+        const sourceDirectory = 'src';
+        const options = {skipInstall, sourceDirectory};
+        await run(addWebpack, options);
+        const tree = getDirectoryTree(tempDirectory, {omit: ['extension', 'path']});
+        console.log(tree);
+        // expect(tree).toMatchSnapshot();
     });
 });

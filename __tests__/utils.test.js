@@ -25,27 +25,27 @@ describe('package.json mem-fs editor', () => {
     test('create', async () => {
         pkg = new PackageJsonEditor('/some/directory');
         expect(pkg.read()).toEqual('');
-        await pkg.create(false);
+        await pkg.create();
         expect(pkg.read()).toMatchSnapshot();
     });
     test('read', () => {
         expect(pkg.read()).toMatchSnapshot();
     });
     test('extend', async () => {
-        await pkg.extend({scripts: {foo: 'bar'}}, false);
+        await pkg.extend({scripts: {foo: 'bar'}});
         expect(pkg.read()).toMatchSnapshot();
     });
     test('copy', async () => {
         const newDirPath = join(testDirectory, 'new');
-        await pkg.copy(newDirPath, false);
+        await pkg.copy(newDirPath);
         expect(pkg.fs.readJSON(join(newDirPath, 'package.json'))).toMatchSnapshot();
     });
     test('delete', async () => {
         pkg = new PackageJsonEditor('/some/directory');
         expect(pkg.read()).toEqual('');
-        await pkg.create(false);
+        await pkg.create();
         expect(pkg.read()).toMatchSnapshot();
-        await pkg.delete(false);
+        await pkg.delete();
         expect(pkg.read()).toEqual('');
     });
 });
@@ -57,7 +57,7 @@ describe('.eslintrc.js mem-fs editor', () => {
     test('create', async () => {
         cfg = new EslintConfigModuleEditor('/some/directory');
         expect(cfg.read()).toEqual('');
-        await cfg.create(false);
+        await cfg.create();
         expect(cfg.read()).toMatchSnapshot();
     });
     test('read', () => {
@@ -65,25 +65,25 @@ describe('.eslintrc.js mem-fs editor', () => {
     });
     test('extend', async () => {
         expect(cfg.read()).toMatchSnapshot();
-        await cfg.extend({key: {foo: `'foo'`}}, false);
+        await cfg.extend({key: {foo: `'foo'`}});
         expect(cfg.read()).toMatchSnapshot();
-        await cfg.extend({key: {bar: `'bar'`}}, false);
+        await cfg.extend({key: {bar: `'bar'`}});
         expect(cfg.read()).toMatchSnapshot();
     });
     test('delete', async () => {
         cfg = new EslintConfigModuleEditor('/some/directory');
         expect(cfg.read()).toEqual('');
-        await cfg.create(false);
+        await cfg.create();
         expect(cfg.read()).toMatchSnapshot();
-        await cfg.delete(false);
+        await cfg.delete();
         expect(cfg.read()).toEqual('');
     });
     test('prepend', async () => {
-        await cfg.prepend(`const {existsSync} = require('fs-extra');`, false);
+        await cfg.prepend(`const {existsSync} = require('fs-extra');`);
         expect(cfg.read()).toMatchSnapshot();
-        await cfg.prepend(`const {join} = require('path');`, false);
+        await cfg.prepend(`const {join} = require('path');`);
         expect(cfg.read()).toMatchSnapshot();
-        await cfg.extend({key: {baz: 'baz'}}, false);
+        await cfg.extend({key: {baz: 'baz'}});
         expect(cfg.read()).toMatchSnapshot();
     });
 });

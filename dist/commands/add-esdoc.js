@@ -28,9 +28,7 @@ const ESDOC_REACT_PLUGINS = ['esdoc-jsx-plugin'];
 const EsdocJsonEditor = (0, _utils.createJsonEditor)('esdoc.conf.json', ESDOC_CONF);
 const cfg = new EsdocJsonEditor();
 const pkg = new _utils.PackageJsonEditor();
-/**
- * @ignore
- */
+/** @ignore */
 
 const tasks = [{
   text: 'Create esdoc configuration file',
@@ -50,15 +48,16 @@ const tasks = [{
     var _ref2 = (0, _asyncToGenerator2.default)(function* ({
       sourceDirectory
     }) {
+      const script = {
+        'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
+        'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
+        'open:docs': 'opn ./docs/index.html',
+        predocs: 'npm run lint:docs',
+        docs: 'npm run build:docs',
+        postdocs: 'npm run open:docs'
+      };
       yield pkg.extend({
-        script: {
-          'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
-          'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
-          'open:docs': 'opn ./docs/index.html',
-          predocs: 'npm run lint:docs',
-          docs: 'npm run build:docs',
-          postdocs: 'npm run open:docs'
-        }
+        script
       }).commit();
     });
 

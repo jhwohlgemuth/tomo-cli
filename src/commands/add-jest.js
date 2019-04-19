@@ -9,19 +9,16 @@ const JEST_DEPENDENCIES = [
     'babel-jest'
 ];
 const pkg = new PackageJsonEditor();
-/**
- * @ignore
- */
+/** @ignore */
 export const tasks = [
     {
         text: 'Add test tasks to package.json',
         task: async () => {
-            await pkg.extend({
-                script: {
-                    test: 'jest .*.test.js --coverage',
-                    'test:watch': 'npm test -- --watchAll'
-                }
-            }).commit();
+            const script = {
+                test: 'jest .*.test.js --coverage',
+                'test:watch': 'npm test -- --watchAll'
+            };
+            await pkg.extend({script}).commit();
         },
         condition: () => someDoExist('package.json')
     },

@@ -139,26 +139,22 @@ export class BasicEditor {
     /**
      *
      * @param {string} destination Destination to copy file
-     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
      * @return {BasicEditor} Chaining OK
      */
-    copy(destination, shouldCommit = true) {
+    copy(destination) {
         const self = this;
         const {fs, path, queue} = self;
         const [filename] = path.split('/').reverse();
         queue.add(() => fs.copy(path, join(destination, filename)));
-        shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
     /**
-     * @param {boolean} shouldCommit Whether or not the copy should be saved to disk (committed)
      * @return {BasicEditor} Chaining OK
      */
-    delete(shouldCommit = true) {
+    delete() {
         const self = this;
         const {fs, path, queue} = self;
         queue.add(() => fs.delete(path));
-        shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
     /**
@@ -186,24 +182,20 @@ export const createJsonEditor = (filename, contents = {}) => class JsonEditor ex
         const path = join(cwd, filename);
         assign(this, {path});
     }
-    create(shouldCommit = true) {
+    create() {
         const self = this;
         const {contents, fs, path, queue} = self;
-        if (!existsSync(path)) {
-            queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));
-            shouldCommit && queue.add(() => self.commit()).catch(silent);
-        }
+        existsSync(path) || queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));
         return self;
     }
     read() {
         const {fs, path} = this;
         return fs.readJSON(path) || '';
     }
-    extend(contents, shouldCommit = true) {
+    extend(contents) {
         const self = this;
         const {fs, path, queue} = self;
         queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));
-        shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
 };
@@ -233,7 +225,7 @@ export const createModuleEditor = (filename, contents = 'module.exports = {};', 
         const {fs, path} = this;
         return fs.exists(path) ? fs.read(path) : '';
     }
-    write(content, shouldCommit = true) {
+    write(content) {
         const self = this;
         const {fs, path, prependedContents, queue} = self;
         const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
@@ -241,19 +233,18 @@ export const createModuleEditor = (filename, contents = 'module.exports = {};', 
             .add(() => fs.write(path, formatted))
             .then(() => self.created = existsSync(path))
             .catch(silent);
-        shouldCommit && queue.add(() => self.commit()).catch(silent);
         return self;
     }
-    extend(code, shouldCommit = true) {
+    extend(code) {
         this.contents = merge(contents, code);
-        this.write(this.contents, shouldCommit);
+        this.write(this.contents);
         return this;
     }
-    prepend(code, shouldCommit = true) {
+    prepend(code) {
         const self = this;
-        const {contents, prependedContents, queue} = self;
+        const {contents, prependedContents} = self;
         self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
-        self.write(contents, shouldCommit);
+        self.write(contents);
         return self;
     }
 };
@@ -371,11 +362,8 @@ export const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {
  * const pkg = new PackageJsonEditor();
  * const contents = pkg.create().read();
  * @example <caption>Extend a package.json</caption>
- * await pkg.extend({
- *     script: {
- *         test: 'jest --coverage'
- *     }
- * }).commit();
+ * const script = {test: 'jest --coverage'};
+ * await pkg.extend({script}).commit();
  * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>
  * const script = {
  *     lint: 'eslint index.js -c ./.eslintrc.js'

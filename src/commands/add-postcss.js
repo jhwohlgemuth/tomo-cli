@@ -18,9 +18,7 @@ const POSTCSS_DEPENDENCIES = [
 ];
 const pkg = new PackageJsonEditor();
 const cfg = new PostcssConfigEditor();
-/**
- * @ignore
- */
+/** @ignore */
 export const tasks = [
     {
         text: 'Create PostCSS config file',
