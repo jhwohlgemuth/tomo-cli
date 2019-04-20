@@ -31,6 +31,58 @@ exports[`Warning can render 1`] = `
 "
 `;
 
+exports[`populateQueue function can only run tasks that pass condition 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": 0,
+      "type": "complete",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 1,
+      "type": "skipped",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 2,
+      "type": "complete",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 3,
+      "type": "skipped",
+    },
+  ],
+]
+`;
+
+exports[`populateQueue function can run tasks with options and dispatch task results 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": 0,
+      "type": "complete",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 1,
+      "type": "complete",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 2,
+      "type": "complete",
+    },
+  ],
+]
+`;
+
 exports[`tomo add 1`] = `
 "
  [36m[1m→[22m[39m [39m[36m[1ma11y[22m[39m[39m

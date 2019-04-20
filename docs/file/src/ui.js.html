@@ -35,6 +35,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
@@ -55,14 +56,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/ui.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * @file UI Components
- * @author Jason Wohlgemuth
- * @module ui
- * @requires module:utils
- * @requires module:commands
- */
-import React, {useContext, useEffect, useReducer, Component} from &apos;react&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, {useContext, useEffect, useReducer, Component} from &apos;react&apos;;
 import PropTypes from &apos;prop-types&apos;;
 import {isFunction, isString, isUndefined} from &apos;lodash&apos;;
 import Queue from &apos;p-queue&apos;;
@@ -122,6 +116,33 @@ class ErrorBoundary extends React.Component {
         const {error, hasError} = this.state;
         const {children} = this.props;
         return hasError ? &lt;ErrorMessage error={error}/&gt; : children;
+    }
+}
+/**
+ * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
+ * @param {Object} data Data to be used for populating queue
+ * @param {Queue} [data.queue={}] p-queue instance
+ * @param {Object[]} [data.tasks=[]] Array of task objects
+ * @param {function} [data.dispatch=()=&gt;{}] Function to dispatch task completion (complete, skip, error) actions
+ * @param {Object} [data.options={}] Options object to pass to task function
+ * @return {undefined} Returns nothing (side effects only)
+ */
+export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =&gt; {}, options: {}}) {
+    const {queue, tasks, dispatch, options} = data;
+    for (const [index, item] of tasks.entries()) {
+        const {condition, task} = item;
+        try {
+            if (await condition(options)) {
+                await queue
+                    .add(() =&gt; task(options))
+                    .then(() =&gt; dispatch({type: &apos;complete&apos;, payload: index}))
+                    .catch(() =&gt; dispatch({type: &apos;error&apos;, payload: &apos;Error adding task to queue&apos;}));
+            } else {
+                dispatch({type: &apos;skipped&apos;, payload: index});
+            }
+        } catch (error) {
+            dispatch({type: &apos;error&apos;, payload: error});
+        }
     }
 }
 /**
@@ -211,24 +232,7 @@ export const TaskList = ({command, options, terms}) =&gt; {
     const queue = new Queue({concurrency: 1});
     const tasks = commands[command][terms[0]];
     useEffect(() =&gt; {
-        async function populateQueue() {
-            for (const [index, item] of tasks.entries()) {
-                const {condition, task} = item;
-                try {
-                    if (await condition(options)) {
-                        await queue
-                            .add(() =&gt; task(options))
-                            .then(() =&gt; dispatch({type: &apos;complete&apos;, payload: index}))
-                            .catch(() =&gt; dispatch({type: &apos;error&apos;, payload: &apos;Error adding task to queue&apos;}));
-                    } else {
-                        dispatch({type: &apos;skipped&apos;, payload: index});
-                    }
-                } catch (error) {
-                    dispatch({type: &apos;error&apos;, payload: error});
-                }
-            }
-        }
-        populateQueue();
+        populateQueue({queue, tasks, options, dispatch});
     }, []);
     return &lt;ErrorBoundary&gt;
         &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;

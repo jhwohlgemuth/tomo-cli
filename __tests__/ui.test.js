@@ -1,9 +1,50 @@
+import Queue from 'p-queue';
 import React from 'react';
 import {render} from 'ink-testing-library';
-import Tomo, {Warning, Task, TaskList} from '../src/ui';
+import Tomo, {Warning, Task, TaskList, populateQueue} from '../src/ui';
 
 const ARROW_DOWN = '\u001B[B';
 
+describe('populateQueue function', () => {
+    test('can run with defaults', () => {
+        populateQueue();
+    });
+    test('can run tasks with options and dispatch task results', async () => {
+        const condition = async () => true;
+        const task = jest.fn();
+        const options = {foo: 'bar'};
+        const dispatch = jest.fn();
+        const tasks = [
+            {condition, task},
+            {condition, task},
+            {condition, task}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        expect(task.mock.calls.length).toBe(tasks.length);
+        expect(dispatch.mock.calls.length).toBe(tasks.length);
+        const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];
+        expect(passedOptions).toBe(options);
+        expect(dispatch.mock.calls).toMatchSnapshot();
+    });
+    test('can only run tasks that pass condition', async () => {
+        const task = jest.fn();
+        const options = {foo: 'bar'};
+        const dispatch = jest.fn();
+        const tasks = [
+            {condition: async () => true, task},
+            {condition: async () => false, task},
+            {condition: async () => true, task},
+            {condition: async () => false, task}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];
+        expect(passedOptions).toBe(options);
+        expect(task.mock.calls.length).toBe(2);
+        expect(dispatch.mock.calls).toMatchSnapshot();
+    });
+});
 describe('Task component', () => {
     test('can render', () => {
         const text = 'test task text';

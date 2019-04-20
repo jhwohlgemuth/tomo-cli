@@ -7,6 +7,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.populateQueue = populateQueue;
 exports.default = exports.TaskList = exports.Task = exports.Warning = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -33,13 +34,6 @@ var _commands = _interopRequireDefault(require("./commands"));
 
 var _utils = require("./utils");
 
-/**
- * @file UI Components
- * @author Jason Wohlgemuth
- * @module ui
- * @requires module:utils
- * @requires module:commands
- */
 const Check = ({
   isSkipped
 }) => _react.default.createElement(_ink.Text, {
@@ -162,6 +156,20 @@ class ErrorBoundary extends _react.default.Component {
 
 }
 /**
+ * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
+ * @param {Object} data Data to be used for populating queue
+ * @param {Queue} [data.queue={}] p-queue instance
+ * @param {Object[]} [data.tasks=[]] Array of task objects
+ * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
+ * @param {Object} [data.options={}] Options object to pass to task function
+ * @return {undefined} Returns nothing (side effects only)
+ */
+
+
+function populateQueue() {
+  return _populateQueue.apply(this, arguments);
+}
+/**
  * Component to display warning message requiring user input
  * @param {Object} props Function component props
  * @param {ReactNode} props.children Function component children
@@ -169,6 +177,52 @@ class ErrorBoundary extends _react.default.Component {
  * @return {ReactComponent} Warning component
  */
 
+
+function _populateQueue() {
+  _populateQueue = (0, _asyncToGenerator2.default)(function* (data = {
+    queue: {},
+    tasks: [],
+    dispatch: () => {},
+    options: {}
+  }) {
+    const {
+      queue,
+      tasks,
+      dispatch,
+      options
+    } = data;
+
+    for (const [index, item] of tasks.entries()) {
+      const {
+        condition,
+        task
+      } = item;
+
+      try {
+        if (yield condition(options)) {
+          yield queue.add(() => task(options)).then(() => dispatch({
+            type: 'complete',
+            payload: index
+          })).catch(() => dispatch({
+            type: 'error',
+            payload: 'Error adding task to queue'
+          }));
+        } else {
+          dispatch({
+            type: 'skipped',
+            payload: index
+          });
+        }
+      } catch (error) {
+        dispatch({
+          type: 'error',
+          payload: error
+        });
+      }
+    }
+  });
+  return _populateQueue.apply(this, arguments);
+}
 
 const Warning = ({
   callback,
@@ -305,45 +359,12 @@ const TaskList = ({
   });
   const tasks = _commands.default[command][terms[0]];
   (0, _react.useEffect)(() => {
-    function populateQueue() {
-      return _populateQueue.apply(this, arguments);
-    }
-
-    function _populateQueue() {
-      _populateQueue = (0, _asyncToGenerator2.default)(function* () {
-        for (const [index, item] of tasks.entries()) {
-          const {
-            condition,
-            task
-          } = item;
-
-          try {
-            if (yield condition(options)) {
-              yield queue.add(() => task(options)).then(() => dispatch({
-                type: 'complete',
-                payload: index
-              })).catch(() => dispatch({
-                type: 'error',
-                payload: 'Error adding task to queue'
-              }));
-            } else {
-              dispatch({
-                type: 'skipped',
-                payload: index
-              });
-            }
-          } catch (error) {
-            dispatch({
-              type: 'error',
-              payload: error
-            });
-          }
-        }
-      });
-      return _populateQueue.apply(this, arguments);
-    }
-
-    populateQueue();
+    populateQueue({
+      queue,
+      tasks,
+      options,
+      dispatch
+    });
   }, []);
   return _react.default.createElement(ErrorBoundary, null, _react.default.createElement(_ink.Box, {
     flexDirection: 'column',

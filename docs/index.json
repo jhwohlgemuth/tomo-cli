@@ -1464,7 +1464,7 @@
     "__docId__": 97,
     "kind": "file",
     "name": "src/ui.js",
-    "content": "/**\n * @file UI Components\n * @author Jason Wohlgemuth\n * @module ui\n * @requires module:utils\n * @requires module:commands\n */\nimport React, {useContext, useEffect, useReducer, Component} from 'react';\nimport PropTypes from 'prop-types';\nimport {isFunction, isString, isUndefined} from 'lodash';\nimport Queue from 'p-queue';\nimport {Box, Color, Text, StdinContext} from 'ink';\nimport {default as InkBox} from 'ink-box';\nimport Spinner from 'ink-spinner';\nimport SelectInput from 'ink-select-input';\nimport figures from 'figures';\nimport commands from './commands';\nimport {getIntendedInput} from './utils';\n\nconst Check = ({isSkipped}) => (<Text bold>\n    <Color green={!isSkipped} dim={isSkipped}>{figures.tick}</Color>\n</Text>);\nconst Item = ({isSelected, label}) => <Color bold={isSelected} cyan={isSelected}>{label}</Color>;\nconst Indicator = ({isSelected}) => <Box marginRight={1}>{isSelected ? <Color bold cyan>{figures.arrowRight}</Color> : ' '}</Box>;\nconst SubCommandSelect = ({items, onSelect}) => <Box paddingTop={1} paddingBottom={1} paddingLeft={1}>\n    <SelectInput\n        items={items}\n        onSelect={onSelect}\n        itemComponent={Item}\n        indicatorComponent={Indicator}\n    ></SelectInput>\n</Box>;\nconst UnderConstruction = () => <Box marginBottom={1}>\n    <InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}>\n        <Color bold yellow>UNDER CONSTRUCTION</Color>\n    </InkBox>\n</Box>;\nconst ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>\n    <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>\n        <Color yellow>(╯°□ °)╯ ┻━┻ arrrgh...</Color>\n    </InkBox>\n    <Box marginLeft={4}>\n        ↳ <Color dim>Something went wrong...</Color>\n    </Box>\n    <Box marginLeft={6} marginTop={1}>\n        <Color dim><Box>{info}</Box></Color>\n    </Box>\n</Box>;\nclass ErrorBoundary extends React.Component {\n    constructor(props) {\n        super(props);\n        this.state = {\n            info: '',\n            error: {},\n            hasError: false\n        };\n    }\n    static getDerivedStateFromError() {\n        return {hasError: true};\n    }\n    componentDidCatch(error, info) {\n        this.setState({error, info});\n    }\n    render() {\n        const {error, hasError} = this.state;\n        const {children} = this.props;\n        return hasError ? <ErrorMessage error={error}/> : children;\n    }\n}\n/**\n * Component to display warning message requiring user input\n * @param {Object} props Function component props\n * @param {ReactNode} props.children Function component children\n * @param {function} props.callback Function to be called after user interacts with warning\n * @return {ReactComponent} Warning component\n */\nexport const Warning = ({callback, children}) => {\n    const {setRawMode, stdin} = useContext(StdinContext);\n    useEffect(() => {\n        setRawMode && setRawMode(true);\n        stdin.on('data', callback);\n        return function cleanup() {\n            stdin.removeListener('data', callback);\n            setRawMode && setRawMode(false);\n        };\n    });\n    return <Box flexDirection={'column'} marginBottom={1}>\n        <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>\n            <Color yellow>oops...</Color>\n        </InkBox>\n        <Box marginLeft={4}>\n            ↳ {children}\n        </Box>\n        <Box marginLeft={6} marginTop={1}>\n            <Color dim>Press </Color><Text bold>ENTER</Text><Color dim> to continue</Color>\n        </Box>\n    </Box>;\n};\n/**\n * Task component\n * @param {Object} props Function component props\n * @param {boolean} props.isComplete Control display of check (true) or loading (false)\n * @param {boolean} props.isSkipped Control color of check - green (false) or dim (true)\n * @param {string} props.text Task text\n * @example\n * <Task text={'This task is done before it starts'} isComplete={true}></Task>\n * @return {ReactComponent} Task component\n */\nexport const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' marginLeft={3}>\n    {isComplete ?\n        <Check isSkipped={isSkipped}></Check> :\n        <Color cyan><Spinner></Spinner></Color>\n    } <Text><Color dim={isComplete}>{text}</Color></Text>\n</Box>;\n/**\n * Task list component\n * @param {Object} props Function component props\n * @param {string} props.command Command - new | create | add\n * @param {Object} props.options Command line flags (see help)\n * @param {string[]} props.terms Terms - eslint | babel | jest | postcss | docs\n * @example\n * <TaskList command={'add'} terms={'eslint'} options={{skipInstall: true}}></TaskList>\n * @return {ReactComponent} Task list component\n */\nexport const TaskList = ({command, options, terms}) => {\n    const reducer = (state, {type, payload}) => {\n        const {completed, errors, skipped} = state;\n        if (type === 'complete') {\n            return {\n                completed: [...completed, payload],\n                skipped,\n                errors\n            };\n        } else if (type === 'skipped') {\n            return {\n                completed,\n                skipped: [...skipped, payload],\n                errors\n            };\n        } else if (type === 'error') {\n            return {\n                completed,\n                skipped,\n                errors: [...errors, {details: payload}]\n            };\n        }\n    };\n    const initialState = {\n        completed: [],\n        skipped: [],\n        errors: []\n    };\n    const [state, dispatch] = useReducer(reducer, initialState);\n    const queue = new Queue({concurrency: 1});\n    const tasks = commands[command][terms[0]];\n    useEffect(() => {\n        async function populateQueue() {\n            for (const [index, item] of tasks.entries()) {\n                const {condition, task} = item;\n                try {\n                    if (await condition(options)) {\n                        await queue\n                            .add(() => task(options))\n                            .then(() => dispatch({type: 'complete', payload: index}))\n                            .catch(() => dispatch({type: 'error', payload: 'Error adding task to queue'}));\n                    } else {\n                        dispatch({type: 'skipped', payload: index});\n                    }\n                } catch (error) {\n                    dispatch({type: 'error', payload: error});\n                }\n            }\n        }\n        populateQueue();\n    }, []);\n    return <ErrorBoundary>\n        <Box flexDirection={'column'} marginBottom={1}>\n            <InkBox\n                margin={{left: 1, top: 1}}\n                padding={{left: 1, right: 1}}\n                borderColor={((state.completed.length + state.skipped.length) === tasks.length) ? 'green' : 'cyan'}\n                borderStyle={'round'}>\n                <Color bold white>{command} {terms.join(' ')}</Color>\n            </InkBox>\n            <Box flexDirection='column' marginBottom={1}>\n                {tasks.map(({optional, text}, index) => {\n                    const {completed, skipped} = state;\n                    const isSkipped = skipped.includes(index);\n                    const isComplete = completed.includes(index) || isSkipped;\n                    const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));\n                    return shouldBeShown ?\n                        <Task text={text} isSkipped={isSkipped} isComplete={isComplete} key={index}></Task> :\n                        <Box key={index}></Box>;\n                })}\n            </Box>\n        </Box>\n    </ErrorBoundary>;\n};\n/**\n * Main tomo UI class\n */\nclass UI extends Component {\n    constructor(props) {\n        super(props);\n        const {input} = props;\n        const [command, ...terms] = input;\n        const hasCommand = isString(command);\n        const hasTerms = terms.length > 0;\n        const [intendedCommand, intendedTerms] = hasCommand ? getIntendedInput(commands, command, terms) : [, []];\n        const compareTerms = (term, index) => (term !== terms[index]);\n        const showWarning = (command !== intendedCommand) || (intendedTerms.map(compareTerms).some(Boolean));\n        this.state = {\n            hasTerms,\n            hasCommand,\n            showWarning,\n            intendedTerms,\n            intendedCommand\n        };\n        this.updateWarning = this.updateWarning.bind(this);\n        this.updateTerms = this.updateTerms.bind(this);\n    }\n    render() {\n        const {flags} = this.props;\n        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;\n        const {ignoreWarnings} = flags;\n        const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];\n        const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({label: command, value: command})) : [];\n        return <ErrorBoundary>\n            {(showWarning && !ignoreWarnings) ?\n                <Warning callback={this.updateWarning}>\n                    <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>\n                </Warning> :\n                (hasCommand && hasTerms) ?\n                    <TaskList command={intendedCommand} terms={intendedTerms} options={flags}></TaskList> :\n                    hasCommand ?\n                        <SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}></SubCommandSelect> :\n                        <UnderConstruction/>\n            }\n        </ErrorBoundary>;\n    }\n    /**\n     * Callback function for warning component\n     * @param {string} data Character data from stdin\n     * @return {undefined} Returns nothing\n     */\n    updateWarning(data) {\n        const key = String(data);\n        (key === '\\r') ? this.setState({showWarning: false}) : process.exit(0);\n    }\n    /**\n     * @param {Object} args Function options\n     * @param {string} args.value Intended term\n     * @return {undefined} Returns nothing\n     */\n    updateTerms({value}) {\n        this.setState({\n            hasTerms: true,\n            intendedTerms: [value]\n        });\n    }\n}\nCheck.propTypes = {\n    isSkipped: PropTypes.bool\n};\nCheck.defaultProps = {\n    isSkipped: false\n};\nSubCommandSelect.propTypes = {\n    items: PropTypes.arrayOf(PropTypes.object),\n    onSelect: PropTypes.func\n};\nIndicator.propTypes = {\n    isSelected: PropTypes.bool\n};\nIndicator.defaultProps = {\n    isSelected: false\n};\nItem.propTypes = {\n    isSelected: PropTypes.bool,\n    label: PropTypes.string.isRequired\n};\nItem.defaultProps = {\n    isSelected: false\n};\nErrorMessage.propTypes = {\n    info: PropTypes.string\n};\nErrorBoundary.propTypes = {\n    children: PropTypes.node\n};\nTask.propTypes = {\n    isComplete: PropTypes.bool,\n    isSkipped: PropTypes.bool,\n    text: PropTypes.string\n};\nTask.defaultProps = {\n    isComplete: false,\n    isSkipped: false,\n    text: 'task description'\n};\nTaskList.propTypes = {\n    command: PropTypes.string,\n    options: PropTypes.any,\n    terms: PropTypes.arrayOf(PropTypes.string)\n};\nTaskList.defaultProps = {\n    command: '',\n    options: {skipInstall: false},\n    terms: []\n};\nWarning.propTypes = {\n    callback: PropTypes.func,\n    children: PropTypes.node\n};\nUI.propTypes = {\n    input: PropTypes.array,\n    flags: PropTypes.object\n};\nUI.defaultProps = {\n    input: [],\n    flags: {}\n};\n\nexport default UI;\n",
+    "content": "import React, {useContext, useEffect, useReducer, Component} from 'react';\nimport PropTypes from 'prop-types';\nimport {isFunction, isString, isUndefined} from 'lodash';\nimport Queue from 'p-queue';\nimport {Box, Color, Text, StdinContext} from 'ink';\nimport {default as InkBox} from 'ink-box';\nimport Spinner from 'ink-spinner';\nimport SelectInput from 'ink-select-input';\nimport figures from 'figures';\nimport commands from './commands';\nimport {getIntendedInput} from './utils';\n\nconst Check = ({isSkipped}) => (<Text bold>\n    <Color green={!isSkipped} dim={isSkipped}>{figures.tick}</Color>\n</Text>);\nconst Item = ({isSelected, label}) => <Color bold={isSelected} cyan={isSelected}>{label}</Color>;\nconst Indicator = ({isSelected}) => <Box marginRight={1}>{isSelected ? <Color bold cyan>{figures.arrowRight}</Color> : ' '}</Box>;\nconst SubCommandSelect = ({items, onSelect}) => <Box paddingTop={1} paddingBottom={1} paddingLeft={1}>\n    <SelectInput\n        items={items}\n        onSelect={onSelect}\n        itemComponent={Item}\n        indicatorComponent={Indicator}\n    ></SelectInput>\n</Box>;\nconst UnderConstruction = () => <Box marginBottom={1}>\n    <InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}>\n        <Color bold yellow>UNDER CONSTRUCTION</Color>\n    </InkBox>\n</Box>;\nconst ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>\n    <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>\n        <Color yellow>(╯°□ °)╯ ┻━┻ arrrgh...</Color>\n    </InkBox>\n    <Box marginLeft={4}>\n        ↳ <Color dim>Something went wrong...</Color>\n    </Box>\n    <Box marginLeft={6} marginTop={1}>\n        <Color dim><Box>{info}</Box></Color>\n    </Box>\n</Box>;\nclass ErrorBoundary extends React.Component {\n    constructor(props) {\n        super(props);\n        this.state = {\n            info: '',\n            error: {},\n            hasError: false\n        };\n    }\n    static getDerivedStateFromError() {\n        return {hasError: true};\n    }\n    componentDidCatch(error, info) {\n        this.setState({error, info});\n    }\n    render() {\n        const {error, hasError} = this.state;\n        const {children} = this.props;\n        return hasError ? <ErrorMessage error={error}/> : children;\n    }\n}\n/**\n * Add async tasks to a queue, handle completion with actions dispatched via dispatch function\n * @param {Object} data Data to be used for populating queue\n * @param {Queue} [data.queue={}] p-queue instance\n * @param {Object[]} [data.tasks=[]] Array of task objects\n * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions\n * @param {Object} [data.options={}] Options object to pass to task function\n * @return {undefined} Returns nothing (side effects only)\n */\nexport async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => {}, options: {}}) {\n    const {queue, tasks, dispatch, options} = data;\n    for (const [index, item] of tasks.entries()) {\n        const {condition, task} = item;\n        try {\n            if (await condition(options)) {\n                await queue\n                    .add(() => task(options))\n                    .then(() => dispatch({type: 'complete', payload: index}))\n                    .catch(() => dispatch({type: 'error', payload: 'Error adding task to queue'}));\n            } else {\n                dispatch({type: 'skipped', payload: index});\n            }\n        } catch (error) {\n            dispatch({type: 'error', payload: error});\n        }\n    }\n}\n/**\n * Component to display warning message requiring user input\n * @param {Object} props Function component props\n * @param {ReactNode} props.children Function component children\n * @param {function} props.callback Function to be called after user interacts with warning\n * @return {ReactComponent} Warning component\n */\nexport const Warning = ({callback, children}) => {\n    const {setRawMode, stdin} = useContext(StdinContext);\n    useEffect(() => {\n        setRawMode && setRawMode(true);\n        stdin.on('data', callback);\n        return function cleanup() {\n            stdin.removeListener('data', callback);\n            setRawMode && setRawMode(false);\n        };\n    });\n    return <Box flexDirection={'column'} marginBottom={1}>\n        <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>\n            <Color yellow>oops...</Color>\n        </InkBox>\n        <Box marginLeft={4}>\n            ↳ {children}\n        </Box>\n        <Box marginLeft={6} marginTop={1}>\n            <Color dim>Press </Color><Text bold>ENTER</Text><Color dim> to continue</Color>\n        </Box>\n    </Box>;\n};\n/**\n * Task component\n * @param {Object} props Function component props\n * @param {boolean} props.isComplete Control display of check (true) or loading (false)\n * @param {boolean} props.isSkipped Control color of check - green (false) or dim (true)\n * @param {string} props.text Task text\n * @example\n * <Task text={'This task is done before it starts'} isComplete={true}></Task>\n * @return {ReactComponent} Task component\n */\nexport const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' marginLeft={3}>\n    {isComplete ?\n        <Check isSkipped={isSkipped}></Check> :\n        <Color cyan><Spinner></Spinner></Color>\n    } <Text><Color dim={isComplete}>{text}</Color></Text>\n</Box>;\n/**\n * Task list component\n * @param {Object} props Function component props\n * @param {string} props.command Command - new | create | add\n * @param {Object} props.options Command line flags (see help)\n * @param {string[]} props.terms Terms - eslint | babel | jest | postcss | docs\n * @example\n * <TaskList command={'add'} terms={'eslint'} options={{skipInstall: true}}></TaskList>\n * @return {ReactComponent} Task list component\n */\nexport const TaskList = ({command, options, terms}) => {\n    const reducer = (state, {type, payload}) => {\n        const {completed, errors, skipped} = state;\n        if (type === 'complete') {\n            return {\n                completed: [...completed, payload],\n                skipped,\n                errors\n            };\n        } else if (type === 'skipped') {\n            return {\n                completed,\n                skipped: [...skipped, payload],\n                errors\n            };\n        } else if (type === 'error') {\n            return {\n                completed,\n                skipped,\n                errors: [...errors, {details: payload}]\n            };\n        }\n    };\n    const initialState = {\n        completed: [],\n        skipped: [],\n        errors: []\n    };\n    const [state, dispatch] = useReducer(reducer, initialState);\n    const queue = new Queue({concurrency: 1});\n    const tasks = commands[command][terms[0]];\n    useEffect(() => {\n        populateQueue({queue, tasks, options, dispatch});\n    }, []);\n    return <ErrorBoundary>\n        <Box flexDirection={'column'} marginBottom={1}>\n            <InkBox\n                margin={{left: 1, top: 1}}\n                padding={{left: 1, right: 1}}\n                borderColor={((state.completed.length + state.skipped.length) === tasks.length) ? 'green' : 'cyan'}\n                borderStyle={'round'}>\n                <Color bold white>{command} {terms.join(' ')}</Color>\n            </InkBox>\n            <Box flexDirection='column' marginBottom={1}>\n                {tasks.map(({optional, text}, index) => {\n                    const {completed, skipped} = state;\n                    const isSkipped = skipped.includes(index);\n                    const isComplete = completed.includes(index) || isSkipped;\n                    const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));\n                    return shouldBeShown ?\n                        <Task text={text} isSkipped={isSkipped} isComplete={isComplete} key={index}></Task> :\n                        <Box key={index}></Box>;\n                })}\n            </Box>\n        </Box>\n    </ErrorBoundary>;\n};\n/**\n * Main tomo UI class\n */\nclass UI extends Component {\n    constructor(props) {\n        super(props);\n        const {input} = props;\n        const [command, ...terms] = input;\n        const hasCommand = isString(command);\n        const hasTerms = terms.length > 0;\n        const [intendedCommand, intendedTerms] = hasCommand ? getIntendedInput(commands, command, terms) : [, []];\n        const compareTerms = (term, index) => (term !== terms[index]);\n        const showWarning = (command !== intendedCommand) || (intendedTerms.map(compareTerms).some(Boolean));\n        this.state = {\n            hasTerms,\n            hasCommand,\n            showWarning,\n            intendedTerms,\n            intendedCommand\n        };\n        this.updateWarning = this.updateWarning.bind(this);\n        this.updateTerms = this.updateTerms.bind(this);\n    }\n    render() {\n        const {flags} = this.props;\n        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;\n        const {ignoreWarnings} = flags;\n        const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];\n        const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({label: command, value: command})) : [];\n        return <ErrorBoundary>\n            {(showWarning && !ignoreWarnings) ?\n                <Warning callback={this.updateWarning}>\n                    <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>\n                </Warning> :\n                (hasCommand && hasTerms) ?\n                    <TaskList command={intendedCommand} terms={intendedTerms} options={flags}></TaskList> :\n                    hasCommand ?\n                        <SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}></SubCommandSelect> :\n                        <UnderConstruction/>\n            }\n        </ErrorBoundary>;\n    }\n    /**\n     * Callback function for warning component\n     * @param {string} data Character data from stdin\n     * @return {undefined} Returns nothing\n     */\n    updateWarning(data) {\n        const key = String(data);\n        (key === '\\r') ? this.setState({showWarning: false}) : process.exit(0);\n    }\n    /**\n     * @param {Object} args Function options\n     * @param {string} args.value Intended term\n     * @return {undefined} Returns nothing\n     */\n    updateTerms({value}) {\n        this.setState({\n            hasTerms: true,\n            intendedTerms: [value]\n        });\n    }\n}\nCheck.propTypes = {\n    isSkipped: PropTypes.bool\n};\nCheck.defaultProps = {\n    isSkipped: false\n};\nSubCommandSelect.propTypes = {\n    items: PropTypes.arrayOf(PropTypes.object),\n    onSelect: PropTypes.func\n};\nIndicator.propTypes = {\n    isSelected: PropTypes.bool\n};\nIndicator.defaultProps = {\n    isSelected: false\n};\nItem.propTypes = {\n    isSelected: PropTypes.bool,\n    label: PropTypes.string.isRequired\n};\nItem.defaultProps = {\n    isSelected: false\n};\nErrorMessage.propTypes = {\n    info: PropTypes.string\n};\nErrorBoundary.propTypes = {\n    children: PropTypes.node\n};\nTask.propTypes = {\n    isComplete: PropTypes.bool,\n    isSkipped: PropTypes.bool,\n    text: PropTypes.string\n};\nTask.defaultProps = {\n    isComplete: false,\n    isSkipped: false,\n    text: 'task description'\n};\nTaskList.propTypes = {\n    command: PropTypes.string,\n    options: PropTypes.any,\n    terms: PropTypes.arrayOf(PropTypes.string)\n};\nTaskList.defaultProps = {\n    command: '',\n    options: {skipInstall: false},\n    terms: []\n};\nWarning.propTypes = {\n    callback: PropTypes.func,\n    children: PropTypes.node\n};\nUI.propTypes = {\n    input: PropTypes.array,\n    flags: PropTypes.object\n};\nUI.defaultProps = {\n    input: [],\n    flags: {}\n};\n\nexport default UI;\n",
     "static": true,
     "longname": "/home/vagrant/dev/tomo-cli/src/ui.js",
     "access": "public",
@@ -1485,7 +1485,7 @@
     "importPath": "tomo-cli/src/ui.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 20,
+    "lineNumber": 13,
     "undocument": true,
     "params": [
       {
@@ -1516,7 +1516,7 @@
     "importPath": "tomo-cli/src/ui.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 23,
+    "lineNumber": 16,
     "undocument": true,
     "params": [
       {
@@ -1548,7 +1548,7 @@
     "importPath": "tomo-cli/src/ui.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 24,
+    "lineNumber": 17,
     "undocument": true,
     "params": [
       {
@@ -1579,7 +1579,7 @@
     "importPath": "tomo-cli/src/ui.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 25,
+    "lineNumber": 18,
     "undocument": true,
     "params": [
       {
@@ -1611,7 +1611,7 @@
     "importPath": "tomo-cli/src/ui.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 33,
+    "lineNumber": 26,
     "undocument": true,
     "params": [],
     "return": null,
@@ -1631,7 +1631,7 @@
     "importPath": "tomo-cli/src/ui.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 38,
+    "lineNumber": 31,
     "undocument": true,
     "params": [
       {
@@ -1660,7 +1660,7 @@
     "importPath": "tomo-cli/src/ui.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 49,
+    "lineNumber": 42,
     "undocument": true,
     "interface": false,
     "extends": [
@@ -1679,7 +1679,7 @@
     "longname": "src/ui.js~ErrorBoundary#constructor",
     "access": "public",
     "description": null,
-    "lineNumber": 50,
+    "lineNumber": 43,
     "undocument": true
   },
   {
@@ -1691,7 +1691,7 @@
     "longname": "src/ui.js~ErrorBoundary#state",
     "access": "public",
     "description": null,
-    "lineNumber": 52,
+    "lineNumber": 45,
     "undocument": true,
     "type": {
       "types": [
@@ -1710,7 +1710,7 @@
     "longname": "src/ui.js~ErrorBoundary.getDerivedStateFromError",
     "access": "public",
     "description": null,
-    "lineNumber": 58,
+    "lineNumber": 51,
     "undocument": true,
     "params": [],
     "return": {
@@ -1730,7 +1730,7 @@
     "longname": "src/ui.js~ErrorBoundary#componentDidCatch",
     "access": "public",
     "description": null,
-    "lineNumber": 61,
+    "lineNumber": 54,
     "undocument": true,
     "params": [
       {
@@ -1759,7 +1759,7 @@
     "longname": "src/ui.js~ErrorBoundary#render",
     "access": "public",
     "description": null,
-    "lineNumber": 64,
+    "lineNumber": 57,
     "undocument": true,
     "params": [],
     "return": {
@@ -1770,6 +1770,88 @@
   },
   {
     "__docId__": 110,
+    "kind": "function",
+    "name": "populateQueue",
+    "memberof": "src/ui.js",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "src/ui.js~populateQueue",
+    "access": "public",
+    "export": true,
+    "importPath": "tomo-cli/src/ui.js",
+    "importStyle": "{populateQueue}",
+    "description": "Add async tasks to a queue, handle completion with actions dispatched via dispatch function",
+    "lineNumber": 72,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data",
+        "description": "Data to be used for populating queue"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Queue"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "{}",
+        "defaultRaw": {},
+        "name": "data.queue",
+        "description": "p-queue instance"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object[]"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "[]",
+        "defaultRaw": [],
+        "name": "data.tasks",
+        "description": "Array of task objects"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "data.dispatch",
+        "description": "Function to dispatch task completion (complete, skip, error) actions"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "{}",
+        "defaultRaw": {},
+        "name": "data.options",
+        "description": "Options object to pass to task function"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns nothing (side effects only)"
+    }
+  },
+  {
+    "__docId__": 111,
     "kind": "function",
     "name": "Warning",
     "memberof": "src/ui.js",
@@ -1782,7 +1864,7 @@
     "importPath": "tomo-cli/src/ui.js",
     "importStyle": "{Warning}",
     "description": "Component to display warning message requiring user input",
-    "lineNumber": 77,
+    "lineNumber": 97,
     "params": [
       {
         "nullable": null,
@@ -1825,7 +1907,7 @@
     }
   },
   {
-    "__docId__": 111,
+    "__docId__": 112,
     "kind": "function",
     "name": "Task",
     "memberof": "src/ui.js",
@@ -1841,7 +1923,7 @@
     "examples": [
       "<Task text={'This task is done before it starts'} isComplete={true}></Task>"
     ],
-    "lineNumber": 109,
+    "lineNumber": 129,
     "params": [
       {
         "nullable": null,
@@ -1894,7 +1976,7 @@
     }
   },
   {
-    "__docId__": 112,
+    "__docId__": 113,
     "kind": "function",
     "name": "TaskList",
     "memberof": "src/ui.js",
@@ -1910,7 +1992,7 @@
     "examples": [
       "<TaskList command={'add'} terms={'eslint'} options={{skipInstall: true}}></TaskList>"
     ],
-    "lineNumber": 125,
+    "lineNumber": 145,
     "params": [
       {
         "nullable": null,
@@ -1963,7 +2045,7 @@
     }
   },
   {
-    "__docId__": 113,
+    "__docId__": 114,
     "kind": "class",
     "name": "UI",
     "memberof": "src/ui.js",
@@ -1974,14 +2056,14 @@
     "importPath": "tomo-cli/src/ui.js",
     "importStyle": "UI",
     "description": "Main tomo UI class",
-    "lineNumber": 202,
+    "lineNumber": 205,
     "interface": false,
     "extends": [
       "react~Component"
     ]
   },
   {
-    "__docId__": 114,
+    "__docId__": 115,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/ui.js~UI",
@@ -1991,11 +2073,11 @@
     "longname": "src/ui.js~UI#constructor",
     "access": "public",
     "description": null,
-    "lineNumber": 203,
+    "lineNumber": 206,
     "undocument": true
   },
   {
-    "__docId__": 115,
+    "__docId__": 116,
     "kind": "member",
     "name": "state",
     "memberof": "src/ui.js~UI",
@@ -2003,7 +2085,7 @@
     "longname": "src/ui.js~UI#state",
     "access": "public",
     "description": null,
-    "lineNumber": 212,
+    "lineNumber": 215,
     "undocument": true,
     "type": {
       "types": [
@@ -2012,7 +2094,7 @@
     }
   },
   {
-    "__docId__": 118,
+    "__docId__": 119,
     "kind": "method",
     "name": "render",
     "memberof": "src/ui.js~UI",
@@ -2022,7 +2104,7 @@
     "longname": "src/ui.js~UI#render",
     "access": "public",
     "description": null,
-    "lineNumber": 222,
+    "lineNumber": 225,
     "undocument": true,
     "params": [],
     "return": {
@@ -2032,7 +2114,7 @@
     }
   },
   {
-    "__docId__": 119,
+    "__docId__": 120,
     "kind": "method",
     "name": "updateWarning",
     "memberof": "src/ui.js~UI",
@@ -2042,7 +2124,7 @@
     "longname": "src/ui.js~UI#updateWarning",
     "access": "public",
     "description": "Callback function for warning component",
-    "lineNumber": 246,
+    "lineNumber": 249,
     "params": [
       {
         "nullable": null,
@@ -2065,7 +2147,7 @@
     }
   },
   {
-    "__docId__": 120,
+    "__docId__": 121,
     "kind": "method",
     "name": "updateTerms",
     "memberof": "src/ui.js~UI",
@@ -2075,7 +2157,7 @@
     "longname": "src/ui.js~UI#updateTerms",
     "access": "public",
     "description": "",
-    "lineNumber": 255,
+    "lineNumber": 258,
     "params": [
       {
         "nullable": null,
@@ -2108,7 +2190,7 @@
     }
   },
   {
-    "__docId__": 121,
+    "__docId__": 122,
     "kind": "file",
     "name": "src/utils.js",
     "content": "import delay from 'delay';\nimport {join} from 'path';\nimport execa from 'execa';\nimport Queue from 'p-queue';\nimport prettier from 'prettier';\nimport {first, merge} from 'lodash';\nimport {existsSync, pathExists} from 'fs-extra';\nimport memFs from 'mem-fs';\nimport editor from 'mem-fs-editor';\nimport {findBestMatch} from 'string-similarity';\n\nconst {assign} = Object;\nconst INDENT_SPACES = 4;\nconst PRETTIER_OPTIONS = {\n    bracketSpacing: false,\n    parser: 'json-stringify',\n    printWidth: 80,\n    tabWidth: 4,\n    quotes: true\n};\n// eslint-disable-next-line no-magic-numbers\nexport const testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());\n/**\n * Check that at least one file or files exist\n * @param  {...string} args File or folder path(s)\n * @example\n * // some/folder/\n * //   ├─ foo.js\n * //   └── bar.js\n * const hasFoo = someDoExist('some/folder/foo.js');\n * const hasBaz = someDoExist('some/folder/baz.js');\n * const hasSomething = someDoExist('some/folder/bar.js', 'some/folder/baz.js');\n * console.log(hasFoo); // true\n * console.log(hasBaz); // false\n * console.log(hasSomething); // true\n * @return {boolean} Some files/path do exist (true) or all do not exist (false)\n */\nexport const someDoExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.some(Boolean);\n};\n/**\n * Check that all files do not exist\n * @example\n * // some/folder/\n * //   ├─ foo.js\n * //   └── bar.js\n * const noPackageJson = allDoNotExist('some/folder/package.json');\n * console.log(noPackageJson); // true\n * @param  {...string} args File or folder path(s)\n * @return {boolean} All files/paths do not exist (true) or some do (false)\n */\nexport const allDoNotExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.every(val => !val);\n};\n/**\n * Format input code using Prettier\n * @param {*} [code=''] Code to be formatted\n * @example <caption>Prettier options</caption>\n * {\n *     bracketSpacing: false,\n *     parser: 'json-stringify',\n *     printWidth: 80,\n *     tabWidth: 4,\n *     quotes: true\n * }\n * @return {string} Code formatted by Prettier\n */\nexport const format = (code = {}) => prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/\"/g, '');\n/**\n * Use string-similarity module to determine closest matching string\n * @param {Object} commands Object with commands as key values, terms as key values for each command object\n * @param {string} command Command string input\n * @param {string[]} [terms=[]] Terms input\n * @example\n * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);\n * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)\n */\nexport const getIntendedInput = (commands, command, terms = []) => {\n    const VALID_COMMANDS = Object.keys(commands);\n    const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);\n    const VALID_TERMS = Object.keys(commands[intendedCommand]);\n    const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);\n    return [intendedCommand, intendedTerms];\n};\n/**\n * Use npm CLI to return array of module versions\n * @param {string} name npm module name\n * @example\n * const versions = getVersions('react');\n * @return {string[]} Array of versions\n */\nexport const getVersions = async (name = '') => (name.length === 0) ? [] : (await execa('npm', ['view', name, 'versions']))\n    .stdout\n    .split(',\\n')\n    .map(str => str.match(/\\d+[.]\\d+[.]\\d+/))\n    .map(first);\n/**\n * Install dependencies with npm\n * @param {string[]} [dependencies=[]] Modules to install\n * @param {Object} options Options to configure installation\n * @param {boolean} [options.dev=false] If true, add \"--save-dev\"\n * @param {boolean} [options.latest=true] If true, add \"@latest\" to all module names\n * @param {boolean} [options.skipInstall=false] Do not install (mostly for testing)\n * @example <caption>Install production dependencies</caption>\n * install(['react']);\n * @example <caption>Install development dependencies</caption>\n * install(['jest', 'babel-jest'], {dev: true});\n * @return {string[]} Array of inputs (mostly for testing)\n */\nexport const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) => {\n    const {dev, latest, skipInstall} = options;\n    const identity = i => i;\n    const concat = val => str => str + val;\n    const args = ['install']\n        .concat(dependencies.map(latest ? concat('@latest') : identity))\n        .concat(dev ? '--save-dev' : []);\n    skipInstall || await execa('npm', args);\n    return args;\n};\n/**\n * Determine if system supports Rust (necessary Rust dependencies are installed)\n * @return {boolean} Are Rust components installed?\n */\nexport const verifyRustInstallation = () => {\n\n};\nconst silent = () => { };\n/**\n * Base class to serve as base for JSON and module builder classes\n */\nexport class BasicEditor {\n    constructor() {\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {fs, queue});\n    }\n    /**\n     *\n     * @param {string} destination Destination to copy file\n     * @return {BasicEditor} Chaining OK\n     */\n    copy(destination) {\n        const self = this;\n        const {fs, path, queue} = self;\n        const [filename] = path.split('/').reverse();\n        queue.add(() => fs.copy(path, join(destination, filename)));\n        return self;\n    }\n    /**\n     * @return {BasicEditor} Chaining OK\n     */\n    delete() {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.delete(path));\n        return self;\n    }\n    /**\n     * Write changes to disk\n     * @return {Promise} Resolves when queue is empty\n     */\n    async commit() {\n        const {fs, queue} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await queue.onEmpty();\n    }\n}\n/**\n * Create and edit a JSON file with a fluent API\n * @param {string} filename Name of file to edit\n * @param {object} [contents={}] Contents of file\n * @return {JsonEditor} JsonEditor class (extends {@link BasicEditor})\n */\nexport const createJsonEditor = (filename, contents = {}) => class JsonEditor extends BasicEditor {\n    contents = contents;\n    constructor(cwd = process.cwd()) {\n        super();\n        const path = join(cwd, filename);\n        assign(this, {path});\n    }\n    create() {\n        const self = this;\n        const {contents, fs, path, queue} = self;\n        existsSync(path) || queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.readJSON(path) || '';\n    }\n    extend(contents) {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));\n        return self;\n    }\n};\n/**\n * Create and edit a JS module with a fluent API\n * @param {string} filename Name of file to edit\n * @param {string} [contents='module.exports = {};'] Contents of file\n * @param {string} [prependedContents=''] Content prepended to top of file\n * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})\n */\nexport const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => class ModuleEditor extends BasicEditor {\n    contents = contents;\n    prependedContents = prependedContents;\n    created = false;\n    constructor(cwd = process.cwd()) {\n        super();\n        const path = join(cwd, filename);\n        assign(this, {path});\n    }\n    create(...args) {\n        const self = this;\n        const {contents, path} = self;\n        self.created || (existsSync(path) || self.write(contents, ...args));\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.exists(path) ? fs.read(path) : '';\n    }\n    write(content) {\n        const self = this;\n        const {fs, path, prependedContents, queue} = self;\n        const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\\r*\\n$/g, ';');\n        queue\n            .add(() => fs.write(path, formatted))\n            .then(() => self.created = existsSync(path))\n            .catch(silent);\n        return self;\n    }\n    extend(code) {\n        this.contents = merge(contents, code);\n        this.write(this.contents);\n        return this;\n    }\n    prepend(code) {\n        const self = this;\n        const {contents, prependedContents} = self;\n        self.prependedContents = `${code}\\n${prependedContents}`.replace(/\\n*$/, '\\n\\n');\n        self.write(contents);\n        return self;\n    }\n};\n/**\n * Class to create scaffolders when creating folders, and copying files/templates\n * @example\n * import {Scaffolder} from './utils';\n * const scaffolder = new Scaffolder();\n * await scaffolder\n *     .target('/path/to/copy/files')\n *     .copy('foo.js')\n *     .copy('bar.js')\n *     .commit();\n */\nexport class Scaffolder {\n    /**\n     *\n     * @param {Object} options Scaffolding options\n     * @param {string} options.sourceDirectory Source directory for template files\n     */\n    constructor(options = {sourceDirectory: join(__dirname, 'templates')}) {\n        const {sourceDirectory} = options;\n        const targetDirectory = './';\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {fs, queue, sourceDirectory, targetDirectory});\n    }\n    /**\n     * Set source directory\n     * @param {string} path Source directory of template files\n     * @returns {Scaffolder} Chaining OK\n     */\n    source(path) {\n        this.sourceDirectory = path;\n        return this;\n    }\n    /**\n     * Set target directory\n     * @param {string} path Target directory of template files\n     * @returns {Scaffolder} Chaining OK\n     */\n    target(path) {\n        this.targetDirectory = path;\n        return this;\n    }\n    /**\n     * Copy a file\n     * @param {string} path Path string of file to be copied\n     * @returns {Scaffolder} Chaining OK\n     */\n    copy(path) {\n        const self = this;\n        const {fs, queue, sourceDirectory, targetDirectory} = self;\n        const source = join(sourceDirectory, path);\n        const target = join(process.cwd(), targetDirectory, ...path.split('/'));\n        queue.add(() => fs.copy(source, target)).catch(silent);\n        return self;\n    }\n    /**\n     * Write changes to disk\n     * @return {Promise} Resolves when queue is empty\n     */\n    async commit() {\n        const {fs, queue} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await queue.onEmpty();\n    }\n}\n/**\n * Create and edit a Babel.js configuration file with a fluent API\n * @type {ModuleEditor}\n * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>\n * const cfg = new BabelConfigModuleEditor();\n * await cfg\n *     .create()\n *     .extend({\n *         presets: [`'@babel/preset-env'`]\n *     })\n *     .prepend(`const {existsSync} = require('fs-extra');`)\n *     .commit();\n */\nexport const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {\n    plugins: [\n        `'@babel/plugin-transform-runtime'`,\n        `'@babel/plugin-proposal-class-properties'`,\n        `'@babel/plugin-proposal-export-default-from'`,\n        `'@babel/plugin-proposal-optional-chaining'`\n    ],\n    presets: [`'@babel/preset-env'`]\n});\n/**\n * Create and edit an ESLint configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new EslintConfigModuleEditor();\n * await cfg.create().commit();\n */\nexport const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {\n    env: {\n        es6: true,\n        jest: true\n    },\n    extends: [\n        `'omaha-prime-grade'`\n    ],\n    parser: `'babel-eslint'`\n});\n/**\n * Create and edit a package.json manifest file with a fluent API\n * @type {JsonEditor}\n * @example <caption>Create a new package.json</caption>\n * const pkg = new PackageJsonEditor();\n * await pkg.create().commit();\n * @example <caption>Create a new package.json and read its contents (chaining OK)</caption>\n * const pkg = new PackageJsonEditor();\n * const contents = pkg.create().read();\n * @example <caption>Extend a package.json</caption>\n * const script = {test: 'jest --coverage'};\n * await pkg.extend({script}).commit();\n * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>\n * const script = {\n *     lint: 'eslint index.js -c ./.eslintrc.js'\n * };\n * await pkg\n *     .create(false)\n *     .extend({script}, false)\n *     .commit();\n */\nexport const PackageJsonEditor = createJsonEditor('package.json', {\n    name: 'my-project',\n    version: '0.0.0',\n    description: 'A super cool app/server/tool/library/widget/thingy',\n    license: 'MIT',\n    keywords: []\n});\n/**\n * Create and edit an PostCSS configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new PostcssConfigEditor();\n * await cfg.create().commit();\n */\nexport const PostcssConfigEditor = createModuleEditor('postcss.config.js', {\n    parser: `require('postcss-safe-parser')`,\n    processors: [\n        `require('stylelint')()`,\n        `require('postcss-import')()`,\n        `require('postcss-cssnext')()`,\n        `require('uncss').postcssPlugin({html: ['index.html']})`,\n        `require('cssnano')()`,\n        `require('postcss-reporter')({clearReportedMessages: true})`\n    ]\n});\n/**\n * Create and edit a Webpack configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new WebpackConfigEditor();\n * await cfg.create().commit();\n */\nexport const WebpackConfigEditor = createModuleEditor('webpack.config.js', {\n    mode: `'development'`,\n    entry: {\n        app: `'./src/main.js'`\n    },\n    output: {\n        path: `resolve('./dist')`,\n        filename: `'bundle.min.js'`\n    },\n    module: {\n        rules: [\n            {\n                test: `/\\.js?$/`,\n                exclude: `/node_modules/`,\n                loader: `'babel-loader'`,\n                query: {\n                    presets: [`'env'`]\n                }\n            }\n        ]\n    },\n    plugins: [\n        `new DashboardPlugin()`\n    ]\n});",
@@ -2119,7 +2201,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 122,
+    "__docId__": 123,
     "kind": "variable",
     "name": "assign",
     "memberof": "src/utils.js",
@@ -2140,7 +2222,7 @@
     "ignore": true
   },
   {
-    "__docId__": 123,
+    "__docId__": 124,
     "kind": "variable",
     "name": "INDENT_SPACES",
     "memberof": "src/utils.js",
@@ -2161,7 +2243,7 @@
     "ignore": true
   },
   {
-    "__docId__": 124,
+    "__docId__": 125,
     "kind": "variable",
     "name": "PRETTIER_OPTIONS",
     "memberof": "src/utils.js",
@@ -2182,7 +2264,7 @@
     "ignore": true
   },
   {
-    "__docId__": 125,
+    "__docId__": 126,
     "kind": "function",
     "name": "testAsyncFunction",
     "memberof": "src/utils.js",
@@ -2201,7 +2283,7 @@
     "return": null
   },
   {
-    "__docId__": 126,
+    "__docId__": 127,
     "kind": "function",
     "name": "someDoExist",
     "memberof": "src/utils.js",
@@ -2240,7 +2322,7 @@
     }
   },
   {
-    "__docId__": 127,
+    "__docId__": 128,
     "kind": "function",
     "name": "allDoNotExist",
     "memberof": "src/utils.js",
@@ -2279,7 +2361,7 @@
     }
   },
   {
-    "__docId__": 128,
+    "__docId__": 129,
     "kind": "function",
     "name": "format",
     "memberof": "src/utils.js",
@@ -2320,7 +2402,7 @@
     }
   },
   {
-    "__docId__": 129,
+    "__docId__": 130,
     "kind": "function",
     "name": "getIntendedInput",
     "memberof": "src/utils.js",
@@ -2381,7 +2463,7 @@
     }
   },
   {
-    "__docId__": 130,
+    "__docId__": 131,
     "kind": "function",
     "name": "getVersions",
     "memberof": "src/utils.js",
@@ -2420,7 +2502,7 @@
     }
   },
   {
-    "__docId__": 131,
+    "__docId__": 132,
     "kind": "function",
     "name": "install",
     "memberof": "src/utils.js",
@@ -2508,7 +2590,7 @@
     }
   },
   {
-    "__docId__": 132,
+    "__docId__": 133,
     "kind": "function",
     "name": "verifyRustInstallation",
     "memberof": "src/utils.js",
@@ -2533,7 +2615,7 @@
     "params": []
   },
   {
-    "__docId__": 133,
+    "__docId__": 134,
     "kind": "function",
     "name": "silent",
     "memberof": "src/utils.js",
@@ -2553,7 +2635,7 @@
     "ignore": true
   },
   {
-    "__docId__": 134,
+    "__docId__": 135,
     "kind": "class",
     "name": "BasicEditor",
     "memberof": "src/utils.js",
@@ -2568,7 +2650,7 @@
     "interface": false
   },
   {
-    "__docId__": 135,
+    "__docId__": 136,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/utils.js~BasicEditor",
@@ -2582,7 +2664,7 @@
     "undocument": true
   },
   {
-    "__docId__": 136,
+    "__docId__": 137,
     "kind": "method",
     "name": "copy",
     "memberof": "src/utils.js~BasicEditor",
@@ -2615,7 +2697,7 @@
     }
   },
   {
-    "__docId__": 137,
+    "__docId__": 138,
     "kind": "method",
     "name": "delete",
     "memberof": "src/utils.js~BasicEditor",
@@ -2637,7 +2719,7 @@
     "params": []
   },
   {
-    "__docId__": 138,
+    "__docId__": 139,
     "kind": "method",
     "name": "commit",
     "memberof": "src/utils.js~BasicEditor",
@@ -2659,7 +2741,7 @@
     "params": []
   },
   {
-    "__docId__": 139,
+    "__docId__": 140,
     "kind": "function",
     "name": "createJsonEditor",
     "memberof": "src/utils.js",
@@ -2707,7 +2789,7 @@
     }
   },
   {
-    "__docId__": 140,
+    "__docId__": 141,
     "kind": "function",
     "name": "createModuleEditor",
     "memberof": "src/utils.js",
@@ -2765,7 +2847,7 @@
     }
   },
   {
-    "__docId__": 141,
+    "__docId__": 142,
     "kind": "class",
     "name": "Scaffolder",
     "memberof": "src/utils.js",
@@ -2783,7 +2865,7 @@
     "interface": false
   },
   {
-    "__docId__": 142,
+    "__docId__": 143,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/utils.js~Scaffolder",
@@ -2818,7 +2900,7 @@
     ]
   },
   {
-    "__docId__": 143,
+    "__docId__": 144,
     "kind": "method",
     "name": "source",
     "memberof": "src/utils.js~Scaffolder",
@@ -2857,7 +2939,7 @@
     }
   },
   {
-    "__docId__": 144,
+    "__docId__": 145,
     "kind": "member",
     "name": "sourceDirectory",
     "memberof": "src/utils.js~Scaffolder",
@@ -2874,7 +2956,7 @@
     }
   },
   {
-    "__docId__": 145,
+    "__docId__": 146,
     "kind": "method",
     "name": "target",
     "memberof": "src/utils.js~Scaffolder",
@@ -2913,7 +2995,7 @@
     }
   },
   {
-    "__docId__": 146,
+    "__docId__": 147,
     "kind": "member",
     "name": "targetDirectory",
     "memberof": "src/utils.js~Scaffolder",
@@ -2930,7 +3012,7 @@
     }
   },
   {
-    "__docId__": 147,
+    "__docId__": 148,
     "kind": "method",
     "name": "copy",
     "memberof": "src/utils.js~Scaffolder",
@@ -2969,7 +3051,7 @@
     }
   },
   {
-    "__docId__": 148,
+    "__docId__": 149,
     "kind": "method",
     "name": "commit",
     "memberof": "src/utils.js~Scaffolder",
@@ -2991,7 +3073,7 @@
     "params": []
   },
   {
-    "__docId__": 149,
+    "__docId__": 150,
     "kind": "variable",
     "name": "BabelConfigModuleEditor",
     "memberof": "src/utils.js",
@@ -3016,7 +3098,7 @@
     }
   },
   {
-    "__docId__": 150,
+    "__docId__": 151,
     "kind": "variable",
     "name": "EslintConfigModuleEditor",
     "memberof": "src/utils.js",
@@ -3041,7 +3123,7 @@
     }
   },
   {
-    "__docId__": 151,
+    "__docId__": 152,
     "kind": "variable",
     "name": "PackageJsonEditor",
     "memberof": "src/utils.js",
@@ -3069,7 +3151,7 @@
     }
   },
   {
-    "__docId__": 152,
+    "__docId__": 153,
     "kind": "variable",
     "name": "PostcssConfigEditor",
     "memberof": "src/utils.js",
@@ -3094,7 +3176,7 @@
     }
   },
   {
-    "__docId__": 153,
+    "__docId__": 154,
     "kind": "variable",
     "name": "WebpackConfigEditor",
     "memberof": "src/utils.js",
@@ -3128,7 +3210,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n    \"name\": \"tomo-cli\",\n    \"version\": \"0.0.0\",\n    \"description\": \"A friendly command line tool designed to help create sustainable software using web technology\",\n    \"license\": \"MIT\",\n    \"bin\": {\n        \"tomo\": \"dist/index.js\"\n    },\n    \"repository\": {\n        \"type\": \"git\",\n        \"url\": \"git+https://github.com/jhwohlgemuth/tomo-cli.git\"\n    },\n    \"author\": \"Jason Wohlgemuth <jhwohlgemuth@gmail.com> (omaha.js.org)\",\n    \"engines\": {\n        \"node\": \">=6\"\n    },\n    \"scripts\": {\n        \"copy:assets\": \"cpy '**/*.(html|hbs|css)' '**/[.]*' '../dist/' --cwd=src --parents --recursive\",\n        \"dev\": \"stmux [ \\\"npm run build:watch\\\" : \\\"npm run lint:watch\\\" ]\",\n        \"prebuild\": \"npm run build:clean\",\n        \"build\": \"babel src --out-dir dist --ignore __tests__\",\n        \"postbuild\": \"npm run copy:assets\",\n        \"build:clean\": \"rm -frd ./dist\",\n        \"build:watch\": \"watch 'npm run build' ./src\",\n        \"build:docs\": \"esdoc -c ./esdoc.conf.json\",\n        \"test\": \"jest .*.test.js --coverage\",\n        \"test:e2e\": \"jest .*.e2e.js\",\n        \"test:watch\": \"npm test -- --watchAll\",\n        \"open:coverage\": \"opn ./coverage/lcov-report/index.html\",\n        \"open:docs\": \"opn ./docs/index.html\",\n        \"lint\": \"eslint . -c ./.eslintrc.js --fix\",\n        \"lint:watch\": \"watch 'npm run lint' ./src\",\n        \"lint:tests\": \"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\",\n        \"lint:tests:watch\": \"watch 'npm run lint:tests' ./__tests__\",\n        \"lint:config\": \"eslint -c ./.eslintrc.js *.js --fix\",\n        \"lint:docs\": \"eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\",\n        \"lint:all\": \"npm-run-all lint lint:tests lint:docs\",\n        \"predocs\": \"npm run lint:docs\",\n        \"docs\": \"npm run build:docs\",\n        \"postdocs\": \"npm run open:docs\"\n    },\n    \"jest\": {\n        \"testMatch\": [\n            \"**/__tests__/**/*.(e2e|test).[jt]s?(x)\"\n        ],\n        \"testPathIgnorePatterns\": [\n            \"/__tests__/fixtures\"\n        ]\n    },\n    \"keywords\": [],\n    \"dependencies\": {\n        \"chalk\": \"2.4.2\",\n        \"delay\": \"4.2.0\",\n        \"execa\": \"1.0.0\",\n        \"figures\": \"3.0.0\",\n        \"fs-extra\": \"7.0.1\",\n        \"ink\": \"2.1.1\",\n        \"ink-big-text\": \"1.0.1\",\n        \"ink-box\": \"1.0.0\",\n        \"ink-select-input\": \"3.1.0\",\n        \"ink-spinner\": \"3.0.1\",\n        \"lodash\": \"4.17.11\",\n        \"mem-fs\": \"1.1.3\",\n        \"mem-fs-editor\": \"5.1.0\",\n        \"meow\": \"5.0.0\",\n        \"p-queue\": \"5.0.0\",\n        \"prettier\": \"1.17.0\",\n        \"prop-types\": \"15.7.2\",\n        \"react\": \"16.8.6\",\n        \"some-module\": \"0.0.3\",\n        \"string-similarity\": \"3.0.0\",\n        \"update-notifier\": \"2.5.0\",\n        \"xterm\": \"3.12.2\"\n    },\n    \"devDependencies\": {\n        \"@babel/cli\": \"^7.4.3\",\n        \"@babel/core\": \"^7.4.3\",\n        \"@babel/plugin-proposal-class-properties\": \"^7.4.0\",\n        \"@babel/plugin-proposal-export-default-from\": \"^7.2.0\",\n        \"@babel/plugin-proposal-optional-chaining\": \"^7.2.0\",\n        \"@babel/plugin-transform-runtime\": \"^7.4.3\",\n        \"@babel/preset-env\": \"^7.4.3\",\n        \"@babel/preset-react\": \"7.0.0\",\n        \"@babel/runtime\": \"^7.4.3\",\n        \"babel-eslint\": \"10.0.1\",\n        \"babel-jest\": \"24.7.1\",\n        \"cpy-cli\": \"2.0.0\",\n        \"directory-tree\": \"2.2.1\",\n        \"esdoc\": \"^1.1.0\",\n        \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n        \"esdoc-jsx-plugin\": \"^1.0.0\",\n        \"esdoc-standard-plugin\": \"^1.0.0\",\n        \"eslint\": \"5.16.0\",\n        \"eslint-config-omaha-prime-grade\": \"11.0.0\",\n        \"eslint-plugin-react\": \"7.12.4\",\n        \"ink-testing-library\": \"1.0.1\",\n        \"jest\": \"24.7.1\",\n        \"npm-run-all\": \"4.1.5\",\n        \"opn-cli\": \"4.1.0\",\n        \"rimraf\": \"2.6.3\",\n        \"stmux\": \"1.6.1\",\n        \"watch\": \"1.0.2\"\n    },\n    \"bugs\": {\n        \"url\": \"https://github.com/jhwohlgemuth/tomo-cli/issues\"\n    },\n    \"homepage\": \"https://github.com/jhwohlgemuth/tomo-cli#readme\",\n    \"script\": {\n        \"lint\": \"eslint . -c ./.eslintrc.js --fix\",\n        \"lint:watch\": \"watch 'npm run lint' undefined\",\n        \"lint:tests\": \"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\"\n    }\n}\n",
+    "content": "{\n    \"name\": \"tomo-cli\",\n    \"version\": \"0.0.0\",\n    \"description\": \"A friendly command line tool designed to help create sustainable software using web technology\",\n    \"license\": \"MIT\",\n    \"bin\": {\n        \"tomo\": \"dist/index.js\"\n    },\n    \"repository\": {\n        \"type\": \"git\",\n        \"url\": \"git+https://github.com/jhwohlgemuth/tomo-cli.git\"\n    },\n    \"author\": \"Jason Wohlgemuth <jhwohlgemuth@gmail.com> (omaha.js.org)\",\n    \"engines\": {\n        \"node\": \">=6\"\n    },\n    \"scripts\": {\n        \"copy:assets\": \"cpy '**/*.(html|hbs|css)' '**/[.]*' '../dist/' --cwd=src --parents --recursive\",\n        \"dev\": \"stmux [ \\\"npm run build:watch\\\" : \\\"npm run lint:watch\\\" ]\",\n        \"prebuild\": \"npm run build:clean\",\n        \"build\": \"babel src --out-dir dist --ignore __tests__\",\n        \"postbuild\": \"npm run copy:assets\",\n        \"build:clean\": \"rm -frd ./dist\",\n        \"build:watch\": \"watch 'npm run build' ./src\",\n        \"build:docs\": \"esdoc -c ./esdoc.conf.json\",\n        \"test\": \"jest .*.test.js --coverage\",\n        \"test:e2e\": \"jest .*.e2e.js\",\n        \"test:watch\": \"npm test -- --watchAll\",\n        \"open:coverage\": \"opn ./coverage/lcov-report/index.html\",\n        \"open:docs\": \"opn ./docs/index.html\",\n        \"lint\": \"eslint . -c ./.eslintrc.js --fix\",\n        \"lint:watch\": \"watch 'npm run lint' ./src\",\n        \"lint:tests\": \"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\",\n        \"lint:tests:watch\": \"watch 'npm run lint:tests' ./__tests__\",\n        \"lint:config\": \"eslint -c ./.eslintrc.js *.js --fix\",\n        \"lint:docs\": \"eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\",\n        \"lint:all\": \"npm-run-all lint lint:tests lint:docs\",\n        \"predocs\": \"npm run lint:docs\",\n        \"docs\": \"npm run build:docs\",\n        \"postdocs\": \"npm run open:docs\"\n    },\n    \"jest\": {\n        \"testMatch\": [\n            \"**/__tests__/**/*.(e2e|test).[jt]s?(x)\"\n        ],\n        \"testPathIgnorePatterns\": [\n            \"/__tests__/fixtures\"\n        ]\n    },\n    \"keywords\": [],\n    \"dependencies\": {\n        \"chalk\": \"2.4.2\",\n        \"delay\": \"4.2.0\",\n        \"execa\": \"1.0.0\",\n        \"figures\": \"3.0.0\",\n        \"fs-extra\": \"7.0.1\",\n        \"ink\": \"2.1.1\",\n        \"ink-big-text\": \"1.0.1\",\n        \"ink-box\": \"1.0.0\",\n        \"ink-select-input\": \"3.1.0\",\n        \"ink-spinner\": \"3.0.1\",\n        \"lodash\": \"4.17.11\",\n        \"mem-fs\": \"1.1.3\",\n        \"mem-fs-editor\": \"5.1.0\",\n        \"meow\": \"5.0.0\",\n        \"p-queue\": \"5.0.0\",\n        \"prettier\": \"1.17.0\",\n        \"prop-types\": \"15.7.2\",\n        \"react\": \"16.8.6\",\n        \"some-module\": \"0.0.3\",\n        \"string-similarity\": \"3.0.0\",\n        \"update-notifier\": \"2.5.0\",\n        \"xterm\": \"3.12.2\"\n    },\n    \"devDependencies\": {\n        \"@babel/cli\": \"^7.4.3\",\n        \"@babel/core\": \"^7.4.3\",\n        \"@babel/plugin-proposal-class-properties\": \"^7.4.0\",\n        \"@babel/plugin-proposal-export-default-from\": \"^7.2.0\",\n        \"@babel/plugin-proposal-optional-chaining\": \"^7.2.0\",\n        \"@babel/plugin-transform-runtime\": \"^7.4.3\",\n        \"@babel/preset-env\": \"^7.4.3\",\n        \"@babel/preset-react\": \"7.0.0\",\n        \"@babel/runtime\": \"^7.4.3\",\n        \"babel-eslint\": \"^10.0.1\",\n        \"babel-jest\": \"24.7.1\",\n        \"cpy-cli\": \"2.0.0\",\n        \"directory-tree\": \"2.2.1\",\n        \"esdoc\": \"^1.1.0\",\n        \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n        \"esdoc-jsx-plugin\": \"^1.0.0\",\n        \"esdoc-standard-plugin\": \"^1.0.0\",\n        \"eslint\": \"^5.16.0\",\n        \"eslint-config-omaha-prime-grade\": \"^11.0.0\",\n        \"eslint-plugin-react\": \"7.12.4\",\n        \"ink-testing-library\": \"1.0.1\",\n        \"jest\": \"24.7.1\",\n        \"npm-run-all\": \"4.1.5\",\n        \"opn-cli\": \"4.1.0\",\n        \"rimraf\": \"2.6.3\",\n        \"stmux\": \"1.6.1\",\n        \"watch\": \"^1.0.2\"\n    },\n    \"bugs\": {\n        \"url\": \"https://github.com/jhwohlgemuth/tomo-cli/issues\"\n    },\n    \"homepage\": \"https://github.com/jhwohlgemuth/tomo-cli#readme\",\n    \"script\": {\n        \"lint\": \"eslint . -c ./.eslintrc.js --fix\",\n        \"lint:watch\": \"watch 'npm run lint' undefined\",\n        \"lint:tests\": \"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\"\n    }\n}\n",
     "longname": "/home/vagrant/dev/tomo-cli/package.json",
     "name": "package.json",
     "static": true,

@@ -1,10 +1,3 @@
-/**
- * @file UI Components
- * @author Jason Wohlgemuth
- * @module ui
- * @requires module:utils
- * @requires module:commands
- */
 import React, {useContext, useEffect, useReducer, Component} from 'react';
 import PropTypes from 'prop-types';
 import {isFunction, isString, isUndefined} from 'lodash';
@@ -65,6 +58,33 @@ class ErrorBoundary extends React.Component {
         const {error, hasError} = this.state;
         const {children} = this.props;
         return hasError ? <ErrorMessage error={error}/> : children;
+    }
+}
+/**
+ * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
+ * @param {Object} data Data to be used for populating queue
+ * @param {Queue} [data.queue={}] p-queue instance
+ * @param {Object[]} [data.tasks=[]] Array of task objects
+ * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
+ * @param {Object} [data.options={}] Options object to pass to task function
+ * @return {undefined} Returns nothing (side effects only)
+ */
+export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => {}, options: {}}) {
+    const {queue, tasks, dispatch, options} = data;
+    for (const [index, item] of tasks.entries()) {
+        const {condition, task} = item;
+        try {
+            if (await condition(options)) {
+                await queue
+                    .add(() => task(options))
+                    .then(() => dispatch({type: 'complete', payload: index}))
+                    .catch(() => dispatch({type: 'error', payload: 'Error adding task to queue'}));
+            } else {
+                dispatch({type: 'skipped', payload: index});
+            }
+        } catch (error) {
+            dispatch({type: 'error', payload: error});
+        }
     }
 }
 /**
@@ -154,24 +174,7 @@ export const TaskList = ({command, options, terms}) => {
     const queue = new Queue({concurrency: 1});
     const tasks = commands[command][terms[0]];
     useEffect(() => {
-        async function populateQueue() {
-            for (const [index, item] of tasks.entries()) {
-                const {condition, task} = item;
-                try {
-                    if (await condition(options)) {
-                        await queue
-                            .add(() => task(options))
-                            .then(() => dispatch({type: 'complete', payload: index}))
-                            .catch(() => dispatch({type: 'error', payload: 'Error adding task to queue'}));
-                    } else {
-                        dispatch({type: 'skipped', payload: index});
-                    }
-                } catch (error) {
-                    dispatch({type: 'error', payload: error});
-                }
-            }
-        }
-        populateQueue();
+        populateQueue({queue, tasks, options, dispatch});
     }, []);
     return <ErrorBoundary>
         <Box flexDirection={'column'} marginBottom={1}>

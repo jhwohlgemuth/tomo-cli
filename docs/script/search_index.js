@@ -108,6 +108,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/ui.js~populatequeue",
+    "function/index.html#static-function-populateQueue",
+    "<span>populateQueue</span> <span class=\"search-result-import-path\">tomo-cli/src/ui.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/utils.js~somedoexist",
     "function/index.html#static-function-someDoExist",
     "<span>someDoExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
