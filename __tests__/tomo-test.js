@@ -4,7 +4,9 @@ import {join} from 'path';
 import {mkdirp} from 'fs-extra';
 import rimraf from 'rimraf';
 import dirTree from 'directory-tree';
-import {omit} from 'lodash';
+import { omit } from 'lodash';
+import Queue from 'p-queue';
+import { populateQueue } from '../src/ui';
 import {format} from '../src/utils';
 
 const noop = () => {};
@@ -33,15 +35,14 @@ export const removeAttributes = (obj, ...attrs) => {
     }, {});
     return result;
 };
-export const getDirectoryTree = (directory, options = {omit: ['path']}) => {
+export const getDirectoryTree = (directory, options = {omit: ['extension', 'path']}) => {
     const {omit} = options;
     const tree = dirTree(directory);
     const result = Object.assign(tree, {name: tree.name.substring(0, 'tomo-test'.length)});
     return format(removeAttributes(result, ...omit));
 };
-export const run = (command, options) => {
-    const tasks = command
-        .map(({task}) => task)
-        .map(task => task(options).catch(noop));
-    return Promise.all(tasks).catch(noop);
+export const run = (tasks, options) => {
+    const queue = new Queue({concurrency: tasks.length});
+    const dispatch = () => {};
+    return populateQueue({queue, dispatch, tasks, options});
 };

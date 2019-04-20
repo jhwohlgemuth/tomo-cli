@@ -1,5 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Commands add-eslint 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 154,
+            type: file
+        }
+    ],
+    size: 190,
+    type: directory
+}
+"
+`;
+
 exports[`Commands add-marionette 1`] = `
 "{
     name: tomo-test,

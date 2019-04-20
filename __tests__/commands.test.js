@@ -18,26 +18,25 @@ describe('Commands', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    xtest('add-eslint', async () => {
+    test('add-eslint', async () => {
         const sourceDirectory = 'src';
         const options = {skipInstall, sourceDirectory};
         await run(addEslint, options);
-        const tree = getDirectoryTree(tempDirectory, {omit: ['extension', 'path']});
-        console.log(tree);
-        // expect(tree).toMatchSnapshot();
+        const tree = getDirectoryTree(tempDirectory);
+        expect(tree).toMatchSnapshot();
     });
     test('add-marionette', async () => {
         const sourceDirectory = 'src';
         const options = {skipInstall, sourceDirectory};
         await run(addMarionette, options);
-        const tree = getDirectoryTree(tempDirectory, {omit: ['extension', 'path']});
+        const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
     });
     test('add-webpack', async () => {
         const sourceDirectory = 'src';
         const options = {skipInstall, sourceDirectory};
         await run(addWebpack, options);
-        const tree = getDirectoryTree(tempDirectory, {omit: ['extension', 'path']});
+        const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
     });
 });
