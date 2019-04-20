@@ -4,12 +4,10 @@ import {join} from 'path';
 import {mkdirp} from 'fs-extra';
 import rimraf from 'rimraf';
 import dirTree from 'directory-tree';
-import { omit } from 'lodash';
+import {omit} from 'lodash';
 import Queue from 'p-queue';
-import { populateQueue } from '../src/ui';
+import {populateQueue} from '../src/ui';
 import {format} from '../src/utils';
-
-const noop = () => {};
 
 const createTemporaryDirectory = async () => {
     const tempDir = join(tmpdir(), `tomo-test-${crypto.randomBytes(20).toString('hex')}`);// eslint-disable-line no-magic-numbers
