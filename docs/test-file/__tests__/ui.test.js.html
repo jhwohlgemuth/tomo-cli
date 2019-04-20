@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/commands/add-esdoc.js | tomo-cli</title>
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">__tests__/ui.test.js | tomo-cli</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -55,95 +55,120 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-esdoc.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
-    allDoNotExist,
-    createJsonEditor,
-    install,
-    PackageJsonEditor,
-    someDoExist
-} from &apos;../utils&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">__tests__/ui.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Queue from &apos;p-queue&apos;;
+import React from &apos;react&apos;;
+import {render} from &apos;ink-testing-library&apos;;
+import Tomo, {Warning, Task, TaskList, populateQueue} from &apos;../src/ui&apos;;
 
-const ESDOC_CONF = {
-    source: &apos;./src&apos;,
-    destination: &apos;./docs&apos;,
-    plugins: [
-        {
-            name: &apos;esdoc-standard-plugin&apos;
-        },
-        {
-            name: &apos;esdoc-ecmascript-proposal-plugin&apos;,
-            option: {
-                all: true
-            }
-        }
-    ]
-};
-const ESDOC_DEPENDENCIES = [
-    &apos;esdoc&apos;,
-    &apos;esdoc-ecmascript-proposal-plugin&apos;,
-    &apos;esdoc-standard-plugin&apos;
-];
-const ESDOC_REACT_PLUGINS = [
-    &apos;esdoc-jsx-plugin&apos;
-];
-const EsdocJsonEditor = createJsonEditor(&apos;esdoc.conf.json&apos;, ESDOC_CONF);
-/** @ignore */
-export const tasks = [
-    {
-        text: &apos;Create esdoc configuration file&apos;,
-        task: async () =&gt; {
-            const cfg = new EsdocJsonEditor();
-            await cfg.create().commit();
-        },
-        condition: () =&gt; allDoNotExist(&apos;esdoc.conf.json&apos;, &apos;.esdoc.json&apos;)
-    },
-    {
-        text: &apos;Add documentation tasks to package.json&apos;,
-        task: async ({sourceDirectory}) =&gt; {
-            const script = {
-                &apos;lint:docs&apos;: `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
-                &apos;build:docs&apos;: `jsdoc ${sourceDirectory} -r --destination ./docs`,
-                &apos;open:docs&apos;: &apos;opn ./docs/index.html&apos;,
-                predocs: &apos;npm run lint:docs&apos;,
-                docs: &apos;npm run build:docs&apos;,
-                postdocs: &apos;npm run open:docs&apos;
-            };
-            const pkg = new PackageJsonEditor();
-            await pkg.extend({script}).commit();
-        },
-        condition: () =&gt; someDoExist(&apos;package.json&apos;)
-    },
-    {
-        text: &apos;Install esdoc dependencies&apos;,
-        task: ({skipInstall}) =&gt; install([...ESDOC_DEPENDENCIES, &apos;opn-cli&apos;], {dev: true, skipInstall}),
-        condition: () =&gt; someDoExist(&apos;package.json&apos;)
-    },
-    {
-        text: &apos;Install esdoc React plugins&apos;,
-        task: ({skipInstall}) =&gt; install(ESDOC_REACT_PLUGINS, {dev: true, skipInstall}),
-        condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;package.json&apos;)),
-        optional: ({useReact}) =&gt; useReact
-    },
-    {
-        text: &apos;Add esdoc React plugin to configuration file&apos;,
-        task: async () =&gt; {
-            const {plugins} = ESDOC_CONF;
-            const cfg = new EsdocJsonEditor();
-            await cfg
-                .extend({
-                    plugins: [...plugins, {
-                        name: &apos;esdoc-jsx-plugin&apos;,
-                        options: {enable: true}
-                    }]
-                })
-                .commit();
-        },
-        condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;esdoc.conf.json&apos;)),
-        optional: ({useReact}) =&gt; useReact
-    }
-];
-export default tasks;</code></pre>
+const ARROW_DOWN = &apos;\u001B[B&apos;;
+
+describe(&apos;populateQueue function&apos;, () =&gt; {
+    test(&apos;can run with defaults&apos;, () =&gt; {
+        populateQueue();
+    });
+    test(&apos;can run tasks with options and dispatch task results&apos;, async () =&gt; {
+        const condition = async () =&gt; true;
+        const task = jest.fn();
+        const options = {foo: &apos;bar&apos;};
+        const dispatch = jest.fn();
+        const tasks = [
+            {condition, task},
+            {condition, task},
+            {condition, task}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        expect(task.mock.calls.length).toBe(tasks.length);
+        expect(dispatch.mock.calls.length).toBe(tasks.length);
+        const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
+        expect(passedOptions).toBe(options);
+        expect(dispatch.mock.calls).toMatchSnapshot();
+    });
+    test(&apos;can only run tasks that pass condition&apos;, async () =&gt; {
+        const task = jest.fn();
+        const options = {foo: &apos;bar&apos;};
+        const dispatch = jest.fn();
+        const tasks = [
+            {condition: async () =&gt; true, task},
+            {condition: async () =&gt; false, task},
+            {condition: async () =&gt; true, task},
+            {condition: async () =&gt; false, task}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
+        expect(passedOptions).toBe(options);
+        expect(task.mock.calls.length).toBe(2);
+        expect(dispatch.mock.calls).toMatchSnapshot();
+    });
+    test(&apos;can catch task errors&apos;, async () =&gt; {
+        const task = jest.fn();
+        const options = {foo: &apos;bar&apos;};
+        const dispatch = jest.fn();
+        const tasks = [
+            {condition: async () =&gt; true, task},
+            {condition: async () =&gt; {throw new Error();}, task},
+            {condition: async () =&gt; true, task},
+            {condition: async () =&gt; false, task}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        expect(task.mock.calls.length).toBe(2);
+        expect(dispatch.mock.calls[1][0].type).toBe(&apos;error&apos;);
+    });
+});
+describe(&apos;Task component&apos;, () =&gt; {
+    test(&apos;can render&apos;, () =&gt; {
+        const text = &apos;test task text&apos;;
+        const component = render(&lt;Task text={text}&gt;&lt;/Task&gt;);
+        expect(component.lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render (completed)&apos;, () =&gt; {
+        const text = &apos;test task text&apos;;
+        const {lastFrame} = render(&lt;Task text={text} isComplete={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render with defaults&apos;, () =&gt; {
+        const {lastFrame} = render(&lt;Task isComplete={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
+describe(&apos;TaskList component&apos;, () =&gt; {
+    test(&apos;can render&apos;, () =&gt; {
+        const options = {skipInstall: true};
+        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} terms={[&apos;eslint&apos;]} options={options}&gt;&lt;/TaskList&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
+describe(&apos;Warning&apos;, () =&gt; {
+    test(&apos;can render&apos;, () =&gt; {
+        const callback = jest.fn();
+        const {lastFrame} = render(&lt;Warning callback={callback}&gt;Hello World&lt;/Warning&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
+describe(&apos;tomo&apos;, () =&gt; {
+    test(&apos;add&apos;, () =&gt; {
+        const input = [&apos;add&apos;];
+        const {lastFrame, stdin} = render(&lt;Tomo input={input}/&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+        stdin.write(ARROW_DOWN);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;add eslint&apos;, () =&gt; {
+        const input = [&apos;add&apos;, &apos;eslint&apos;];
+        const {lastFrame} = render(&lt;Tomo input={input}/&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;add eslint --use-react&apos;, () =&gt; {
+        const input = [&apos;add&apos;, &apos;eslint&apos;];
+        const flags = {useReact: true};
+        const {lastFrame} = render(&lt;Tomo input={input} flags={flags}/&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
+</code></pre>
 
 </div>
 

@@ -1,5 +1,101 @@
 window.esdocSearchIndex = [
   [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber58",
+    "\"Add\" commands",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber70",
+    "\"Add\" commands add-babel",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber79",
+    "\"Add\" commands add-babel (with React)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber88",
+    "\"Add\" commands add-esdoc",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber97",
+    "\"Add\" commands add-esdoc (with React)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber106",
+    "\"Add\" commands add-eslint",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber115",
+    "\"Add\" commands add-eslint (with React)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber124",
+    "\"Add\" commands add-jest",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber133",
+    "\"Add\" commands add-marionette",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber140",
+    "\"Add\" commands add-postcss",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber149",
+    "\"Add\" commands add-webpack",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber21",
+    "\"Create/New\" commands",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber39",
+    "\"Create/New\" commands create new app",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber32",
+    "\"Create/New\" commands create new project",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber46",
+    "\"Create/New\" commands create package.json",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber51",
+    "\"Create/New\" commands create source directory",
+    "test"
+  ],
+  [
     "tomo-cli/src/utils.js~babelconfigmoduleeditor",
     "variable/index.html#static-variable-BabelConfigModuleEditor",
     "<span>BabelConfigModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
@@ -130,6 +226,264 @@ window.esdocSearchIndex = [
     "function/index.html#static-function-verifyRustInstallation",
     "<span>verifyRustInstallation</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
     "function"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber97",
+    "File & folder scaffolder",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber107",
+    "File & folder scaffolder can copy files",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber63",
+    "Task component",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber64",
+    "Task component can render",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber69",
+    "Task component can render (completed)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber74",
+    "Task component can render with defaults",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber79",
+    "TaskList component",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber80",
+    "TaskList component can render",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber13",
+    "Tomo testing tools",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber14",
+    "Tomo testing tools can create and cleanup temporary directories",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber21",
+    "Tomo testing tools can format objects for use as snapshots",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber51",
+    "Tomo testing tools get directory tree",
+    "test"
+  ],
+  [
+    "eslintconfigmoduleeditor src/utils.js~eslintconfigmoduleeditor,eslintconfigmoduleeditor",
+    "test-file/__tests__/utils.test.js.html#lineNumber59",
+    "Verify ESLint module editor can create and edit an ESLint configuration file",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber64",
+    "Verify ESLint module editor can create and edit an ESLint configuration file create",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber80",
+    "Verify ESLint module editor can create and edit an ESLint configuration file delete",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber73",
+    "Verify ESLint module editor can create and edit an ESLint configuration file extend",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber88",
+    "Verify ESLint module editor can create and edit an ESLint configuration file prepend",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber70",
+    "Verify ESLint module editor can create and edit an ESLint configuration file read",
+    "test"
+  ],
+  [
+    "packagejsoneditor src/utils.js~packagejsoneditor,packagejsoneditor",
+    "test-file/__tests__/utils.test.js.html#lineNumber23",
+    "Verify package.json editor can create and edit a package.json manifest file",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber41",
+    "Verify package.json editor can create and edit a package.json manifest file copy",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber28",
+    "Verify package.json editor can create and edit a package.json manifest file create",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber46",
+    "Verify package.json editor can create and edit a package.json manifest file delete",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber37",
+    "Verify package.json editor can create and edit a package.json manifest file extend",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber34",
+    "Verify package.json editor can create and edit a package.json manifest file read",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber86",
+    "Warning",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber87",
+    "Warning can render",
+    "test"
+  ],
+  [
+    "__tests__/commands.test.js",
+    "test-file/__tests__/commands.test.js.html",
+    "__tests__/commands.test.js",
+    "testFile"
+  ],
+  [
+    "__tests__/tomo-test.js",
+    "test-file/__tests__/tomo-test.js.html",
+    "__tests__/tomo-test.js",
+    "testFile"
+  ],
+  [
+    "__tests__/ui.test.js",
+    "test-file/__tests__/ui.test.js.html",
+    "__tests__/ui.test.js",
+    "testFile"
+  ],
+  [
+    "__tests__/utils.test.js",
+    "test-file/__tests__/utils.test.js.html",
+    "__tests__/utils.test.js",
+    "testFile"
+  ],
+  [
+    "__tests__/yodawg.test.js",
+    "test-file/__tests__/yodawg.test.js.html",
+    "__tests__/yodawg.test.js",
+    "testFile"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber110",
+    "getIntendedInput",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber111",
+    "getIntendedInput return closest matches",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber117",
+    "getVersions",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber121",
+    "getVersions format response from npm",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber118",
+    "getVersions handle no module name",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber127",
+    "install",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber128",
+    "install handle array of string names",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber8",
+    "populateQueue function",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber47",
+    "populateQueue function can catch task errors",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber30",
+    "populateQueue function can only run tasks that pass condition",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber12",
+    "populateQueue function can run tasks with options and dispatch task results",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber9",
+    "populateQueue function can run with defaults",
+    "test"
   ],
   [
     "src/.external-ecmascript.js~array",
@@ -592,5 +946,29 @@ window.esdocSearchIndex = [
     "class/src/utils.js~Scaffolder.html#instance-member-targetDirectory",
     "src/utils.js~Scaffolder#targetDirectory",
     "member"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber93",
+    "tomo",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber94",
+    "tomo add",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber101",
+    "tomo add eslint",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber106",
+    "tomo add eslint --use-react",
+    "test"
   ]
 ]

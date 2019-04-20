@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">__tests__/utils.test.js | tomo-cli</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A friendly command line tool designed to help create sustainable software using web technology"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="tomo-cli"><meta property="twitter:description" content="A friendly command line tool designed to help create sustainable software using web technology"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/jhwohlgemuth/tomo-cli"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~Scaffolder.html">Scaffolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PackageJsonEditor">PackageJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-WebpackConfigEditor">WebpackConfigEditor</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">__tests__/utils.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+    EslintConfigModuleEditor,
+    getIntendedInput,
+    getVersions,
+    install,
+    PackageJsonEditor
+} from &apos;../src/utils&apos;;
+import {join} from &apos;path&apos;;
+import crypto from &apos;crypto&apos;;
+import {mkdirp} from &apos;fs-extra&apos;;
+import rimraf from &apos;rimraf&apos;;
+import {tmpdir} from &apos;os&apos;;
+import execa from &apos;execa&apos;;
+import commands from &apos;../src/commands&apos;;
+
+jest.mock(&apos;execa&apos;);
+
+const testDirectory = join(__dirname, &apos;fixtures&apos;);
+/**
+ * Verify package.json editor can create and edit a package.json manifest file
+ * @test {PackageJsonEditor}
+ */
+describe(&apos;package.json mem-fs editor&apos;, () =&gt; {
+    let pkg;
+    beforeEach(() =&gt; {
+        pkg = new PackageJsonEditor(testDirectory);
+    });
+    test(&apos;create&apos;, async () =&gt; {
+        pkg = new PackageJsonEditor(&apos;/some/directory&apos;);
+        expect(pkg.read()).toEqual(&apos;&apos;);
+        await pkg.create();
+        expect(pkg.read()).toMatchSnapshot();
+    });
+    test(&apos;read&apos;, () =&gt; {
+        expect(pkg.read()).toMatchSnapshot();
+    });
+    test(&apos;extend&apos;, async () =&gt; {
+        await pkg.extend({scripts: {foo: &apos;bar&apos;}});
+        expect(pkg.read()).toMatchSnapshot();
+    });
+    test(&apos;copy&apos;, async () =&gt; {
+        const newDirPath = join(testDirectory, &apos;new&apos;);
+        await pkg.copy(newDirPath);
+        expect(pkg.fs.readJSON(join(newDirPath, &apos;package.json&apos;))).toMatchSnapshot();
+    });
+    test(&apos;delete&apos;, async () =&gt; {
+        pkg = new PackageJsonEditor(&apos;/some/directory&apos;);
+        expect(pkg.read()).toEqual(&apos;&apos;);
+        await pkg.create();
+        expect(pkg.read()).toMatchSnapshot();
+        await pkg.delete();
+        expect(pkg.read()).toEqual(&apos;&apos;);
+    });
+});
+/**
+ * Verify ESLint module editor can create and edit an ESLint configuration file
+ * @test {EslintConfigModuleEditor}
+ */
+describe(&apos;.eslintrc.js mem-fs editor&apos;, () =&gt; {
+    let cfg;
+    beforeEach(() =&gt; {
+        cfg = new EslintConfigModuleEditor(testDirectory);
+    });
+    test(&apos;create&apos;, async () =&gt; {
+        cfg = new EslintConfigModuleEditor(&apos;/some/directory&apos;);
+        expect(cfg.read()).toEqual(&apos;&apos;);
+        await cfg.create();
+        expect(cfg.read()).toMatchSnapshot();
+    });
+    test(&apos;read&apos;, () =&gt; {
+        expect(cfg.read()).toMatchSnapshot();
+    });
+    test(&apos;extend&apos;, async () =&gt; {
+        expect(cfg.read()).toMatchSnapshot();
+        await cfg.extend({key: {foo: `&apos;foo&apos;`}});
+        expect(cfg.read()).toMatchSnapshot();
+        await cfg.extend({key: {bar: `&apos;bar&apos;`}});
+        expect(cfg.read()).toMatchSnapshot();
+    });
+    test(&apos;delete&apos;, async () =&gt; {
+        cfg = new EslintConfigModuleEditor(&apos;/some/directory&apos;);
+        expect(cfg.read()).toEqual(&apos;&apos;);
+        await cfg.create();
+        expect(cfg.read()).toMatchSnapshot();
+        await cfg.delete();
+        expect(cfg.read()).toEqual(&apos;&apos;);
+    });
+    test(&apos;prepend&apos;, async () =&gt; {
+        await cfg.prepend(`const {existsSync} = require(&apos;fs-extra&apos;);`);
+        expect(cfg.read()).toMatchSnapshot();
+        await cfg.prepend(`const {join} = require(&apos;path&apos;);`);
+        expect(cfg.read()).toMatchSnapshot();
+        await cfg.extend({key: {baz: &apos;baz&apos;}});
+        expect(cfg.read()).toMatchSnapshot();
+    });
+});
+describe(&apos;File &amp; folder scaffolder&apos;, () =&gt; {
+    let tempDirectory;
+    beforeEach(async () =&gt; {
+        tempDirectory = join(tmpdir(), `tomo-test-${crypto.randomBytes(20).toString(&apos;hex&apos;)}`);// eslint-disable-line no-magic-numbers
+        await mkdirp(tempDirectory);
+        process.chdir(tempDirectory);
+    });
+    afterEach(done =&gt; {
+        rimraf(tempDirectory, done);
+    });
+    test(&apos;can copy files&apos;, async () =&gt; {
+    });
+});
+describe(&apos;getIntendedInput&apos;, () =&gt; {
+    test(&apos;return closest matches&apos;, () =&gt; {
+        const [intendedCommand, intendedTerms] = getIntendedInput(commands, &apos;ad&apos;, [&apos;lint&apos;]);
+        expect(intendedCommand).toEqual(&apos;add&apos;);
+        expect(intendedTerms).toEqual([&apos;eslint&apos;]);
+    });
+});
+describe(&apos;getVersions&apos;, () =&gt; {
+    test(&apos;handle no module name&apos;, async () =&gt; {
+        expect(await getVersions()).toEqual([]);
+    });
+    test(&apos;format response from npm&apos;, async () =&gt; {
+        const stdout = &apos;1.0.0 ,\n 2.0.0 ,\n 3.0.0 &apos;;
+        execa.mockResolvedValue({stdout});
+        expect(await getVersions(&apos;some-module-name&apos;)).toMatchSnapshot();
+    });
+});
+describe(&apos;install&apos;, () =&gt; {
+    test(&apos;handle array of string names&apos;, async () =&gt; {
+        const latest = true;
+        const skipInstall = true;
+        const dev = true;
+        expect(await install()).toEqual([&apos;install&apos;]);
+        expect(await install([&apos;some-module&apos;])).toEqual([&apos;install&apos;, &apos;some-module@latest&apos;]);
+        expect(await install([&apos;some-module&apos;])).toEqual([&apos;install&apos;, &apos;some-module@latest&apos;]);
+        expect(await install([&apos;some-module&apos;], {latest: false, skipInstall})).toEqual([&apos;install&apos;, &apos;some-module&apos;]);
+        expect(await install([&apos;foo&apos;, &apos;bar&apos;], {latest: false, skipInstall})).toEqual([&apos;install&apos;, &apos;foo&apos;, &apos;bar&apos;]);
+        expect(await install([&apos;some-module&apos;], {dev, skipInstall})).toEqual([&apos;install&apos;, &apos;some-module&apos;, &apos;--save-dev&apos;]);
+        expect(await install([&apos;some-module&apos;], {dev, latest, skipInstall})).toEqual([&apos;install&apos;, &apos;some-module@latest&apos;, &apos;--save-dev&apos;]);
+        expect(await install([&apos;foo&apos;, &apos;bar&apos;], {latest: false, dev, skipInstall})).toEqual([&apos;install&apos;, &apos;foo&apos;, &apos;bar&apos;, &apos;--save-dev&apos;]);
+    });
+});
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

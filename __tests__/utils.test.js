@@ -16,7 +16,10 @@ import commands from '../src/commands';
 jest.mock('execa');
 
 const testDirectory = join(__dirname, 'fixtures');
-
+/**
+ * Verify package.json editor can create and edit a package.json manifest file
+ * @test {PackageJsonEditor}
+ */
 describe('package.json mem-fs editor', () => {
     let pkg;
     beforeEach(() => {
@@ -49,7 +52,10 @@ describe('package.json mem-fs editor', () => {
         expect(pkg.read()).toEqual('');
     });
 });
-/** @test {EslintConfigModuleEditor} */
+/**
+ * Verify ESLint module editor can create and edit an ESLint configuration file
+ * @test {EslintConfigModuleEditor}
+ */
 describe('.eslintrc.js mem-fs editor', () => {
     let cfg;
     beforeEach(() => {

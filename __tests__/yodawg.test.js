@@ -1,7 +1,6 @@
 import {existsSync} from 'fs';
 import {join} from 'path';
 import {
-    fileContents,
     removeAttributes,
     getDirectoryTree
 } from './tomo-test';
@@ -18,10 +17,6 @@ describe('Tomo testing tools', () => {
         expect(existsSync(tempDir)).toBeTruthy();
         await cleanupTempDir();
         expect(existsSync(tempDir)).not.toBeTruthy();
-    });
-    test('can read file contents', () => {
-        const contents = fileContents('./__tests__/fixtures/package.json');
-        expect(contents).toMatchSnapshot();
     });
     test('can format objects for use as snapshots', () => {
         const removePaths = partialRight(removeAttributes, 'path');
