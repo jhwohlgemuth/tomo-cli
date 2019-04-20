@@ -44,6 +44,21 @@ describe('populateQueue function', () => {
         expect(task.mock.calls.length).toBe(2);
         expect(dispatch.mock.calls).toMatchSnapshot();
     });
+    test('can catch task errors', async () => {
+        const task = jest.fn();
+        const options = {foo: 'bar'};
+        const dispatch = jest.fn();
+        const tasks = [
+            {condition: async () => true, task},
+            {condition: async () => {throw new Error();}, task},
+            {condition: async () => true, task},
+            {condition: async () => false, task}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        expect(task.mock.calls.length).toBe(2);
+        expect(dispatch.mock.calls[1][0].type).toBe('error');
+    });
 });
 describe('Task component', () => {
     test('can render', () => {
