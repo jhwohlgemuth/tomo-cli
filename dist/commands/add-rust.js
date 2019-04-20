@@ -22,13 +22,13 @@ const tasks = [{
     var _ref = (0, _asyncToGenerator2.default)(function* ({
       assetsDirectory
     }) {
-      const script = {
+      const scripts = {
         'build:wasm': `rustc +nightly --target wasm32-unknown-unknown -O --crate-type=cdylib ${assetsDirectory}/rust/main.rs -o ./${assetsDirectory}/rust/main.wasm`,
         'postbuild:wasm': `wasm-gc ${assetsDirectory}/rust/main.wasm ${assetsDirectory}/rust/main.min.wasm`
       };
       const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({
-        script
+        scripts
       }).commit();
     });
 

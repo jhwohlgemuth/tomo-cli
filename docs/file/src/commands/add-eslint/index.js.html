@@ -94,13 +94,13 @@ export const tasks = [
     {
         text: &apos;Add lint tasks to package.json&apos;,
         task: async ({sourceDirectory}) =&gt; {
-            const script = {
+            const scripts = {
                 lint: `eslint . -c ./.eslintrc.js --fix`,
                 &apos;lint:watch&apos;: `watch &apos;npm run lint&apos; ${sourceDirectory}`,
                 &apos;lint:tests&apos;: &apos;eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore&apos;
             };
             await (new PackageJsonEditor())
-                .extend({script})
+                .extend({scripts})
                 .commit();
         },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)

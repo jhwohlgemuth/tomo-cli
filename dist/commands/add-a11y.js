@@ -18,12 +18,12 @@ const tasks = [{
     var _ref = (0, _asyncToGenerator2.default)(function* ({
       sourceDirectory
     }) {
-      const script = {
+      const scripts = {
         'lint:a11y': `${sourceDirectory}/index.html`
       };
       const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({
-        script
+        scripts
       }).commit();
     });
 

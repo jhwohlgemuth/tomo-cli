@@ -71,12 +71,12 @@ export const tasks = [
     {
         text: &apos;Add test tasks to package.json&apos;,
         task: async () =&gt; {
-            const script = {
+            const scripts = {
                 test: &apos;jest .*.test.js --coverage&apos;,
                 &apos;test:watch&apos;: &apos;npm test -- --watchAll&apos;
             };
             const pkg = new PackageJsonEditor();
-            await pkg.extend({script}).commit();
+            await pkg.extend({scripts}).commit();
         },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
     },

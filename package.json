@@ -29,7 +29,7 @@
         "open:coverage": "opn ./coverage/lcov-report/index.html",
         "open:docs": "opn ./docs/index.html",
         "lint": "eslint . -c ./.eslintrc.js --fix",
-        "lint:watch": "watch 'npm run lint' ./src",
+        "lint:watch": "watch 'npm run lint' undefined",
         "lint:tests": "eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore",
         "lint:tests:watch": "watch 'npm run lint:tests' ./__tests__",
         "lint:config": "eslint -c ./.eslintrc.js *.js --fix",

@@ -47,7 +47,7 @@ const tasks = [{
     var _ref2 = (0, _asyncToGenerator2.default)(function* ({
       sourceDirectory
     }) {
-      const script = {
+      const scripts = {
         'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
         'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
         'open:docs': 'opn ./docs/index.html',
@@ -57,7 +57,7 @@ const tasks = [{
       };
       const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({
-        script
+        scripts
       }).commit();
     });
 

@@ -68,12 +68,12 @@ export const tasks = [
     {
         text: `Add Rust ${arrowRight} WASM build tasks to package.json`,
         task: async ({assetsDirectory}) =&gt; {
-            const script = {
+            const scripts = {
                 &apos;build:wasm&apos;: `rustc +nightly --target wasm32-unknown-unknown -O --crate-type=cdylib ${assetsDirectory}/rust/main.rs -o ./${assetsDirectory}/rust/main.wasm`,
                 &apos;postbuild:wasm&apos;: `wasm-gc ${assetsDirectory}/rust/main.wasm ${assetsDirectory}/rust/main.min.wasm`
             };
             const pkg = new PackageJsonEditor();
-            await pkg.extend({script}).commit();
+            await pkg.extend({scripts}).commit();
         },
         condition: () =&gt; someDoExist(&apos;package.json&apos;)
     }

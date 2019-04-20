@@ -9,11 +9,11 @@ export const tasks = [
     {
         text: 'Add a11y tasks to package.json',
         task: async ({sourceDirectory}) => {
-            const script = {
+            const scripts = {
                 'lint:a11y': `${sourceDirectory}/index.html`
             };
             const pkg = new PackageJsonEditor();
-            await pkg.extend({script}).commit();
+            await pkg.extend({scripts}).commit();
         },
         condition: () => someDoExist('package.json')
     },

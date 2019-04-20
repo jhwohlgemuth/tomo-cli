@@ -40,13 +40,13 @@ const tasks = [{
     var _ref2 = (0, _asyncToGenerator2.default)(function* ({
       sourceDirectory
     }) {
-      const script = {
+      const scripts = {
         lint: `eslint . -c ./.eslintrc.js --fix`,
         'lint:watch': `watch 'npm run lint' ${sourceDirectory}`,
         'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
       };
       yield new _utils.PackageJsonEditor().extend({
-        script
+        scripts
       }).commit();
     });
 

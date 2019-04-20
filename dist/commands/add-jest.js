@@ -18,13 +18,13 @@ const tasks = [{
   text: 'Add test tasks to package.json',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
-      const script = {
+      const scripts = {
         test: 'jest .*.test.js --coverage',
         'test:watch': 'npm test -- --watchAll'
       };
       const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({
-        script
+        scripts
       }).commit();
     });
 

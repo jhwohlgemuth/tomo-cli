@@ -43,7 +43,7 @@ export const tasks = [
     {
         text: 'Add documentation tasks to package.json',
         task: async ({sourceDirectory}) => {
-            const script = {
+            const scripts = {
                 'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
                 'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
                 'open:docs': 'opn ./docs/index.html',
@@ -52,7 +52,7 @@ export const tasks = [
                 postdocs: 'npm run open:docs'
             };
             const pkg = new PackageJsonEditor();
-            await pkg.extend({script}).commit();
+            await pkg.extend({scripts}).commit();
         },
         condition: () => someDoExist('package.json')
     },
