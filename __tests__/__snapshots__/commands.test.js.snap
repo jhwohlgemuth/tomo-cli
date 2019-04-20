@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Commands add-babel (with React) 1`] = `
+exports[`"Add" commands add-babel (with React) 1`] = `
 "{
     name: tomo-test,
     children: [
@@ -16,7 +16,22 @@ exports[`Commands add-babel (with React) 1`] = `
 "
 `;
 
-exports[`Commands add-babel 1`] = `
+exports[`"Add" commands add-babel (with React) 2`] = `
+"module.exports = {
+    plugins: [
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-export-default-from',
+        '@babel/plugin-proposal-optional-chaining'
+    ],
+    presets: [
+        @babel/preset-env,
+        @babel/preset-react
+    ]
+};"
+`;
+
+exports[`"Add" commands add-babel 1`] = `
 "{
     name: tomo-test,
     children: [
@@ -32,7 +47,21 @@ exports[`Commands add-babel 1`] = `
 "
 `;
 
-exports[`Commands add-esdoc (with React) 1`] = `
+exports[`"Add" commands add-babel 2`] = `
+"module.exports = {
+    plugins: [
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-export-default-from',
+        '@babel/plugin-proposal-optional-chaining'
+    ],
+    presets: [
+        '@babel/preset-env'
+    ]
+};"
+`;
+
+exports[`"Add" commands add-esdoc (with React) 1`] = `
 "{
     name: tomo-test,
     children: [
@@ -48,7 +77,32 @@ exports[`Commands add-esdoc (with React) 1`] = `
 "
 `;
 
-exports[`Commands add-esdoc 1`] = `
+exports[`"Add" commands add-esdoc (with React) 2`] = `
+"{
+    \\"source\\": \\"./src\\",
+    \\"destination\\": \\"./docs\\",
+    \\"plugins\\": [
+        {
+            \\"name\\": \\"esdoc-standard-plugin\\"
+        },
+        {
+            \\"name\\": \\"esdoc-ecmascript-proposal-plugin\\",
+            \\"option\\": {
+                \\"all\\": true
+            }
+        },
+        {
+            \\"name\\": \\"esdoc-jsx-plugin\\",
+            \\"options\\": {
+                \\"enable\\": true
+            }
+        }
+    ]
+}
+"
+`;
+
+exports[`"Add" commands add-esdoc 1`] = `
 "{
     name: tomo-test,
     children: [
@@ -64,7 +118,26 @@ exports[`Commands add-esdoc 1`] = `
 "
 `;
 
-exports[`Commands add-eslint (with React) 1`] = `
+exports[`"Add" commands add-esdoc 2`] = `
+"{
+    \\"source\\": \\"./src\\",
+    \\"destination\\": \\"./docs\\",
+    \\"plugins\\": [
+        {
+            \\"name\\": \\"esdoc-standard-plugin\\"
+        },
+        {
+            \\"name\\": \\"esdoc-ecmascript-proposal-plugin\\",
+            \\"option\\": {
+                \\"all\\": true
+            }
+        }
+    ]
+}
+"
+`;
+
+exports[`"Add" commands add-eslint (with React) 1`] = `
 "{
     name: tomo-test,
     children: [
@@ -85,7 +158,31 @@ exports[`Commands add-eslint (with React) 1`] = `
 "
 `;
 
-exports[`Commands add-eslint 1`] = `
+exports[`"Add" commands add-eslint (with React) 2`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        omaha-prime-grade,
+        plugin:react/recommended
+    ],
+    parser: 'babel-eslint',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
+        }
+    },
+    settings: {
+        react: {
+            version: 'undefined'
+        }
+    }
+};"
+`;
+
+exports[`"Add" commands add-eslint 1`] = `
 "{
     name: tomo-test,
     children: [
@@ -106,7 +203,46 @@ exports[`Commands add-eslint 1`] = `
 "
 `;
 
-exports[`Commands add-marionette 1`] = `
+exports[`"Add" commands add-eslint 2`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint'
+};"
+`;
+
+exports[`"Add" commands add-jest 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Add" commands add-jest 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"script\\": {
+        \\"test\\": \\"jest .*.test.js --coverage\\",
+        \\"test:watch\\": \\"npm test -- --watchAll\\"
+    }
+}
+"
+`;
+
+exports[`"Add" commands add-marionette 1`] = `
 "{
     name: tomo-test,
     children: [
@@ -204,7 +340,32 @@ exports[`Commands add-marionette 1`] = `
 "
 `;
 
-exports[`Commands add-webpack 1`] = `
+exports[`"Add" commands add-postcss 1`] = `
+"module.exports = {
+    parser: require('postcss-safe-parser'),
+    processors: [
+        require('stylelint')(),
+        require('postcss-import')(),
+        require('postcss-cssnext')(),
+        require('uncss').postcssPlugin({html: ['index.html']}),
+        require('cssnano')(),
+        require('postcss-reporter')({clearReportedMessages: true})
+    ]
+};"
+`;
+
+exports[`"Add" commands add-postcss 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Add" commands add-webpack 1`] = `
 "{
     name: tomo-test,
     children: [
@@ -215,6 +376,222 @@ exports[`Commands add-webpack 1`] = `
         }
     ],
     size: 641,
+    type: directory
+}
+"
+`;
+
+exports[`"Add" commands add-webpack 2`] = `
+"const {resolve} = require('path');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+
+module.exports = {
+    mode: 'development',
+    entry: {
+        app: src/main.js
+    },
+    output: {
+        path: resolve('./dist'),
+        filename: 'bundle.min.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /.js?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                query: {
+                    presets: [
+                        'env'
+                    ]
+                }
+            }
+        ]
+    },
+    plugins: [
+        new DashboardPlugin()
+    ]
+};"
+`;
+
+exports[`"Create/New" commands create new app 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 154,
+            type: file
+        },
+        {
+            name: assets,
+            children: [
+                {
+                    name: css,
+                    children: [
+                        {
+                            name: style.css,
+                            size: 38,
+                            type: file
+                        }
+                    ],
+                    size: 38,
+                    type: directory
+                },
+                {
+                    name: templates,
+                    children: [
+                        {
+                            name: example.hbs,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                }
+            ],
+            size: 38,
+            type: directory
+        },
+        {
+            name: babel.config.js,
+            size: 291,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 472,
+            type: file
+        },
+        {
+            name: src,
+            children: [
+                {
+                    name: app.js,
+                    size: 435,
+                    type: file
+                },
+                {
+                    name: index.html,
+                    size: 536,
+                    type: file
+                },
+                {
+                    name: main.js,
+                    size: 1034,
+                    type: file
+                },
+                {
+                    name: plugins,
+                    children: [
+                        {
+                            name: mn.radio.logging.js,
+                            size: 3807,
+                            type: file
+                        },
+                        {
+                            name: mn.redux.state.js,
+                            size: 2184,
+                            type: file
+                        }
+                    ],
+                    size: 5991,
+                    type: directory
+                },
+                {
+                    name: shims,
+                    children: [
+                        {
+                            name: mn.renderer.shim.js,
+                            size: 486,
+                            type: file
+                        },
+                        {
+                            name: mn.templates.shim.js,
+                            size: 662,
+                            type: file
+                        }
+                    ],
+                    size: 1148,
+                    type: directory
+                }
+            ],
+            size: 9144,
+            type: directory
+        }
+    ],
+    size: 10135,
+    type: directory
+}
+"
+`;
+
+exports[`"Create/New" commands create new project 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 154,
+            type: file
+        },
+        {
+            name: babel.config.js,
+            size: 291,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 472,
+            type: file
+        },
+        {
+            name: src,
+            children: [],
+            size: 0,
+            type: directory
+        }
+    ],
+    size: 953,
+    type: directory
+}
+"
+`;
+
+exports[`"Create/New" commands create package.json 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Create/New" commands create source directory 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: some-random-folder-name,
+            children: [],
+            size: 0,
+            type: directory
+        }
+    ],
+    size: 0,
     type: directory
 }
 "

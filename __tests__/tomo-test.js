@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import {tmpdir} from 'os';
 import {join} from 'path';
-import {mkdirp} from 'fs-extra';
+import {existsSync, mkdirp, readFileSync} from 'fs-extra';
 import rimraf from 'rimraf';
 import dirTree from 'directory-tree';
 import {omit} from 'lodash';
@@ -43,4 +43,8 @@ export const run = (tasks, options) => {
     const queue = new Queue({concurrency: tasks.length});
     const dispatch = () => {};
     return populateQueue({queue, dispatch, tasks, options});
+};
+export const fileContents = path => {
+    const fullpath = join(process.cwd(), path);
+    return existsSync(fullpath) ? readFileSync(fullpath, 'utf8') : 'not found';
 };
