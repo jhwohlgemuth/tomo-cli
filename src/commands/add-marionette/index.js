@@ -6,9 +6,11 @@ import {
 } from '../../utils';
 
 const MARIONETTE_DEPENDENCIES = [
+    'jquery',
     'backbone',
     'backbone.marionette',
     'backbone.radio',
+    'marionette.approuter',
     'handlebars',
     'lodash',
     'redux'

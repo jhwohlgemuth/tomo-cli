@@ -995,7 +995,7 @@
     "__docId__": 71,
     "kind": "file",
     "name": "src/commands/add-marionette/index.js",
-    "content": "import {join} from 'path';\nimport {\n    install,\n    Scaffolder,\n    someDoExist\n} from '../../utils';\n\nconst MARIONETTE_DEPENDENCIES = [\n    'backbone',\n    'backbone.marionette',\n    'backbone.radio',\n    'handlebars',\n    'lodash',\n    'redux'\n];\nconst ALWAYS = async () => true;\nconst sourceDirectory = join(__dirname, 'templates');\nconst scaffolder = new Scaffolder({sourceDirectory});\n/** @ignore */\nexport const tasks = [\n    {\n        text: 'Add Marionette.js boilerplate',\n        task: async ({sourceDirectory}) => {\n            await scaffolder\n                .target(sourceDirectory)\n                .copy('index.html')\n                .copy('main.js')\n                .copy('app.js')\n                .target(`${sourceDirectory}/plugins`)\n                .copy('mn.radio.logging.js')\n                .copy('mn.redux.state.js')\n                .target(`${sourceDirectory}/shims`)\n                .copy('mn.renderer.shim.js')\n                .commit();\n        },\n        condition: ALWAYS\n    },\n    {\n        text: 'Add CSS assets',\n        task: async () => {\n            await scaffolder\n                .target('assets/css')\n                .copy('style.css')\n                .commit();\n        },\n        condition: ALWAYS\n    },\n    {\n        text: 'Add template assets',\n        task: async ({sourceDirectory}) => {\n            await scaffolder\n                .target(`${sourceDirectory}/shims`)\n                .copy('mn.templates.shim.js')\n                .target('assets/templates')\n                .copy('example.hbs')\n                .commit();\n        },\n        condition: ALWAYS\n    },\n    {\n        text: 'Install Marionette.js dependencies',\n        task: ({skipInstall}) => install(MARIONETTE_DEPENDENCIES, {skipInstall}),\n        condition: () => someDoExist('package.json')\n    }\n];\nexport default tasks;",
+    "content": "import {join} from 'path';\nimport {\n    install,\n    Scaffolder,\n    someDoExist\n} from '../../utils';\n\nconst MARIONETTE_DEPENDENCIES = [\n    'jquery',\n    'backbone',\n    'backbone.marionette',\n    'backbone.radio',\n    'handlebars',\n    'lodash',\n    'redux'\n];\nconst ALWAYS = async () => true;\nconst sourceDirectory = join(__dirname, 'templates');\nconst scaffolder = new Scaffolder({sourceDirectory});\n/** @ignore */\nexport const tasks = [\n    {\n        text: 'Add Marionette.js boilerplate',\n        task: async ({sourceDirectory}) => {\n            await scaffolder\n                .target(sourceDirectory)\n                .copy('index.html')\n                .copy('main.js')\n                .copy('app.js')\n                .target(`${sourceDirectory}/plugins`)\n                .copy('mn.radio.logging.js')\n                .copy('mn.redux.state.js')\n                .target(`${sourceDirectory}/shims`)\n                .copy('mn.renderer.shim.js')\n                .commit();\n        },\n        condition: ALWAYS\n    },\n    {\n        text: 'Add CSS assets',\n        task: async () => {\n            await scaffolder\n                .target('assets/css')\n                .copy('style.css')\n                .commit();\n        },\n        condition: ALWAYS\n    },\n    {\n        text: 'Add template assets',\n        task: async ({sourceDirectory}) => {\n            await scaffolder\n                .target(`${sourceDirectory}/shims`)\n                .copy('mn.templates.shim.js')\n                .target('assets/templates')\n                .copy('example.hbs')\n                .commit();\n        },\n        condition: ALWAYS\n    },\n    {\n        text: 'Install Marionette.js dependencies',\n        task: ({skipInstall}) => install(MARIONETTE_DEPENDENCIES, {skipInstall}),\n        condition: () => someDoExist('package.json')\n    }\n];\nexport default tasks;",
     "static": true,
     "longname": "/home/vagrant/dev/tomo-cli/src/commands/add-marionette/index.js",
     "access": "public",
@@ -1037,7 +1037,7 @@
     "importPath": "tomo-cli/src/commands/add-marionette/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 16,
+    "lineNumber": 17,
     "undocument": true,
     "params": [],
     "return": null,
@@ -1055,7 +1055,7 @@
     "importPath": "tomo-cli/src/commands/add-marionette/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 17,
+    "lineNumber": 18,
     "undocument": true,
     "type": {
       "types": [
@@ -1076,7 +1076,7 @@
     "importPath": "tomo-cli/src/commands/add-marionette/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 18,
+    "lineNumber": 19,
     "undocument": true,
     "type": {
       "types": [
@@ -1097,7 +1097,7 @@
     "importPath": "tomo-cli/src/commands/add-marionette/index.js",
     "importStyle": "{tasks}",
     "description": null,
-    "lineNumber": 20,
+    "lineNumber": 21,
     "ignore": true,
     "type": {
       "types": [
@@ -1192,7 +1192,7 @@
     "__docId__": 82,
     "kind": "file",
     "name": "src/commands/add-webpack.js",
-    "content": "import {\n    allDoNotExist,\n    someDoExist,\n    install,\n    WebpackConfigEditor\n} from '../utils';\n\nconst WEBPACK_DEPENDENCIES = [\n    'webpack',\n    'webpack-cli',\n    'webpack-dashboard',\n    'webpack-jarvis',\n    'webpack-dev-server'\n];\n/** @ignore */\nexport const tasks = [\n    {\n        text: 'Create Webpack configuration file',\n        task: async ({sourceDirectory}) => {\n            const entry = {\n                app: `${sourceDirectory}/main.js`\n            };\n            await (new WebpackConfigEditor())\n                .create()\n                .prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`)\n                .prepend(`const {resolve} = require('path');`)\n                .extend({entry})\n                .commit();\n        },\n        condition: () => allDoNotExist('webpack.config.js')\n    },\n    {\n        text: 'Install Webpack dependencies',\n        task: ({skipInstall}) => install(WEBPACK_DEPENDENCIES, {dev: true, skipInstall}),\n        condition: () => someDoExist('package.json')\n    }\n];\nexport default tasks;",
+    "content": "import {\n    allDoNotExist,\n    someDoExist,\n    install,\n    PackageJsonEditor,\n    WebpackConfigEditor\n} from '../utils';\n\nconst WEBPACK_DEPENDENCIES = [\n    'webpack',\n    'webpack-cli',\n    'webpack-dashboard',\n    'webpack-jarvis',\n    'webpack-dev-server'\n];\n/** @ignore */\nexport const tasks = [\n    {\n        text: 'Create Webpack configuration file',\n        task: async ({sourceDirectory}) => {\n            const entry = {\n                app: `'${sourceDirectory}/main.js'`\n            };\n            await (new WebpackConfigEditor())\n                .create()\n                .prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`)\n                .prepend(`const {resolve} = require('path');`)\n                .extend({entry})\n                .commit();\n        },\n        condition: () => allDoNotExist('webpack.config.js')\n    },\n    {\n        text: 'Add build tasks to package.json',\n        task: async () => {\n            const scripts = {\n                build: 'webpack',\n                'build:watch': 'webpack-dashboard -- webpack-dev-server --config ./webpack.config.js'\n            };\n            await (new PackageJsonEditor())\n                .extend({scripts})\n                .commit();\n\n        },\n        condition: () => someDoExist('package.json')\n    },\n    {\n        text: 'Install Webpack dependencies',\n        task: ({skipInstall}) => install(WEBPACK_DEPENDENCIES, {dev: true, skipInstall}),\n        condition: () => someDoExist('package.json')\n    }\n];\nexport default tasks;",
     "static": true,
     "longname": "/home/vagrant/dev/tomo-cli/src/commands/add-webpack.js",
     "access": "public",
@@ -1211,7 +1211,7 @@
     "importPath": "tomo-cli/src/commands/add-webpack.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 8,
+    "lineNumber": 9,
     "undocument": true,
     "type": {
       "types": [
@@ -1232,7 +1232,7 @@
     "importPath": "tomo-cli/src/commands/add-webpack.js",
     "importStyle": "{tasks}",
     "description": null,
-    "lineNumber": 16,
+    "lineNumber": 17,
     "ignore": true,
     "type": {
       "types": [

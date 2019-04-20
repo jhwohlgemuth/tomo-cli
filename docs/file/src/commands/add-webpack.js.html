@@ -60,6 +60,7 @@
     allDoNotExist,
     someDoExist,
     install,
+    PackageJsonEditor,
     WebpackConfigEditor
 } from &apos;../utils&apos;;
 
@@ -76,7 +77,7 @@ export const tasks = [
         text: &apos;Create Webpack configuration file&apos;,
         task: async ({sourceDirectory}) =&gt; {
             const entry = {
-                app: `${sourceDirectory}/main.js`
+                app: `&apos;${sourceDirectory}/main.js&apos;`
             };
             await (new WebpackConfigEditor())
                 .create()
@@ -86,6 +87,20 @@ export const tasks = [
                 .commit();
         },
         condition: () =&gt; allDoNotExist(&apos;webpack.config.js&apos;)
+    },
+    {
+        text: &apos;Add build tasks to package.json&apos;,
+        task: async () =&gt; {
+            const scripts = {
+                build: &apos;webpack&apos;,
+                &apos;build:watch&apos;: &apos;webpack-dashboard -- webpack-dev-server --config ./webpack.config.js&apos;
+            };
+            await (new PackageJsonEditor())
+                .extend({scripts})
+                .commit();
+
+        },
+        condition: () =&gt; someDoExist(&apos;package.json&apos;)
     },
     {
         text: &apos;Install Webpack dependencies&apos;,

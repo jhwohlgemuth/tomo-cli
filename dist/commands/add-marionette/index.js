@@ -13,7 +13,7 @@ var _path = require("path");
 
 var _utils = require("../../utils");
 
-const MARIONETTE_DEPENDENCIES = ['backbone', 'backbone.marionette', 'backbone.radio', 'handlebars', 'lodash', 'redux'];
+const MARIONETTE_DEPENDENCIES = ['jquery', 'backbone', 'backbone.marionette', 'backbone.radio', 'marionette.approuter', 'handlebars', 'lodash', 'redux'];
 
 const ALWAYS =
 /*#__PURE__*/

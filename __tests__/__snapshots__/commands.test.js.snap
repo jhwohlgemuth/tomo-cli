@@ -287,12 +287,12 @@ exports[`"Add" commands add-marionette 1`] = `
                 },
                 {
                     name: index.html,
-                    size: 536,
+                    size: 531,
                     type: file
                 },
                 {
                     name: main.js,
-                    size: 1034,
+                    size: 1080,
                     type: file
                 },
                 {
@@ -330,11 +330,11 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 9144,
+            size: 9185,
             type: directory
         }
     ],
-    size: 9182,
+    size: 9223,
     type: directory
 }
 "
@@ -371,11 +371,11 @@ exports[`"Add" commands add-webpack 1`] = `
     children: [
         {
             name: webpack.config.js,
-            size: 641,
+            size: 643,
             type: file
         }
     ],
-    size: 641,
+    size: 643,
     type: directory
 }
 "
@@ -388,7 +388,7 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 module.exports = {
     mode: 'development',
     entry: {
-        app: src/main.js
+        app: 'src/main.js'
     },
     output: {
         path: resolve('./dist'),
@@ -479,12 +479,12 @@ exports[`"Create/New" commands create new app 1`] = `
                 },
                 {
                     name: index.html,
-                    size: 536,
+                    size: 531,
                     type: file
                 },
                 {
                     name: main.js,
-                    size: 1034,
+                    size: 1080,
                     type: file
                 },
                 {
@@ -522,11 +522,11 @@ exports[`"Create/New" commands create new app 1`] = `
                     type: directory
                 }
             ],
-            size: 9144,
+            size: 9185,
             type: directory
         }
     ],
-    size: 10136,
+    size: 10177,
     type: directory
 }
 "

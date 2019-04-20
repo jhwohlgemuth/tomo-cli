@@ -6,17 +6,18 @@
 
 const Backbone = require('backbone');
 const Mn = require('backbone.marionette');
-const app = require('app');
+const AppRouter = require('marionette.approuter');
+const app = require('./app');
 // const JST = require('templates');
 
 const name = app.getState('name');
 
-const RouterController = Mn.Object.extend({
+const RouterController = Mn.MnObject.extend({
     foo: function() {
         // code to be executed for 'foo' route
     }
 });
-const AppRouter = Mn.AppRouter.extend({
+const Router = AppRouter.extend({
     appRoutes: {
         foo: 'foo'
     },
@@ -32,7 +33,7 @@ const View = Mn.View.extend({
 });
 app.on('before:start', () => {
     app.info(`${name} is starting...`);
-    app.router = new AppRouter();
+    app.router = new Router();
 });
 app.on('start', () => {
     Backbone.history.start();

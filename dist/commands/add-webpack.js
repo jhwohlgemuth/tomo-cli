@@ -21,7 +21,7 @@ const tasks = [{
       sourceDirectory
     }) {
       const entry = {
-        app: `${sourceDirectory}/main.js`
+        app: `'${sourceDirectory}/main.js'`
       };
       yield new _utils.WebpackConfigEditor().create().prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`).prepend(`const {resolve} = require('path');`).extend({
         entry
@@ -33,6 +33,24 @@ const tasks = [{
     };
   }(),
   condition: () => (0, _utils.allDoNotExist)('webpack.config.js')
+}, {
+  text: 'Add build tasks to package.json',
+  task: function () {
+    var _ref2 = (0, _asyncToGenerator2.default)(function* () {
+      const scripts = {
+        build: 'webpack',
+        'build:watch': 'webpack-dashboard -- webpack-dev-server --config ./webpack.config.js'
+      };
+      yield new _utils.PackageJsonEditor().extend({
+        scripts
+      }).commit();
+    });
+
+    return function task() {
+      return _ref2.apply(this, arguments);
+    };
+  }(),
+  condition: () => (0, _utils.someDoExist)('package.json')
 }, {
   text: 'Install Webpack dependencies',
   task: ({
