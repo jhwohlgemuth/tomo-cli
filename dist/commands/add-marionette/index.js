@@ -34,7 +34,7 @@ const scaffolder = new _utils.Scaffolder({
 /** @ignore */
 
 const tasks = [{
-  text: 'Add Marionette.js Webapp boilerplate',
+  text: 'Add Marionette.js boilerplate',
   task: function () {
     var _ref2 = (0, _asyncToGenerator2.default)(function* ({
       sourceDirectory
@@ -48,7 +48,7 @@ const tasks = [{
   }(),
   condition: ALWAYS
 }, {
-  text: 'Add webapp CSS assets',
+  text: 'Add CSS assets',
   task: function () {
     var _ref3 = (0, _asyncToGenerator2.default)(function* () {
       yield scaffolder.target('assets/css').copy('style.css').commit();
@@ -60,7 +60,7 @@ const tasks = [{
   }(),
   condition: ALWAYS
 }, {
-  text: 'Add webapp template assets',
+  text: 'Add template assets',
   task: function () {
     var _ref4 = (0, _asyncToGenerator2.default)(function* ({
       sourceDirectory

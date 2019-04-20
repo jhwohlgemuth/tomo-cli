@@ -33,18 +33,8 @@ export const tasks = [
         condition: () => allDoNotExist('babel.config.js', '.babelrc', '.babelrc.js')
     },
     {
-        text: 'Install Babel dependencies',
-        task: ({skipInstall}) => install(BABEL_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: () => someDoExist('package.json')
-    },
-    {
-        text: 'Install Babel presets',
-        task: ({skipInstall}) => install(BABEL_PRESETS, {dev: true, skipInstall}),
-        condition: () => someDoExist('package.json')
-    },
-    {
-        text: 'Install Babel plugins',
-        task: ({skipInstall}) => install(BABEL_PLUGINS, {dev: true, skipInstall}),
+        text: 'Install Babel core, CLI, presets, and plugins',
+        task: ({skipInstall}) => install([...BABEL_DEPENDENCIES, ...BABEL_PRESETS, ...BABEL_PLUGINS], {dev: true, skipInstall}),
         condition: () => someDoExist('package.json')
     },
     {

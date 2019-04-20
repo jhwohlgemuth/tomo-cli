@@ -76,7 +76,7 @@ const scaffolder = new Scaffolder({sourceDirectory});
 /** @ignore */
 export const tasks = [
     {
-        text: &apos;Add Marionette.js Webapp boilerplate&apos;,
+        text: &apos;Add Marionette.js boilerplate&apos;,
         task: async ({sourceDirectory}) =&gt; {
             await scaffolder
                 .target(sourceDirectory)
@@ -93,7 +93,7 @@ export const tasks = [
         condition: ALWAYS
     },
     {
-        text: &apos;Add webapp CSS assets&apos;,
+        text: &apos;Add CSS assets&apos;,
         task: async () =&gt; {
             await scaffolder
                 .target(&apos;assets/css&apos;)
@@ -103,7 +103,7 @@ export const tasks = [
         condition: ALWAYS
     },
     {
-        text: &apos;Add webapp template assets&apos;,
+        text: &apos;Add template assets&apos;,
         task: async ({sourceDirectory}) =&gt; {
             await scaffolder
                 .target(`${sourceDirectory}/shims`)

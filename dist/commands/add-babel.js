@@ -31,28 +31,10 @@ const tasks = [{
   }(),
   condition: () => (0, _utils.allDoNotExist)('babel.config.js', '.babelrc', '.babelrc.js')
 }, {
-  text: 'Install Babel dependencies',
+  text: 'Install Babel core, CLI, presets, and plugins',
   task: ({
     skipInstall
-  }) => (0, _utils.install)(BABEL_DEPENDENCIES, {
-    dev: true,
-    skipInstall
-  }),
-  condition: () => (0, _utils.someDoExist)('package.json')
-}, {
-  text: 'Install Babel presets',
-  task: ({
-    skipInstall
-  }) => (0, _utils.install)(BABEL_PRESETS, {
-    dev: true,
-    skipInstall
-  }),
-  condition: () => (0, _utils.someDoExist)('package.json')
-}, {
-  text: 'Install Babel plugins',
-  task: ({
-    skipInstall
-  }) => (0, _utils.install)(BABEL_PLUGINS, {
+  }) => (0, _utils.install)([...BABEL_DEPENDENCIES, ...BABEL_PRESETS, ...BABEL_PLUGINS], {
     dev: true,
     skipInstall
   }),
