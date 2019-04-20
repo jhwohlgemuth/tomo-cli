@@ -49,6 +49,7 @@ describe('package.json mem-fs editor', () => {
         expect(pkg.read()).toEqual('');
     });
 });
+/** @test {EslintConfigModuleEditor} */
 describe('.eslintrc.js mem-fs editor', () => {
     let cfg;
     beforeEach(() => {

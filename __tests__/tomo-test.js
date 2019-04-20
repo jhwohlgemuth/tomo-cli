@@ -46,5 +46,5 @@ export const run = (tasks, options) => {
 };
 export const fileContents = path => {
     const fullpath = join(process.cwd(), path);
-    return existsSync(fullpath) ? readFileSync(fullpath, 'utf8') : 'not found';
+    return existsSync(fullpath) ? readFileSync(fullpath, 'utf8') : `No file found at ${fullpath}`;
 };
