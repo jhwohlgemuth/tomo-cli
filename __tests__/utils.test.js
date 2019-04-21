@@ -118,8 +118,8 @@ describe('getVersions', () => {
     test('handle no module name', async () => {
         expect(await getVersions()).toEqual([]);
     });
-    test('format response from npm', async () => {
-        const stdout = '1.0.0 ,\n 2.0.0 ,\n 3.0.0 ';
+    test('format response from npm (only allow valid version strings)', async () => {
+        const stdout = '1.0.0 ,\n 2.0.0 ,\n not valid ,\n 3.0.0 ';
         execa.mockResolvedValue({stdout});
         expect(await getVersions('some-module-name')).toMatchSnapshot();
     });

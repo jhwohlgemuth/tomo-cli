@@ -1,6 +1,7 @@
 import delay from 'delay';
 import {join} from 'path';
 import execa from 'execa';
+import semver from 'semver';
 import Queue from 'p-queue';
 import prettier from 'prettier';
 import {first, merge} from 'lodash';
@@ -95,7 +96,9 @@ export const getVersions = async (name = '') => (name.length === 0) ? [] : (awai
     .stdout
     .split(',\n')
     .map(str => str.match(/\d+[.]\d+[.]\d+/))
-    .map(first);
+    .map(first)
+    .map(semver.valid)
+    .filter(Boolean);
 /**
  * Install dependencies with npm
  * @param {string[]} [dependencies=[]] Modules to install

@@ -17,6 +17,8 @@ var _path = require("path");
 
 var _execa = _interopRequireDefault(require("execa"));
 
+var _semver = _interopRequireDefault(require("semver"));
+
 var _pQueue = _interopRequireDefault(require("p-queue"));
 
 var _prettier = _interopRequireDefault(require("prettier"));
@@ -171,7 +173,7 @@ const getVersions =
 /*#__PURE__*/
 function () {
   var _ref4 = (0, _asyncToGenerator2.default)(function* (name = '') {
-    return name.length === 0 ? [] : (yield (0, _execa.default)('npm', ['view', name, 'versions'])).stdout.split(',\n').map(str => str.match(/\d+[.]\d+[.]\d+/)).map(_lodash.first);
+    return name.length === 0 ? [] : (yield (0, _execa.default)('npm', ['view', name, 'versions'])).stdout.split(',\n').map(str => str.match(/\d+[.]\d+[.]\d+/)).map(_lodash.first).map(_semver.default.valid).filter(Boolean);
   });
 
   return function getVersions() {
