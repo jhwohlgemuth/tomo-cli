@@ -51,6 +51,18 @@ describe('package.json mem-fs editor', () => {
         await pkg.delete();
         expect(pkg.read()).toEqual('');
     });
+    test('hasSome', () => {
+        expect(pkg.hasSome('react')).toBeFalsy();
+        expect(pkg.hasSome('webpack', 'execa')).toBeTruthy();
+        expect(pkg.hasSome('eslint')).toBeTruthy();
+    });
+    test('hasAll', () => {
+        expect(pkg.hasAll('react')).toBeFalsy();
+        expect(pkg.hasAll('webpack', 'execa')).toBeFalsy();
+        expect(pkg.hasAll('chalk', 'execa')).toBeTruthy();
+        expect(pkg.hasAll('chalk', 'execa', '@babel/cli')).toBeTruthy();
+        expect(pkg.hasAll('eslint')).toBeTruthy();
+    });
 });
 /**
  * Verify ESLint module editor can create and edit an ESLint configuration file

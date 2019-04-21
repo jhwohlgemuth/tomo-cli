@@ -360,6 +360,50 @@ const createJsonEditor = (filename, contents = {}) => {
       queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));
       return self;
     }
+    /**
+     * Check if package.json manifest file has dependencies (dependencies or devDependencies)
+     * @param  {...string} modules npm module names
+     * @return {Boolean} Has at least one dependency (true) or none (false)
+     */
+
+
+    hasSome(...modules) {
+      const {
+        keys
+      } = Object;
+
+      const parse = data => JSON.parse(JSON.stringify(data));
+
+      const pkg = this.read();
+      const {
+        dependencies,
+        devDependencies
+      } = parse(pkg);
+      const installed = [...keys(dependencies), ...keys(devDependencies)];
+      return modules.some(module => installed.includes(module));
+    }
+    /**
+     * Check if package.json manifest file has dependencies (dependencies or devDependencies)
+     * @param  {...string} modules npm module names
+     * @return {Boolean} Has all dependencies (true) or not all (false)
+     */
+
+
+    hasAll(...modules) {
+      const {
+        keys
+      } = Object;
+
+      const parse = data => JSON.parse(JSON.stringify(data));
+
+      const pkg = this.read();
+      const {
+        dependencies,
+        devDependencies
+      } = parse(pkg);
+      const installed = [...keys(dependencies), ...keys(devDependencies)];
+      return modules.every(module => installed.includes(module));
+    }
 
   }, _temp;
 };
