@@ -31,6 +31,7 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~MakefileEditor.html">MakefileEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
@@ -61,6 +62,7 @@
     getIntendedInput,
     getVersions,
     install,
+    MakefileEditor,
     PackageJsonEditor
 } from &apos;../src/utils&apos;;
 import {join} from &apos;path&apos;;
@@ -162,6 +164,43 @@ describe(&apos;.eslintrc.js mem-fs editor&apos;, () =&gt; {
         expect(cfg.read()).toMatchSnapshot();
         await cfg.extend({key: {baz: &apos;baz&apos;}});
         expect(cfg.read()).toMatchSnapshot();
+    });
+});
+describe(&apos;Makefile editor&apos;, () =&gt; {
+    let makefile;
+    beforeEach(() =&gt; {
+        makefile = new MakefileEditor(testDirectory);
+    });
+    test(&apos;create&apos;, async () =&gt; {
+        await makefile.create();
+        expect(makefile.read()).toMatchSnapshot();
+    });
+    test(&apos;append&apos;, async () =&gt; {
+        await makefile.append(&apos;test line&apos;);
+        expect(makefile.read()).toMatchSnapshot();
+    });
+    test(&apos;addTask&apos;, async () =&gt; {
+        await makefile
+            .addTask(&apos;foo&apos;, &apos;echo foo&apos;)
+            .addTask(&apos;bar&apos;, &apos;echo bar&apos;)
+            .done();
+        expect(makefile.read()).toMatchSnapshot();
+    });
+    test(&apos;addComment&apos;, async () =&gt; {
+        await makefile.addComment(&apos;Knowledge of the Holy One is understanding&apos;);
+        expect(makefile.read()).toMatchSnapshot();
+    });
+    test(&apos;importScripts&apos;, () =&gt; {
+        expect(makefile.scripts).toMatchSnapshot();
+        makefile.importScripts();
+        expect(makefile.scripts).toMatchSnapshot();
+    });
+    test(&apos;exportScripts&apos;, async () =&gt; {
+        await makefile
+            .importScripts()
+            .appendScripts()
+            .done();
+        expect(makefile.read()).toMatchSnapshot();
     });
 });
 describe(&apos;File &amp; folder scaffolder&apos;, () =&gt; {

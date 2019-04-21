@@ -31,6 +31,7 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~MakefileEditor.html">MakefileEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
@@ -77,6 +78,7 @@ const PRETTIER_OPTIONS = {
     tabWidth: 4,
     quotes: true
 };
+const parse = data =&gt; JSON.parse(JSON.stringify(data));
 // eslint-disable-next-line no-magic-numbers
 export const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
 /**
@@ -218,14 +220,17 @@ export class BasicEditor {
         queue.add(() =&gt; fs.delete(path));
         return self;
     }
+    done() {
+        return this.queue.onEmpty();
+    }
     /**
      * Write changes to disk
      * @return {Promise} Resolves when queue is empty
      */
     async commit() {
-        const {fs, queue} = this;
+        const {fs} = this;
         await new Promise(resolve =&gt; fs.commit(resolve));
-        await queue.onEmpty();
+        await this.done();
     }
 }
 /**
@@ -264,7 +269,6 @@ export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor
      */
     hasSome(...modules) {
         const {keys} = Object;
-        const parse = data =&gt; JSON.parse(JSON.stringify(data));
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
         const installed = [...keys(dependencies), ...keys(devDependencies)];
@@ -277,7 +281,6 @@ export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor
      */
     hasAll(...modules) {
         const {keys} = Object;
-        const parse = data =&gt; JSON.parse(JSON.stringify(data));
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
         const installed = [...keys(dependencies), ...keys(devDependencies)];
@@ -300,20 +303,21 @@ export const createModuleEditor = (filename, contents = &apos;module.exports = {
         const path = join(cwd, filename);
         assign(this, {path});
     }
-    create(...args) {
+    create() {
         const self = this;
         const {contents, path} = self;
-        self.created || (existsSync(path) || self.write(contents, ...args));
+        self.created || (existsSync(path) || self.write(contents));
         return self;
     }
     read() {
         const {fs, path} = this;
         return fs.exists(path) ? fs.read(path) : &apos;&apos;;
     }
-    write(content) {
+    write(contents) {
         const self = this;
         const {fs, path, prependedContents, queue} = self;
-        const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, &apos;;&apos;);
+        self.contents = contents;
+        const formatted = `${prependedContents}module.exports = ${format(contents)}`.replace(/\r*\n$/g, &apos;;&apos;);
         queue
             .add(() =&gt; fs.write(path, formatted))
             .then(() =&gt; self.created = existsSync(path))
@@ -514,7 +518,60 @@ export const WebpackConfigEditor = createModuleEditor(&apos;webpack.config.js&ap
     plugins: [
         `new DashboardPlugin()`
     ]
-});</code></pre>
+});
+/**
+ * Create and edit Makefiles. Includes ability to import package.json scripts.
+ */
+export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
+    scripts = {};
+    constructor(path) {
+        super(path);
+        this.contents = `# Built from ${path}/package.json`;
+    }
+    write(contents) {
+        const self = this;
+        const {fs, path, queue} = self;
+        self.contents = contents;
+        queue
+            .add(() =&gt; fs.write(path, contents))
+            .then(() =&gt; self.created = existsSync(path))
+            .catch(silent);
+        return self;
+    }
+    append(lines = &apos;\n&apos;) {
+        const {contents} = this;
+        this.write(`${contents}\n${lines}`);
+        return this;
+    }
+    addTask(name, task) {
+        return this
+            .append(`${name}:`)
+            .append(`\t${task}`);
+    }
+    addComment(text) {
+        return this.append(`# ${text}`);
+    }
+    importScripts() {
+        const {path} = this;
+        const [packageDirectory] = path.split(&apos;Makefile&apos;);
+        const pkg = (new PackageJsonEditor(packageDirectory)).read();
+        const {scripts} = parse(pkg);
+        this.scripts = scripts;
+        return this;
+    }
+    appendScripts(options = {useGlobal: true}) {
+        const self = this;
+        const {path, scripts} = self;
+        const {useGlobal} = options;
+        const [packageDirectory] = path.split(&apos;Makefile&apos;);
+        const pre = useGlobal ? &apos;&apos; : `${packageDirectory}node_modules/.bin/`;
+        self.append();
+        Object.entries(scripts)
+            .map(([key, value]) =&gt; [key, `${pre}${value}`])
+            .forEach(([key, value]) =&gt; self.addTask(key, value).append());
+        return self;
+    }
+}</code></pre>
 
 </div>
 

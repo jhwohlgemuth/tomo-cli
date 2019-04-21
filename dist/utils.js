@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.WebpackConfigEditor = exports.PostcssConfigEditor = exports.PackageJsonEditor = exports.EslintConfigModuleEditor = exports.BabelConfigModuleEditor = exports.Scaffolder = exports.createModuleEditor = exports.createJsonEditor = exports.BasicEditor = exports.verifyRustInstallation = exports.install = exports.getVersions = exports.getIntendedInput = exports.format = exports.allDoNotExist = exports.someDoExist = exports.testAsyncFunction = void 0;
+exports.MakefileEditor = exports.WebpackConfigEditor = exports.PostcssConfigEditor = exports.PackageJsonEditor = exports.EslintConfigModuleEditor = exports.BabelConfigModuleEditor = exports.Scaffolder = exports.createModuleEditor = exports.createJsonEditor = exports.BasicEditor = exports.verifyRustInstallation = exports.install = exports.getVersions = exports.getIntendedInput = exports.format = exports.allDoNotExist = exports.someDoExist = exports.testAsyncFunction = void 0;
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
@@ -43,7 +43,10 @@ const PRETTIER_OPTIONS = {
   printWidth: 80,
   tabWidth: 4,
   quotes: true
-}; // eslint-disable-next-line no-magic-numbers
+};
+
+const parse = data => JSON.parse(JSON.stringify(data)); // eslint-disable-next-line no-magic-numbers
+
 
 const testAsyncFunction = () =>
 /*#__PURE__*/
@@ -287,6 +290,10 @@ class BasicEditor {
     queue.add(() => fs.delete(path));
     return self;
   }
+
+  done() {
+    return this.queue.onEmpty();
+  }
   /**
    * Write changes to disk
    * @return {Promise} Resolves when queue is empty
@@ -298,11 +305,10 @@ class BasicEditor {
 
     return (0, _asyncToGenerator2.default)(function* () {
       const {
-        fs,
-        queue
+        fs
       } = _this;
       yield new Promise(resolve => fs.commit(resolve));
-      yield queue.onEmpty();
+      yield _this.done();
     })();
   }
 
@@ -371,9 +377,6 @@ const createJsonEditor = (filename, contents = {}) => {
       const {
         keys
       } = Object;
-
-      const parse = data => JSON.parse(JSON.stringify(data));
-
       const pkg = this.read();
       const {
         dependencies,
@@ -393,9 +396,6 @@ const createJsonEditor = (filename, contents = {}) => {
       const {
         keys
       } = Object;
-
-      const parse = data => JSON.parse(JSON.stringify(data));
-
       const pkg = this.read();
       const {
         dependencies,
@@ -433,13 +433,13 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
       });
     }
 
-    create(...args) {
+    create() {
       const self = this;
       const {
         contents,
         path
       } = self;
-      self.created || (0, _fsExtra.existsSync)(path) || self.write(contents, ...args);
+      self.created || (0, _fsExtra.existsSync)(path) || self.write(contents);
       return self;
     }
 
@@ -451,7 +451,7 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
       return fs.exists(path) ? fs.read(path) : '';
     }
 
-    write(content) {
+    write(contents) {
       const self = this;
       const {
         fs,
@@ -459,7 +459,8 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
         prependedContents,
         queue
       } = self;
-      const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
+      self.contents = contents;
+      const formatted = `${prependedContents}module.exports = ${format(contents)}`.replace(/\r*\n$/g, ';');
       queue.add(() => fs.write(path, formatted)).then(() => self.created = (0, _fsExtra.existsSync)(path)).catch(silent);
       return self;
     }
@@ -696,4 +697,78 @@ const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
   },
   plugins: [`new DashboardPlugin()`]
 });
+/**
+ * Create and edit Makefiles. Includes ability to import package.json scripts.
+ */
+
 exports.WebpackConfigEditor = WebpackConfigEditor;
+
+class MakefileEditor extends createModuleEditor('Makefile') {
+  constructor(path) {
+    super(path);
+    (0, _defineProperty2.default)(this, "scripts", {});
+    this.contents = `# Built from ${path}/package.json`;
+  }
+
+  write(contents) {
+    const self = this;
+    const {
+      fs,
+      path,
+      queue
+    } = self;
+    self.contents = contents;
+    queue.add(() => fs.write(path, contents)).then(() => self.created = (0, _fsExtra.existsSync)(path)).catch(silent);
+    return self;
+  }
+
+  append(lines = '\n') {
+    const {
+      contents
+    } = this;
+    this.write(`${contents}\n${lines}`);
+    return this;
+  }
+
+  addTask(name, task) {
+    return this.append(`${name}:`).append(`\t${task}`);
+  }
+
+  addComment(text) {
+    return this.append(`# ${text}`);
+  }
+
+  importScripts() {
+    const {
+      path
+    } = this;
+    const [packageDirectory] = path.split('Makefile');
+    const pkg = new PackageJsonEditor(packageDirectory).read();
+    const {
+      scripts
+    } = parse(pkg);
+    this.scripts = scripts;
+    return this;
+  }
+
+  appendScripts(options = {
+    useGlobal: true
+  }) {
+    const self = this;
+    const {
+      path,
+      scripts
+    } = self;
+    const {
+      useGlobal
+    } = options;
+    const [packageDirectory] = path.split('Makefile');
+    const pre = useGlobal ? '' : `${packageDirectory}node_modules/.bin/`;
+    self.append();
+    Object.entries(scripts).map(([key, value]) => [key, `${pre}${value}`]).forEach(([key, value]) => self.addTask(key, value).append());
+    return self;
+  }
+
+}
+
+exports.MakefileEditor = MakefileEditor;

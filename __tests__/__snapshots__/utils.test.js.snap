@@ -147,6 +147,59 @@ module.exports = {
 };"
 `;
 
+exports[`Makefile editor addComment 1`] = `
+"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json
+# Knowledge of the Holy One is understanding"
+`;
+
+exports[`Makefile editor addTask 1`] = `
+"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json
+foo:
+	echo foo
+bar:
+	echo bar"
+`;
+
+exports[`Makefile editor append 1`] = `
+"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json
+test line"
+`;
+
+exports[`Makefile editor create 1`] = `"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json"`;
+
+exports[`Makefile editor exportScripts 1`] = `
+"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json
+
+
+test:
+	jest --coverage
+
+
+lint:
+	eslint . -c ./.eslintrc.js
+
+
+lint:watch:
+	watch 'npm run lint' src
+
+
+build:
+	webpack
+
+"
+`;
+
+exports[`Makefile editor importScripts 1`] = `Object {}`;
+
+exports[`Makefile editor importScripts 2`] = `
+Object {
+  "build": "webpack",
+  "lint": "eslint . -c ./.eslintrc.js",
+  "lint:watch": "watch 'npm run lint' src",
+  "test": "jest --coverage",
+}
+`;
+
 exports[`getVersions format response from npm (only allow valid version strings) 1`] = `
 Array [
   "1.0.0",
@@ -174,7 +227,10 @@ Object {
   "main": "index.js",
   "name": "fixtures",
   "scripts": Object {
-    "test": "echo \\"Error: no test specified\\" && exit 1",
+    "build": "webpack",
+    "lint": "eslint . -c ./.eslintrc.js",
+    "lint:watch": "watch 'npm run lint' src",
+    "test": "jest --coverage",
   },
   "version": "1.0.0",
 }
@@ -219,8 +275,11 @@ Object {
   "main": "index.js",
   "name": "fixtures",
   "scripts": Object {
+    "build": "webpack",
     "foo": "bar",
-    "test": "echo \\"Error: no test specified\\" && exit 1",
+    "lint": "eslint . -c ./.eslintrc.js",
+    "lint:watch": "watch 'npm run lint' src",
+    "test": "jest --coverage",
   },
   "version": "1.0.0",
 }
@@ -245,7 +304,10 @@ Object {
   "main": "index.js",
   "name": "fixtures",
   "scripts": Object {
-    "test": "echo \\"Error: no test specified\\" && exit 1",
+    "build": "webpack",
+    "lint": "eslint . -c ./.eslintrc.js",
+    "lint:watch": "watch 'npm run lint' src",
+    "test": "jest --coverage",
   },
   "version": "1.0.0",
 }

@@ -19,6 +19,7 @@ const PRETTIER_OPTIONS = {
     tabWidth: 4,
     quotes: true
 };
+const parse = data => JSON.parse(JSON.stringify(data));
 // eslint-disable-next-line no-magic-numbers
 export const testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());
 /**
@@ -160,14 +161,17 @@ export class BasicEditor {
         queue.add(() => fs.delete(path));
         return self;
     }
+    done() {
+        return this.queue.onEmpty();
+    }
     /**
      * Write changes to disk
      * @return {Promise} Resolves when queue is empty
      */
     async commit() {
-        const {fs, queue} = this;
+        const {fs} = this;
         await new Promise(resolve => fs.commit(resolve));
-        await queue.onEmpty();
+        await this.done();
     }
 }
 /**
@@ -206,7 +210,6 @@ export const createJsonEditor = (filename, contents = {}) => class JsonEditor ex
      */
     hasSome(...modules) {
         const {keys} = Object;
-        const parse = data => JSON.parse(JSON.stringify(data));
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
         const installed = [...keys(dependencies), ...keys(devDependencies)];
@@ -219,7 +222,6 @@ export const createJsonEditor = (filename, contents = {}) => class JsonEditor ex
      */
     hasAll(...modules) {
         const {keys} = Object;
-        const parse = data => JSON.parse(JSON.stringify(data));
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
         const installed = [...keys(dependencies), ...keys(devDependencies)];
@@ -242,20 +244,21 @@ export const createModuleEditor = (filename, contents = 'module.exports = {};', 
         const path = join(cwd, filename);
         assign(this, {path});
     }
-    create(...args) {
+    create() {
         const self = this;
         const {contents, path} = self;
-        self.created || (existsSync(path) || self.write(contents, ...args));
+        self.created || (existsSync(path) || self.write(contents));
         return self;
     }
     read() {
         const {fs, path} = this;
         return fs.exists(path) ? fs.read(path) : '';
     }
-    write(content) {
+    write(contents) {
         const self = this;
         const {fs, path, prependedContents, queue} = self;
-        const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, ';');
+        self.contents = contents;
+        const formatted = `${prependedContents}module.exports = ${format(contents)}`.replace(/\r*\n$/g, ';');
         queue
             .add(() => fs.write(path, formatted))
             .then(() => self.created = existsSync(path))
@@ -457,3 +460,56 @@ export const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
         `new DashboardPlugin()`
     ]
 });
+/**
+ * Create and edit Makefiles. Includes ability to import package.json scripts.
+ */
+export class MakefileEditor extends createModuleEditor('Makefile') {
+    scripts = {};
+    constructor(path) {
+        super(path);
+        this.contents = `# Built from ${path}/package.json`;
+    }
+    write(contents) {
+        const self = this;
+        const {fs, path, queue} = self;
+        self.contents = contents;
+        queue
+            .add(() => fs.write(path, contents))
+            .then(() => self.created = existsSync(path))
+            .catch(silent);
+        return self;
+    }
+    append(lines = '\n') {
+        const {contents} = this;
+        this.write(`${contents}\n${lines}`);
+        return this;
+    }
+    addTask(name, task) {
+        return this
+            .append(`${name}:`)
+            .append(`\t${task}`);
+    }
+    addComment(text) {
+        return this.append(`# ${text}`);
+    }
+    importScripts() {
+        const {path} = this;
+        const [packageDirectory] = path.split('Makefile');
+        const pkg = (new PackageJsonEditor(packageDirectory)).read();
+        const {scripts} = parse(pkg);
+        this.scripts = scripts;
+        return this;
+    }
+    appendScripts(options = {useGlobal: true}) {
+        const self = this;
+        const {path, scripts} = self;
+        const {useGlobal} = options;
+        const [packageDirectory] = path.split('Makefile');
+        const pre = useGlobal ? '' : `${packageDirectory}node_modules/.bin/`;
+        self.append();
+        Object.entries(scripts)
+            .map(([key, value]) => [key, `${pre}${value}`])
+            .forEach(([key, value]) => self.addTask(key, value).append());
+        return self;
+    }
+}

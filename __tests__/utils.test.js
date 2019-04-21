@@ -3,6 +3,7 @@ import {
     getIntendedInput,
     getVersions,
     install,
+    MakefileEditor,
     PackageJsonEditor
 } from '../src/utils';
 import {join} from 'path';
@@ -104,6 +105,43 @@ describe('.eslintrc.js mem-fs editor', () => {
         expect(cfg.read()).toMatchSnapshot();
         await cfg.extend({key: {baz: 'baz'}});
         expect(cfg.read()).toMatchSnapshot();
+    });
+});
+describe('Makefile editor', () => {
+    let makefile;
+    beforeEach(() => {
+        makefile = new MakefileEditor(testDirectory);
+    });
+    test('create', async () => {
+        await makefile.create();
+        expect(makefile.read()).toMatchSnapshot();
+    });
+    test('append', async () => {
+        await makefile.append('test line');
+        expect(makefile.read()).toMatchSnapshot();
+    });
+    test('addTask', async () => {
+        await makefile
+            .addTask('foo', 'echo foo')
+            .addTask('bar', 'echo bar')
+            .done();
+        expect(makefile.read()).toMatchSnapshot();
+    });
+    test('addComment', async () => {
+        await makefile.addComment('Knowledge of the Holy One is understanding');
+        expect(makefile.read()).toMatchSnapshot();
+    });
+    test('importScripts', () => {
+        expect(makefile.scripts).toMatchSnapshot();
+        makefile.importScripts();
+        expect(makefile.scripts).toMatchSnapshot();
+    });
+    test('exportScripts', async () => {
+        await makefile
+            .importScripts()
+            .appendScripts()
+            .done();
+        expect(makefile.read()).toMatchSnapshot();
     });
 });
 describe('File & folder scaffolder', () => {

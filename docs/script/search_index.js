@@ -114,6 +114,12 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "tomo-cli/src/utils.js~makefileeditor",
+    "class/src/utils.js~MakefileEditor.html",
+    "<span>MakefileEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "class"
+  ],
+  [
     "tomo-cli/src/utils.js~packagejsoneditor",
     "variable/index.html#static-variable-PackageJsonEditor",
     "<span>PackageJsonEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
@@ -229,14 +235,56 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber109",
+    "test-file/__tests__/utils.test.js.html#lineNumber147",
     "File & folder scaffolder",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber119",
+    "test-file/__tests__/utils.test.js.html#lineNumber157",
     "File & folder scaffolder can copy files",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber110",
+    "Makefile editor",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber130",
+    "Makefile editor addComment",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber123",
+    "Makefile editor addTask",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber119",
+    "Makefile editor append",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber115",
+    "Makefile editor create",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber139",
+    "Makefile editor exportScripts",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber134",
+    "Makefile editor importScripts",
     "test"
   ],
   [
@@ -295,85 +343,85 @@ window.esdocSearchIndex = [
   ],
   [
     "eslintconfigmoduleeditor src/utils.js~eslintconfigmoduleeditor,eslintconfigmoduleeditor",
-    "test-file/__tests__/utils.test.js.html#lineNumber71",
+    "test-file/__tests__/utils.test.js.html#lineNumber72",
     "Verify ESLint module editor can create and edit an ESLint configuration file",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber76",
+    "test-file/__tests__/utils.test.js.html#lineNumber77",
     "Verify ESLint module editor can create and edit an ESLint configuration file create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber92",
+    "test-file/__tests__/utils.test.js.html#lineNumber93",
     "Verify ESLint module editor can create and edit an ESLint configuration file delete",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber85",
+    "test-file/__tests__/utils.test.js.html#lineNumber86",
     "Verify ESLint module editor can create and edit an ESLint configuration file extend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber100",
+    "test-file/__tests__/utils.test.js.html#lineNumber101",
     "Verify ESLint module editor can create and edit an ESLint configuration file prepend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber82",
+    "test-file/__tests__/utils.test.js.html#lineNumber83",
     "Verify ESLint module editor can create and edit an ESLint configuration file read",
     "test"
   ],
   [
     "packagejsoneditor src/utils.js~packagejsoneditor,packagejsoneditor",
-    "test-file/__tests__/utils.test.js.html#lineNumber23",
+    "test-file/__tests__/utils.test.js.html#lineNumber24",
     "Verify package.json editor can create and edit a package.json manifest file",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber41",
+    "test-file/__tests__/utils.test.js.html#lineNumber42",
     "Verify package.json editor can create and edit a package.json manifest file copy",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber28",
+    "test-file/__tests__/utils.test.js.html#lineNumber29",
     "Verify package.json editor can create and edit a package.json manifest file create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber46",
+    "test-file/__tests__/utils.test.js.html#lineNumber47",
     "Verify package.json editor can create and edit a package.json manifest file delete",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber37",
+    "test-file/__tests__/utils.test.js.html#lineNumber38",
     "Verify package.json editor can create and edit a package.json manifest file extend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber59",
+    "test-file/__tests__/utils.test.js.html#lineNumber60",
     "Verify package.json editor can create and edit a package.json manifest file hasAll",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber54",
+    "test-file/__tests__/utils.test.js.html#lineNumber55",
     "Verify package.json editor can create and edit a package.json manifest file hasSome",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber34",
+    "test-file/__tests__/utils.test.js.html#lineNumber35",
     "Verify package.json editor can create and edit a package.json manifest file read",
     "test"
   ],
@@ -421,43 +469,43 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber122",
+    "test-file/__tests__/utils.test.js.html#lineNumber160",
     "getIntendedInput",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber123",
+    "test-file/__tests__/utils.test.js.html#lineNumber161",
     "getIntendedInput return closest matches",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber129",
+    "test-file/__tests__/utils.test.js.html#lineNumber167",
     "getVersions",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber133",
+    "test-file/__tests__/utils.test.js.html#lineNumber171",
     "getVersions format response from npm (only allow valid version strings)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber130",
+    "test-file/__tests__/utils.test.js.html#lineNumber168",
     "getVersions handle no module name",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber139",
+    "test-file/__tests__/utils.test.js.html#lineNumber177",
     "install",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber140",
+    "test-file/__tests__/utils.test.js.html#lineNumber178",
     "install handle array of string names",
     "test"
   ],
@@ -909,6 +957,66 @@ window.esdocSearchIndex = [
     "src/utils.js~basiceditor#delete",
     "class/src/utils.js~BasicEditor.html#instance-method-delete",
     "src/utils.js~BasicEditor#delete",
+    "method"
+  ],
+  [
+    "src/utils.js~basiceditor#done",
+    "class/src/utils.js~BasicEditor.html#instance-method-done",
+    "src/utils.js~BasicEditor#done",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#addcomment",
+    "class/src/utils.js~MakefileEditor.html#instance-method-addComment",
+    "src/utils.js~MakefileEditor#addComment",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#addtask",
+    "class/src/utils.js~MakefileEditor.html#instance-method-addTask",
+    "src/utils.js~MakefileEditor#addTask",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#append",
+    "class/src/utils.js~MakefileEditor.html#instance-method-append",
+    "src/utils.js~MakefileEditor#append",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#appendscripts",
+    "class/src/utils.js~MakefileEditor.html#instance-method-appendScripts",
+    "src/utils.js~MakefileEditor#appendScripts",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#constructor",
+    "class/src/utils.js~MakefileEditor.html#instance-constructor-constructor",
+    "src/utils.js~MakefileEditor#constructor",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#contents",
+    "class/src/utils.js~MakefileEditor.html#instance-member-contents",
+    "src/utils.js~MakefileEditor#contents",
+    "member"
+  ],
+  [
+    "src/utils.js~makefileeditor#importscripts",
+    "class/src/utils.js~MakefileEditor.html#instance-method-importScripts",
+    "src/utils.js~MakefileEditor#importScripts",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#scripts",
+    "class/src/utils.js~MakefileEditor.html#instance-member-scripts",
+    "src/utils.js~MakefileEditor#scripts",
+    "member"
+  ],
+  [
+    "src/utils.js~makefileeditor#write",
+    "class/src/utils.js~MakefileEditor.html#instance-method-write",
+    "src/utils.js~MakefileEditor#write",
     "method"
   ],
   [

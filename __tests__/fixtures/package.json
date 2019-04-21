@@ -4,7 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "jest --coverage",
+        "lint": "eslint . -c ./.eslintrc.js",
+        "lint:watch": "watch 'npm run lint' src",
+        "build": "webpack"
     },
     "keywords": [],
     "author": "",
