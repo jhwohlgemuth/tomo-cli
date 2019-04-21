@@ -1,3 +1,4 @@
+import {useTemporaryDirectory} from './tomo-test';
 import Queue from 'p-queue';
 import React from 'react';
 import {render} from 'ink-testing-library';
@@ -60,6 +61,13 @@ describe('populateQueue function', () => {
         expect(dispatch.mock.calls[1][0].type).toBe('error');
     });
 });
+describe('Warning', () => {
+    test('can render', () => {
+        const callback = jest.fn();
+        const {lastFrame} = render(<Warning callback={callback}>Hello World</Warning>);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
 describe('Task component', () => {
     test('can render', () => {
         const text = 'test task text';
@@ -77,36 +85,73 @@ describe('Task component', () => {
     });
 });
 describe('TaskList component', () => {
-    test('can render', () => {
-        const options = {skipInstall: true};
-        const {lastFrame} = render(<TaskList command={'add'} terms={['eslint']} options={options}></TaskList>);
-        expect(lastFrame()).toMatchSnapshot();
+    let tempDirectory;
+    const skipInstall = true;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    const ORIGINAL_CONSOLE_ERROR = console.error;
+    beforeAll(() => {
+        console.error = jest.fn();
     });
-});
-describe('Warning', () => {
-    test('can render', () => {
-        const callback = jest.fn();
-        const {lastFrame} = render(<Warning callback={callback}>Hello World</Warning>);
-        expect(lastFrame()).toMatchSnapshot();
+    afterAll(() => {
+        console.error = ORIGINAL_CONSOLE_ERROR;
+    });
+    beforeEach(async () => {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () => {
+        await cleanupTempDir();
+    });
+    test('can render', done => {
+        const options = {skipInstall};
+        const {lastFrame} = render(<TaskList command={'add'} terms={['eslint']} options={options} done={complete}></TaskList>);
+        function complete() {
+            expect(lastFrame()).toMatchSnapshot();
+            done();
+        }
     });
 });
 describe('tomo', () => {
+    let tempDirectory;
+    const skipInstall = true;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    const ORIGINAL_CONSOLE_ERROR = console.error;
+    beforeAll(() => {
+        console.error = jest.fn();
+    });
+    afterAll(() => {
+        console.error = ORIGINAL_CONSOLE_ERROR;
+    });
+    beforeEach(async () => {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () => {
+        await cleanupTempDir();
+    });
     test('add', () => {
         const input = ['add'];
-        const {lastFrame, stdin} = render(<Tomo input={input}/>);
+        const {lastFrame, stdin} = render(<Tomo input={input} flags={{skipInstall}}/>);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
     });
-    test('add eslint', () => {
+    test('add eslint', done => {
         const input = ['add', 'eslint'];
-        const {lastFrame} = render(<Tomo input={input}/>);
-        expect(lastFrame()).toMatchSnapshot();
+        const flags = {skipInstall};
+        const {lastFrame} = render(<Tomo input={input} flags={flags} done={complete}/>);
+        function complete() {
+            expect(lastFrame()).toMatchSnapshot();
+            done();
+        }
     });
-    test('add eslint --use-react', () => {
+    test('add eslint --use-react', done => {
         const input = ['add', 'eslint'];
-        const flags = {useReact: true};
-        const {lastFrame} = render(<Tomo input={input} flags={flags}/>);
-        expect(lastFrame()).toMatchSnapshot();
+        const flags = {useReact: true, skipInstall};
+        const {lastFrame} = render(<Tomo input={input} flags={flags} done={complete}/>);
+        function complete() {
+            expect(lastFrame()).toMatchSnapshot();
+            done();
+        }
     });
 });

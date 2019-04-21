@@ -313,7 +313,8 @@ exports.Task = Task;
 const TaskList = ({
   command,
   options,
-  terms
+  terms,
+  done
 }) => {
   const reducer = (state, {
     type,
@@ -366,6 +367,7 @@ const TaskList = ({
       dispatch
     });
   }, []);
+  state.completed.length + state.skipped.length === tasks.length && done();
   return _react.default.createElement(ErrorBoundary, null, _react.default.createElement(_ink.Box, {
     flexDirection: 'column',
     marginBottom: 1
@@ -441,6 +443,7 @@ class UI extends _react.Component {
 
   render() {
     const {
+      done,
       flags
     } = this.props;
     const {
@@ -466,7 +469,8 @@ class UI extends _react.Component {
     }, intendedCommand, " ", intendedTerms.join(' ')), "?")) : hasCommand && hasTerms ? _react.default.createElement(TaskList, {
       command: intendedCommand,
       terms: intendedTerms,
-      options: flags
+      options: flags,
+      done: done
     }) : hasCommand ? _react.default.createElement(SubCommandSelect, {
       items: selectInputCommandItems,
       onSelect: this.updateTerms
@@ -545,7 +549,8 @@ Task.defaultProps = {
 TaskList.propTypes = {
   command: _propTypes.default.string,
   options: _propTypes.default.any,
-  terms: _propTypes.default.arrayOf(_propTypes.default.string)
+  terms: _propTypes.default.arrayOf(_propTypes.default.string),
+  done: _propTypes.default.func
 };
 TaskList.defaultProps = {
   command: '',
@@ -560,7 +565,8 @@ Warning.propTypes = {
 };
 UI.propTypes = {
   input: _propTypes.default.array,
-  flags: _propTypes.default.object
+  flags: _propTypes.default.object,
+  done: _propTypes.default.func
 };
 UI.defaultProps = {
   input: [],

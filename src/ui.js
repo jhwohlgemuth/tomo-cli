@@ -142,7 +142,7 @@ export const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' 
  * <TaskList command={'add'} terms={'eslint'} options={{skipInstall: true}}></TaskList>
  * @return {ReactComponent} Task list component
  */
-export const TaskList = ({command, options, terms}) => {
+export const TaskList = ({command, options, terms, done}) => {
     const reducer = (state, {type, payload}) => {
         const {completed, errors, skipped} = state;
         if (type === 'complete') {
@@ -176,6 +176,7 @@ export const TaskList = ({command, options, terms}) => {
     useEffect(() => {
         populateQueue({queue, tasks, options, dispatch});
     }, []);
+    ((state.completed.length + state.skipped.length) === tasks.length) && done();
     return <ErrorBoundary>
         <Box flexDirection={'column'} marginBottom={1}>
             <InkBox
@@ -223,7 +224,7 @@ class UI extends Component {
         this.updateTerms = this.updateTerms.bind(this);
     }
     render() {
-        const {flags} = this.props;
+        const {done, flags} = this.props;
         const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
         const {ignoreWarnings} = flags;
         const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
@@ -234,7 +235,7 @@ class UI extends Component {
                     <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>
                 </Warning> :
                 (hasCommand && hasTerms) ?
-                    <TaskList command={intendedCommand} terms={intendedTerms} options={flags}></TaskList> :
+                    <TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :
                     hasCommand ?
                         <SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}></SubCommandSelect> :
                         <UnderConstruction/>
@@ -304,7 +305,8 @@ Task.defaultProps = {
 TaskList.propTypes = {
     command: PropTypes.string,
     options: PropTypes.any,
-    terms: PropTypes.arrayOf(PropTypes.string)
+    terms: PropTypes.arrayOf(PropTypes.string),
+    done: PropTypes.func
 };
 TaskList.defaultProps = {
     command: '',
@@ -317,7 +319,8 @@ Warning.propTypes = {
 };
 UI.propTypes = {
     input: PropTypes.array,
-    flags: PropTypes.object
+    flags: PropTypes.object,
+    done: PropTypes.func
 };
 UI.defaultProps = {
     input: [],
