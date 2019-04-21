@@ -145,7 +145,7 @@ describe('tomo', () => {
             done();
         }
     });
-    test('add eslint --use-react', done => {
+    xtest('add eslint --use-react', done => {
         const input = ['add', 'eslint'];
         const flags = {useReact: true, skipInstall};
         const {lastFrame} = render(<Tomo input={input} flags={flags} done={complete}/>);
