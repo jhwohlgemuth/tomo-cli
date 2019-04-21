@@ -271,12 +271,6 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber105",
-    "TaskList component can render",
-    "test"
-  ],
-  [
-    "",
     "test-file/__tests__/yodawg.test.js.html#lineNumber13",
     "Tomo testing tools",
     "test"
@@ -969,12 +963,6 @@ window.esdocSearchIndex = [
     "",
     "test-file/__tests__/ui.test.js.html#lineNumber132",
     "tomo add",
-    "test"
-  ],
-  [
-    "",
-    "test-file/__tests__/ui.test.js.html#lineNumber139",
-    "tomo add eslint",
     "test"
   ]
 ]

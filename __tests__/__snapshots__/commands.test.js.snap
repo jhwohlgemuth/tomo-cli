@@ -370,12 +370,17 @@ exports[`"Add" commands add-webpack 1`] = `
     name: tomo-test,
     children: [
         {
+            name: babel.config.js,
+            size: 318,
+            type: file
+        },
+        {
             name: webpack.config.js,
-            size: 643,
+            size: 650,
             type: file
         }
     ],
-    size: 643,
+    size: 968,
     type: directory
 }
 "
@@ -402,7 +407,7 @@ module.exports = {
                 loader: 'babel-loader',
                 query: {
                     presets: [
-                        'env'
+                        '@babel/env'
                     ]
                 }
             }

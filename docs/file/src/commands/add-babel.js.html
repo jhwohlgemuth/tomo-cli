@@ -60,10 +60,11 @@
     allDoNotExist,
     BabelConfigModuleEditor,
     install,
-    someDoExist
+    someDoExist,
+    PackageJsonEditor
 } from &apos;../utils&apos;;
 
-const BABEL_DEPENDENCIES = [
+const BABEL_CORE = [
     &apos;@babel/cli&apos;,
     &apos;@babel/core&apos;,
     &apos;@babel/runtime&apos;
@@ -80,20 +81,24 @@ const BABEL_PLUGINS = [
 const BABEL_REACT_PRESET = [
     &apos;@babel/preset-react&apos;
 ];
+const BABEL_DEPENDENCIES = [
+    ...BABEL_CORE,
+    ...BABEL_PRESETS,
+    ...BABEL_PLUGINS
+];
 /** @ignore */
 export const tasks = [
     {
         text: &apos;Create Babel config file&apos;,
         task: async () =&gt; {
-            const cfg = new BabelConfigModuleEditor();
-            await cfg.create().commit();
+            await (new BabelConfigModuleEditor()).create().commit();
         },
         condition: () =&gt; allDoNotExist(&apos;babel.config.js&apos;, &apos;.babelrc&apos;, &apos;.babelrc.js&apos;)
     },
     {
         text: &apos;Install Babel core, CLI, presets, and plugins&apos;,
-        task: ({skipInstall}) =&gt; install([...BABEL_DEPENDENCIES, ...BABEL_PRESETS, ...BABEL_PLUGINS], {dev: true, skipInstall}),
-        condition: () =&gt; someDoExist(&apos;package.json&apos;)
+        task: ({skipInstall}) =&gt; install(BABEL_DEPENDENCIES, {dev: true, skipInstall}),
+        condition: () =&gt; (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) &amp;&amp; someDoExist(&apos;package.json&apos;))
     },
     {
         text: &apos;Install Babel React preset&apos;,
@@ -105,8 +110,7 @@ export const tasks = [
         text: &apos;Add React support to Babel configuration file&apos;,
         task: async () =&gt; {
             const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESET];
-            const cfg = new BabelConfigModuleEditor();
-            await cfg.extend({presets}).commit();
+            await (new BabelConfigModuleEditor()).extend({presets}).commit();
         },
         condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;babel.config.js&apos;)),
         optional: ({useReact}) =&gt; useReact

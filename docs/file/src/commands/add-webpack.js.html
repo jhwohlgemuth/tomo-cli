@@ -63,16 +63,19 @@
     PackageJsonEditor,
     WebpackConfigEditor
 } from &apos;../utils&apos;;
+import addBabel from &apos;./add-babel&apos;;
 
 const WEBPACK_DEPENDENCIES = [
     &apos;webpack&apos;,
     &apos;webpack-cli&apos;,
     &apos;webpack-dashboard&apos;,
     &apos;webpack-jarvis&apos;,
-    &apos;webpack-dev-server&apos;
+    &apos;webpack-dev-server&apos;,
+    &apos;babel-loader&apos;
 ];
 /** @ignore */
 export const tasks = [
+    ...addBabel,
     {
         text: &apos;Create Webpack configuration file&apos;,
         task: async ({sourceDirectory}) =&gt; {
