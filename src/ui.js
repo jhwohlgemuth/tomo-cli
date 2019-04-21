@@ -176,13 +176,14 @@ export const TaskList = ({command, options, terms, done}) => {
     useEffect(() => {
         populateQueue({queue, tasks, options, dispatch});
     }, []);
-    ((state.completed.length + state.skipped.length) === tasks.length) && done();
+    const tasksComplete = ((state.completed.length + state.skipped.length) === tasks.length);
+    tasksComplete && isFunction(done) && done();
     return <ErrorBoundary>
         <Box flexDirection={'column'} marginBottom={1}>
             <InkBox
                 margin={{left: 1, top: 1}}
                 padding={{left: 1, right: 1}}
-                borderColor={((state.completed.length + state.skipped.length) === tasks.length) ? 'green' : 'cyan'}
+                borderColor={tasksComplete ? 'green' : 'cyan'}
                 borderStyle={'round'}>
                 <Color bold white>{command} {terms.join(' ')}</Color>
             </InkBox>

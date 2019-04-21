@@ -367,7 +367,8 @@ const TaskList = ({
       dispatch
     });
   }, []);
-  state.completed.length + state.skipped.length === tasks.length && done();
+  const tasksComplete = state.completed.length + state.skipped.length === tasks.length;
+  tasksComplete && (0, _lodash.isFunction)(done) && done();
   return _react.default.createElement(ErrorBoundary, null, _react.default.createElement(_ink.Box, {
     flexDirection: 'column',
     marginBottom: 1
@@ -380,7 +381,7 @@ const TaskList = ({
       left: 1,
       right: 1
     },
-    borderColor: state.completed.length + state.skipped.length === tasks.length ? 'green' : 'cyan',
+    borderColor: tasksComplete ? 'green' : 'cyan',
     borderStyle: 'round'
   }, _react.default.createElement(_ink.Color, {
     bold: true,
