@@ -200,7 +200,7 @@ export const Task = ({isComplete, isSkipped, text}) =&gt; &lt;Box flexDirection=
  * &lt;TaskList command={&apos;add&apos;} terms={&apos;eslint&apos;} options={{skipInstall: true}}&gt;&lt;/TaskList&gt;
  * @return {ReactComponent} Task list component
  */
-export const TaskList = ({command, options, terms}) =&gt; {
+export const TaskList = ({command, options, terms, done}) =&gt; {
     const reducer = (state, {type, payload}) =&gt; {
         const {completed, errors, skipped} = state;
         if (type === &apos;complete&apos;) {
@@ -234,6 +234,7 @@ export const TaskList = ({command, options, terms}) =&gt; {
     useEffect(() =&gt; {
         populateQueue({queue, tasks, options, dispatch});
     }, []);
+    ((state.completed.length + state.skipped.length) === tasks.length) &amp;&amp; done();
     return &lt;ErrorBoundary&gt;
         &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;
             &lt;InkBox
@@ -281,7 +282,7 @@ class UI extends Component {
         this.updateTerms = this.updateTerms.bind(this);
     }
     render() {
-        const {flags} = this.props;
+        const {done, flags} = this.props;
         const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
         const {ignoreWarnings} = flags;
         const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
@@ -292,7 +293,7 @@ class UI extends Component {
                     &lt;Text&gt;Did you mean &lt;Color bold green&gt;{intendedCommand} {intendedTerms.join(&apos; &apos;)}&lt;/Color&gt;?&lt;/Text&gt;
                 &lt;/Warning&gt; :
                 (hasCommand &amp;&amp; hasTerms) ?
-                    &lt;TaskList command={intendedCommand} terms={intendedTerms} options={flags}&gt;&lt;/TaskList&gt; :
+                    &lt;TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}&gt;&lt;/TaskList&gt; :
                     hasCommand ?
                         &lt;SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}&gt;&lt;/SubCommandSelect&gt; :
                         &lt;UnderConstruction/&gt;
@@ -362,7 +363,8 @@ Task.defaultProps = {
 TaskList.propTypes = {
     command: PropTypes.string,
     options: PropTypes.any,
-    terms: PropTypes.arrayOf(PropTypes.string)
+    terms: PropTypes.arrayOf(PropTypes.string),
+    done: PropTypes.func
 };
 TaskList.defaultProps = {
     command: &apos;&apos;,
@@ -375,7 +377,8 @@ Warning.propTypes = {
 };
 UI.propTypes = {
     input: PropTypes.array,
-    flags: PropTypes.object
+    flags: PropTypes.object,
+    done: PropTypes.func
 };
 UI.defaultProps = {
     input: [],

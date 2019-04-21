@@ -56,7 +56,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">__tests__/ui.test.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Queue from &apos;p-queue&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {useTemporaryDirectory} from &apos;./tomo-test&apos;;
+import Queue from &apos;p-queue&apos;;
 import React from &apos;react&apos;;
 import {render} from &apos;ink-testing-library&apos;;
 import Tomo, {Warning, Task, TaskList, populateQueue} from &apos;../src/ui&apos;;
@@ -118,6 +119,13 @@ describe(&apos;populateQueue function&apos;, () =&gt; {
         expect(dispatch.mock.calls[1][0].type).toBe(&apos;error&apos;);
     });
 });
+describe(&apos;Warning&apos;, () =&gt; {
+    test(&apos;can render&apos;, () =&gt; {
+        const callback = jest.fn();
+        const {lastFrame} = render(&lt;Warning callback={callback}&gt;Hello World&lt;/Warning&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
 describe(&apos;Task component&apos;, () =&gt; {
     test(&apos;can render&apos;, () =&gt; {
         const text = &apos;test task text&apos;;
@@ -135,37 +143,74 @@ describe(&apos;Task component&apos;, () =&gt; {
     });
 });
 describe(&apos;TaskList component&apos;, () =&gt; {
-    test(&apos;can render&apos;, () =&gt; {
-        const options = {skipInstall: true};
-        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} terms={[&apos;eslint&apos;]} options={options}&gt;&lt;/TaskList&gt;);
-        expect(lastFrame()).toMatchSnapshot();
+    let tempDirectory;
+    const skipInstall = true;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    const ORIGINAL_CONSOLE_ERROR = console.error;
+    beforeAll(() =&gt; {
+        console.error = jest.fn();
     });
-});
-describe(&apos;Warning&apos;, () =&gt; {
-    test(&apos;can render&apos;, () =&gt; {
-        const callback = jest.fn();
-        const {lastFrame} = render(&lt;Warning callback={callback}&gt;Hello World&lt;/Warning&gt;);
-        expect(lastFrame()).toMatchSnapshot();
+    afterAll(() =&gt; {
+        console.error = ORIGINAL_CONSOLE_ERROR;
+    });
+    beforeEach(async () =&gt; {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () =&gt; {
+        await cleanupTempDir();
+    });
+    test(&apos;can render&apos;, done =&gt; {
+        const options = {skipInstall};
+        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} terms={[&apos;eslint&apos;]} options={options} done={complete}&gt;&lt;/TaskList&gt;);
+        function complete() {
+            expect(lastFrame()).toMatchSnapshot();
+            done();
+        }
     });
 });
 describe(&apos;tomo&apos;, () =&gt; {
+    let tempDirectory;
+    const skipInstall = true;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    const ORIGINAL_CONSOLE_ERROR = console.error;
+    beforeAll(() =&gt; {
+        console.error = jest.fn();
+    });
+    afterAll(() =&gt; {
+        console.error = ORIGINAL_CONSOLE_ERROR;
+    });
+    beforeEach(async () =&gt; {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () =&gt; {
+        await cleanupTempDir();
+    });
     test(&apos;add&apos;, () =&gt; {
         const input = [&apos;add&apos;];
-        const {lastFrame, stdin} = render(&lt;Tomo input={input}/&gt;);
+        const {lastFrame, stdin} = render(&lt;Tomo input={input} flags={{skipInstall}}/&gt;);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
     });
-    test(&apos;add eslint&apos;, () =&gt; {
+    test(&apos;add eslint&apos;, done =&gt; {
         const input = [&apos;add&apos;, &apos;eslint&apos;];
-        const {lastFrame} = render(&lt;Tomo input={input}/&gt;);
-        expect(lastFrame()).toMatchSnapshot();
+        const flags = {skipInstall};
+        const {lastFrame} = render(&lt;Tomo input={input} flags={flags} done={complete}/&gt;);
+        function complete() {
+            expect(lastFrame()).toMatchSnapshot();
+            done();
+        }
     });
-    test(&apos;add eslint --use-react&apos;, () =&gt; {
+    xtest(&apos;add eslint --use-react&apos;, done =&gt; {
         const input = [&apos;add&apos;, &apos;eslint&apos;];
-        const flags = {useReact: true};
-        const {lastFrame} = render(&lt;Tomo input={input} flags={flags}/&gt;);
-        expect(lastFrame()).toMatchSnapshot();
+        const flags = {useReact: true, skipInstall};
+        const {lastFrame} = render(&lt;Tomo input={input} flags={flags} done={complete}/&gt;);
+        function complete() {
+            expect(lastFrame()).toMatchSnapshot();
+            done();
+        }
     });
 });
 </code></pre>

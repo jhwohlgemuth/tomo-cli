@@ -229,49 +229,49 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber97",
+    "test-file/__tests__/utils.test.js.html#lineNumber109",
     "File & folder scaffolder",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber107",
+    "test-file/__tests__/utils.test.js.html#lineNumber119",
     "File & folder scaffolder can copy files",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber63",
+    "test-file/__tests__/ui.test.js.html#lineNumber71",
     "Task component",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber64",
+    "test-file/__tests__/ui.test.js.html#lineNumber72",
     "Task component can render",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber69",
+    "test-file/__tests__/ui.test.js.html#lineNumber77",
     "Task component can render (completed)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber74",
+    "test-file/__tests__/ui.test.js.html#lineNumber82",
     "Task component can render with defaults",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber79",
+    "test-file/__tests__/ui.test.js.html#lineNumber87",
     "TaskList component",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber80",
+    "test-file/__tests__/ui.test.js.html#lineNumber105",
     "TaskList component can render",
     "test"
   ],
@@ -301,37 +301,37 @@ window.esdocSearchIndex = [
   ],
   [
     "eslintconfigmoduleeditor src/utils.js~eslintconfigmoduleeditor,eslintconfigmoduleeditor",
-    "test-file/__tests__/utils.test.js.html#lineNumber59",
+    "test-file/__tests__/utils.test.js.html#lineNumber71",
     "Verify ESLint module editor can create and edit an ESLint configuration file",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber64",
+    "test-file/__tests__/utils.test.js.html#lineNumber76",
     "Verify ESLint module editor can create and edit an ESLint configuration file create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber80",
+    "test-file/__tests__/utils.test.js.html#lineNumber92",
     "Verify ESLint module editor can create and edit an ESLint configuration file delete",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber73",
+    "test-file/__tests__/utils.test.js.html#lineNumber85",
     "Verify ESLint module editor can create and edit an ESLint configuration file extend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber88",
+    "test-file/__tests__/utils.test.js.html#lineNumber100",
     "Verify ESLint module editor can create and edit an ESLint configuration file prepend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber70",
+    "test-file/__tests__/utils.test.js.html#lineNumber82",
     "Verify ESLint module editor can create and edit an ESLint configuration file read",
     "test"
   ],
@@ -367,19 +367,31 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/__tests__/utils.test.js.html#lineNumber59",
+    "Verify package.json editor can create and edit a package.json manifest file hasAll",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber54",
+    "Verify package.json editor can create and edit a package.json manifest file hasSome",
+    "test"
+  ],
+  [
+    "",
     "test-file/__tests__/utils.test.js.html#lineNumber34",
     "Verify package.json editor can create and edit a package.json manifest file read",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber86",
+    "test-file/__tests__/ui.test.js.html#lineNumber64",
     "Warning",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber87",
+    "test-file/__tests__/ui.test.js.html#lineNumber65",
     "Warning can render",
     "test"
   ],
@@ -415,73 +427,73 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber110",
+    "test-file/__tests__/utils.test.js.html#lineNumber122",
     "getIntendedInput",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber111",
+    "test-file/__tests__/utils.test.js.html#lineNumber123",
     "getIntendedInput return closest matches",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber117",
+    "test-file/__tests__/utils.test.js.html#lineNumber129",
     "getVersions",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber121",
-    "getVersions format response from npm",
+    "test-file/__tests__/utils.test.js.html#lineNumber133",
+    "getVersions format response from npm (only allow valid version strings)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber118",
+    "test-file/__tests__/utils.test.js.html#lineNumber130",
     "getVersions handle no module name",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber127",
+    "test-file/__tests__/utils.test.js.html#lineNumber139",
     "install",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber128",
+    "test-file/__tests__/utils.test.js.html#lineNumber140",
     "install handle array of string names",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber8",
+    "test-file/__tests__/ui.test.js.html#lineNumber9",
     "populateQueue function",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber47",
+    "test-file/__tests__/ui.test.js.html#lineNumber48",
     "populateQueue function can catch task errors",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber30",
+    "test-file/__tests__/ui.test.js.html#lineNumber31",
     "populateQueue function can only run tasks that pass condition",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber12",
+    "test-file/__tests__/ui.test.js.html#lineNumber13",
     "populateQueue function can run tasks with options and dispatch task results",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber9",
+    "test-file/__tests__/ui.test.js.html#lineNumber10",
     "populateQueue function can run with defaults",
     "test"
   ],
@@ -949,26 +961,20 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber93",
+    "test-file/__tests__/ui.test.js.html#lineNumber114",
     "tomo",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber94",
+    "test-file/__tests__/ui.test.js.html#lineNumber132",
     "tomo add",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber101",
+    "test-file/__tests__/ui.test.js.html#lineNumber139",
     "tomo add eslint",
-    "test"
-  ],
-  [
-    "",
-    "test-file/__tests__/ui.test.js.html#lineNumber106",
-    "tomo add eslint --use-react",
     "test"
   ]
 ]

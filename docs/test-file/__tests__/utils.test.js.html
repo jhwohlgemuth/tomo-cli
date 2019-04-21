@@ -109,6 +109,18 @@ describe(&apos;package.json mem-fs editor&apos;, () =&gt; {
         await pkg.delete();
         expect(pkg.read()).toEqual(&apos;&apos;);
     });
+    test(&apos;hasSome&apos;, () =&gt; {
+        expect(pkg.hasSome(&apos;react&apos;)).toBeFalsy();
+        expect(pkg.hasSome(&apos;webpack&apos;, &apos;execa&apos;)).toBeTruthy();
+        expect(pkg.hasSome(&apos;eslint&apos;)).toBeTruthy();
+    });
+    test(&apos;hasAll&apos;, () =&gt; {
+        expect(pkg.hasAll(&apos;react&apos;)).toBeFalsy();
+        expect(pkg.hasAll(&apos;webpack&apos;, &apos;execa&apos;)).toBeFalsy();
+        expect(pkg.hasAll(&apos;chalk&apos;, &apos;execa&apos;)).toBeTruthy();
+        expect(pkg.hasAll(&apos;chalk&apos;, &apos;execa&apos;, &apos;@babel/cli&apos;)).toBeTruthy();
+        expect(pkg.hasAll(&apos;eslint&apos;)).toBeTruthy();
+    });
 });
 /**
  * Verify ESLint module editor can create and edit an ESLint configuration file
@@ -176,8 +188,8 @@ describe(&apos;getVersions&apos;, () =&gt; {
     test(&apos;handle no module name&apos;, async () =&gt; {
         expect(await getVersions()).toEqual([]);
     });
-    test(&apos;format response from npm&apos;, async () =&gt; {
-        const stdout = &apos;1.0.0 ,\n 2.0.0 ,\n 3.0.0 &apos;;
+    test(&apos;format response from npm (only allow valid version strings)&apos;, async () =&gt; {
+        const stdout = &apos;1.0.0 ,\n 2.0.0 ,\n not valid ,\n 3.0.0 &apos;;
         execa.mockResolvedValue({stdout});
         expect(await getVersions(&apos;some-module-name&apos;)).toMatchSnapshot();
     });

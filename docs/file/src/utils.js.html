@@ -59,6 +59,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import delay from &apos;delay&apos;;
 import {join} from &apos;path&apos;;
 import execa from &apos;execa&apos;;
+import semver from &apos;semver&apos;;
 import Queue from &apos;p-queue&apos;;
 import prettier from &apos;prettier&apos;;
 import {first, merge} from &apos;lodash&apos;;
@@ -153,7 +154,9 @@ export const getVersions = async (name = &apos;&apos;) =&gt; (name.length === 0)
     .stdout
     .split(&apos;,\n&apos;)
     .map(str =&gt; str.match(/\d+[.]\d+[.]\d+/))
-    .map(first);
+    .map(first)
+    .map(semver.valid)
+    .filter(Boolean);
 /**
  * Install dependencies with npm
  * @param {string[]} [dependencies=[]] Modules to install
@@ -253,6 +256,32 @@ export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor
         const {fs, path, queue} = self;
         queue.add(() =&gt; fs.extendJSON(path, contents, null, INDENT_SPACES));
         return self;
+    }
+    /**
+     * Check if package.json manifest file has dependencies (dependencies or devDependencies)
+     * @param  {...string} modules npm module names
+     * @return {Boolean} Has at least one dependency (true) or none (false)
+     */
+    hasSome(...modules) {
+        const {keys} = Object;
+        const parse = data =&gt; JSON.parse(JSON.stringify(data));
+        const pkg = this.read();
+        const {dependencies, devDependencies} = parse(pkg);
+        const installed = [...keys(dependencies), ...keys(devDependencies)];
+        return modules.some(module =&gt; installed.includes(module));
+    }
+    /**
+     * Check if package.json manifest file has dependencies (dependencies or devDependencies)
+     * @param  {...string} modules npm module names
+     * @return {Boolean} Has all dependencies (true) or not all (false)
+     */
+    hasAll(...modules) {
+        const {keys} = Object;
+        const parse = data =&gt; JSON.parse(JSON.stringify(data));
+        const pkg = this.read();
+        const {dependencies, devDependencies} = parse(pkg);
+        const installed = [...keys(dependencies), ...keys(devDependencies)];
+        return modules.every(module =&gt; installed.includes(module));
     }
 };
 /**
