@@ -11,18 +11,18 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _utils = require("../utils");
 
-const BABEL_DEPENDENCIES = ['@babel/cli', '@babel/core', '@babel/runtime'];
+const BABEL_CORE = ['@babel/cli', '@babel/core', '@babel/runtime'];
 const BABEL_PRESETS = ['@babel/preset-env'];
 const BABEL_PLUGINS = ['@babel/plugin-transform-runtime', '@babel/plugin-proposal-class-properties', '@babel/plugin-proposal-export-default-from', '@babel/plugin-proposal-optional-chaining'];
 const BABEL_REACT_PRESET = ['@babel/preset-react'];
+const BABEL_DEPENDENCIES = [...BABEL_CORE, ...BABEL_PRESETS, ...BABEL_PLUGINS];
 /** @ignore */
 
 const tasks = [{
   text: 'Create Babel config file',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
-      const cfg = new _utils.BabelConfigModuleEditor();
-      yield cfg.create().commit();
+      yield new _utils.BabelConfigModuleEditor().create().commit();
     });
 
     return function task() {
@@ -34,11 +34,11 @@ const tasks = [{
   text: 'Install Babel core, CLI, presets, and plugins',
   task: ({
     skipInstall
-  }) => (0, _utils.install)([...BABEL_DEPENDENCIES, ...BABEL_PRESETS, ...BABEL_PLUGINS], {
+  }) => (0, _utils.install)(BABEL_DEPENDENCIES, {
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => !new _utils.PackageJsonEditor().hasAll(...BABEL_DEPENDENCIES) && (0, _utils.someDoExist)('package.json')
 }, {
   text: 'Install Babel React preset',
   task: ({
@@ -58,8 +58,7 @@ const tasks = [{
   task: function () {
     var _ref2 = (0, _asyncToGenerator2.default)(function* () {
       const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESET];
-      const cfg = new _utils.BabelConfigModuleEditor();
-      yield cfg.extend({
+      yield new _utils.BabelConfigModuleEditor().extend({
         presets
       }).commit();
     });

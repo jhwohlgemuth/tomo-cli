@@ -2,10 +2,11 @@ import {
     allDoNotExist,
     BabelConfigModuleEditor,
     install,
-    someDoExist
+    someDoExist,
+    PackageJsonEditor
 } from '../utils';
 
-const BABEL_DEPENDENCIES = [
+const BABEL_CORE = [
     '@babel/cli',
     '@babel/core',
     '@babel/runtime'
@@ -22,20 +23,24 @@ const BABEL_PLUGINS = [
 const BABEL_REACT_PRESET = [
     '@babel/preset-react'
 ];
+const BABEL_DEPENDENCIES = [
+    ...BABEL_CORE,
+    ...BABEL_PRESETS,
+    ...BABEL_PLUGINS
+];
 /** @ignore */
 export const tasks = [
     {
         text: 'Create Babel config file',
         task: async () => {
-            const cfg = new BabelConfigModuleEditor();
-            await cfg.create().commit();
+            await (new BabelConfigModuleEditor()).create().commit();
         },
         condition: () => allDoNotExist('babel.config.js', '.babelrc', '.babelrc.js')
     },
     {
         text: 'Install Babel core, CLI, presets, and plugins',
-        task: ({skipInstall}) => install([...BABEL_DEPENDENCIES, ...BABEL_PRESETS, ...BABEL_PLUGINS], {dev: true, skipInstall}),
-        condition: () => someDoExist('package.json')
+        task: ({skipInstall}) => install(BABEL_DEPENDENCIES, {dev: true, skipInstall}),
+        condition: () => (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && someDoExist('package.json'))
     },
     {
         text: 'Install Babel React preset',
@@ -47,8 +52,7 @@ export const tasks = [
         text: 'Add React support to Babel configuration file',
         task: async () => {
             const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESET];
-            const cfg = new BabelConfigModuleEditor();
-            await cfg.extend({presets}).commit();
+            await (new BabelConfigModuleEditor()).extend({presets}).commit();
         },
         condition: ({useReact}) => (useReact && someDoExist('babel.config.js')),
         optional: ({useReact}) => useReact

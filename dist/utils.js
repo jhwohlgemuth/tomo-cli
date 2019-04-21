@@ -690,7 +690,7 @@ const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
       exclude: `/node_modules/`,
       loader: `'babel-loader'`,
       query: {
-        presets: [`'env'`]
+        presets: [`'@babel/env'`]
       }
     }]
   },

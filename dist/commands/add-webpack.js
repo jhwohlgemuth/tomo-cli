@@ -11,10 +11,12 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _utils = require("../utils");
 
-const WEBPACK_DEPENDENCIES = ['webpack', 'webpack-cli', 'webpack-dashboard', 'webpack-jarvis', 'webpack-dev-server'];
+var _addBabel = _interopRequireDefault(require("./add-babel"));
+
+const WEBPACK_DEPENDENCIES = ['webpack', 'webpack-cli', 'webpack-dashboard', 'webpack-jarvis', 'webpack-dev-server', 'babel-loader'];
 /** @ignore */
 
-const tasks = [{
+const tasks = [..._addBabel.default, {
   text: 'Create Webpack configuration file',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* ({
