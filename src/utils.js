@@ -22,6 +22,7 @@ const PRETTIER_OPTIONS = {
 const parse = data => JSON.parse(JSON.stringify(data));
 // eslint-disable-next-line no-magic-numbers
 export const testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());
+export const isGlobalCommand = value => ['npm', 'echo', 'cat', 'cp', 'rm'].includes(value);
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -484,10 +485,11 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
         this.write(`${contents}\n${lines}`);
         return this;
     }
-    addTask(name, task) {
-        return this
-            .append(`${name}:`)
-            .append(`\t${task}`);
+    addTask(name, ...tasks) {
+        const self = this;
+        self.append(`${name}:`);
+        tasks.forEach(task => self.append(`\t${task}`));
+        return self;
     }
     addComment(text) {
         return this.append(`# ${text}`);
@@ -500,16 +502,44 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
         this.scripts = scripts;
         return this;
     }
-    appendScripts(options = {useGlobal: true}) {
+    appendScripts(options = {useGlobal: true, silent: true}) {
         const self = this;
         const {path, scripts} = self;
         const {useGlobal} = options;
         const [packageDirectory] = path.split('Makefile');
-        const pre = useGlobal ? '' : `${packageDirectory}node_modules/.bin/`;
+        const bin = `${packageDirectory}node_modules/.bin/`;
+        const abs = useGlobal ? '' : `$(bin)`;
+        const formatTaskContent = value => {
+            const [firstCommand] = value.split(' ');
+            return `@${isGlobalCommand(firstCommand) ? '' : abs}${value}`;
+        };
+        const tasks = Object.entries(scripts)
+            .map(([key, value]) => [key, [value]])
+            .map(([key, values]) => [key, values.map(formatTaskContent)]);
+        const getPreTask = (tasks, name) => {
+            const [data] = tasks
+                .filter(([name]) => name.startsWith('pre'))
+                .map(([name, values]) => [name.substring('pre'.length), values])
+                .filter(task => task[0] === name);
+            return Array.isArray(data) ? data[1] : [];
+        };
+        const getPostTask = (tasks, name) => {
+            const [data] = tasks
+                .filter(([name]) => name.startsWith('post'))
+                .map(([name, values]) => [name.substring('post'.length), values])
+                .filter(task => task[0] === name);
+            return Array.isArray(data) ? data[1] : [];
+        };
+        const useBinVariable = tasks
+            .map(([, values]) => values)
+            .map(values => values.some(name => /\$\(bin\)/.test(name)))
+            .some(Boolean);
+        useBinVariable && self.append(`bin := ${bin}`);
         self.append();
-        Object.entries(scripts)
-            .map(([key, value]) => [key, `${pre}${value}`])
-            .forEach(([key, value]) => self.addTask(key, value).append());
+        tasks
+            .filter(([name]) => !(name.startsWith('pre') || name.startsWith('post')))
+            .map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]])
+            .forEach(([key, values]) => self.addTask(key, ...values).append());
         return self;
     }
 }

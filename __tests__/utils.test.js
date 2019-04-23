@@ -136,10 +136,18 @@ describe('Makefile editor', () => {
         makefile.importScripts();
         expect(makefile.scripts).toMatchSnapshot();
     });
-    test('exportScripts', async () => {
+    test('appendScripts (use global)', async () => {
         await makefile
             .importScripts()
             .appendScripts()
+            .done();
+        expect(makefile.read()).toMatchSnapshot();
+    });
+    test('appendScripts (use local)', async () => {
+        const useGlobal = false;
+        await makefile
+            .importScripts()
+            .appendScripts({useGlobal})
             .done();
         expect(makefile.read()).toMatchSnapshot();
     });

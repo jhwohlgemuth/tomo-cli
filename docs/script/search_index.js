@@ -210,6 +210,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils.js~isglobalcommand",
+    "function/index.html#static-function-isGlobalCommand",
+    "<span>isGlobalCommand</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/ui.js~populatequeue",
     "function/index.html#static-function-populateQueue",
     "<span>populateQueue</span> <span class=\"search-result-import-path\">tomo-cli/src/ui.js</span>",
@@ -235,13 +241,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber147",
+    "test-file/__tests__/utils.test.js.html#lineNumber155",
     "File & folder scaffolder",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber157",
+    "test-file/__tests__/utils.test.js.html#lineNumber165",
     "File & folder scaffolder can copy files",
     "test"
   ],
@@ -271,14 +277,20 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber115",
-    "Makefile editor create",
+    "test-file/__tests__/utils.test.js.html#lineNumber139",
+    "Makefile editor appendScripts (use global)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber139",
-    "Makefile editor exportScripts",
+    "test-file/__tests__/utils.test.js.html#lineNumber146",
+    "Makefile editor appendScripts (use local)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber115",
+    "Makefile editor create",
     "test"
   ],
   [
@@ -469,43 +481,43 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber160",
+    "test-file/__tests__/utils.test.js.html#lineNumber168",
     "getIntendedInput",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber161",
+    "test-file/__tests__/utils.test.js.html#lineNumber169",
     "getIntendedInput return closest matches",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber167",
+    "test-file/__tests__/utils.test.js.html#lineNumber175",
     "getVersions",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber171",
+    "test-file/__tests__/utils.test.js.html#lineNumber179",
     "getVersions format response from npm (only allow valid version strings)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber168",
+    "test-file/__tests__/utils.test.js.html#lineNumber176",
     "getVersions handle no module name",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber177",
+    "test-file/__tests__/utils.test.js.html#lineNumber185",
     "install",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber178",
+    "test-file/__tests__/utils.test.js.html#lineNumber186",
     "install handle array of string names",
     "test"
   ],

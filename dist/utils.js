@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MakefileEditor = exports.WebpackConfigEditor = exports.PostcssConfigEditor = exports.PackageJsonEditor = exports.EslintConfigModuleEditor = exports.BabelConfigModuleEditor = exports.Scaffolder = exports.createModuleEditor = exports.createJsonEditor = exports.BasicEditor = exports.verifyRustInstallation = exports.install = exports.getVersions = exports.getIntendedInput = exports.format = exports.allDoNotExist = exports.someDoExist = exports.testAsyncFunction = void 0;
+exports.MakefileEditor = exports.WebpackConfigEditor = exports.PostcssConfigEditor = exports.PackageJsonEditor = exports.EslintConfigModuleEditor = exports.BabelConfigModuleEditor = exports.Scaffolder = exports.createModuleEditor = exports.createJsonEditor = exports.BasicEditor = exports.verifyRustInstallation = exports.install = exports.getVersions = exports.getIntendedInput = exports.format = exports.allDoNotExist = exports.someDoExist = exports.isGlobalCommand = exports.testAsyncFunction = void 0;
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
@@ -61,6 +61,10 @@ function () {
     return _ref.apply(this, arguments);
   };
 }();
+
+exports.testAsyncFunction = testAsyncFunction;
+
+const isGlobalCommand = value => ['npm', 'echo', 'cat', 'cp', 'rm'].includes(value);
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -78,7 +82,7 @@ function () {
  */
 
 
-exports.testAsyncFunction = testAsyncFunction;
+exports.isGlobalCommand = isGlobalCommand;
 
 const someDoExist =
 /*#__PURE__*/
@@ -730,8 +734,11 @@ class MakefileEditor extends createModuleEditor('Makefile') {
     return this;
   }
 
-  addTask(name, task) {
-    return this.append(`${name}:`).append(`\t${task}`);
+  addTask(name, ...tasks) {
+    const self = this;
+    self.append(`${name}:`);
+    tasks.forEach(task => self.append(`\t${task}`));
+    return self;
   }
 
   addComment(text) {
@@ -752,7 +759,8 @@ class MakefileEditor extends createModuleEditor('Makefile') {
   }
 
   appendScripts(options = {
-    useGlobal: true
+    useGlobal: true,
+    silent: true
   }) {
     const self = this;
     const {
@@ -763,9 +771,30 @@ class MakefileEditor extends createModuleEditor('Makefile') {
       useGlobal
     } = options;
     const [packageDirectory] = path.split('Makefile');
-    const pre = useGlobal ? '' : `${packageDirectory}node_modules/.bin/`;
+    const bin = `${packageDirectory}node_modules/.bin/`;
+    const abs = useGlobal ? '' : `$(bin)`;
+
+    const formatTaskContent = value => {
+      const [firstCommand] = value.split(' ');
+      return `@${isGlobalCommand(firstCommand) ? '' : abs}${value}`;
+    };
+
+    const tasks = Object.entries(scripts).map(([key, value]) => [key, [value]]).map(([key, values]) => [key, values.map(formatTaskContent)]);
+
+    const getPreTask = (tasks, name) => {
+      const [data] = tasks.filter(([name]) => name.startsWith('pre')).map(([name, values]) => [name.substring('pre'.length), values]).filter(task => task[0] === name);
+      return Array.isArray(data) ? data[1] : [];
+    };
+
+    const getPostTask = (tasks, name) => {
+      const [data] = tasks.filter(([name]) => name.startsWith('post')).map(([name, values]) => [name.substring('post'.length), values]).filter(task => task[0] === name);
+      return Array.isArray(data) ? data[1] : [];
+    };
+
+    const useBinVariable = tasks.map(([, values]) => values).map(values => values.some(name => /\$\(bin\)/.test(name))).some(Boolean);
+    useBinVariable && self.append(`bin := ${bin}`);
     self.append();
-    Object.entries(scripts).map(([key, value]) => [key, `${pre}${value}`]).forEach(([key, value]) => self.addTask(key, value).append());
+    tasks.filter(([name]) => !(name.startsWith('pre') || name.startsWith('post'))).map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]]).forEach(([key, values]) => self.addTask(key, ...values).append());
     return self;
   }
 

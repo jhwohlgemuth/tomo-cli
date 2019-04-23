@@ -7,7 +7,9 @@
         "test": "jest --coverage",
         "lint": "eslint . -c ./.eslintrc.js",
         "lint:watch": "watch 'npm run lint' src",
-        "build": "webpack"
+        "prebuild": "echo Starting build",
+        "build": "webpack",
+        "postbuild": "echo Build complete"
     },
     "keywords": [],
     "author": "",

@@ -165,29 +165,56 @@ exports[`Makefile editor append 1`] = `
 test line"
 `;
 
-exports[`Makefile editor create 1`] = `"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json"`;
-
-exports[`Makefile editor exportScripts 1`] = `
+exports[`Makefile editor appendScripts (use global) 1`] = `
 "# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json
 
 
 test:
-	jest --coverage
+	@jest --coverage
 
 
 lint:
-	eslint . -c ./.eslintrc.js
+	@eslint . -c ./.eslintrc.js
 
 
 lint:watch:
-	watch 'npm run lint' src
+	@watch 'npm run lint' src
 
 
 build:
-	webpack
+	@echo Starting build
+	@webpack
+	@echo Build complete
 
 "
 `;
+
+exports[`Makefile editor appendScripts (use local) 1`] = `
+"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json
+bin := /home/vagrant/dev/tomo-cli/__tests__/fixtures/node_modules/.bin/
+
+
+test:
+	@$(bin)jest --coverage
+
+
+lint:
+	@$(bin)eslint . -c ./.eslintrc.js
+
+
+lint:watch:
+	@$(bin)watch 'npm run lint' src
+
+
+build:
+	@echo Starting build
+	@$(bin)webpack
+	@echo Build complete
+
+"
+`;
+
+exports[`Makefile editor create 1`] = `"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json"`;
 
 exports[`Makefile editor importScripts 1`] = `Object {}`;
 
@@ -196,6 +223,8 @@ Object {
   "build": "webpack",
   "lint": "eslint . -c ./.eslintrc.js",
   "lint:watch": "watch 'npm run lint' src",
+  "postbuild": "echo Build complete",
+  "prebuild": "echo Starting build",
   "test": "jest --coverage",
 }
 `;
@@ -230,6 +259,8 @@ Object {
     "build": "webpack",
     "lint": "eslint . -c ./.eslintrc.js",
     "lint:watch": "watch 'npm run lint' src",
+    "postbuild": "echo Build complete",
+    "prebuild": "echo Starting build",
     "test": "jest --coverage",
   },
   "version": "1.0.0",
@@ -279,6 +310,8 @@ Object {
     "foo": "bar",
     "lint": "eslint . -c ./.eslintrc.js",
     "lint:watch": "watch 'npm run lint' src",
+    "postbuild": "echo Build complete",
+    "prebuild": "echo Starting build",
     "test": "jest --coverage",
   },
   "version": "1.0.0",
@@ -307,6 +340,8 @@ Object {
     "build": "webpack",
     "lint": "eslint . -c ./.eslintrc.js",
     "lint:watch": "watch 'npm run lint' src",
+    "postbuild": "echo Build complete",
+    "prebuild": "echo Starting build",
     "test": "jest --coverage",
   },
   "version": "1.0.0",

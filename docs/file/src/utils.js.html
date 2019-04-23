@@ -44,6 +44,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
@@ -81,6 +82,7 @@ const PRETTIER_OPTIONS = {
 const parse = data =&gt; JSON.parse(JSON.stringify(data));
 // eslint-disable-next-line no-magic-numbers
 export const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
+export const isGlobalCommand = value =&gt; [&apos;npm&apos;, &apos;echo&apos;, &apos;cat&apos;, &apos;cp&apos;, &apos;rm&apos;].includes(value);
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -543,10 +545,11 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
         this.write(`${contents}\n${lines}`);
         return this;
     }
-    addTask(name, task) {
-        return this
-            .append(`${name}:`)
-            .append(`\t${task}`);
+    addTask(name, ...tasks) {
+        const self = this;
+        self.append(`${name}:`);
+        tasks.forEach(task =&gt; self.append(`\t${task}`));
+        return self;
     }
     addComment(text) {
         return this.append(`# ${text}`);
@@ -559,16 +562,44 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
         this.scripts = scripts;
         return this;
     }
-    appendScripts(options = {useGlobal: true}) {
+    appendScripts(options = {useGlobal: true, silent: true}) {
         const self = this;
         const {path, scripts} = self;
         const {useGlobal} = options;
         const [packageDirectory] = path.split(&apos;Makefile&apos;);
-        const pre = useGlobal ? &apos;&apos; : `${packageDirectory}node_modules/.bin/`;
+        const bin = `${packageDirectory}node_modules/.bin/`;
+        const abs = useGlobal ? &apos;&apos; : `$(bin)`;
+        const formatTaskContent = value =&gt; {
+            const [firstCommand] = value.split(&apos; &apos;);
+            return `@${isGlobalCommand(firstCommand) ? &apos;&apos; : abs}${value}`;
+        };
+        const tasks = Object.entries(scripts)
+            .map(([key, value]) =&gt; [key, [value]])
+            .map(([key, values]) =&gt; [key, values.map(formatTaskContent)]);
+        const getPreTask = (tasks, name) =&gt; {
+            const [data] = tasks
+                .filter(([name]) =&gt; name.startsWith(&apos;pre&apos;))
+                .map(([name, values]) =&gt; [name.substring(&apos;pre&apos;.length), values])
+                .filter(task =&gt; task[0] === name);
+            return Array.isArray(data) ? data[1] : [];
+        };
+        const getPostTask = (tasks, name) =&gt; {
+            const [data] = tasks
+                .filter(([name]) =&gt; name.startsWith(&apos;post&apos;))
+                .map(([name, values]) =&gt; [name.substring(&apos;post&apos;.length), values])
+                .filter(task =&gt; task[0] === name);
+            return Array.isArray(data) ? data[1] : [];
+        };
+        const useBinVariable = tasks
+            .map(([, values]) =&gt; values)
+            .map(values =&gt; values.some(name =&gt; /\$\(bin\)/.test(name)))
+            .some(Boolean);
+        useBinVariable &amp;&amp; self.append(`bin := ${bin}`);
         self.append();
-        Object.entries(scripts)
-            .map(([key, value]) =&gt; [key, `${pre}${value}`])
-            .forEach(([key, value]) =&gt; self.addTask(key, value).append());
+        tasks
+            .filter(([name]) =&gt; !(name.startsWith(&apos;pre&apos;) || name.startsWith(&apos;post&apos;)))
+            .map(([name, values]) =&gt; [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]])
+            .forEach(([key, values]) =&gt; self.addTask(key, ...values).append());
         return self;
     }
 }</code></pre>
