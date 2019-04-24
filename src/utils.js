@@ -1,10 +1,11 @@
 import delay from 'delay';
 import {join} from 'path';
 import execa from 'execa';
+import {which} from 'shelljs';
 import semver from 'semver';
 import Queue from 'p-queue';
 import prettier from 'prettier';
-import {first, merge} from 'lodash';
+import {first, isNull, kebabCase, merge, negate} from 'lodash';
 import {existsSync, pathExists} from 'fs-extra';
 import memFs from 'mem-fs';
 import editor from 'mem-fs-editor';
@@ -23,6 +24,11 @@ const parse = data => JSON.parse(JSON.stringify(data));
 // eslint-disable-next-line no-magic-numbers
 export const testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());
 export const isGlobalCommand = value => ['npm', 'echo', 'cat', 'cp', 'rm'].includes(value);
+export const getCommandDirectory = command => {
+    const data = which(command);
+    const commandExists = negate(isNull)(data);
+    return commandExists ? data.toString().split(command)[0] : '';
+};
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -514,7 +520,7 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
             return `@${isGlobalCommand(firstCommand) ? '' : abs}${value}`;
         };
         const tasks = Object.entries(scripts)
-            .map(([key, value]) => [key, [value]])
+            .map(([key, value]) => [kebabCase(key), [value]])
             .map(([key, values]) => [key, values.map(formatTaskContent)]);
         const getPreTask = (tasks, name) => {
             const [data] = tasks

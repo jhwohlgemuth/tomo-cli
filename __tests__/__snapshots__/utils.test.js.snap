@@ -177,7 +177,8 @@ lint:
 	@eslint . -c ./.eslintrc.js
 
 
-lint:watch:
+lint-watch:
+	@echo Starting lint:watch
 	@watch 'npm run lint' src
 
 
@@ -202,7 +203,8 @@ lint:
 	@$(bin)eslint . -c ./.eslintrc.js
 
 
-lint:watch:
+lint-watch:
+	@echo Starting lint:watch
 	@$(bin)watch 'npm run lint' src
 
 
@@ -225,6 +227,7 @@ Object {
   "lint:watch": "watch 'npm run lint' src",
   "postbuild": "echo Build complete",
   "prebuild": "echo Starting build",
+  "prelint:watch": "echo Starting lint:watch",
   "test": "jest --coverage",
 }
 `;
@@ -261,6 +264,7 @@ Object {
     "lint:watch": "watch 'npm run lint' src",
     "postbuild": "echo Build complete",
     "prebuild": "echo Starting build",
+    "prelint:watch": "echo Starting lint:watch",
     "test": "jest --coverage",
   },
   "version": "1.0.0",
@@ -312,6 +316,7 @@ Object {
     "lint:watch": "watch 'npm run lint' src",
     "postbuild": "echo Build complete",
     "prebuild": "echo Starting build",
+    "prelint:watch": "echo Starting lint:watch",
     "test": "jest --coverage",
   },
   "version": "1.0.0",
@@ -342,6 +347,7 @@ Object {
     "lint:watch": "watch 'npm run lint' src",
     "postbuild": "echo Build complete",
     "prebuild": "echo Starting build",
+    "prelint:watch": "echo Starting lint:watch",
     "test": "jest --coverage",
   },
   "version": "1.0.0",

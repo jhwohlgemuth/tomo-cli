@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MakefileEditor = exports.WebpackConfigEditor = exports.PostcssConfigEditor = exports.PackageJsonEditor = exports.EslintConfigModuleEditor = exports.BabelConfigModuleEditor = exports.Scaffolder = exports.createModuleEditor = exports.createJsonEditor = exports.BasicEditor = exports.verifyRustInstallation = exports.install = exports.getVersions = exports.getIntendedInput = exports.format = exports.allDoNotExist = exports.someDoExist = exports.isGlobalCommand = exports.testAsyncFunction = void 0;
+exports.MakefileEditor = exports.WebpackConfigEditor = exports.PostcssConfigEditor = exports.PackageJsonEditor = exports.EslintConfigModuleEditor = exports.BabelConfigModuleEditor = exports.Scaffolder = exports.createModuleEditor = exports.createJsonEditor = exports.BasicEditor = exports.verifyRustInstallation = exports.install = exports.getVersions = exports.getIntendedInput = exports.format = exports.allDoNotExist = exports.someDoExist = exports.getCommandDirectory = exports.isGlobalCommand = exports.testAsyncFunction = void 0;
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
@@ -16,6 +16,8 @@ var _delay = _interopRequireDefault(require("delay"));
 var _path = require("path");
 
 var _execa = _interopRequireDefault(require("execa"));
+
+var _shelljs = require("shelljs");
 
 var _semver = _interopRequireDefault(require("semver"));
 
@@ -65,6 +67,14 @@ function () {
 exports.testAsyncFunction = testAsyncFunction;
 
 const isGlobalCommand = value => ['npm', 'echo', 'cat', 'cp', 'rm'].includes(value);
+
+exports.isGlobalCommand = isGlobalCommand;
+
+const getCommandDirectory = command => {
+  const data = (0, _shelljs.which)(command);
+  const commandExists = (0, _lodash.negate)(_lodash.isNull)(data);
+  return commandExists ? data.toString().split(command)[0] : '';
+};
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -82,7 +92,7 @@ const isGlobalCommand = value => ['npm', 'echo', 'cat', 'cp', 'rm'].includes(val
  */
 
 
-exports.isGlobalCommand = isGlobalCommand;
+exports.getCommandDirectory = getCommandDirectory;
 
 const someDoExist =
 /*#__PURE__*/
@@ -779,7 +789,7 @@ class MakefileEditor extends createModuleEditor('Makefile') {
       return `@${isGlobalCommand(firstCommand) ? '' : abs}${value}`;
     };
 
-    const tasks = Object.entries(scripts).map(([key, value]) => [key, [value]]).map(([key, values]) => [key, values.map(formatTaskContent)]);
+    const tasks = Object.entries(scripts).map(([key, value]) => [(0, _lodash.kebabCase)(key), [value]]).map(([key, values]) => [key, values.map(formatTaskContent)]);
 
     const getPreTask = (tasks, name) => {
       const [data] = tasks.filter(([name]) => name.startsWith('pre')).map(([name, values]) => [name.substring('pre'.length), values]).filter(task => task[0] === name);

@@ -192,6 +192,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils.js~getcommanddirectory",
+    "function/index.html#static-function-getCommandDirectory",
+    "<span>getCommandDirectory</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/utils.js~getintendedinput",
     "function/index.html#static-function-getIntendedInput",
     "<span>getIntendedInput</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",

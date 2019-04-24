@@ -41,6 +41,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
@@ -61,10 +62,11 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import delay from &apos;delay&apos;;
 import {join} from &apos;path&apos;;
 import execa from &apos;execa&apos;;
+import {which} from &apos;shelljs&apos;;
 import semver from &apos;semver&apos;;
 import Queue from &apos;p-queue&apos;;
 import prettier from &apos;prettier&apos;;
-import {first, merge} from &apos;lodash&apos;;
+import {first, isNull, kebabCase, merge, negate} from &apos;lodash&apos;;
 import {existsSync, pathExists} from &apos;fs-extra&apos;;
 import memFs from &apos;mem-fs&apos;;
 import editor from &apos;mem-fs-editor&apos;;
@@ -83,6 +85,11 @@ const parse = data =&gt; JSON.parse(JSON.stringify(data));
 // eslint-disable-next-line no-magic-numbers
 export const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
 export const isGlobalCommand = value =&gt; [&apos;npm&apos;, &apos;echo&apos;, &apos;cat&apos;, &apos;cp&apos;, &apos;rm&apos;].includes(value);
+export const getCommandDirectory = command =&gt; {
+    const data = which(command);
+    const commandExists = negate(isNull)(data);
+    return commandExists ? data.toString().split(command)[0] : &apos;&apos;;
+};
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -574,7 +581,7 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
             return `@${isGlobalCommand(firstCommand) ? &apos;&apos; : abs}${value}`;
         };
         const tasks = Object.entries(scripts)
-            .map(([key, value]) =&gt; [key, [value]])
+            .map(([key, value]) =&gt; [kebabCase(key), [value]])
             .map(([key, values]) =&gt; [key, values.map(formatTaskContent)]);
         const getPreTask = (tasks, name) =&gt; {
             const [data] = tasks

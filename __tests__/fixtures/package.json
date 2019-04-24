@@ -6,6 +6,7 @@
     "scripts": {
         "test": "jest --coverage",
         "lint": "eslint . -c ./.eslintrc.js",
+        "prelint:watch": "echo Starting lint:watch",
         "lint:watch": "watch 'npm run lint' src",
         "prebuild": "echo Starting build",
         "build": "webpack",
