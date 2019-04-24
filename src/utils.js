@@ -508,20 +508,25 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
         this.scripts = scripts;
         return this;
     }
-    appendScripts(options = {useGlobal: true, silent: true}) {
+    appendScripts() {
         const self = this;
         const {path, scripts} = self;
-        const {useGlobal} = options;
-        const [packageDirectory] = path.split('Makefile');
-        const bin = `${packageDirectory}node_modules/.bin/`;
-        const abs = useGlobal ? '' : `$(bin)`;
-        const formatTaskContent = value => {
-            const [firstCommand] = value.split(' ');
-            return `@${isGlobalCommand(firstCommand) ? '' : abs}${value}`;
+        const getBinDirectory = path => {
+            const [packageDirectory] = path.split('Makefile');
+            return `${packageDirectory}node_modules/.bin/`;
         };
-        const tasks = Object.entries(scripts)
-            .map(([key, value]) => [kebabCase(key), [value]])
-            .map(([key, values]) => [key, values.map(formatTaskContent)]);
+        const isLocalNpmCommand = (command, path = process.cwd()) => {
+            const [packageDirectory] = path.split('Makefile');
+            const pkgHasCommmand = (new PackageJsonEditor(packageDirectory)).hasAll(command);
+            const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);
+            return pkgHasCommmand || binHasCommand;
+        };
+        const bin = getBinDirectory(path);
+        const formatTask = value => {
+            const [command] = value.split(' ');
+            return `@${isLocalNpmCommand(command, path) ? `$(bin)` : ''}${value}`;
+        };
+        const tasks = Object.entries(scripts).map(([key, value]) => [kebabCase(key), [value].map(formatTask)]);
         const getPreTask = (tasks, name) => {
             const [data] = tasks
                 .filter(([name]) => name.startsWith('pre'))
