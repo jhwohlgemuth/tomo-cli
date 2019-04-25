@@ -788,8 +788,6 @@ class MakefileEditor extends createModuleEditor('Makefile') {
       return pkgHasCommmand || binHasCommand;
     };
 
-    const bin = getBinDirectory(path);
-
     const formatTask = value => {
       const [command] = value.split(' ');
       return `@${isLocalNpmCommand(command, path) ? `$(bin)` : ''}${value}`;
@@ -807,8 +805,8 @@ class MakefileEditor extends createModuleEditor('Makefile') {
       return Array.isArray(data) ? data[1] : [];
     };
 
-    const useBinVariable = tasks.map(([, values]) => values).map(values => values.some(name => /\$\(bin\)/.test(name))).some(Boolean);
-    useBinVariable && self.append(`bin := ${bin}`);
+    const usesBinVariable = tasks.map(([, values]) => values).map(values => values.some(name => /\$\(bin\)/.test(name))).some(Boolean);
+    usesBinVariable && self.append(`bin := ${getBinDirectory(path)}`);
     self.append();
     tasks.filter(([name]) => !(name.startsWith('pre') || name.startsWith('post'))).map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]]).forEach(([key, values]) => self.addTask(key, ...values).append());
     return self;

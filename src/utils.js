@@ -522,7 +522,6 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
             const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);
             return pkgHasCommmand || binHasCommand;
         };
-        const bin = getBinDirectory(path);
         const formatTask = value => {
             const [command] = value.split(' ');
             return `@${isLocalNpmCommand(command, path) ? `$(bin)` : ''}${value}`;
@@ -542,11 +541,11 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
                 .filter(task => task[0] === name);
             return Array.isArray(data) ? data[1] : [];
         };
-        const useBinVariable = tasks
+        const usesBinVariable = tasks
             .map(([, values]) => values)
             .map(values => values.some(name => /\$\(bin\)/.test(name)))
             .some(Boolean);
-        useBinVariable && self.append(`bin := ${bin}`);
+        usesBinVariable && self.append(`bin := ${getBinDirectory(path)}`);
         self.append();
         tasks
             .filter(([name]) => !(name.startsWith('pre') || name.startsWith('post')))
