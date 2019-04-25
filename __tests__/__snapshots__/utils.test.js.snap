@@ -148,7 +148,7 @@ module.exports = {
 `;
 
 exports[`Makefile editor addComment 1`] = `
-"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json
+"# Makefile created with tomo
 # Knowledge of the Holy One is understanding"
 `;
 
@@ -161,13 +161,38 @@ bar:
 `;
 
 exports[`Makefile editor append 1`] = `
-"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json
+"# Makefile created with tomo
 test line"
 `;
 
+exports[`Makefile editor appendScripts (no bin variable) 1`] = `
+"# Makefile created with tomo
+
+
+test:
+	@jest --coverage
+
+
+lint:
+	@eslint . -c ./.eslintrc.js
+
+
+lint-watch:
+	@echo Starting lint:watch
+	@watch 'npm run lint' src
+
+
+build:
+	@echo Starting build
+	@webpack
+	@echo Build complete
+
+"
+`;
+
 exports[`Makefile editor appendScripts (with bin variable) 1`] = `
-"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json
-bin := /home/vagrant/dev/tomo-cli/__tests__/fixtures/node_modules/.bin/
+"# Makefile created with tomo
+bin := home/user/project/__tests__/fixtures/node_modules/.bin/
 
 
 test:
@@ -191,7 +216,7 @@ build:
 "
 `;
 
-exports[`Makefile editor create 1`] = `"# Built from /home/vagrant/dev/tomo-cli/__tests__/fixtures/package.json"`;
+exports[`Makefile editor create 1`] = `"# Makefile created with tomo"`;
 
 exports[`Makefile editor importScripts 1`] = `Object {}`;
 

@@ -219,7 +219,7 @@ export const createJsonEditor = (filename, contents = {}) => class JsonEditor ex
         const {keys} = Object;
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
-        const installed = [...keys(dependencies), ...keys(devDependencies)];
+        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];
         return modules.some(module => installed.includes(module));
     }
     /**
@@ -231,7 +231,7 @@ export const createJsonEditor = (filename, contents = {}) => class JsonEditor ex
         const {keys} = Object;
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
-        const installed = [...keys(dependencies), ...keys(devDependencies)];
+        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];
         return modules.every(module => installed.includes(module));
     }
 };
@@ -517,7 +517,8 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
         };
         const isLocalNpmCommand = (command, path = process.cwd()) => {
             const [packageDirectory] = path.split('Makefile');
-            const pkgHasCommmand = (new PackageJsonEditor(packageDirectory)).hasAll(command);
+            const pkg = new PackageJsonEditor(packageDirectory);
+            const pkgHasCommmand = pkg.hasAll(command);
             const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);
             return pkgHasCommmand || binHasCommand;
         };

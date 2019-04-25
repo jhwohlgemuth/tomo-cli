@@ -247,13 +247,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber155",
+    "test-file/__tests__/utils.test.js.html#lineNumber162",
     "File & folder scaffolder",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber165",
+    "test-file/__tests__/utils.test.js.html#lineNumber172",
     "File & folder scaffolder can copy files",
     "test"
   ],
@@ -265,43 +265,43 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber130",
+    "test-file/__tests__/utils.test.js.html#lineNumber137",
     "Makefile editor addComment",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber123",
+    "test-file/__tests__/utils.test.js.html#lineNumber130",
     "Makefile editor addTask",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber119",
+    "test-file/__tests__/utils.test.js.html#lineNumber126",
     "Makefile editor append",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber139",
-    "Makefile editor appendScripts (use global)",
-    "test"
-  ],
-  [
-    "",
     "test-file/__tests__/utils.test.js.html#lineNumber146",
-    "Makefile editor appendScripts (use local)",
+    "Makefile editor appendScripts (no bin variable)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber115",
+    "test-file/__tests__/utils.test.js.html#lineNumber154",
+    "Makefile editor appendScripts (with bin variable)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber122",
     "Makefile editor create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber134",
+    "test-file/__tests__/utils.test.js.html#lineNumber141",
     "Makefile editor importScripts",
     "test"
   ],
@@ -487,43 +487,43 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber168",
+    "test-file/__tests__/utils.test.js.html#lineNumber175",
     "getIntendedInput",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber169",
+    "test-file/__tests__/utils.test.js.html#lineNumber176",
     "getIntendedInput return closest matches",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber175",
+    "test-file/__tests__/utils.test.js.html#lineNumber182",
     "getVersions",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber179",
+    "test-file/__tests__/utils.test.js.html#lineNumber186",
     "getVersions format response from npm (only allow valid version strings)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber176",
+    "test-file/__tests__/utils.test.js.html#lineNumber183",
     "getVersions handle no module name",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber185",
+    "test-file/__tests__/utils.test.js.html#lineNumber192",
     "install",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber186",
+    "test-file/__tests__/utils.test.js.html#lineNumber193",
     "install handle array of string names",
     "test"
   ],

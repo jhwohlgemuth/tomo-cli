@@ -280,7 +280,7 @@ export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor
         const {keys} = Object;
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
-        const installed = [...keys(dependencies), ...keys(devDependencies)];
+        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];
         return modules.some(module =&gt; installed.includes(module));
     }
     /**
@@ -292,7 +292,7 @@ export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor
         const {keys} = Object;
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
-        const installed = [...keys(dependencies), ...keys(devDependencies)];
+        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];
         return modules.every(module =&gt; installed.includes(module));
     }
 };
@@ -569,20 +569,26 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
         this.scripts = scripts;
         return this;
     }
-    appendScripts(options = {useGlobal: true, silent: true}) {
+    appendScripts() {
         const self = this;
         const {path, scripts} = self;
-        const {useGlobal} = options;
-        const [packageDirectory] = path.split(&apos;Makefile&apos;);
-        const bin = `${packageDirectory}node_modules/.bin/`;
-        const abs = useGlobal ? &apos;&apos; : `$(bin)`;
-        const formatTaskContent = value =&gt; {
-            const [firstCommand] = value.split(&apos; &apos;);
-            return `@${isGlobalCommand(firstCommand) ? &apos;&apos; : abs}${value}`;
+        const getBinDirectory = path =&gt; {
+            const [packageDirectory] = path.split(&apos;Makefile&apos;);
+            return `${packageDirectory}node_modules/.bin/`;
         };
-        const tasks = Object.entries(scripts)
-            .map(([key, value]) =&gt; [kebabCase(key), [value]])
-            .map(([key, values]) =&gt; [key, values.map(formatTaskContent)]);
+        const isLocalNpmCommand = (command, path = process.cwd()) =&gt; {
+            const [packageDirectory] = path.split(&apos;Makefile&apos;);
+            const pkg = new PackageJsonEditor(packageDirectory);
+            const pkgHasCommmand = pkg.hasAll(command);
+            const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);
+            return pkgHasCommmand || binHasCommand;
+        };
+        const bin = getBinDirectory(path);
+        const formatTask = value =&gt; {
+            const [command] = value.split(&apos; &apos;);
+            return `@${isLocalNpmCommand(command, path) ? `$(bin)` : &apos;&apos;}${value}`;
+        };
+        const tasks = Object.entries(scripts).map(([key, value]) =&gt; [kebabCase(key), [value].map(formatTask)]);
         const getPreTask = (tasks, name) =&gt; {
             const [data] = tasks
                 .filter(([name]) =&gt; name.startsWith(&apos;pre&apos;))
