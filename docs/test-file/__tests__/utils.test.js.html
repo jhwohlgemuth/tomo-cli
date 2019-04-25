@@ -193,7 +193,7 @@ describe(&apos;Makefile editor&apos;, () =&gt; {
             .addTask(&apos;foo&apos;, &apos;echo foo&apos;)
             .addTask(&apos;bar&apos;, &apos;echo bar&apos;)
             .done();
-        expect(makefile.read()).toMatchSnapshot();
+        expect(read(makefile)).toMatchSnapshot();
     });
     test(&apos;addComment&apos;, async () =&gt; {
         await makefile.addComment(&apos;Knowledge of the Holy One is understanding&apos;);

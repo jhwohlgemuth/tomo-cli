@@ -132,7 +132,7 @@ describe('Makefile editor', () => {
             .addTask('foo', 'echo foo')
             .addTask('bar', 'echo bar')
             .done();
-        expect(makefile.read()).toMatchSnapshot();
+        expect(read(makefile)).toMatchSnapshot();
     });
     test('addComment', async () => {
         await makefile.addComment('Knowledge of the Holy One is understanding');
