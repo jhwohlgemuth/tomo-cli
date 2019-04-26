@@ -38,6 +38,9 @@ var _stringSimilarity = require("string-similarity");
 const {
   assign
 } = Object;
+const {
+  isArray
+} = Array;
 const INDENT_SPACES = 4;
 const PRETTIER_OPTIONS = {
   bracketSpacing: false,
@@ -524,10 +527,11 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
         prependedContents,
         queue
       } = self;
-      self.contents = contents;
       const formatted = `${prependedContents}module.exports = ${format(contents)}`.replace(/\r*\n$/g, ';');
       queue.add(() => fs.write(path, formatted)).then(() => self.created = (0, _fsExtra.existsSync)(path)).catch(silent);
-      return self;
+      return assign(self, {
+        contents
+      });
     }
 
     extend(code) {
@@ -543,8 +547,7 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
         prependedContents
       } = self;
       self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
-      self.write(contents);
-      return self;
+      return self.write(contents);
     }
 
   }, _temp2;
@@ -592,25 +595,27 @@ class Scaffolder {
   }
   /**
    * Set source directory
-   * @param {string} path Source directory of template files
+   * @param {string} sourceDirectory Source directory of template files
    * @returns {Scaffolder} Chaining OK
    */
 
 
-  source(path) {
-    this.sourceDirectory = path;
-    return this;
+  source(sourceDirectory) {
+    return assign(this, {
+      sourceDirectory
+    });
   }
   /**
    * Set target directory
-   * @param {string} path Target directory of template files
+   * @param {string} targetDirectory Target directory of template files
    * @returns {Scaffolder} Chaining OK
    */
 
 
-  target(path) {
-    this.targetDirectory = path;
-    return this;
+  target(targetDirectory) {
+    return assign(this, {
+      targetDirectory
+    });
   }
   /**
    * Copy a file
@@ -782,24 +787,22 @@ class MakefileEditor extends createModuleEditor('Makefile') {
       path,
       queue
     } = self;
-    self.contents = contents;
     queue.add(() => fs.write(path, contents)).then(() => self.created = (0, _fsExtra.existsSync)(path)).catch(silent);
-    return self;
+    return assign(self, {
+      contents
+    });
   }
 
   append(lines = '') {
     const {
       contents
     } = this;
-    this.write(`${contents}\n${lines}`);
-    return this;
+    return this.write(`${contents}\n${lines}`);
   }
 
   addTask(name, ...tasks) {
     const self = this;
-    self.append(`${name}:`);
-    tasks.forEach(task => self.append(`\t${task}`));
-    return self;
+    return tasks.reduce((tasks, task) => tasks.append(`\t${task}`), self.append(`${name}:`));
   }
 
   appendHelpTask() {
@@ -819,8 +822,9 @@ class MakefileEditor extends createModuleEditor('Makefile') {
     const {
       scripts
     } = parse(pkg);
-    this.scripts = scripts;
-    return this;
+    return assign(this, {
+      scripts
+    });
   }
 
   appendScripts() {
@@ -852,19 +856,17 @@ class MakefileEditor extends createModuleEditor('Makefile') {
 
     const getPreTask = (tasks, name) => {
       const [data] = tasks.filter(([name]) => name.startsWith('pre')).map(([name, values]) => [name.substring('pre'.length), values]).filter(task => task[0] === name);
-      return Array.isArray(data) ? data[1] : [];
+      return isArray(data) ? data[1] : [];
     };
 
     const getPostTask = (tasks, name) => {
       const [data] = tasks.filter(([name]) => name.startsWith('post')).map(([name, values]) => [name.substring('post'.length), values]).filter(task => task[0] === name);
-      return Array.isArray(data) ? data[1] : [];
+      return isArray(data) ? data[1] : [];
     };
 
     const usesBinVariable = tasks.map(([, values]) => values).map(values => values.some(name => /\$\(bin\)/.test(name))).some(Boolean);
     usesBinVariable && self.append(`bin := ${getBinDirectory(path)}`);
-    self.append('');
-    tasks.filter(([name]) => !(name.startsWith('pre') || name.startsWith('post'))).map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]]).forEach(([key, values]) => self.addTask(key, ...values).append(''));
-    return self;
+    return tasks.filter(([name]) => !(name.startsWith('pre') || name.startsWith('post'))).map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]]).reduce((tasks, [key, values]) => tasks.addTask(key, ...values).append(''), self.append(''));
   }
 
 }

@@ -1104,22 +1104,10 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/utils.js~scaffolder#sourcedirectory",
-    "class/src/utils.js~Scaffolder.html#instance-member-sourceDirectory",
-    "src/utils.js~Scaffolder#sourceDirectory",
-    "member"
-  ],
-  [
     "src/utils.js~scaffolder#target",
     "class/src/utils.js~Scaffolder.html#instance-method-target",
     "src/utils.js~Scaffolder#target",
     "method"
-  ],
-  [
-    "src/utils.js~scaffolder#targetdirectory",
-    "class/src/utils.js~Scaffolder.html#instance-member-targetDirectory",
-    "src/utils.js~Scaffolder#targetDirectory",
-    "member"
   ],
   [
     "",
