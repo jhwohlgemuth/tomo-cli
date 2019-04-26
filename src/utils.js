@@ -513,7 +513,7 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
             .catch(silent);
         return self;
     }
-    append(lines = '\n') {
+    append(lines = '') {
         const {contents} = this;
         this.write(`${contents}\n${lines}`);
         return this;
@@ -576,11 +576,11 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
             .map(values => values.some(name => /\$\(bin\)/.test(name)))
             .some(Boolean);
         usesBinVariable && self.append(`bin := ${getBinDirectory(path)}`);
-        self.append();
+        self.append('');
         tasks
             .filter(([name]) => !(name.startsWith('pre') || name.startsWith('post')))
             .map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]])
-            .forEach(([key, values]) => self.addTask(key, ...values).append());
+            .forEach(([key, values]) => self.addTask(key, ...values).append(''));
         return self;
     }
 }

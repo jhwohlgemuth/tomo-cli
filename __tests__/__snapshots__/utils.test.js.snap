@@ -168,25 +168,20 @@ test line"
 exports[`Makefile editor appendScripts (no bin variable) 1`] = `
 "# Makefile created with tomo
 
-
 test:
 	@jest --coverage
 
-
 lint:
 	@eslint . -c ./.eslintrc.js
-
 
 lint-watch:
 	@echo Starting lint:watch
 	@watch 'npm run lint' src
 
-
 build:
 	@echo Starting build
 	@webpack
 	@echo Build complete
-
 "
 `;
 
@@ -194,25 +189,20 @@ exports[`Makefile editor appendScripts (with bin variable) 1`] = `
 "# Makefile created with tomo
 bin := home/user/project/__tests__/fixtures/node_modules/.bin/
 
-
 test:
 	@jest --coverage
 
-
 lint:
 	@$(bin)eslint . -c ./.eslintrc.js
-
 
 lint-watch:
 	@echo Starting lint:watch
 	@watch 'npm run lint' src
 
-
 build:
 	@echo Starting build
 	@$(bin)webpack
 	@echo Build complete
-
 "
 `;
 

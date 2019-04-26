@@ -274,7 +274,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 320,
+            size: 314,
             type: file
         },
         {
@@ -375,7 +375,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: directory
         }
     ],
-    size: 10723,
+    size: 10717,
     type: directory
 }
 "
@@ -385,26 +385,20 @@ exports[`"Add" commands add-makefile 3`] = `"# Makefile built with tomo"`;
 
 exports[`"Add" commands add-makefile 4`] = `
 "# Makefile built from /path/to/package.json
-
 lint:
 	@eslint . -c ./.eslintrc.js --fix
-
 
 lint-watch:
 	@watch 'npm run lint' src
 
-
 lint-tests:
 	@eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore
-
 
 test:
 	@jest .*.test.js --coverage
 
-
 test-watch:
 	@npm test -- --watchAll
-
 "
 `;
 

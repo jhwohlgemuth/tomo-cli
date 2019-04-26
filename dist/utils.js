@@ -787,7 +787,7 @@ class MakefileEditor extends createModuleEditor('Makefile') {
     return self;
   }
 
-  append(lines = '\n') {
+  append(lines = '') {
     const {
       contents
     } = this;
@@ -862,8 +862,8 @@ class MakefileEditor extends createModuleEditor('Makefile') {
 
     const usesBinVariable = tasks.map(([, values]) => values).map(values => values.some(name => /\$\(bin\)/.test(name))).some(Boolean);
     usesBinVariable && self.append(`bin := ${getBinDirectory(path)}`);
-    self.append();
-    tasks.filter(([name]) => !(name.startsWith('pre') || name.startsWith('post'))).map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]]).forEach(([key, values]) => self.addTask(key, ...values).append());
+    self.append('');
+    tasks.filter(([name]) => !(name.startsWith('pre') || name.startsWith('post'))).map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]]).forEach(([key, values]) => self.addTask(key, ...values).append(''));
     return self;
   }
 
