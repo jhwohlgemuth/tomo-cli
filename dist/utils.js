@@ -36,7 +36,8 @@ var _memFsEditor = _interopRequireDefault(require("mem-fs-editor"));
 var _stringSimilarity = require("string-similarity");
 
 const {
-  assign
+  assign,
+  entries
 } = Object;
 const {
   isArray
@@ -852,7 +853,7 @@ class MakefileEditor extends createModuleEditor('Makefile') {
       return `@${isLocalNpmCommand(command, path) ? `$(bin)` : ''}${value}`;
     };
 
-    const tasks = Object.entries(scripts).map(([key, value]) => [(0, _lodash.kebabCase)(key), [value].map(formatTask)]);
+    const tasks = entries(scripts).map(([key, value]) => [(0, _lodash.kebabCase)(key), [value].map(formatTask)]);
 
     const getPreTask = (tasks, name) => {
       const [data] = tasks.filter(([name]) => name.startsWith('pre')).map(([name, values]) => [name.substring('pre'.length), values]).filter(task => task[0] === name);

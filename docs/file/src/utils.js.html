@@ -76,7 +76,7 @@ import memFs from &apos;mem-fs&apos;;
 import editor from &apos;mem-fs-editor&apos;;
 import {findBestMatch} from &apos;string-similarity&apos;;
 
-const {assign} = Object;
+const {assign, entries} = Object;
 const {isArray} = Array;
 const INDENT_SPACES = 4;
 const PRETTIER_OPTIONS = {
@@ -613,7 +613,7 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
             const [command] = value.split(&apos; &apos;);
             return `@${isLocalNpmCommand(command, path) ? `$(bin)` : &apos;&apos;}${value}`;
         };
-        const tasks = Object.entries(scripts).map(([key, value]) =&gt; [kebabCase(key), [value].map(formatTask)]);
+        const tasks = entries(scripts).map(([key, value]) =&gt; [kebabCase(key), [value].map(formatTask)]);
         const getPreTask = (tasks, name) =&gt; {
             const [data] = tasks
                 .filter(([name]) =&gt; name.startsWith(&apos;pre&apos;))
