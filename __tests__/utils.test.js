@@ -1,3 +1,4 @@
+import {readMakefile as read} from './tomo-test';
 import {
     EslintConfigModuleEditor,
     getIntendedInput,
@@ -109,13 +110,6 @@ describe('.eslintrc.js mem-fs editor', () => {
 });
 describe('Makefile editor', () => {
     let makefile;
-    const read = makefile => {
-        const [, ...rest] = makefile
-            .read()
-            .replace(/bin := .*\/__tests__/, 'bin := home/user/project/__tests__')
-            .split('\n');
-        return ['# Makefile created with tomo', ...rest].join('\n');
-    };
     beforeEach(() => {
         makefile = new MakefileEditor(testDirectory);
     });

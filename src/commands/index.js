@@ -8,6 +8,7 @@ import addBabel from './add-babel';
 import addEsdoc from './add-esdoc';
 import addEslint from './add-eslint';
 import addJest from './add-jest';
+import addMakefile from './add-makefile';
 import addMarionette from './add-marionette';
 import addPostcss from './add-postcss';
 import addWebpack from './add-webpack';
@@ -41,6 +42,7 @@ const add = {
         ...addBabel,
         ...addJest
     ],
+    makefile: addMakefile,
     postcss: addPostcss,
     webpack: addWebpack
 };

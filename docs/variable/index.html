@@ -37,7 +37,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExist">allDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExistSync">allDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExistSync">allDoNotExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
@@ -47,6 +50,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
@@ -225,11 +229,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber366">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber393">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {BabelConfigModuleEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber366">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {BabelConfigModuleEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber393">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a Babel.js configuration file with a fluent API</p>
@@ -283,11 +287,11 @@ await cfg
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber382">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber409">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {EslintConfigModuleEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber382">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {EslintConfigModuleEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber409">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit an ESLint configuration file with a fluent API</p>
@@ -322,7 +326,7 @@ await cfg.create().commit();</code></pre>
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/__tests__/utils.test.js.html#lineNumber72">Verify ESLint module editor can create and edit an ESLint configuration file</a></span></li>
+    <li data-ice="test"><span><a href="test-file/__tests__/utils.test.js.html#lineNumber73">Verify ESLint module editor can create and edit an ESLint configuration file</a></span></li>
 </ul>
   </div>
 
@@ -341,11 +345,11 @@ await cfg.create().commit();</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber413">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber440">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PackageJsonEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber413">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PackageJsonEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber440">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a package.json manifest file with a fluent API</p>
@@ -400,7 +404,7 @@ await pkg
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/__tests__/utils.test.js.html#lineNumber24">Verify package.json editor can create and edit a package.json manifest file</a></span></li>
+    <li data-ice="test"><span><a href="test-file/__tests__/utils.test.js.html#lineNumber25">Verify package.json editor can create and edit a package.json manifest file</a></span></li>
 </ul>
   </div>
 
@@ -419,11 +423,11 @@ await pkg
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber427">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber454">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PostcssConfigEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber427">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PostcssConfigEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber454">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit an PostCSS configuration file with a fluent API</p>
@@ -471,11 +475,11 @@ await cfg.create().commit();</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber445">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber472">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {WebpackConfigEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber445">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {WebpackConfigEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber472">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a Webpack configuration file with a fluent API</p>

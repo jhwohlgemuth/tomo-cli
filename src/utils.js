@@ -6,7 +6,7 @@ import semver from 'semver';
 import Queue from 'p-queue';
 import prettier from 'prettier';
 import {first, isNull, kebabCase, merge, negate} from 'lodash';
-import {existsSync, pathExists} from 'fs-extra';
+import {existsSync, pathExists, pathExistsSync} from 'fs-extra';
 import memFs from 'mem-fs';
 import editor from 'mem-fs-editor';
 import {findBestMatch} from 'string-similarity';
@@ -49,6 +49,27 @@ export const someDoExist = async (...args) => {
     return checks.some(Boolean);
 };
 /**
+ * Check that at least one file or files exist (synchronous version of {@link someDoExist})
+ * @param  {...string} args File or folder path(s)
+ * @return {boolean} Some files/path do exist (true) or all do not exist (false)
+ */
+export const someDoExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).some(Boolean);
+/**
+ * Check that all files exist
+ * @param  {...string} args File of folder paths
+ * @return {boolean} All files/paths exist (true) or do not (false)
+ */
+export const allDoExist = async (...args) => {
+    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));
+    return checks.every(Boolean);
+};
+/**
+ * Check that all files exist (synchronous version of {@link allDoExist})
+ * @param  {...string} args File of folder paths
+ * @return {boolean} All files/paths exist (true) or do not (false)
+ */
+export const allDoExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).every(Boolean);
+/**
  * Check that all files do not exist
  * @example
  * // some/folder/
@@ -63,6 +84,12 @@ export const allDoNotExist = async (...args) => {
     const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));
     return checks.every(val => !val);
 };
+/**
+ * Check that all files do not exist (synchronous version of {@link allDoNotExist})
+ * @param  {...string} args File or folder path(s)
+ * @return {boolean} All files/paths do not exist (true) or some do (false)
+ */
+export const allDoNotExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).every(val => !val);
 /**
  * Format input code using Prettier
  * @param {*} [code=''] Code to be formatted
@@ -472,7 +499,7 @@ export const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
  */
 export class MakefileEditor extends createModuleEditor('Makefile') {
     scripts = {};
-    constructor(path) {
+    constructor(path = process.cwd()) {
         super(path);
         this.contents = `# Built from ${path}/package.json`;
     }
@@ -496,6 +523,9 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
         self.append(`${name}:`);
         tasks.forEach(task => self.append(`\t${task}`));
         return self;
+    }
+    appendHelpTask() {
+        return this;
     }
     addComment(text) {
         return this.append(`# ${text}`);

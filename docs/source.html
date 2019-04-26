@@ -37,7 +37,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExist">allDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExistSync">allDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExistSync">allDoNotExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
@@ -47,6 +50,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
@@ -58,7 +62,7 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">43/106</span></h1>
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">48/112</span></h1>
 
 <table class="files-summary" data-ice="files" data-use-coverage="true">
   <thead>
@@ -114,6 +118,14 @@
       <td style="display: none;" data-ice="updated">2019-04-07 18:42:55 (UTC)</td>
     </tr>
 <tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/commands/add-makefile.js.html">src/commands/add-makefile.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">907 byte</td>
+      <td style="display: none;" data-ice="lines">34</td>
+      <td style="display: none;" data-ice="updated">2019-04-05 23:59:39 (UTC)</td>
+    </tr>
+<tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/commands/add-marionette/index.js.html#errorLines=18,19,20,8">src/commands/add-marionette/index.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">20 %</span><span data-ice="coverageCount" class="coverage-count">1/5</span></td>
@@ -154,12 +166,12 @@
       <td style="display: none;" data-ice="updated">2019-04-07 17:20:46 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/commands/index.js.html#errorLines=15,22,32">src/commands/index.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/commands/index.js.html#errorLines=16,23,33">src/commands/index.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/3</span></td>
-      <td style="display: none;" data-ice="size">1041 byte</td>
-      <td style="display: none;" data-ice="lines">51</td>
-      <td style="display: none;" data-ice="updated">2019-04-07 19:54:09 (UTC)</td>
+      <td style="display: none;" data-ice="size">1110 byte</td>
+      <td style="display: none;" data-ice="lines">53</td>
+      <td style="display: none;" data-ice="updated">2019-04-05 22:20:05 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/index.js.html#errorLines=13,33,66,68">src/index.js</a></span></td>
@@ -182,7 +194,7 @@
       <td style="display: none;" data-ice="updated">2019-04-01 16:14:37 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/utils.js.html#errorLines=14,140,145,15,16,171,23,25,26,27,318,327,474,475,477,479,489,494,500,503,511">src/utils.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/utils.js.html#errorLines=14,15,16,167,172,198,23,25,26,27,345,354,501,502,504,506,516,521,527,530,533,541">src/utils.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span>
 <span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span>
 <span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span>
@@ -191,7 +203,10 @@
 <span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span>
 <span><a href="class/src/utils.js~Scaffolder.html">Scaffolder</a></span>
 <span><a href="variable/index.html#static-variable-WebpackConfigEditor">WebpackConfigEditor</a></span>
+<span><a href="function/index.html#static-function-allDoExist">allDoExist</a></span>
+<span><a href="function/index.html#static-function-allDoExistSync">allDoExistSync</a></span>
 <span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span>
+<span><a href="function/index.html#static-function-allDoNotExistSync">allDoNotExistSync</a></span>
 <span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span>
 <span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span>
 <span><a href="function/index.html#static-function-format">format</a></span>
@@ -201,12 +216,13 @@
 <span><a href="function/index.html#static-function-install">install</a></span>
 <span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span>
 <span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span>
+<span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span>
 <span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span>
 <span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></td>
-      <td class="coverage"><span data-ice="coverage">54 %</span><span data-ice="coverageCount" class="coverage-count">25/46</span></td>
-      <td style="display: none;" data-ice="size">19643 byte</td>
-      <td style="display: none;" data-ice="lines">555</td>
-      <td style="display: none;" data-ice="updated">2019-04-05 01:14:14 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">56 %</span><span data-ice="coverageCount" class="coverage-count">29/51</span></td>
+      <td style="display: none;" data-ice="size">21065 byte</td>
+      <td style="display: none;" data-ice="lines">585</td>
+      <td style="display: none;" data-ice="updated">2019-04-05 22:58:31 (UTC)</td>
     </tr>
 </tbody>
 </table>

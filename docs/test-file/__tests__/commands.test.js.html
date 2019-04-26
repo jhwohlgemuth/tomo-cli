@@ -37,7 +37,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExist">allDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExistSync">allDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExistSync">allDoNotExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
@@ -47,6 +50,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
@@ -62,6 +66,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
     fileContents,
     getDirectoryTree,
+    readMakefileContent,
     run,
     useTemporaryDirectory
 } from &apos;./tomo-test&apos;;
@@ -74,6 +79,7 @@ import addBabel from &apos;../src/commands/add-babel&apos;;
 import addEsdoc from &apos;../src/commands/add-esdoc&apos;;
 import addEslint from &apos;../src/commands/add-eslint&apos;;
 import addJest from &apos;../src/commands/add-jest&apos;;
+import addMakefile from &apos;../src/commands/add-makefile&apos;;
 import addPostcss from &apos;../src/commands/add-postcss&apos;;
 // import addRust from &apos;../src/commands/add-rust&apos;;
 import addMarionette from &apos;../src/commands/add-marionette&apos;;
@@ -188,6 +194,19 @@ describe(&apos;&quot;Add&quot; commands&apos;, () =&gt; {
         const pre = fileContents(&apos;./package.json&apos;);
         await run(addJest, options);
         const post = fileContents(&apos;./package.json&apos;);
+        expect(pre).toMatchSnapshot();
+        expect(post).toMatchSnapshot();
+    });
+    test(&apos;add-makefile&apos;, async () =&gt; {
+        const sourceDirectory = &apos;src&apos;;
+        const options = {skipInstall, sourceDirectory};
+        await run(addMakefile, options);
+        expect(getDirectoryTree(tempDirectory)).toMatchSnapshot();
+        const pre = readMakefileContent();
+        await run(create.app, options);
+        await run(addMakefile, options);
+        expect(getDirectoryTree(tempDirectory)).toMatchSnapshot();
+        const post = readMakefileContent();
         expect(pre).toMatchSnapshot();
         expect(post).toMatchSnapshot();
     });

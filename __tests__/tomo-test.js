@@ -48,3 +48,14 @@ export const fileContents = path => {
     const fullpath = join(process.cwd(), path);
     return existsSync(fullpath) ? readFileSync(fullpath, 'utf8') : `No file found at ${fullpath}`;
 };
+export const readMakefile = makefile => {
+    const [, ...rest] = makefile
+        .read()
+        .replace(/bin := .*\/__tests__/, 'bin := home/user/project/__tests__')
+        .split('\n');
+    return ['# Makefile created with tomo', ...rest].join('\n');
+};
+export const readMakefileContent = () => {
+    const regex = /^# Built from .*\n/;
+    return fileContents('./Makefile').replace(regex, '# Makefile built from /path/to/package.json');
+};
