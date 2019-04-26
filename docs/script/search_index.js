@@ -1032,6 +1032,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/utils.js~makefileeditor#addtaskdescription",
+    "class/src/utils.js~MakefileEditor.html#instance-method-addTaskDescription",
+    "src/utils.js~MakefileEditor#addTaskDescription",
+    "method"
+  ],
+  [
     "src/utils.js~makefileeditor#append",
     "class/src/utils.js~MakefileEditor.html#instance-method-append",
     "src/utils.js~MakefileEditor#append",

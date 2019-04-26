@@ -248,7 +248,36 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/utils.js~MakefileEditor.html#instance-method-addTask">addTask</a></span></span><span class="code" data-ice="signature">(name: <span>*</span>, tasks: ...<span>*</span>): <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/utils.js~MakefileEditor.html#instance-method-addTask">addTask</a></span></span><span class="code" data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, description: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, tasks: ...<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="class/src/utils.js~MakefileEditor.html">MakefileEditor</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Add task to Makefile (appended to end)</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/utils.js~MakefileEditor.html#instance-method-addTaskDescription">addTaskDescription</a></span></span><span class="code" data-ice="signature">(task: <span>*</span>, description: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>*</span></span>
         </p>
       </div>
       <div>
@@ -559,7 +588,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber523">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber534">source</a></span></span>
     </span>
   </h3>
 
@@ -626,11 +655,99 @@
     
     
     
-    <span class="code" data-ice="name">addTask</span><span class="code" data-ice="signature">(name: <span>*</span>, tasks: ...<span>*</span>): <span>*</span></span>
+    <span class="code" data-ice="name">addTask</span><span class="code" data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, description: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, tasks: ...<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="class/src/utils.js~MakefileEditor.html">MakefileEditor</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber516">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber523">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Add task to Makefile (appended to end)</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">name</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Task name (&quot;build&quot;, &quot;lint&quot;, etc...)</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">description</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>Task description used in help task</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">tasks</td>
+      <td data-ice="type" class="code">...<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Lines of code to be executed during task</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="class/src/utils.js~MakefileEditor.html">MakefileEditor</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Chaining OK</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-addTaskDescription">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">addTaskDescription</span><span class="code" data-ice="signature">(task: <span>*</span>, description: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber527">source</a></span></span>
     </span>
   </h3>
 
@@ -650,15 +767,16 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">name</td>
+      <td data-ice="name" class="code" data-depth="0">task</td>
       <td data-ice="type" class="code"><span>*</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">tasks</td>
-      <td data-ice="type" class="code">...<span>*</span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="name" class="code" data-depth="0">description</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: Task description</li></ul></td>
       <td data-ice="description"></td>
     </tr>
 </tbody>
@@ -779,7 +897,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber520">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber531">source</a></span></span>
     </span>
   </h3>
 
@@ -834,7 +952,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber533">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber544">source</a></span></span>
     </span>
   </h3>
 
@@ -889,7 +1007,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber526">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber537">source</a></span></span>
     </span>
   </h3>
 

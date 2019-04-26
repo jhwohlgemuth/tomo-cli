@@ -578,12 +578,23 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
         const {contents} = this;
         return this.write(`${contents}\n${lines}`);
     }
-    addTask(name, ...tasks) {
+    /**
+     * Add task to Makefile (appended to end)
+     * @param {string} name Task name (&quot;build&quot;, &quot;lint&quot;, etc...)
+     * @param {string} [description] Task description used in help task
+     * @param {...string} tasks Lines of code to be executed during task
+     * @return {MakefileEditor} Chaining OK
+     */
+    addTask(name, description, ...tasks) {
         const self = this;
-        return tasks.reduce((tasks, task) =&gt; tasks.append(`\t${task}`), self.append(`${name}:`));
+        return tasks.reduce((tasks, task) =&gt; tasks.append(`\t${task}`).addTaskDescription(name, description), self.append(`${name}:`));
+    }
+    addTaskDescription(task, description = &apos;Task description&apos;) {
+        const contents = this.contents.replace(`${kebabCase(task)}:\n`, `${kebabCase(task)}: ## ${description}\n`);
+        return this.write(contents);
     }
     appendHelpTask() {
-        return this;
+        return this.addTask(&apos;help&apos;, &apos;Show this help&apos;, `@fgrep -h &quot;##&quot; $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e &apos;s/\\$$//&apos; | sed -e &apos;s/##/\\n    /&apos;`);
     }
     addComment(text) {
         return this.append(`# ${text}`);
@@ -636,7 +647,7 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
         return tasks
             .filter(([name]) =&gt; !(name.startsWith(&apos;pre&apos;) || name.startsWith(&apos;post&apos;)))
             .map(([name, values]) =&gt; [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]])
-            .reduce((tasks, [key, values]) =&gt; tasks.addTask(key, ...values).append(&apos;&apos;), self.append(&apos;&apos;));
+            .reduce((tasks, [key, values]) =&gt; tasks.addTask(key, undefined, ...values).append(&apos;&apos;), self.append(&apos;&apos;));
     }
 }</code></pre>
 

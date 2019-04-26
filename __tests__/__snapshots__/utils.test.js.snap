@@ -154,9 +154,9 @@ exports[`Makefile editor addComment 1`] = `
 
 exports[`Makefile editor addTask 1`] = `
 "# Makefile created with tomo
-foo:
+foo: ## Foo task
 	echo foo
-bar:
+bar: ## Bar task
 	echo bar"
 `;
 
@@ -168,17 +168,17 @@ test line"
 exports[`Makefile editor appendScripts (no bin variable) 1`] = `
 "# Makefile created with tomo
 
-test:
+test: ## Task description
 	@jest --coverage
 
-lint:
+lint: ## Task description
 	@eslint . -c ./.eslintrc.js
 
-lint-watch:
+lint-watch: ## Task description
 	@echo Starting lint:watch
 	@watch 'npm run lint' src
 
-build:
+build: ## Task description
 	@echo Starting build
 	@webpack
 	@echo Build complete
@@ -189,17 +189,17 @@ exports[`Makefile editor appendScripts (with bin variable) 1`] = `
 "# Makefile created with tomo
 bin := home/user/project/__tests__/fixtures/node_modules/.bin/
 
-test:
+test: ## Task description
 	@jest --coverage
 
-lint:
+lint: ## Task description
 	@$(bin)eslint . -c ./.eslintrc.js
 
-lint-watch:
+lint-watch: ## Task description
 	@echo Starting lint:watch
 	@watch 'npm run lint' src
 
-build:
+build: ## Task description
 	@echo Starting build
 	@$(bin)webpack
 	@echo Build complete

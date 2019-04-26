@@ -800,14 +800,27 @@ class MakefileEditor extends createModuleEditor('Makefile') {
     } = this;
     return this.write(`${contents}\n${lines}`);
   }
+  /**
+   * Add task to Makefile (appended to end)
+   * @param {string} name Task name ("build", "lint", etc...)
+   * @param {string} [description] Task description used in help task
+   * @param {...string} tasks Lines of code to be executed during task
+   * @return {MakefileEditor} Chaining OK
+   */
 
-  addTask(name, ...tasks) {
+
+  addTask(name, description, ...tasks) {
     const self = this;
-    return tasks.reduce((tasks, task) => tasks.append(`\t${task}`), self.append(`${name}:`));
+    return tasks.reduce((tasks, task) => tasks.append(`\t${task}`).addTaskDescription(name, description), self.append(`${name}:`));
+  }
+
+  addTaskDescription(task, description = 'Task description') {
+    const contents = this.contents.replace(`${(0, _lodash.kebabCase)(task)}:\n`, `${(0, _lodash.kebabCase)(task)}: ## ${description}\n`);
+    return this.write(contents);
   }
 
   appendHelpTask() {
-    return this;
+    return this.addTask('help', 'Show this help', `@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##/\\n    /'`);
   }
 
   addComment(text) {
@@ -867,7 +880,7 @@ class MakefileEditor extends createModuleEditor('Makefile') {
 
     const usesBinVariable = tasks.map(([, values]) => values).map(values => values.some(name => /\$\(bin\)/.test(name))).some(Boolean);
     usesBinVariable && self.append(`bin := ${getBinDirectory(path)}`);
-    return tasks.filter(([name]) => !(name.startsWith('pre') || name.startsWith('post'))).map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]]).reduce((tasks, [key, values]) => tasks.addTask(key, ...values).append(''), self.append(''));
+    return tasks.filter(([name]) => !(name.startsWith('pre') || name.startsWith('post'))).map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]]).reduce((tasks, [key, values]) => tasks.addTask(key, undefined, ...values).append(''), self.append(''));
   }
 
 }

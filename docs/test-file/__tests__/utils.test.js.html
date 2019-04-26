@@ -188,8 +188,8 @@ describe(&apos;Makefile editor&apos;, () =&gt; {
     });
     test(&apos;addTask&apos;, async () =&gt; {
         await makefile
-            .addTask(&apos;foo&apos;, &apos;echo foo&apos;)
-            .addTask(&apos;bar&apos;, &apos;echo bar&apos;)
+            .addTask(&apos;foo&apos;, &apos;Foo task&apos;, &apos;echo foo&apos;)
+            .addTask(&apos;bar&apos;, &apos;Bar task&apos;, &apos;echo bar&apos;)
             .done();
         expect(read(makefile)).toMatchSnapshot();
     });
