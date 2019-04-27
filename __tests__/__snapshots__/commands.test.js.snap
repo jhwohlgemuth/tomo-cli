@@ -242,6 +242,169 @@ exports[`"Add" commands add-jest 2`] = `
 "
 `;
 
+exports[`"Add" commands add-makefile 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: Makefile,
+            size: 26,
+            type: file
+        }
+    ],
+    size: 26,
+    type: directory
+}
+"
+`;
+
+exports[`"Add" commands add-makefile 2`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 353,
+            type: file
+        },
+        {
+            name: Makefile,
+            size: 548,
+            type: file
+        },
+        {
+            name: assets,
+            children: [
+                {
+                    name: css,
+                    children: [
+                        {
+                            name: style.css,
+                            size: 38,
+                            type: file
+                        }
+                    ],
+                    size: 38,
+                    type: directory
+                },
+                {
+                    name: templates,
+                    children: [
+                        {
+                            name: example.hbs,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                }
+            ],
+            size: 38,
+            type: directory
+        },
+        {
+            name: babel.config.js,
+            size: 318,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 473,
+            type: file
+        },
+        {
+            name: src,
+            children: [
+                {
+                    name: app.js,
+                    size: 435,
+                    type: file
+                },
+                {
+                    name: index.html,
+                    size: 531,
+                    type: file
+                },
+                {
+                    name: main.js,
+                    size: 1080,
+                    type: file
+                },
+                {
+                    name: plugins,
+                    children: [
+                        {
+                            name: mn.radio.logging.js,
+                            size: 3807,
+                            type: file
+                        },
+                        {
+                            name: mn.redux.state.js,
+                            size: 2184,
+                            type: file
+                        }
+                    ],
+                    size: 5991,
+                    type: directory
+                },
+                {
+                    name: shims,
+                    children: [
+                        {
+                            name: mn.renderer.shim.js,
+                            size: 486,
+                            type: file
+                        },
+                        {
+                            name: mn.templates.shim.js,
+                            size: 662,
+                            type: file
+                        }
+                    ],
+                    size: 1148,
+                    type: directory
+                }
+            ],
+            size: 9185,
+            type: directory
+        }
+    ],
+    size: 10951,
+    type: directory
+}
+"
+`;
+
+exports[`"Add" commands add-makefile 3`] = `"# Makefile built with tomo"`;
+
+exports[`"Add" commands add-makefile 4`] = `
+"# Makefile built from /path/to/package.json
+
+lint: ## Task description
+	eslint . -c ./.eslintrc.js --fix
+
+lint-watch: ## Task description
+	watch 'make lint' src
+
+lint-tests: ## Task description
+	eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore
+
+test: ## Task description
+	jest .*.test.js --coverage
+
+test-watch: ## Task description
+	jest .*.test.js --coverage --watchAll
+
+help: ## Show this help
+	@fgrep -h \\"##\\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'"
+`;
+
 exports[`"Add" commands add-marionette 1`] = `
 "{
     name: tomo-test,

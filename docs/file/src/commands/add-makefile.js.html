@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/commands/index.js | tomo-cli</title>
+  <title data-ice="title">src/commands/add-makefile.js | tomo-cli</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -62,61 +62,42 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/commands/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* eslint-disable no-magic-numbers */
-import {
-    createPackageJson,
-    createSourceDirectory
-} from &apos;./common&apos;;
-import addA11y from &apos;./add-a11y&apos;;
-import addBabel from &apos;./add-babel&apos;;
-import addEsdoc from &apos;./add-esdoc&apos;;
-import addEslint from &apos;./add-eslint&apos;;
-import addJest from &apos;./add-jest&apos;;
-import addMakefile from &apos;./add-makefile&apos;;
-import addMarionette from &apos;./add-marionette&apos;;
-import addPostcss from &apos;./add-postcss&apos;;
-import addWebpack from &apos;./add-webpack&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-makefile.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+    allDoNotExist,
+    MakefileEditor,
+    allDoExist,
+    allDoExistSync
+} from &apos;../utils&apos;;
 
-const createProject = [
-    ...createPackageJson,
-    ...createSourceDirectory,
-    ...addBabel,
-    ...addEslint,
-    ...addJest
+/** @ignore */
+export const tasks = [
+    {
+        text: &apos;Create Makefile&apos;,
+        task: async () =&gt; {
+            await (new MakefileEditor())
+                .create()
+                .write(&apos;# Makefile built with tomo&apos;)
+                .commit();
+        },
+        condition: () =&gt; allDoNotExist(&apos;Makefile&apos;)
+    },
+    {
+        text: &apos;Import tasks from package.json scripts&apos;,
+        task: async () =&gt; {
+            await (new MakefileEditor())
+                .delete()
+                .create()
+                .importScripts()
+                .appendScripts()
+                .appendHelpTask()
+                .commit();
+        },
+        condition: () =&gt; allDoExist(&apos;Makefile&apos;, &apos;package.json&apos;),
+        optional: () =&gt; allDoExistSync(&apos;Makefile&apos;, &apos;package.json&apos;)
+    }
 ];
-const create = {
-    project: createProject,
-    app: [
-        ...createProject,
-        ...addMarionette
-    ],
-    server: [
-        ...createProject
-    ]
-};
-const add = {
-    a11y: addA11y,
-    babel: addBabel,
-    esdoc: addEsdoc,
-    eslint: [
-        ...addBabel,
-        ...addEslint
-    ],
-    jest: [
-        ...addBabel,
-        ...addJest
-    ],
-    makefile: addMakefile,
-    postcss: addPostcss,
-    webpack: addWebpack
-};
-
-module.exports = {
-    add,
-    create,
-    new: create// alias for create
-};</code></pre>
+export default tasks;</code></pre>
 
 </div>
 

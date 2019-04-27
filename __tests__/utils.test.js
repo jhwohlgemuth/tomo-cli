@@ -1,8 +1,10 @@
+import {readMakefile as read} from './tomo-test';
 import {
     EslintConfigModuleEditor,
     getIntendedInput,
     getVersions,
     install,
+    MakefileEditor,
     PackageJsonEditor
 } from '../src/utils';
 import {join} from 'path';
@@ -58,9 +60,9 @@ describe('package.json mem-fs editor', () => {
     });
     test('hasAll', () => {
         expect(pkg.hasAll('react')).toBeFalsy();
-        expect(pkg.hasAll('webpack', 'execa')).toBeFalsy();
+        expect(pkg.hasAll('some-module', 'execa')).toBeFalsy();
         expect(pkg.hasAll('chalk', 'execa')).toBeTruthy();
-        expect(pkg.hasAll('chalk', 'execa', '@babel/cli')).toBeTruthy();
+        // expect(pkg.hasAll('chalk', 'execa', '@babel/cli')).toBeTruthy();
         expect(pkg.hasAll('eslint')).toBeTruthy();
     });
 });
@@ -104,6 +106,51 @@ describe('.eslintrc.js mem-fs editor', () => {
         expect(cfg.read()).toMatchSnapshot();
         await cfg.extend({key: {baz: 'baz'}});
         expect(cfg.read()).toMatchSnapshot();
+    });
+});
+describe('Makefile editor', () => {
+    let makefile;
+    beforeEach(() => {
+        makefile = new MakefileEditor(testDirectory);
+    });
+    test('create', async () => {
+        await makefile.create();
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test('append', async () => {
+        await makefile.append('test line');
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test('addTask', async () => {
+        await makefile
+            .addTask('foo', ['echo foo'], {description: 'Foo task'})
+            .addTask('bar', ['echo bar'], {description: 'Bar task'})
+            .done();
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test('addComment', async () => {
+        await makefile.addComment('Knowledge of the Holy One is understanding');
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test('importScripts', () => {
+        expect(makefile.scripts).toMatchSnapshot();
+        makefile.importScripts();
+        expect(makefile.scripts).toMatchSnapshot();
+    });
+    test('appendScripts (no bin variable)', async () => {
+        makefile = new MakefileEditor(join(testDirectory, 'other-directory'));
+        await makefile
+            .importScripts()
+            .appendScripts()
+            .done();
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test('appendScripts (with bin variable)', async () => {
+        await makefile
+            .importScripts()
+            .appendScripts()
+            .done();
+        expect(read(makefile)).toMatchSnapshot();
     });
 });
 describe('File & folder scaffolder', () => {

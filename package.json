@@ -34,10 +34,10 @@
         "lint:tests:watch": "watch 'npm run lint:tests' ./__tests__",
         "lint:config": "eslint -c ./.eslintrc.js *.js --fix",
         "lint:docs": "eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint",
-        "lint:all": "npm-run-all lint lint:tests lint:docs",
-        "predocs": "npm run lint:docs",
-        "docs": "npm run build:docs",
-        "postdocs": "npm run open:docs"
+        "lint:all": "npm-run-all lint lint:tests lint:documentation",
+        "preesdoc": "npm run lint:docs",
+        "esdoc": "npm run build:docs",
+        "postesdoc": "npm run open:docs"
     },
     "jest": {
         "testMatch": [
@@ -68,6 +68,7 @@
         "prop-types": "15.7.2",
         "react": "16.8.6",
         "semver": "^6.0.0",
+        "shelljs": "^0.8.3",
         "some-module": "0.0.3",
         "string-similarity": "3.0.0",
         "update-notifier": "2.5.0",

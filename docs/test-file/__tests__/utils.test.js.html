@@ -31,20 +31,27 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~MakefileEditor.html">MakefileEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExist">allDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExistSync">allDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExistSync">allDoNotExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isLocalNpmCommand">isLocalNpmCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
@@ -56,11 +63,13 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">__tests__/utils.test.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {readMakefile as read} from &apos;./tomo-test&apos;;
+import {
     EslintConfigModuleEditor,
     getIntendedInput,
     getVersions,
     install,
+    MakefileEditor,
     PackageJsonEditor
 } from &apos;../src/utils&apos;;
 import {join} from &apos;path&apos;;
@@ -116,9 +125,9 @@ describe(&apos;package.json mem-fs editor&apos;, () =&gt; {
     });
     test(&apos;hasAll&apos;, () =&gt; {
         expect(pkg.hasAll(&apos;react&apos;)).toBeFalsy();
-        expect(pkg.hasAll(&apos;webpack&apos;, &apos;execa&apos;)).toBeFalsy();
+        expect(pkg.hasAll(&apos;some-module&apos;, &apos;execa&apos;)).toBeFalsy();
         expect(pkg.hasAll(&apos;chalk&apos;, &apos;execa&apos;)).toBeTruthy();
-        expect(pkg.hasAll(&apos;chalk&apos;, &apos;execa&apos;, &apos;@babel/cli&apos;)).toBeTruthy();
+        // expect(pkg.hasAll(&apos;chalk&apos;, &apos;execa&apos;, &apos;@babel/cli&apos;)).toBeTruthy();
         expect(pkg.hasAll(&apos;eslint&apos;)).toBeTruthy();
     });
 });
@@ -162,6 +171,51 @@ describe(&apos;.eslintrc.js mem-fs editor&apos;, () =&gt; {
         expect(cfg.read()).toMatchSnapshot();
         await cfg.extend({key: {baz: &apos;baz&apos;}});
         expect(cfg.read()).toMatchSnapshot();
+    });
+});
+describe(&apos;Makefile editor&apos;, () =&gt; {
+    let makefile;
+    beforeEach(() =&gt; {
+        makefile = new MakefileEditor(testDirectory);
+    });
+    test(&apos;create&apos;, async () =&gt; {
+        await makefile.create();
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test(&apos;append&apos;, async () =&gt; {
+        await makefile.append(&apos;test line&apos;);
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test(&apos;addTask&apos;, async () =&gt; {
+        await makefile
+            .addTask(&apos;foo&apos;, [&apos;echo foo&apos;], {description: &apos;Foo task&apos;})
+            .addTask(&apos;bar&apos;, [&apos;echo bar&apos;], {description: &apos;Bar task&apos;})
+            .done();
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test(&apos;addComment&apos;, async () =&gt; {
+        await makefile.addComment(&apos;Knowledge of the Holy One is understanding&apos;);
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test(&apos;importScripts&apos;, () =&gt; {
+        expect(makefile.scripts).toMatchSnapshot();
+        makefile.importScripts();
+        expect(makefile.scripts).toMatchSnapshot();
+    });
+    test(&apos;appendScripts (no bin variable)&apos;, async () =&gt; {
+        makefile = new MakefileEditor(join(testDirectory, &apos;other-directory&apos;));
+        await makefile
+            .importScripts()
+            .appendScripts()
+            .done();
+        expect(read(makefile)).toMatchSnapshot();
+    });
+    test(&apos;appendScripts (with bin variable)&apos;, async () =&gt; {
+        await makefile
+            .importScripts()
+            .appendScripts()
+            .done();
+        expect(read(makefile)).toMatchSnapshot();
     });
 });
 describe(&apos;File &amp; folder scaffolder&apos;, () =&gt; {

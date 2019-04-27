@@ -51,9 +51,9 @@ const tasks = [{
         'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
         'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
         'open:docs': 'opn ./docs/index.html',
-        predocs: 'npm run lint:docs',
-        docs: 'npm run build:docs',
-        postdocs: 'npm run open:docs'
+        preesdoc: 'npm run lint:docs',
+        esdoc: 'npm run build:docs',
+        postesdoc: 'npm run open:docs'
       };
       const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({

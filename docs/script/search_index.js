@@ -1,97 +1,103 @@
 window.esdocSearchIndex = [
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber58",
+    "test-file/__tests__/commands.test.js.html#lineNumber60",
     "\"Add\" commands",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber70",
+    "test-file/__tests__/commands.test.js.html#lineNumber72",
     "\"Add\" commands add-babel",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber79",
+    "test-file/__tests__/commands.test.js.html#lineNumber81",
     "\"Add\" commands add-babel (with React)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber88",
+    "test-file/__tests__/commands.test.js.html#lineNumber90",
     "\"Add\" commands add-esdoc",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber97",
+    "test-file/__tests__/commands.test.js.html#lineNumber99",
     "\"Add\" commands add-esdoc (with React)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber106",
+    "test-file/__tests__/commands.test.js.html#lineNumber108",
     "\"Add\" commands add-eslint",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber115",
+    "test-file/__tests__/commands.test.js.html#lineNumber117",
     "\"Add\" commands add-eslint (with React)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber124",
+    "test-file/__tests__/commands.test.js.html#lineNumber126",
     "\"Add\" commands add-jest",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber133",
+    "test-file/__tests__/commands.test.js.html#lineNumber135",
+    "\"Add\" commands add-makefile",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber148",
     "\"Add\" commands add-marionette",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber140",
+    "test-file/__tests__/commands.test.js.html#lineNumber155",
     "\"Add\" commands add-postcss",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber149",
+    "test-file/__tests__/commands.test.js.html#lineNumber164",
     "\"Add\" commands add-webpack",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber21",
+    "test-file/__tests__/commands.test.js.html#lineNumber23",
     "\"Create/New\" commands",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber39",
+    "test-file/__tests__/commands.test.js.html#lineNumber41",
     "\"Create/New\" commands create new app",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber32",
+    "test-file/__tests__/commands.test.js.html#lineNumber34",
     "\"Create/New\" commands create new project",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber46",
+    "test-file/__tests__/commands.test.js.html#lineNumber48",
     "\"Create/New\" commands create package.json",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber51",
+    "test-file/__tests__/commands.test.js.html#lineNumber53",
     "\"Create/New\" commands create source directory",
     "test"
   ],
@@ -112,6 +118,12 @@ window.esdocSearchIndex = [
     "variable/index.html#static-variable-EslintConfigModuleEditor",
     "<span>EslintConfigModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
     "variable"
+  ],
+  [
+    "tomo-cli/src/utils.js~makefileeditor",
+    "class/src/utils.js~MakefileEditor.html",
+    "<span>MakefileEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "class"
   ],
   [
     "tomo-cli/src/utils.js~packagejsoneditor",
@@ -162,9 +174,27 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "tomo-cli/src/utils.js~alldoexist",
+    "function/index.html#static-function-allDoExist",
+    "<span>allDoExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "tomo-cli/src/utils.js~alldoexistsync",
+    "function/index.html#static-function-allDoExistSync",
+    "<span>allDoExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/utils.js~alldonotexist",
     "function/index.html#static-function-allDoNotExist",
     "<span>allDoNotExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "tomo-cli/src/utils.js~alldonotexistsync",
+    "function/index.html#static-function-allDoNotExistSync",
+    "<span>allDoNotExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
     "function"
   ],
   [
@@ -186,6 +216,18 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils.js~getbindirectory",
+    "function/index.html#static-function-getBinDirectory",
+    "<span>getBinDirectory</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "tomo-cli/src/utils.js~getcommanddirectory",
+    "function/index.html#static-function-getCommandDirectory",
+    "<span>getCommandDirectory</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/utils.js~getintendedinput",
     "function/index.html#static-function-getIntendedInput",
     "<span>getIntendedInput</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
@@ -204,6 +246,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils.js~islocalnpmcommand",
+    "function/index.html#static-function-isLocalNpmCommand",
+    "<span>isLocalNpmCommand</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/ui.js~populatequeue",
     "function/index.html#static-function-populateQueue",
     "<span>populateQueue</span> <span class=\"search-result-import-path\">tomo-cli/src/ui.js</span>",
@@ -216,9 +264,9 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~testasyncfunction",
-    "function/index.html#static-function-testAsyncFunction",
-    "<span>testAsyncFunction</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "tomo-cli/src/utils.js~somedoexistsync",
+    "function/index.html#static-function-someDoExistSync",
+    "<span>someDoExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
     "function"
   ],
   [
@@ -229,14 +277,62 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber109",
+    "test-file/__tests__/utils.test.js.html#lineNumber156",
     "File & folder scaffolder",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber119",
+    "test-file/__tests__/utils.test.js.html#lineNumber166",
     "File & folder scaffolder can copy files",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber111",
+    "Makefile editor",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber131",
+    "Makefile editor addComment",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber124",
+    "Makefile editor addTask",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber120",
+    "Makefile editor append",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber140",
+    "Makefile editor appendScripts (no bin variable)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber148",
+    "Makefile editor appendScripts (with bin variable)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber116",
+    "Makefile editor create",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber135",
+    "Makefile editor importScripts",
     "test"
   ],
   [
@@ -295,85 +391,85 @@ window.esdocSearchIndex = [
   ],
   [
     "eslintconfigmoduleeditor src/utils.js~eslintconfigmoduleeditor,eslintconfigmoduleeditor",
-    "test-file/__tests__/utils.test.js.html#lineNumber71",
+    "test-file/__tests__/utils.test.js.html#lineNumber73",
     "Verify ESLint module editor can create and edit an ESLint configuration file",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber76",
+    "test-file/__tests__/utils.test.js.html#lineNumber78",
     "Verify ESLint module editor can create and edit an ESLint configuration file create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber92",
+    "test-file/__tests__/utils.test.js.html#lineNumber94",
     "Verify ESLint module editor can create and edit an ESLint configuration file delete",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber85",
+    "test-file/__tests__/utils.test.js.html#lineNumber87",
     "Verify ESLint module editor can create and edit an ESLint configuration file extend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber100",
+    "test-file/__tests__/utils.test.js.html#lineNumber102",
     "Verify ESLint module editor can create and edit an ESLint configuration file prepend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber82",
+    "test-file/__tests__/utils.test.js.html#lineNumber84",
     "Verify ESLint module editor can create and edit an ESLint configuration file read",
     "test"
   ],
   [
     "packagejsoneditor src/utils.js~packagejsoneditor,packagejsoneditor",
-    "test-file/__tests__/utils.test.js.html#lineNumber23",
+    "test-file/__tests__/utils.test.js.html#lineNumber25",
     "Verify package.json editor can create and edit a package.json manifest file",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber41",
+    "test-file/__tests__/utils.test.js.html#lineNumber43",
     "Verify package.json editor can create and edit a package.json manifest file copy",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber28",
+    "test-file/__tests__/utils.test.js.html#lineNumber30",
     "Verify package.json editor can create and edit a package.json manifest file create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber46",
+    "test-file/__tests__/utils.test.js.html#lineNumber48",
     "Verify package.json editor can create and edit a package.json manifest file delete",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber37",
+    "test-file/__tests__/utils.test.js.html#lineNumber39",
     "Verify package.json editor can create and edit a package.json manifest file extend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber59",
+    "test-file/__tests__/utils.test.js.html#lineNumber61",
     "Verify package.json editor can create and edit a package.json manifest file hasAll",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber54",
+    "test-file/__tests__/utils.test.js.html#lineNumber56",
     "Verify package.json editor can create and edit a package.json manifest file hasSome",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber34",
+    "test-file/__tests__/utils.test.js.html#lineNumber36",
     "Verify package.json editor can create and edit a package.json manifest file read",
     "test"
   ],
@@ -421,43 +517,43 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber122",
+    "test-file/__tests__/utils.test.js.html#lineNumber169",
     "getIntendedInput",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber123",
+    "test-file/__tests__/utils.test.js.html#lineNumber170",
     "getIntendedInput return closest matches",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber129",
+    "test-file/__tests__/utils.test.js.html#lineNumber176",
     "getVersions",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber133",
+    "test-file/__tests__/utils.test.js.html#lineNumber180",
     "getVersions format response from npm (only allow valid version strings)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber130",
+    "test-file/__tests__/utils.test.js.html#lineNumber177",
     "getVersions handle no module name",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber139",
+    "test-file/__tests__/utils.test.js.html#lineNumber186",
     "install",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber140",
+    "test-file/__tests__/utils.test.js.html#lineNumber187",
     "install handle array of string names",
     "test"
   ],
@@ -804,6 +900,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/commands/add-makefile.js",
+    "file/src/commands/add-makefile.js.html",
+    "src/commands/add-makefile.js",
+    "file"
+  ],
+  [
     "src/commands/add-marionette/index.js",
     "file/src/commands/add-marionette/index.js.html",
     "src/commands/add-marionette/index.js",
@@ -912,6 +1014,96 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/utils.js~basiceditor#done",
+    "class/src/utils.js~BasicEditor.html#instance-method-done",
+    "src/utils.js~BasicEditor#done",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#addcomment",
+    "class/src/utils.js~MakefileEditor.html#instance-method-addComment",
+    "src/utils.js~MakefileEditor#addComment",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#addtask",
+    "class/src/utils.js~MakefileEditor.html#instance-method-addTask",
+    "src/utils.js~MakefileEditor#addTask",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#addtaskdescription",
+    "class/src/utils.js~MakefileEditor.html#instance-method-addTaskDescription",
+    "src/utils.js~MakefileEditor#addTaskDescription",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#append",
+    "class/src/utils.js~MakefileEditor.html#instance-method-append",
+    "src/utils.js~MakefileEditor#append",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#appendhelptask",
+    "class/src/utils.js~MakefileEditor.html#instance-method-appendHelpTask",
+    "src/utils.js~MakefileEditor#appendHelpTask",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#appendscripts",
+    "class/src/utils.js~MakefileEditor.html#instance-method-appendScripts",
+    "src/utils.js~MakefileEditor#appendScripts",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#constructor",
+    "class/src/utils.js~MakefileEditor.html#instance-constructor-constructor",
+    "src/utils.js~MakefileEditor#constructor",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#contents",
+    "class/src/utils.js~MakefileEditor.html#instance-member-contents",
+    "src/utils.js~MakefileEditor#contents",
+    "member"
+  ],
+  [
+    "src/utils.js~makefileeditor#formattask",
+    "class/src/utils.js~MakefileEditor.html#instance-method-formatTask",
+    "src/utils.js~MakefileEditor#formatTask",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#importscripts",
+    "class/src/utils.js~MakefileEditor.html#instance-method-importScripts",
+    "src/utils.js~MakefileEditor#importScripts",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#prepend",
+    "class/src/utils.js~MakefileEditor.html#instance-method-prepend",
+    "src/utils.js~MakefileEditor#prepend",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#scripts",
+    "class/src/utils.js~MakefileEditor.html#instance-member-scripts",
+    "src/utils.js~MakefileEditor#scripts",
+    "member"
+  ],
+  [
+    "src/utils.js~makefileeditor#usebinvariable",
+    "class/src/utils.js~MakefileEditor.html#instance-member-useBinVariable",
+    "src/utils.js~MakefileEditor#useBinVariable",
+    "member"
+  ],
+  [
+    "src/utils.js~makefileeditor#write",
+    "class/src/utils.js~MakefileEditor.html#instance-method-write",
+    "src/utils.js~MakefileEditor#write",
+    "method"
+  ],
+  [
     "src/utils.js~scaffolder#commit",
     "class/src/utils.js~Scaffolder.html#instance-method-commit",
     "src/utils.js~Scaffolder#commit",
@@ -936,22 +1128,10 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/utils.js~scaffolder#sourcedirectory",
-    "class/src/utils.js~Scaffolder.html#instance-member-sourceDirectory",
-    "src/utils.js~Scaffolder#sourceDirectory",
-    "member"
-  ],
-  [
     "src/utils.js~scaffolder#target",
     "class/src/utils.js~Scaffolder.html#instance-method-target",
     "src/utils.js~Scaffolder#target",
     "method"
-  ],
-  [
-    "src/utils.js~scaffolder#targetdirectory",
-    "class/src/utils.js~Scaffolder.html#instance-member-targetDirectory",
-    "src/utils.js~Scaffolder#targetDirectory",
-    "member"
   ],
   [
     "",

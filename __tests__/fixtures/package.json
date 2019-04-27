@@ -4,7 +4,19 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "stmux [ \"npm run build:watch\" : \"npm run lint:watch\" ]",
+        "test": "jest --coverage",
+        "test:watch": "npm test -- --watchAll",
+        "lint": "eslint . -c ./.eslintrc.js",
+        "prelint:watch": "echo Starting lint:watch",
+        "lint:watch": "watch 'npm run lint' src",
+        "prebuild": "echo Starting build",
+        "build": "webpack",
+        "postbuild": "echo Build complete",
+        "predocs": "npm run lint:docs",
+        "docs": "npm run build:docs",
+        "postdocs": "npm run open:docs",
+        "deploy": "npm-run-all lint build test"
     },
     "keywords": [],
     "author": "",
@@ -17,6 +29,7 @@
     "devDependencies": {
         "@babel/cli": "^7.4.3",
         "@babel/core": "^7.4.3",
-        "eslint": "^5.16.0"
+        "eslint": "^5.16.0",
+        "webpack": "4.30.0"
     }
 }

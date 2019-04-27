@@ -14,6 +14,8 @@ var _addEslint = _interopRequireDefault(require("./add-eslint"));
 
 var _addJest = _interopRequireDefault(require("./add-jest"));
 
+var _addMakefile = _interopRequireDefault(require("./add-makefile"));
+
 var _addMarionette = _interopRequireDefault(require("./add-marionette"));
 
 var _addPostcss = _interopRequireDefault(require("./add-postcss"));
@@ -30,9 +32,10 @@ const create = {
 const add = {
   a11y: _addA11y.default,
   babel: _addBabel.default,
-  docs: _addEsdoc.default,
+  esdoc: _addEsdoc.default,
   eslint: [..._addBabel.default, ..._addEslint.default],
   jest: [..._addBabel.default, ..._addJest.default],
+  makefile: _addMakefile.default,
   postcss: _addPostcss.default,
   webpack: _addWebpack.default
 };

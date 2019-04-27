@@ -31,20 +31,27 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~MakefileEditor.html">MakefileEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExist">allDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExistSync">allDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExistSync">allDoNotExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isLocalNpmCommand">isLocalNpmCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
@@ -56,19 +63,18 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import delay from &apos;delay&apos;;
-import {join} from &apos;path&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
 import execa from &apos;execa&apos;;
+import {which} from &apos;shelljs&apos;;
 import semver from &apos;semver&apos;;
 import Queue from &apos;p-queue&apos;;
 import prettier from &apos;prettier&apos;;
-import {first, merge} from &apos;lodash&apos;;
-import {existsSync, pathExists} from &apos;fs-extra&apos;;
+import {first, flow, isNull, kebabCase, last, merge, negate} from &apos;lodash&apos;;
+import {existsSync, pathExists, pathExistsSync} from &apos;fs-extra&apos;;
 import memFs from &apos;mem-fs&apos;;
 import editor from &apos;mem-fs-editor&apos;;
 import {findBestMatch} from &apos;string-similarity&apos;;
 
-const {assign} = Object;
 const INDENT_SPACES = 4;
 const PRETTIER_OPTIONS = {
     bracketSpacing: false,
@@ -77,8 +83,10 @@ const PRETTIER_OPTIONS = {
     tabWidth: 4,
     quotes: true
 };
-// eslint-disable-next-line no-magic-numbers
-export const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
+const {assign, entries} = Object;
+const {isArray} = Array;
+const isNotArray = negate(isArray);
+const parse = data =&gt; JSON.parse(JSON.stringify(data));
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -99,6 +107,27 @@ export const someDoExist = async (...args) =&gt; {
     return checks.some(Boolean);
 };
 /**
+ * Check that at least one file or files exist (synchronous version of {@link someDoExist})
+ * @param  {...string} args File or folder path(s)
+ * @return {boolean} Some files/path do exist (true) or all do not exist (false)
+ */
+export const someDoExistSync = (...args) =&gt; args.map(val =&gt; pathExistsSync(join(process.cwd(), val))).some(Boolean);
+/**
+ * Check that all files exist
+ * @param  {...string} args File of folder paths
+ * @return {boolean} All files/paths exist (true) or do not (false)
+ */
+export const allDoExist = async (...args) =&gt; {
+    const checks = await Promise.all(args.map(val =&gt; pathExists(join(process.cwd(), val))));
+    return checks.every(Boolean);
+};
+/**
+ * Check that all files exist (synchronous version of {@link allDoExist})
+ * @param  {...string} args File of folder paths
+ * @return {boolean} All files/paths exist (true) or do not (false)
+ */
+export const allDoExistSync = (...args) =&gt; args.map(val =&gt; pathExistsSync(join(process.cwd(), val))).every(Boolean);
+/**
  * Check that all files do not exist
  * @example
  * // some/folder/
@@ -113,6 +142,12 @@ export const allDoNotExist = async (...args) =&gt; {
     const checks = await Promise.all(args.map(val =&gt; pathExists(join(process.cwd(), val))));
     return checks.every(val =&gt; !val);
 };
+/**
+ * Check that all files do not exist (synchronous version of {@link allDoNotExist})
+ * @param  {...string} args File or folder path(s)
+ * @return {boolean} All files/paths do not exist (true) or some do (false)
+ */
+export const allDoNotExistSync = (...args) =&gt; args.map(val =&gt; pathExistsSync(join(process.cwd(), val))).every(val =&gt; !val);
 /**
  * Format input code using Prettier
  * @param {*} [code=&apos;&apos;] Code to be formatted
@@ -218,14 +253,17 @@ export class BasicEditor {
         queue.add(() =&gt; fs.delete(path));
         return self;
     }
+    done() {
+        return this.queue.onEmpty();
+    }
     /**
      * Write changes to disk
      * @return {Promise} Resolves when queue is empty
      */
     async commit() {
-        const {fs, queue} = this;
+        const {fs} = this;
         await new Promise(resolve =&gt; fs.commit(resolve));
-        await queue.onEmpty();
+        await this.done();
     }
 }
 /**
@@ -264,10 +302,9 @@ export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor
      */
     hasSome(...modules) {
         const {keys} = Object;
-        const parse = data =&gt; JSON.parse(JSON.stringify(data));
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
-        const installed = [...keys(dependencies), ...keys(devDependencies)];
+        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];
         return modules.some(module =&gt; installed.includes(module));
     }
     /**
@@ -277,10 +314,9 @@ export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor
      */
     hasAll(...modules) {
         const {keys} = Object;
-        const parse = data =&gt; JSON.parse(JSON.stringify(data));
         const pkg = this.read();
         const {dependencies, devDependencies} = parse(pkg);
-        const installed = [...keys(dependencies), ...keys(devDependencies)];
+        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];
         return modules.every(module =&gt; installed.includes(module));
     }
 };
@@ -300,25 +336,25 @@ export const createModuleEditor = (filename, contents = &apos;module.exports = {
         const path = join(cwd, filename);
         assign(this, {path});
     }
-    create(...args) {
+    create() {
         const self = this;
         const {contents, path} = self;
-        self.created || (existsSync(path) || self.write(contents, ...args));
+        self.created || (existsSync(path) || self.write(contents));
         return self;
     }
     read() {
         const {fs, path} = this;
         return fs.exists(path) ? fs.read(path) : &apos;&apos;;
     }
-    write(content) {
+    write(contents) {
         const self = this;
         const {fs, path, prependedContents, queue} = self;
-        const formatted = `${prependedContents}module.exports = ${format(content)}`.replace(/\r*\n$/g, &apos;;&apos;);
+        const formatted = `${prependedContents}module.exports = ${format(contents)}`.replace(/\r*\n$/g, &apos;;&apos;);
         queue
             .add(() =&gt; fs.write(path, formatted))
             .then(() =&gt; self.created = existsSync(path))
             .catch(silent);
-        return self;
+        return assign(self, {contents});
     }
     extend(code) {
         this.contents = merge(contents, code);
@@ -329,8 +365,7 @@ export const createModuleEditor = (filename, contents = &apos;module.exports = {
         const self = this;
         const {contents, prependedContents} = self;
         self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, &apos;\n\n&apos;);
-        self.write(contents);
-        return self;
+        return self.write(contents);
     }
 };
 /**
@@ -359,21 +394,19 @@ export class Scaffolder {
     }
     /**
      * Set source directory
-     * @param {string} path Source directory of template files
+     * @param {string} sourceDirectory Source directory of template files
      * @returns {Scaffolder} Chaining OK
      */
-    source(path) {
-        this.sourceDirectory = path;
-        return this;
+    source(sourceDirectory) {
+        return assign(this, {sourceDirectory});
     }
     /**
      * Set target directory
-     * @param {string} path Target directory of template files
+     * @param {string} targetDirectory Target directory of template files
      * @returns {Scaffolder} Chaining OK
      */
-    target(path) {
-        this.targetDirectory = path;
-        return this;
+    target(targetDirectory) {
+        return assign(this, {targetDirectory});
     }
     /**
      * Copy a file
@@ -514,7 +547,196 @@ export const WebpackConfigEditor = createModuleEditor(&apos;webpack.config.js&ap
     plugins: [
         `new DashboardPlugin()`
     ]
-});</code></pre>
+});
+/**
+ * Create and edit Makefiles. Includes ability to import package.json scripts.
+ */
+export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
+    contents = &apos;&apos;;
+    scripts = {};
+    useBinVariable = false;
+    constructor(path = process.cwd()) {
+        super(path);
+    }
+    write(contents) {
+        const self = this;
+        const {fs, path, queue} = self;
+        queue
+            .add(() =&gt; fs.write(path, contents))
+            .then(() =&gt; self.created = existsSync(path))
+            .catch(silent);
+        return assign(self, {contents});
+    }
+    /**
+     * Append line(s) to end of Makefile
+     * @param {(string|Symbol)} [lines=Symbol(&apos;skip&apos;)] Lines to append
+     * @return {MakefileEditor} Chaining OK
+     */
+    append(lines = Symbol(&apos;skip&apos;)) {
+        const {contents} = this;
+        const shouldSkip = (typeof lines === &apos;symbol&apos;);
+        return shouldSkip ? this : this.write(`${contents}\n${lines}`);
+    }
+    /**
+     * Prepend line(s) to top of Makefile (similar API to {@link MakefileEditor#append})
+     * @param {(string|Symbol)} [lines=Symbol(&apos;skip&apos;)] Lines to append
+     * @return {MakefileEditor} Chaining OK
+     */
+    prepend(lines = Symbol(&apos;skip&apos;)) {
+        const {contents} = this;
+        const shouldSkip = (typeof lines === &apos;symbol&apos;);
+        return shouldSkip ? this : this.write(`${lines}\n${contents}`);
+    }
+    /**
+     * Format task and remove package.json dependency by replacing npm with make and such
+     * @param {string} action Task action
+     * @param {object} scripts Scripts object imported from package.json (must run {@link MakefileEditor#importScripts} first)
+     * @return {string} Formatted action
+     */
+    formatTask(action, scripts = {}) {
+        const {path} = this;
+        const formatTaskName = val =&gt; kebabCase(last(val.split(&apos; &apos;)));
+        const replaceNpmRunQuotes = initial =&gt; {
+            const re = /[&apos;&quot;]npm run .[^&quot;]*[&apos;&quot;]/g;
+            const matches = action.match(re);
+            return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; acc.replace(match, `&apos;make ${formatTaskName(match)}&apos;`), initial);
+        };
+        const replaceNpmWithArguments = initial =&gt; {
+            const re = /npm .* -- --.*/g;
+            const matches = action.match(re);
+            return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; {
+                const [commands, options] = match.split(&apos; -- &apos;);
+                const task = last(commands.split(&apos; &apos;));
+                return acc.replace(match, `${scripts[task]} ${options}`);
+            }, initial);
+        };
+        const replaceNpmRunCommands = initial =&gt; {
+            const re = /^npm run .*/g;
+            const matches = action.match(re);
+            return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial);
+        };
+        const format = flow(
+            replaceNpmRunQuotes,
+            replaceNpmWithArguments,
+            replaceNpmRunCommands
+        );
+        const formatted = format(action);
+        const [command] = formatted.split(&apos; &apos;);
+        const useBinVariable = isLocalNpmCommand(command, path);
+        this.useBinVariable = this.useBinVariable || useBinVariable;
+        return `${useBinVariable ? `$(bin)` : &apos;&apos;}${formatted}`;
+    }
+    /**
+     * Add task to Makefile (appended to end)
+     * @param {string} name Task name (&quot;build&quot;, &quot;lint&quot;, etc...)
+     * @param {string[]} tasks Lines of code to be executed during task
+     * @param {object} options Configure task
+     * @param {string} [options.description] Task description used in help task
+     * @param {boolean} [options.silent=false] Prepend &quot;@&quot; (true) or not (false)
+     * @return {MakefileEditor} Chaining OK
+     */
+    addTask(name, tasks, options = {description: &apos;Task description&apos;}) {
+        const self = this;
+        const {scripts} = self;
+        const {description} = options;
+        return tasks.reduce((tasks, action) =&gt; tasks
+            .append(`\t${self.formatTask(action, scripts)}`)
+            .addTaskDescription(name, description)
+        , self.append(`${name}:`));
+    }
+    /**
+     * Add deescription to task for use during help task
+     * @param {string} task Task name
+     * @param {string} description Description text
+     * @example
+     * const makefile = await (new MakefileEditor())
+     *     .addTask(&apos;foo&apos;, &apos;echo foo&apos;)
+     *     .commit();
+     * // foo: ## Task description &lt;-- default task description
+     * //     echo foo
+     * //
+     * await makefile
+     *     .addTaskDescription(&apos;foo&apos;, &apos;This task does foo&apos;)
+     *     .commit();
+     * // foo: ## This task does foo
+     * //     echo foo
+     * //
+     * @return {MakefileEditor} Chaining OK
+     */
+    addTaskDescription(task, description = &apos;Task description&apos;) {
+        const contents = this.contents.replace(`${kebabCase(task)}:\n`, `${kebabCase(task)}: ## ${description}\n`);
+        return this.write(contents);
+    }
+    appendHelpTask() {
+        const task = `@fgrep -h &quot;##&quot; $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e &apos;s/\\$$//&apos; | sed -e &apos;s/##/\\n    /&apos;`;
+        return this.addTask(&apos;help&apos;, [task], {description: &apos;Show this help&apos;});
+    }
+    /**
+     * Add Makefile comment
+     * @param {string} text Comment text
+     * @return {MakefileEditor} Chaining OK
+     */
+    addComment(text) {
+        return this.append(`# ${text}`);
+    }
+    importScripts() {
+        const {path} = this;
+        const [packageDirectory] = path.split(&apos;Makefile&apos;);
+        const pkg = (new PackageJsonEditor(packageDirectory)).read();
+        const {scripts} = parse(pkg);
+        return assign(this, {scripts});
+    }
+    /**
+     * Append tasks imported from package.json
+     * @example &lt;caption&gt;Must execute importScripts first&lt;/caption&gt;
+     * const makefile = await (new MakefileEditor())
+     *     .importScripts()
+     *     .appendScripts()
+     *     .commit();
+     * @return {MakefileEditor} Chaining OK
+     */
+    appendScripts() {
+        const self = this;
+        const {path, scripts} = self;
+        const tasks = entries(scripts).map(([key, value]) =&gt; [kebabCase(key), [value]]);
+        const getPreTask = (tasks, name) =&gt; {
+            const [data] = tasks
+                .filter(([name]) =&gt; name.startsWith(&apos;pre&apos;))
+                .map(([name, values]) =&gt; [name.substring(&apos;pre&apos;.length), values])
+                .filter(task =&gt; task[0] === name);
+            return isArray(data) ? data[1] : [];
+        };
+        const getPostTask = (tasks, name) =&gt; {
+            const [data] = tasks
+                .filter(([name]) =&gt; name.startsWith(&apos;post&apos;))
+                .map(([name, values]) =&gt; [name.substring(&apos;post&apos;.length), values])
+                .filter(task =&gt; task[0] === name);
+            return isArray(data) ? data[1] : [];
+        };
+        return tasks
+            .filter(([name]) =&gt; !(name.startsWith(&apos;pre&apos;) || name.startsWith(&apos;post&apos;)))
+            .map(([name, values]) =&gt; [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]])
+            .reduce((tasks, [key, values]) =&gt; tasks.addTask(key, values).append(&apos;&apos;), self.append(&apos;&apos;))
+            .prepend(self.useBinVariable ? `bin := ${getBinDirectory(path)}` : Symbol(&apos;skip&apos;))
+            .prepend(`# Built from ${path}/package.json`);
+    }
+}
+export function getCommandDirectory(command) {
+    const data = which(command);
+    const commandExists = negate(isNull)(data);
+    return commandExists ? data.toString().split(command)[0] : &apos;&apos;;
+}
+export function getBinDirectory(path) {
+    const [packageDirectory] = path.split(&apos;Makefile&apos;);
+    return `${packageDirectory}node_modules/.bin/`;
+}
+export function isLocalNpmCommand(command, path = process.cwd()) {
+    const [packageDirectory] = path.split(&apos;Makefile&apos;);
+    const pkg = new PackageJsonEditor(packageDirectory);
+    const pkgHasCommmand = pkg.hasAll(command);
+    const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);
+    return pkgHasCommmand || binHasCommand;
+}</code></pre>
 
 </div>
 

@@ -1,7 +1,7 @@
 {
-  "coverage": "45.65%",
-  "expectCount": 92,
-  "actualCount": 42,
+  "coverage": "47.41%",
+  "expectCount": 116,
+  "actualCount": 55,
   "files": {
     "src/commands/add-a11y.js": {
       "expectCount": 1,
@@ -46,6 +46,11 @@
         7
       ]
     },
+    "src/commands/add-makefile.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
     "src/commands/add-marionette/index.js": {
       "expectCount": 5,
       "actualCount": 1,
@@ -84,9 +89,9 @@
       "expectCount": 3,
       "actualCount": 0,
       "undocumentLines": [
-        15,
-        22,
-        32
+        16,
+        23,
+        33
       ]
     },
     "src/index.js": {
@@ -121,17 +126,28 @@
       ]
     },
     "src/utils.js": {
-      "expectCount": 32,
-      "actualCount": 24,
+      "expectCount": 55,
+      "actualCount": 36,
       "undocumentLines": [
         13,
         14,
-        15,
+        21,
+        22,
         23,
-        132,
-        137,
-        308,
-        317
+        24,
+        160,
+        165,
+        191,
+        490,
+        491,
+        492,
+        493,
+        496,
+        605,
+        617,
+        659,
+        664,
+        668
       ]
     }
   }

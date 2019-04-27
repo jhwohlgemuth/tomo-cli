@@ -147,6 +147,103 @@ module.exports = {
 };"
 `;
 
+exports[`Makefile editor addComment 1`] = `
+"# Makefile created with tomo
+# Knowledge of the Holy One is understanding"
+`;
+
+exports[`Makefile editor addTask 1`] = `
+"# Makefile created with tomo
+foo: ## Foo task
+	echo foo
+bar: ## Bar task
+	echo bar"
+`;
+
+exports[`Makefile editor append 1`] = `
+"# Makefile created with tomo
+test line"
+`;
+
+exports[`Makefile editor appendScripts (no bin variable) 1`] = `
+"# Makefile created with tomo
+
+
+test: ## Task description
+	jest --coverage
+
+lint: ## Task description
+	eslint . -c ./.eslintrc.js
+
+lint-watch: ## Task description
+	echo Starting lint:watch
+	watch 'make lint' src
+
+build: ## Task description
+	echo Starting build
+	webpack
+	echo Build complete
+"
+`;
+
+exports[`Makefile editor appendScripts (with bin variable) 1`] = `
+"# Makefile created with tomo
+bin := home/user/project/__tests__/fixtures/node_modules/.bin/
+
+
+dev: ## Task description
+	stmux [ 'make build-watch' : 'make lint-watch' ]
+
+test: ## Task description
+	jest --coverage
+
+test-watch: ## Task description
+	jest --coverage --watchAll
+
+lint: ## Task description
+	$(bin)eslint . -c ./.eslintrc.js
+
+lint-watch: ## Task description
+	echo Starting lint:watch
+	watch 'make lint' src
+
+build: ## Task description
+	echo Starting build
+	$(bin)webpack
+	echo Build complete
+
+docs: ## Task description
+	$(MAKE) lint-docs
+	$(MAKE) build-docs
+	$(MAKE) open-docs
+
+deploy: ## Task description
+	npm-run-all lint build test
+"
+`;
+
+exports[`Makefile editor create 1`] = `"# Makefile created with tomo"`;
+
+exports[`Makefile editor importScripts 1`] = `Object {}`;
+
+exports[`Makefile editor importScripts 2`] = `
+Object {
+  "build": "webpack",
+  "deploy": "npm-run-all lint build test",
+  "dev": "stmux [ \\"npm run build:watch\\" : \\"npm run lint:watch\\" ]",
+  "docs": "npm run build:docs",
+  "lint": "eslint . -c ./.eslintrc.js",
+  "lint:watch": "watch 'npm run lint' src",
+  "postbuild": "echo Build complete",
+  "postdocs": "npm run open:docs",
+  "prebuild": "echo Starting build",
+  "predocs": "npm run lint:docs",
+  "prelint:watch": "echo Starting lint:watch",
+  "test": "jest --coverage",
+  "test:watch": "npm test -- --watchAll",
+}
+`;
+
 exports[`getVersions format response from npm (only allow valid version strings) 1`] = `
 Array [
   "1.0.0",
@@ -168,13 +265,26 @@ Object {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "eslint": "^5.16.0",
+    "webpack": "4.30.0",
   },
   "keywords": Array [],
   "license": "ISC",
   "main": "index.js",
   "name": "fixtures",
   "scripts": Object {
-    "test": "echo \\"Error: no test specified\\" && exit 1",
+    "build": "webpack",
+    "deploy": "npm-run-all lint build test",
+    "dev": "stmux [ \\"npm run build:watch\\" : \\"npm run lint:watch\\" ]",
+    "docs": "npm run build:docs",
+    "lint": "eslint . -c ./.eslintrc.js",
+    "lint:watch": "watch 'npm run lint' src",
+    "postbuild": "echo Build complete",
+    "postdocs": "npm run open:docs",
+    "prebuild": "echo Starting build",
+    "predocs": "npm run lint:docs",
+    "prelint:watch": "echo Starting lint:watch",
+    "test": "jest --coverage",
+    "test:watch": "npm test -- --watchAll",
   },
   "version": "1.0.0",
 }
@@ -213,14 +323,27 @@ Object {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "eslint": "^5.16.0",
+    "webpack": "4.30.0",
   },
   "keywords": Array [],
   "license": "ISC",
   "main": "index.js",
   "name": "fixtures",
   "scripts": Object {
+    "build": "webpack",
+    "deploy": "npm-run-all lint build test",
+    "dev": "stmux [ \\"npm run build:watch\\" : \\"npm run lint:watch\\" ]",
+    "docs": "npm run build:docs",
     "foo": "bar",
-    "test": "echo \\"Error: no test specified\\" && exit 1",
+    "lint": "eslint . -c ./.eslintrc.js",
+    "lint:watch": "watch 'npm run lint' src",
+    "postbuild": "echo Build complete",
+    "postdocs": "npm run open:docs",
+    "prebuild": "echo Starting build",
+    "predocs": "npm run lint:docs",
+    "prelint:watch": "echo Starting lint:watch",
+    "test": "jest --coverage",
+    "test:watch": "npm test -- --watchAll",
   },
   "version": "1.0.0",
 }
@@ -239,13 +362,26 @@ Object {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "eslint": "^5.16.0",
+    "webpack": "4.30.0",
   },
   "keywords": Array [],
   "license": "ISC",
   "main": "index.js",
   "name": "fixtures",
   "scripts": Object {
-    "test": "echo \\"Error: no test specified\\" && exit 1",
+    "build": "webpack",
+    "deploy": "npm-run-all lint build test",
+    "dev": "stmux [ \\"npm run build:watch\\" : \\"npm run lint:watch\\" ]",
+    "docs": "npm run build:docs",
+    "lint": "eslint . -c ./.eslintrc.js",
+    "lint:watch": "watch 'npm run lint' src",
+    "postbuild": "echo Build complete",
+    "postdocs": "npm run open:docs",
+    "prebuild": "echo Starting build",
+    "predocs": "npm run lint:docs",
+    "prelint:watch": "echo Starting lint:watch",
+    "test": "jest --coverage",
+    "test:watch": "npm test -- --watchAll",
   },
   "version": "1.0.0",
 }
