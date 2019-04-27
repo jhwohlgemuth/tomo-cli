@@ -33,7 +33,7 @@ const create = {
 const add = {
     a11y: addA11y,
     babel: addBabel,
-    docs: addEsdoc,
+    esdoc: addEsdoc,
     eslint: [
         ...addBabel,
         ...addEslint

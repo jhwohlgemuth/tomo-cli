@@ -42,6 +42,7 @@ const {
 const {
   isArray
 } = Array;
+const isNotArray = (0, _lodash.negate)(isArray);
 const INDENT_SPACES = 4;
 const PRETTIER_OPTIONS = {
   bracketSpacing: false,
@@ -820,7 +821,8 @@ class MakefileEditor extends createModuleEditor('Makefile') {
   }
 
   appendHelpTask() {
-    return this.addTask('help', 'Show this help', `@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##/\\n    /'`);
+    const task = `@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##/\\n    /'`;
+    return this.addTask('help', 'Show this help', task);
   }
 
   addComment(text) {
@@ -862,8 +864,34 @@ class MakefileEditor extends createModuleEditor('Makefile') {
     };
 
     const formatTask = value => {
-      const [command] = value.split(' ');
-      return `@${isLocalNpmCommand(command, path) ? `$(bin)` : ''}${value}`;
+      const formatTaskName = val => (0, _lodash.kebabCase)((0, _lodash.last)(val.split(' ')));
+
+      const replaceNpmRunQuotes = initial => {
+        const re = /['"]npm run .[^"]*['"]/g;
+        const matches = value.match(re);
+        return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `'make ${formatTaskName(match)}'`), initial);
+      };
+
+      const replaceNpmWithArguments = initial => {
+        const re = /npm .* -- --.*/g;
+        const matches = value.match(re);
+        return isNotArray(matches) ? initial : matches.reduce((acc, match) => {
+          const [commands, options] = match.split(' -- ');
+          const task = (0, _lodash.last)(commands.split(' '));
+          return acc.replace(match, `${scripts[task]} ${options}`);
+        }, initial);
+      };
+
+      const replaceNpmRunCommands = initial => {
+        const re = /^npm run .*/g;
+        const matches = value.match(re);
+        return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `make ${formatTaskName(match)}`), initial);
+      };
+
+      const format = (0, _lodash.flow)(replaceNpmRunQuotes, replaceNpmWithArguments, replaceNpmRunCommands);
+      const formatted = format(value);
+      const [command] = formatted.split(' ');
+      return `@${isLocalNpmCommand(command, path) ? `$(bin)` : ''}${formatted}`;
     };
 
     const tasks = entries(scripts).map(([key, value]) => [(0, _lodash.kebabCase)(key), [value].map(formatTask)]);

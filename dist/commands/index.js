@@ -32,7 +32,7 @@ const create = {
 const add = {
   a11y: _addA11y.default,
   babel: _addBabel.default,
-  docs: _addEsdoc.default,
+  esdoc: _addEsdoc.default,
   eslint: [..._addBabel.default, ..._addEslint.default],
   jest: [..._addBabel.default, ..._addJest.default],
   makefile: _addMakefile.default,

@@ -70,7 +70,7 @@ import {which} from &apos;shelljs&apos;;
 import semver from &apos;semver&apos;;
 import Queue from &apos;p-queue&apos;;
 import prettier from &apos;prettier&apos;;
-import {first, isNull, kebabCase, merge, negate} from &apos;lodash&apos;;
+import {first, flow, isNull, kebabCase, last, merge, negate} from &apos;lodash&apos;;
 import {existsSync, pathExists, pathExistsSync} from &apos;fs-extra&apos;;
 import memFs from &apos;mem-fs&apos;;
 import editor from &apos;mem-fs-editor&apos;;
@@ -78,6 +78,7 @@ import {findBestMatch} from &apos;string-similarity&apos;;
 
 const {assign, entries} = Object;
 const {isArray} = Array;
+const isNotArray = negate(isArray);
 const INDENT_SPACES = 4;
 const PRETTIER_OPTIONS = {
     bracketSpacing: false,
@@ -594,7 +595,8 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
         return this.write(contents);
     }
     appendHelpTask() {
-        return this.addTask(&apos;help&apos;, &apos;Show this help&apos;, `@fgrep -h &quot;##&quot; $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e &apos;s/\\$$//&apos; | sed -e &apos;s/##/\\n    /&apos;`);
+        const task = `@fgrep -h &quot;##&quot; $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e &apos;s/\\$$//&apos; | sed -e &apos;s/##/\\n    /&apos;`;
+        return this.addTask(&apos;help&apos;, &apos;Show this help&apos;, task);
     }
     addComment(text) {
         return this.append(`# ${text}`);
@@ -621,8 +623,34 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
             return pkgHasCommmand || binHasCommand;
         };
         const formatTask = value =&gt; {
-            const [command] = value.split(&apos; &apos;);
-            return `@${isLocalNpmCommand(command, path) ? `$(bin)` : &apos;&apos;}${value}`;
+            const formatTaskName = val =&gt; kebabCase(last(val.split(&apos; &apos;)));
+            const replaceNpmRunQuotes = initial =&gt; {
+                const re = /[&apos;&quot;]npm run .[^&quot;]*[&apos;&quot;]/g;
+                const matches = value.match(re);
+                return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; acc.replace(match, `&apos;make ${formatTaskName(match)}&apos;`), initial);
+            };
+            const replaceNpmWithArguments = initial =&gt; {
+                const re = /npm .* -- --.*/g;
+                const matches = value.match(re);
+                return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; {
+                    const [commands, options] = match.split(&apos; -- &apos;);
+                    const task = last(commands.split(&apos; &apos;));
+                    return acc.replace(match, `${scripts[task]} ${options}`);
+                }, initial);
+            };
+            const replaceNpmRunCommands = initial =&gt; {
+                const re = /^npm run .*/g;
+                const matches = value.match(re);
+                return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; acc.replace(match, `make ${formatTaskName(match)}`), initial);
+            };
+            const format = flow(
+                replaceNpmRunQuotes,
+                replaceNpmWithArguments,
+                replaceNpmRunCommands
+            );
+            const formatted = format(value);
+            const [command] = formatted.split(&apos; &apos;);
+            return `@${isLocalNpmCommand(command, path) ? `$(bin)` : &apos;&apos;}${formatted}`;
         };
         const tasks = entries(scripts).map(([key, value]) =&gt; [kebabCase(key), [value].map(formatTask)]);
         const getPreTask = (tasks, name) =&gt; {

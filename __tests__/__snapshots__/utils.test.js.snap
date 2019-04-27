@@ -176,7 +176,7 @@ lint: ## Task description
 
 lint-watch: ## Task description
 	@echo Starting lint:watch
-	@watch 'npm run lint' src
+	@watch 'make lint' src
 
 build: ## Task description
 	@echo Starting build
@@ -189,20 +189,34 @@ exports[`Makefile editor appendScripts (with bin variable) 1`] = `
 "# Makefile created with tomo
 bin := home/user/project/__tests__/fixtures/node_modules/.bin/
 
+dev: ## Task description
+	@stmux [ 'make build-watch' : 'make lint-watch' ]
+
 test: ## Task description
 	@jest --coverage
+
+test-watch: ## Task description
+	@jest --coverage --watchAll
 
 lint: ## Task description
 	@$(bin)eslint . -c ./.eslintrc.js
 
 lint-watch: ## Task description
 	@echo Starting lint:watch
-	@watch 'npm run lint' src
+	@watch 'make lint' src
 
 build: ## Task description
 	@echo Starting build
 	@$(bin)webpack
 	@echo Build complete
+
+docs: ## Task description
+	@make lint-docs
+	@make build-docs
+	@make open-docs
+
+deploy: ## Task description
+	@npm-run-all lint build test
 "
 `;
 
@@ -213,12 +227,18 @@ exports[`Makefile editor importScripts 1`] = `Object {}`;
 exports[`Makefile editor importScripts 2`] = `
 Object {
   "build": "webpack",
+  "deploy": "npm-run-all lint build test",
+  "dev": "stmux [ \\"npm run build:watch\\" : \\"npm run lint:watch\\" ]",
+  "docs": "npm run build:docs",
   "lint": "eslint . -c ./.eslintrc.js",
   "lint:watch": "watch 'npm run lint' src",
   "postbuild": "echo Build complete",
+  "postdocs": "npm run open:docs",
   "prebuild": "echo Starting build",
+  "predocs": "npm run lint:docs",
   "prelint:watch": "echo Starting lint:watch",
   "test": "jest --coverage",
+  "test:watch": "npm test -- --watchAll",
 }
 `;
 
@@ -251,12 +271,18 @@ Object {
   "name": "fixtures",
   "scripts": Object {
     "build": "webpack",
+    "deploy": "npm-run-all lint build test",
+    "dev": "stmux [ \\"npm run build:watch\\" : \\"npm run lint:watch\\" ]",
+    "docs": "npm run build:docs",
     "lint": "eslint . -c ./.eslintrc.js",
     "lint:watch": "watch 'npm run lint' src",
     "postbuild": "echo Build complete",
+    "postdocs": "npm run open:docs",
     "prebuild": "echo Starting build",
+    "predocs": "npm run lint:docs",
     "prelint:watch": "echo Starting lint:watch",
     "test": "jest --coverage",
+    "test:watch": "npm test -- --watchAll",
   },
   "version": "1.0.0",
 }
@@ -303,13 +329,19 @@ Object {
   "name": "fixtures",
   "scripts": Object {
     "build": "webpack",
+    "deploy": "npm-run-all lint build test",
+    "dev": "stmux [ \\"npm run build:watch\\" : \\"npm run lint:watch\\" ]",
+    "docs": "npm run build:docs",
     "foo": "bar",
     "lint": "eslint . -c ./.eslintrc.js",
     "lint:watch": "watch 'npm run lint' src",
     "postbuild": "echo Build complete",
+    "postdocs": "npm run open:docs",
     "prebuild": "echo Starting build",
+    "predocs": "npm run lint:docs",
     "prelint:watch": "echo Starting lint:watch",
     "test": "jest --coverage",
+    "test:watch": "npm test -- --watchAll",
   },
   "version": "1.0.0",
 }
@@ -336,12 +368,18 @@ Object {
   "name": "fixtures",
   "scripts": Object {
     "build": "webpack",
+    "deploy": "npm-run-all lint build test",
+    "dev": "stmux [ \\"npm run build:watch\\" : \\"npm run lint:watch\\" ]",
+    "docs": "npm run build:docs",
     "lint": "eslint . -c ./.eslintrc.js",
     "lint:watch": "watch 'npm run lint' src",
     "postbuild": "echo Build complete",
+    "postdocs": "npm run open:docs",
     "prebuild": "echo Starting build",
+    "predocs": "npm run lint:docs",
     "prelint:watch": "echo Starting lint:watch",
     "test": "jest --coverage",
+    "test:watch": "npm test -- --watchAll",
   },
   "version": "1.0.0",
 }

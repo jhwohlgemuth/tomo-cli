@@ -4,13 +4,19 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "dev": "stmux [ \"npm run build:watch\" : \"npm run lint:watch\" ]",
         "test": "jest --coverage",
+        "test:watch": "npm test -- --watchAll",
         "lint": "eslint . -c ./.eslintrc.js",
         "prelint:watch": "echo Starting lint:watch",
         "lint:watch": "watch 'npm run lint' src",
         "prebuild": "echo Starting build",
         "build": "webpack",
-        "postbuild": "echo Build complete"
+        "postbuild": "echo Build complete",
+        "predocs": "npm run lint:docs",
+        "docs": "npm run build:docs",
+        "postdocs": "npm run open:docs",
+        "deploy": "npm-run-all lint build test"
     },
     "keywords": [],
     "author": "",

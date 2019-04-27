@@ -274,7 +274,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 531,
+            size: 543,
             type: file
         },
         {
@@ -375,7 +375,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: directory
         }
     ],
-    size: 10934,
+    size: 10946,
     type: directory
 }
 "
@@ -389,7 +389,7 @@ lint: ## Task description
 	@eslint . -c ./.eslintrc.js --fix
 
 lint-watch: ## Task description
-	@watch 'npm run lint' src
+	@watch 'make lint' src
 
 lint-tests: ## Task description
 	@eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore
@@ -398,7 +398,7 @@ test: ## Task description
 	@jest .*.test.js --coverage
 
 test-watch: ## Task description
-	@npm test -- --watchAll
+	@jest .*.test.js --coverage --watchAll
 
 help: ## Show this help
 	@fgrep -h \\"##\\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'"

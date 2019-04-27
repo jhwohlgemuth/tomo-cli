@@ -109,12 +109,12 @@ export const tasks = [
         text: &apos;Add documentation tasks to package.json&apos;,
         task: async ({sourceDirectory}) =&gt; {
             const scripts = {
-                &apos;lint:docs&apos;: `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
-                &apos;build:docs&apos;: `jsdoc ${sourceDirectory} -r --destination ./docs`,
-                &apos;open:docs&apos;: &apos;opn ./docs/index.html&apos;,
-                predocs: &apos;npm run lint:docs&apos;,
-                docs: &apos;npm run build:docs&apos;,
-                postdocs: &apos;npm run open:docs&apos;
+                &apos;lint:documentation&apos;: `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
+                &apos;build:documentation&apos;: `jsdoc ${sourceDirectory} -r --destination ./docs`,
+                &apos;open:documentation&apos;: &apos;opn ./docs/index.html&apos;,
+                predocumentation: &apos;npm run lint:docs&apos;,
+                documentation: &apos;npm run build:docs&apos;,
+                postdocumentation: &apos;npm run open:docs&apos;
             };
             const pkg = new PackageJsonEditor();
             await pkg.extend({scripts}).commit();
