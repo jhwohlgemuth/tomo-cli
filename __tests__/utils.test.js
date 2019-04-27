@@ -123,8 +123,8 @@ describe('Makefile editor', () => {
     });
     test('addTask', async () => {
         await makefile
-            .addTask('foo', 'Foo task', 'echo foo')
-            .addTask('bar', 'Bar task', 'echo bar')
+            .addTask('foo', ['echo foo'], {description: 'Foo task'})
+            .addTask('bar', ['echo bar'], {description: 'Bar task'})
             .done();
         expect(read(makefile)).toMatchSnapshot();
     });

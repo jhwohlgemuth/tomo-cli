@@ -48,12 +48,12 @@ const tasks = [{
       sourceDirectory
     }) {
       const scripts = {
-        'lint:documentation': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
-        'build:documentation': `jsdoc ${sourceDirectory} -r --destination ./docs`,
-        'open:documentation': 'opn ./docs/index.html',
-        predocumentation: 'npm run lint:docs',
-        documentation: 'npm run build:docs',
-        postdocumentation: 'npm run open:docs'
+        'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
+        'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
+        'open:docs': 'opn ./docs/index.html',
+        preesdoc: 'npm run lint:docs',
+        esdoc: 'npm run build:docs',
+        postesdoc: 'npm run open:docs'
       };
       const pkg = new _utils.PackageJsonEditor();
       yield pkg.extend({

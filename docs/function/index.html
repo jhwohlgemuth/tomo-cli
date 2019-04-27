@@ -44,14 +44,15 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isLocalNpmCommand">isLocalNpmCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
@@ -371,6 +372,34 @@
           
           
           
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span></span><span class="code" data-ice="signature">(path: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span><span class="code" data-ice="signature">(command: <span>*</span>): <span>*</span></span>
         </p>
       </div>
@@ -512,6 +541,34 @@
       <div>
         <p>
           
+          
+          
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-isLocalNpmCommand">isLocalNpmCommand</a></span></span><span class="code" data-ice="signature">(command: <span>*</span>, path: <span>*</span>): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
           <span data-ice="async">async</span>
           
           <span class="code" data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span><span class="code" data-ice="signature">(data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
@@ -580,34 +637,6 @@
         
         <div data-ice="description"><p>Check that at least one file or files exist (synchronous version of <span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span>)</p>
 </div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span><span class="code" data-ice="signature">()</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
       </div>
     </td>
     <td>
@@ -953,11 +982,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber64">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber56">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {allDoExist} from &apos;<span><a href="file/src/utils.js.html#lineNumber64">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {allDoExist} from &apos;<span><a href="file/src/utils.js.html#lineNumber56">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Check that all files exist</p>
@@ -1027,11 +1056,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber73">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber65">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {allDoExistSync} from &apos;<span><a href="file/src/utils.js.html#lineNumber73">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {allDoExistSync} from &apos;<span><a href="file/src/utils.js.html#lineNumber65">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Check that all files exist (synchronous version of <span><a href="function/index.html#static-function-allDoExist">allDoExist</a></span>)</p>
@@ -1101,11 +1130,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber85">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber77">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {allDoNotExist} from &apos;<span><a href="file/src/utils.js.html#lineNumber85">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {allDoNotExist} from &apos;<span><a href="file/src/utils.js.html#lineNumber77">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Check that all files do not exist</p>
@@ -1186,11 +1215,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber94">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber86">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {allDoNotExistSync} from &apos;<span><a href="file/src/utils.js.html#lineNumber94">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {allDoNotExistSync} from &apos;<span><a href="file/src/utils.js.html#lineNumber86">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Check that all files do not exist (synchronous version of <span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span>)</p>
@@ -1260,11 +1289,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber219">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber211">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {createJsonEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber219">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {createJsonEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber211">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a JSON file with a fluent API</p>
@@ -1342,11 +1371,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber274">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber266">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {createModuleEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber274">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {createModuleEditor} from &apos;<span><a href="file/src/utils.js.html#lineNumber266">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a JS module with a fluent API</p>
@@ -1431,11 +1460,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber108">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber100">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {format} from &apos;<span><a href="file/src/utils.js.html#lineNumber108">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {format} from &apos;<span><a href="file/src/utils.js.html#lineNumber100">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Format input code using Prettier</p>
@@ -1508,6 +1537,77 @@ console.log(noPackageJson); // true</code></pre>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-getBinDirectory">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">getBinDirectory</span><span class="code" data-ice="signature">(path: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber610">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getBinDirectory} from &apos;<span><a href="file/src/utils.js.html#lineNumber610">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">path</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-function-getCommandDirectory">
     <span class="access" data-ice="access">public</span>
     
@@ -1519,11 +1619,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber605">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getCommandDirectory} from &apos;<span><a href="file/src/utils.js.html#lineNumber29">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getCommandDirectory} from &apos;<span><a href="file/src/utils.js.html#lineNumber605">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1590,11 +1690,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber118">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber110">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getIntendedInput} from &apos;<span><a href="file/src/utils.js.html#lineNumber118">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getIntendedInput} from &apos;<span><a href="file/src/utils.js.html#lineNumber110">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Use string-similarity module to determine closest matching string</p>
@@ -1686,11 +1786,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber132">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber124">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getVersions} from &apos;<span><a href="file/src/utils.js.html#lineNumber132">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getVersions} from &apos;<span><a href="file/src/utils.js.html#lineNumber124">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Use npm CLI to return array of module versions</p>
@@ -1767,11 +1867,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber152">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber144">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {install} from &apos;<span><a href="file/src/utils.js.html#lineNumber152">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {install} from &apos;<span><a href="file/src/utils.js.html#lineNumber144">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Install dependencies with npm</p>
@@ -1884,11 +1984,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber28">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber25">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isGlobalCommand} from &apos;<span><a href="file/src/utils.js.html#lineNumber28">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isGlobalCommand} from &apos;<span><a href="file/src/utils.js.html#lineNumber25">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1915,6 +2015,83 @@ console.log(noPackageJson); // true</code></pre>
 </div>
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-isLocalNpmCommand">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">isLocalNpmCommand</span><span class="code" data-ice="signature">(command: <span>*</span>, path: <span>*</span>): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber614">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isLocalNpmCommand} from &apos;<span><a href="file/src/utils.js.html#lineNumber614">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  
+  
+  
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">command</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">path</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>*</span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
 
   
 
@@ -2048,11 +2225,11 @@ console.log(noPackageJson); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber49">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber41">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {someDoExist} from &apos;<span><a href="file/src/utils.js.html#lineNumber49">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {someDoExist} from &apos;<span><a href="file/src/utils.js.html#lineNumber41">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Check that at least one file or files exist</p>
@@ -2137,11 +2314,11 @@ console.log(hasSomething); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber58">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber50">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {someDoExistSync} from &apos;<span><a href="file/src/utils.js.html#lineNumber58">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {someDoExistSync} from &apos;<span><a href="file/src/utils.js.html#lineNumber50">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Check that at least one file or files exist (synchronous version of <span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span>)</p>
@@ -2200,49 +2377,6 @@ console.log(hasSomething); // true</code></pre>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-testAsyncFunction">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">testAsyncFunction</span><span class="code" data-ice="signature">()</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber27">source</a></span></span>
-    </span>
-  </h3>
-
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {testAsyncFunction} from &apos;<span><a href="file/src/utils.js.html#lineNumber27">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
-  
-  
-  
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-function-verifyRustInstallation">
     <span class="access" data-ice="access">public</span>
     
@@ -2254,11 +2388,11 @@ console.log(hasSomething); // true</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber166">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils.js.html#lineNumber158">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {verifyRustInstallation} from &apos;<span><a href="file/src/utils.js.html#lineNumber166">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {verifyRustInstallation} from &apos;<span><a href="file/src/utils.js.html#lineNumber158">tomo-cli/src/utils.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Determine if system supports Rust (necessary Rust dependencies are installed)</p>

@@ -168,20 +168,21 @@ test line"
 exports[`Makefile editor appendScripts (no bin variable) 1`] = `
 "# Makefile created with tomo
 
+
 test: ## Task description
-	@jest --coverage
+	jest --coverage
 
 lint: ## Task description
-	@eslint . -c ./.eslintrc.js
+	eslint . -c ./.eslintrc.js
 
 lint-watch: ## Task description
-	@echo Starting lint:watch
-	@watch 'make lint' src
+	echo Starting lint:watch
+	watch 'make lint' src
 
 build: ## Task description
-	@echo Starting build
-	@webpack
-	@echo Build complete
+	echo Starting build
+	webpack
+	echo Build complete
 "
 `;
 
@@ -189,34 +190,35 @@ exports[`Makefile editor appendScripts (with bin variable) 1`] = `
 "# Makefile created with tomo
 bin := home/user/project/__tests__/fixtures/node_modules/.bin/
 
+
 dev: ## Task description
-	@stmux [ 'make build-watch' : 'make lint-watch' ]
+	stmux [ 'make build-watch' : 'make lint-watch' ]
 
 test: ## Task description
-	@jest --coverage
+	jest --coverage
 
 test-watch: ## Task description
-	@jest --coverage --watchAll
+	jest --coverage --watchAll
 
 lint: ## Task description
-	@$(bin)eslint . -c ./.eslintrc.js
+	$(bin)eslint . -c ./.eslintrc.js
 
 lint-watch: ## Task description
-	@echo Starting lint:watch
-	@watch 'make lint' src
+	echo Starting lint:watch
+	watch 'make lint' src
 
 build: ## Task description
-	@echo Starting build
-	@$(bin)webpack
-	@echo Build complete
+	echo Starting build
+	$(bin)webpack
+	echo Build complete
 
 docs: ## Task description
-	@make lint-docs
-	@make build-docs
-	@make open-docs
+	$(MAKE) lint-docs
+	$(MAKE) build-docs
+	$(MAKE) open-docs
 
 deploy: ## Task description
-	@npm-run-all lint build test
+	npm-run-all lint build test
 "
 `;
 

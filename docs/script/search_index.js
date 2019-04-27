@@ -216,6 +216,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils.js~getbindirectory",
+    "function/index.html#static-function-getBinDirectory",
+    "<span>getBinDirectory</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/utils.js~getcommanddirectory",
     "function/index.html#static-function-getCommandDirectory",
     "<span>getCommandDirectory</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
@@ -246,6 +252,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils.js~islocalnpmcommand",
+    "function/index.html#static-function-isLocalNpmCommand",
+    "<span>isLocalNpmCommand</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/ui.js~populatequeue",
     "function/index.html#static-function-populateQueue",
     "<span>populateQueue</span> <span class=\"search-result-import-path\">tomo-cli/src/ui.js</span>",
@@ -261,12 +273,6 @@ window.esdocSearchIndex = [
     "tomo-cli/src/utils.js~somedoexistsync",
     "function/index.html#static-function-someDoExistSync",
     "<span>someDoExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
-    "function"
-  ],
-  [
-    "tomo-cli/src/utils.js~testasyncfunction",
-    "function/index.html#static-function-testAsyncFunction",
-    "<span>testAsyncFunction</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
     "function"
   ],
   [
@@ -1068,6 +1074,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/utils.js~makefileeditor#formattask",
+    "class/src/utils.js~MakefileEditor.html#instance-method-formatTask",
+    "src/utils.js~MakefileEditor#formatTask",
+    "method"
+  ],
+  [
     "src/utils.js~makefileeditor#importscripts",
     "class/src/utils.js~MakefileEditor.html#instance-method-importScripts",
     "src/utils.js~MakefileEditor#importScripts",
@@ -1077,6 +1089,12 @@ window.esdocSearchIndex = [
     "src/utils.js~makefileeditor#scripts",
     "class/src/utils.js~MakefileEditor.html#instance-member-scripts",
     "src/utils.js~MakefileEditor#scripts",
+    "member"
+  ],
+  [
+    "src/utils.js~makefileeditor#usebinvariable",
+    "class/src/utils.js~MakefileEditor.html#instance-member-useBinVariable",
+    "src/utils.js~MakefileEditor#useBinVariable",
     "member"
   ],
   [

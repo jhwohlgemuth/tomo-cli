@@ -44,14 +44,15 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isLocalNpmCommand">isLocalNpmCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
@@ -62,7 +63,7 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">49/113</span></h1>
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">49/116</span></h1>
 
 <table class="files-summary" data-ice="files" data-use-coverage="true">
   <thead>
@@ -97,9 +98,9 @@
       <td data-ice="filePath"><span><a href="file/src/commands/add-esdoc.js.html#errorLines=24,29,32,9">src/commands/add-esdoc.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">20 %</span><span data-ice="coverageCount" class="coverage-count">1/5</span></td>
-      <td style="display: none;" data-ice="size">2798 byte</td>
+      <td style="display: none;" data-ice="size">2747 byte</td>
       <td style="display: none;" data-ice="lines">87</td>
-      <td style="display: none;" data-ice="updated">2019-04-07 03:00:23 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2019-04-07 16:24:00 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/commands/add-eslint/index.js.html#errorLines=11,17,20,21">src/commands/add-eslint/index.js</a></span></td>
@@ -194,7 +195,7 @@
       <td style="display: none;" data-ice="updated">2019-04-01 16:14:37 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/utils.js.html#errorLines=14,15,16,169,17,174,18,200,25,27,28,29,499,500,502,504,513,528,532,536,539,546">src/utils.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/utils.js.html#errorLines=13,14,15,16,161,166,17,192,24,25,491,492,493,495,497,506,511,562,566,570,573,580,605,610,614">src/utils.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span>
 <span><a href="class/src/utils.js~BasicEditor.html">BasicEditor</a></span>
 <span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span>
@@ -210,19 +211,20 @@
 <span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span>
 <span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span>
 <span><a href="function/index.html#static-function-format">format</a></span>
+<span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span>
 <span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span>
 <span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span>
 <span><a href="function/index.html#static-function-getVersions">getVersions</a></span>
 <span><a href="function/index.html#static-function-install">install</a></span>
 <span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span>
+<span><a href="function/index.html#static-function-isLocalNpmCommand">isLocalNpmCommand</a></span>
 <span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span>
 <span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span>
-<span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span>
 <span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></td>
-      <td class="coverage"><span data-ice="coverage">57 %</span><span data-ice="coverageCount" class="coverage-count">30/52</span></td>
-      <td style="display: none;" data-ice="size">23232 byte</td>
-      <td style="display: none;" data-ice="lines">614</td>
-      <td style="display: none;" data-ice="updated">2019-04-07 02:37:04 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">54 %</span><span data-ice="coverageCount" class="coverage-count">30/55</span></td>
+      <td style="display: none;" data-ice="size">23233 byte</td>
+      <td style="display: none;" data-ice="lines">619</td>
+      <td style="display: none;" data-ice="updated">2019-04-07 16:28:30 (UTC)</td>
     </tr>
 </tbody>
 </table>

@@ -44,14 +44,15 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isLocalNpmCommand">isLocalNpmCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
@@ -71,9 +72,12 @@ import rimraf from &apos;rimraf&apos;;
 import dirTree from &apos;directory-tree&apos;;
 import {omit} from &apos;lodash&apos;;
 import Queue from &apos;p-queue&apos;;
+import delay from &apos;delay&apos;;
 import {populateQueue} from &apos;../src/ui&apos;;
 import {format} from &apos;../src/utils&apos;;
 
+// eslint-disable-next-line no-magic-numbers
+export const testAsyncFunction = () =&gt; async ({ skipInstall }) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
 const createTemporaryDirectory = async () =&gt; {
     const tempDir = join(tmpdir(), `tomo-test-${crypto.randomBytes(20).toString(&apos;hex&apos;)}`);// eslint-disable-line no-magic-numbers
     await mkdirp(tempDir);

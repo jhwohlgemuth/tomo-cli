@@ -44,14 +44,15 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isGlobalCommand">isGlobalCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isLocalNpmCommand">isLocalNpmCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-testAsyncFunction">testAsyncFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
@@ -63,8 +64,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import delay from &apos;delay&apos;;
-import {join} from &apos;path&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
 import execa from &apos;execa&apos;;
 import {which} from &apos;shelljs&apos;;
 import semver from &apos;semver&apos;;
@@ -88,14 +88,7 @@ const PRETTIER_OPTIONS = {
     quotes: true
 };
 const parse = data =&gt; JSON.parse(JSON.stringify(data));
-// eslint-disable-next-line no-magic-numbers
-export const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
 export const isGlobalCommand = value =&gt; [&apos;npm&apos;, &apos;echo&apos;, &apos;cat&apos;, &apos;cp&apos;, &apos;rm&apos;].includes(value);
-export const getCommandDirectory = command =&gt; {
-    const data = which(command);
-    const commandExists = negate(isNull)(data);
-    return commandExists ? data.toString().split(command)[0] : &apos;&apos;;
-};
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -562,6 +555,7 @@ export const WebpackConfigEditor = createModuleEditor(&apos;webpack.config.js&ap
  */
 export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
     scripts = {};
+    useBinVariable = false;
     constructor(path = process.cwd()) {
         super(path);
         this.contents = `# Built from ${path}/package.json`;
@@ -575,20 +569,61 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
             .catch(silent);
         return assign(self, {contents});
     }
-    append(lines = &apos;&apos;) {
+    append(lines = Symbol(&apos;skip&apos;)) {
         const {contents} = this;
-        return this.write(`${contents}\n${lines}`);
+        const shouldSkip = (typeof lines === &apos;symbol&apos;);
+        return shouldSkip ? this : this.write(`${contents}\n${lines}`);
+    }
+    formatTask(value, scripts = {}) {
+        const {path} = this;
+        const formatTaskName = val =&gt; kebabCase(last(val.split(&apos; &apos;)));
+        const replaceNpmRunQuotes = initial =&gt; {
+            const re = /[&apos;&quot;]npm run .[^&quot;]*[&apos;&quot;]/g;
+            const matches = value.match(re);
+            return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; acc.replace(match, `&apos;make ${formatTaskName(match)}&apos;`), initial);
+        };
+        const replaceNpmWithArguments = initial =&gt; {
+            const re = /npm .* -- --.*/g;
+            const matches = value.match(re);
+            return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; {
+                const [commands, options] = match.split(&apos; -- &apos;);
+                const task = last(commands.split(&apos; &apos;));
+                return acc.replace(match, `${scripts[task]} ${options}`);
+            }, initial);
+        };
+        const replaceNpmRunCommands = initial =&gt; {
+            const re = /^npm run .*/g;
+            const matches = value.match(re);
+            return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial);
+        };
+        const format = flow(
+            replaceNpmRunQuotes,
+            replaceNpmWithArguments,
+            replaceNpmRunCommands
+        );
+        const formatted = format(value);
+        const [command] = formatted.split(&apos; &apos;);
+        const useBinVariable = isLocalNpmCommand(command, path);
+        this.useBinVariable = this.useBinVariable || useBinVariable;
+        return `${useBinVariable ? `$(bin)` : &apos;&apos;}${formatted}`;
     }
     /**
      * Add task to Makefile (appended to end)
      * @param {string} name Task name (&quot;build&quot;, &quot;lint&quot;, etc...)
-     * @param {string} [description] Task description used in help task
-     * @param {...string} tasks Lines of code to be executed during task
+     * @param {string[]} tasks Lines of code to be executed during task
+     * @param {object} options Configure task
+     * @param {string} [options.description] Task description used in help task
+     * @param {boolean} [options.silent=false] Prepend &quot;@&quot; (true) or not (false)
      * @return {MakefileEditor} Chaining OK
      */
-    addTask(name, description, ...tasks) {
+    addTask(name, tasks, options = {description: &apos;Task description&apos;}) {
         const self = this;
-        return tasks.reduce((tasks, task) =&gt; tasks.append(`\t${task}`).addTaskDescription(name, description), self.append(`${name}:`));
+        const {scripts} = self;
+        const {description} = options;
+        return tasks.reduce((tasks, action) =&gt; tasks
+            .append(`\t${self.formatTask(action, scripts)}`)
+            .addTaskDescription(name, description)
+        , self.append(`${name}:`));
     }
     addTaskDescription(task, description = &apos;Task description&apos;) {
         const contents = this.contents.replace(`${kebabCase(task)}:\n`, `${kebabCase(task)}: ## ${description}\n`);
@@ -596,7 +631,7 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
     }
     appendHelpTask() {
         const task = `@fgrep -h &quot;##&quot; $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e &apos;s/\\$$//&apos; | sed -e &apos;s/##/\\n    /&apos;`;
-        return this.addTask(&apos;help&apos;, &apos;Show this help&apos;, task);
+        return this.addTask(&apos;help&apos;, [task], {description: &apos;Show this help&apos;});
     }
     addComment(text) {
         return this.append(`# ${text}`);
@@ -611,48 +646,7 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
     appendScripts() {
         const self = this;
         const {path, scripts} = self;
-        const getBinDirectory = path =&gt; {
-            const [packageDirectory] = path.split(&apos;Makefile&apos;);
-            return `${packageDirectory}node_modules/.bin/`;
-        };
-        const isLocalNpmCommand = (command, path = process.cwd()) =&gt; {
-            const [packageDirectory] = path.split(&apos;Makefile&apos;);
-            const pkg = new PackageJsonEditor(packageDirectory);
-            const pkgHasCommmand = pkg.hasAll(command);
-            const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);
-            return pkgHasCommmand || binHasCommand;
-        };
-        const formatTask = value =&gt; {
-            const formatTaskName = val =&gt; kebabCase(last(val.split(&apos; &apos;)));
-            const replaceNpmRunQuotes = initial =&gt; {
-                const re = /[&apos;&quot;]npm run .[^&quot;]*[&apos;&quot;]/g;
-                const matches = value.match(re);
-                return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; acc.replace(match, `&apos;make ${formatTaskName(match)}&apos;`), initial);
-            };
-            const replaceNpmWithArguments = initial =&gt; {
-                const re = /npm .* -- --.*/g;
-                const matches = value.match(re);
-                return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; {
-                    const [commands, options] = match.split(&apos; -- &apos;);
-                    const task = last(commands.split(&apos; &apos;));
-                    return acc.replace(match, `${scripts[task]} ${options}`);
-                }, initial);
-            };
-            const replaceNpmRunCommands = initial =&gt; {
-                const re = /^npm run .*/g;
-                const matches = value.match(re);
-                return isNotArray(matches) ? initial : matches.reduce((acc, match) =&gt; acc.replace(match, `make ${formatTaskName(match)}`), initial);
-            };
-            const format = flow(
-                replaceNpmRunQuotes,
-                replaceNpmWithArguments,
-                replaceNpmRunCommands
-            );
-            const formatted = format(value);
-            const [command] = formatted.split(&apos; &apos;);
-            return `@${isLocalNpmCommand(command, path) ? `$(bin)` : &apos;&apos;}${formatted}`;
-        };
-        const tasks = entries(scripts).map(([key, value]) =&gt; [kebabCase(key), [value].map(formatTask)]);
+        const tasks = entries(scripts).map(([key, value]) =&gt; [kebabCase(key), [value]]);
         const getPreTask = (tasks, name) =&gt; {
             const [data] = tasks
                 .filter(([name]) =&gt; name.startsWith(&apos;pre&apos;))
@@ -667,16 +661,28 @@ export class MakefileEditor extends createModuleEditor(&apos;Makefile&apos;) {
                 .filter(task =&gt; task[0] === name);
             return isArray(data) ? data[1] : [];
         };
-        const usesBinVariable = tasks
-            .map(([, values]) =&gt; values)
-            .map(values =&gt; values.some(name =&gt; /\$\(bin\)/.test(name)))
-            .some(Boolean);
-        usesBinVariable &amp;&amp; self.append(`bin := ${getBinDirectory(path)}`);
         return tasks
             .filter(([name]) =&gt; !(name.startsWith(&apos;pre&apos;) || name.startsWith(&apos;post&apos;)))
             .map(([name, values]) =&gt; [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]])
-            .reduce((tasks, [key, values]) =&gt; tasks.addTask(key, undefined, ...values).append(&apos;&apos;), self.append(&apos;&apos;));
+            .reduce((tasks, [key, values]) =&gt; tasks.addTask(key, values).append(&apos;&apos;), self.append(&apos;&apos;))
+            .append(self.useBinVariable ? `bin := ${getBinDirectory(path)}` : Symbol(&apos;skip&apos;));
     }
+}
+export function getCommandDirectory(command) {
+    const data = which(command);
+    const commandExists = negate(isNull)(data);
+    return commandExists ? data.toString().split(command)[0] : &apos;&apos;;
+}
+export function getBinDirectory(path) {
+    const [packageDirectory] = path.split(&apos;Makefile&apos;);
+    return `${packageDirectory}node_modules/.bin/`;
+}
+export function isLocalNpmCommand(command, path = process.cwd()) {
+    const [packageDirectory] = path.split(&apos;Makefile&apos;);
+    const pkg = new PackageJsonEditor(packageDirectory);
+    const pkgHasCommmand = pkg.hasAll(command);
+    const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);
+    return pkgHasCommmand || binHasCommand;
 }</code></pre>
 
 </div>

@@ -1,4 +1,3 @@
-import delay from 'delay';
 import {join} from 'path';
 import execa from 'execa';
 import {which} from 'shelljs';
@@ -11,9 +10,6 @@ import memFs from 'mem-fs';
 import editor from 'mem-fs-editor';
 import {findBestMatch} from 'string-similarity';
 
-const {assign, entries} = Object;
-const {isArray} = Array;
-const isNotArray = negate(isArray);
 const INDENT_SPACES = 4;
 const PRETTIER_OPTIONS = {
     bracketSpacing: false,
@@ -22,15 +18,10 @@ const PRETTIER_OPTIONS = {
     tabWidth: 4,
     quotes: true
 };
+const {assign, entries} = Object;
+const {isArray} = Array;
+const isNotArray = negate(isArray);
 const parse = data => JSON.parse(JSON.stringify(data));
-// eslint-disable-next-line no-magic-numbers
-export const testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());
-export const isGlobalCommand = value => ['npm', 'echo', 'cat', 'cp', 'rm'].includes(value);
-export const getCommandDirectory = command => {
-    const data = which(command);
-    const commandExists = negate(isNull)(data);
-    return commandExists ? data.toString().split(command)[0] : '';
-};
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -496,10 +487,11 @@ export const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
  * Create and edit Makefiles. Includes ability to import package.json scripts.
  */
 export class MakefileEditor extends createModuleEditor('Makefile') {
+    contents = '';
     scripts = {};
+    useBinVariable = false;
     constructor(path = process.cwd()) {
         super(path);
-        this.contents = `# Built from ${path}/package.json`;
     }
     write(contents) {
         const self = this;
@@ -510,20 +502,66 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
             .catch(silent);
         return assign(self, {contents});
     }
-    append(lines = '') {
+    append(lines = Symbol('skip')) {
         const {contents} = this;
-        return this.write(`${contents}\n${lines}`);
+        const shouldSkip = (typeof lines === 'symbol');
+        return shouldSkip ? this : this.write(`${contents}\n${lines}`);
+    }
+    prepend(lines = Symbol('skip')) {
+        const {contents} = this;
+        const shouldSkip = (typeof lines === 'symbol');
+        return shouldSkip ? this : this.write(`${lines}\n${contents}`);
+    }
+    formatTask(value, scripts = {}) {
+        const {path} = this;
+        const formatTaskName = val => kebabCase(last(val.split(' ')));
+        const replaceNpmRunQuotes = initial => {
+            const re = /['"]npm run .[^"]*['"]/g;
+            const matches = value.match(re);
+            return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `'make ${formatTaskName(match)}'`), initial);
+        };
+        const replaceNpmWithArguments = initial => {
+            const re = /npm .* -- --.*/g;
+            const matches = value.match(re);
+            return isNotArray(matches) ? initial : matches.reduce((acc, match) => {
+                const [commands, options] = match.split(' -- ');
+                const task = last(commands.split(' '));
+                return acc.replace(match, `${scripts[task]} ${options}`);
+            }, initial);
+        };
+        const replaceNpmRunCommands = initial => {
+            const re = /^npm run .*/g;
+            const matches = value.match(re);
+            return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial);
+        };
+        const format = flow(
+            replaceNpmRunQuotes,
+            replaceNpmWithArguments,
+            replaceNpmRunCommands
+        );
+        const formatted = format(value);
+        const [command] = formatted.split(' ');
+        const useBinVariable = isLocalNpmCommand(command, path);
+        this.useBinVariable = this.useBinVariable || useBinVariable;
+        return `${useBinVariable ? `$(bin)` : ''}${formatted}`;
     }
     /**
      * Add task to Makefile (appended to end)
      * @param {string} name Task name ("build", "lint", etc...)
-     * @param {string} [description] Task description used in help task
-     * @param {...string} tasks Lines of code to be executed during task
+     * @param {string[]} tasks Lines of code to be executed during task
+     * @param {object} options Configure task
+     * @param {string} [options.description] Task description used in help task
+     * @param {boolean} [options.silent=false] Prepend "@" (true) or not (false)
      * @return {MakefileEditor} Chaining OK
      */
-    addTask(name, description, ...tasks) {
+    addTask(name, tasks, options = {description: 'Task description'}) {
         const self = this;
-        return tasks.reduce((tasks, task) => tasks.append(`\t${task}`).addTaskDescription(name, description), self.append(`${name}:`));
+        const {scripts} = self;
+        const {description} = options;
+        return tasks.reduce((tasks, action) => tasks
+            .append(`\t${self.formatTask(action, scripts)}`)
+            .addTaskDescription(name, description)
+        , self.append(`${name}:`));
     }
     addTaskDescription(task, description = 'Task description') {
         const contents = this.contents.replace(`${kebabCase(task)}:\n`, `${kebabCase(task)}: ## ${description}\n`);
@@ -531,7 +569,7 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
     }
     appendHelpTask() {
         const task = `@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##/\\n    /'`;
-        return this.addTask('help', 'Show this help', task);
+        return this.addTask('help', [task], {description: 'Show this help'});
     }
     addComment(text) {
         return this.append(`# ${text}`);
@@ -546,48 +584,7 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
     appendScripts() {
         const self = this;
         const {path, scripts} = self;
-        const getBinDirectory = path => {
-            const [packageDirectory] = path.split('Makefile');
-            return `${packageDirectory}node_modules/.bin/`;
-        };
-        const isLocalNpmCommand = (command, path = process.cwd()) => {
-            const [packageDirectory] = path.split('Makefile');
-            const pkg = new PackageJsonEditor(packageDirectory);
-            const pkgHasCommmand = pkg.hasAll(command);
-            const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);
-            return pkgHasCommmand || binHasCommand;
-        };
-        const formatTask = value => {
-            const formatTaskName = val => kebabCase(last(val.split(' ')));
-            const replaceNpmRunQuotes = initial => {
-                const re = /['"]npm run .[^"]*['"]/g;
-                const matches = value.match(re);
-                return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `'make ${formatTaskName(match)}'`), initial);
-            };
-            const replaceNpmWithArguments = initial => {
-                const re = /npm .* -- --.*/g;
-                const matches = value.match(re);
-                return isNotArray(matches) ? initial : matches.reduce((acc, match) => {
-                    const [commands, options] = match.split(' -- ');
-                    const task = last(commands.split(' '));
-                    return acc.replace(match, `${scripts[task]} ${options}`);
-                }, initial);
-            };
-            const replaceNpmRunCommands = initial => {
-                const re = /^npm run .*/g;
-                const matches = value.match(re);
-                return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `make ${formatTaskName(match)}`), initial);
-            };
-            const format = flow(
-                replaceNpmRunQuotes,
-                replaceNpmWithArguments,
-                replaceNpmRunCommands
-            );
-            const formatted = format(value);
-            const [command] = formatted.split(' ');
-            return `@${isLocalNpmCommand(command, path) ? `$(bin)` : ''}${formatted}`;
-        };
-        const tasks = entries(scripts).map(([key, value]) => [kebabCase(key), [value].map(formatTask)]);
+        const tasks = entries(scripts).map(([key, value]) => [kebabCase(key), [value]]);
         const getPreTask = (tasks, name) => {
             const [data] = tasks
                 .filter(([name]) => name.startsWith('pre'))
@@ -602,14 +599,27 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
                 .filter(task => task[0] === name);
             return isArray(data) ? data[1] : [];
         };
-        const usesBinVariable = tasks
-            .map(([, values]) => values)
-            .map(values => values.some(name => /\$\(bin\)/.test(name)))
-            .some(Boolean);
-        usesBinVariable && self.append(`bin := ${getBinDirectory(path)}`);
         return tasks
             .filter(([name]) => !(name.startsWith('pre') || name.startsWith('post')))
             .map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]])
-            .reduce((tasks, [key, values]) => tasks.addTask(key, undefined, ...values).append(''), self.append(''));
+            .reduce((tasks, [key, values]) => tasks.addTask(key, values).append(''), self.append(''))
+            .prepend(self.useBinVariable ? `bin := ${getBinDirectory(path)}` : Symbol('skip'))
+            .prepend(`# Built from ${path}/package.json`);
     }
+}
+export function getCommandDirectory(command) {
+    const data = which(command);
+    const commandExists = negate(isNull)(data);
+    return commandExists ? data.toString().split(command)[0] : '';
+}
+export function getBinDirectory(path) {
+    const [packageDirectory] = path.split('Makefile');
+    return `${packageDirectory}node_modules/.bin/`;
+}
+export function isLocalNpmCommand(command, path = process.cwd()) {
+    const [packageDirectory] = path.split('Makefile');
+    const pkg = new PackageJsonEditor(packageDirectory);
+    const pkgHasCommmand = pkg.hasAll(command);
+    const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);
+    return pkgHasCommmand || binHasCommand;
 }

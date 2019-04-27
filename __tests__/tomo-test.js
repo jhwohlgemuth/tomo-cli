@@ -6,9 +6,12 @@ import rimraf from 'rimraf';
 import dirTree from 'directory-tree';
 import {omit} from 'lodash';
 import Queue from 'p-queue';
+import delay from 'delay';
 import {populateQueue} from '../src/ui';
 import {format} from '../src/utils';
 
+// eslint-disable-next-line no-magic-numbers
+export const testAsyncFunction = () => async ({ skipInstall }) => await delay(skipInstall ? 0 : 1000 * Math.random());
 const createTemporaryDirectory = async () => {
     const tempDir = join(tmpdir(), `tomo-test-${crypto.randomBytes(20).toString('hex')}`);// eslint-disable-line no-magic-numbers
     await mkdirp(tempDir);
