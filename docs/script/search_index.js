@@ -246,12 +246,6 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~isglobalcommand",
-    "function/index.html#static-function-isGlobalCommand",
-    "<span>isGlobalCommand</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
-    "function"
-  ],
-  [
     "tomo-cli/src/utils.js~islocalnpmcommand",
     "function/index.html#static-function-isLocalNpmCommand",
     "<span>isLocalNpmCommand</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
@@ -1083,6 +1077,12 @@ window.esdocSearchIndex = [
     "src/utils.js~makefileeditor#importscripts",
     "class/src/utils.js~MakefileEditor.html#instance-method-importScripts",
     "src/utils.js~MakefileEditor#importScripts",
+    "method"
+  ],
+  [
+    "src/utils.js~makefileeditor#prepend",
+    "class/src/utils.js~MakefileEditor.html#instance-method-prepend",
+    "src/utils.js~MakefileEditor#prepend",
     "method"
   ],
   [

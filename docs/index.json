@@ -2245,7 +2245,7 @@
     "__docId__": 125,
     "kind": "file",
     "name": "src/utils.js",
-    "content": "import {join} from 'path';\nimport execa from 'execa';\nimport {which} from 'shelljs';\nimport semver from 'semver';\nimport Queue from 'p-queue';\nimport prettier from 'prettier';\nimport {first, flow, isNull, kebabCase, last, merge, negate} from 'lodash';\nimport {existsSync, pathExists, pathExistsSync} from 'fs-extra';\nimport memFs from 'mem-fs';\nimport editor from 'mem-fs-editor';\nimport {findBestMatch} from 'string-similarity';\n\nconst {assign, entries} = Object;\nconst {isArray} = Array;\nconst isNotArray = negate(isArray);\nconst INDENT_SPACES = 4;\nconst PRETTIER_OPTIONS = {\n    bracketSpacing: false,\n    parser: 'json-stringify',\n    printWidth: 80,\n    tabWidth: 4,\n    quotes: true\n};\nconst parse = data => JSON.parse(JSON.stringify(data));\nexport const isGlobalCommand = value => ['npm', 'echo', 'cat', 'cp', 'rm'].includes(value);\n/**\n * Check that at least one file or files exist\n * @param  {...string} args File or folder path(s)\n * @example\n * // some/folder/\n * //   ├─ foo.js\n * //   └── bar.js\n * const hasFoo = someDoExist('some/folder/foo.js');\n * const hasBaz = someDoExist('some/folder/baz.js');\n * const hasSomething = someDoExist('some/folder/bar.js', 'some/folder/baz.js');\n * console.log(hasFoo); // true\n * console.log(hasBaz); // false\n * console.log(hasSomething); // true\n * @return {boolean} Some files/path do exist (true) or all do not exist (false)\n */\nexport const someDoExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.some(Boolean);\n};\n/**\n * Check that at least one file or files exist (synchronous version of {@link someDoExist})\n * @param  {...string} args File or folder path(s)\n * @return {boolean} Some files/path do exist (true) or all do not exist (false)\n */\nexport const someDoExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).some(Boolean);\n/**\n * Check that all files exist\n * @param  {...string} args File of folder paths\n * @return {boolean} All files/paths exist (true) or do not (false)\n */\nexport const allDoExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.every(Boolean);\n};\n/**\n * Check that all files exist (synchronous version of {@link allDoExist})\n * @param  {...string} args File of folder paths\n * @return {boolean} All files/paths exist (true) or do not (false)\n */\nexport const allDoExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).every(Boolean);\n/**\n * Check that all files do not exist\n * @example\n * // some/folder/\n * //   ├─ foo.js\n * //   └── bar.js\n * const noPackageJson = allDoNotExist('some/folder/package.json');\n * console.log(noPackageJson); // true\n * @param  {...string} args File or folder path(s)\n * @return {boolean} All files/paths do not exist (true) or some do (false)\n */\nexport const allDoNotExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.every(val => !val);\n};\n/**\n * Check that all files do not exist (synchronous version of {@link allDoNotExist})\n * @param  {...string} args File or folder path(s)\n * @return {boolean} All files/paths do not exist (true) or some do (false)\n */\nexport const allDoNotExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).every(val => !val);\n/**\n * Format input code using Prettier\n * @param {*} [code=''] Code to be formatted\n * @example <caption>Prettier options</caption>\n * {\n *     bracketSpacing: false,\n *     parser: 'json-stringify',\n *     printWidth: 80,\n *     tabWidth: 4,\n *     quotes: true\n * }\n * @return {string} Code formatted by Prettier\n */\nexport const format = (code = {}) => prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/\"/g, '');\n/**\n * Use string-similarity module to determine closest matching string\n * @param {Object} commands Object with commands as key values, terms as key values for each command object\n * @param {string} command Command string input\n * @param {string[]} [terms=[]] Terms input\n * @example\n * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);\n * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)\n */\nexport const getIntendedInput = (commands, command, terms = []) => {\n    const VALID_COMMANDS = Object.keys(commands);\n    const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);\n    const VALID_TERMS = Object.keys(commands[intendedCommand]);\n    const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);\n    return [intendedCommand, intendedTerms];\n};\n/**\n * Use npm CLI to return array of module versions\n * @param {string} name npm module name\n * @example\n * const versions = getVersions('react');\n * @return {string[]} Array of versions\n */\nexport const getVersions = async (name = '') => (name.length === 0) ? [] : (await execa('npm', ['view', name, 'versions']))\n    .stdout\n    .split(',\\n')\n    .map(str => str.match(/\\d+[.]\\d+[.]\\d+/))\n    .map(first)\n    .map(semver.valid)\n    .filter(Boolean);\n/**\n * Install dependencies with npm\n * @param {string[]} [dependencies=[]] Modules to install\n * @param {Object} options Options to configure installation\n * @param {boolean} [options.dev=false] If true, add \"--save-dev\"\n * @param {boolean} [options.latest=true] If true, add \"@latest\" to all module names\n * @param {boolean} [options.skipInstall=false] Do not install (mostly for testing)\n * @example <caption>Install production dependencies</caption>\n * install(['react']);\n * @example <caption>Install development dependencies</caption>\n * install(['jest', 'babel-jest'], {dev: true});\n * @return {string[]} Array of inputs (mostly for testing)\n */\nexport const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) => {\n    const {dev, latest, skipInstall} = options;\n    const identity = i => i;\n    const concat = val => str => str + val;\n    const args = ['install']\n        .concat(dependencies.map(latest ? concat('@latest') : identity))\n        .concat(dev ? '--save-dev' : []);\n    skipInstall || await execa('npm', args);\n    return args;\n};\n/**\n * Determine if system supports Rust (necessary Rust dependencies are installed)\n * @return {boolean} Are Rust components installed?\n */\nexport const verifyRustInstallation = () => {\n\n};\nconst silent = () => { };\n/**\n * Base class to serve as base for JSON and module builder classes\n */\nexport class BasicEditor {\n    constructor() {\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {fs, queue});\n    }\n    /**\n     *\n     * @param {string} destination Destination to copy file\n     * @return {BasicEditor} Chaining OK\n     */\n    copy(destination) {\n        const self = this;\n        const {fs, path, queue} = self;\n        const [filename] = path.split('/').reverse();\n        queue.add(() => fs.copy(path, join(destination, filename)));\n        return self;\n    }\n    /**\n     * @return {BasicEditor} Chaining OK\n     */\n    delete() {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.delete(path));\n        return self;\n    }\n    done() {\n        return this.queue.onEmpty();\n    }\n    /**\n     * Write changes to disk\n     * @return {Promise} Resolves when queue is empty\n     */\n    async commit() {\n        const {fs} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await this.done();\n    }\n}\n/**\n * Create and edit a JSON file with a fluent API\n * @param {string} filename Name of file to edit\n * @param {object} [contents={}] Contents of file\n * @return {JsonEditor} JsonEditor class (extends {@link BasicEditor})\n */\nexport const createJsonEditor = (filename, contents = {}) => class JsonEditor extends BasicEditor {\n    contents = contents;\n    constructor(cwd = process.cwd()) {\n        super();\n        const path = join(cwd, filename);\n        assign(this, {path});\n    }\n    create() {\n        const self = this;\n        const {contents, fs, path, queue} = self;\n        existsSync(path) || queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.readJSON(path) || '';\n    }\n    extend(contents) {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));\n        return self;\n    }\n    /**\n     * Check if package.json manifest file has dependencies (dependencies or devDependencies)\n     * @param  {...string} modules npm module names\n     * @return {Boolean} Has at least one dependency (true) or none (false)\n     */\n    hasSome(...modules) {\n        const {keys} = Object;\n        const pkg = this.read();\n        const {dependencies, devDependencies} = parse(pkg);\n        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];\n        return modules.some(module => installed.includes(module));\n    }\n    /**\n     * Check if package.json manifest file has dependencies (dependencies or devDependencies)\n     * @param  {...string} modules npm module names\n     * @return {Boolean} Has all dependencies (true) or not all (false)\n     */\n    hasAll(...modules) {\n        const {keys} = Object;\n        const pkg = this.read();\n        const {dependencies, devDependencies} = parse(pkg);\n        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];\n        return modules.every(module => installed.includes(module));\n    }\n};\n/**\n * Create and edit a JS module with a fluent API\n * @param {string} filename Name of file to edit\n * @param {string} [contents='module.exports = {};'] Contents of file\n * @param {string} [prependedContents=''] Content prepended to top of file\n * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})\n */\nexport const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => class ModuleEditor extends BasicEditor {\n    contents = contents;\n    prependedContents = prependedContents;\n    created = false;\n    constructor(cwd = process.cwd()) {\n        super();\n        const path = join(cwd, filename);\n        assign(this, {path});\n    }\n    create() {\n        const self = this;\n        const {contents, path} = self;\n        self.created || (existsSync(path) || self.write(contents));\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.exists(path) ? fs.read(path) : '';\n    }\n    write(contents) {\n        const self = this;\n        const {fs, path, prependedContents, queue} = self;\n        const formatted = `${prependedContents}module.exports = ${format(contents)}`.replace(/\\r*\\n$/g, ';');\n        queue\n            .add(() => fs.write(path, formatted))\n            .then(() => self.created = existsSync(path))\n            .catch(silent);\n        return assign(self, {contents});\n    }\n    extend(code) {\n        this.contents = merge(contents, code);\n        this.write(this.contents);\n        return this;\n    }\n    prepend(code) {\n        const self = this;\n        const {contents, prependedContents} = self;\n        self.prependedContents = `${code}\\n${prependedContents}`.replace(/\\n*$/, '\\n\\n');\n        return self.write(contents);\n    }\n};\n/**\n * Class to create scaffolders when creating folders, and copying files/templates\n * @example\n * import {Scaffolder} from './utils';\n * const scaffolder = new Scaffolder();\n * await scaffolder\n *     .target('/path/to/copy/files')\n *     .copy('foo.js')\n *     .copy('bar.js')\n *     .commit();\n */\nexport class Scaffolder {\n    /**\n     *\n     * @param {Object} options Scaffolding options\n     * @param {string} options.sourceDirectory Source directory for template files\n     */\n    constructor(options = {sourceDirectory: join(__dirname, 'templates')}) {\n        const {sourceDirectory} = options;\n        const targetDirectory = './';\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {fs, queue, sourceDirectory, targetDirectory});\n    }\n    /**\n     * Set source directory\n     * @param {string} sourceDirectory Source directory of template files\n     * @returns {Scaffolder} Chaining OK\n     */\n    source(sourceDirectory) {\n        return assign(this, {sourceDirectory});\n    }\n    /**\n     * Set target directory\n     * @param {string} targetDirectory Target directory of template files\n     * @returns {Scaffolder} Chaining OK\n     */\n    target(targetDirectory) {\n        return assign(this, {targetDirectory});\n    }\n    /**\n     * Copy a file\n     * @param {string} path Path string of file to be copied\n     * @returns {Scaffolder} Chaining OK\n     */\n    copy(path) {\n        const self = this;\n        const {fs, queue, sourceDirectory, targetDirectory} = self;\n        const source = join(sourceDirectory, path);\n        const target = join(process.cwd(), targetDirectory, ...path.split('/'));\n        queue.add(() => fs.copy(source, target)).catch(silent);\n        return self;\n    }\n    /**\n     * Write changes to disk\n     * @return {Promise} Resolves when queue is empty\n     */\n    async commit() {\n        const {fs, queue} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await queue.onEmpty();\n    }\n}\n/**\n * Create and edit a Babel.js configuration file with a fluent API\n * @type {ModuleEditor}\n * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>\n * const cfg = new BabelConfigModuleEditor();\n * await cfg\n *     .create()\n *     .extend({\n *         presets: [`'@babel/preset-env'`]\n *     })\n *     .prepend(`const {existsSync} = require('fs-extra');`)\n *     .commit();\n */\nexport const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {\n    plugins: [\n        `'@babel/plugin-transform-runtime'`,\n        `'@babel/plugin-proposal-class-properties'`,\n        `'@babel/plugin-proposal-export-default-from'`,\n        `'@babel/plugin-proposal-optional-chaining'`\n    ],\n    presets: [`'@babel/preset-env'`]\n});\n/**\n * Create and edit an ESLint configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new EslintConfigModuleEditor();\n * await cfg.create().commit();\n */\nexport const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {\n    env: {\n        es6: true,\n        jest: true\n    },\n    extends: [\n        `'omaha-prime-grade'`\n    ],\n    parser: `'babel-eslint'`\n});\n/**\n * Create and edit a package.json manifest file with a fluent API\n * @type {JsonEditor}\n * @example <caption>Create a new package.json</caption>\n * const pkg = new PackageJsonEditor();\n * await pkg.create().commit();\n * @example <caption>Create a new package.json and read its contents (chaining OK)</caption>\n * const pkg = new PackageJsonEditor();\n * const contents = pkg.create().read();\n * @example <caption>Extend a package.json</caption>\n * const script = {test: 'jest --coverage'};\n * await pkg.extend({script}).commit();\n * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>\n * const script = {\n *     lint: 'eslint index.js -c ./.eslintrc.js'\n * };\n * await pkg\n *     .create(false)\n *     .extend({script}, false)\n *     .commit();\n */\nexport const PackageJsonEditor = createJsonEditor('package.json', {\n    name: 'my-project',\n    version: '0.0.0',\n    description: 'A super cool app/server/tool/library/widget/thingy',\n    license: 'MIT',\n    keywords: []\n});\n/**\n * Create and edit an PostCSS configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new PostcssConfigEditor();\n * await cfg.create().commit();\n */\nexport const PostcssConfigEditor = createModuleEditor('postcss.config.js', {\n    parser: `require('postcss-safe-parser')`,\n    processors: [\n        `require('stylelint')()`,\n        `require('postcss-import')()`,\n        `require('postcss-cssnext')()`,\n        `require('uncss').postcssPlugin({html: ['index.html']})`,\n        `require('cssnano')()`,\n        `require('postcss-reporter')({clearReportedMessages: true})`\n    ]\n});\n/**\n * Create and edit a Webpack configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new WebpackConfigEditor();\n * await cfg.create().commit();\n */\nexport const WebpackConfigEditor = createModuleEditor('webpack.config.js', {\n    mode: `'development'`,\n    entry: {\n        app: `'./src/main.js'`\n    },\n    output: {\n        path: `resolve('./dist')`,\n        filename: `'bundle.min.js'`\n    },\n    module: {\n        rules: [\n            {\n                test: `/\\.js?$/`,\n                exclude: `/node_modules/`,\n                loader: `'babel-loader'`,\n                query: {\n                    presets: [`'@babel/env'`]\n                }\n            }\n        ]\n    },\n    plugins: [\n        `new DashboardPlugin()`\n    ]\n});\n/**\n * Create and edit Makefiles. Includes ability to import package.json scripts.\n */\nexport class MakefileEditor extends createModuleEditor('Makefile') {\n    scripts = {};\n    useBinVariable = false;\n    constructor(path = process.cwd()) {\n        super(path);\n        this.contents = `# Built from ${path}/package.json`;\n    }\n    write(contents) {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue\n            .add(() => fs.write(path, contents))\n            .then(() => self.created = existsSync(path))\n            .catch(silent);\n        return assign(self, {contents});\n    }\n    append(lines = Symbol('skip')) {\n        const {contents} = this;\n        const shouldSkip = (typeof lines === 'symbol');\n        return shouldSkip ? this : this.write(`${contents}\\n${lines}`);\n    }\n    formatTask(value, scripts = {}) {\n        const {path} = this;\n        const formatTaskName = val => kebabCase(last(val.split(' ')));\n        const replaceNpmRunQuotes = initial => {\n            const re = /['\"]npm run .[^\"]*['\"]/g;\n            const matches = value.match(re);\n            return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `'make ${formatTaskName(match)}'`), initial);\n        };\n        const replaceNpmWithArguments = initial => {\n            const re = /npm .* -- --.*/g;\n            const matches = value.match(re);\n            return isNotArray(matches) ? initial : matches.reduce((acc, match) => {\n                const [commands, options] = match.split(' -- ');\n                const task = last(commands.split(' '));\n                return acc.replace(match, `${scripts[task]} ${options}`);\n            }, initial);\n        };\n        const replaceNpmRunCommands = initial => {\n            const re = /^npm run .*/g;\n            const matches = value.match(re);\n            return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial);\n        };\n        const format = flow(\n            replaceNpmRunQuotes,\n            replaceNpmWithArguments,\n            replaceNpmRunCommands\n        );\n        const formatted = format(value);\n        const [command] = formatted.split(' ');\n        const useBinVariable = isLocalNpmCommand(command, path);\n        this.useBinVariable = this.useBinVariable || useBinVariable;\n        return `${useBinVariable ? `$(bin)` : ''}${formatted}`;\n    }\n    /**\n     * Add task to Makefile (appended to end)\n     * @param {string} name Task name (\"build\", \"lint\", etc...)\n     * @param {string[]} tasks Lines of code to be executed during task\n     * @param {object} options Configure task\n     * @param {string} [options.description] Task description used in help task\n     * @param {boolean} [options.silent=false] Prepend \"@\" (true) or not (false)\n     * @return {MakefileEditor} Chaining OK\n     */\n    addTask(name, tasks, options = {description: 'Task description'}) {\n        const self = this;\n        const {scripts} = self;\n        const {description} = options;\n        return tasks.reduce((tasks, action) => tasks\n            .append(`\\t${self.formatTask(action, scripts)}`)\n            .addTaskDescription(name, description)\n        , self.append(`${name}:`));\n    }\n    addTaskDescription(task, description = 'Task description') {\n        const contents = this.contents.replace(`${kebabCase(task)}:\\n`, `${kebabCase(task)}: ## ${description}\\n`);\n        return this.write(contents);\n    }\n    appendHelpTask() {\n        const task = `@fgrep -h \"##\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'`;\n        return this.addTask('help', [task], {description: 'Show this help'});\n    }\n    addComment(text) {\n        return this.append(`# ${text}`);\n    }\n    importScripts() {\n        const {path} = this;\n        const [packageDirectory] = path.split('Makefile');\n        const pkg = (new PackageJsonEditor(packageDirectory)).read();\n        const {scripts} = parse(pkg);\n        return assign(this, {scripts});\n    }\n    appendScripts() {\n        const self = this;\n        const {path, scripts} = self;\n        const tasks = entries(scripts).map(([key, value]) => [kebabCase(key), [value]]);\n        const getPreTask = (tasks, name) => {\n            const [data] = tasks\n                .filter(([name]) => name.startsWith('pre'))\n                .map(([name, values]) => [name.substring('pre'.length), values])\n                .filter(task => task[0] === name);\n            return isArray(data) ? data[1] : [];\n        };\n        const getPostTask = (tasks, name) => {\n            const [data] = tasks\n                .filter(([name]) => name.startsWith('post'))\n                .map(([name, values]) => [name.substring('post'.length), values])\n                .filter(task => task[0] === name);\n            return isArray(data) ? data[1] : [];\n        };\n        return tasks\n            .filter(([name]) => !(name.startsWith('pre') || name.startsWith('post')))\n            .map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]])\n            .reduce((tasks, [key, values]) => tasks.addTask(key, values).append(''), self.append(''))\n            .append(self.useBinVariable ? `bin := ${getBinDirectory(path)}` : Symbol('skip'));\n    }\n}\nexport function getCommandDirectory(command) {\n    const data = which(command);\n    const commandExists = negate(isNull)(data);\n    return commandExists ? data.toString().split(command)[0] : '';\n}\nexport function getBinDirectory(path) {\n    const [packageDirectory] = path.split('Makefile');\n    return `${packageDirectory}node_modules/.bin/`;\n}\nexport function isLocalNpmCommand(command, path = process.cwd()) {\n    const [packageDirectory] = path.split('Makefile');\n    const pkg = new PackageJsonEditor(packageDirectory);\n    const pkgHasCommmand = pkg.hasAll(command);\n    const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);\n    return pkgHasCommmand || binHasCommand;\n}",
+    "content": "import {join} from 'path';\nimport execa from 'execa';\nimport {which} from 'shelljs';\nimport semver from 'semver';\nimport Queue from 'p-queue';\nimport prettier from 'prettier';\nimport {first, flow, isNull, kebabCase, last, merge, negate} from 'lodash';\nimport {existsSync, pathExists, pathExistsSync} from 'fs-extra';\nimport memFs from 'mem-fs';\nimport editor from 'mem-fs-editor';\nimport {findBestMatch} from 'string-similarity';\n\nconst INDENT_SPACES = 4;\nconst PRETTIER_OPTIONS = {\n    bracketSpacing: false,\n    parser: 'json-stringify',\n    printWidth: 80,\n    tabWidth: 4,\n    quotes: true\n};\nconst {assign, entries} = Object;\nconst {isArray} = Array;\nconst isNotArray = negate(isArray);\nconst parse = data => JSON.parse(JSON.stringify(data));\n/**\n * Check that at least one file or files exist\n * @param  {...string} args File or folder path(s)\n * @example\n * // some/folder/\n * //   ├─ foo.js\n * //   └── bar.js\n * const hasFoo = someDoExist('some/folder/foo.js');\n * const hasBaz = someDoExist('some/folder/baz.js');\n * const hasSomething = someDoExist('some/folder/bar.js', 'some/folder/baz.js');\n * console.log(hasFoo); // true\n * console.log(hasBaz); // false\n * console.log(hasSomething); // true\n * @return {boolean} Some files/path do exist (true) or all do not exist (false)\n */\nexport const someDoExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.some(Boolean);\n};\n/**\n * Check that at least one file or files exist (synchronous version of {@link someDoExist})\n * @param  {...string} args File or folder path(s)\n * @return {boolean} Some files/path do exist (true) or all do not exist (false)\n */\nexport const someDoExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).some(Boolean);\n/**\n * Check that all files exist\n * @param  {...string} args File of folder paths\n * @return {boolean} All files/paths exist (true) or do not (false)\n */\nexport const allDoExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.every(Boolean);\n};\n/**\n * Check that all files exist (synchronous version of {@link allDoExist})\n * @param  {...string} args File of folder paths\n * @return {boolean} All files/paths exist (true) or do not (false)\n */\nexport const allDoExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).every(Boolean);\n/**\n * Check that all files do not exist\n * @example\n * // some/folder/\n * //   ├─ foo.js\n * //   └── bar.js\n * const noPackageJson = allDoNotExist('some/folder/package.json');\n * console.log(noPackageJson); // true\n * @param  {...string} args File or folder path(s)\n * @return {boolean} All files/paths do not exist (true) or some do (false)\n */\nexport const allDoNotExist = async (...args) => {\n    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));\n    return checks.every(val => !val);\n};\n/**\n * Check that all files do not exist (synchronous version of {@link allDoNotExist})\n * @param  {...string} args File or folder path(s)\n * @return {boolean} All files/paths do not exist (true) or some do (false)\n */\nexport const allDoNotExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).every(val => !val);\n/**\n * Format input code using Prettier\n * @param {*} [code=''] Code to be formatted\n * @example <caption>Prettier options</caption>\n * {\n *     bracketSpacing: false,\n *     parser: 'json-stringify',\n *     printWidth: 80,\n *     tabWidth: 4,\n *     quotes: true\n * }\n * @return {string} Code formatted by Prettier\n */\nexport const format = (code = {}) => prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/\"/g, '');\n/**\n * Use string-similarity module to determine closest matching string\n * @param {Object} commands Object with commands as key values, terms as key values for each command object\n * @param {string} command Command string input\n * @param {string[]} [terms=[]] Terms input\n * @example\n * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);\n * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)\n */\nexport const getIntendedInput = (commands, command, terms = []) => {\n    const VALID_COMMANDS = Object.keys(commands);\n    const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);\n    const VALID_TERMS = Object.keys(commands[intendedCommand]);\n    const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);\n    return [intendedCommand, intendedTerms];\n};\n/**\n * Use npm CLI to return array of module versions\n * @param {string} name npm module name\n * @example\n * const versions = getVersions('react');\n * @return {string[]} Array of versions\n */\nexport const getVersions = async (name = '') => (name.length === 0) ? [] : (await execa('npm', ['view', name, 'versions']))\n    .stdout\n    .split(',\\n')\n    .map(str => str.match(/\\d+[.]\\d+[.]\\d+/))\n    .map(first)\n    .map(semver.valid)\n    .filter(Boolean);\n/**\n * Install dependencies with npm\n * @param {string[]} [dependencies=[]] Modules to install\n * @param {Object} options Options to configure installation\n * @param {boolean} [options.dev=false] If true, add \"--save-dev\"\n * @param {boolean} [options.latest=true] If true, add \"@latest\" to all module names\n * @param {boolean} [options.skipInstall=false] Do not install (mostly for testing)\n * @example <caption>Install production dependencies</caption>\n * install(['react']);\n * @example <caption>Install development dependencies</caption>\n * install(['jest', 'babel-jest'], {dev: true});\n * @return {string[]} Array of inputs (mostly for testing)\n */\nexport const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) => {\n    const {dev, latest, skipInstall} = options;\n    const identity = i => i;\n    const concat = val => str => str + val;\n    const args = ['install']\n        .concat(dependencies.map(latest ? concat('@latest') : identity))\n        .concat(dev ? '--save-dev' : []);\n    skipInstall || await execa('npm', args);\n    return args;\n};\n/**\n * Determine if system supports Rust (necessary Rust dependencies are installed)\n * @return {boolean} Are Rust components installed?\n */\nexport const verifyRustInstallation = () => {\n\n};\nconst silent = () => { };\n/**\n * Base class to serve as base for JSON and module builder classes\n */\nexport class BasicEditor {\n    constructor() {\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {fs, queue});\n    }\n    /**\n     *\n     * @param {string} destination Destination to copy file\n     * @return {BasicEditor} Chaining OK\n     */\n    copy(destination) {\n        const self = this;\n        const {fs, path, queue} = self;\n        const [filename] = path.split('/').reverse();\n        queue.add(() => fs.copy(path, join(destination, filename)));\n        return self;\n    }\n    /**\n     * @return {BasicEditor} Chaining OK\n     */\n    delete() {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.delete(path));\n        return self;\n    }\n    done() {\n        return this.queue.onEmpty();\n    }\n    /**\n     * Write changes to disk\n     * @return {Promise} Resolves when queue is empty\n     */\n    async commit() {\n        const {fs} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await this.done();\n    }\n}\n/**\n * Create and edit a JSON file with a fluent API\n * @param {string} filename Name of file to edit\n * @param {object} [contents={}] Contents of file\n * @return {JsonEditor} JsonEditor class (extends {@link BasicEditor})\n */\nexport const createJsonEditor = (filename, contents = {}) => class JsonEditor extends BasicEditor {\n    contents = contents;\n    constructor(cwd = process.cwd()) {\n        super();\n        const path = join(cwd, filename);\n        assign(this, {path});\n    }\n    create() {\n        const self = this;\n        const {contents, fs, path, queue} = self;\n        existsSync(path) || queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.readJSON(path) || '';\n    }\n    extend(contents) {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));\n        return self;\n    }\n    /**\n     * Check if package.json manifest file has dependencies (dependencies or devDependencies)\n     * @param  {...string} modules npm module names\n     * @return {Boolean} Has at least one dependency (true) or none (false)\n     */\n    hasSome(...modules) {\n        const {keys} = Object;\n        const pkg = this.read();\n        const {dependencies, devDependencies} = parse(pkg);\n        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];\n        return modules.some(module => installed.includes(module));\n    }\n    /**\n     * Check if package.json manifest file has dependencies (dependencies or devDependencies)\n     * @param  {...string} modules npm module names\n     * @return {Boolean} Has all dependencies (true) or not all (false)\n     */\n    hasAll(...modules) {\n        const {keys} = Object;\n        const pkg = this.read();\n        const {dependencies, devDependencies} = parse(pkg);\n        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];\n        return modules.every(module => installed.includes(module));\n    }\n};\n/**\n * Create and edit a JS module with a fluent API\n * @param {string} filename Name of file to edit\n * @param {string} [contents='module.exports = {};'] Contents of file\n * @param {string} [prependedContents=''] Content prepended to top of file\n * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})\n */\nexport const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => class ModuleEditor extends BasicEditor {\n    contents = contents;\n    prependedContents = prependedContents;\n    created = false;\n    constructor(cwd = process.cwd()) {\n        super();\n        const path = join(cwd, filename);\n        assign(this, {path});\n    }\n    create() {\n        const self = this;\n        const {contents, path} = self;\n        self.created || (existsSync(path) || self.write(contents));\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.exists(path) ? fs.read(path) : '';\n    }\n    write(contents) {\n        const self = this;\n        const {fs, path, prependedContents, queue} = self;\n        const formatted = `${prependedContents}module.exports = ${format(contents)}`.replace(/\\r*\\n$/g, ';');\n        queue\n            .add(() => fs.write(path, formatted))\n            .then(() => self.created = existsSync(path))\n            .catch(silent);\n        return assign(self, {contents});\n    }\n    extend(code) {\n        this.contents = merge(contents, code);\n        this.write(this.contents);\n        return this;\n    }\n    prepend(code) {\n        const self = this;\n        const {contents, prependedContents} = self;\n        self.prependedContents = `${code}\\n${prependedContents}`.replace(/\\n*$/, '\\n\\n');\n        return self.write(contents);\n    }\n};\n/**\n * Class to create scaffolders when creating folders, and copying files/templates\n * @example\n * import {Scaffolder} from './utils';\n * const scaffolder = new Scaffolder();\n * await scaffolder\n *     .target('/path/to/copy/files')\n *     .copy('foo.js')\n *     .copy('bar.js')\n *     .commit();\n */\nexport class Scaffolder {\n    /**\n     *\n     * @param {Object} options Scaffolding options\n     * @param {string} options.sourceDirectory Source directory for template files\n     */\n    constructor(options = {sourceDirectory: join(__dirname, 'templates')}) {\n        const {sourceDirectory} = options;\n        const targetDirectory = './';\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {fs, queue, sourceDirectory, targetDirectory});\n    }\n    /**\n     * Set source directory\n     * @param {string} sourceDirectory Source directory of template files\n     * @returns {Scaffolder} Chaining OK\n     */\n    source(sourceDirectory) {\n        return assign(this, {sourceDirectory});\n    }\n    /**\n     * Set target directory\n     * @param {string} targetDirectory Target directory of template files\n     * @returns {Scaffolder} Chaining OK\n     */\n    target(targetDirectory) {\n        return assign(this, {targetDirectory});\n    }\n    /**\n     * Copy a file\n     * @param {string} path Path string of file to be copied\n     * @returns {Scaffolder} Chaining OK\n     */\n    copy(path) {\n        const self = this;\n        const {fs, queue, sourceDirectory, targetDirectory} = self;\n        const source = join(sourceDirectory, path);\n        const target = join(process.cwd(), targetDirectory, ...path.split('/'));\n        queue.add(() => fs.copy(source, target)).catch(silent);\n        return self;\n    }\n    /**\n     * Write changes to disk\n     * @return {Promise} Resolves when queue is empty\n     */\n    async commit() {\n        const {fs, queue} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await queue.onEmpty();\n    }\n}\n/**\n * Create and edit a Babel.js configuration file with a fluent API\n * @type {ModuleEditor}\n * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>\n * const cfg = new BabelConfigModuleEditor();\n * await cfg\n *     .create()\n *     .extend({\n *         presets: [`'@babel/preset-env'`]\n *     })\n *     .prepend(`const {existsSync} = require('fs-extra');`)\n *     .commit();\n */\nexport const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {\n    plugins: [\n        `'@babel/plugin-transform-runtime'`,\n        `'@babel/plugin-proposal-class-properties'`,\n        `'@babel/plugin-proposal-export-default-from'`,\n        `'@babel/plugin-proposal-optional-chaining'`\n    ],\n    presets: [`'@babel/preset-env'`]\n});\n/**\n * Create and edit an ESLint configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new EslintConfigModuleEditor();\n * await cfg.create().commit();\n */\nexport const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {\n    env: {\n        es6: true,\n        jest: true\n    },\n    extends: [\n        `'omaha-prime-grade'`\n    ],\n    parser: `'babel-eslint'`\n});\n/**\n * Create and edit a package.json manifest file with a fluent API\n * @type {JsonEditor}\n * @example <caption>Create a new package.json</caption>\n * const pkg = new PackageJsonEditor();\n * await pkg.create().commit();\n * @example <caption>Create a new package.json and read its contents (chaining OK)</caption>\n * const pkg = new PackageJsonEditor();\n * const contents = pkg.create().read();\n * @example <caption>Extend a package.json</caption>\n * const script = {test: 'jest --coverage'};\n * await pkg.extend({script}).commit();\n * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>\n * const script = {\n *     lint: 'eslint index.js -c ./.eslintrc.js'\n * };\n * await pkg\n *     .create(false)\n *     .extend({script}, false)\n *     .commit();\n */\nexport const PackageJsonEditor = createJsonEditor('package.json', {\n    name: 'my-project',\n    version: '0.0.0',\n    description: 'A super cool app/server/tool/library/widget/thingy',\n    license: 'MIT',\n    keywords: []\n});\n/**\n * Create and edit an PostCSS configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new PostcssConfigEditor();\n * await cfg.create().commit();\n */\nexport const PostcssConfigEditor = createModuleEditor('postcss.config.js', {\n    parser: `require('postcss-safe-parser')`,\n    processors: [\n        `require('stylelint')()`,\n        `require('postcss-import')()`,\n        `require('postcss-cssnext')()`,\n        `require('uncss').postcssPlugin({html: ['index.html']})`,\n        `require('cssnano')()`,\n        `require('postcss-reporter')({clearReportedMessages: true})`\n    ]\n});\n/**\n * Create and edit a Webpack configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * const cfg = new WebpackConfigEditor();\n * await cfg.create().commit();\n */\nexport const WebpackConfigEditor = createModuleEditor('webpack.config.js', {\n    mode: `'development'`,\n    entry: {\n        app: `'./src/main.js'`\n    },\n    output: {\n        path: `resolve('./dist')`,\n        filename: `'bundle.min.js'`\n    },\n    module: {\n        rules: [\n            {\n                test: `/\\.js?$/`,\n                exclude: `/node_modules/`,\n                loader: `'babel-loader'`,\n                query: {\n                    presets: [`'@babel/env'`]\n                }\n            }\n        ]\n    },\n    plugins: [\n        `new DashboardPlugin()`\n    ]\n});\n/**\n * Create and edit Makefiles. Includes ability to import package.json scripts.\n */\nexport class MakefileEditor extends createModuleEditor('Makefile') {\n    contents = '';\n    scripts = {};\n    useBinVariable = false;\n    constructor(path = process.cwd()) {\n        super(path);\n    }\n    write(contents) {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue\n            .add(() => fs.write(path, contents))\n            .then(() => self.created = existsSync(path))\n            .catch(silent);\n        return assign(self, {contents});\n    }\n    /**\n     * Append line(s) to end of Makefile\n     * @param {(string|Symbol)} [lines=Symbol('skip')] Lines to append\n     * @return {MakefileEditor} Chaining OK\n     */\n    append(lines = Symbol('skip')) {\n        const {contents} = this;\n        const shouldSkip = (typeof lines === 'symbol');\n        return shouldSkip ? this : this.write(`${contents}\\n${lines}`);\n    }\n    /**\n     * Prepend line(s) to top of Makefile (similar API to {@link MakefileEditor#append})\n     * @param {(string|Symbol)} [lines=Symbol('skip')] Lines to append\n     * @return {MakefileEditor} Chaining OK\n     */\n    prepend(lines = Symbol('skip')) {\n        const {contents} = this;\n        const shouldSkip = (typeof lines === 'symbol');\n        return shouldSkip ? this : this.write(`${lines}\\n${contents}`);\n    }\n    /**\n     * Format task and remove package.json dependency by replacing npm with make and such\n     * @param {string} action Task action\n     * @param {object} scripts Scripts object imported from package.json (must run {@link MakefileEditor#importScripts} first)\n     * @return {string} Formatted action\n     */\n    formatTask(action, scripts = {}) {\n        const {path} = this;\n        const formatTaskName = val => kebabCase(last(val.split(' ')));\n        const replaceNpmRunQuotes = initial => {\n            const re = /['\"]npm run .[^\"]*['\"]/g;\n            const matches = action.match(re);\n            return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `'make ${formatTaskName(match)}'`), initial);\n        };\n        const replaceNpmWithArguments = initial => {\n            const re = /npm .* -- --.*/g;\n            const matches = action.match(re);\n            return isNotArray(matches) ? initial : matches.reduce((acc, match) => {\n                const [commands, options] = match.split(' -- ');\n                const task = last(commands.split(' '));\n                return acc.replace(match, `${scripts[task]} ${options}`);\n            }, initial);\n        };\n        const replaceNpmRunCommands = initial => {\n            const re = /^npm run .*/g;\n            const matches = action.match(re);\n            return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial);\n        };\n        const format = flow(\n            replaceNpmRunQuotes,\n            replaceNpmWithArguments,\n            replaceNpmRunCommands\n        );\n        const formatted = format(action);\n        const [command] = formatted.split(' ');\n        const useBinVariable = isLocalNpmCommand(command, path);\n        this.useBinVariable = this.useBinVariable || useBinVariable;\n        return `${useBinVariable ? `$(bin)` : ''}${formatted}`;\n    }\n    /**\n     * Add task to Makefile (appended to end)\n     * @param {string} name Task name (\"build\", \"lint\", etc...)\n     * @param {string[]} tasks Lines of code to be executed during task\n     * @param {object} options Configure task\n     * @param {string} [options.description] Task description used in help task\n     * @param {boolean} [options.silent=false] Prepend \"@\" (true) or not (false)\n     * @return {MakefileEditor} Chaining OK\n     */\n    addTask(name, tasks, options = {description: 'Task description'}) {\n        const self = this;\n        const {scripts} = self;\n        const {description} = options;\n        return tasks.reduce((tasks, action) => tasks\n            .append(`\\t${self.formatTask(action, scripts)}`)\n            .addTaskDescription(name, description)\n        , self.append(`${name}:`));\n    }\n    /**\n     * Add deescription to task for use during help task\n     * @param {string} task Task name\n     * @param {string} description Description text\n     * @example\n     * const makefile = await (new MakefileEditor())\n     *     .addTask('foo', 'echo foo')\n     *     .commit();\n     * // foo: ## Task description <-- default task description\n     * //     echo foo\n     * //\n     * await makefile\n     *     .addTaskDescription('foo', 'This task does foo')\n     *     .commit();\n     * // foo: ## This task does foo\n     * //     echo foo\n     * //\n     * @return {MakefileEditor} Chaining OK\n     */\n    addTaskDescription(task, description = 'Task description') {\n        const contents = this.contents.replace(`${kebabCase(task)}:\\n`, `${kebabCase(task)}: ## ${description}\\n`);\n        return this.write(contents);\n    }\n    appendHelpTask() {\n        const task = `@fgrep -h \"##\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'`;\n        return this.addTask('help', [task], {description: 'Show this help'});\n    }\n    /**\n     * Add Makefile comment\n     * @param {string} text Comment text\n     * @return {MakefileEditor} Chaining OK\n     */\n    addComment(text) {\n        return this.append(`# ${text}`);\n    }\n    importScripts() {\n        const {path} = this;\n        const [packageDirectory] = path.split('Makefile');\n        const pkg = (new PackageJsonEditor(packageDirectory)).read();\n        const {scripts} = parse(pkg);\n        return assign(this, {scripts});\n    }\n    /**\n     * Append tasks imported from package.json\n     * @example <caption>Must execute importScripts first</caption>\n     * const makefile = await (new MakefileEditor())\n     *     .importScripts()\n     *     .appendScripts()\n     *     .commit();\n     * @return {MakefileEditor} Chaining OK\n     */\n    appendScripts() {\n        const self = this;\n        const {path, scripts} = self;\n        const tasks = entries(scripts).map(([key, value]) => [kebabCase(key), [value]]);\n        const getPreTask = (tasks, name) => {\n            const [data] = tasks\n                .filter(([name]) => name.startsWith('pre'))\n                .map(([name, values]) => [name.substring('pre'.length), values])\n                .filter(task => task[0] === name);\n            return isArray(data) ? data[1] : [];\n        };\n        const getPostTask = (tasks, name) => {\n            const [data] = tasks\n                .filter(([name]) => name.startsWith('post'))\n                .map(([name, values]) => [name.substring('post'.length), values])\n                .filter(task => task[0] === name);\n            return isArray(data) ? data[1] : [];\n        };\n        return tasks\n            .filter(([name]) => !(name.startsWith('pre') || name.startsWith('post')))\n            .map(([name, values]) => [name, [...getPreTask(tasks, name), ...values, ...getPostTask(tasks, name)]])\n            .reduce((tasks, [key, values]) => tasks.addTask(key, values).append(''), self.append(''))\n            .prepend(self.useBinVariable ? `bin := ${getBinDirectory(path)}` : Symbol('skip'))\n            .prepend(`# Built from ${path}/package.json`);\n    }\n}\nexport function getCommandDirectory(command) {\n    const data = which(command);\n    const commandExists = negate(isNull)(data);\n    return commandExists ? data.toString().split(command)[0] : '';\n}\nexport function getBinDirectory(path) {\n    const [packageDirectory] = path.split('Makefile');\n    return `${packageDirectory}node_modules/.bin/`;\n}\nexport function isLocalNpmCommand(command, path = process.cwd()) {\n    const [packageDirectory] = path.split('Makefile');\n    const pkg = new PackageJsonEditor(packageDirectory);\n    const pkgHasCommmand = pkg.hasAll(command);\n    const binHasCommand = existsSync(`${getBinDirectory(path)}${command}`);\n    return pkgHasCommmand || binHasCommand;\n}",
     "static": true,
     "longname": "/home/vagrant/dev/tomo-cli/src/utils.js",
     "access": "public",
@@ -2254,6 +2254,48 @@
   },
   {
     "__docId__": 126,
+    "kind": "variable",
+    "name": "INDENT_SPACES",
+    "memberof": "src/utils.js",
+    "static": true,
+    "longname": "src/utils.js~INDENT_SPACES",
+    "access": "public",
+    "export": false,
+    "importPath": "tomo-cli/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "type": {
+      "types": [
+        "number"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 127,
+    "kind": "variable",
+    "name": "PRETTIER_OPTIONS",
+    "memberof": "src/utils.js",
+    "static": true,
+    "longname": "src/utils.js~PRETTIER_OPTIONS",
+    "access": "public",
+    "export": false,
+    "importPath": "tomo-cli/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"bracketSpacing\": *, \"parser\": string, \"printWidth\": number, \"tabWidth\": number, \"quotes\": boolean}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 128,
     "kind": "variable",
     "name": "assign",
     "memberof": "src/utils.js",
@@ -2264,49 +2306,7 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 13,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 127,
-    "kind": "variable",
-    "name": "isArray",
-    "memberof": "src/utils.js",
-    "static": true,
-    "longname": "src/utils.js~isArray",
-    "access": "public",
-    "export": false,
-    "importPath": "tomo-cli/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 14,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 128,
-    "kind": "variable",
-    "name": "isNotArray",
-    "memberof": "src/utils.js",
-    "static": true,
-    "longname": "src/utils.js~isNotArray",
-    "access": "public",
-    "export": false,
-    "importPath": "tomo-cli/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 15,
+    "lineNumber": 21,
     "undocument": true,
     "type": {
       "types": [
@@ -2318,20 +2318,20 @@
   {
     "__docId__": 129,
     "kind": "variable",
-    "name": "INDENT_SPACES",
+    "name": "isArray",
     "memberof": "src/utils.js",
     "static": true,
-    "longname": "src/utils.js~INDENT_SPACES",
+    "longname": "src/utils.js~isArray",
     "access": "public",
     "export": false,
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 16,
+    "lineNumber": 22,
     "undocument": true,
     "type": {
       "types": [
-        "number"
+        "*"
       ]
     },
     "ignore": true
@@ -2339,20 +2339,20 @@
   {
     "__docId__": 130,
     "kind": "variable",
-    "name": "PRETTIER_OPTIONS",
+    "name": "isNotArray",
     "memberof": "src/utils.js",
     "static": true,
-    "longname": "src/utils.js~PRETTIER_OPTIONS",
+    "longname": "src/utils.js~isNotArray",
     "access": "public",
     "export": false,
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 17,
+    "lineNumber": 23,
     "undocument": true,
     "type": {
       "types": [
-        "{\"bracketSpacing\": *, \"parser\": string, \"printWidth\": number, \"tabWidth\": number, \"quotes\": boolean}"
+        "*"
       ]
     },
     "ignore": true
@@ -2387,32 +2387,6 @@
   {
     "__docId__": 132,
     "kind": "function",
-    "name": "isGlobalCommand",
-    "memberof": "src/utils.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/utils.js~isGlobalCommand",
-    "access": "public",
-    "export": true,
-    "importPath": "tomo-cli/src/utils.js",
-    "importStyle": "{isGlobalCommand}",
-    "description": null,
-    "lineNumber": 25,
-    "undocument": true,
-    "params": [
-      {
-        "name": "value",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null
-  },
-  {
-    "__docId__": 133,
-    "kind": "function",
     "name": "someDoExist",
     "memberof": "src/utils.js",
     "generator": false,
@@ -2427,7 +2401,43 @@
     "examples": [
       "// some/folder/\n//   ├─ foo.js\n//   └── bar.js\nconst hasFoo = someDoExist('some/folder/foo.js');\nconst hasBaz = someDoExist('some/folder/baz.js');\nconst hasSomething = someDoExist('some/folder/bar.js', 'some/folder/baz.js');\nconsole.log(hasFoo); // true\nconsole.log(hasBaz); // false\nconsole.log(hasSomething); // true"
     ],
-    "lineNumber": 41,
+    "lineNumber": 40,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "...string"
+        ],
+        "spread": true,
+        "optional": false,
+        "name": "args",
+        "description": "File or folder path(s)"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": "Some files/path do exist (true) or all do not exist (false)"
+    }
+  },
+  {
+    "__docId__": 133,
+    "kind": "function",
+    "name": "someDoExistSync",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~someDoExistSync",
+    "access": "public",
+    "export": true,
+    "importPath": "tomo-cli/src/utils.js",
+    "importStyle": "{someDoExistSync}",
+    "description": "Check that at least one file or files exist (synchronous version of {@link someDoExist})",
+    "lineNumber": 49,
     "params": [
       {
         "nullable": null,
@@ -2452,42 +2462,6 @@
   {
     "__docId__": 134,
     "kind": "function",
-    "name": "someDoExistSync",
-    "memberof": "src/utils.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/utils.js~someDoExistSync",
-    "access": "public",
-    "export": true,
-    "importPath": "tomo-cli/src/utils.js",
-    "importStyle": "{someDoExistSync}",
-    "description": "Check that at least one file or files exist (synchronous version of {@link someDoExist})",
-    "lineNumber": 50,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "...string"
-        ],
-        "spread": true,
-        "optional": false,
-        "name": "args",
-        "description": "File or folder path(s)"
-      }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "boolean"
-      ],
-      "spread": false,
-      "description": "Some files/path do exist (true) or all do not exist (false)"
-    }
-  },
-  {
-    "__docId__": 135,
-    "kind": "function",
     "name": "allDoExist",
     "memberof": "src/utils.js",
     "generator": false,
@@ -2499,7 +2473,43 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": "{allDoExist}",
     "description": "Check that all files exist",
-    "lineNumber": 56,
+    "lineNumber": 55,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "...string"
+        ],
+        "spread": true,
+        "optional": false,
+        "name": "args",
+        "description": "File of folder paths"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": "All files/paths exist (true) or do not (false)"
+    }
+  },
+  {
+    "__docId__": 135,
+    "kind": "function",
+    "name": "allDoExistSync",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~allDoExistSync",
+    "access": "public",
+    "export": true,
+    "importPath": "tomo-cli/src/utils.js",
+    "importStyle": "{allDoExistSync}",
+    "description": "Check that all files exist (synchronous version of {@link allDoExist})",
+    "lineNumber": 64,
     "params": [
       {
         "nullable": null,
@@ -2524,42 +2534,6 @@
   {
     "__docId__": 136,
     "kind": "function",
-    "name": "allDoExistSync",
-    "memberof": "src/utils.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/utils.js~allDoExistSync",
-    "access": "public",
-    "export": true,
-    "importPath": "tomo-cli/src/utils.js",
-    "importStyle": "{allDoExistSync}",
-    "description": "Check that all files exist (synchronous version of {@link allDoExist})",
-    "lineNumber": 65,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "...string"
-        ],
-        "spread": true,
-        "optional": false,
-        "name": "args",
-        "description": "File of folder paths"
-      }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "boolean"
-      ],
-      "spread": false,
-      "description": "All files/paths exist (true) or do not (false)"
-    }
-  },
-  {
-    "__docId__": 137,
-    "kind": "function",
     "name": "allDoNotExist",
     "memberof": "src/utils.js",
     "generator": false,
@@ -2574,7 +2548,43 @@
     "examples": [
       "// some/folder/\n//   ├─ foo.js\n//   └── bar.js\nconst noPackageJson = allDoNotExist('some/folder/package.json');\nconsole.log(noPackageJson); // true"
     ],
-    "lineNumber": 77,
+    "lineNumber": 76,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "...string"
+        ],
+        "spread": true,
+        "optional": false,
+        "name": "args",
+        "description": "File or folder path(s)"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": "All files/paths do not exist (true) or some do (false)"
+    }
+  },
+  {
+    "__docId__": 137,
+    "kind": "function",
+    "name": "allDoNotExistSync",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~allDoNotExistSync",
+    "access": "public",
+    "export": true,
+    "importPath": "tomo-cli/src/utils.js",
+    "importStyle": "{allDoNotExistSync}",
+    "description": "Check that all files do not exist (synchronous version of {@link allDoNotExist})",
+    "lineNumber": 85,
     "params": [
       {
         "nullable": null,
@@ -2599,42 +2609,6 @@
   {
     "__docId__": 138,
     "kind": "function",
-    "name": "allDoNotExistSync",
-    "memberof": "src/utils.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/utils.js~allDoNotExistSync",
-    "access": "public",
-    "export": true,
-    "importPath": "tomo-cli/src/utils.js",
-    "importStyle": "{allDoNotExistSync}",
-    "description": "Check that all files do not exist (synchronous version of {@link allDoNotExist})",
-    "lineNumber": 86,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "...string"
-        ],
-        "spread": true,
-        "optional": false,
-        "name": "args",
-        "description": "File or folder path(s)"
-      }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "boolean"
-      ],
-      "spread": false,
-      "description": "All files/paths do not exist (true) or some do (false)"
-    }
-  },
-  {
-    "__docId__": 139,
-    "kind": "function",
     "name": "format",
     "memberof": "src/utils.js",
     "generator": false,
@@ -2649,7 +2623,7 @@
     "examples": [
       "<caption>Prettier options</caption>\n{\n    bracketSpacing: false,\n    parser: 'json-stringify',\n    printWidth: 80,\n    tabWidth: 4,\n    quotes: true\n}"
     ],
-    "lineNumber": 100,
+    "lineNumber": 99,
     "params": [
       {
         "nullable": null,
@@ -2674,7 +2648,7 @@
     }
   },
   {
-    "__docId__": 140,
+    "__docId__": 139,
     "kind": "function",
     "name": "getIntendedInput",
     "memberof": "src/utils.js",
@@ -2690,7 +2664,7 @@
     "examples": [
       "const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);"
     ],
-    "lineNumber": 110,
+    "lineNumber": 109,
     "params": [
       {
         "nullable": null,
@@ -2735,7 +2709,7 @@
     }
   },
   {
-    "__docId__": 141,
+    "__docId__": 140,
     "kind": "function",
     "name": "getVersions",
     "memberof": "src/utils.js",
@@ -2751,7 +2725,7 @@
     "examples": [
       "const versions = getVersions('react');"
     ],
-    "lineNumber": 124,
+    "lineNumber": 123,
     "params": [
       {
         "nullable": null,
@@ -2774,7 +2748,7 @@
     }
   },
   {
-    "__docId__": 142,
+    "__docId__": 141,
     "kind": "function",
     "name": "install",
     "memberof": "src/utils.js",
@@ -2791,7 +2765,7 @@
       "<caption>Install production dependencies</caption>\ninstall(['react']);",
       "<caption>Install development dependencies</caption>\ninstall(['jest', 'babel-jest'], {dev: true});"
     ],
-    "lineNumber": 144,
+    "lineNumber": 143,
     "params": [
       {
         "nullable": null,
@@ -2862,7 +2836,7 @@
     }
   },
   {
-    "__docId__": 143,
+    "__docId__": 142,
     "kind": "function",
     "name": "verifyRustInstallation",
     "memberof": "src/utils.js",
@@ -2875,7 +2849,7 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": "{verifyRustInstallation}",
     "description": "Determine if system supports Rust (necessary Rust dependencies are installed)",
-    "lineNumber": 158,
+    "lineNumber": 157,
     "return": {
       "nullable": null,
       "types": [
@@ -2887,7 +2861,7 @@
     "params": []
   },
   {
-    "__docId__": 144,
+    "__docId__": 143,
     "kind": "function",
     "name": "silent",
     "memberof": "src/utils.js",
@@ -2900,14 +2874,14 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 161,
+    "lineNumber": 160,
     "undocument": true,
     "params": [],
     "return": null,
     "ignore": true
   },
   {
-    "__docId__": 145,
+    "__docId__": 144,
     "kind": "class",
     "name": "BasicEditor",
     "memberof": "src/utils.js",
@@ -2918,11 +2892,11 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": "{BasicEditor}",
     "description": "Base class to serve as base for JSON and module builder classes",
-    "lineNumber": 165,
+    "lineNumber": 164,
     "interface": false
   },
   {
-    "__docId__": 146,
+    "__docId__": 145,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/utils.js~BasicEditor",
@@ -2932,11 +2906,11 @@
     "longname": "src/utils.js~BasicEditor#constructor",
     "access": "public",
     "description": null,
-    "lineNumber": 166,
+    "lineNumber": 165,
     "undocument": true
   },
   {
-    "__docId__": 147,
+    "__docId__": 146,
     "kind": "method",
     "name": "copy",
     "memberof": "src/utils.js~BasicEditor",
@@ -2946,7 +2920,7 @@
     "longname": "src/utils.js~BasicEditor#copy",
     "access": "public",
     "description": "",
-    "lineNumber": 176,
+    "lineNumber": 175,
     "params": [
       {
         "nullable": null,
@@ -2969,7 +2943,7 @@
     }
   },
   {
-    "__docId__": 148,
+    "__docId__": 147,
     "kind": "method",
     "name": "delete",
     "memberof": "src/utils.js~BasicEditor",
@@ -2979,7 +2953,7 @@
     "longname": "src/utils.js~BasicEditor#delete",
     "access": "public",
     "description": "",
-    "lineNumber": 186,
+    "lineNumber": 185,
     "return": {
       "nullable": null,
       "types": [
@@ -2991,7 +2965,7 @@
     "params": []
   },
   {
-    "__docId__": 149,
+    "__docId__": 148,
     "kind": "method",
     "name": "done",
     "memberof": "src/utils.js~BasicEditor",
@@ -3001,7 +2975,7 @@
     "longname": "src/utils.js~BasicEditor#done",
     "access": "public",
     "description": null,
-    "lineNumber": 192,
+    "lineNumber": 191,
     "undocument": true,
     "params": [],
     "return": {
@@ -3011,7 +2985,7 @@
     }
   },
   {
-    "__docId__": 150,
+    "__docId__": 149,
     "kind": "method",
     "name": "commit",
     "memberof": "src/utils.js~BasicEditor",
@@ -3021,7 +2995,7 @@
     "longname": "src/utils.js~BasicEditor#commit",
     "access": "public",
     "description": "Write changes to disk",
-    "lineNumber": 199,
+    "lineNumber": 198,
     "return": {
       "nullable": null,
       "types": [
@@ -3033,7 +3007,7 @@
     "params": []
   },
   {
-    "__docId__": 151,
+    "__docId__": 150,
     "kind": "function",
     "name": "createJsonEditor",
     "memberof": "src/utils.js",
@@ -3046,7 +3020,7 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": "{createJsonEditor}",
     "description": "Create and edit a JSON file with a fluent API",
-    "lineNumber": 211,
+    "lineNumber": 210,
     "params": [
       {
         "nullable": null,
@@ -3081,7 +3055,7 @@
     }
   },
   {
-    "__docId__": 152,
+    "__docId__": 151,
     "kind": "function",
     "name": "createModuleEditor",
     "memberof": "src/utils.js",
@@ -3094,7 +3068,7 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": "{createModuleEditor}",
     "description": "Create and edit a JS module with a fluent API",
-    "lineNumber": 266,
+    "lineNumber": 265,
     "params": [
       {
         "nullable": null,
@@ -3139,7 +3113,7 @@
     }
   },
   {
-    "__docId__": 153,
+    "__docId__": 152,
     "kind": "class",
     "name": "Scaffolder",
     "memberof": "src/utils.js",
@@ -3153,11 +3127,11 @@
     "examples": [
       "import {Scaffolder} from './utils';\nconst scaffolder = new Scaffolder();\nawait scaffolder\n    .target('/path/to/copy/files')\n    .copy('foo.js')\n    .copy('bar.js')\n    .commit();"
     ],
-    "lineNumber": 318,
+    "lineNumber": 317,
     "interface": false
   },
   {
-    "__docId__": 154,
+    "__docId__": 153,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/utils.js~Scaffolder",
@@ -3167,7 +3141,7 @@
     "longname": "src/utils.js~Scaffolder#constructor",
     "access": "public",
     "description": "",
-    "lineNumber": 324,
+    "lineNumber": 323,
     "params": [
       {
         "nullable": null,
@@ -3192,7 +3166,7 @@
     ]
   },
   {
-    "__docId__": 155,
+    "__docId__": 154,
     "kind": "method",
     "name": "source",
     "memberof": "src/utils.js~Scaffolder",
@@ -3202,7 +3176,7 @@
     "longname": "src/utils.js~Scaffolder#source",
     "access": "public",
     "description": "Set source directory",
-    "lineNumber": 336,
+    "lineNumber": 335,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3231,7 +3205,7 @@
     }
   },
   {
-    "__docId__": 156,
+    "__docId__": 155,
     "kind": "method",
     "name": "target",
     "memberof": "src/utils.js~Scaffolder",
@@ -3241,7 +3215,7 @@
     "longname": "src/utils.js~Scaffolder#target",
     "access": "public",
     "description": "Set target directory",
-    "lineNumber": 344,
+    "lineNumber": 343,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3270,7 +3244,7 @@
     }
   },
   {
-    "__docId__": 157,
+    "__docId__": 156,
     "kind": "method",
     "name": "copy",
     "memberof": "src/utils.js~Scaffolder",
@@ -3280,7 +3254,7 @@
     "longname": "src/utils.js~Scaffolder#copy",
     "access": "public",
     "description": "Copy a file",
-    "lineNumber": 352,
+    "lineNumber": 351,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3309,7 +3283,7 @@
     }
   },
   {
-    "__docId__": 158,
+    "__docId__": 157,
     "kind": "method",
     "name": "commit",
     "memberof": "src/utils.js~Scaffolder",
@@ -3319,7 +3293,7 @@
     "longname": "src/utils.js~Scaffolder#commit",
     "access": "public",
     "description": "Write changes to disk",
-    "lineNumber": 364,
+    "lineNumber": 363,
     "return": {
       "nullable": null,
       "types": [
@@ -3331,7 +3305,7 @@
     "params": []
   },
   {
-    "__docId__": 159,
+    "__docId__": 158,
     "kind": "variable",
     "name": "BabelConfigModuleEditor",
     "memberof": "src/utils.js",
@@ -3345,7 +3319,7 @@
     "examples": [
       "<caption>Extend module.exports content and prepend text to the top of the file</caption>\nconst cfg = new BabelConfigModuleEditor();\nawait cfg\n    .create()\n    .extend({\n        presets: [`'@babel/preset-env'`]\n    })\n    .prepend(`const {existsSync} = require('fs-extra');`)\n    .commit();"
     ],
-    "lineNumber": 383,
+    "lineNumber": 382,
     "type": {
       "nullable": null,
       "types": [
@@ -3356,7 +3330,7 @@
     }
   },
   {
-    "__docId__": 160,
+    "__docId__": 159,
     "kind": "variable",
     "name": "EslintConfigModuleEditor",
     "memberof": "src/utils.js",
@@ -3370,7 +3344,7 @@
     "examples": [
       "const cfg = new EslintConfigModuleEditor();\nawait cfg.create().commit();"
     ],
-    "lineNumber": 399,
+    "lineNumber": 398,
     "type": {
       "nullable": null,
       "types": [
@@ -3381,7 +3355,7 @@
     }
   },
   {
-    "__docId__": 161,
+    "__docId__": 160,
     "kind": "variable",
     "name": "PackageJsonEditor",
     "memberof": "src/utils.js",
@@ -3398,7 +3372,7 @@
       "<caption>Extend a package.json</caption>\nconst script = {test: 'jest --coverage'};\nawait pkg.extend({script}).commit();",
       "<caption>Create and extend a package.json without writing to disk (chaining OK)</caption>\nconst script = {\n    lint: 'eslint index.js -c ./.eslintrc.js'\n};\nawait pkg\n    .create(false)\n    .extend({script}, false)\n    .commit();"
     ],
-    "lineNumber": 430,
+    "lineNumber": 429,
     "type": {
       "nullable": null,
       "types": [
@@ -3409,7 +3383,7 @@
     }
   },
   {
-    "__docId__": 162,
+    "__docId__": 161,
     "kind": "variable",
     "name": "PostcssConfigEditor",
     "memberof": "src/utils.js",
@@ -3423,7 +3397,7 @@
     "examples": [
       "const cfg = new PostcssConfigEditor();\nawait cfg.create().commit();"
     ],
-    "lineNumber": 444,
+    "lineNumber": 443,
     "type": {
       "nullable": null,
       "types": [
@@ -3434,7 +3408,7 @@
     }
   },
   {
-    "__docId__": 163,
+    "__docId__": 162,
     "kind": "variable",
     "name": "WebpackConfigEditor",
     "memberof": "src/utils.js",
@@ -3448,7 +3422,7 @@
     "examples": [
       "const cfg = new WebpackConfigEditor();\nawait cfg.create().commit();"
     ],
-    "lineNumber": 462,
+    "lineNumber": 461,
     "type": {
       "nullable": null,
       "types": [
@@ -3459,7 +3433,7 @@
     }
   },
   {
-    "__docId__": 164,
+    "__docId__": 163,
     "kind": "class",
     "name": "MakefileEditor",
     "memberof": "src/utils.js",
@@ -3470,9 +3444,26 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": "{MakefileEditor}",
     "description": "Create and edit Makefiles. Includes ability to import package.json scripts.",
-    "lineNumber": 490,
+    "lineNumber": 489,
     "interface": false,
     "expressionExtends": "createModuleEditor('Makefile')"
+  },
+  {
+    "__docId__": 164,
+    "kind": "member",
+    "name": "contents",
+    "memberof": "src/utils.js~MakefileEditor",
+    "static": false,
+    "longname": "src/utils.js~MakefileEditor#contents",
+    "access": "public",
+    "description": null,
+    "lineNumber": 490,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
   },
   {
     "__docId__": 165,
@@ -3524,23 +3515,6 @@
   },
   {
     "__docId__": 168,
-    "kind": "member",
-    "name": "contents",
-    "memberof": "src/utils.js~MakefileEditor",
-    "static": false,
-    "longname": "src/utils.js~MakefileEditor#contents",
-    "access": "public",
-    "description": null,
-    "lineNumber": 495,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    }
-  },
-  {
-    "__docId__": 169,
     "kind": "method",
     "name": "write",
     "memberof": "src/utils.js~MakefileEditor",
@@ -3550,7 +3524,7 @@
     "longname": "src/utils.js~MakefileEditor#write",
     "access": "public",
     "description": null,
-    "lineNumber": 497,
+    "lineNumber": 496,
     "undocument": true,
     "params": [
       {
@@ -3567,7 +3541,7 @@
     }
   },
   {
-    "__docId__": 170,
+    "__docId__": 169,
     "kind": "method",
     "name": "append",
     "memberof": "src/utils.js~MakefileEditor",
@@ -3576,22 +3550,66 @@
     "static": false,
     "longname": "src/utils.js~MakefileEditor#append",
     "access": "public",
-    "description": null,
-    "lineNumber": 506,
-    "undocument": true,
+    "description": "Append line(s) to end of Makefile",
+    "lineNumber": 510,
     "params": [
       {
-        "name": "lines",
-        "optional": true,
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "string",
+          "Symbol"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "Symbol('skip')",
+        "defaultRaw": "Symbol('skip')",
+        "name": "lines",
+        "description": "Lines to append"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "MakefileEditor"
+      ],
+      "spread": false,
+      "description": "Chaining OK"
+    }
+  },
+  {
+    "__docId__": 170,
+    "kind": "method",
+    "name": "prepend",
+    "memberof": "src/utils.js~MakefileEditor",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/utils.js~MakefileEditor#prepend",
+    "access": "public",
+    "description": "Prepend line(s) to top of Makefile (similar API to {@link MakefileEditor#append})",
+    "lineNumber": 520,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string",
+          "Symbol"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "Symbol('skip')",
+        "defaultRaw": "Symbol('skip')",
+        "name": "lines",
+        "description": "Lines to append"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "MakefileEditor"
+      ],
+      "spread": false,
+      "description": "Chaining OK"
     }
   },
   {
@@ -3604,30 +3622,37 @@
     "static": false,
     "longname": "src/utils.js~MakefileEditor#formatTask",
     "access": "public",
-    "description": null,
-    "lineNumber": 511,
-    "undocument": true,
+    "description": "Format task and remove package.json dependency by replacing npm with make and such",
+    "lineNumber": 531,
     "params": [
       {
-        "name": "value",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "action",
+        "description": "Task action"
       },
       {
-        "name": "scripts",
-        "optional": true,
+        "nullable": null,
         "types": [
-          "{}"
+          "object"
         ],
-        "defaultRaw": {},
-        "defaultValue": "{}"
+        "spread": false,
+        "optional": false,
+        "name": "scripts",
+        "description": "Scripts object imported from package.json (must run {@link MakefileEditor#importScripts} first)"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
         "string"
-      ]
+      ],
+      "spread": false,
+      "description": "Formatted action"
     }
   },
   {
@@ -3641,7 +3666,7 @@
     "longname": "src/utils.js~MakefileEditor#addTask",
     "access": "public",
     "description": "Add task to Makefile (appended to end)",
-    "lineNumber": 553,
+    "lineNumber": 573,
     "params": [
       {
         "nullable": null,
@@ -3715,30 +3740,40 @@
     "static": false,
     "longname": "src/utils.js~MakefileEditor#addTaskDescription",
     "access": "public",
-    "description": null,
-    "lineNumber": 562,
-    "undocument": true,
+    "description": "Add deescription to task for use during help task",
+    "examples": [
+      "const makefile = await (new MakefileEditor())\n    .addTask('foo', 'echo foo')\n    .commit();\n// foo: ## Task description <-- default task description\n//     echo foo\n//\nawait makefile\n    .addTaskDescription('foo', 'This task does foo')\n    .commit();\n// foo: ## This task does foo\n//     echo foo\n//"
+    ],
+    "lineNumber": 601,
     "params": [
       {
-        "name": "task",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "description",
-        "optional": true,
+        "nullable": null,
         "types": [
           "string"
         ],
-        "defaultRaw": "Task description",
-        "defaultValue": "Task description"
+        "spread": false,
+        "optional": false,
+        "name": "task",
+        "description": "Task name"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "description",
+        "description": "Description text"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "MakefileEditor"
+      ],
+      "spread": false,
+      "description": "Chaining OK"
     }
   },
   {
@@ -3752,7 +3787,7 @@
     "longname": "src/utils.js~MakefileEditor#appendHelpTask",
     "access": "public",
     "description": null,
-    "lineNumber": 566,
+    "lineNumber": 605,
     "undocument": true,
     "params": [],
     "return": {
@@ -3771,21 +3806,27 @@
     "static": false,
     "longname": "src/utils.js~MakefileEditor#addComment",
     "access": "public",
-    "description": null,
-    "lineNumber": 570,
-    "undocument": true,
+    "description": "Add Makefile comment",
+    "lineNumber": 614,
     "params": [
       {
-        "name": "text",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "text",
+        "description": "Comment text"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "MakefileEditor"
+      ],
+      "spread": false,
+      "description": "Chaining OK"
     }
   },
   {
@@ -3799,7 +3840,7 @@
     "longname": "src/utils.js~MakefileEditor#importScripts",
     "access": "public",
     "description": null,
-    "lineNumber": 573,
+    "lineNumber": 617,
     "undocument": true,
     "params": [],
     "return": {
@@ -3818,15 +3859,20 @@
     "static": false,
     "longname": "src/utils.js~MakefileEditor#appendScripts",
     "access": "public",
-    "description": null,
-    "lineNumber": 580,
-    "undocument": true,
-    "params": [],
+    "description": "Append tasks imported from package.json",
+    "examples": [
+      "<caption>Must execute importScripts first</caption>\nconst makefile = await (new MakefileEditor())\n    .importScripts()\n    .appendScripts()\n    .commit();"
+    ],
+    "lineNumber": 633,
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
-    }
+        "MakefileEditor"
+      ],
+      "spread": false,
+      "description": "Chaining OK"
+    },
+    "params": []
   },
   {
     "__docId__": 179,
@@ -3842,7 +3888,7 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": "{getCommandDirectory}",
     "description": null,
-    "lineNumber": 605,
+    "lineNumber": 659,
     "undocument": true,
     "params": [
       {
@@ -3872,7 +3918,7 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": "{getBinDirectory}",
     "description": null,
-    "lineNumber": 610,
+    "lineNumber": 664,
     "undocument": true,
     "params": [
       {
@@ -3902,7 +3948,7 @@
     "importPath": "tomo-cli/src/utils.js",
     "importStyle": "{isLocalNpmCommand}",
     "description": null,
-    "lineNumber": 614,
+    "lineNumber": 668,
     "undocument": true,
     "params": [
       {

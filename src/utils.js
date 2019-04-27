@@ -502,27 +502,43 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
             .catch(silent);
         return assign(self, {contents});
     }
+    /**
+     * Append line(s) to end of Makefile
+     * @param {(string|Symbol)} [lines=Symbol('skip')] Lines to append
+     * @return {MakefileEditor} Chaining OK
+     */
     append(lines = Symbol('skip')) {
         const {contents} = this;
         const shouldSkip = (typeof lines === 'symbol');
         return shouldSkip ? this : this.write(`${contents}\n${lines}`);
     }
+    /**
+     * Prepend line(s) to top of Makefile (similar API to {@link MakefileEditor#append})
+     * @param {(string|Symbol)} [lines=Symbol('skip')] Lines to append
+     * @return {MakefileEditor} Chaining OK
+     */
     prepend(lines = Symbol('skip')) {
         const {contents} = this;
         const shouldSkip = (typeof lines === 'symbol');
         return shouldSkip ? this : this.write(`${lines}\n${contents}`);
     }
-    formatTask(value, scripts = {}) {
+    /**
+     * Format task and remove package.json dependency by replacing npm with make and such
+     * @param {string} action Task action
+     * @param {object} scripts Scripts object imported from package.json (must run {@link MakefileEditor#importScripts} first)
+     * @return {string} Formatted action
+     */
+    formatTask(action, scripts = {}) {
         const {path} = this;
         const formatTaskName = val => kebabCase(last(val.split(' ')));
         const replaceNpmRunQuotes = initial => {
             const re = /['"]npm run .[^"]*['"]/g;
-            const matches = value.match(re);
+            const matches = action.match(re);
             return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `'make ${formatTaskName(match)}'`), initial);
         };
         const replaceNpmWithArguments = initial => {
             const re = /npm .* -- --.*/g;
-            const matches = value.match(re);
+            const matches = action.match(re);
             return isNotArray(matches) ? initial : matches.reduce((acc, match) => {
                 const [commands, options] = match.split(' -- ');
                 const task = last(commands.split(' '));
@@ -531,7 +547,7 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
         };
         const replaceNpmRunCommands = initial => {
             const re = /^npm run .*/g;
-            const matches = value.match(re);
+            const matches = action.match(re);
             return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial);
         };
         const format = flow(
@@ -539,7 +555,7 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
             replaceNpmWithArguments,
             replaceNpmRunCommands
         );
-        const formatted = format(value);
+        const formatted = format(action);
         const [command] = formatted.split(' ');
         const useBinVariable = isLocalNpmCommand(command, path);
         this.useBinVariable = this.useBinVariable || useBinVariable;
@@ -563,6 +579,25 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
             .addTaskDescription(name, description)
         , self.append(`${name}:`));
     }
+    /**
+     * Add deescription to task for use during help task
+     * @param {string} task Task name
+     * @param {string} description Description text
+     * @example
+     * const makefile = await (new MakefileEditor())
+     *     .addTask('foo', 'echo foo')
+     *     .commit();
+     * // foo: ## Task description <-- default task description
+     * //     echo foo
+     * //
+     * await makefile
+     *     .addTaskDescription('foo', 'This task does foo')
+     *     .commit();
+     * // foo: ## This task does foo
+     * //     echo foo
+     * //
+     * @return {MakefileEditor} Chaining OK
+     */
     addTaskDescription(task, description = 'Task description') {
         const contents = this.contents.replace(`${kebabCase(task)}:\n`, `${kebabCase(task)}: ## ${description}\n`);
         return this.write(contents);
@@ -571,6 +606,11 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
         const task = `@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##/\\n    /'`;
         return this.addTask('help', [task], {description: 'Show this help'});
     }
+    /**
+     * Add Makefile comment
+     * @param {string} text Comment text
+     * @return {MakefileEditor} Chaining OK
+     */
     addComment(text) {
         return this.append(`# ${text}`);
     }
@@ -581,6 +621,15 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
         const {scripts} = parse(pkg);
         return assign(this, {scripts});
     }
+    /**
+     * Append tasks imported from package.json
+     * @example <caption>Must execute importScripts first</caption>
+     * const makefile = await (new MakefileEditor())
+     *     .importScripts()
+     *     .appendScripts()
+     *     .commit();
+     * @return {MakefileEditor} Chaining OK
+     */
     appendScripts() {
         const self = this;
         const {path, scripts} = self;
