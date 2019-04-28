@@ -9,7 +9,13 @@ exports.default = exports.MakefileEditor = void 0;
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
-var _lodash = require("lodash");
+var _negate2 = _interopRequireDefault(require("lodash/negate"));
+
+var _last2 = _interopRequireDefault(require("lodash/last"));
+
+var _kebabCase2 = _interopRequireDefault(require("lodash/kebabCase"));
+
+var _flow2 = _interopRequireDefault(require("lodash/flow"));
 
 var _fsExtra = require("fs-extra");
 
@@ -26,7 +32,7 @@ const {
 const {
   isArray
 } = Array;
-const isNotArray = (0, _lodash.negate)(isArray);
+const isNotArray = (0, _negate2.default)(isArray);
 
 const silent = () => {};
 
@@ -104,7 +110,7 @@ class MakefileEditor extends (0, _createModuleEditor.default)('Makefile') {
       path
     } = this;
 
-    const formatTaskName = val => (0, _lodash.kebabCase)((0, _lodash.last)(val.split(' ')));
+    const formatTaskName = val => (0, _kebabCase2.default)((0, _last2.default)(val.split(' ')));
 
     const replaceNpmRunQuotes = initial => {
       const re = /['"]npm run .[^"]*['"]/g;
@@ -117,7 +123,7 @@ class MakefileEditor extends (0, _createModuleEditor.default)('Makefile') {
       const matches = action.match(re);
       return isNotArray(matches) ? initial : matches.reduce((acc, match) => {
         const [commands, options] = match.split(' -- ');
-        const task = (0, _lodash.last)(commands.split(' '));
+        const task = (0, _last2.default)(commands.split(' '));
         return acc.replace(match, `${scripts[task]} ${options}`);
       }, initial);
     };
@@ -128,7 +134,7 @@ class MakefileEditor extends (0, _createModuleEditor.default)('Makefile') {
       return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial);
     };
 
-    const formatted = (0, _lodash.flow)(replaceNpmRunQuotes, replaceNpmWithArguments, replaceNpmRunCommands)(action);
+    const formatted = (0, _flow2.default)(replaceNpmRunQuotes, replaceNpmWithArguments, replaceNpmRunCommands)(action);
     const [command] = formatted.split(' ');
     const useBinVariable = isLocalNpmCommand(command, path);
     this.useBinVariable = this.useBinVariable || useBinVariable;
@@ -179,7 +185,7 @@ class MakefileEditor extends (0, _createModuleEditor.default)('Makefile') {
 
 
   addTaskDescription(task, description = 'Task description') {
-    const contents = this.contents.replace(`${(0, _lodash.kebabCase)(task)}:\n`, `${(0, _lodash.kebabCase)(task)}: ## ${description}\n`);
+    const contents = this.contents.replace(`${(0, _kebabCase2.default)(task)}:\n`, `${(0, _kebabCase2.default)(task)}: ## ${description}\n`);
     return this.write(contents);
   }
 
@@ -231,7 +237,7 @@ class MakefileEditor extends (0, _createModuleEditor.default)('Makefile') {
       path,
       scripts
     } = self;
-    const tasks = entries(scripts).map(([key, value]) => [(0, _lodash.kebabCase)(key), [value]]);
+    const tasks = entries(scripts).map(([key, value]) => [(0, _kebabCase2.default)(key), [value]]);
 
     const getPreTask = (tasks, name) => {
       const [data] = tasks.filter(([name]) => name.startsWith('pre')).map(([name, values]) => [name.substring('pre'.length), values]).filter(task => task[0] === name);

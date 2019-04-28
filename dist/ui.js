@@ -12,11 +12,15 @@ exports.default = exports.TaskList = exports.Task = exports.Warning = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
+var _isUndefined2 = _interopRequireDefault(require("lodash/isUndefined"));
+
+var _isString2 = _interopRequireDefault(require("lodash/isString"));
+
+var _isFunction2 = _interopRequireDefault(require("lodash/isFunction"));
+
 var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _lodash = require("lodash");
 
 var _pQueue = _interopRequireDefault(require("p-queue"));
 
@@ -368,7 +372,7 @@ const TaskList = ({
     });
   }, []);
   const tasksComplete = state.completed.length + state.skipped.length === tasks.length;
-  tasksComplete && (0, _lodash.isFunction)(done) && done();
+  tasksComplete && (0, _isFunction2.default)(done) && done();
   return _react.default.createElement(ErrorBoundary, null, _react.default.createElement(_ink.Box, {
     flexDirection: 'column',
     marginBottom: 1
@@ -399,7 +403,7 @@ const TaskList = ({
     } = state;
     const isSkipped = skipped.includes(index);
     const isComplete = completed.includes(index) || isSkipped;
-    const shouldBeShown = (0, _lodash.isUndefined)(optional) || (0, _lodash.isFunction)(optional) && optional(options);
+    const shouldBeShown = (0, _isUndefined2.default)(optional) || (0, _isFunction2.default)(optional) && optional(options);
     return shouldBeShown ? _react.default.createElement(Task, {
       text: text,
       isSkipped: isSkipped,
@@ -424,7 +428,7 @@ class UI extends _react.Component {
       input
     } = props;
     const [command, ...terms] = input;
-    const hasCommand = (0, _lodash.isString)(command);
+    const hasCommand = (0, _isString2.default)(command);
     const hasTerms = terms.length > 0;
     const [intendedCommand, intendedTerms] = hasCommand ? (0, _utils.getIntendedInput)(_commands.default, command, terms) : [, []];
 
