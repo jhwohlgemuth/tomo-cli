@@ -8,7 +8,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.populateQueue = populateQueue;
-exports.default = exports.TaskList = exports.Task = exports.Warning = void 0;
+exports.default = exports.TaskList = exports.Task = exports.CommandError = exports.OfflineWarning = exports.Warning = void 0;
+
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -19,6 +21,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 var _lodash = require("lodash");
 
 var _pQueue = _interopRequireDefault(require("p-queue"));
+
+var _isOnline = _interopRequireDefault(require("is-online"));
 
 var _ink = require("ink");
 
@@ -34,14 +38,35 @@ var _commands = _interopRequireDefault(require("./commands"));
 
 var _utils = require("./utils");
 
+const pino = require('pino');
+
+const log = pino({
+  prettyPrint: {
+    levelFirst: true
+  }
+}, pino.destination('./tomo-errors.txt'));
+const {
+  assign,
+  entries
+} = Object;
+const space = ' ';
+
 const Check = ({
   isSkipped
-}) => _react.default.createElement(_ink.Text, {
-  bold: true
-}, _react.default.createElement(_ink.Color, {
+}) => _react.default.createElement(_ink.Color, {
+  bold: true,
   green: !isSkipped,
   dim: isSkipped
-}, _figures.default.tick));
+}, _figures.default.tick, space);
+
+const X = () => _react.default.createElement(_ink.Color, {
+  bold: true,
+  red: true
+}, _figures.default.cross, space);
+
+const Pending = () => _react.default.createElement(_ink.Color, {
+  cyan: true
+}, _react.default.createElement(_inkSpinner.default, null), space);
 
 const Item = ({
   isSelected,
@@ -156,20 +181,6 @@ class ErrorBoundary extends _react.default.Component {
 
 }
 /**
- * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
- * @param {Object} data Data to be used for populating queue
- * @param {Queue} [data.queue={}] p-queue instance
- * @param {Object[]} [data.tasks=[]] Array of task objects
- * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
- * @param {Object} [data.options={}] Options object to pass to task function
- * @return {undefined} Returns nothing (side effects only)
- */
-
-
-function populateQueue() {
-  return _populateQueue.apply(this, arguments);
-}
-/**
  * Component to display warning message requiring user input
  * @param {Object} props Function component props
  * @param {ReactNode} props.children Function component children
@@ -177,52 +188,6 @@ function populateQueue() {
  * @return {ReactComponent} Warning component
  */
 
-
-function _populateQueue() {
-  _populateQueue = (0, _asyncToGenerator2.default)(function* (data = {
-    queue: {},
-    tasks: [],
-    dispatch: () => {},
-    options: {}
-  }) {
-    const {
-      queue,
-      tasks,
-      dispatch,
-      options
-    } = data;
-
-    for (const [index, item] of tasks.entries()) {
-      const {
-        condition,
-        task
-      } = item;
-
-      try {
-        if (yield condition(options)) {
-          yield queue.add(() => task(options)).then(() => dispatch({
-            type: 'complete',
-            payload: index
-          })).catch(() => dispatch({
-            type: 'error',
-            payload: 'Error adding task to queue'
-          }));
-        } else {
-          dispatch({
-            type: 'skipped',
-            payload: index
-          });
-        }
-      } catch (error) {
-        dispatch({
-          type: 'error',
-          payload: error
-        });
-      }
-    }
-  });
-  return _populateQueue.apply(this, arguments);
-}
 
 const Warning = ({
   callback,
@@ -268,10 +233,80 @@ const Warning = ({
     dim: true
   }, " to continue")));
 };
+
+exports.Warning = Warning;
+
+const OfflineWarning = () => _react.default.createElement(_ink.Box, {
+  flexDirection: 'column',
+  marginBottom: 1
+}, _react.default.createElement(_inkBox.default, {
+  borderColor: 'yellow',
+  margin: {
+    left: 1,
+    top: 1
+  },
+  padding: {
+    left: 1,
+    right: 1
+  }
+}, _react.default.createElement(_ink.Color, {
+  yellow: true
+}, "(\u2312_\u2312;) This is awkward...")), _react.default.createElement(_ink.Box, {
+  marginLeft: 4,
+  flexDirection: 'column'
+}, _react.default.createElement(_ink.Box, null, "\u21B3 ", _react.default.createElement(_ink.Text, null, "...but you appear to be ", _react.default.createElement(_ink.Color, {
+  bold: true,
+  red: true
+}, "offline"))), _react.default.createElement(_ink.Box, null, "\u21B3 ", _react.default.createElement(_ink.Text, null, "Please connect to the internet and ", _react.default.createElement(_ink.Color, {
+  bold: true,
+  cyan: true
+}, "try again")))), _react.default.createElement(_ink.Box, {
+  marginLeft: 6,
+  marginTop: 1
+}, _react.default.createElement(_ink.Color, {
+  dim: true
+}, "No dependencies were installed")));
+
+exports.OfflineWarning = OfflineWarning;
+
+const CommandError = errors => {
+  (0, _react.useEffect)(() => {
+    log.error(errors);
+  }, []);
+  return _react.default.createElement(_ink.Box, {
+    flexDirection: 'column',
+    marginTop: 1,
+    marginLeft: 1
+  }, _react.default.createElement(_ink.Box, null, _react.default.createElement(X, null), _react.default.createElement(_ink.Text, null, "Something has gone horribly ", _react.default.createElement(_ink.Color, {
+    bold: true,
+    red: true
+  }, "wrong"))), _react.default.createElement(_ink.Box, {
+    marginLeft: 2
+  }, "\u21B3", space, _react.default.createElement(_ink.Color, {
+    dim: true
+  }, "Details written to ./tomo-errors.txt")));
+};
+/**
+ * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
+ * @param {Object} data Data to be used for populating queue
+ * @param {Queue} [data.queue={}] p-queue instance
+ * @param {Object[]} [data.tasks=[]] Array of task objects
+ * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
+ * @param {Object} [data.options={}] Options object to pass to task function
+ * @return {undefined} Returns nothing (side effects only)
+ */
+
+
+exports.CommandError = CommandError;
+
+function populateQueue() {
+  return _populateQueue.apply(this, arguments);
+}
 /**
  * Task component
  * @param {Object} props Function component props
  * @param {boolean} props.isComplete Control display of check (true) or loading (false)
+ * @param {boolean} props.isErrored Control display of x (true)
  * @param {boolean} props.isSkipped Control color of check - green (false) or dim (true)
  * @param {string} props.text Task text
  * @example
@@ -280,20 +315,84 @@ const Warning = ({
  */
 
 
-exports.Warning = Warning;
+function _populateQueue() {
+  _populateQueue = (0, _asyncToGenerator2.default)(function* (data = {
+    queue: {},
+    tasks: [],
+    dispatch: () => {},
+    options: {}
+  }) {
+    const {
+      queue,
+      tasks,
+      dispatch,
+      options
+    } = data;
+    const isNotOffline = yield (0, _isOnline.default)();
+    dispatch({
+      type: 'status',
+      payload: isNotOffline ? 'online' : 'offline'
+    });
+
+    for (const [index, item] of tasks.entries()) {
+      const {
+        condition,
+        task
+      } = item;
+
+      try {
+        if (yield condition((0, _objectSpread2.default)({}, options, {
+          isNotOffline
+        }))) {
+          yield queue.add(() => task((0, _objectSpread2.default)({}, options, {
+            isNotOffline
+          }))).then(() => dispatch({
+            type: 'complete',
+            payload: index
+          })).catch(() => dispatch({
+            type: 'error',
+            payload: {
+              index,
+              title: 'Failed to add task to queue',
+              location: 'task',
+              details: item.text
+            }
+          }));
+        } else {
+          dispatch({
+            type: 'skipped',
+            payload: index
+          });
+        }
+      } catch (error) {
+        dispatch({
+          type: 'error',
+          payload: {
+            error,
+            index,
+            title: 'Failed to test task conditions',
+            location: 'condition',
+            details: item.text
+          }
+        });
+      }
+    }
+  });
+  return _populateQueue.apply(this, arguments);
+}
 
 const Task = ({
   isComplete,
+  isErrored,
+  isPending,
   isSkipped,
   text
 }) => _react.default.createElement(_ink.Box, {
   flexDirection: "row",
   marginLeft: 3
-}, isComplete ? _react.default.createElement(Check, {
+}, isComplete && _react.default.createElement(Check, {
   isSkipped: isSkipped
-}) : _react.default.createElement(_ink.Color, {
-  cyan: true
-}, _react.default.createElement(_inkSpinner.default, null)), " ", _react.default.createElement(_ink.Text, null, _react.default.createElement(_ink.Color, {
+}), isErrored && _react.default.createElement(X, null), isPending && _react.default.createElement(Pending, null), _react.default.createElement(_ink.Text, null, _react.default.createElement(_ink.Color, {
   dim: isComplete
 }, text)));
 /**
@@ -316,6 +415,8 @@ const TaskList = ({
   terms,
   done
 }) => {
+  const dict = val => new Map(entries(val));
+
   const reducer = (state, {
     type,
     payload
@@ -326,27 +427,25 @@ const TaskList = ({
       skipped
     } = state;
 
-    if (type === 'complete') {
-      return {
-        completed: [...completed, payload],
-        skipped,
-        errors
-      };
-    } else if (type === 'skipped') {
-      return {
-        completed,
-        skipped: [...skipped, payload],
-        errors
-      };
-    } else if (type === 'error') {
-      return {
-        completed,
-        skipped,
+    const update = val => assign({}, state, val);
+
+    const lookup = dict({
+      complete: () => update({
+        completed: [...completed, payload]
+      }),
+      skipped: () => update({
+        skipped: [...skipped, payload]
+      }),
+      error: () => update({
         errors: [...errors, {
-          details: payload
+          payload
         }]
-      };
-    }
+      }),
+      status: () => update({
+        status: payload
+      })
+    });
+    return lookup.get(type)();
   };
 
   const initialState = {
@@ -355,10 +454,21 @@ const TaskList = ({
     errors: []
   };
   const [state, dispatch] = (0, _react.useReducer)(reducer, initialState);
+  const {
+    completed,
+    errors,
+    skipped,
+    status
+  } = state;
   const queue = new _pQueue.default({
     concurrency: 1
   });
   const tasks = _commands.default[command][terms[0]];
+  const tasksComplete = completed.length + skipped.length === tasks.length;
+  const hasError = errors.length > 0;
+  const {
+    skipInstall
+  } = options;
   (0, _react.useEffect)(() => {
     populateQueue({
       queue,
@@ -366,10 +476,11 @@ const TaskList = ({
       options,
       dispatch
     });
-  }, []);
-  const tasksComplete = state.completed.length + state.skipped.length === tasks.length;
+  }, [tasks]);
   tasksComplete && (0, _lodash.isFunction)(done) && done();
-  return _react.default.createElement(ErrorBoundary, null, _react.default.createElement(_ink.Box, {
+  return _react.default.createElement(ErrorBoundary, null, status === 'offline' && !skipInstall && _react.default.createElement(OfflineWarning, null), hasError && _react.default.createElement(CommandError, {
+    errors: errors
+  }), _react.default.createElement(_ink.Box, {
     flexDirection: 'column',
     marginBottom: 1
   }, _react.default.createElement(_inkBox.default, {
@@ -381,7 +492,7 @@ const TaskList = ({
       left: 1,
       right: 1
     },
-    borderColor: tasksComplete ? 'green' : 'cyan',
+    borderColor: tasksComplete ? 'green' : hasError ? 'red' : 'cyan',
     borderStyle: 'round'
   }, _react.default.createElement(_ink.Color, {
     bold: true,
@@ -395,15 +506,20 @@ const TaskList = ({
   }, index) => {
     const {
       completed,
+      errors,
       skipped
     } = state;
     const isSkipped = skipped.includes(index);
     const isComplete = completed.includes(index) || isSkipped;
+    const isErrored = errors.map(error => error.payload.index).includes(index);
+    const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
     const shouldBeShown = (0, _lodash.isUndefined)(optional) || (0, _lodash.isFunction)(optional) && optional(options);
     return shouldBeShown ? _react.default.createElement(Task, {
       text: text,
       isSkipped: isSkipped,
       isComplete: isComplete,
+      isErrored: isErrored,
+      isPending: isPending,
       key: index
     }) : _react.default.createElement(_ink.Box, {
       key: index
@@ -539,12 +655,16 @@ ErrorBoundary.propTypes = {
 };
 Task.propTypes = {
   isComplete: _propTypes.default.bool,
+  isErrored: _propTypes.default.bool,
   isSkipped: _propTypes.default.bool,
+  isPending: _propTypes.default.bool,
   text: _propTypes.default.string
 };
 Task.defaultProps = {
   isComplete: false,
+  isErrored: false,
   isSkipped: false,
+  isPending: false,
   text: 'task description'
 };
 TaskList.propTypes = {

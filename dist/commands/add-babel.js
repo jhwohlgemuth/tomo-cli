@@ -40,7 +40,9 @@ const tasks = [{
     dev: true,
     skipInstall
   }),
-  condition: () => !new _utils.PackageJsonEditor().hasAll(...BABEL_DEPENDENCIES) && (0, _common.someDoExist)('package.json')
+  condition: ({
+    isNotOffline
+  }) => isNotOffline && !new _utils.PackageJsonEditor().hasAll(...BABEL_DEPENDENCIES) && (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install Babel React preset',
   task: ({
