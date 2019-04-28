@@ -4,9 +4,9 @@ import {
     getIntendedInput,
     getVersions,
     install,
-    MakefileEditor,
     PackageJsonEditor
 } from '../src/utils';
+import MakefileEditor from '../src/utils/MakefileEditor';
 import {join} from 'path';
 import crypto from 'crypto';
 import {mkdirp} from 'fs-extra';

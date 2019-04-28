@@ -1,8 +1,5 @@
-import {
-    install,
-    PackageJsonEditor,
-    someDoExist
-} from '../utils';
+import {install, PackageJsonEditor} from '../utils';
+import {someDoExist} from '../utils/common';
 
 /** @ignore */
 export const tasks = [

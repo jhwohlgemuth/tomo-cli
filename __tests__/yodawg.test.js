@@ -5,7 +5,7 @@ import {
     getDirectoryTree
 } from './tomo-test';
 import {partialRight} from 'lodash';
-import {format} from '../src/utils';
+import {format} from '../src/utils/common';
 import {
     useTemporaryDirectory
 } from './tomo-test';

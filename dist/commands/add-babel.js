@@ -11,6 +11,8 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _utils = require("../utils");
 
+var _common = require("../utils/common");
+
 const BABEL_CORE = ['@babel/cli', '@babel/core', '@babel/runtime'];
 const BABEL_PRESETS = ['@babel/preset-env'];
 const BABEL_PLUGINS = ['@babel/plugin-transform-runtime', '@babel/plugin-proposal-class-properties', '@babel/plugin-proposal-export-default-from', '@babel/plugin-proposal-optional-chaining'];
@@ -29,7 +31,7 @@ const tasks = [{
       return _ref.apply(this, arguments);
     };
   }(),
-  condition: () => (0, _utils.allDoNotExist)('babel.config.js', '.babelrc', '.babelrc.js')
+  condition: () => (0, _common.allDoNotExist)('babel.config.js', '.babelrc', '.babelrc.js')
 }, {
   text: 'Install Babel core, CLI, presets, and plugins',
   task: ({
@@ -38,7 +40,7 @@ const tasks = [{
     dev: true,
     skipInstall
   }),
-  condition: () => !new _utils.PackageJsonEditor().hasAll(...BABEL_DEPENDENCIES) && (0, _utils.someDoExist)('package.json')
+  condition: () => !new _utils.PackageJsonEditor().hasAll(...BABEL_DEPENDENCIES) && (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install Babel React preset',
   task: ({
@@ -49,7 +51,7 @@ const tasks = [{
   }),
   condition: ({
     useReact
-  }) => useReact && (0, _utils.someDoExist)('package.json'),
+  }) => useReact && (0, _common.someDoExist)('package.json'),
   optional: ({
     useReact
   }) => useReact
@@ -69,7 +71,7 @@ const tasks = [{
   }(),
   condition: ({
     useReact
-  }) => useReact && (0, _utils.someDoExist)('babel.config.js'),
+  }) => useReact && (0, _common.someDoExist)('babel.config.js'),
   optional: ({
     useReact
   }) => useReact

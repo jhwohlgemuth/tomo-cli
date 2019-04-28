@@ -1,10 +1,6 @@
-import {
-    allDoNotExist,
-    createJsonEditor,
-    install,
-    PackageJsonEditor,
-    someDoExist
-} from '../utils';
+import {install, PackageJsonEditor} from '../utils';
+import {allDoNotExist, someDoExist} from '../utils/common';
+import createJsonEditor from '../utils/createJsonEditor';
 
 const ESDOC_CONF = {
     source: './src',

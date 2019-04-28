@@ -11,6 +11,8 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _utils = require("../utils");
 
+var _common = require("../utils/common");
+
 var _addBabel = _interopRequireDefault(require("./add-babel"));
 
 const WEBPACK_DEPENDENCIES = ['webpack', 'webpack-cli', 'webpack-dashboard', 'webpack-jarvis', 'webpack-dev-server', 'babel-loader'];
@@ -34,7 +36,7 @@ const tasks = [..._addBabel.default, {
       return _ref.apply(this, arguments);
     };
   }(),
-  condition: () => (0, _utils.allDoNotExist)('webpack.config.js')
+  condition: () => (0, _common.allDoNotExist)('webpack.config.js')
 }, {
   text: 'Add build tasks to package.json',
   task: function () {
@@ -52,7 +54,7 @@ const tasks = [..._addBabel.default, {
       return _ref2.apply(this, arguments);
     };
   }(),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install Webpack dependencies',
   task: ({
@@ -61,7 +63,7 @@ const tasks = [..._addBabel.default, {
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => (0, _common.someDoExist)('package.json')
 }];
 exports.tasks = tasks;
 var _default = tasks;

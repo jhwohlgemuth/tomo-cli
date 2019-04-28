@@ -1,10 +1,9 @@
 import {
-    allDoNotExist,
     install,
     PackageJsonEditor,
-    PostcssConfigEditor,
-    someDoExist
+    PostcssConfigEditor
 } from '../utils';
+import {allDoNotExist, someDoExist} from '../utils/common';
 
 const POSTCSS_DEPENDENCIES = [
     'cssnano',

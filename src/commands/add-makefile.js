@@ -1,9 +1,9 @@
 import {
     allDoNotExist,
-    MakefileEditor,
     allDoExist,
     allDoExistSync
-} from '../utils';
+} from '../utils/common';
+import MakefileEditor from '../utils/MakefileEditor';
 
 /** @ignore */
 export const tasks = [

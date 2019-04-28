@@ -1,9 +1,7 @@
 /* eslint-disable max-len */
 import {arrowRight} from 'figures';
-import {
-    PackageJsonEditor,
-    someDoExist
-} from '../utils';
+import {PackageJsonEditor} from '../utils';
+import {someDoExist} from '../utils/common';
 
 /** @ignore */
 export const tasks = [

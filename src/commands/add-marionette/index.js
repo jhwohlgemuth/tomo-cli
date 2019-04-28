@@ -1,9 +1,7 @@
 import {join} from 'path';
-import {
-    install,
-    Scaffolder,
-    someDoExist
-} from '../../utils';
+import {install} from '../../utils';
+import {someDoExist} from '../../utils/common';
+import {Scaffolder} from '../../utils/Scaffolder';
 
 const MARIONETTE_DEPENDENCIES = [
     'jquery',

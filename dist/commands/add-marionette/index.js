@@ -13,6 +13,10 @@ var _path = require("path");
 
 var _utils = require("../../utils");
 
+var _common = require("../../utils/common");
+
+var _Scaffolder = require("../../utils/Scaffolder");
+
 const MARIONETTE_DEPENDENCIES = ['jquery', 'backbone', 'backbone.marionette', 'backbone.radio', 'marionette.approuter', 'handlebars', 'lodash', 'redux'];
 
 const ALWAYS =
@@ -28,7 +32,7 @@ function () {
 }();
 
 const sourceDirectory = (0, _path.join)(__dirname, 'templates');
-const scaffolder = new _utils.Scaffolder({
+const scaffolder = new _Scaffolder.Scaffolder({
   sourceDirectory
 });
 /** @ignore */
@@ -80,7 +84,7 @@ const tasks = [{
   }) => (0, _utils.install)(MARIONETTE_DEPENDENCIES, {
     skipInstall
   }),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => (0, _common.someDoExist)('package.json')
 }];
 exports.tasks = tasks;
 var _default = tasks;

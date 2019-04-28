@@ -1,12 +1,7 @@
 import {join} from 'path';
-import {
-    allDoNotExist,
-    install,
-    EslintConfigModuleEditor,
-    PackageJsonEditor,
-    Scaffolder,
-    someDoExist
-} from '../../utils';
+import {install, EslintConfigModuleEditor, PackageJsonEditor} from '../../utils';
+import {allDoNotExist, someDoExist} from '../../utils/common';
+import {Scaffolder} from '../../utils/Scaffolder';
 
 const ESLINT_DEPENDENCIES = [
     'eslint',

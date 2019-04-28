@@ -11,6 +11,8 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _utils = require("../utils");
 
+var _common = require("../utils/common");
+
 const JEST_DEPENDENCIES = ['jest', 'babel-jest'];
 /** @ignore */
 
@@ -32,7 +34,7 @@ const tasks = [{
       return _ref.apply(this, arguments);
     };
   }(),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install Jest dependencies',
   task: ({
@@ -41,7 +43,7 @@ const tasks = [{
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => (0, _common.someDoExist)('package.json')
 }];
 exports.tasks = tasks;
 var _default = tasks;

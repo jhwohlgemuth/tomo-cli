@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/utils/common.js | tomo-cli</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A friendly command line tool designed to help create sustainable software using web technology"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="tomo-cli"><meta property="twitter:description" content="A friendly command line tool designed to help create sustainable software using web technology"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/jhwohlgemuth/tomo-cli"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/MakefileEditor.js~MakefileEditor.html">MakefileEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExist">allDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExistSync">allDoExistSync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExistSync">allDoNotExistSync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parse">parse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PackageJsonEditor">PackageJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-WebpackConfigEditor">WebpackConfigEditor</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/utils/common.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
+import {pathExists, pathExistsSync} from &apos;fs-extra&apos;;
+import {which} from &apos;shelljs&apos;;
+import {isNull, negate} from &apos;lodash&apos;;
+import prettier from &apos;prettier&apos;;
+
+const PRETTIER_OPTIONS = {
+    bracketSpacing: false,
+    parser: &apos;json-stringify&apos;,
+    printWidth: 80,
+    tabWidth: 4,
+    quotes: true
+};
+export const parse = data =&gt; JSON.parse(JSON.stringify(data));
+export const getCommandDirectory = command =&gt; {
+    const data = which(command);
+    const commandExists = negate(isNull)(data);
+    return commandExists ? data.toString().split(command)[0] : &apos;&apos;;
+};
+export const getBinDirectory = path =&gt; {
+    const [packageDirectory] = path.split(&apos;Makefile&apos;);
+    return `${packageDirectory}node_modules/.bin/`;
+};
+/**
+ * Format input code using Prettier
+ * @param {*} [code=&apos;&apos;] Code to be formatted
+ * @example &lt;caption&gt;Prettier options&lt;/caption&gt;
+ * {
+ *     bracketSpacing: false,
+ *     parser: &apos;json-stringify&apos;,
+ *     printWidth: 80,
+ *     tabWidth: 4,
+ *     quotes: true
+ * }
+ * @return {string} Code formatted by Prettier
+ */
+export const format = (code = {}) =&gt; prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/&quot;/g, &apos;&apos;);
+/**
+ * Check that at least one file or files exist
+ * @param  {...string} args File or folder path(s)
+ * @example
+ * // some/folder/
+ * //   &#x251C;&#x2500; foo.js
+ * //   &#x2514;&#x2500;&#x2500; bar.js
+ * const hasFoo = someDoExist(&apos;some/folder/foo.js&apos;);
+ * const hasBaz = someDoExist(&apos;some/folder/baz.js&apos;);
+ * const hasSomething = someDoExist(&apos;some/folder/bar.js&apos;, &apos;some/folder/baz.js&apos;);
+ * console.log(hasFoo); // true
+ * console.log(hasBaz); // false
+ * console.log(hasSomething); // true
+ * @return {boolean} Some files/path do exist (true) or all do not exist (false)
+ */
+export const someDoExist = async (...args) =&gt; {
+    const checks = await Promise.all(args.map(val =&gt; pathExists(join(process.cwd(), val))));
+    return checks.some(Boolean);
+};
+/**
+ * Check that at least one file or files exist (synchronous version of {@link someDoExist})
+ * @param  {...string} args File or folder path(s)
+ * @return {boolean} Some files/path do exist (true) or all do not exist (false)
+ */
+export const someDoExistSync = (...args) =&gt; args.map(val =&gt; pathExistsSync(join(process.cwd(), val))).some(Boolean);
+/**
+ * Check that all files exist
+ * @param  {...string} args File of folder paths
+ * @return {boolean} All files/paths exist (true) or do not (false)
+ */
+export const allDoExist = async (...args) =&gt; {
+    const checks = await Promise.all(args.map(val =&gt; pathExists(join(process.cwd(), val))));
+    return checks.every(Boolean);
+};
+/**
+ * Check that all files exist (synchronous version of {@link allDoExist})
+ * @param  {...string} args File of folder paths
+ * @return {boolean} All files/paths exist (true) or do not (false)
+ */
+export const allDoExistSync = (...args) =&gt; args.map(val =&gt; pathExistsSync(join(process.cwd(), val))).every(Boolean);
+/**
+ * Check that all files do not exist
+ * @example
+ * // some/folder/
+ * //   &#x251C;&#x2500; foo.js
+ * //   &#x2514;&#x2500;&#x2500; bar.js
+ * const noPackageJson = allDoNotExist(&apos;some/folder/package.json&apos;);
+ * console.log(noPackageJson); // true
+ * @param  {...string} args File or folder path(s)
+ * @return {boolean} All files/paths do not exist (true) or some do (false)
+ */
+export const allDoNotExist = async (...args) =&gt; {
+    const checks = await Promise.all(args.map(val =&gt; pathExists(join(process.cwd(), val))));
+    return checks.every(val =&gt; !val);
+};
+/**
+ * Check that all files do not exist (synchronous version of {@link allDoNotExist})
+ * @param  {...string} args File or folder path(s)
+ * @return {boolean} All files/paths do not exist (true) or some do (false)
+ */
+export const allDoNotExistSync = (...args) =&gt; args.map(val =&gt; pathExistsSync(join(process.cwd(), val))).every(val =&gt; !val);</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

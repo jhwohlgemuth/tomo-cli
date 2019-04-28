@@ -11,6 +11,10 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _utils = require("../utils");
 
+var _common = require("../utils/common");
+
+var _createJsonEditor = _interopRequireDefault(require("../utils/createJsonEditor"));
+
 const ESDOC_CONF = {
   source: './src',
   destination: './docs',
@@ -25,7 +29,7 @@ const ESDOC_CONF = {
 };
 const ESDOC_DEPENDENCIES = ['esdoc', 'esdoc-ecmascript-proposal-plugin', 'esdoc-standard-plugin'];
 const ESDOC_REACT_PLUGINS = ['esdoc-jsx-plugin'];
-const EsdocJsonEditor = (0, _utils.createJsonEditor)('esdoc.conf.json', ESDOC_CONF);
+const EsdocJsonEditor = (0, _createJsonEditor.default)('esdoc.conf.json', ESDOC_CONF);
 /** @ignore */
 
 const tasks = [{
@@ -40,7 +44,7 @@ const tasks = [{
       return _ref.apply(this, arguments);
     };
   }(),
-  condition: () => (0, _utils.allDoNotExist)('esdoc.conf.json', '.esdoc.json')
+  condition: () => (0, _common.allDoNotExist)('esdoc.conf.json', '.esdoc.json')
 }, {
   text: 'Add documentation tasks to package.json',
   task: function () {
@@ -65,7 +69,7 @@ const tasks = [{
       return _ref2.apply(this, arguments);
     };
   }(),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install esdoc dependencies',
   task: ({
@@ -74,7 +78,7 @@ const tasks = [{
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install esdoc React plugins',
   task: ({
@@ -85,7 +89,7 @@ const tasks = [{
   }),
   condition: ({
     useReact
-  }) => useReact && (0, _utils.someDoExist)('package.json'),
+  }) => useReact && (0, _common.someDoExist)('package.json'),
   optional: ({
     useReact
   }) => useReact
@@ -113,7 +117,7 @@ const tasks = [{
   }(),
   condition: ({
     useReact
-  }) => useReact && (0, _utils.someDoExist)('esdoc.conf.json'),
+  }) => useReact && (0, _common.someDoExist)('esdoc.conf.json'),
   optional: ({
     useReact
   }) => useReact

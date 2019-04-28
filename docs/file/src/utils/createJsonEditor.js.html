@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/utils/createJsonEditor.js | tomo-cli</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A friendly command line tool designed to help create sustainable software using web technology"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="tomo-cli"><meta property="twitter:description" content="A friendly command line tool designed to help create sustainable software using web technology"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/jhwohlgemuth/tomo-cli"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/MakefileEditor.js~MakefileEditor.html">MakefileEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExist">allDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoExistSync">allDoExistSync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExist">allDoNotExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-allDoNotExistSync">allDoNotExistSync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-format">format</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getBinDirectory">getBinDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getCommandDirectory">getCommandDirectory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parse">parse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExist">someDoExist</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-someDoExistSync">someDoExistSync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EslintConfigModuleEditor">EslintConfigModuleEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PackageJsonEditor">PackageJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PostcssConfigEditor">PostcssConfigEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-WebpackConfigEditor">WebpackConfigEditor</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/utils/createJsonEditor.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
+import {existsSync} from &apos;fs-extra&apos;;
+import BasicEditor from &apos;./BasicEditor&apos;;
+import {parse} from &apos;./common&apos;;
+
+const {assign} = Object;
+const INDENT_SPACES = 4;
+/**
+ * Create and edit a JSON file with a fluent API
+ * @param {string} filename Name of file to edit
+ * @param {object} [contents={}] Contents of file
+ * @return {JsonEditor} JsonEditor class (extends {@link BasicEditor})
+ */
+export const createJsonEditor = (filename, contents = {}) =&gt; class JsonEditor extends BasicEditor {
+    contents = contents;
+    constructor(cwd = process.cwd()) {
+        super();
+        const path = join(cwd, filename);
+        assign(this, {path});
+    }
+    create() {
+        const self = this;
+        const {contents, fs, path, queue} = self;
+        existsSync(path) || queue.add(() =&gt; fs.writeJSON(path, contents, null, INDENT_SPACES));
+        return self;
+    }
+    read() {
+        const {fs, path} = this;
+        return fs.readJSON(path) || &apos;&apos;;
+    }
+    extend(contents) {
+        const self = this;
+        const {fs, path, queue} = self;
+        queue.add(() =&gt; fs.extendJSON(path, contents, null, INDENT_SPACES));
+        return self;
+    }
+    /**
+     * Check if package.json manifest file has dependencies (dependencies or devDependencies)
+     * @param  {...string} modules npm module names
+     * @return {Boolean} Has at least one dependency (true) or none (false)
+     */
+    hasSome(...modules) {
+        const {keys} = Object;
+        const pkg = this.read();
+        const {dependencies, devDependencies} = parse(pkg);
+        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];
+        return modules.some(module =&gt; installed.includes(module));
+    }
+    /**
+     * Check if package.json manifest file has dependencies (dependencies or devDependencies)
+     * @param  {...string} modules npm module names
+     * @return {Boolean} Has all dependencies (true) or not all (false)
+     */
+    hasAll(...modules) {
+        const {keys} = Object;
+        const pkg = this.read();
+        const {dependencies, devDependencies} = parse(pkg);
+        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];
+        return modules.every(module =&gt; installed.includes(module));
+    }
+};
+export default createJsonEditor;</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

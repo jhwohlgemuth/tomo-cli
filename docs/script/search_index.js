@@ -102,45 +102,45 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
-    "tomo-cli/src/utils.js~babelconfigmoduleeditor",
+    "tomo-cli/src/utils/index.js~babelconfigmoduleeditor",
     "variable/index.html#static-variable-BabelConfigModuleEditor",
-    "<span>BabelConfigModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>BabelConfigModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "variable"
   ],
   [
-    "tomo-cli/src/utils.js~basiceditor",
-    "class/src/utils.js~BasicEditor.html",
-    "<span>BasicEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "tomo-cli/src/utils/basiceditor.js~basiceditor",
+    "class/src/utils/BasicEditor.js~BasicEditor.html",
+    "<span>BasicEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/BasicEditor.js</span>",
     "class"
   ],
   [
-    "tomo-cli/src/utils.js~eslintconfigmoduleeditor",
+    "tomo-cli/src/utils/index.js~eslintconfigmoduleeditor",
     "variable/index.html#static-variable-EslintConfigModuleEditor",
-    "<span>EslintConfigModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>EslintConfigModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "variable"
   ],
   [
-    "tomo-cli/src/utils.js~makefileeditor",
-    "class/src/utils.js~MakefileEditor.html",
-    "<span>MakefileEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "tomo-cli/src/utils/makefileeditor.js~makefileeditor",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html",
+    "<span>MakefileEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/MakefileEditor.js</span>",
     "class"
   ],
   [
-    "tomo-cli/src/utils.js~packagejsoneditor",
+    "tomo-cli/src/utils/index.js~packagejsoneditor",
     "variable/index.html#static-variable-PackageJsonEditor",
-    "<span>PackageJsonEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>PackageJsonEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "variable"
   ],
   [
-    "tomo-cli/src/utils.js~postcssconfigeditor",
+    "tomo-cli/src/utils/index.js~postcssconfigeditor",
     "variable/index.html#static-variable-PostcssConfigEditor",
-    "<span>PostcssConfigEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>PostcssConfigEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "variable"
   ],
   [
-    "tomo-cli/src/utils.js~scaffolder",
-    "class/src/utils.js~Scaffolder.html",
-    "<span>Scaffolder</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "tomo-cli/src/utils/scaffolder.js~scaffolder",
+    "class/src/utils/Scaffolder.js~Scaffolder.html",
+    "<span>Scaffolder</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/Scaffolder.js</span>",
     "class"
   ],
   [
@@ -168,87 +168,87 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~webpackconfigeditor",
+    "tomo-cli/src/utils/index.js~webpackconfigeditor",
     "variable/index.html#static-variable-WebpackConfigEditor",
-    "<span>WebpackConfigEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>WebpackConfigEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "variable"
   ],
   [
-    "tomo-cli/src/utils.js~alldoexist",
+    "tomo-cli/src/utils/common.js~alldoexist",
     "function/index.html#static-function-allDoExist",
-    "<span>allDoExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>allDoExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~alldoexistsync",
+    "tomo-cli/src/utils/common.js~alldoexistsync",
     "function/index.html#static-function-allDoExistSync",
-    "<span>allDoExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>allDoExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~alldonotexist",
+    "tomo-cli/src/utils/common.js~alldonotexist",
     "function/index.html#static-function-allDoNotExist",
-    "<span>allDoNotExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>allDoNotExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~alldonotexistsync",
+    "tomo-cli/src/utils/common.js~alldonotexistsync",
     "function/index.html#static-function-allDoNotExistSync",
-    "<span>allDoNotExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>allDoNotExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~createjsoneditor",
+    "tomo-cli/src/utils/createjsoneditor.js~createjsoneditor",
     "function/index.html#static-function-createJsonEditor",
-    "<span>createJsonEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>createJsonEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/createJsonEditor.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~createmoduleeditor",
+    "tomo-cli/src/utils/createmoduleeditor.js~createmoduleeditor",
     "function/index.html#static-function-createModuleEditor",
-    "<span>createModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>createModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/createModuleEditor.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~format",
+    "tomo-cli/src/utils/common.js~format",
     "function/index.html#static-function-format",
-    "<span>format</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>format</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~getbindirectory",
+    "tomo-cli/src/utils/common.js~getbindirectory",
     "function/index.html#static-function-getBinDirectory",
-    "<span>getBinDirectory</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>getBinDirectory</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~getcommanddirectory",
+    "tomo-cli/src/utils/common.js~getcommanddirectory",
     "function/index.html#static-function-getCommandDirectory",
-    "<span>getCommandDirectory</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>getCommandDirectory</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~getintendedinput",
+    "tomo-cli/src/utils/index.js~getintendedinput",
     "function/index.html#static-function-getIntendedInput",
-    "<span>getIntendedInput</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>getIntendedInput</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~getversions",
+    "tomo-cli/src/utils/index.js~getversions",
     "function/index.html#static-function-getVersions",
-    "<span>getVersions</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>getVersions</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~install",
+    "tomo-cli/src/utils/index.js~install",
     "function/index.html#static-function-install",
-    "<span>install</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>install</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~islocalnpmcommand",
-    "function/index.html#static-function-isLocalNpmCommand",
-    "<span>isLocalNpmCommand</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "tomo-cli/src/utils/common.js~parse",
+    "function/index.html#static-function-parse",
+    "<span>parse</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
@@ -258,21 +258,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~somedoexist",
+    "tomo-cli/src/utils/common.js~somedoexist",
     "function/index.html#static-function-someDoExist",
-    "<span>someDoExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>someDoExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~somedoexistsync",
+    "tomo-cli/src/utils/common.js~somedoexistsync",
     "function/index.html#static-function-someDoExistSync",
-    "<span>someDoExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>someDoExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
-    "tomo-cli/src/utils.js~verifyrustinstallation",
+    "tomo-cli/src/utils/index.js~verifyrustinstallation",
     "function/index.html#static-function-verifyRustInstallation",
-    "<span>verifyRustInstallation</span> <span class=\"search-result-import-path\">tomo-cli/src/utils.js</span>",
+    "<span>verifyRustInstallation</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "function"
   ],
   [
@@ -390,7 +390,7 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
-    "eslintconfigmoduleeditor src/utils.js~eslintconfigmoduleeditor,eslintconfigmoduleeditor",
+    "eslintconfigmoduleeditor src/utils/index.js~eslintconfigmoduleeditor,eslintconfigmoduleeditor",
     "test-file/__tests__/utils.test.js.html#lineNumber73",
     "Verify ESLint module editor can create and edit an ESLint configuration file",
     "test"
@@ -426,7 +426,7 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
-    "packagejsoneditor src/utils.js~packagejsoneditor,packagejsoneditor",
+    "packagejsoneditor src/utils/index.js~packagejsoneditor,packagejsoneditor",
     "test-file/__tests__/utils.test.js.html#lineNumber25",
     "Verify package.json editor can create and edit a package.json manifest file",
     "test"
@@ -984,154 +984,190 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/utils.js",
-    "file/src/utils.js.html",
-    "src/utils.js",
+    "src/utils/basiceditor.js",
+    "file/src/utils/BasicEditor.js.html",
+    "src/utils/BasicEditor.js",
     "file"
   ],
   [
-    "src/utils.js~basiceditor#commit",
-    "class/src/utils.js~BasicEditor.html#instance-method-commit",
-    "src/utils.js~BasicEditor#commit",
+    "src/utils/basiceditor.js~basiceditor#commit",
+    "class/src/utils/BasicEditor.js~BasicEditor.html#instance-method-commit",
+    "src/utils/BasicEditor.js~BasicEditor#commit",
     "method"
   ],
   [
-    "src/utils.js~basiceditor#constructor",
-    "class/src/utils.js~BasicEditor.html#instance-constructor-constructor",
-    "src/utils.js~BasicEditor#constructor",
+    "src/utils/basiceditor.js~basiceditor#constructor",
+    "class/src/utils/BasicEditor.js~BasicEditor.html#instance-constructor-constructor",
+    "src/utils/BasicEditor.js~BasicEditor#constructor",
     "method"
   ],
   [
-    "src/utils.js~basiceditor#copy",
-    "class/src/utils.js~BasicEditor.html#instance-method-copy",
-    "src/utils.js~BasicEditor#copy",
+    "src/utils/basiceditor.js~basiceditor#copy",
+    "class/src/utils/BasicEditor.js~BasicEditor.html#instance-method-copy",
+    "src/utils/BasicEditor.js~BasicEditor#copy",
     "method"
   ],
   [
-    "src/utils.js~basiceditor#delete",
-    "class/src/utils.js~BasicEditor.html#instance-method-delete",
-    "src/utils.js~BasicEditor#delete",
+    "src/utils/basiceditor.js~basiceditor#delete",
+    "class/src/utils/BasicEditor.js~BasicEditor.html#instance-method-delete",
+    "src/utils/BasicEditor.js~BasicEditor#delete",
     "method"
   ],
   [
-    "src/utils.js~basiceditor#done",
-    "class/src/utils.js~BasicEditor.html#instance-method-done",
-    "src/utils.js~BasicEditor#done",
+    "src/utils/basiceditor.js~basiceditor#done",
+    "class/src/utils/BasicEditor.js~BasicEditor.html#instance-method-done",
+    "src/utils/BasicEditor.js~BasicEditor#done",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#addcomment",
-    "class/src/utils.js~MakefileEditor.html#instance-method-addComment",
-    "src/utils.js~MakefileEditor#addComment",
+    "src/utils/makefileeditor.js",
+    "file/src/utils/MakefileEditor.js.html",
+    "src/utils/MakefileEditor.js",
+    "file"
+  ],
+  [
+    "src/utils/makefileeditor.js~makefileeditor#addcomment",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-addComment",
+    "src/utils/MakefileEditor.js~MakefileEditor#addComment",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#addtask",
-    "class/src/utils.js~MakefileEditor.html#instance-method-addTask",
-    "src/utils.js~MakefileEditor#addTask",
+    "src/utils/makefileeditor.js~makefileeditor#addtask",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-addTask",
+    "src/utils/MakefileEditor.js~MakefileEditor#addTask",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#addtaskdescription",
-    "class/src/utils.js~MakefileEditor.html#instance-method-addTaskDescription",
-    "src/utils.js~MakefileEditor#addTaskDescription",
+    "src/utils/makefileeditor.js~makefileeditor#addtaskdescription",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-addTaskDescription",
+    "src/utils/MakefileEditor.js~MakefileEditor#addTaskDescription",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#append",
-    "class/src/utils.js~MakefileEditor.html#instance-method-append",
-    "src/utils.js~MakefileEditor#append",
+    "src/utils/makefileeditor.js~makefileeditor#append",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-append",
+    "src/utils/MakefileEditor.js~MakefileEditor#append",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#appendhelptask",
-    "class/src/utils.js~MakefileEditor.html#instance-method-appendHelpTask",
-    "src/utils.js~MakefileEditor#appendHelpTask",
+    "src/utils/makefileeditor.js~makefileeditor#appendhelptask",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-appendHelpTask",
+    "src/utils/MakefileEditor.js~MakefileEditor#appendHelpTask",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#appendscripts",
-    "class/src/utils.js~MakefileEditor.html#instance-method-appendScripts",
-    "src/utils.js~MakefileEditor#appendScripts",
+    "src/utils/makefileeditor.js~makefileeditor#appendscripts",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-appendScripts",
+    "src/utils/MakefileEditor.js~MakefileEditor#appendScripts",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#constructor",
-    "class/src/utils.js~MakefileEditor.html#instance-constructor-constructor",
-    "src/utils.js~MakefileEditor#constructor",
+    "src/utils/makefileeditor.js~makefileeditor#constructor",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-constructor-constructor",
+    "src/utils/MakefileEditor.js~MakefileEditor#constructor",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#contents",
-    "class/src/utils.js~MakefileEditor.html#instance-member-contents",
-    "src/utils.js~MakefileEditor#contents",
+    "src/utils/makefileeditor.js~makefileeditor#contents",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-member-contents",
+    "src/utils/MakefileEditor.js~MakefileEditor#contents",
     "member"
   ],
   [
-    "src/utils.js~makefileeditor#formattask",
-    "class/src/utils.js~MakefileEditor.html#instance-method-formatTask",
-    "src/utils.js~MakefileEditor#formatTask",
+    "src/utils/makefileeditor.js~makefileeditor#formattask",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-formatTask",
+    "src/utils/MakefileEditor.js~MakefileEditor#formatTask",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#importscripts",
-    "class/src/utils.js~MakefileEditor.html#instance-method-importScripts",
-    "src/utils.js~MakefileEditor#importScripts",
+    "src/utils/makefileeditor.js~makefileeditor#importscripts",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-importScripts",
+    "src/utils/MakefileEditor.js~MakefileEditor#importScripts",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#prepend",
-    "class/src/utils.js~MakefileEditor.html#instance-method-prepend",
-    "src/utils.js~MakefileEditor#prepend",
+    "src/utils/makefileeditor.js~makefileeditor#prepend",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-prepend",
+    "src/utils/MakefileEditor.js~MakefileEditor#prepend",
     "method"
   ],
   [
-    "src/utils.js~makefileeditor#scripts",
-    "class/src/utils.js~MakefileEditor.html#instance-member-scripts",
-    "src/utils.js~MakefileEditor#scripts",
+    "src/utils/makefileeditor.js~makefileeditor#scripts",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-member-scripts",
+    "src/utils/MakefileEditor.js~MakefileEditor#scripts",
     "member"
   ],
   [
-    "src/utils.js~makefileeditor#usebinvariable",
-    "class/src/utils.js~MakefileEditor.html#instance-member-useBinVariable",
-    "src/utils.js~MakefileEditor#useBinVariable",
+    "src/utils/makefileeditor.js~makefileeditor#usebinvariable",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-member-useBinVariable",
+    "src/utils/MakefileEditor.js~MakefileEditor#useBinVariable",
     "member"
   ],
   [
-    "src/utils.js~makefileeditor#write",
-    "class/src/utils.js~MakefileEditor.html#instance-method-write",
-    "src/utils.js~MakefileEditor#write",
+    "src/utils/makefileeditor.js~makefileeditor#write",
+    "class/src/utils/MakefileEditor.js~MakefileEditor.html#instance-method-write",
+    "src/utils/MakefileEditor.js~MakefileEditor#write",
     "method"
   ],
   [
-    "src/utils.js~scaffolder#commit",
-    "class/src/utils.js~Scaffolder.html#instance-method-commit",
-    "src/utils.js~Scaffolder#commit",
+    "src/utils/scaffolder.js",
+    "file/src/utils/Scaffolder.js.html",
+    "src/utils/Scaffolder.js",
+    "file"
+  ],
+  [
+    "src/utils/scaffolder.js~scaffolder#commit",
+    "class/src/utils/Scaffolder.js~Scaffolder.html#instance-method-commit",
+    "src/utils/Scaffolder.js~Scaffolder#commit",
     "method"
   ],
   [
-    "src/utils.js~scaffolder#constructor",
-    "class/src/utils.js~Scaffolder.html#instance-constructor-constructor",
-    "src/utils.js~Scaffolder#constructor",
+    "src/utils/scaffolder.js~scaffolder#constructor",
+    "class/src/utils/Scaffolder.js~Scaffolder.html#instance-constructor-constructor",
+    "src/utils/Scaffolder.js~Scaffolder#constructor",
     "method"
   ],
   [
-    "src/utils.js~scaffolder#copy",
-    "class/src/utils.js~Scaffolder.html#instance-method-copy",
-    "src/utils.js~Scaffolder#copy",
+    "src/utils/scaffolder.js~scaffolder#copy",
+    "class/src/utils/Scaffolder.js~Scaffolder.html#instance-method-copy",
+    "src/utils/Scaffolder.js~Scaffolder#copy",
     "method"
   ],
   [
-    "src/utils.js~scaffolder#source",
-    "class/src/utils.js~Scaffolder.html#instance-method-source",
-    "src/utils.js~Scaffolder#source",
+    "src/utils/scaffolder.js~scaffolder#source",
+    "class/src/utils/Scaffolder.js~Scaffolder.html#instance-method-source",
+    "src/utils/Scaffolder.js~Scaffolder#source",
     "method"
   ],
   [
-    "src/utils.js~scaffolder#target",
-    "class/src/utils.js~Scaffolder.html#instance-method-target",
-    "src/utils.js~Scaffolder#target",
+    "src/utils/scaffolder.js~scaffolder#target",
+    "class/src/utils/Scaffolder.js~Scaffolder.html#instance-method-target",
+    "src/utils/Scaffolder.js~Scaffolder#target",
     "method"
+  ],
+  [
+    "src/utils/common.js",
+    "file/src/utils/common.js.html",
+    "src/utils/common.js",
+    "file"
+  ],
+  [
+    "src/utils/createjsoneditor.js",
+    "file/src/utils/createJsonEditor.js.html",
+    "src/utils/createJsonEditor.js",
+    "file"
+  ],
+  [
+    "src/utils/createmoduleeditor.js",
+    "file/src/utils/createModuleEditor.js.html",
+    "src/utils/createModuleEditor.js",
+    "file"
+  ],
+  [
+    "src/utils/index.js",
+    "file/src/utils/index.js.html",
+    "src/utils/index.js",
+    "file"
   ],
   [
     "",

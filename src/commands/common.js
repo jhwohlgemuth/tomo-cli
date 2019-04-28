@@ -1,8 +1,6 @@
 import {mkdirp} from 'fs-extra';
-import {
-    allDoNotExist,
-    PackageJsonEditor
-} from '../utils';
+import {PackageJsonEditor} from '../utils';
+import {allDoNotExist} from '../utils/common';
 
 /** @ignore */
 export const createPackageJson = [

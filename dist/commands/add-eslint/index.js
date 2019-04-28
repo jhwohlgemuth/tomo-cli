@@ -13,10 +13,14 @@ var _path = require("path");
 
 var _utils = require("../../utils");
 
+var _common = require("../../utils/common");
+
+var _Scaffolder = require("../../utils/Scaffolder");
+
 const ESLINT_DEPENDENCIES = ['eslint', 'babel-eslint', 'eslint-config-omaha-prime-grade', 'watch'];
 const ESLINT_REACT_PLUGINS = ['eslint-plugin-react'];
 const sourceDirectory = (0, _path.join)(__dirname, 'templates');
-const scaffolder = new _utils.Scaffolder({
+const scaffolder = new _Scaffolder.Scaffolder({
   sourceDirectory
 });
 /** @ignore */
@@ -33,7 +37,7 @@ const tasks = [{
       return _ref.apply(this, arguments);
     };
   }(),
-  condition: () => (0, _utils.allDoNotExist)('.eslintrc.js', '.eslintrc', '.eslintrc.json', '.eslintrc.yml')
+  condition: () => (0, _common.allDoNotExist)('.eslintrc.js', '.eslintrc', '.eslintrc.json', '.eslintrc.yml')
 }, {
   text: 'Add lint tasks to package.json',
   task: function () {
@@ -54,7 +58,7 @@ const tasks = [{
       return _ref2.apply(this, arguments);
     };
   }(),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install ESLint dependencies',
   task: ({
@@ -63,7 +67,7 @@ const tasks = [{
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _utils.someDoExist)('package.json')
+  condition: () => (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install ESLint React plugins',
   task: ({
@@ -74,7 +78,7 @@ const tasks = [{
   }),
   condition: ({
     useReact
-  }) => useReact && (0, _utils.someDoExist)('package.json'),
+  }) => useReact && (0, _common.someDoExist)('package.json'),
   optional: ({
     useReact
   }) => useReact
@@ -106,7 +110,7 @@ const tasks = [{
   }(),
   condition: ({
     useReact
-  }) => useReact && (0, _utils.someDoExist)('.eslintrc.js'),
+  }) => useReact && (0, _common.someDoExist)('.eslintrc.js'),
   optional: ({
     useReact
   }) => useReact

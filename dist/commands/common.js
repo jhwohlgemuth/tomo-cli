@@ -13,6 +13,8 @@ var _fsExtra = require("fs-extra");
 
 var _utils = require("../utils");
 
+var _common = require("../utils/common");
+
 /** @ignore */
 const createPackageJson = [{
   text: 'Create package.json',
@@ -26,7 +28,7 @@ const createPackageJson = [{
       return _ref.apply(this, arguments);
     };
   }(),
-  condition: () => (0, _utils.allDoNotExist)('package.json')
+  condition: () => (0, _common.allDoNotExist)('package.json')
 }];
 /** @ignore */
 
@@ -38,6 +40,6 @@ const createSourceDirectory = [{
   }) => (0, _fsExtra.mkdirp)(sourceDirectory),
   condition: ({
     sourceDirectory
-  }) => (0, _utils.allDoNotExist)(sourceDirectory)
+  }) => (0, _common.allDoNotExist)(sourceDirectory)
 }];
 exports.createSourceDirectory = createSourceDirectory;

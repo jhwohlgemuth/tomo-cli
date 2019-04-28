@@ -1,10 +1,9 @@
 import {
-    allDoNotExist,
-    someDoExist,
     install,
     PackageJsonEditor,
     WebpackConfigEditor
 } from '../utils';
+import {allDoNotExist, someDoExist} from '../utils/common';
 import addBabel from './add-babel';
 
 const WEBPACK_DEPENDENCIES = [
