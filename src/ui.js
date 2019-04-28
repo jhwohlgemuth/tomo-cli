@@ -105,7 +105,7 @@ export const CommandError = ({errors}) => <Box>
 export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => { }, options: {}}) {
     const {queue, tasks, dispatch, options} = data;
     const isNotOffline = await isOnline();
-    dispatch({type: 'status', payload: 'offline'});
+    dispatch({type: 'status', payload: isNotOffline ? 'online' : 'offline'});
     for (const [index, item] of tasks.entries()) {
         const {condition, task} = item;
         try {
@@ -115,8 +115,9 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
                     .then(() => dispatch({type: 'complete', payload: index}))
                     .catch(() => dispatch({
                         type: 'error', payload: {
-                            id: 'task',
+                            index,
                             title: 'Failed to add task to queue',
+                            location: 'task',
                             details: item.text
                         }
                     }));
@@ -128,8 +129,9 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
                 type: 'error',
                 payload: {
                     error,
-                    id: 'condition',
+                    index,
                     title: 'Failed to test task conditions',
+                    location: 'condition',
                     details: item.text
                 }
             });

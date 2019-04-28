@@ -265,7 +265,7 @@ function _populateQueue() {
     const isNotOffline = yield (0, _isOnline.default)();
     dispatch({
       type: 'status',
-      payload: 'offline'
+      payload: isNotOffline ? 'online' : 'offline'
     });
 
     for (const [index, item] of tasks.entries()) {
@@ -286,8 +286,9 @@ function _populateQueue() {
           })).catch(() => dispatch({
             type: 'error',
             payload: {
-              id: 'task',
+              index,
               title: 'Failed to add task to queue',
+              location: 'task',
               details: item.text
             }
           }));
@@ -302,8 +303,9 @@ function _populateQueue() {
           type: 'error',
           payload: {
             error,
-            id: 'condition',
+            index,
             title: 'Failed to test task conditions',
+            location: 'condition',
             details: item.text
           }
         });
