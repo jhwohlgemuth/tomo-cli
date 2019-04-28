@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useReducer, Component} from 'react';
 import PropTypes from 'prop-types';
 import {isFunction, isString, isUndefined} from 'lodash';
 import Queue from 'p-queue';
+import isOnline from 'is-online';
 import {Box, Color, Text, StdinContext} from 'ink';
 import {default as InkBox} from 'ink-box';
 import Spinner from 'ink-spinner';
@@ -61,33 +62,6 @@ class ErrorBoundary extends React.Component {
     }
 }
 /**
- * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
- * @param {Object} data Data to be used for populating queue
- * @param {Queue} [data.queue={}] p-queue instance
- * @param {Object[]} [data.tasks=[]] Array of task objects
- * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
- * @param {Object} [data.options={}] Options object to pass to task function
- * @return {undefined} Returns nothing (side effects only)
- */
-export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => {}, options: {}}) {
-    const {queue, tasks, dispatch, options} = data;
-    for (const [index, item] of tasks.entries()) {
-        const {condition, task} = item;
-        try {
-            if (await condition(options)) {
-                await queue
-                    .add(() => task(options))
-                    .then(() => dispatch({type: 'complete', payload: index}))
-                    .catch(() => dispatch({type: 'error', payload: 'Error adding task to queue'}));
-            } else {
-                dispatch({type: 'skipped', payload: index});
-            }
-        } catch (error) {
-            dispatch({type: 'error', payload: error});
-        }
-    }
-}
-/**
  * Component to display warning message requiring user input
  * @param {Object} props Function component props
  * @param {ReactNode} props.children Function component children
@@ -116,6 +90,52 @@ export const Warning = ({callback, children}) => {
         </Box>
     </Box>;
 };
+export const CommandError = ({errors}) => <Box>
+    <Text>Something has gone horribly <Color bold red>wrong</Color></Text>
+</Box>;
+/**
+ * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
+ * @param {Object} data Data to be used for populating queue
+ * @param {Queue} [data.queue={}] p-queue instance
+ * @param {Object[]} [data.tasks=[]] Array of task objects
+ * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
+ * @param {Object} [data.options={}] Options object to pass to task function
+ * @return {undefined} Returns nothing (side effects only)
+ */
+export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => { }, options: {}}) {
+    const {queue, tasks, dispatch, options} = data;
+    const isNotOffline = await isOnline();
+    dispatch({type: 'status', payload: 'offline'});
+    for (const [index, item] of tasks.entries()) {
+        const {condition, task} = item;
+        try {
+            if (await condition({...options, isNotOffline})) {
+                await queue
+                    .add(() => task({...options, isNotOffline}))
+                    .then(() => dispatch({type: 'complete', payload: index}))
+                    .catch(() => dispatch({
+                        type: 'error', payload: {
+                            id: 'task',
+                            title: 'Failed to add task to queue',
+                            details: item.text
+                        }
+                    }));
+            } else {
+                dispatch({type: 'skipped', payload: index});
+            }
+        } catch (error) {
+            dispatch({
+                type: 'error',
+                payload: {
+                    error,
+                    id: 'condition',
+                    title: 'Failed to test task conditions',
+                    details: item.text
+                }
+            });
+        }
+    }
+}
 /**
  * Task component
  * @param {Object} props Function component props
@@ -143,26 +163,17 @@ export const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' 
  * @return {ReactComponent} Task list component
  */
 export const TaskList = ({command, options, terms, done}) => {
+    const {assign} = Object;
     const reducer = (state, {type, payload}) => {
         const {completed, errors, skipped} = state;
         if (type === 'complete') {
-            return {
-                completed: [...completed, payload],
-                skipped,
-                errors
-            };
+            return assign({}, state, {completed: [...completed, payload]});
         } else if (type === 'skipped') {
-            return {
-                completed,
-                skipped: [...skipped, payload],
-                errors
-            };
+            return assign({}, state, {skipped: [...skipped, payload]});
         } else if (type === 'error') {
-            return {
-                completed,
-                skipped,
-                errors: [...errors, {details: payload}]
-            };
+            return assign({}, state, {errors: [...errors, {payload}]});
+        } else if (type === 'status') {
+            return assign({}, state, {status: payload});
         }
     };
     const initialState = {
@@ -179,6 +190,7 @@ export const TaskList = ({command, options, terms, done}) => {
     const tasksComplete = ((state.completed.length + state.skipped.length) === tasks.length);
     tasksComplete && isFunction(done) && done();
     return <ErrorBoundary>
+        {(state.errors.length > 0) && <CommandError errors={state.errors}></CommandError>}
         <Box flexDirection={'column'} marginBottom={1}>
             <InkBox
                 margin={{left: 1, top: 1}}
