@@ -9,11 +9,11 @@ exports.default = exports.createModuleEditor = void 0;
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
-var _merge2 = _interopRequireDefault(require("lodash/merge"));
-
 var _path = require("path");
 
 var _fsExtra = require("fs-extra");
+
+var _lodash = require("lodash");
 
 var _common = require("./common");
 
@@ -82,7 +82,7 @@ const createModuleEditor = (filename, contents = 'module.exports = {};', prepend
     }
 
     extend(code) {
-      this.contents = (0, _merge2.default)(contents, code);
+      this.contents = (0, _lodash.merge)(contents, code);
       this.write(this.contents);
       return this;
     }

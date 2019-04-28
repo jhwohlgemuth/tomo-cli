@@ -9,11 +9,11 @@ exports.WebpackConfigEditor = exports.PostcssConfigEditor = exports.PackageJsonE
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
-var _first2 = _interopRequireDefault(require("lodash/first"));
-
 var _execa = _interopRequireDefault(require("execa"));
 
 var _semver = _interopRequireDefault(require("semver"));
+
+var _lodash = require("lodash");
 
 var _stringSimilarity = require("string-similarity");
 
@@ -56,7 +56,7 @@ const getVersions =
 /*#__PURE__*/
 function () {
   var _ref = (0, _asyncToGenerator2.default)(function* (name = '') {
-    return name.length === 0 ? [] : (yield (0, _execa.default)('npm', ['view', name, 'versions'])).stdout.split(',\n').map(str => str.match(/\d+[.]\d+[.]\d+/)).map(_first2.default).map(_semver.default.valid).filter(Boolean);
+    return name.length === 0 ? [] : (yield (0, _execa.default)('npm', ['view', name, 'versions'])).stdout.split(',\n').map(str => str.match(/\d+[.]\d+[.]\d+/)).map(_lodash.first).map(_semver.default.valid).filter(Boolean);
   });
 
   return function getVersions() {

@@ -9,15 +9,13 @@ exports.allDoNotExistSync = exports.allDoNotExist = exports.allDoExistSync = exp
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
-var _negate2 = _interopRequireDefault(require("lodash/negate"));
-
-var _isNull2 = _interopRequireDefault(require("lodash/isNull"));
-
 var _path = require("path");
 
 var _fsExtra = require("fs-extra");
 
 var _shelljs = require("shelljs");
+
+var _lodash = require("lodash");
 
 var _prettier = _interopRequireDefault(require("prettier"));
 
@@ -35,7 +33,7 @@ exports.parse = parse;
 
 const getCommandDirectory = command => {
   const data = (0, _shelljs.which)(command);
-  const commandExists = (0, _negate2.default)(_isNull2.default)(data);
+  const commandExists = (0, _lodash.negate)(_lodash.isNull)(data);
   return commandExists ? data.toString().split(command)[0] : '';
 };
 
