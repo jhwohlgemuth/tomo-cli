@@ -8,9 +8,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.populateQueue = populateQueue;
-exports.default = exports.TaskList = exports.Task = exports.CommandError = exports.Warning = void 0;
-
-var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
+exports.default = exports.TaskList = exports.Task = exports.Warning = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -21,8 +19,6 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 var _lodash = require("lodash");
 
 var _pQueue = _interopRequireDefault(require("p-queue"));
-
-var _isOnline = _interopRequireDefault(require("is-online"));
 
 var _ink = require("ink");
 
@@ -160,6 +156,20 @@ class ErrorBoundary extends _react.default.Component {
 
 }
 /**
+ * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
+ * @param {Object} data Data to be used for populating queue
+ * @param {Queue} [data.queue={}] p-queue instance
+ * @param {Object[]} [data.tasks=[]] Array of task objects
+ * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
+ * @param {Object} [data.options={}] Options object to pass to task function
+ * @return {undefined} Returns nothing (side effects only)
+ */
+
+
+function populateQueue() {
+  return _populateQueue.apply(this, arguments);
+}
+/**
  * Component to display warning message requiring user input
  * @param {Object} props Function component props
  * @param {ReactNode} props.children Function component children
@@ -167,6 +177,52 @@ class ErrorBoundary extends _react.default.Component {
  * @return {ReactComponent} Warning component
  */
 
+
+function _populateQueue() {
+  _populateQueue = (0, _asyncToGenerator2.default)(function* (data = {
+    queue: {},
+    tasks: [],
+    dispatch: () => {},
+    options: {}
+  }) {
+    const {
+      queue,
+      tasks,
+      dispatch,
+      options
+    } = data;
+
+    for (const [index, item] of tasks.entries()) {
+      const {
+        condition,
+        task
+      } = item;
+
+      try {
+        if (yield condition(options)) {
+          yield queue.add(() => task(options)).then(() => dispatch({
+            type: 'complete',
+            payload: index
+          })).catch(() => dispatch({
+            type: 'error',
+            payload: 'Error adding task to queue'
+          }));
+        } else {
+          dispatch({
+            type: 'skipped',
+            payload: index
+          });
+        }
+      } catch (error) {
+        dispatch({
+          type: 'error',
+          payload: error
+        });
+      }
+    }
+  });
+  return _populateQueue.apply(this, arguments);
+}
 
 const Warning = ({
   callback,
@@ -212,31 +268,6 @@ const Warning = ({
     dim: true
   }, " to continue")));
 };
-
-exports.Warning = Warning;
-
-const CommandError = ({
-  errors
-}) => _react.default.createElement(_ink.Box, null, _react.default.createElement(_ink.Text, null, "Something has gone horribly ", _react.default.createElement(_ink.Color, {
-  bold: true,
-  red: true
-}, "wrong")));
-/**
- * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
- * @param {Object} data Data to be used for populating queue
- * @param {Queue} [data.queue={}] p-queue instance
- * @param {Object[]} [data.tasks=[]] Array of task objects
- * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
- * @param {Object} [data.options={}] Options object to pass to task function
- * @return {undefined} Returns nothing (side effects only)
- */
-
-
-exports.CommandError = CommandError;
-
-function populateQueue() {
-  return _populateQueue.apply(this, arguments);
-}
 /**
  * Task component
  * @param {Object} props Function component props
@@ -249,69 +280,7 @@ function populateQueue() {
  */
 
 
-function _populateQueue() {
-  _populateQueue = (0, _asyncToGenerator2.default)(function* (data = {
-    queue: {},
-    tasks: [],
-    dispatch: () => {},
-    options: {}
-  }) {
-    const {
-      queue,
-      tasks,
-      dispatch,
-      options
-    } = data;
-    const isNotOffline = yield (0, _isOnline.default)();
-    dispatch({
-      type: 'status',
-      payload: 'offline'
-    });
-
-    for (const [index, item] of tasks.entries()) {
-      const {
-        condition,
-        task
-      } = item;
-
-      try {
-        if (yield condition((0, _objectSpread2.default)({}, options, {
-          isNotOffline
-        }))) {
-          yield queue.add(() => task((0, _objectSpread2.default)({}, options, {
-            isNotOffline
-          }))).then(() => dispatch({
-            type: 'complete',
-            payload: index
-          })).catch(() => dispatch({
-            type: 'error',
-            payload: {
-              id: 'task',
-              title: 'Failed to add task to queue',
-              details: item.text
-            }
-          }));
-        } else {
-          dispatch({
-            type: 'skipped',
-            payload: index
-          });
-        }
-      } catch (error) {
-        dispatch({
-          type: 'error',
-          payload: {
-            error,
-            id: 'condition',
-            title: 'Failed to test task conditions',
-            details: item.text
-          }
-        });
-      }
-    }
-  });
-  return _populateQueue.apply(this, arguments);
-}
+exports.Warning = Warning;
 
 const Task = ({
   isComplete,
@@ -347,10 +316,6 @@ const TaskList = ({
   terms,
   done
 }) => {
-  const {
-    assign
-  } = Object;
-
   const reducer = (state, {
     type,
     payload
@@ -362,23 +327,25 @@ const TaskList = ({
     } = state;
 
     if (type === 'complete') {
-      return assign({}, state, {
-        completed: [...completed, payload]
-      });
+      return {
+        completed: [...completed, payload],
+        skipped,
+        errors
+      };
     } else if (type === 'skipped') {
-      return assign({}, state, {
-        skipped: [...skipped, payload]
-      });
+      return {
+        completed,
+        skipped: [...skipped, payload],
+        errors
+      };
     } else if (type === 'error') {
-      return assign({}, state, {
+      return {
+        completed,
+        skipped,
         errors: [...errors, {
-          payload
+          details: payload
         }]
-      });
-    } else if (type === 'status') {
-      return assign({}, state, {
-        status: payload
-      });
+      };
     }
   };
 
@@ -402,9 +369,7 @@ const TaskList = ({
   }, []);
   const tasksComplete = state.completed.length + state.skipped.length === tasks.length;
   tasksComplete && (0, _lodash.isFunction)(done) && done();
-  return _react.default.createElement(ErrorBoundary, null, state.errors.length > 0 && _react.default.createElement(CommandError, {
-    errors: state.errors
-  }), _react.default.createElement(_ink.Box, {
+  return _react.default.createElement(ErrorBoundary, null, _react.default.createElement(_ink.Box, {
     flexDirection: 'column',
     marginBottom: 1
   }, _react.default.createElement(_inkBox.default, {
