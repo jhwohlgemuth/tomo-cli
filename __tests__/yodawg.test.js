@@ -49,7 +49,7 @@ describe('Tomo testing tools', () => {
         expect(format(result)).toMatchSnapshot();
     });
     test('get directory tree', () => {
-        const folderpath = join(__dirname, 'fixtures/test-folder-tree');
+        const folderpath = join(__dirname, 'tomo-fixtures/test-folder-tree');
         const tree = getDirectoryTree(folderpath);
         expect(tree).toMatchSnapshot();
         const augmentedTree = getDirectoryTree(folderpath, {omit: ['path', 'name']});

@@ -17,7 +17,7 @@ import commands from '../src/commands';
 
 jest.mock('execa');
 
-const testDirectory = join(__dirname, 'fixtures');
+const testDirectory = join(__dirname, 'tomo-fixtures');
 /**
  * Verify package.json editor can create and edit a package.json manifest file
  * @test {PackageJsonEditor}
