@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.populateQueue = populateQueue;
-exports.default = exports.TaskList = exports.Task = exports.CommandError = exports.Warning = void 0;
+exports.default = exports.TaskList = exports.Task = exports.CommandError = exports.OfflineWarning = exports.Warning = void 0;
 
 var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
 
@@ -38,14 +38,24 @@ var _commands = _interopRequireDefault(require("./commands"));
 
 var _utils = require("./utils");
 
+const space = ' ';
+
 const Check = ({
   isSkipped
-}) => _react.default.createElement(_ink.Text, {
-  bold: true
-}, _react.default.createElement(_ink.Color, {
+}) => _react.default.createElement(_ink.Color, {
+  bold: true,
   green: !isSkipped,
   dim: isSkipped
-}, _figures.default.tick));
+}, _figures.default.tick, space);
+
+const X = () => _react.default.createElement(_ink.Color, {
+  bold: true,
+  red: true
+}, _figures.default.cross, space);
+
+const Loading = () => _react.default.createElement(_ink.Color, {
+  cyan: true
+}, _react.default.createElement(_inkSpinner.default, null), space);
 
 const Item = ({
   isSelected,
@@ -215,9 +225,11 @@ const Warning = ({
 
 exports.Warning = Warning;
 
-const CommandError = ({
-  errors
-}) => _react.default.createElement(_ink.Box, null, _react.default.createElement(_ink.Text, null, "Something has gone horribly ", _react.default.createElement(_ink.Color, {
+const OfflineWarning = () => _react.default.createElement(_ink.Box, null, _react.default.createElement(_ink.Text, null, "You appear to be offline..."));
+
+exports.OfflineWarning = OfflineWarning;
+
+const CommandError = () => _react.default.createElement(_ink.Box, null, _react.default.createElement(_ink.Text, null, "Something has gone horribly ", _react.default.createElement(_ink.Color, {
   bold: true,
   red: true
 }, "wrong")));
@@ -241,6 +253,7 @@ function populateQueue() {
  * Task component
  * @param {Object} props Function component props
  * @param {boolean} props.isComplete Control display of check (true) or loading (false)
+ * @param {boolean} props.isErrored Control display of x (true)
  * @param {boolean} props.isSkipped Control color of check - green (false) or dim (true)
  * @param {string} props.text Task text
  * @example
@@ -317,16 +330,15 @@ function _populateQueue() {
 
 const Task = ({
   isComplete,
+  isErrored,
   isSkipped,
   text
 }) => _react.default.createElement(_ink.Box, {
   flexDirection: "row",
   marginLeft: 3
-}, isComplete ? _react.default.createElement(Check, {
+}, isComplete && _react.default.createElement(Check, {
   isSkipped: isSkipped
-}) : _react.default.createElement(_ink.Color, {
-  cyan: true
-}, _react.default.createElement(_inkSpinner.default, null)), " ", _react.default.createElement(_ink.Text, null, _react.default.createElement(_ink.Color, {
+}), isErrored && _react.default.createElement(X, null), !(isComplete || isErrored) && _react.default.createElement(Loading, null), _react.default.createElement(_ink.Text, null, _react.default.createElement(_ink.Color, {
   dim: isComplete
 }, text)));
 /**
@@ -349,14 +361,12 @@ const TaskList = ({
   terms,
   done
 }) => {
-  const {
-    assign
-  } = Object;
-
   const reducer = (state, {
     type,
     payload
   }) => {
+    const update = val => Object.assign({}, state, val);
+
     const {
       completed,
       errors,
@@ -364,21 +374,21 @@ const TaskList = ({
     } = state;
 
     if (type === 'complete') {
-      return assign({}, state, {
+      return update({
         completed: [...completed, payload]
       });
     } else if (type === 'skipped') {
-      return assign({}, state, {
+      return update({
         skipped: [...skipped, payload]
       });
     } else if (type === 'error') {
-      return assign({}, state, {
+      return update({
         errors: [...errors, {
           payload
         }]
       });
     } else if (type === 'status') {
-      return assign({}, state, {
+      return update({
         status: payload
       });
     }
@@ -403,8 +413,9 @@ const TaskList = ({
     });
   }, []);
   const tasksComplete = state.completed.length + state.skipped.length === tasks.length;
+  const hasError = state.errors.length > 0;
   tasksComplete && (0, _lodash.isFunction)(done) && done();
-  return _react.default.createElement(ErrorBoundary, null, state.errors.length > 0 && _react.default.createElement(CommandError, {
+  return _react.default.createElement(ErrorBoundary, null, state.status === 'offline' && _react.default.createElement(OfflineWarning, null), hasError && _react.default.createElement(CommandError, {
     errors: state.errors
   }), _react.default.createElement(_ink.Box, {
     flexDirection: 'column',
@@ -418,7 +429,7 @@ const TaskList = ({
       left: 1,
       right: 1
     },
-    borderColor: tasksComplete ? 'green' : 'cyan',
+    borderColor: tasksComplete ? 'green' : hasError ? 'red' : 'cyan',
     borderStyle: 'round'
   }, _react.default.createElement(_ink.Color, {
     bold: true,
@@ -432,14 +443,17 @@ const TaskList = ({
   }, index) => {
     const {
       completed,
+      errors,
       skipped
     } = state;
     const isSkipped = skipped.includes(index);
     const isComplete = completed.includes(index) || isSkipped;
+    const isErrored = errors.map(error => error.payload.index).includes(index);
     const shouldBeShown = (0, _lodash.isUndefined)(optional) || (0, _lodash.isFunction)(optional) && optional(options);
     return shouldBeShown ? _react.default.createElement(Task, {
       text: text,
       isSkipped: isSkipped,
+      isErrored: isErrored,
       isComplete: isComplete,
       key: index
     }) : _react.default.createElement(_ink.Box, {
@@ -576,11 +590,13 @@ ErrorBoundary.propTypes = {
 };
 Task.propTypes = {
   isComplete: _propTypes.default.bool,
+  isErrored: _propTypes.default.bool,
   isSkipped: _propTypes.default.bool,
   text: _propTypes.default.string
 };
 Task.defaultProps = {
   isComplete: false,
+  isErrored: false,
   isSkipped: false,
   text: 'task description'
 };

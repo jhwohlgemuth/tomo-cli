@@ -11,9 +11,10 @@ import figures from 'figures';
 import commands from './commands';
 import {getIntendedInput} from './utils';
 
-const Check = ({isSkipped}) => (<Text bold>
-    <Color green={!isSkipped} dim={isSkipped}>{figures.tick}</Color>
-</Text>);
+const space = ' ';
+const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
+const X = () => <Color bold red>{figures.cross}{space}</Color>;
+const Loading = () => <Color cyan><Spinner></Spinner>{space}</Color>;
 const Item = ({isSelected, label}) => <Color bold={isSelected} cyan={isSelected}>{label}</Color>;
 const Indicator = ({isSelected}) => <Box marginRight={1}>{isSelected ? <Color bold cyan>{figures.arrowRight}</Color> : ' '}</Box>;
 const SubCommandSelect = ({items, onSelect}) => <Box paddingTop={1} paddingBottom={1} paddingLeft={1}>
@@ -90,7 +91,10 @@ export const Warning = ({callback, children}) => {
         </Box>
     </Box>;
 };
-export const CommandError = ({errors}) => <Box>
+export const OfflineWarning = () => <Box>
+    <Text>You appear to be offline...</Text>
+</Box>;
+export const CommandError = () => <Box>
     <Text>Something has gone horribly <Color bold red>wrong</Color></Text>
 </Box>;
 /**
@@ -142,17 +146,18 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
  * Task component
  * @param {Object} props Function component props
  * @param {boolean} props.isComplete Control display of check (true) or loading (false)
+ * @param {boolean} props.isErrored Control display of x (true)
  * @param {boolean} props.isSkipped Control color of check - green (false) or dim (true)
  * @param {string} props.text Task text
  * @example
  * <Task text={'This task is done before it starts'} isComplete={true}></Task>
  * @return {ReactComponent} Task component
  */
-export const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' marginLeft={3}>
-    {isComplete ?
-        <Check isSkipped={isSkipped}></Check> :
-        <Color cyan><Spinner></Spinner></Color>
-    } <Text><Color dim={isComplete}>{text}</Color></Text>
+export const Task = ({isComplete, isErrored, isSkipped, text}) => <Box flexDirection='row' marginLeft={3}>
+    {isComplete && <Check isSkipped={isSkipped}></Check>}
+    {isErrored && <X></X>}
+    {!(isComplete || isErrored) && <Loading></Loading>}
+    <Text><Color dim={isComplete}>{text}</Color></Text>
 </Box>;
 /**
  * Task list component
@@ -165,17 +170,17 @@ export const Task = ({isComplete, isSkipped, text}) => <Box flexDirection='row' 
  * @return {ReactComponent} Task list component
  */
 export const TaskList = ({command, options, terms, done}) => {
-    const {assign} = Object;
     const reducer = (state, {type, payload}) => {
+        const update = val => Object.assign({}, state, val);
         const {completed, errors, skipped} = state;
         if (type === 'complete') {
-            return assign({}, state, {completed: [...completed, payload]});
+            return update({completed: [...completed, payload]});
         } else if (type === 'skipped') {
-            return assign({}, state, {skipped: [...skipped, payload]});
+            return update({skipped: [...skipped, payload]});
         } else if (type === 'error') {
-            return assign({}, state, {errors: [...errors, {payload}]});
+            return update({errors: [...errors, {payload}]});
         } else if (type === 'status') {
-            return assign({}, state, {status: payload});
+            return update({status: payload});
         }
     };
     const initialState = {
@@ -190,25 +195,28 @@ export const TaskList = ({command, options, terms, done}) => {
         populateQueue({queue, tasks, options, dispatch});
     }, []);
     const tasksComplete = ((state.completed.length + state.skipped.length) === tasks.length);
+    const hasError = (state.errors.length > 0);
     tasksComplete && isFunction(done) && done();
     return <ErrorBoundary>
-        {(state.errors.length > 0) && <CommandError errors={state.errors}></CommandError>}
+        {state.status === 'offline' && <OfflineWarning></OfflineWarning>}
+        {hasError && <CommandError errors={state.errors}></CommandError>}
         <Box flexDirection={'column'} marginBottom={1}>
             <InkBox
                 margin={{left: 1, top: 1}}
                 padding={{left: 1, right: 1}}
-                borderColor={tasksComplete ? 'green' : 'cyan'}
+                borderColor={tasksComplete ? 'green' : (hasError ? 'red' : 'cyan')}
                 borderStyle={'round'}>
                 <Color bold white>{command} {terms.join(' ')}</Color>
             </InkBox>
             <Box flexDirection='column' marginBottom={1}>
                 {tasks.map(({optional, text}, index) => {
-                    const {completed, skipped} = state;
+                    const {completed, errors, skipped} = state;
                     const isSkipped = skipped.includes(index);
                     const isComplete = completed.includes(index) || isSkipped;
+                    const isErrored = errors.map(error => error.payload.index).includes(index);
                     const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));
                     return shouldBeShown ?
-                        <Task text={text} isSkipped={isSkipped} isComplete={isComplete} key={index}></Task> :
+                        <Task text={text} isSkipped={isSkipped} isErrored={isErrored} isComplete={isComplete} key={index}></Task> :
                         <Box key={index}></Box>;
                 })}
             </Box>
@@ -309,11 +317,13 @@ ErrorBoundary.propTypes = {
 };
 Task.propTypes = {
     isComplete: PropTypes.bool,
+    isErrored: PropTypes.bool,
     isSkipped: PropTypes.bool,
     text: PropTypes.string
 };
 Task.defaultProps = {
     isComplete: false,
+    isErrored: false,
     isSkipped: false,
     text: 'task description'
 };
