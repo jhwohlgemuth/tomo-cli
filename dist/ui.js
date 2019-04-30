@@ -38,6 +38,10 @@ var _commands = _interopRequireDefault(require("./commands"));
 
 var _utils = require("./utils");
 
+const {
+  assign,
+  entries
+} = Object;
 const space = ' ';
 
 const Check = ({
@@ -53,7 +57,7 @@ const X = () => _react.default.createElement(_ink.Color, {
   red: true
 }, _figures.default.cross, space);
 
-const Loading = () => _react.default.createElement(_ink.Color, {
+const Pending = () => _react.default.createElement(_ink.Color, {
   cyan: true
 }, _react.default.createElement(_inkSpinner.default, null), space);
 
@@ -331,6 +335,7 @@ function _populateQueue() {
 const Task = ({
   isComplete,
   isErrored,
+  isPending,
   isSkipped,
   text
 }) => _react.default.createElement(_ink.Box, {
@@ -338,7 +343,7 @@ const Task = ({
   marginLeft: 3
 }, isComplete && _react.default.createElement(Check, {
   isSkipped: isSkipped
-}), isErrored && _react.default.createElement(X, null), !(isComplete || isErrored) && _react.default.createElement(Loading, null), _react.default.createElement(_ink.Text, null, _react.default.createElement(_ink.Color, {
+}), isErrored && _react.default.createElement(X, null), isPending && _react.default.createElement(Pending, null), _react.default.createElement(_ink.Text, null, _react.default.createElement(_ink.Color, {
   dim: isComplete
 }, text)));
 /**
@@ -365,33 +370,33 @@ const TaskList = ({
     type,
     payload
   }) => {
-    const update = val => Object.assign({}, state, val);
-
     const {
       completed,
       errors,
       skipped
     } = state;
 
-    if (type === 'complete') {
-      return update({
+    const dict = val => new Map(entries(val));
+
+    const update = val => assign({}, state, val);
+
+    const lookup = dict({
+      complete: () => update({
         completed: [...completed, payload]
-      });
-    } else if (type === 'skipped') {
-      return update({
+      }),
+      skipped: () => update({
         skipped: [...skipped, payload]
-      });
-    } else if (type === 'error') {
-      return update({
+      }),
+      error: () => update({
         errors: [...errors, {
           payload
         }]
-      });
-    } else if (type === 'status') {
-      return update({
+      }),
+      status: () => update({
         status: payload
-      });
-    }
+      })
+    });
+    return lookup.get(type)();
   };
 
   const initialState = {
@@ -400,10 +405,18 @@ const TaskList = ({
     errors: []
   };
   const [state, dispatch] = (0, _react.useReducer)(reducer, initialState);
+  const {
+    completed,
+    errors,
+    skipped,
+    status
+  } = state;
   const queue = new _pQueue.default({
     concurrency: 1
   });
   const tasks = _commands.default[command][terms[0]];
+  const tasksComplete = completed.length + skipped.length === tasks.length;
+  const hasError = errors.length > 0;
   (0, _react.useEffect)(() => {
     populateQueue({
       queue,
@@ -411,12 +424,10 @@ const TaskList = ({
       options,
       dispatch
     });
-  }, []);
-  const tasksComplete = state.completed.length + state.skipped.length === tasks.length;
-  const hasError = state.errors.length > 0;
+  }, [tasks]);
   tasksComplete && (0, _lodash.isFunction)(done) && done();
-  return _react.default.createElement(ErrorBoundary, null, state.status === 'offline' && _react.default.createElement(OfflineWarning, null), hasError && _react.default.createElement(CommandError, {
-    errors: state.errors
+  return _react.default.createElement(ErrorBoundary, null, status === 'offline' && _react.default.createElement(OfflineWarning, null), hasError && _react.default.createElement(CommandError, {
+    errors: errors
   }), _react.default.createElement(_ink.Box, {
     flexDirection: 'column',
     marginBottom: 1
@@ -449,12 +460,14 @@ const TaskList = ({
     const isSkipped = skipped.includes(index);
     const isComplete = completed.includes(index) || isSkipped;
     const isErrored = errors.map(error => error.payload.index).includes(index);
+    const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
     const shouldBeShown = (0, _lodash.isUndefined)(optional) || (0, _lodash.isFunction)(optional) && optional(options);
     return shouldBeShown ? _react.default.createElement(Task, {
       text: text,
       isSkipped: isSkipped,
-      isErrored: isErrored,
       isComplete: isComplete,
+      isErrored: isErrored,
+      isPending: isPending,
       key: index
     }) : _react.default.createElement(_ink.Box, {
       key: index
@@ -592,12 +605,14 @@ Task.propTypes = {
   isComplete: _propTypes.default.bool,
   isErrored: _propTypes.default.bool,
   isSkipped: _propTypes.default.bool,
+  isPending: _propTypes.default.bool,
   text: _propTypes.default.string
 };
 Task.defaultProps = {
   isComplete: false,
   isErrored: false,
   isSkipped: false,
+  isPending: false,
   text: 'task description'
 };
 TaskList.propTypes = {

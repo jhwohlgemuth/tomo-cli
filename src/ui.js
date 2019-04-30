@@ -11,10 +11,11 @@ import figures from 'figures';
 import commands from './commands';
 import {getIntendedInput} from './utils';
 
+const {assign, entries} = Object;
 const space = ' ';
 const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
 const X = () => <Color bold red>{figures.cross}{space}</Color>;
-const Loading = () => <Color cyan><Spinner></Spinner>{space}</Color>;
+const Pending = () => <Color cyan><Spinner></Spinner>{space}</Color>;
 const Item = ({isSelected, label}) => <Color bold={isSelected} cyan={isSelected}>{label}</Color>;
 const Indicator = ({isSelected}) => <Box marginRight={1}>{isSelected ? <Color bold cyan>{figures.arrowRight}</Color> : ' '}</Box>;
 const SubCommandSelect = ({items, onSelect}) => <Box paddingTop={1} paddingBottom={1} paddingLeft={1}>
@@ -153,10 +154,10 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
  * <Task text={'This task is done before it starts'} isComplete={true}></Task>
  * @return {ReactComponent} Task component
  */
-export const Task = ({isComplete, isErrored, isSkipped, text}) => <Box flexDirection='row' marginLeft={3}>
+export const Task = ({isComplete, isErrored, isPending, isSkipped, text}) => <Box flexDirection='row' marginLeft={3}>
     {isComplete && <Check isSkipped={isSkipped}></Check>}
-    {isErrored && <X></X>}
-    {!(isComplete || isErrored) && <Loading></Loading>}
+    {isErrored && <X/>}
+    {isPending && <Pending/>}
     <Text><Color dim={isComplete}>{text}</Color></Text>
 </Box>;
 /**
@@ -171,17 +172,16 @@ export const Task = ({isComplete, isErrored, isSkipped, text}) => <Box flexDirec
  */
 export const TaskList = ({command, options, terms, done}) => {
     const reducer = (state, {type, payload}) => {
-        const update = val => Object.assign({}, state, val);
         const {completed, errors, skipped} = state;
-        if (type === 'complete') {
-            return update({completed: [...completed, payload]});
-        } else if (type === 'skipped') {
-            return update({skipped: [...skipped, payload]});
-        } else if (type === 'error') {
-            return update({errors: [...errors, {payload}]});
-        } else if (type === 'status') {
-            return update({status: payload});
-        }
+        const dict = val => new Map(entries(val));
+        const update = val => assign({}, state, val);
+        const lookup = dict({
+            complete: () => update({completed: [...completed, payload]}),
+            skipped: () => update({skipped: [...skipped, payload]}),
+            error: () => update({errors: [...errors, {payload}]}),
+            status: () => update({status: payload})
+        });
+        return lookup.get(type)();
     };
     const initialState = {
         completed: [],
@@ -189,17 +189,18 @@ export const TaskList = ({command, options, terms, done}) => {
         errors: []
     };
     const [state, dispatch] = useReducer(reducer, initialState);
+    const {completed, errors, skipped, status} = state;
     const queue = new Queue({concurrency: 1});
     const tasks = commands[command][terms[0]];
+    const tasksComplete = ((completed.length + skipped.length) === tasks.length);
+    const hasError = (errors.length > 0);
     useEffect(() => {
         populateQueue({queue, tasks, options, dispatch});
-    }, []);
-    const tasksComplete = ((state.completed.length + state.skipped.length) === tasks.length);
-    const hasError = (state.errors.length > 0);
+    }, [tasks]);
     tasksComplete && isFunction(done) && done();
     return <ErrorBoundary>
-        {state.status === 'offline' && <OfflineWarning></OfflineWarning>}
-        {hasError && <CommandError errors={state.errors}></CommandError>}
+        {status === 'offline' && <OfflineWarning></OfflineWarning>}
+        {hasError && <CommandError errors={errors}></CommandError>}
         <Box flexDirection={'column'} marginBottom={1}>
             <InkBox
                 margin={{left: 1, top: 1}}
@@ -214,9 +215,17 @@ export const TaskList = ({command, options, terms, done}) => {
                     const isSkipped = skipped.includes(index);
                     const isComplete = completed.includes(index) || isSkipped;
                     const isErrored = errors.map(error => error.payload.index).includes(index);
+                    const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
                     const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));
                     return shouldBeShown ?
-                        <Task text={text} isSkipped={isSkipped} isErrored={isErrored} isComplete={isComplete} key={index}></Task> :
+                        <Task
+                            text={text}
+                            isSkipped={isSkipped}
+                            isComplete={isComplete}
+                            isErrored={isErrored}
+                            isPending={isPending}
+                            key={index}>
+                        </Task> :
                         <Box key={index}></Box>;
                 })}
             </Box>
@@ -319,12 +328,14 @@ Task.propTypes = {
     isComplete: PropTypes.bool,
     isErrored: PropTypes.bool,
     isSkipped: PropTypes.bool,
+    isPending: PropTypes.bool,
     text: PropTypes.string
 };
 Task.defaultProps = {
     isComplete: false,
     isErrored: false,
     isSkipped: false,
+    isPending: false,
     text: 'task description'
 };
 TaskList.propTypes = {

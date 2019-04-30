@@ -70,17 +70,27 @@ describe('Warning', () => {
     });
 });
 describe('Task component', () => {
-    test('can render', () => {
+    test('can render (pending)', () => {
         const text = 'test task text';
-        const component = render(<Task text={text}></Task>);
-        expect(component.lastFrame()).toMatchSnapshot();
+        const {lastFrame} = render(<Task text={text} isPending={true}></Task>);
+        expect(lastFrame()).toMatchSnapshot();
     });
     test('can render (completed)', () => {
         const text = 'test task text';
         const {lastFrame} = render(<Task text={text} isComplete={true}></Task>);
         expect(lastFrame()).toMatchSnapshot();
     });
-    test('can render with defaults', () => {
+    test('can render (skipped)', () => {
+        const text = 'test task text';
+        const {lastFrame} = render(<Task text={text} isComplete={true} isSkipped={true}></Task>);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test('can render (errored)', () => {
+        const text = 'test task text';
+        const {lastFrame} = render(<Task text={text} isErrored={true}></Task>);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test('can render with default text', () => {
         const {lastFrame} = render(<Task isComplete={true}></Task>);
         expect(lastFrame()).toMatchSnapshot();
     });
@@ -103,7 +113,7 @@ describe('TaskList component', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    xtest('can render', done => {
+    test('can render', done => {
         const options = {skipInstall};
         const {lastFrame} = render(<TaskList command={'add'} terms={['eslint']} options={options} done={complete}></TaskList>);
         function complete() {
