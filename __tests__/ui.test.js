@@ -5,6 +5,7 @@ import {render} from 'ink-testing-library';
 import Tomo, {Warning, Task, TaskList, populateQueue} from '../src/ui';
 
 const ARROW_DOWN = '\u001B[B';
+const {assign} = Object;
 
 describe('populateQueue function', () => {
     test('can run with defaults', () => {
@@ -23,9 +24,9 @@ describe('populateQueue function', () => {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         expect(task.mock.calls.length).toBe(tasks.length);
-        expect(dispatch.mock.calls.length).toBe(tasks.length);
+        expect(dispatch.mock.calls.length).toBe(tasks.length + 1);
         const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];
-        expect(passedOptions).toBe(options);
+        expect(passedOptions).toEqual(assign(options, {isNotOffline: true}));
         expect(dispatch.mock.calls).toMatchSnapshot();
     });
     test('can only run tasks that pass condition', async () => {
@@ -41,7 +42,7 @@ describe('populateQueue function', () => {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];
-        expect(passedOptions).toBe(options);
+        expect(passedOptions).toMatchSnapshot();
         expect(task.mock.calls.length).toBe(2);
         expect(dispatch.mock.calls).toMatchSnapshot();
     });
@@ -58,7 +59,7 @@ describe('populateQueue function', () => {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         expect(task.mock.calls.length).toBe(2);
-        expect(dispatch.mock.calls[1][0].type).toBe('error');
+        expect(dispatch.mock.calls[2][0].type).toBe('error');
     });
 });
 describe('Warning', () => {
