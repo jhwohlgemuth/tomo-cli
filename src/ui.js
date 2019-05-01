@@ -92,8 +92,17 @@ export const Warning = ({callback, children}) => {
         </Box>
     </Box>;
 };
-export const OfflineWarning = () => <Box>
-    <Text>You appear to be offline...</Text>
+export const OfflineWarning = () => <Box flexDirection={'column'} marginBottom={1}>
+    <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>
+        <Color yellow>(⌒_⌒;) This is awkward...</Color>
+    </InkBox>
+    <Box marginLeft={4} flexDirection={'column'}>
+        <Box>↳ <Text>...but you appear to be <Color bold red>offline</Color></Text></Box>
+        <Box>↳ <Text>Please connect to the internet and <Color bold cyan>try again</Color></Text></Box>
+    </Box>
+    <Box marginLeft={6} marginTop={1}>
+        <Color dim>No dependencies were installed</Color>
+    </Box>
 </Box>;
 export const CommandError = () => <Box>
     <Text>Something has gone horribly <Color bold red>wrong</Color></Text>
@@ -194,12 +203,13 @@ export const TaskList = ({command, options, terms, done}) => {
     const tasks = commands[command][terms[0]];
     const tasksComplete = ((completed.length + skipped.length) === tasks.length);
     const hasError = (errors.length > 0);
+    const {skipInstall} = options;
     useEffect(() => {
         populateQueue({queue, tasks, options, dispatch});
     }, [tasks]);
     tasksComplete && isFunction(done) && done();
     return <ErrorBoundary>
-        {status === 'offline' && <OfflineWarning></OfflineWarning>}
+        {status === 'offline' && !skipInstall && <OfflineWarning/>}
         {hasError && <CommandError errors={errors}></CommandError>}
         <Box flexDirection={'column'} marginBottom={1}>
             <InkBox

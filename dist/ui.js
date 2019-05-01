@@ -229,7 +229,36 @@ const Warning = ({
 
 exports.Warning = Warning;
 
-const OfflineWarning = () => _react.default.createElement(_ink.Box, null, _react.default.createElement(_ink.Text, null, "You appear to be offline..."));
+const OfflineWarning = () => _react.default.createElement(_ink.Box, {
+  flexDirection: 'column',
+  marginBottom: 1
+}, _react.default.createElement(_inkBox.default, {
+  borderColor: 'yellow',
+  margin: {
+    left: 1,
+    top: 1
+  },
+  padding: {
+    left: 1,
+    right: 1
+  }
+}, _react.default.createElement(_ink.Color, {
+  yellow: true
+}, "(\u2312_\u2312;) This is awkward...")), _react.default.createElement(_ink.Box, {
+  marginLeft: 4,
+  flexDirection: 'column'
+}, _react.default.createElement(_ink.Box, null, "\u21B3 ", _react.default.createElement(_ink.Text, null, "...but you appear to be ", _react.default.createElement(_ink.Color, {
+  bold: true,
+  red: true
+}, "offline"))), _react.default.createElement(_ink.Box, null, "\u21B3 ", _react.default.createElement(_ink.Text, null, "Please connect to the internet and ", _react.default.createElement(_ink.Color, {
+  bold: true,
+  cyan: true
+}, "try again")))), _react.default.createElement(_ink.Box, {
+  marginLeft: 6,
+  marginTop: 1
+}, _react.default.createElement(_ink.Color, {
+  dim: true
+}, "No dependencies were installed")));
 
 exports.OfflineWarning = OfflineWarning;
 
@@ -417,6 +446,9 @@ const TaskList = ({
   const tasks = _commands.default[command][terms[0]];
   const tasksComplete = completed.length + skipped.length === tasks.length;
   const hasError = errors.length > 0;
+  const {
+    skipInstall
+  } = options;
   (0, _react.useEffect)(() => {
     populateQueue({
       queue,
@@ -426,7 +458,7 @@ const TaskList = ({
     });
   }, [tasks]);
   tasksComplete && (0, _lodash.isFunction)(done) && done();
-  return _react.default.createElement(ErrorBoundary, null, status === 'offline' && _react.default.createElement(OfflineWarning, null), hasError && _react.default.createElement(CommandError, {
+  return _react.default.createElement(ErrorBoundary, null, status === 'offline' && !skipInstall && _react.default.createElement(OfflineWarning, null), hasError && _react.default.createElement(CommandError, {
     errors: errors
   }), _react.default.createElement(_ink.Box, {
     flexDirection: 'column',
