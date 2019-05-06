@@ -10,6 +10,11 @@ import SelectInput from 'ink-select-input';
 import figures from 'figures';
 import commands from './commands';
 import {getIntendedInput} from './utils';
+const pino = require('pino');
+const log = pino(
+    {prettyPrint: {levelFirst: true}},
+    pino.destination('./tomo-errors.txt')
+);
 
 const {assign, entries} = Object;
 const space = ' ';
@@ -104,9 +109,15 @@ export const OfflineWarning = () => <Box flexDirection={'column'} marginBottom={
         <Color dim>No dependencies were installed</Color>
     </Box>
 </Box>;
-export const CommandError = () => <Box>
-    <Text>Something has gone horribly <Color bold red>wrong</Color></Text>
-</Box>;
+export const CommandError = errors => {
+    useEffect(() => {
+        log.error(errors);
+    }, []);
+    return <Box flexDirection={'column'} marginTop={1} marginLeft={1}>
+        <Box><X/><Text>Something has gone horribly <Color bold red>wrong</Color></Text></Box>
+        <Box marginLeft={2}>↳{space}<Color dim>Details written to ./tomo-errors.txt</Color></Box>
+    </Box>;
+};
 /**
  * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
  * @param {Object} data Data to be used for populating queue

@@ -38,6 +38,13 @@ var _commands = _interopRequireDefault(require("./commands"));
 
 var _utils = require("./utils");
 
+const pino = require('pino');
+
+const log = pino({
+  prettyPrint: {
+    levelFirst: true
+  }
+}, pino.destination('./tomo-errors.txt'));
 const {
   assign,
   entries
@@ -262,10 +269,23 @@ const OfflineWarning = () => _react.default.createElement(_ink.Box, {
 
 exports.OfflineWarning = OfflineWarning;
 
-const CommandError = () => _react.default.createElement(_ink.Box, null, _react.default.createElement(_ink.Text, null, "Something has gone horribly ", _react.default.createElement(_ink.Color, {
-  bold: true,
-  red: true
-}, "wrong")));
+const CommandError = errors => {
+  (0, _react.useEffect)(() => {
+    log.error(errors);
+  }, []);
+  return _react.default.createElement(_ink.Box, {
+    flexDirection: 'column',
+    marginTop: 1,
+    marginLeft: 1
+  }, _react.default.createElement(_ink.Box, null, _react.default.createElement(X, null), _react.default.createElement(_ink.Text, null, "Something has gone horribly ", _react.default.createElement(_ink.Color, {
+    bold: true,
+    red: true
+  }, "wrong"))), _react.default.createElement(_ink.Box, {
+    marginLeft: 2
+  }, "\u21B3", space, _react.default.createElement(_ink.Color, {
+    dim: true
+  }, "Details written to ./tomo-errors.txt")));
+};
 /**
  * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
  * @param {Object} data Data to be used for populating queue
