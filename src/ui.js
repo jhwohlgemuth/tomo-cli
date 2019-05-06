@@ -180,9 +180,9 @@ export const Task = ({isComplete, isErrored, isPending, isSkipped, text}) => <Bo
  * @return {ReactComponent} Task list component
  */
 export const TaskList = ({command, options, terms, done}) => {
+    const dict = val => new Map(entries(val));
     const reducer = (state, {type, payload}) => {
         const {completed, errors, skipped} = state;
-        const dict = val => new Map(entries(val));
         const update = val => assign({}, state, val);
         const lookup = dict({
             complete: () => update({completed: [...completed, payload]}),

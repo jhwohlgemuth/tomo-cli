@@ -395,6 +395,8 @@ const TaskList = ({
   terms,
   done
 }) => {
+  const dict = val => new Map(entries(val));
+
   const reducer = (state, {
     type,
     payload
@@ -404,8 +406,6 @@ const TaskList = ({
       errors,
       skipped
     } = state;
-
-    const dict = val => new Map(entries(val));
 
     const update = val => assign({}, state, val);
 
