@@ -320,7 +320,9 @@ function _populateQueue() {
     queue: {},
     tasks: [],
     dispatch: () => {},
-    options: {}
+    options: {
+      skipInstall: false
+    }
   }) {
     const {
       queue,
@@ -328,7 +330,10 @@ function _populateQueue() {
       dispatch,
       options
     } = data;
-    const isNotOffline = yield (0, _isOnline.default)();
+    const {
+      skipInstall
+    } = options;
+    const isNotOffline = skipInstall || (yield (0, _isOnline.default)());
     dispatch({
       type: 'status',
       payload: isNotOffline ? 'online' : 'offline'
@@ -527,102 +532,66 @@ const TaskList = ({
   }))));
 };
 /**
- * Main tomo UI class
+ * Main tomo UI component
  */
 
 
 exports.TaskList = TaskList;
 
-class UI extends _react.Component {
-  constructor(props) {
-    super(props);
-    const {
-      input
-    } = props;
-    const [command, ...terms] = input;
-    const hasCommand = (0, _lodash.isString)(command);
-    const hasTerms = terms.length > 0;
-    const [intendedCommand, intendedTerms] = hasCommand ? (0, _utils.getIntendedInput)(_commands.default, command, terms) : [, []];
+const UI = props => {
+  const {
+    done,
+    flags,
+    input
+  } = props;
+  const {
+    ignoreWarnings
+  } = flags;
+  const [command, ...terms] = input;
+  const hasCommand = (0, _lodash.isString)(command);
+  const intended = hasCommand ? (0, _utils.getIntendedInput)(_commands.default, command, terms) : [, []];
+  const {
+    intendedCommand
+  } = intended;
+  const [hasTerms, setHasTerms] = (0, _react.useState)(terms.length > 0);
+  const [intendedTerms, setIntendedTerms] = (0, _react.useState)(intended.intendedTerms);
 
-    const compareTerms = (term, index) => term !== terms[index];
+  const compare = (term, index) => term !== terms[index];
 
-    const showWarning = command !== intendedCommand || intendedTerms.map(compareTerms).some(Boolean);
-    this.state = {
-      hasTerms,
-      hasCommand,
-      showWarning,
-      intendedTerms,
-      intendedCommand
-    };
-    this.updateWarning = this.updateWarning.bind(this);
-    this.updateTerms = this.updateTerms.bind(this);
-  }
+  const [showWarning, setShowWarning] = (0, _react.useState)((command !== intendedCommand || intendedTerms.map(compare).some(Boolean)) && !ignoreWarnings);
+  const VALID_COMMANDS = hasCommand ? Object.keys(_commands.default[intendedCommand]) : [];
+  const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({
+    label: command,
+    value: command
+  })) : [];
 
-  render() {
-    const {
-      done,
-      flags
-    } = this.props;
-    const {
-      hasCommand,
-      hasTerms,
-      intendedCommand,
-      intendedTerms,
-      showWarning
-    } = this.state;
-    const {
-      ignoreWarnings
-    } = flags;
-    const VALID_COMMANDS = hasCommand ? Object.keys(_commands.default[intendedCommand]) : [];
-    const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({
-      label: command,
-      value: command
-    })) : [];
-    return _react.default.createElement(ErrorBoundary, null, showWarning && !ignoreWarnings ? _react.default.createElement(Warning, {
-      callback: this.updateWarning
-    }, _react.default.createElement(_ink.Text, null, "Did you mean ", _react.default.createElement(_ink.Color, {
-      bold: true,
-      green: true
-    }, intendedCommand, " ", intendedTerms.join(' ')), "?")) : hasCommand && hasTerms ? _react.default.createElement(TaskList, {
-      command: intendedCommand,
-      terms: intendedTerms,
-      options: flags,
-      done: done
-    }) : hasCommand ? _react.default.createElement(SubCommandSelect, {
-      items: selectInputCommandItems,
-      onSelect: this.updateTerms
-    }) : _react.default.createElement(UnderConstruction, null));
-  }
-  /**
-   * Callback function for warning component
-   * @param {string} data Character data from stdin
-   * @return {undefined} Returns nothing
-   */
-
-
-  updateWarning(data) {
+  const updateWarning = data => {
     const key = String(data);
-    key === '\r' ? this.setState({
-      showWarning: false
-    }) : process.exit(0);
-  }
-  /**
-   * @param {Object} args Function options
-   * @param {string} args.value Intended term
-   * @return {undefined} Returns nothing
-   */
+    key === '\r' ? setShowWarning(false) : process.exit(0);
+  };
 
-
-  updateTerms({
+  const updateTerms = ({
     value
-  }) {
-    this.setState({
-      hasTerms: true,
-      intendedTerms: [value]
-    });
-  }
+  }) => {
+    setHasTerms(true);
+    setIntendedTerms([value]);
+  };
 
-}
+  return _react.default.createElement(ErrorBoundary, null, showWarning ? _react.default.createElement(Warning, {
+    callback: updateWarning
+  }, _react.default.createElement(_ink.Text, null, "Did you mean ", _react.default.createElement(_ink.Color, {
+    bold: true,
+    green: true
+  }, intendedCommand, " ", intendedTerms.join(' ')), "?")) : hasCommand && hasTerms ? _react.default.createElement(TaskList, {
+    command: intendedCommand,
+    terms: intendedTerms,
+    options: flags,
+    done: done
+  }) : hasCommand ? _react.default.createElement(SubCommandSelect, {
+    items: selectInputCommandItems,
+    onSelect: updateTerms
+  }) : _react.default.createElement(UnderConstruction, null));
+};
 
 Check.propTypes = {
   isSkipped: _propTypes.default.bool

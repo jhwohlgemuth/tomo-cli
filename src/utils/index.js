@@ -19,7 +19,7 @@ export const getIntendedInput = (commands, command, terms = []) => {
     const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);
     const VALID_TERMS = Object.keys(commands[intendedCommand]);
     const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);
-    return [intendedCommand, intendedTerms];
+    return {intendedCommand, intendedTerms};
 };
 /**
  * Use npm CLI to return array of module versions

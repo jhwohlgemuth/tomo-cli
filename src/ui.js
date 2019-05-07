@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useReducer, Component} from 'react';
+import React, {useContext, useEffect, useReducer, useState} from 'react';
 import PropTypes from 'prop-types';
 import {isFunction, isString, isUndefined} from 'lodash';
 import Queue from 'p-queue';
@@ -127,9 +127,10 @@ export const CommandError = errors => {
  * @param {Object} [data.options={}] Options object to pass to task function
  * @return {undefined} Returns nothing (side effects only)
  */
-export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => { }, options: {}}) {
+export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => {}, options: {skipInstall: false}}) {
     const {queue, tasks, dispatch, options} = data;
-    const isNotOffline = await isOnline();
+    const {skipInstall} = options;
+    const isNotOffline = skipInstall || await isOnline();
     dispatch({type: 'status', payload: isNotOffline ? 'online' : 'offline'});
     for (const [index, item] of tasks.entries()) {
         const {condition, task} = item;
@@ -254,68 +255,42 @@ export const TaskList = ({command, options, terms, done}) => {
     </ErrorBoundary>;
 };
 /**
- * Main tomo UI class
+ * Main tomo UI component
  */
-class UI extends Component {
-    constructor(props) {
-        super(props);
-        const {input} = props;
-        const [command, ...terms] = input;
-        const hasCommand = isString(command);
-        const hasTerms = terms.length > 0;
-        const [intendedCommand, intendedTerms] = hasCommand ? getIntendedInput(commands, command, terms) : [, []];
-        const compareTerms = (term, index) => (term !== terms[index]);
-        const showWarning = (command !== intendedCommand) || (intendedTerms.map(compareTerms).some(Boolean));
-        this.state = {
-            hasTerms,
-            hasCommand,
-            showWarning,
-            intendedTerms,
-            intendedCommand
-        };
-        this.updateWarning = this.updateWarning.bind(this);
-        this.updateTerms = this.updateTerms.bind(this);
-    }
-    render() {
-        const {done, flags} = this.props;
-        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
-        const {ignoreWarnings} = flags;
-        const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
-        const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({label: command, value: command})) : [];
-        return <ErrorBoundary>
-            {(showWarning && !ignoreWarnings) ?
-                <Warning callback={this.updateWarning}>
-                    <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>
-                </Warning> :
-                (hasCommand && hasTerms) ?
-                    <TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :
-                    hasCommand ?
-                        <SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}></SubCommandSelect> :
-                        <UnderConstruction/>
-            }
-        </ErrorBoundary>;
-    }
-    /**
-     * Callback function for warning component
-     * @param {string} data Character data from stdin
-     * @return {undefined} Returns nothing
-     */
-    updateWarning(data) {
+const UI = props => {
+    const {done, flags, input} = props;
+    const {ignoreWarnings} = flags;
+    const [command, ...terms] = input;
+    const hasCommand = isString(command);
+    const intended = hasCommand ? getIntendedInput(commands, command, terms) : [, []];
+    const {intendedCommand} = intended;
+    const [hasTerms, setHasTerms] = useState(terms.length > 0);
+    const [intendedTerms, setIntendedTerms] = useState(intended.intendedTerms);
+    const compare = (term, index) => (term !== terms[index]);
+    const [showWarning, setShowWarning] = useState(((command !== intendedCommand) || intendedTerms.map(compare).some(Boolean)) && !ignoreWarnings);
+    const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
+    const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({label: command, value: command})) : [];
+    const updateWarning = data => {
         const key = String(data);
-        (key === '\r') ? this.setState({showWarning: false}) : process.exit(0);
-    }
-    /**
-     * @param {Object} args Function options
-     * @param {string} args.value Intended term
-     * @return {undefined} Returns nothing
-     */
-    updateTerms({value}) {
-        this.setState({
-            hasTerms: true,
-            intendedTerms: [value]
-        });
-    }
-}
+        (key === '\r') ? setShowWarning(false) : process.exit(0);
+    };
+    const updateTerms = ({value}) => {
+        setHasTerms(true);
+        setIntendedTerms([value]);
+    };
+    return <ErrorBoundary>
+        {showWarning ?
+            <Warning callback={updateWarning}>
+                <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>
+            </Warning> :
+            (hasCommand && hasTerms) ?
+                <TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :
+                hasCommand ?
+                    <SubCommandSelect items={selectInputCommandItems} onSelect={updateTerms}></SubCommandSelect> :
+                    <UnderConstruction />
+        }
+    </ErrorBoundary>;
+};
 Check.propTypes = {
     isSkipped: PropTypes.bool
 };

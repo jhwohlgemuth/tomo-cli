@@ -39,7 +39,10 @@ const getIntendedInput = (commands, command, terms = []) => {
   } = (0, _stringSimilarity.findBestMatch)(command, VALID_COMMANDS);
   const VALID_TERMS = Object.keys(commands[intendedCommand]);
   const intendedTerms = terms.map(term => (0, _stringSimilarity.findBestMatch)(term, VALID_TERMS).bestMatch.target);
-  return [intendedCommand, intendedTerms];
+  return {
+    intendedCommand,
+    intendedTerms
+  };
 };
 /**
  * Use npm CLI to return array of module versions
