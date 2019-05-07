@@ -5,7 +5,7 @@ import {OfflineWarning, TaskList} from '../src/ui';
 
 jest.mock('is-online', () => (async () => false));
 
-describe('Offline warning', () => {
+xdescribe('Offline warning', () => {
     const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console
     beforeAll(() => {
         console.error = jest.fn();//eslint-disable-line no-console
