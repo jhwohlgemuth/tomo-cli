@@ -2,11 +2,21 @@ import React from 'react';
 import isOnline from 'is-online';
 import {render} from 'ink-testing-library';
 import {OfflineWarning, TaskList} from '../src/ui';
+import {useTemporaryDirectory} from './tomo-test';
 
 jest.mock('is-online', () => (async () => false));
 
 describe('Offline warning', () => {
+    let tempDirectory;
     const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () => {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () => {
+        await cleanupTempDir();
+    });
     beforeAll(() => {
         console.error = jest.fn();//eslint-disable-line no-console
     });
