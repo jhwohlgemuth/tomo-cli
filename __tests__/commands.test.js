@@ -9,7 +9,7 @@ import {
     createPackageJson,
     createSourceDirectory
 } from '../src/commands/common';
-import {create} from '../src/commands';
+import commands from '../src/commands';
 import addBabel from '../src/commands/add-babel';
 import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
@@ -20,9 +20,17 @@ import addPostcss from '../src/commands/add-postcss';
 import addMarionette from '../src/commands/add-marionette';
 import addWebpack from '../src/commands/add-webpack';
 
+jest.mock('is-online', () => (async () => true));
+// jest.mock('../src/commands', () => ({
+//     create: {
+//         app: ['foo', 'bar']
+//     }
+// }));
+
 describe('"Create/New" commands', () => {
     let tempDirectory;
     const skipInstall = true;
+    const {create} = commands;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
         tempDirectory = await setTempDir();
@@ -61,6 +69,7 @@ describe('"Add" commands', () => {
     let tempDirectory;
     const skipInstall = true;
     const useReact = true;
+    const {create} = commands;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
         tempDirectory = await setTempDir();

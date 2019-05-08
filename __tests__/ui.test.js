@@ -1,10 +1,13 @@
-import {useTemporaryDirectory} from './tomo-test';
+import {getDirectoryTree, useTemporaryDirectory} from './tomo-test';
 import Queue from 'p-queue';
 import React from 'react';
 import {render} from 'ink-testing-library';
-import Tomo, {Warning, Task, TaskList, populateQueue} from '../src/ui';
+import Tomo, {CommandError, Warning, Task, TaskList, populateQueue} from '../src/ui';
+
+jest.mock('is-online', () => (async () => true));
 
 const ARROW_DOWN = '\u001B[B';
+const {assign} = Object;
 
 describe('populateQueue function', () => {
     test('can run with defaults', () => {
@@ -23,9 +26,9 @@ describe('populateQueue function', () => {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         expect(task.mock.calls.length).toBe(tasks.length);
-        expect(dispatch.mock.calls.length).toBe(tasks.length);
+        expect(dispatch.mock.calls.length).toBe(tasks.length + 1);
         const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];
-        expect(passedOptions).toBe(options);
+        expect(passedOptions).toEqual(assign(options, {isNotOffline: true}));
         expect(dispatch.mock.calls).toMatchSnapshot();
     });
     test('can only run tasks that pass condition', async () => {
@@ -41,7 +44,7 @@ describe('populateQueue function', () => {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];
-        expect(passedOptions).toBe(options);
+        expect(passedOptions).toMatchSnapshot();
         expect(task.mock.calls.length).toBe(2);
         expect(dispatch.mock.calls).toMatchSnapshot();
     });
@@ -58,7 +61,7 @@ describe('populateQueue function', () => {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         expect(task.mock.calls.length).toBe(2);
-        expect(dispatch.mock.calls[1][0].type).toBe('error');
+        expect(dispatch.mock.calls[2][0].type).toBe('error');
     });
 });
 describe('Warning', () => {
@@ -68,23 +71,51 @@ describe('Warning', () => {
         expect(lastFrame()).toMatchSnapshot();
     });
 });
+describe('CommandError', () => {
+    let tempDirectory;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () => {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () => {
+        await cleanupTempDir();
+    });
+    test('can render component and create errors file', () => {
+        const errors = [{one: 1}, {two: 2}];
+        const {lastFrame} = render(<CommandError errors={errors}></CommandError>);
+        const tree = getDirectoryTree(tempDirectory);
+        expect(tree).toMatchSnapshot();
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
 describe('Task component', () => {
-    test('can render', () => {
+    test('can render (pending)', () => {
         const text = 'test task text';
-        const component = render(<Task text={text}></Task>);
-        expect(component.lastFrame()).toMatchSnapshot();
+        const {lastFrame} = render(<Task text={text} isPending={true}></Task>);
+        expect(lastFrame()).toMatchSnapshot();
     });
     test('can render (completed)', () => {
         const text = 'test task text';
         const {lastFrame} = render(<Task text={text} isComplete={true}></Task>);
         expect(lastFrame()).toMatchSnapshot();
     });
-    test('can render with defaults', () => {
+    test('can render (skipped)', () => {
+        const text = 'test task text';
+        const {lastFrame} = render(<Task text={text} isComplete={true} isSkipped={true}></Task>);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test('can render (errored)', () => {
+        const text = 'test task text';
+        const {lastFrame} = render(<Task text={text} isErrored={true}></Task>);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test('can render with default text', () => {
         const {lastFrame} = render(<Task isComplete={true}></Task>);
         expect(lastFrame()).toMatchSnapshot();
     });
 });
-describe('TaskList component', () => {
+xdescribe('TaskList component', () => {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
@@ -102,7 +133,7 @@ describe('TaskList component', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    xtest('can render', done => {
+    test('can render', done => {
         const options = {skipInstall};
         const {lastFrame} = render(<TaskList command={'add'} terms={['eslint']} options={options} done={complete}></TaskList>);
         function complete() {
@@ -111,7 +142,7 @@ describe('TaskList component', () => {
         }
     });
 });
-describe('tomo', () => {
+xdescribe('tomo', () => {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
@@ -136,7 +167,7 @@ describe('tomo', () => {
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
     });
-    xtest('add eslint', done => {
+    test('add eslint', done => {
         const input = ['add', 'eslint'];
         const flags = {skipInstall};
         const {lastFrame} = render(<Tomo input={input} flags={flags} done={complete}/>);
@@ -145,7 +176,7 @@ describe('tomo', () => {
             done();
         }
     });
-    xtest('add eslint --use-react', done => {
+    test('add eslint --use-react', done => {
         const input = ['add', 'eslint'];
         const flags = {useReact: true, skipInstall};
         const {lastFrame} = render(<Tomo input={input} flags={flags} done={complete}/>);

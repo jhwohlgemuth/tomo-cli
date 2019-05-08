@@ -35,7 +35,7 @@ export const tasks = [
     {
         text: 'Install Babel core, CLI, presets, and plugins',
         task: ({skipInstall}) => install(BABEL_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: () => (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && someDoExist('package.json'))
+        condition: ({isNotOffline}) => isNotOffline && (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && someDoExist('package.json'))
     },
     {
         text: 'Install Babel React preset',

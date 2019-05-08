@@ -1518,7 +1518,7 @@
                         }
                       },
                       "argument": {
-                        "type": "ArrayExpression",
+                        "type": "ObjectExpression",
                         "start": 1112,
                         "end": 1144,
                         "loc": {
@@ -1531,9 +1531,9 @@
                             "column": 43
                           }
                         },
-                        "elements": [
+                        "properties": [
                           {
-                            "type": "Identifier",
+                            "type": "ObjectProperty",
                             "start": 1113,
                             "end": 1128,
                             "loc": {
@@ -1544,13 +1544,51 @@
                               "end": {
                                 "line": 22,
                                 "column": 27
-                              },
-                              "identifierName": "intendedCommand"
+                              }
                             },
-                            "name": "intendedCommand"
+                            "method": false,
+                            "shorthand": true,
+                            "computed": false,
+                            "key": {
+                              "type": "Identifier",
+                              "start": 1113,
+                              "end": 1128,
+                              "loc": {
+                                "start": {
+                                  "line": 22,
+                                  "column": 12
+                                },
+                                "end": {
+                                  "line": 22,
+                                  "column": 27
+                                },
+                                "identifierName": "intendedCommand"
+                              },
+                              "name": "intendedCommand"
+                            },
+                            "value": {
+                              "type": "Identifier",
+                              "start": 1113,
+                              "end": 1128,
+                              "loc": {
+                                "start": {
+                                  "line": 22,
+                                  "column": 12
+                                },
+                                "end": {
+                                  "line": 22,
+                                  "column": 27
+                                },
+                                "identifierName": "intendedCommand"
+                              },
+                              "name": "intendedCommand"
+                            },
+                            "extra": {
+                              "shorthand": true
+                            }
                           },
                           {
-                            "type": "Identifier",
+                            "type": "ObjectProperty",
                             "start": 1130,
                             "end": 1143,
                             "loc": {
@@ -1561,10 +1599,48 @@
                               "end": {
                                 "line": 22,
                                 "column": 42
-                              },
-                              "identifierName": "intendedTerms"
+                              }
                             },
-                            "name": "intendedTerms"
+                            "method": false,
+                            "shorthand": true,
+                            "computed": false,
+                            "key": {
+                              "type": "Identifier",
+                              "start": 1130,
+                              "end": 1143,
+                              "loc": {
+                                "start": {
+                                  "line": 22,
+                                  "column": 29
+                                },
+                                "end": {
+                                  "line": 22,
+                                  "column": 42
+                                },
+                                "identifierName": "intendedTerms"
+                              },
+                              "name": "intendedTerms"
+                            },
+                            "value": {
+                              "type": "Identifier",
+                              "start": 1130,
+                              "end": 1143,
+                              "loc": {
+                                "start": {
+                                  "line": 22,
+                                  "column": 29
+                                },
+                                "end": {
+                                  "line": 22,
+                                  "column": 42
+                                },
+                                "identifierName": "intendedTerms"
+                              },
+                              "name": "intendedTerms"
+                            },
+                            "extra": {
+                              "shorthand": true
+                            }
                           }
                         ]
                       }
@@ -10759,7 +10835,7 @@
     },
     {
       "type": {
-        "label": "[",
+        "label": "{",
         "beforeExpr": true,
         "startsExpr": true,
         "rightAssociative": false,
@@ -10767,8 +10843,7 @@
         "isAssign": false,
         "prefix": false,
         "postfix": false,
-        "binop": null,
-        "updateContext": null
+        "binop": null
       },
       "start": 1112,
       "end": 1113,
@@ -10863,7 +10938,7 @@
     },
     {
       "type": {
-        "label": "]",
+        "label": "}",
         "beforeExpr": false,
         "startsExpr": false,
         "rightAssociative": false,
@@ -10871,8 +10946,7 @@
         "isAssign": false,
         "prefix": false,
         "postfix": false,
-        "binop": null,
-        "updateContext": null
+        "binop": null
       },
       "start": 1143,
       "end": 1144,

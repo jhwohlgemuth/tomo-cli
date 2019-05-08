@@ -29,9 +29,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-OfflineWarning">OfflineWarning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-UI">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
@@ -74,7 +76,7 @@ import {
     createPackageJson,
     createSourceDirectory
 } from &apos;../src/commands/common&apos;;
-import {create} from &apos;../src/commands&apos;;
+import commands from &apos;../src/commands&apos;;
 import addBabel from &apos;../src/commands/add-babel&apos;;
 import addEsdoc from &apos;../src/commands/add-esdoc&apos;;
 import addEslint from &apos;../src/commands/add-eslint&apos;;
@@ -85,9 +87,17 @@ import addPostcss from &apos;../src/commands/add-postcss&apos;;
 import addMarionette from &apos;../src/commands/add-marionette&apos;;
 import addWebpack from &apos;../src/commands/add-webpack&apos;;
 
+jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; true));
+// jest.mock(&apos;../src/commands&apos;, () =&gt; ({
+//     create: {
+//         app: [&apos;foo&apos;, &apos;bar&apos;]
+//     }
+// }));
+
 describe(&apos;&quot;Create/New&quot; commands&apos;, () =&gt; {
     let tempDirectory;
     const skipInstall = true;
+    const {create} = commands;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () =&gt; {
         tempDirectory = await setTempDir();
@@ -126,6 +136,7 @@ describe(&apos;&quot;Add&quot; commands&apos;, () =&gt; {
     let tempDirectory;
     const skipInstall = true;
     const useReact = true;
+    const {create} = commands;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () =&gt; {
         tempDirectory = await setTempDir();

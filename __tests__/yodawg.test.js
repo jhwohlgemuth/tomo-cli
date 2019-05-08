@@ -2,13 +2,11 @@ import {existsSync} from 'fs';
 import {join} from 'path';
 import {
     removeAttributes,
-    getDirectoryTree
+    getDirectoryTree,
+    useTemporaryDirectory
 } from './tomo-test';
 import {partialRight} from 'lodash';
 import {format} from '../src/utils/common';
-import {
-    useTemporaryDirectory
-} from './tomo-test';
 
 describe('Tomo testing tools', () => {
     test('can create and cleanup temporary directories', async () => {

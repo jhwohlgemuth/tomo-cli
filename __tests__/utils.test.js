@@ -168,7 +168,7 @@ describe('File & folder scaffolder', () => {
 });
 describe('getIntendedInput', () => {
     test('return closest matches', () => {
-        const [intendedCommand, intendedTerms] = getIntendedInput(commands, 'ad', ['lint']);
+        const {intendedCommand, intendedTerms} = getIntendedInput(commands, 'ad', ['lint']);
         expect(intendedCommand).toEqual('add');
         expect(intendedTerms).toEqual(['eslint']);
     });
