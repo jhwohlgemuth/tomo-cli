@@ -533,6 +533,8 @@ const TaskList = ({
 };
 /**
  * Main tomo UI component
+ * @param {Object} props Component props
+ * @return {ReactComponent} Main tomo UI component
  */
 
 

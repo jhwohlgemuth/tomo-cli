@@ -29,9 +29,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-OfflineWarning">OfflineWarning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-UI">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
@@ -82,7 +84,7 @@ import commands from &apos;../src/commands&apos;;
 
 jest.mock(&apos;execa&apos;);
 
-const testDirectory = join(__dirname, &apos;fixtures&apos;);
+const testDirectory = join(__dirname, &apos;tomo-fixtures&apos;);
 /**
  * Verify package.json editor can create and edit a package.json manifest file
  * @test {PackageJsonEditor}
@@ -233,7 +235,7 @@ describe(&apos;File &amp; folder scaffolder&apos;, () =&gt; {
 });
 describe(&apos;getIntendedInput&apos;, () =&gt; {
     test(&apos;return closest matches&apos;, () =&gt; {
-        const [intendedCommand, intendedTerms] = getIntendedInput(commands, &apos;ad&apos;, [&apos;lint&apos;]);
+        const {intendedCommand, intendedTerms} = getIntendedInput(commands, &apos;ad&apos;, [&apos;lint&apos;]);
         expect(intendedCommand).toEqual(&apos;add&apos;);
         expect(intendedTerms).toEqual([&apos;eslint&apos;]);
     });

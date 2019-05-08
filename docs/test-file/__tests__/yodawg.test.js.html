@@ -29,9 +29,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-OfflineWarning">OfflineWarning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-UI">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
@@ -67,13 +69,11 @@
 import {join} from &apos;path&apos;;
 import {
     removeAttributes,
-    getDirectoryTree
+    getDirectoryTree,
+    useTemporaryDirectory
 } from &apos;./tomo-test&apos;;
 import {partialRight} from &apos;lodash&apos;;
 import {format} from &apos;../src/utils/common&apos;;
-import {
-    useTemporaryDirectory
-} from &apos;./tomo-test&apos;;
 
 describe(&apos;Tomo testing tools&apos;, () =&gt; {
     test(&apos;can create and cleanup temporary directories&apos;, async () =&gt; {
@@ -114,7 +114,7 @@ describe(&apos;Tomo testing tools&apos;, () =&gt; {
         expect(format(result)).toMatchSnapshot();
     });
     test(&apos;get directory tree&apos;, () =&gt; {
-        const folderpath = join(__dirname, &apos;fixtures/test-folder-tree&apos;);
+        const folderpath = join(__dirname, &apos;tomo-fixtures/test-folder-tree&apos;);
         const tree = getDirectoryTree(folderpath);
         expect(tree).toMatchSnapshot();
         const augmentedTree = getDirectoryTree(folderpath, {omit: [&apos;path&apos;, &apos;name&apos;]});

@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/utils/Scaffolder.js | tomo-cli</title>
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">__tests__/offline.test.js | tomo-cli</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -64,78 +64,57 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/utils/Scaffolder.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
-import Queue from &apos;p-queue&apos;;
-import memFs from &apos;mem-fs&apos;;
-import editor from &apos;mem-fs-editor&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">__tests__/offline.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
+import isOnline from &apos;is-online&apos;;
+import {render} from &apos;ink-testing-library&apos;;
+import {OfflineWarning, TaskList} from &apos;../src/ui&apos;;
+import {useTemporaryDirectory} from &apos;./tomo-test&apos;;
 
-const {assign} = Object;
-const silent = () =&gt; {};
-/**
- * Class to create scaffolders when creating folders, and copying files/templates
- * @example
- * import {Scaffolder} from &apos;./utils&apos;;
- * const scaffolder = new Scaffolder();
- * await scaffolder
- *     .target(&apos;/path/to/copy/files&apos;)
- *     .copy(&apos;foo.js&apos;)
- *     .copy(&apos;bar.js&apos;)
- *     .commit();
- */
-export class Scaffolder {
-    /**
-     *
-     * @param {Object} options Scaffolding options
-     * @param {string} options.sourceDirectory Source directory for template files
-     */
-    constructor(options = {sourceDirectory: join(__dirname, &apos;templates&apos;)}) {
-        const {sourceDirectory} = options;
-        const targetDirectory = &apos;./&apos;;
-        const fs = editor.create(memFs.create());
-        const queue = new Queue({concurrency: 1});
-        assign(this, {fs, queue, sourceDirectory, targetDirectory});
-    }
-    /**
-     * Set source directory
-     * @param {string} sourceDirectory Source directory of template files
-     * @returns {Scaffolder} Chaining OK
-     */
-    source(sourceDirectory) {
-        return assign(this, {sourceDirectory});
-    }
-    /**
-     * Set target directory
-     * @param {string} targetDirectory Target directory of template files
-     * @returns {Scaffolder} Chaining OK
-     */
-    target(targetDirectory) {
-        return assign(this, {targetDirectory});
-    }
-    /**
-     * Copy a file
-     * @param {string} path Path string of file to be copied
-     * @returns {Scaffolder} Chaining OK
-     */
-    copy(path) {
-        const self = this;
-        const {fs, queue, sourceDirectory, targetDirectory} = self;
-        const source = join(sourceDirectory, path);
-        const target = join(process.cwd(), targetDirectory, ...path.split(&apos;/&apos;));
-        queue.add(() =&gt; fs.copy(source, target)).catch(silent);
-        return self;
-    }
-    /**
-     * Write changes to disk
-     * @return {Promise} Resolves when queue is empty
-     */
-    async commit() {
-        const {fs, queue} = this;
-        await new Promise(resolve =&gt; fs.commit(resolve));
-        await queue.onEmpty();
-    }
-}
-export default Scaffolder;</code></pre>
+jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; false));
+
+describe(&apos;Offline warning&apos;, () =&gt; {
+    let tempDirectory;
+    const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () =&gt; {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () =&gt; {
+        await cleanupTempDir();
+    });
+    beforeAll(() =&gt; {
+        console.error = jest.fn();//eslint-disable-line no-console
+    });
+    afterAll(() =&gt; {
+        console.error = ORIGINAL_CONSOLE_ERROR;//eslint-disable-line no-console
+    });
+    test(&apos;is-online returns false (for testing)&apos;, async () =&gt; {
+        const result = await isOnline();
+        expect(result).toEqual(false);
+    });
+    test(&apos;can render&apos;, async () =&gt; {
+        const {lastFrame} = render(&lt;OfflineWarning/&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;does not render when offline and skipInstall === true&apos;, done =&gt; {
+        const options = {skipInstall: true};
+        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} terms={[&apos;babel&apos;]} options={options} done={complete}&gt;&lt;/TaskList&gt;);
+        function complete() {
+            expect(lastFrame()).toMatchSnapshot();
+            done();
+        }
+    });
+    test(&apos;renders when offline and skipInstall === false&apos;, done =&gt; {
+        const options = {skipInstall: false};
+        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} terms={[&apos;babel&apos;]} options={options} done={complete}&gt;&lt;/TaskList&gt;);
+        function complete() {
+            expect(lastFrame()).toMatchSnapshot();
+            done();
+        }
+    });
+});</code></pre>
 
 </div>
 

@@ -1,103 +1,103 @@
 window.esdocSearchIndex = [
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber60",
+    "test-file/__tests__/commands.test.js.html#lineNumber68",
     "\"Add\" commands",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber72",
+    "test-file/__tests__/commands.test.js.html#lineNumber81",
     "\"Add\" commands add-babel",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber81",
+    "test-file/__tests__/commands.test.js.html#lineNumber90",
     "\"Add\" commands add-babel (with React)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber90",
+    "test-file/__tests__/commands.test.js.html#lineNumber99",
     "\"Add\" commands add-esdoc",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber99",
+    "test-file/__tests__/commands.test.js.html#lineNumber108",
     "\"Add\" commands add-esdoc (with React)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber108",
+    "test-file/__tests__/commands.test.js.html#lineNumber117",
     "\"Add\" commands add-eslint",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber117",
+    "test-file/__tests__/commands.test.js.html#lineNumber126",
     "\"Add\" commands add-eslint (with React)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber126",
+    "test-file/__tests__/commands.test.js.html#lineNumber135",
     "\"Add\" commands add-jest",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber135",
+    "test-file/__tests__/commands.test.js.html#lineNumber144",
     "\"Add\" commands add-makefile",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber148",
+    "test-file/__tests__/commands.test.js.html#lineNumber157",
     "\"Add\" commands add-marionette",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber155",
+    "test-file/__tests__/commands.test.js.html#lineNumber164",
     "\"Add\" commands add-postcss",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber164",
+    "test-file/__tests__/commands.test.js.html#lineNumber173",
     "\"Add\" commands add-webpack",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber23",
+    "test-file/__tests__/commands.test.js.html#lineNumber30",
     "\"Create/New\" commands",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber41",
+    "test-file/__tests__/commands.test.js.html#lineNumber49",
     "\"Create/New\" commands create new app",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber34",
+    "test-file/__tests__/commands.test.js.html#lineNumber42",
     "\"Create/New\" commands create new project",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber48",
+    "test-file/__tests__/commands.test.js.html#lineNumber56",
     "\"Create/New\" commands create package.json",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber53",
+    "test-file/__tests__/commands.test.js.html#lineNumber61",
     "\"Create/New\" commands create source directory",
     "test"
   ],
@@ -114,6 +114,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "tomo-cli/src/ui.js~commanderror",
+    "function/index.html#static-function-CommandError",
+    "<span>CommandError</span> <span class=\"search-result-import-path\">tomo-cli/src/ui.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/utils/index.js~eslintconfigmoduleeditor",
     "variable/index.html#static-variable-EslintConfigModuleEditor",
     "<span>EslintConfigModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
@@ -124,6 +130,12 @@ window.esdocSearchIndex = [
     "class/src/utils/MakefileEditor.js~MakefileEditor.html",
     "<span>MakefileEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/MakefileEditor.js</span>",
     "class"
+  ],
+  [
+    "tomo-cli/src/ui.js~offlinewarning",
+    "function/index.html#static-function-OfflineWarning",
+    "<span>OfflineWarning</span> <span class=\"search-result-import-path\">tomo-cli/src/ui.js</span>",
+    "function"
   ],
   [
     "tomo-cli/src/utils/index.js~packagejsoneditor",
@@ -157,9 +169,9 @@ window.esdocSearchIndex = [
   ],
   [
     "tomo-cli/src/ui.js~ui",
-    "class/src/ui.js~UI.html",
+    "function/index.html#static-function-UI",
     "<span>UI</span> <span class=\"search-result-import-path\">tomo-cli/src/ui.js</span>",
-    "class"
+    "function"
   ],
   [
     "tomo-cli/src/ui.js~warning",
@@ -277,6 +289,18 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/__tests__/ui.test.js.html#lineNumber74",
+    "CommandError",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber84",
+    "CommandError can render component and create errors file",
+    "test"
+  ],
+  [
+    "",
     "test-file/__tests__/utils.test.js.html#lineNumber156",
     "File & folder scaffolder",
     "test"
@@ -337,55 +361,91 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber71",
+    "test-file/__tests__/offline.test.js.html#lineNumber9",
+    "Offline warning",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/offline.test.js.html#lineNumber30",
+    "Offline warning can render",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/offline.test.js.html#lineNumber34",
+    "Offline warning does not render when offline and skipInstall === true",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/offline.test.js.html#lineNumber26",
+    "Offline warning is-online returns false (for testing)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/offline.test.js.html#lineNumber42",
+    "Offline warning renders when offline and skipInstall === false",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber92",
     "Task component",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber72",
-    "Task component can render",
-    "test"
-  ],
-  [
-    "",
-    "test-file/__tests__/ui.test.js.html#lineNumber77",
+    "test-file/__tests__/ui.test.js.html#lineNumber98",
     "Task component can render (completed)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber82",
-    "Task component can render with defaults",
+    "test-file/__tests__/ui.test.js.html#lineNumber108",
+    "Task component can render (errored)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber87",
-    "TaskList component",
+    "test-file/__tests__/ui.test.js.html#lineNumber93",
+    "Task component can render (pending)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/yodawg.test.js.html#lineNumber13",
+    "test-file/__tests__/ui.test.js.html#lineNumber103",
+    "Task component can render (skipped)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber113",
+    "Task component can render with default text",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber11",
     "Tomo testing tools",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/yodawg.test.js.html#lineNumber14",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber12",
     "Tomo testing tools can create and cleanup temporary directories",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/yodawg.test.js.html#lineNumber21",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber19",
     "Tomo testing tools can format objects for use as snapshots",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/yodawg.test.js.html#lineNumber51",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber49",
     "Tomo testing tools get directory tree",
     "test"
   ],
@@ -475,13 +535,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber64",
+    "test-file/__tests__/ui.test.js.html#lineNumber67",
     "Warning",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber65",
+    "test-file/__tests__/ui.test.js.html#lineNumber68",
     "Warning can render",
     "test"
   ],
@@ -489,6 +549,12 @@ window.esdocSearchIndex = [
     "__tests__/commands.test.js",
     "test-file/__tests__/commands.test.js.html",
     "__tests__/commands.test.js",
+    "testFile"
+  ],
+  [
+    "__tests__/offline.test.js",
+    "test-file/__tests__/offline.test.js.html",
+    "__tests__/offline.test.js",
     "testFile"
   ],
   [
@@ -514,6 +580,30 @@ window.esdocSearchIndex = [
     "test-file/__tests__/yodawg.test.js.html",
     "__tests__/yodawg.test.js",
     "testFile"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber163",
+    "add",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber170",
+    "add eslint",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber179",
+    "add eslint --use-react",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber136",
+    "can render",
+    "test"
   ],
   [
     "",
@@ -559,31 +649,31 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber9",
+    "test-file/__tests__/ui.test.js.html#lineNumber12",
     "populateQueue function",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber48",
+    "test-file/__tests__/ui.test.js.html#lineNumber51",
     "populateQueue function can catch task errors",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber31",
+    "test-file/__tests__/ui.test.js.html#lineNumber34",
     "populateQueue function can only run tasks that pass condition",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber13",
+    "test-file/__tests__/ui.test.js.html#lineNumber16",
     "populateQueue function can run tasks with options and dispatch task results",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber10",
+    "test-file/__tests__/ui.test.js.html#lineNumber13",
     "populateQueue function can run with defaults",
     "test"
   ],
@@ -954,36 +1044,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/ui.js~ui#constructor",
-    "class/src/ui.js~UI.html#instance-constructor-constructor",
-    "src/ui.js~UI#constructor",
-    "method"
-  ],
-  [
-    "src/ui.js~ui#render",
-    "class/src/ui.js~UI.html#instance-method-render",
-    "src/ui.js~UI#render",
-    "method"
-  ],
-  [
-    "src/ui.js~ui#state",
-    "class/src/ui.js~UI.html#instance-member-state",
-    "src/ui.js~UI#state",
-    "member"
-  ],
-  [
-    "src/ui.js~ui#updateterms",
-    "class/src/ui.js~UI.html#instance-method-updateTerms",
-    "src/ui.js~UI#updateTerms",
-    "method"
-  ],
-  [
-    "src/ui.js~ui#updatewarning",
-    "class/src/ui.js~UI.html#instance-method-updateWarning",
-    "src/ui.js~UI#updateWarning",
-    "method"
-  ],
-  [
     "src/utils/basiceditor.js",
     "file/src/utils/BasicEditor.js.html",
     "src/utils/BasicEditor.js",
@@ -1168,17 +1228,5 @@ window.esdocSearchIndex = [
     "file/src/utils/index.js.html",
     "src/utils/index.js",
     "file"
-  ],
-  [
-    "",
-    "test-file/__tests__/ui.test.js.html#lineNumber114",
-    "tomo",
-    "test"
-  ],
-  [
-    "",
-    "test-file/__tests__/ui.test.js.html#lineNumber132",
-    "tomo add",
-    "test"
   ]
 ]

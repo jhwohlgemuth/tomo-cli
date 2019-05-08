@@ -29,9 +29,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-OfflineWarning">OfflineWarning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-UI">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
@@ -63,13 +65,16 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">__tests__/ui.test.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {useTemporaryDirectory} from &apos;./tomo-test&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {getDirectoryTree, useTemporaryDirectory} from &apos;./tomo-test&apos;;
 import Queue from &apos;p-queue&apos;;
 import React from &apos;react&apos;;
 import {render} from &apos;ink-testing-library&apos;;
-import Tomo, {Warning, Task, TaskList, populateQueue} from &apos;../src/ui&apos;;
+import Tomo, {CommandError, Warning, Task, TaskList, populateQueue} from &apos;../src/ui&apos;;
+
+jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; true));
 
 const ARROW_DOWN = &apos;\u001B[B&apos;;
+const {assign} = Object;
 
 describe(&apos;populateQueue function&apos;, () =&gt; {
     test(&apos;can run with defaults&apos;, () =&gt; {
@@ -88,9 +93,9 @@ describe(&apos;populateQueue function&apos;, () =&gt; {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         expect(task.mock.calls.length).toBe(tasks.length);
-        expect(dispatch.mock.calls.length).toBe(tasks.length);
+        expect(dispatch.mock.calls.length).toBe(tasks.length + 1);
         const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
-        expect(passedOptions).toBe(options);
+        expect(passedOptions).toEqual(assign(options, {isNotOffline: true}));
         expect(dispatch.mock.calls).toMatchSnapshot();
     });
     test(&apos;can only run tasks that pass condition&apos;, async () =&gt; {
@@ -106,7 +111,7 @@ describe(&apos;populateQueue function&apos;, () =&gt; {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
-        expect(passedOptions).toBe(options);
+        expect(passedOptions).toMatchSnapshot();
         expect(task.mock.calls.length).toBe(2);
         expect(dispatch.mock.calls).toMatchSnapshot();
     });
@@ -123,7 +128,7 @@ describe(&apos;populateQueue function&apos;, () =&gt; {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         expect(task.mock.calls.length).toBe(2);
-        expect(dispatch.mock.calls[1][0].type).toBe(&apos;error&apos;);
+        expect(dispatch.mock.calls[2][0].type).toBe(&apos;error&apos;);
     });
 });
 describe(&apos;Warning&apos;, () =&gt; {
@@ -133,23 +138,51 @@ describe(&apos;Warning&apos;, () =&gt; {
         expect(lastFrame()).toMatchSnapshot();
     });
 });
+describe(&apos;CommandError&apos;, () =&gt; {
+    let tempDirectory;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () =&gt; {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () =&gt; {
+        await cleanupTempDir();
+    });
+    test(&apos;can render component and create errors file&apos;, () =&gt; {
+        const errors = [{one: 1}, {two: 2}];
+        const {lastFrame} = render(&lt;CommandError errors={errors}&gt;&lt;/CommandError&gt;);
+        const tree = getDirectoryTree(tempDirectory);
+        expect(tree).toMatchSnapshot();
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
 describe(&apos;Task component&apos;, () =&gt; {
-    test(&apos;can render&apos;, () =&gt; {
+    test(&apos;can render (pending)&apos;, () =&gt; {
         const text = &apos;test task text&apos;;
-        const component = render(&lt;Task text={text}&gt;&lt;/Task&gt;);
-        expect(component.lastFrame()).toMatchSnapshot();
+        const {lastFrame} = render(&lt;Task text={text} isPending={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
     });
     test(&apos;can render (completed)&apos;, () =&gt; {
         const text = &apos;test task text&apos;;
         const {lastFrame} = render(&lt;Task text={text} isComplete={true}&gt;&lt;/Task&gt;);
         expect(lastFrame()).toMatchSnapshot();
     });
-    test(&apos;can render with defaults&apos;, () =&gt; {
+    test(&apos;can render (skipped)&apos;, () =&gt; {
+        const text = &apos;test task text&apos;;
+        const {lastFrame} = render(&lt;Task text={text} isComplete={true} isSkipped={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render (errored)&apos;, () =&gt; {
+        const text = &apos;test task text&apos;;
+        const {lastFrame} = render(&lt;Task text={text} isErrored={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render with default text&apos;, () =&gt; {
         const {lastFrame} = render(&lt;Task isComplete={true}&gt;&lt;/Task&gt;);
         expect(lastFrame()).toMatchSnapshot();
     });
 });
-describe(&apos;TaskList component&apos;, () =&gt; {
+xdescribe(&apos;TaskList component&apos;, () =&gt; {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
@@ -167,7 +200,7 @@ describe(&apos;TaskList component&apos;, () =&gt; {
     afterEach(async () =&gt; {
         await cleanupTempDir();
     });
-    xtest(&apos;can render&apos;, done =&gt; {
+    test(&apos;can render&apos;, done =&gt; {
         const options = {skipInstall};
         const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} terms={[&apos;eslint&apos;]} options={options} done={complete}&gt;&lt;/TaskList&gt;);
         function complete() {
@@ -176,7 +209,7 @@ describe(&apos;TaskList component&apos;, () =&gt; {
         }
     });
 });
-describe(&apos;tomo&apos;, () =&gt; {
+xdescribe(&apos;tomo&apos;, () =&gt; {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
@@ -201,7 +234,7 @@ describe(&apos;tomo&apos;, () =&gt; {
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
     });
-    xtest(&apos;add eslint&apos;, done =&gt; {
+    test(&apos;add eslint&apos;, done =&gt; {
         const input = [&apos;add&apos;, &apos;eslint&apos;];
         const flags = {skipInstall};
         const {lastFrame} = render(&lt;Tomo input={input} flags={flags} done={complete}/&gt;);
@@ -210,7 +243,7 @@ describe(&apos;tomo&apos;, () =&gt; {
             done();
         }
     });
-    xtest(&apos;add eslint --use-react&apos;, done =&gt; {
+    test(&apos;add eslint --use-react&apos;, done =&gt; {
         const input = [&apos;add&apos;, &apos;eslint&apos;];
         const flags = {useReact: true, skipInstall};
         const {lastFrame} = render(&lt;Tomo input={input} flags={flags} done={complete}/&gt;);
