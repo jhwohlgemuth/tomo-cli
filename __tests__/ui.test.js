@@ -1,8 +1,8 @@
-import {useTemporaryDirectory} from './tomo-test';
+import {getDirectoryTree, useTemporaryDirectory} from './tomo-test';
 import Queue from 'p-queue';
 import React from 'react';
 import {render} from 'ink-testing-library';
-import Tomo, {Warning, Task, TaskList, populateQueue} from '../src/ui';
+import Tomo, {CommandError, Warning, Task, TaskList, populateQueue} from '../src/ui';
 
 jest.mock('is-online', () => (async () => true));
 
@@ -68,6 +68,24 @@ describe('Warning', () => {
     test('can render', () => {
         const callback = jest.fn();
         const {lastFrame} = render(<Warning callback={callback}>Hello World</Warning>);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
+describe('CommandError', () => {
+    let tempDirectory;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () => {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () => {
+        await cleanupTempDir();
+    });
+    test('can render component and create errors file', () => {
+        const errors = [{one: 1}, {two: 2}];
+        const {lastFrame} = render(<CommandError errors={errors}></CommandError>);
+        const tree = getDirectoryTree(tempDirectory);
+        expect(tree).toMatchSnapshot();
         expect(lastFrame()).toMatchSnapshot();
     });
 });

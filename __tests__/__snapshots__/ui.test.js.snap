@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`CommandError can render component and create errors file 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: tomo-errors.txt,
+            size: 0,
+            type: file
+        }
+    ],
+    size: 0,
+    type: directory
+}
+"
+`;
+
+exports[`CommandError can render component and create errors file 2`] = `
+"
+ [31m[1m✖ [22m[39mSomething has gone horribly [31m[1mwrong[22m[39m
+   ↳ [2mDetails written to ./tomo-errors.txt[22m"
+`;
+
 exports[`Task component can render (completed) 1`] = `"   [32m[1m✔ [22m[39m[2mtest task text[22m"`;
 
 exports[`Task component can render (errored) 1`] = `"   [31m[1m✖ [22m[39mtest task text"`;

@@ -256,6 +256,8 @@ export const TaskList = ({command, options, terms, done}) => {
 };
 /**
  * Main tomo UI component
+ * @param {Object} props Component props
+ * @return {ReactComponent} Main tomo UI component
  */
 const UI = props => {
     const {done, flags, input} = props;
