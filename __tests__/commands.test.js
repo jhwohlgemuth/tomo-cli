@@ -27,7 +27,6 @@ jest.mock('is-online', () => (async () => true));
 //     }
 // }));
 
-
 describe('"Create/New" commands', () => {
     let tempDirectory;
     const skipInstall = true;

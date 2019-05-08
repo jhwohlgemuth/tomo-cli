@@ -142,7 +142,7 @@ describe('tomo', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    test('add', () => {
+    xtest('add', () => {
         const input = ['add'];
         const {lastFrame, stdin} = render(<Tomo input={input} flags={{skipInstall}}/>);
         expect(lastFrame()).toMatchSnapshot();

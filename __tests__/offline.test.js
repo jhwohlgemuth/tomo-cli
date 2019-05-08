@@ -3,16 +3,9 @@ import isOnline from 'is-online';
 import {render} from 'ink-testing-library';
 import {OfflineWarning, TaskList} from '../src/ui';
 
-<<<<<<< HEAD
 jest.mock('is-online', () => (async () => false));
 
 xdescribe('Offline warning', () => {
-=======
-jest.mock('is-online');
-isOnline.mockImplementation(async () => false);
-
-describe('Offline warning', () => {
->>>>>>> 8f1c7f23700e6f2cfb3495ad969792926a4e087f
     const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console
     beforeAll(() => {
         console.error = jest.fn();//eslint-disable-line no-console
