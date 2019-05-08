@@ -40,11 +40,6 @@ var _utils = require("./utils");
 
 const pino = require('pino');
 
-const log = pino({
-  prettyPrint: {
-    levelFirst: true
-  }
-}, pino.destination('./tomo-errors.txt'));
 const {
   assign,
   entries
@@ -270,6 +265,11 @@ const OfflineWarning = () => _react.default.createElement(_ink.Box, {
 exports.OfflineWarning = OfflineWarning;
 
 const CommandError = errors => {
+  const log = pino({
+    prettyPrint: {
+      levelFirst: true
+    }
+  }, pino.destination('./tomo-errors.txt'));
   (0, _react.useEffect)(() => {
     log.error(errors);
   }, []);

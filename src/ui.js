@@ -11,10 +11,6 @@ import figures from 'figures';
 import commands from './commands';
 import {getIntendedInput} from './utils';
 const pino = require('pino');
-const log = pino(
-    {prettyPrint: {levelFirst: true}},
-    pino.destination('./tomo-errors.txt')
-);
 
 const {assign, entries} = Object;
 const space = ' ';
@@ -110,6 +106,10 @@ export const OfflineWarning = () => <Box flexDirection={'column'} marginBottom={
     </Box>
 </Box>;
 export const CommandError = errors => {
+    const log = pino(
+        {prettyPrint: {levelFirst: true}},
+        pino.destination('./tomo-errors.txt')
+    );
     useEffect(() => {
         log.error(errors);
     }, []);

@@ -124,7 +124,7 @@ xdescribe('TaskList component', () => {
         }
     });
 });
-describe('tomo', () => {
+xdescribe('tomo', () => {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
@@ -142,14 +142,14 @@ describe('tomo', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    xtest('add', () => {
+    test('add', () => {
         const input = ['add'];
         const {lastFrame, stdin} = render(<Tomo input={input} flags={{skipInstall}}/>);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
     });
-    xtest('add eslint', done => {
+    test('add eslint', done => {
         const input = ['add', 'eslint'];
         const flags = {skipInstall};
         const {lastFrame} = render(<Tomo input={input} flags={flags} done={complete}/>);
@@ -158,7 +158,7 @@ describe('tomo', () => {
             done();
         }
     });
-    xtest('add eslint --use-react', done => {
+    test('add eslint --use-react', done => {
         const input = ['add', 'eslint'];
         const flags = {useReact: true, skipInstall};
         const {lastFrame} = render(<Tomo input={input} flags={flags} done={complete}/>);
