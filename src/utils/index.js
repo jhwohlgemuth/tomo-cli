@@ -1,6 +1,7 @@
 import execa from 'execa';
 import semver from 'semver';
 import {first} from 'lodash';
+import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
 import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';
@@ -53,7 +54,10 @@ export const install = async (dependencies = [], options = {dev: false, latest: 
     const identity = i => i;
     const concat = val => str => str + val;
     const args = ['install']
-        .concat(dependencies.map(latest ? concat('@latest') : identity))
+        .concat(dependencies
+            .filter(name => validate(name).validForNewPackages)
+            .map(latest ? concat('@latest') : identity)
+        )
         .concat(dev ? '--save-dev' : []);
     skipInstall || await execa('npm', args);
     return args;

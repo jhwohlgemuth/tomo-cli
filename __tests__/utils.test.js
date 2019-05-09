@@ -184,10 +184,10 @@ describe('getVersions', () => {
     });
 });
 describe('install', () => {
+    const latest = true;
+    const skipInstall = true;
+    const dev = true;
     test('handle array of string names', async () => {
-        const latest = true;
-        const skipInstall = true;
-        const dev = true;
         expect(await install()).toEqual(['install']);
         expect(await install(['some-module'])).toEqual(['install', 'some-module@latest']);
         expect(await install(['some-module'])).toEqual(['install', 'some-module@latest']);
@@ -196,5 +196,10 @@ describe('install', () => {
         expect(await install(['some-module'], {dev, skipInstall})).toEqual(['install', 'some-module', '--save-dev']);
         expect(await install(['some-module'], {dev, latest, skipInstall})).toEqual(['install', 'some-module@latest', '--save-dev']);
         expect(await install(['foo', 'bar'], {latest: false, dev, skipInstall})).toEqual(['install', 'foo', 'bar', '--save-dev']);
+    });
+    test('only allow valid module names', async () => {
+        const INVALID_NAME = 'eLaBorAtE-paCkAgE-with-mixed-case';
+        expect(await install([INVALID_NAME])).toEqual(['install']);
+        expect(await install(['jest', INVALID_NAME])).toEqual(['install', 'jest@latest']);
     });
 });

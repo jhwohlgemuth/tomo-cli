@@ -15,6 +15,8 @@ var _semver = _interopRequireDefault(require("semver"));
 
 var _lodash = require("lodash");
 
+var _validateNpmPackageName = _interopRequireDefault(require("validate-npm-package-name"));
+
 var _stringSimilarity = require("string-similarity");
 
 var _createJsonEditor = _interopRequireDefault(require("./createJsonEditor"));
@@ -101,7 +103,7 @@ function () {
 
     const concat = val => str => str + val;
 
-    const args = ['install'].concat(dependencies.map(latest ? concat('@latest') : identity)).concat(dev ? '--save-dev' : []);
+    const args = ['install'].concat(dependencies.filter(name => (0, _validateNpmPackageName.default)(name).validForNewPackages).map(latest ? concat('@latest') : identity)).concat(dev ? '--save-dev' : []);
     skipInstall || (yield (0, _execa.default)('npm', args));
     return args;
   });
