@@ -37,7 +37,7 @@ const add = {
   jest: [..._addBabel.default, ..._addJest.default],
   makefile: _addMakefile.default,
   postcss: _addPostcss.default,
-  webpack: _addWebpack.default
+  webpack: [..._addBabel.default, ..._addWebpack.default]
 };
 module.exports = {
   add,
@@ -45,3 +45,10 @@ module.exports = {
   new: create // alias for create
 
 };
+/**
+ * @typedef {Object} task
+ * @property {string} text Display text for task
+ * @property {function} task Task to execute
+ * @property {function} condition Predicate to decide when to execute the task (true) or not (false)
+ * @property {function} [optional] Predicate to decide when to show the task (true) or not (false)
+ */

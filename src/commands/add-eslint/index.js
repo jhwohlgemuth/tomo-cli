@@ -14,7 +14,10 @@ const ESLINT_REACT_PLUGINS = [
 ];
 const sourceDirectory = join(__dirname, 'templates');
 const scaffolder = new Scaffolder({sourceDirectory});
-/** @ignore */
+/**
+ * @type {task[]}
+ * @see https://eslint.org/
+ */
 export const tasks = [
     {
         text: 'Create ESLint configuration and .eslintignore files',

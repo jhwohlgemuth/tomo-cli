@@ -4,9 +4,11 @@ import {
     allDoExistSync
 } from '../utils/common';
 import MakefileEditor from '../utils/MakefileEditor';
-
-/** @ignore */
-export const tasks = [
+/**
+ * @type {task[]}
+ * @see https://www.gnu.org/software/make/manual/html_node/Simple-Makefile.html#Simple-Makefile
+ */
+export const addMakefile = [
     {
         text: 'Create Makefile',
         task: async () => {
@@ -32,4 +34,4 @@ export const tasks = [
         optional: () => allDoExistSync('Makefile', 'package.json')
     }
 ];
-export default tasks;
+export default addMakefile;

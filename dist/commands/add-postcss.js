@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.tasks = void 0;
+exports.default = exports.addPostcss = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -14,9 +14,12 @@ var _utils = require("../utils");
 var _common = require("../utils/common");
 
 const POSTCSS_DEPENDENCIES = ['cssnano', 'postcss-cli', 'postcss-reporter', 'postcss-safe-parser', 'postcss-import', 'postcss-cssnext', 'stylelint', 'uncss'];
-/** @ignore */
+/**
+ * @type {task[]}
+ * @see https://github.com/postcss/postcss
+ */
 
-const tasks = [{
+const addPostcss = [{
   text: 'Create PostCSS config file',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
@@ -52,6 +55,6 @@ const tasks = [{
   }),
   condition: () => (0, _common.someDoExist)('package.json')
 }];
-exports.tasks = tasks;
-var _default = tasks;
+exports.addPostcss = addPostcss;
+var _default = addPostcss;
 exports.default = _default;

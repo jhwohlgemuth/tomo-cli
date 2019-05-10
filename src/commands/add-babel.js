@@ -23,8 +23,11 @@ const BABEL_DEPENDENCIES = [
     ...BABEL_PRESETS,
     ...BABEL_PLUGINS
 ];
-/** @ignore */
-export const tasks = [
+/**
+ * @type {task[]}
+ * @see https://babeljs.io/
+ */
+export const addBabel = [
     {
         text: 'Create Babel config file',
         task: async () => {
@@ -53,4 +56,4 @@ export const tasks = [
         optional: ({useReact}) => useReact
     }
 ];
-export default tasks;
+export default addBabel;

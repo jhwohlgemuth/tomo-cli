@@ -5,8 +5,11 @@ const JEST_DEPENDENCIES = [
     'jest',
     'babel-jest'
 ];
-/** @ignore */
-export const tasks = [
+/**
+ * @type {task[]}
+ * @see https://jestjs.io/
+ */
+export const addJest = [
     {
         text: 'Add test tasks to package.json',
         task: async () => {
@@ -25,4 +28,4 @@ export const tasks = [
         condition: () => someDoExist('package.json')
     }
 ];
-export default tasks;
+export default addJest;

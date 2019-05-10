@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.tasks = void 0;
+exports.default = exports.addMakefile = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -13,8 +13,11 @@ var _common = require("../utils/common");
 
 var _MakefileEditor = _interopRequireDefault(require("../utils/MakefileEditor"));
 
-/** @ignore */
-const tasks = [{
+/**
+ * @type {task[]}
+ * @see https://www.gnu.org/software/make/manual/html_node/Simple-Makefile.html#Simple-Makefile
+ */
+const addMakefile = [{
   text: 'Create Makefile',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
@@ -40,6 +43,6 @@ const tasks = [{
   condition: () => (0, _common.allDoExist)('Makefile', 'package.json'),
   optional: () => (0, _common.allDoExistSync)('Makefile', 'package.json')
 }];
-exports.tasks = tasks;
-var _default = tasks;
+exports.addMakefile = addMakefile;
+var _default = addMakefile;
 exports.default = _default;

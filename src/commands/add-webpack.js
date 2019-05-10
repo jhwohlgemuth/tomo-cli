@@ -4,7 +4,6 @@ import {
     WebpackConfigEditor
 } from '../utils';
 import {allDoNotExist, someDoExist} from '../utils/common';
-import addBabel from './add-babel';
 
 const WEBPACK_DEPENDENCIES = [
     'webpack',
@@ -14,9 +13,11 @@ const WEBPACK_DEPENDENCIES = [
     'webpack-dev-server',
     'babel-loader'
 ];
-/** @ignore */
-export const tasks = [
-    ...addBabel,
+/**
+ * @type {task[]}
+ * @see https://webpack.js.org/
+ */
+export const addWebpack = [
     {
         text: 'Create Webpack configuration file',
         task: async ({sourceDirectory}) => {
@@ -52,4 +53,4 @@ export const tasks = [
         condition: () => someDoExist('package.json')
     }
 ];
-export default tasks;
+export default addWebpack;

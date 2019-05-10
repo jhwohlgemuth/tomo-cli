@@ -15,8 +15,11 @@ const POSTCSS_DEPENDENCIES = [
     'stylelint',
     'uncss'
 ];
-/** @ignore */
-export const tasks = [
+/**
+ * @type {task[]}
+ * @see https://github.com/postcss/postcss
+ */
+export const addPostcss = [
     {
         text: 'Create PostCSS config file',
         task: async () => {
@@ -39,4 +42,4 @@ export const tasks = [
         condition: () => someDoExist('package.json')
     }
 ];
-export default tasks;
+export default addPostcss;

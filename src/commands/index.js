@@ -44,7 +44,10 @@ const add = {
     ],
     makefile: addMakefile,
     postcss: addPostcss,
-    webpack: addWebpack
+    webpack: [
+        ...addBabel,
+        ...addWebpack
+    ]
 };
 
 module.exports = {
@@ -52,3 +55,10 @@ module.exports = {
     create,
     new: create// alias for create
 };
+/**
+ * @typedef {Object} task
+ * @property {string} text Display text for task
+ * @property {function} task Task to execute
+ * @property {function} condition Predicate to decide when to execute the task (true) or not (false)
+ * @property {function} [optional] Predicate to decide when to show the task (true) or not (false)
+ */

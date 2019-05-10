@@ -1,8 +1,10 @@
 import {install, PackageJsonEditor} from '../utils';
 import {someDoExist} from '../utils/common';
-
-/** @ignore */
-export const tasks = [
+/**
+ * @type {task[]}
+ * @see http://pa11y.org/
+ */
+export const addA11y = [
     {
         text: 'Add a11y tasks to package.json',
         task: async ({sourceDirectory}) => {
@@ -20,4 +22,4 @@ export const tasks = [
         condition: () => someDoExist('package.json')
     }
 ];
-export default tasks;
+export default addA11y;

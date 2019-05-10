@@ -26,8 +26,11 @@ const ESDOC_REACT_PLUGINS = [
     'esdoc-jsx-plugin'
 ];
 const EsdocJsonEditor = createJsonEditor('esdoc.conf.json', ESDOC_CONF);
-/** @ignore */
-export const tasks = [
+/**
+ * @type {task[]}
+ * @see https://esdoc.org/
+ */
+export const addEsdoc = [
     {
         text: 'Create esdoc configuration file',
         task: async () => {
@@ -81,4 +84,4 @@ export const tasks = [
         optional: ({useReact}) => useReact
     }
 ];
-export default tasks;
+export default addEsdoc;

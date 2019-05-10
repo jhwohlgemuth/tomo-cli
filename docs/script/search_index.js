@@ -186,6 +186,48 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "tomo-cli/src/commands/add-a11y.js~adda11y",
+    "variable/index.html#static-variable-addA11y",
+    "<span>addA11y</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-a11y.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/commands/add-babel.js~addbabel",
+    "variable/index.html#static-variable-addBabel",
+    "<span>addBabel</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-babel.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/commands/add-esdoc.js~addesdoc",
+    "variable/index.html#static-variable-addEsdoc",
+    "<span>addEsdoc</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-esdoc.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/commands/add-jest.js~addjest",
+    "variable/index.html#static-variable-addJest",
+    "<span>addJest</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-jest.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/commands/add-makefile.js~addmakefile",
+    "variable/index.html#static-variable-addMakefile",
+    "<span>addMakefile</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-makefile.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/commands/add-postcss.js~addpostcss",
+    "variable/index.html#static-variable-addPostcss",
+    "<span>addPostcss</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-postcss.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/commands/add-webpack.js~addwebpack",
+    "variable/index.html#static-variable-addWebpack",
+    "<span>addWebpack</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-webpack.js</span>",
+    "variable"
+  ],
+  [
     "tomo-cli/src/utils/common.js~alldoexist",
     "function/index.html#static-function-allDoExist",
     "<span>allDoExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
@@ -270,6 +312,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/commands/add-rust.js~rusttasks",
+    "variable/index.html#static-variable-rustTasks",
+    "<span>rustTasks</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-rust.js</span>",
+    "variable"
+  ],
+  [
     "tomo-cli/src/utils/common.js~somedoexist",
     "function/index.html#static-function-someDoExist",
     "<span>someDoExist</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
@@ -280,6 +328,18 @@ window.esdocSearchIndex = [
     "function/index.html#static-function-someDoExistSync",
     "<span>someDoExistSync</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
+  ],
+  [
+    "tomo-cli/src/commands/add-eslint/index.js~tasks",
+    "variable/index.html#static-variable-tasks",
+    "<span>tasks</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-eslint/index.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/commands/add-marionette/index.js~tasks",
+    "variable/index.html#static-variable-tasks",
+    "<span>tasks</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-marionette/index.js</span>",
+    "variable"
   ],
   [
     "tomo-cli/src/utils/index.js~verifyrustinstallation",
@@ -643,8 +703,14 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber187",
+    "test-file/__tests__/utils.test.js.html#lineNumber190",
     "install handle array of string names",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber200",
+    "install only allow valid module names",
     "test"
   ],
   [
@@ -1030,6 +1096,12 @@ window.esdocSearchIndex = [
     "file/src/commands/index.js.html",
     "src/commands/index.js",
     "file"
+  ],
+  [
+    "src/commands/index.js~task",
+    "typedef/index.html#static-typedef-task",
+    "src/commands/index.js~task",
+    "typedef"
   ],
   [
     "src/index.js",

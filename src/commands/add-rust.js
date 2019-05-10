@@ -2,9 +2,11 @@
 import {arrowRight} from 'figures';
 import {PackageJsonEditor} from '../utils';
 import {someDoExist} from '../utils/common';
-
-/** @ignore */
-export const tasks = [
+/**
+ * @type {task[]}
+ * @see https://webpack.js.org/
+ */
+export const rustTasks = [
     {
         text: `Add Rust ${arrowRight} WASM build tasks to package.json`,
         task: async ({assetsDirectory}) => {
@@ -18,4 +20,4 @@ export const tasks = [
         condition: () => someDoExist('package.json')
     }
 ];
-export default tasks;
+export default rustTasks;

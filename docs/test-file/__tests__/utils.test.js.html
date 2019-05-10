@@ -36,6 +36,17 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-UI">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addBabel">addBabel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addEsdoc">addEsdoc</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addJest">addJest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addMakefile">addMakefile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addPostcss">addPostcss</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-rustTasks">rustTasks</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addWebpack">addWebpack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-task">task</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands-add-eslint">commands/add-eslint</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-tasks">tasks</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands-add-marionette">commands/add-marionette</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-tasks">tasks</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/MakefileEditor.js~MakefileEditor.html">MakefileEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
@@ -251,10 +262,10 @@ describe(&apos;getVersions&apos;, () =&gt; {
     });
 });
 describe(&apos;install&apos;, () =&gt; {
+    const latest = true;
+    const skipInstall = true;
+    const dev = true;
     test(&apos;handle array of string names&apos;, async () =&gt; {
-        const latest = true;
-        const skipInstall = true;
-        const dev = true;
         expect(await install()).toEqual([&apos;install&apos;]);
         expect(await install([&apos;some-module&apos;])).toEqual([&apos;install&apos;, &apos;some-module@latest&apos;]);
         expect(await install([&apos;some-module&apos;])).toEqual([&apos;install&apos;, &apos;some-module@latest&apos;]);
@@ -263,6 +274,11 @@ describe(&apos;install&apos;, () =&gt; {
         expect(await install([&apos;some-module&apos;], {dev, skipInstall})).toEqual([&apos;install&apos;, &apos;some-module&apos;, &apos;--save-dev&apos;]);
         expect(await install([&apos;some-module&apos;], {dev, latest, skipInstall})).toEqual([&apos;install&apos;, &apos;some-module@latest&apos;, &apos;--save-dev&apos;]);
         expect(await install([&apos;foo&apos;, &apos;bar&apos;], {latest: false, dev, skipInstall})).toEqual([&apos;install&apos;, &apos;foo&apos;, &apos;bar&apos;, &apos;--save-dev&apos;]);
+    });
+    test(&apos;only allow valid module names&apos;, async () =&gt; {
+        const INVALID_NAME = &apos;eLaBorAtE-paCkAgE-with-mixed-case&apos;;
+        expect(await install([INVALID_NAME])).toEqual([&apos;install&apos;]);
+        expect(await install([&apos;jest&apos;, INVALID_NAME])).toEqual([&apos;install&apos;, &apos;jest@latest&apos;]);
     });
 });
 </code></pre>

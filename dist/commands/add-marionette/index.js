@@ -35,7 +35,10 @@ const sourceDirectory = (0, _path.join)(__dirname, 'templates');
 const scaffolder = new _Scaffolder.Scaffolder({
   sourceDirectory
 });
-/** @ignore */
+/**
+ * @type {task[]}
+ * @see https://marionettejs.com/
+ */
 
 const tasks = [{
   text: 'Add Marionette.js boilerplate',

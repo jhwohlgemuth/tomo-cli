@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.tasks = void 0;
+exports.default = exports.addJest = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -14,9 +14,12 @@ var _utils = require("../utils");
 var _common = require("../utils/common");
 
 const JEST_DEPENDENCIES = ['jest', 'babel-jest'];
-/** @ignore */
+/**
+ * @type {task[]}
+ * @see https://jestjs.io/
+ */
 
-const tasks = [{
+const addJest = [{
   text: 'Add test tasks to package.json',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
@@ -45,6 +48,6 @@ const tasks = [{
   }),
   condition: () => (0, _common.someDoExist)('package.json')
 }];
-exports.tasks = tasks;
-var _default = tasks;
+exports.addJest = addJest;
+var _default = addJest;
 exports.default = _default;

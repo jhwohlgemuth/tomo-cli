@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.tasks = void 0;
+exports.default = exports.addEsdoc = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -30,9 +30,12 @@ const ESDOC_CONF = {
 const ESDOC_DEPENDENCIES = ['esdoc', 'esdoc-ecmascript-proposal-plugin', 'esdoc-standard-plugin'];
 const ESDOC_REACT_PLUGINS = ['esdoc-jsx-plugin'];
 const EsdocJsonEditor = (0, _createJsonEditor.default)('esdoc.conf.json', ESDOC_CONF);
-/** @ignore */
+/**
+ * @type {task[]}
+ * @see https://esdoc.org/
+ */
 
-const tasks = [{
+const addEsdoc = [{
   text: 'Create esdoc configuration file',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
@@ -122,6 +125,6 @@ const tasks = [{
     useReact
   }) => useReact
 }];
-exports.tasks = tasks;
-var _default = tasks;
+exports.addEsdoc = addEsdoc;
+var _default = addEsdoc;
 exports.default = _default;

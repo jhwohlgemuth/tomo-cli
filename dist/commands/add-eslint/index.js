@@ -23,7 +23,10 @@ const sourceDirectory = (0, _path.join)(__dirname, 'templates');
 const scaffolder = new _Scaffolder.Scaffolder({
   sourceDirectory
 });
-/** @ignore */
+/**
+ * @type {task[]}
+ * @see https://eslint.org/
+ */
 
 const tasks = [{
   text: 'Create ESLint configuration and .eslintignore files',

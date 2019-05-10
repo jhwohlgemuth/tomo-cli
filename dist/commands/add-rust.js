@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.tasks = void 0;
+exports.default = exports.rustTasks = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -17,8 +17,11 @@ var _common = require("../utils/common");
 
 /* eslint-disable max-len */
 
-/** @ignore */
-const tasks = [{
+/**
+ * @type {task[]}
+ * @see https://webpack.js.org/
+ */
+const rustTasks = [{
   text: `Add Rust ${_figures.arrowRight} WASM build tasks to package.json`,
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* ({
@@ -40,6 +43,6 @@ const tasks = [{
   }(),
   condition: () => (0, _common.someDoExist)('package.json')
 }];
-exports.tasks = tasks;
-var _default = tasks;
+exports.rustTasks = rustTasks;
+var _default = rustTasks;
 exports.default = _default;

@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.tasks = void 0;
+exports.default = exports.addBabel = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -18,9 +18,12 @@ const BABEL_PRESETS = ['@babel/preset-env'];
 const BABEL_PLUGINS = ['@babel/plugin-transform-runtime', '@babel/plugin-proposal-class-properties', '@babel/plugin-proposal-export-default-from', '@babel/plugin-proposal-optional-chaining'];
 const BABEL_REACT_PRESET = ['@babel/preset-react'];
 const BABEL_DEPENDENCIES = [...BABEL_CORE, ...BABEL_PRESETS, ...BABEL_PLUGINS];
-/** @ignore */
+/**
+ * @type {task[]}
+ * @see https://babeljs.io/
+ */
 
-const tasks = [{
+const addBabel = [{
   text: 'Create Babel config file',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* () {
@@ -78,6 +81,6 @@ const tasks = [{
     useReact
   }) => useReact
 }];
-exports.tasks = tasks;
-var _default = tasks;
+exports.addBabel = addBabel;
+var _default = addBabel;
 exports.default = _default;

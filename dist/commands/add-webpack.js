@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.tasks = void 0;
+exports.default = exports.addWebpack = void 0;
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -13,12 +13,13 @@ var _utils = require("../utils");
 
 var _common = require("../utils/common");
 
-var _addBabel = _interopRequireDefault(require("./add-babel"));
-
 const WEBPACK_DEPENDENCIES = ['webpack', 'webpack-cli', 'webpack-dashboard', 'webpack-jarvis', 'webpack-dev-server', 'babel-loader'];
-/** @ignore */
+/**
+ * @type {task[]}
+ * @see https://webpack.js.org/
+ */
 
-const tasks = [..._addBabel.default, {
+const addWebpack = [{
   text: 'Create Webpack configuration file',
   task: function () {
     var _ref = (0, _asyncToGenerator2.default)(function* ({
@@ -65,6 +66,6 @@ const tasks = [..._addBabel.default, {
   }),
   condition: () => (0, _common.someDoExist)('package.json')
 }];
-exports.tasks = tasks;
-var _default = tasks;
+exports.addWebpack = addWebpack;
+var _default = addWebpack;
 exports.default = _default;
