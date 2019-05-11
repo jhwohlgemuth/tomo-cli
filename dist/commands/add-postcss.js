@@ -53,7 +53,9 @@ const addPostcss = [{
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _common.someDoExist)('package.json')
+  condition: ({
+    isNotOffline
+  }) => isNotOffline && (0, _common.someDoExist)('package.json')
 }];
 exports.addPostcss = addPostcss;
 var _default = addPostcss;

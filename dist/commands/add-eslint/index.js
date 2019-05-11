@@ -70,7 +70,9 @@ const tasks = [{
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _common.someDoExist)('package.json')
+  condition: ({
+    isNotOffline
+  }) => isNotOffline && (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install ESLint React plugins',
   task: ({
@@ -83,8 +85,9 @@ const tasks = [{
     useReact
   }) => useReact && (0, _common.someDoExist)('package.json'),
   optional: ({
+    isNotOffline,
     useReact
-  }) => useReact
+  }) => isNotOffline && useReact
 }, {
   text: 'Add React support to ESLint configuration file',
   task: function () {

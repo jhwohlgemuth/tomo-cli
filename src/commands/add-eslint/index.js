@@ -48,13 +48,13 @@ export const tasks = [
     {
         text: 'Install ESLint dependencies',
         task: ({skipInstall}) => install(ESLINT_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: () => someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
     },
     {
         text: 'Install ESLint React plugins',
         task: ({skipInstall}) => install(ESLINT_REACT_PLUGINS, {dev: true, skipInstall}),
         condition: ({useReact}) => (useReact && someDoExist('package.json')),
-        optional: ({useReact}) => useReact
+        optional: ({isNotOffline, useReact}) => isNotOffline && useReact
     },
     {
         text: 'Add React support to ESLint configuration file',
@@ -76,7 +76,7 @@ export const tasks = [
                 .extend(REACT_BABEL_SETTINGS)
                 .commit();
         },
-        condition: ({useReact}) => (useReact && someDoExist('.eslintrc.js')),
+        condition: ({useReact}) => useReact && someDoExist('.eslintrc.js'),
         optional: ({useReact}) => useReact
     }
 ];

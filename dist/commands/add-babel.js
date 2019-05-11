@@ -58,8 +58,9 @@ const addBabel = [{
     useReact
   }) => useReact && (0, _common.someDoExist)('package.json'),
   optional: ({
+    isNotOffline,
     useReact
-  }) => useReact
+  }) => isNotOffline && useReact
 }, {
   text: 'Add React support to Babel configuration file',
   task: function () {

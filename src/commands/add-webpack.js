@@ -50,7 +50,7 @@ export const addWebpack = [
     {
         text: 'Install Webpack dependencies',
         task: ({skipInstall}) => install(WEBPACK_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: () => someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
     }
 ];
 export default addWebpack;

@@ -81,7 +81,9 @@ const addEsdoc = [{
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _common.someDoExist)('package.json')
+  condition: ({
+    isNotOffline
+  }) => isNotOffline && (0, _common.someDoExist)('package.json')
 }, {
   text: 'Install esdoc React plugins',
   task: ({
@@ -91,8 +93,9 @@ const addEsdoc = [{
     skipInstall
   }),
   condition: ({
+    isNotOffline,
     useReact
-  }) => useReact && (0, _common.someDoExist)('package.json'),
+  }) => isNotOffline && useReact && (0, _common.someDoExist)('package.json'),
   optional: ({
     useReact
   }) => useReact

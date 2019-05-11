@@ -19,7 +19,7 @@ export const addA11y = [
     {
         text: 'Install a11y dependencies',
         task: ({skipInstall}) => install(['pa11y'], {dev: true, skipInstall}),
-        condition: () => someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
     }
 ];
 export default addA11y;

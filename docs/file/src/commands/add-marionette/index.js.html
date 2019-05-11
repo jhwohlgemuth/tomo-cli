@@ -141,7 +141,7 @@ export const tasks = [
     {
         text: &apos;Install Marionette.js dependencies&apos;,
         task: ({skipInstall}) =&gt; install(MARIONETTE_DEPENDENCIES, {skipInstall}),
-        condition: () =&gt; someDoExist(&apos;package.json&apos;)
+        condition: ({isNotOffline}) =&gt; isNotOffline &amp;&amp; someDoExist(&apos;package.json&apos;)
     }
 ];
 export default tasks;</code></pre>

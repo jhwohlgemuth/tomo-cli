@@ -45,7 +45,9 @@ const addA11y = [{
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _common.someDoExist)('package.json')
+  condition: ({
+    isNotOffline
+  }) => isNotOffline && (0, _common.someDoExist)('package.json')
 }];
 exports.addA11y = addA11y;
 var _default = addA11y;

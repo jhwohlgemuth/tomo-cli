@@ -64,7 +64,9 @@ const addWebpack = [{
     dev: true,
     skipInstall
   }),
-  condition: () => (0, _common.someDoExist)('package.json')
+  condition: ({
+    isNotOffline
+  }) => isNotOffline && (0, _common.someDoExist)('package.json')
 }];
 exports.addWebpack = addWebpack;
 var _default = addWebpack;

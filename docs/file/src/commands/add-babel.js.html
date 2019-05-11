@@ -124,7 +124,7 @@ export const addBabel = [
         text: &apos;Install Babel React preset&apos;,
         task: ({skipInstall}) =&gt; install(BABEL_REACT_PRESET, {dev: true, skipInstall}),
         condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;package.json&apos;)),
-        optional: ({useReact}) =&gt; useReact
+        optional: ({isNotOffline, useReact}) =&gt; isNotOffline &amp;&amp; useReact
     },
     {
         text: &apos;Add React support to Babel configuration file&apos;,
@@ -134,7 +134,7 @@ export const addBabel = [
                 .extend({presets})
                 .commit();
         },
-        condition: ({useReact}) =&gt; (useReact &amp;&amp; someDoExist(&apos;babel.config.js&apos;)),
+        condition: ({useReact}) =&gt; useReact &amp;&amp; someDoExist(&apos;babel.config.js&apos;),
         optional: ({useReact}) =&gt; useReact
     }
 ];

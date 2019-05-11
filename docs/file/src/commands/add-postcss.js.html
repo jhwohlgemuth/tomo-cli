@@ -117,7 +117,7 @@ export const addPostcss = [
     {
         text: &apos;Install PostCSS dependencies&apos;,
         task: ({skipInstall}) =&gt; install([POSTCSS_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: () =&gt; someDoExist(&apos;package.json&apos;)
+        condition: ({isNotOffline}) =&gt; isNotOffline &amp;&amp; someDoExist(&apos;package.json&apos;)
     }
 ];
 export default addPostcss;</code></pre>

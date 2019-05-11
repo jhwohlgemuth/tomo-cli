@@ -87,7 +87,9 @@ const tasks = [{
   }) => (0, _utils.install)(MARIONETTE_DEPENDENCIES, {
     skipInstall
   }),
-  condition: () => (0, _common.someDoExist)('package.json')
+  condition: ({
+    isNotOffline
+  }) => isNotOffline && (0, _common.someDoExist)('package.json')
 }];
 exports.tasks = tasks;
 var _default = tasks;

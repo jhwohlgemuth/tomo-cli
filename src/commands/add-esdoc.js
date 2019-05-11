@@ -58,12 +58,12 @@ export const addEsdoc = [
     {
         text: 'Install esdoc dependencies',
         task: ({skipInstall}) => install([...ESDOC_DEPENDENCIES, 'opn-cli'], {dev: true, skipInstall}),
-        condition: () => someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
     },
     {
         text: 'Install esdoc React plugins',
         task: ({skipInstall}) => install(ESDOC_REACT_PLUGINS, {dev: true, skipInstall}),
-        condition: ({useReact}) => (useReact && someDoExist('package.json')),
+        condition: ({isNotOffline, useReact}) => isNotOffline && useReact && someDoExist('package.json'),
         optional: ({useReact}) => useReact
     },
     {
@@ -80,7 +80,7 @@ export const addEsdoc = [
                 })
                 .commit();
         },
-        condition: ({useReact}) => (useReact && someDoExist('esdoc.conf.json')),
+        condition: ({useReact}) => useReact && someDoExist('esdoc.conf.json'),
         optional: ({useReact}) => useReact
     }
 ];
