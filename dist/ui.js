@@ -468,7 +468,7 @@ const TaskList = ({
   const queue = new _pQueue.default({
     concurrency: 1
   });
-  const tasks = _commands.default[command][terms[0]];
+  const tasks = terms.map(term => _commands.default[command][term]).flat(1);
   const tasksComplete = completed.length + skipped.length === tasks.length;
   const hasError = errors.length > 0;
   const {
@@ -481,7 +481,7 @@ const TaskList = ({
       options,
       dispatch
     });
-  }, [tasks]);
+  }, []);
   tasksComplete && (0, _lodash.isFunction)(done) && done();
   return _react.default.createElement(ErrorBoundary, null, status === 'offline' && !skipInstall && _react.default.createElement(OfflineWarning, null), hasError && _react.default.createElement(CommandError, {
     errors: errors

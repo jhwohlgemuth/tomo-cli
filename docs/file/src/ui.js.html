@@ -290,13 +290,13 @@ export const TaskList = ({command, options, terms, done}) =&gt; {
     const [state, dispatch] = useReducer(reducer, initialState);
     const {completed, errors, skipped, status} = state;
     const queue = new Queue({concurrency: 1});
-    const tasks = commands[command][terms[0]];
+    const tasks = terms.map(term =&gt; commands[command][term]).flat(1);
     const tasksComplete = ((completed.length + skipped.length) === tasks.length);
     const hasError = (errors.length &gt; 0);
     const {skipInstall} = options;
     useEffect(() =&gt; {
         populateQueue({queue, tasks, options, dispatch});
-    }, [tasks]);
+    }, []);
     tasksComplete &amp;&amp; isFunction(done) &amp;&amp; done();
     return &lt;ErrorBoundary&gt;
         {status === &apos;offline&apos; &amp;&amp; !skipInstall &amp;&amp; &lt;OfflineWarning/&gt;}
@@ -438,7 +438,6 @@ UI.defaultProps = {
     input: [],
     flags: {}
 };
-
 export default UI;
 </code></pre>
 
