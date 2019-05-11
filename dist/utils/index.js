@@ -2,6 +2,8 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+require("core-js/modules/es.string.split");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

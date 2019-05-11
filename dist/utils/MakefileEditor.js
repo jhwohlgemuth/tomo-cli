@@ -2,6 +2,16 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.object.entries");
+
+require("core-js/modules/es.string.replace");
+
+require("core-js/modules/es.string.split");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

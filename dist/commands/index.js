@@ -2,6 +2,8 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+require("core-js/modules/es.array.iterator");
+
 var _common = require("./common");
 
 var _addA11y = _interopRequireDefault(require("./add-a11y"));

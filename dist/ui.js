@@ -4,6 +4,16 @@ var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWild
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+require("core-js/modules/es.array.flat");
+
+require("core-js/modules/es.array.includes");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.array.unscopables.flat");
+
+require("core-js/modules/es.object.entries");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

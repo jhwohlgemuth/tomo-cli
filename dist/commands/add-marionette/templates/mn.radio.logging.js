@@ -46,6 +46,8 @@
 **/
 'use strict';
 
+require("core-js/modules/es.array.includes");
+
 const _ = require('lodash');
 
 const Radio = require('backbone.radio');

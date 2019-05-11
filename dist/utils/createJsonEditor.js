@@ -2,6 +2,10 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+require("core-js/modules/es.array.includes");
+
+require("core-js/modules/es.array.iterator");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
