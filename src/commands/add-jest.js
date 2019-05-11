@@ -1,4 +1,4 @@
-import {install, PackageJsonEditor} from '../utils';
+import {PackageJsonEditor, install} from '../utils';
 import {someDoExist} from '../utils/common';
 
 const JEST_DEPENDENCIES = [

@@ -1,7 +1,7 @@
 import {
-    allDoNotExist,
     allDoExist,
-    allDoExistSync
+    allDoExistSync,
+    allDoNotExist
 } from '../utils/common';
 import MakefileEditor from '../utils/MakefileEditor';
 /**

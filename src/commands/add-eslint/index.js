@@ -1,5 +1,5 @@
 import {join} from 'path';
-import {install, EslintConfigModuleEditor, PackageJsonEditor} from '../../utils';
+import {EslintConfigModuleEditor, PackageJsonEditor, install} from '../../utils';
 import {allDoNotExist, someDoExist} from '../../utils/common';
 import {Scaffolder} from '../../utils/Scaffolder';
 

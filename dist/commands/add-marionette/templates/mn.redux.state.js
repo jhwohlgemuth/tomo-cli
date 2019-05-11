@@ -60,13 +60,7 @@ function addGetStatePathParameter() {
   return createStore => (reducer, preloadedState, enhancer) => {
     const store = createStore(reducer, preloadedState, enhancer);
 
-    const getState = path => {
-      if (typeof path === 'string') {
-        return get(store.getState(), path);
-      } else {
-        return store.getState();
-      }
-    };
+    const getState = path => typeof path === 'string' ? get(store.getState(), path) : store.getState();
 
     const {
       dispatch,

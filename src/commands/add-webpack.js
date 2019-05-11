@@ -1,7 +1,7 @@
 import {
-    install,
     PackageJsonEditor,
-    WebpackConfigEditor
+    WebpackConfigEditor,
+    install
 } from '../utils';
 import {allDoNotExist, someDoExist} from '../utils/common';
 

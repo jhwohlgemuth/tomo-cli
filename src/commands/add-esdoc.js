@@ -1,4 +1,4 @@
-import {install, PackageJsonEditor} from '../utils';
+import {PackageJsonEditor, install} from '../utils';
 import {allDoNotExist, someDoExist} from '../utils/common';
 import createJsonEditor from '../utils/createJsonEditor';
 

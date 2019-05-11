@@ -251,6 +251,7 @@ describe(&apos;&quot;Add&quot; commands&apos;, () =&gt; {
     test(&apos;add-webpack&apos;, async () =&gt; {
         const sourceDirectory = &apos;src&apos;;
         const options = {skipInstall, sourceDirectory};
+        await run(addBabel, options);
         await run(addWebpack, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();

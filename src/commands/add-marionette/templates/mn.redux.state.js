@@ -17,7 +17,6 @@
  * app.dispatch({type: 'INCREMENT'});
  * app.getState('count');// 43
 **/
-
 const {get, update} = require('lodash');
 const {applyMiddleware, compose, createStore} = require('redux');
 
@@ -34,7 +33,6 @@ module.exports = createStore(
         addGetStatePathParameter()
     )
 );
-
 // state reducer
 function reducer(state, action) {
     switch (action.type) {
@@ -57,13 +55,7 @@ function dispatchLogger() {
 function addGetStatePathParameter() {
     return createStore => (reducer, preloadedState, enhancer) => {
         const store = createStore(reducer, preloadedState, enhancer);
-        const getState = path => {
-            if (typeof (path) === 'string') {
-                return get(store.getState(), path);
-            } else {
-                return store.getState();
-            }
-        };
+        const getState = path => (typeof (path) === 'string') ? get(store.getState(), path) : store.getState();
         const {dispatch, subscribe} = store;
         return {getState, dispatch, subscribe};
     };

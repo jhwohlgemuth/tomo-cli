@@ -1,7 +1,7 @@
 import {
-    install,
     PackageJsonEditor,
-    PostcssConfigEditor
+    PostcssConfigEditor,
+    install
 } from '../utils';
 import {allDoNotExist, someDoExist} from '../utils/common';
 

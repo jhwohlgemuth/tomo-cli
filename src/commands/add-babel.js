@@ -1,4 +1,4 @@
-import {BabelConfigModuleEditor, install, PackageJsonEditor} from '../utils';
+import {BabelConfigModuleEditor, PackageJsonEditor, install} from '../utils';
 import {allDoNotExist, someDoExist} from '../utils/common';
 
 const BABEL_CORE = [
@@ -31,7 +31,9 @@ export const addBabel = [
     {
         text: 'Create Babel config file',
         task: async () => {
-            await (new BabelConfigModuleEditor()).create().commit();
+            await (new BabelConfigModuleEditor())
+                .create()
+                .commit();
         },
         condition: () => allDoNotExist('babel.config.js', '.babelrc', '.babelrc.js')
     },
@@ -50,7 +52,9 @@ export const addBabel = [
         text: 'Add React support to Babel configuration file',
         task: async () => {
             const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESET];
-            await (new BabelConfigModuleEditor()).extend({presets}).commit();
+            await (new BabelConfigModuleEditor())
+                .extend({presets})
+                .commit();
         },
         condition: ({useReact}) => (useReact && someDoExist('babel.config.js')),
         optional: ({useReact}) => useReact

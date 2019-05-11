@@ -46,7 +46,7 @@
           {
             "type": "ImportSpecifier",
             "start": 13,
-            "end": 20,
+            "end": 30,
             "loc": {
               "start": {
                 "line": 2,
@@ -54,69 +54,20 @@
               },
               "end": {
                 "line": 2,
-                "column": 11
-              }
-            },
-            "imported": {
-              "type": "Identifier",
-              "start": 13,
-              "end": 20,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 4
-                },
-                "end": {
-                  "line": 2,
-                  "column": 11
-                },
-                "identifierName": "install"
-              },
-              "name": "install"
-            },
-            "local": {
-              "type": "Identifier",
-              "start": 13,
-              "end": 20,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 4
-                },
-                "end": {
-                  "line": 2,
-                  "column": 11
-                },
-                "identifierName": "install"
-              },
-              "name": "install"
-            }
-          },
-          {
-            "type": "ImportSpecifier",
-            "start": 26,
-            "end": 43,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 4
-              },
-              "end": {
-                "line": 3,
                 "column": 21
               }
             },
             "imported": {
               "type": "Identifier",
-              "start": 26,
-              "end": 43,
+              "start": 13,
+              "end": 30,
               "loc": {
                 "start": {
-                  "line": 3,
+                  "line": 2,
                   "column": 4
                 },
                 "end": {
-                  "line": 3,
+                  "line": 2,
                   "column": 21
                 },
                 "identifierName": "PackageJsonEditor"
@@ -125,15 +76,15 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 26,
-              "end": 43,
+              "start": 13,
+              "end": 30,
               "loc": {
                 "start": {
-                  "line": 3,
+                  "line": 2,
                   "column": 4
                 },
                 "end": {
-                  "line": 3,
+                  "line": 2,
                   "column": 21
                 },
                 "identifierName": "PackageJsonEditor"
@@ -143,7 +94,56 @@
           },
           {
             "type": "ImportSpecifier",
-            "start": 49,
+            "start": 36,
+            "end": 55,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 4
+              },
+              "end": {
+                "line": 3,
+                "column": 23
+              }
+            },
+            "imported": {
+              "type": "Identifier",
+              "start": 36,
+              "end": 55,
+              "loc": {
+                "start": {
+                  "line": 3,
+                  "column": 4
+                },
+                "end": {
+                  "line": 3,
+                  "column": 23
+                },
+                "identifierName": "PostcssConfigEditor"
+              },
+              "name": "PostcssConfigEditor"
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 36,
+              "end": 55,
+              "loc": {
+                "start": {
+                  "line": 3,
+                  "column": 4
+                },
+                "end": {
+                  "line": 3,
+                  "column": 23
+                },
+                "identifierName": "PostcssConfigEditor"
+              },
+              "name": "PostcssConfigEditor"
+            }
+          },
+          {
+            "type": "ImportSpecifier",
+            "start": 61,
             "end": 68,
             "loc": {
               "start": {
@@ -152,12 +152,12 @@
               },
               "end": {
                 "line": 4,
-                "column": 23
+                "column": 11
               }
             },
             "imported": {
               "type": "Identifier",
-              "start": 49,
+              "start": 61,
               "end": 68,
               "loc": {
                 "start": {
@@ -166,15 +166,15 @@
                 },
                 "end": {
                   "line": 4,
-                  "column": 23
+                  "column": 11
                 },
-                "identifierName": "PostcssConfigEditor"
+                "identifierName": "install"
               },
-              "name": "PostcssConfigEditor"
+              "name": "install"
             },
             "local": {
               "type": "Identifier",
-              "start": 49,
+              "start": 61,
               "end": 68,
               "loc": {
                 "start": {
@@ -183,11 +183,11 @@
                 },
                 "end": {
                   "line": 4,
-                  "column": 23
+                  "column": 11
                 },
-                "identifierName": "PostcssConfigEditor"
+                "identifierName": "install"
               },
-              "name": "PostcssConfigEditor"
+              "name": "install"
             }
           }
         ],
@@ -2317,68 +2317,16 @@
         "postfix": false,
         "binop": null
       },
-      "value": "install",
-      "start": 13,
-      "end": 20,
-      "loc": {
-        "start": {
-          "line": 2,
-          "column": 4
-        },
-        "end": {
-          "line": 2,
-          "column": 11
-        }
-      }
-    },
-    {
-      "type": {
-        "label": ",",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "start": 20,
-      "end": 21,
-      "loc": {
-        "start": {
-          "line": 2,
-          "column": 11
-        },
-        "end": {
-          "line": 2,
-          "column": 12
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
       "value": "PackageJsonEditor",
-      "start": 26,
-      "end": 43,
+      "start": 13,
+      "end": 30,
       "loc": {
         "start": {
-          "line": 3,
+          "line": 2,
           "column": 4
         },
         "end": {
-          "line": 3,
+          "line": 2,
           "column": 21
         }
       }
@@ -2396,15 +2344,15 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 43,
-      "end": 44,
+      "start": 30,
+      "end": 31,
       "loc": {
         "start": {
-          "line": 3,
+          "line": 2,
           "column": 21
         },
         "end": {
-          "line": 3,
+          "line": 2,
           "column": 22
         }
       }
@@ -2422,7 +2370,59 @@
         "binop": null
       },
       "value": "PostcssConfigEditor",
-      "start": 49,
+      "start": 36,
+      "end": 55,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 4
+        },
+        "end": {
+          "line": 3,
+          "column": 23
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 55,
+      "end": 56,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 23
+        },
+        "end": {
+          "line": 3,
+          "column": 24
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "install",
+      "start": 61,
       "end": 68,
       "loc": {
         "start": {
@@ -2431,7 +2431,7 @@
         },
         "end": {
           "line": 4,
-          "column": 23
+          "column": 11
         }
       }
     },

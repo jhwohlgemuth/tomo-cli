@@ -132,7 +132,7 @@
           {
             "type": "ImportSpecifier",
             "start": 35,
-            "end": 42,
+            "end": 59,
             "loc": {
               "start": {
                 "line": 2,
@@ -140,13 +140,13 @@
               },
               "end": {
                 "line": 2,
-                "column": 15
+                "column": 32
               }
             },
             "imported": {
               "type": "Identifier",
               "start": 35,
-              "end": 42,
+              "end": 59,
               "loc": {
                 "start": {
                   "line": 2,
@@ -154,16 +154,16 @@
                 },
                 "end": {
                   "line": 2,
-                  "column": 15
+                  "column": 32
                 },
-                "identifierName": "install"
+                "identifierName": "EslintConfigModuleEditor"
               },
-              "name": "install"
+              "name": "EslintConfigModuleEditor"
             },
             "local": {
               "type": "Identifier",
               "start": 35,
-              "end": 42,
+              "end": 59,
               "loc": {
                 "start": {
                   "line": 2,
@@ -171,70 +171,70 @@
                 },
                 "end": {
                   "line": 2,
-                  "column": 15
+                  "column": 32
                 },
-                "identifierName": "install"
+                "identifierName": "EslintConfigModuleEditor"
               },
-              "name": "install"
+              "name": "EslintConfigModuleEditor"
             }
           },
           {
             "type": "ImportSpecifier",
-            "start": 44,
-            "end": 68,
+            "start": 61,
+            "end": 78,
             "loc": {
               "start": {
                 "line": 2,
-                "column": 17
+                "column": 34
               },
               "end": {
                 "line": 2,
-                "column": 41
+                "column": 51
               }
             },
             "imported": {
               "type": "Identifier",
-              "start": 44,
-              "end": 68,
+              "start": 61,
+              "end": 78,
               "loc": {
                 "start": {
                   "line": 2,
-                  "column": 17
+                  "column": 34
                 },
                 "end": {
                   "line": 2,
-                  "column": 41
+                  "column": 51
                 },
-                "identifierName": "EslintConfigModuleEditor"
+                "identifierName": "PackageJsonEditor"
               },
-              "name": "EslintConfigModuleEditor"
+              "name": "PackageJsonEditor"
             },
             "local": {
               "type": "Identifier",
-              "start": 44,
-              "end": 68,
+              "start": 61,
+              "end": 78,
               "loc": {
                 "start": {
                   "line": 2,
-                  "column": 17
+                  "column": 34
                 },
                 "end": {
                   "line": 2,
-                  "column": 41
+                  "column": 51
                 },
-                "identifierName": "EslintConfigModuleEditor"
+                "identifierName": "PackageJsonEditor"
               },
-              "name": "EslintConfigModuleEditor"
+              "name": "PackageJsonEditor"
             }
           },
           {
             "type": "ImportSpecifier",
-            "start": 70,
+            "start": 80,
             "end": 87,
             "loc": {
               "start": {
                 "line": 2,
-                "column": 43
+                "column": 53
               },
               "end": {
                 "line": 2,
@@ -243,37 +243,37 @@
             },
             "imported": {
               "type": "Identifier",
-              "start": 70,
+              "start": 80,
               "end": 87,
               "loc": {
                 "start": {
                   "line": 2,
-                  "column": 43
+                  "column": 53
                 },
                 "end": {
                   "line": 2,
                   "column": 60
                 },
-                "identifierName": "PackageJsonEditor"
+                "identifierName": "install"
               },
-              "name": "PackageJsonEditor"
+              "name": "install"
             },
             "local": {
               "type": "Identifier",
-              "start": 70,
+              "start": 80,
               "end": 87,
               "loc": {
                 "start": {
                   "line": 2,
-                  "column": 43
+                  "column": 53
                 },
                 "end": {
                   "line": 2,
                   "column": 60
                 },
-                "identifierName": "PackageJsonEditor"
+                "identifierName": "install"
               },
-              "name": "PackageJsonEditor"
+              "name": "install"
             }
           }
         ],
@@ -5512,9 +5512,9 @@
         "postfix": false,
         "binop": null
       },
-      "value": "install",
+      "value": "EslintConfigModuleEditor",
       "start": 35,
-      "end": 42,
+      "end": 59,
       "loc": {
         "start": {
           "line": 2,
@@ -5522,7 +5522,7 @@
         },
         "end": {
           "line": 2,
-          "column": 15
+          "column": 32
         }
       }
     },
@@ -5539,68 +5539,16 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 42,
-      "end": 43,
+      "start": 59,
+      "end": 60,
       "loc": {
         "start": {
           "line": 2,
-          "column": 15
+          "column": 32
         },
         "end": {
           "line": 2,
-          "column": 16
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "EslintConfigModuleEditor",
-      "start": 44,
-      "end": 68,
-      "loc": {
-        "start": {
-          "line": 2,
-          "column": 17
-        },
-        "end": {
-          "line": 2,
-          "column": 41
-        }
-      }
-    },
-    {
-      "type": {
-        "label": ",",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "start": 68,
-      "end": 69,
-      "loc": {
-        "start": {
-          "line": 2,
-          "column": 41
-        },
-        "end": {
-          "line": 2,
-          "column": 42
+          "column": 33
         }
       }
     },
@@ -5617,12 +5565,64 @@
         "binop": null
       },
       "value": "PackageJsonEditor",
-      "start": 70,
+      "start": 61,
+      "end": 78,
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 34
+        },
+        "end": {
+          "line": 2,
+          "column": 51
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 78,
+      "end": 79,
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 51
+        },
+        "end": {
+          "line": 2,
+          "column": 52
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "install",
+      "start": 80,
       "end": 87,
       "loc": {
         "start": {
           "line": 2,
-          "column": 43
+          "column": 53
         },
         "end": {
           "line": 2,

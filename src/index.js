@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-
 import React from 'react';
+import {cyan, dim, gray} from 'chalk';
 import {render} from 'ink';
 import meow from 'meow';
-import {cyan, dim, gray} from 'chalk';
 import Tomo from './ui';
 // import updateNotifier from 'update-notifier';
 // Notify updater

@@ -5,11 +5,11 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 
 var _react = _interopRequireDefault(require("react"));
 
+var _chalk = require("chalk");
+
 var _ink = require("ink");
 
 var _meow = _interopRequireDefault(require("meow"));
-
-var _chalk = require("chalk");
 
 var _ui = _interopRequireDefault(require("./ui"));
 

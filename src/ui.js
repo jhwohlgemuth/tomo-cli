@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {isFunction, isString, isUndefined} from 'lodash';
 import Queue from 'p-queue';
 import isOnline from 'is-online';
-import {Box, Color, Text, StdinContext} from 'ink';
+import {Box, Color, StdinContext, Text} from 'ink';
 import {default as InkBox} from 'ink-box';
 import Spinner from 'ink-spinner';
 import SelectInput from 'ink-select-input';
