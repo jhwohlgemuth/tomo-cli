@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useReducer, useState} from 'react';
 import PropTypes from 'prop-types';
 import {isFunction, isString, isUndefined} from 'lodash';
+import {bold, dim} from 'chalk';
 import Queue from 'p-queue';
 import isOnline from 'is-online';
 import {Box, Color, StdinContext, Text} from 'ink';
@@ -13,20 +14,51 @@ import {getIntendedInput} from './utils';
 const pino = require('pino');
 
 const {assign, entries} = Object;
+const dict = val => new Map(entries(val));
 const space = ' ';
 const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
 const X = () => <Color bold red>{figures.cross}{space}</Color>;
 const Pending = () => <Color cyan><Spinner></Spinner>{space}</Color>;
 const Item = ({isSelected, label}) => <Color bold={isSelected} cyan={isSelected}>{label}</Color>;
 const Indicator = ({isSelected}) => <Box marginRight={1}>{isSelected ? <Color bold cyan>{figures.arrowRight}</Color> : ' '}</Box>;
-const SubCommandSelect = ({items, onSelect}) => <Box paddingTop={1} paddingBottom={1} paddingLeft={1}>
-    <SelectInput
-        items={items}
-        onSelect={onSelect}
-        itemComponent={Item}
-        indicatorComponent={Indicator}
-    ></SelectInput>
-</Box>;
+const Description = ({command}) => {
+    const getDescription = item => {
+        const DEFAULT = `${dim('Sorry, I don\'t have anything to say about')} ${item}`;
+        const lookup = dict({
+            project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold.cyan('ESLint')}, and ${bold.magenta('Jest')}`,
+            app: `Scaffold a new ${bold.cyan('web application')} - basically a project with CSS, bundling, and stuff`,
+            server: `Scaffold a new Express server with security baked in - ${bold.yellow('WORK IN PROGRESS')}`,
+            a11y: `Add automated ${bold.cyan('accessibility')} testing`,
+            babel: `Use next generation JavaScript, ${bold.cyan('today!')}`,
+            esdoc: `Generate ${bold.cyan('documentation')} from your comments`,
+            eslint: `Pluggable ${bold.cyan('linting')} utility for JavaScript and JSX`,
+            jest: `Delightful JavaScript ${bold.cyan('Testing')} Framework with a focus on simplicity`,
+            makefile: `Create a ${bold.cyan('Makefile')} from your package.json, like ${bold.magenta('magic!')}`,
+            postcss: `Use ${bold.cyan('future CSS')}, never write vendor prefixes again, and much much more!`,
+            webpack: `${bold.cyan('Bundle')} your assets`
+        });
+        return lookup.has(item) ? lookup.get(item) : DEFAULT;
+    };
+    return <Box marginBottom={1}>
+        <Color cyan>{getDescription(command)}</Color>
+    </Box>;
+};
+const SubCommandSelect = ({items, onSelect}) => {
+    const [highlighted, setHighlighted] = useState(items[0].value);
+    const onHighlight = item => {
+        setHighlighted(item.value);
+    };
+    return <Box flexDirection={'column'} paddingTop={1} paddingBottom={1} paddingLeft={1}>
+        <Description command={highlighted}></Description>
+        <SelectInput
+            items={items}
+            onSelect={onSelect}
+            onHighlight={onHighlight}
+            itemComponent={Item}
+            indicatorComponent={Indicator}
+        ></SelectInput>
+    </Box>;
+};
 const UnderConstruction = () => <Box marginBottom={1}>
     <InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}>
         <Color bold yellow>UNDER CONSTRUCTION</Color>
@@ -192,7 +224,6 @@ export const Task = ({isComplete, isErrored, isPending, isSkipped, text}) => <Bo
  * @return {ReactComponent} Task list component
  */
 export const TaskList = ({command, options, terms, done}) => {
-    const dict = val => new Map(entries(val));
     const reducer = (state, {type, payload}) => {
         const {completed, errors, skipped} = state;
         const update = val => assign({}, state, val);
@@ -202,23 +233,25 @@ export const TaskList = ({command, options, terms, done}) => {
             error: () => update({errors: [...errors, {payload}]}),
             status: () => update({status: payload})
         });
-        return lookup.get(type)();
+        return lookup.has(type) ? lookup.get(type)() : state;
     };
     const initialState = {
         completed: [],
         skipped: [],
-        errors: []
+        errors: [],
+        status: 'online'
     };
     const [state, dispatch] = useReducer(reducer, initialState);
     const {completed, errors, skipped, status} = state;
     const queue = new Queue({concurrency: 1});
-    const tasks = terms.map(term => commands[command][term]).flat(1);
+    const tasks = commands[command][terms[0]];
+    // const tasks = terms.map(term => commands[command][term]).flat(1);
     const tasksComplete = ((completed.length + skipped.length) === tasks.length);
     const hasError = (errors.length > 0);
     const {skipInstall} = options;
     useEffect(() => {
         populateQueue({queue, tasks, options, dispatch});
-    }, []);
+    }, [tasks]);
     tasksComplete && isFunction(done) && done();
     return <ErrorBoundary>
         {status === 'offline' && !skipInstall && <OfflineWarning/>}
@@ -259,45 +292,74 @@ export const TaskList = ({command, options, terms, done}) => {
  * @param {Object} props Component props
  * @return {ReactComponent} Main tomo UI component
  */
-const UI = props => {
-    const {done, flags, input} = props;
-    const {ignoreWarnings} = flags;
-    const [command, ...terms] = input;
-    const hasCommand = isString(command);
-    const intended = hasCommand ? getIntendedInput(commands, command, terms) : [, []];
-    const {intendedCommand} = intended;
-    const [hasTerms, setHasTerms] = useState(terms.length > 0);
-    const [intendedTerms, setIntendedTerms] = useState(intended.intendedTerms);
-    const compare = (term, index) => (term !== terms[index]);
-    const [showWarning, setShowWarning] = useState(((command !== intendedCommand) || intendedTerms.map(compare).some(Boolean)) && !ignoreWarnings);
-    const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
-    const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({label: command, value: command})) : [];
-    const updateWarning = data => {
+class UI extends React.Component {
+    constructor(props) {
+        super(props);
+        const {flags, input} = props;
+        const {ignoreWarnings} = flags;
+        const [command, ...terms] = input;
+        const hasCommand = isString(command);
+        const hasTerms = terms.length > 0;
+        const {intendedCommand, intendedTerms} = hasCommand ? getIntendedInput(commands, command, terms) : {};
+        const compare = (term, index) => (term !== terms[index]);
+        const showWarning = ((command !== intendedCommand) || intendedTerms.map(compare).some(Boolean)) && !ignoreWarnings;
+        this.state = {
+            hasTerms,
+            hasCommand,
+            showWarning,
+            intendedTerms,
+            intendedCommand
+        };
+        this.updateWarning = this.updateWarning.bind(this);
+        this.updateTerms = this.updateTerms.bind(this);
+    }
+    render() {
+        const {done, flags} = this.props;
+        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
+        const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
+        const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({label: command, value: command})) : [];
+        return <ErrorBoundary>
+            {showWarning ?
+                <Warning callback={this.updateWarning}>
+                    <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>
+                </Warning> :
+                (hasCommand && hasTerms) ?
+                    <TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :
+                    hasCommand ?
+                        <SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}></SubCommandSelect> :
+                        <UnderConstruction />
+            }
+        </ErrorBoundary>;
+    }
+    /**
+     * Callback function for warning component
+     * @param {string} data Character data from stdin
+     * @return {undefined} Returns nothing
+     */
+    updateWarning(data) {
         const key = String(data);
-        (key === '\r') ? setShowWarning(false) : process.exit(0);
-    };
-    const updateTerms = ({value}) => {
-        setHasTerms(true);
-        setIntendedTerms([value]);
-    };
-    return <ErrorBoundary>
-        {showWarning ?
-            <Warning callback={updateWarning}>
-                <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>
-            </Warning> :
-            (hasCommand && hasTerms) ?
-                <TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :
-                hasCommand ?
-                    <SubCommandSelect items={selectInputCommandItems} onSelect={updateTerms}></SubCommandSelect> :
-                    <UnderConstruction />
-        }
-    </ErrorBoundary>;
-};
+        (key === '\r') ? this.setState({showWarning: false}) : process.exit(0);
+    }
+    /**
+     * @param {Object} args Function options
+     * @param {string} args.value Intended term
+     * @return {undefined} Returns nothing
+     */
+    updateTerms({value}) {
+        this.setState({
+            hasTerms: true,
+            intendedTerms: [value]
+        });
+    }
+}
 Check.propTypes = {
     isSkipped: PropTypes.bool
 };
 Check.defaultProps = {
     isSkipped: false
+};
+Description.propTypes = {
+    command: PropTypes.string
 };
 SubCommandSelect.propTypes = {
     items: PropTypes.arrayOf(PropTypes.object),

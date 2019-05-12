@@ -4,13 +4,9 @@ var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWild
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-require("core-js/modules/es.array.flat");
-
 require("core-js/modules/es.array.includes");
 
 require("core-js/modules/es.array.iterator");
-
-require("core-js/modules/es.array.unscopables.flat");
 
 require("core-js/modules/es.object.entries");
 
@@ -29,6 +25,8 @@ var _react = _interopRequireWildcard(require("react"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _lodash = require("lodash");
+
+var _chalk = require("chalk");
 
 var _pQueue = _interopRequireDefault(require("p-queue"));
 
@@ -54,6 +52,9 @@ const {
   assign,
   entries
 } = Object;
+
+const dict = val => new Map(entries(val));
+
 const space = ' ';
 
 const Check = ({
@@ -90,19 +91,59 @@ const Indicator = ({
   cyan: true
 }, _figures.default.arrowRight) : ' ');
 
+const Description = ({
+  command
+}) => {
+  const getDescription = item => {
+    const DEFAULT = `${(0, _chalk.dim)('Sorry, I don\'t have anything to say about')} ${item}`;
+    const lookup = dict({
+      project: `Scaffold a new Node.js project with ${_chalk.bold.yellow('Babel')}, ${_chalk.bold.cyan('ESLint')}, and ${_chalk.bold.magenta('Jest')}`,
+      app: `Scaffold a new ${_chalk.bold.cyan('web application')} - basically a project with CSS, bundling, and stuff`,
+      server: `Scaffold a new Express server with security baked in - ${_chalk.bold.yellow('WORK IN PROGRESS')}`,
+      a11y: `Add automated ${_chalk.bold.cyan('accessibility')} testing`,
+      babel: `Use next generation JavaScript, ${_chalk.bold.cyan('today!')}`,
+      esdoc: `Generate ${_chalk.bold.cyan('documentation')} from your comments`,
+      eslint: `Pluggable ${_chalk.bold.cyan('linting')} utility for JavaScript and JSX`,
+      jest: `Delightful JavaScript ${_chalk.bold.cyan('Testing')} Framework with a focus on simplicity`,
+      makefile: `Create a ${_chalk.bold.cyan('Makefile')} from your package.json, like ${_chalk.bold.magenta('magic!')}`,
+      postcss: `Use ${_chalk.bold.cyan('future CSS')}, never write vendor prefixes again, and much much more!`,
+      webpack: `${_chalk.bold.cyan('Bundle')} your assets`
+    });
+    return lookup.has(item) ? lookup.get(item) : DEFAULT;
+  };
+
+  return _react.default.createElement(_ink.Box, {
+    marginBottom: 1
+  }, _react.default.createElement(_ink.Color, {
+    cyan: true
+  }, getDescription(command)));
+};
+
 const SubCommandSelect = ({
   items,
   onSelect
-}) => _react.default.createElement(_ink.Box, {
-  paddingTop: 1,
-  paddingBottom: 1,
-  paddingLeft: 1
-}, _react.default.createElement(_inkSelectInput.default, {
-  items: items,
-  onSelect: onSelect,
-  itemComponent: Item,
-  indicatorComponent: Indicator
-}));
+}) => {
+  const [highlighted, setHighlighted] = (0, _react.useState)(items[0].value);
+
+  const onHighlight = item => {
+    setHighlighted(item.value);
+  };
+
+  return _react.default.createElement(_ink.Box, {
+    flexDirection: 'column',
+    paddingTop: 1,
+    paddingBottom: 1,
+    paddingLeft: 1
+  }, _react.default.createElement(Description, {
+    command: highlighted
+  }), _react.default.createElement(_inkSelectInput.default, {
+    items: items,
+    onSelect: onSelect,
+    onHighlight: onHighlight,
+    itemComponent: Item,
+    indicatorComponent: Indicator
+  }));
+};
 
 const UnderConstruction = () => _react.default.createElement(_ink.Box, {
   marginBottom: 1
@@ -430,8 +471,6 @@ const TaskList = ({
   terms,
   done
 }) => {
-  const dict = val => new Map(entries(val));
-
   const reducer = (state, {
     type,
     payload
@@ -460,13 +499,14 @@ const TaskList = ({
         status: payload
       })
     });
-    return lookup.get(type)();
+    return lookup.has(type) ? lookup.get(type)() : state;
   };
 
   const initialState = {
     completed: [],
     skipped: [],
-    errors: []
+    errors: [],
+    status: 'online'
   };
   const [state, dispatch] = (0, _react.useReducer)(reducer, initialState);
   const {
@@ -478,7 +518,8 @@ const TaskList = ({
   const queue = new _pQueue.default({
     concurrency: 1
   });
-  const tasks = terms.map(term => _commands.default[command][term]).flat(1);
+  const tasks = _commands.default[command][terms[0]]; // const tasks = terms.map(term => commands[command][term]).flat(1);
+
   const tasksComplete = completed.length + skipped.length === tasks.length;
   const hasError = errors.length > 0;
   const {
@@ -491,7 +532,7 @@ const TaskList = ({
       options,
       dispatch
     });
-  }, []);
+  }, [tasks]);
   tasksComplete && (0, _lodash.isFunction)(done) && done();
   return _react.default.createElement(ErrorBoundary, null, status === 'offline' && !skipInstall && _react.default.createElement(OfflineWarning, null), hasError && _react.default.createElement(CommandError, {
     errors: errors
@@ -550,66 +591,109 @@ const TaskList = ({
 
 exports.TaskList = TaskList;
 
-const UI = props => {
-  const {
-    done,
-    flags,
-    input
-  } = props;
-  const {
-    ignoreWarnings
-  } = flags;
-  const [command, ...terms] = input;
-  const hasCommand = (0, _lodash.isString)(command);
-  const intended = hasCommand ? (0, _utils.getIntendedInput)(_commands.default, command, terms) : [, []];
-  const {
-    intendedCommand
-  } = intended;
-  const [hasTerms, setHasTerms] = (0, _react.useState)(terms.length > 0);
-  const [intendedTerms, setIntendedTerms] = (0, _react.useState)(intended.intendedTerms);
+class UI extends _react.default.Component {
+  constructor(props) {
+    super(props);
+    const {
+      flags,
+      input
+    } = props;
+    const {
+      ignoreWarnings
+    } = flags;
+    const [command, ...terms] = input;
+    const hasCommand = (0, _lodash.isString)(command);
+    const hasTerms = terms.length > 0;
+    const {
+      intendedCommand,
+      intendedTerms
+    } = hasCommand ? (0, _utils.getIntendedInput)(_commands.default, command, terms) : {};
 
-  const compare = (term, index) => term !== terms[index];
+    const compare = (term, index) => term !== terms[index];
 
-  const [showWarning, setShowWarning] = (0, _react.useState)((command !== intendedCommand || intendedTerms.map(compare).some(Boolean)) && !ignoreWarnings);
-  const VALID_COMMANDS = hasCommand ? Object.keys(_commands.default[intendedCommand]) : [];
-  const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({
-    label: command,
-    value: command
-  })) : [];
+    const showWarning = (command !== intendedCommand || intendedTerms.map(compare).some(Boolean)) && !ignoreWarnings;
+    this.state = {
+      hasTerms,
+      hasCommand,
+      showWarning,
+      intendedTerms,
+      intendedCommand
+    };
+    this.updateWarning = this.updateWarning.bind(this);
+    this.updateTerms = this.updateTerms.bind(this);
+  }
 
-  const updateWarning = data => {
+  render() {
+    const {
+      done,
+      flags
+    } = this.props;
+    const {
+      hasCommand,
+      hasTerms,
+      intendedCommand,
+      intendedTerms,
+      showWarning
+    } = this.state;
+    const VALID_COMMANDS = hasCommand ? Object.keys(_commands.default[intendedCommand]) : [];
+    const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({
+      label: command,
+      value: command
+    })) : [];
+    return _react.default.createElement(ErrorBoundary, null, showWarning ? _react.default.createElement(Warning, {
+      callback: this.updateWarning
+    }, _react.default.createElement(_ink.Text, null, "Did you mean ", _react.default.createElement(_ink.Color, {
+      bold: true,
+      green: true
+    }, intendedCommand, " ", intendedTerms.join(' ')), "?")) : hasCommand && hasTerms ? _react.default.createElement(TaskList, {
+      command: intendedCommand,
+      terms: intendedTerms,
+      options: flags,
+      done: done
+    }) : hasCommand ? _react.default.createElement(SubCommandSelect, {
+      items: selectInputCommandItems,
+      onSelect: this.updateTerms
+    }) : _react.default.createElement(UnderConstruction, null));
+  }
+  /**
+   * Callback function for warning component
+   * @param {string} data Character data from stdin
+   * @return {undefined} Returns nothing
+   */
+
+
+  updateWarning(data) {
     const key = String(data);
-    key === '\r' ? setShowWarning(false) : process.exit(0);
-  };
+    key === '\r' ? this.setState({
+      showWarning: false
+    }) : process.exit(0);
+  }
+  /**
+   * @param {Object} args Function options
+   * @param {string} args.value Intended term
+   * @return {undefined} Returns nothing
+   */
 
-  const updateTerms = ({
+
+  updateTerms({
     value
-  }) => {
-    setHasTerms(true);
-    setIntendedTerms([value]);
-  };
+  }) {
+    this.setState({
+      hasTerms: true,
+      intendedTerms: [value]
+    });
+  }
 
-  return _react.default.createElement(ErrorBoundary, null, showWarning ? _react.default.createElement(Warning, {
-    callback: updateWarning
-  }, _react.default.createElement(_ink.Text, null, "Did you mean ", _react.default.createElement(_ink.Color, {
-    bold: true,
-    green: true
-  }, intendedCommand, " ", intendedTerms.join(' ')), "?")) : hasCommand && hasTerms ? _react.default.createElement(TaskList, {
-    command: intendedCommand,
-    terms: intendedTerms,
-    options: flags,
-    done: done
-  }) : hasCommand ? _react.default.createElement(SubCommandSelect, {
-    items: selectInputCommandItems,
-    onSelect: updateTerms
-  }) : _react.default.createElement(UnderConstruction, null));
-};
+}
 
 Check.propTypes = {
   isSkipped: _propTypes.default.bool
 };
 Check.defaultProps = {
   isSkipped: false
+};
+Description.propTypes = {
+  command: _propTypes.default.string
 };
 SubCommandSelect.propTypes = {
   items: _propTypes.default.arrayOf(_propTypes.default.object),
