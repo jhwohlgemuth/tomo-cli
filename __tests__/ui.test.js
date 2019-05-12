@@ -115,33 +115,6 @@ describe('Task component', () => {
         expect(lastFrame()).toMatchSnapshot();
     });
 });
-xdescribe('TaskList component', () => {
-    let tempDirectory;
-    const skipInstall = true;
-    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
-    const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console
-    beforeAll(() => {
-        console.error = jest.fn();//eslint-disable-line no-console
-    });
-    afterAll(() => {
-        console.error = ORIGINAL_CONSOLE_ERROR;//eslint-disable-line no-console
-    });
-    beforeEach(async () => {
-        tempDirectory = await setTempDir();
-        process.chdir(tempDirectory);
-    });
-    afterEach(async () => {
-        await cleanupTempDir();
-    });
-    test('can render', done => {
-        const options = {skipInstall};
-        const {lastFrame} = render(<TaskList command={'add'} terms={['eslint']} options={options} done={complete}></TaskList>);
-        function complete() {
-            expect(lastFrame()).toMatchSnapshot();
-            done();
-        }
-    });
-});
 describe('tomo', () => {
     let tempDirectory;
     const skipInstall = true;
