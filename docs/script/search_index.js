@@ -169,9 +169,9 @@ window.esdocSearchIndex = [
   ],
   [
     "tomo-cli/src/ui.js~ui",
-    "function/index.html#static-function-UI",
+    "class/src/ui.js~UI.html",
     "<span>UI</span> <span class=\"search-result-import-path\">tomo-cli/src/ui.js</span>",
-    "function"
+    "class"
   ],
   [
     "tomo-cli/src/ui.js~warning",
@@ -1114,6 +1114,36 @@ window.esdocSearchIndex = [
     "file/src/ui.js.html",
     "src/ui.js",
     "file"
+  ],
+  [
+    "src/ui.js~ui#constructor",
+    "class/src/ui.js~UI.html#instance-constructor-constructor",
+    "src/ui.js~UI#constructor",
+    "method"
+  ],
+  [
+    "src/ui.js~ui#render",
+    "class/src/ui.js~UI.html#instance-method-render",
+    "src/ui.js~UI#render",
+    "method"
+  ],
+  [
+    "src/ui.js~ui#state",
+    "class/src/ui.js~UI.html#instance-member-state",
+    "src/ui.js~UI#state",
+    "member"
+  ],
+  [
+    "src/ui.js~ui#updateterms",
+    "class/src/ui.js~UI.html#instance-method-updateTerms",
+    "src/ui.js~UI#updateTerms",
+    "method"
+  ],
+  [
+    "src/ui.js~ui#updatewarning",
+    "class/src/ui.js~UI.html#instance-method-updateWarning",
+    "src/ui.js~UI#updateWarning",
+    "method"
   ],
   [
     "src/utils/basiceditor.js",

@@ -30,10 +30,23 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-OfflineWarning">OfflineWarning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addBabel">addBabel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addEsdoc">addEsdoc</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addJest">addJest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addMakefile">addMakefile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addPostcss">addPostcss</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-rustTasks">rustTasks</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addWebpack">addWebpack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-task">task</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands-add-eslint">commands/add-eslint</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-tasks">tasks</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands-add-marionette">commands/add-marionette</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-tasks">tasks</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/MakefileEditor.js~MakefileEditor.html">MakefileEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
@@ -63,13 +76,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import UI from &apos;<span><a href="file/src/ui.js.html#lineNumber207">tomo-cli/src/ui.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import UI from &apos;<span><a href="file/src/ui.js.html#lineNumber295">tomo-cli/src/ui.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/ui.js.html#lineNumber207">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/ui.js.html#lineNumber295">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -79,7 +92,7 @@
 
   
   
-  <div class="flat-list" data-ice="extendsChain"><h4>Extends:</h4><div><span>react~Component</span> &#x2192; UI</div></div>
+  <div class="flat-list" data-ice="extendsChain"><h4>Extends:</h4><div><span>react~React.Component</span> &#x2192; UI</div></div>
   
   
   
@@ -89,7 +102,7 @@
 
   
   
-  <div class="description" data-ice="description"><p>Main tomo UI class</p>
+  <div class="description" data-ice="description"><p>Main tomo UI component</p>
 </div>
   
 
@@ -285,7 +298,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber208">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber296">source</a></span></span>
     </span>
   </h3>
 
@@ -331,7 +344,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber217">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber306">source</a></span></span>
     </span>
   </h3>
 
@@ -377,7 +390,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber227">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber316">source</a></span></span>
     </span>
   </h3>
 
@@ -432,7 +445,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber260">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber348">source</a></span></span>
     </span>
   </h3>
 
@@ -512,7 +525,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber251">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/ui.js.html#lineNumber339">source</a></span></span>
     </span>
   </h3>
 

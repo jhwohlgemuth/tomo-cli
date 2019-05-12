@@ -29,11 +29,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-OfflineWarning">OfflineWarning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-UI">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Warning">Warning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
@@ -79,6 +79,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, {useContext, useEffect, useReducer, useState} from &apos;react&apos;;
 import PropTypes from &apos;prop-types&apos;;
 import {isFunction, isString, isUndefined} from &apos;lodash&apos;;
+import {bold, dim} from &apos;chalk&apos;;
 import Queue from &apos;p-queue&apos;;
 import isOnline from &apos;is-online&apos;;
 import {Box, Color, StdinContext, Text} from &apos;ink&apos;;
@@ -91,20 +92,51 @@ import {getIntendedInput} from &apos;./utils&apos;;
 const pino = require(&apos;pino&apos;);
 
 const {assign, entries} = Object;
+const dict = val =&gt; new Map(entries(val));
 const space = &apos; &apos;;
 const Check = ({isSkipped}) =&gt; &lt;Color bold green={!isSkipped} dim={isSkipped}&gt;{figures.tick}{space}&lt;/Color&gt;;
 const X = () =&gt; &lt;Color bold red&gt;{figures.cross}{space}&lt;/Color&gt;;
 const Pending = () =&gt; &lt;Color cyan&gt;&lt;Spinner&gt;&lt;/Spinner&gt;{space}&lt;/Color&gt;;
 const Item = ({isSelected, label}) =&gt; &lt;Color bold={isSelected} cyan={isSelected}&gt;{label}&lt;/Color&gt;;
 const Indicator = ({isSelected}) =&gt; &lt;Box marginRight={1}&gt;{isSelected ? &lt;Color bold cyan&gt;{figures.arrowRight}&lt;/Color&gt; : &apos; &apos;}&lt;/Box&gt;;
-const SubCommandSelect = ({items, onSelect}) =&gt; &lt;Box paddingTop={1} paddingBottom={1} paddingLeft={1}&gt;
-    &lt;SelectInput
-        items={items}
-        onSelect={onSelect}
-        itemComponent={Item}
-        indicatorComponent={Indicator}
-    &gt;&lt;/SelectInput&gt;
-&lt;/Box&gt;;
+const Description = ({command}) =&gt; {
+    const getDescription = item =&gt; {
+        const DEFAULT = `${dim(&apos;Sorry, I don\&apos;t have anything to say about&apos;)} ${item}`;
+        const lookup = dict({
+            project: `Scaffold a new Node.js project with ${bold.yellow(&apos;Babel&apos;)}, ${bold.cyan(&apos;ESLint&apos;)}, and ${bold.magenta(&apos;Jest&apos;)}`,
+            app: `Scaffold a new ${bold.cyan(&apos;web application&apos;)} - basically a project with CSS, bundling, and stuff`,
+            server: `Scaffold a new Express server with security baked in - ${bold.yellow(&apos;WORK IN PROGRESS&apos;)}`,
+            a11y: `Add automated ${bold.cyan(&apos;accessibility&apos;)} testing`,
+            babel: `Use next generation JavaScript, ${bold.cyan(&apos;today!&apos;)}`,
+            esdoc: `Generate ${bold.cyan(&apos;documentation&apos;)} from your comments`,
+            eslint: `Pluggable ${bold.cyan(&apos;linting&apos;)} utility for JavaScript and JSX`,
+            jest: `Delightful JavaScript ${bold.cyan(&apos;Testing&apos;)} Framework with a focus on simplicity`,
+            makefile: `Create a ${bold.cyan(&apos;Makefile&apos;)} from your package.json, like ${bold.magenta(&apos;magic!&apos;)}`,
+            postcss: `Use ${bold.cyan(&apos;future CSS&apos;)}, never write vendor prefixes again, and much much more!`,
+            webpack: `${bold.cyan(&apos;Bundle&apos;)} your assets`
+        });
+        return lookup.has(item) ? lookup.get(item) : DEFAULT;
+    };
+    return &lt;Box marginBottom={1}&gt;
+        &lt;Color cyan&gt;{getDescription(command)}&lt;/Color&gt;
+    &lt;/Box&gt;;
+};
+const SubCommandSelect = ({items, onSelect}) =&gt; {
+    const [highlighted, setHighlighted] = useState(items[0].value);
+    const onHighlight = item =&gt; {
+        setHighlighted(item.value);
+    };
+    return &lt;Box flexDirection={&apos;column&apos;} paddingTop={1} paddingBottom={1} paddingLeft={1}&gt;
+        &lt;Description command={highlighted}&gt;&lt;/Description&gt;
+        &lt;SelectInput
+            items={items}
+            onSelect={onSelect}
+            onHighlight={onHighlight}
+            itemComponent={Item}
+            indicatorComponent={Indicator}
+        &gt;&lt;/SelectInput&gt;
+    &lt;/Box&gt;;
+};
 const UnderConstruction = () =&gt; &lt;Box marginBottom={1}&gt;
     &lt;InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}&gt;
         &lt;Color bold yellow&gt;UNDER CONSTRUCTION&lt;/Color&gt;
@@ -270,7 +302,6 @@ export const Task = ({isComplete, isErrored, isPending, isSkipped, text}) =&gt; 
  * @return {ReactComponent} Task list component
  */
 export const TaskList = ({command, options, terms, done}) =&gt; {
-    const dict = val =&gt; new Map(entries(val));
     const reducer = (state, {type, payload}) =&gt; {
         const {completed, errors, skipped} = state;
         const update = val =&gt; assign({}, state, val);
@@ -280,23 +311,25 @@ export const TaskList = ({command, options, terms, done}) =&gt; {
             error: () =&gt; update({errors: [...errors, {payload}]}),
             status: () =&gt; update({status: payload})
         });
-        return lookup.get(type)();
+        return lookup.has(type) ? lookup.get(type)() : state;
     };
     const initialState = {
         completed: [],
         skipped: [],
-        errors: []
+        errors: [],
+        status: &apos;online&apos;
     };
     const [state, dispatch] = useReducer(reducer, initialState);
     const {completed, errors, skipped, status} = state;
     const queue = new Queue({concurrency: 1});
-    const tasks = terms.map(term =&gt; commands[command][term]).flat(1);
+    const tasks = commands[command][terms[0]];
+    // const tasks = terms.map(term =&gt; commands[command][term]).flat(1);
     const tasksComplete = ((completed.length + skipped.length) === tasks.length);
     const hasError = (errors.length &gt; 0);
     const {skipInstall} = options;
     useEffect(() =&gt; {
         populateQueue({queue, tasks, options, dispatch});
-    }, []);
+    }, [tasks]);
     tasksComplete &amp;&amp; isFunction(done) &amp;&amp; done();
     return &lt;ErrorBoundary&gt;
         {status === &apos;offline&apos; &amp;&amp; !skipInstall &amp;&amp; &lt;OfflineWarning/&gt;}
@@ -337,45 +370,74 @@ export const TaskList = ({command, options, terms, done}) =&gt; {
  * @param {Object} props Component props
  * @return {ReactComponent} Main tomo UI component
  */
-const UI = props =&gt; {
-    const {done, flags, input} = props;
-    const {ignoreWarnings} = flags;
-    const [command, ...terms] = input;
-    const hasCommand = isString(command);
-    const intended = hasCommand ? getIntendedInput(commands, command, terms) : [, []];
-    const {intendedCommand} = intended;
-    const [hasTerms, setHasTerms] = useState(terms.length &gt; 0);
-    const [intendedTerms, setIntendedTerms] = useState(intended.intendedTerms);
-    const compare = (term, index) =&gt; (term !== terms[index]);
-    const [showWarning, setShowWarning] = useState(((command !== intendedCommand) || intendedTerms.map(compare).some(Boolean)) &amp;&amp; !ignoreWarnings);
-    const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
-    const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command =&gt; ({label: command, value: command})) : [];
-    const updateWarning = data =&gt; {
+class UI extends React.Component {
+    constructor(props) {
+        super(props);
+        const {flags, input} = props;
+        const {ignoreWarnings} = flags;
+        const [command, ...terms] = input;
+        const hasCommand = isString(command);
+        const hasTerms = terms.length &gt; 0;
+        const {intendedCommand, intendedTerms} = hasCommand ? getIntendedInput(commands, command, terms) : {};
+        const compare = (term, index) =&gt; (term !== terms[index]);
+        const showWarning = ((command !== intendedCommand) || intendedTerms.map(compare).some(Boolean)) &amp;&amp; !ignoreWarnings;
+        this.state = {
+            hasTerms,
+            hasCommand,
+            showWarning,
+            intendedTerms,
+            intendedCommand
+        };
+        this.updateWarning = this.updateWarning.bind(this);
+        this.updateTerms = this.updateTerms.bind(this);
+    }
+    render() {
+        const {done, flags} = this.props;
+        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
+        const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
+        const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command =&gt; ({label: command, value: command})) : [];
+        return &lt;ErrorBoundary&gt;
+            {showWarning ?
+                &lt;Warning callback={this.updateWarning}&gt;
+                    &lt;Text&gt;Did you mean &lt;Color bold green&gt;{intendedCommand} {intendedTerms.join(&apos; &apos;)}&lt;/Color&gt;?&lt;/Text&gt;
+                &lt;/Warning&gt; :
+                (hasCommand &amp;&amp; hasTerms) ?
+                    &lt;TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}&gt;&lt;/TaskList&gt; :
+                    hasCommand ?
+                        &lt;SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}&gt;&lt;/SubCommandSelect&gt; :
+                        &lt;UnderConstruction /&gt;
+            }
+        &lt;/ErrorBoundary&gt;;
+    }
+    /**
+     * Callback function for warning component
+     * @param {string} data Character data from stdin
+     * @return {undefined} Returns nothing
+     */
+    updateWarning(data) {
         const key = String(data);
-        (key === &apos;\r&apos;) ? setShowWarning(false) : process.exit(0);
-    };
-    const updateTerms = ({value}) =&gt; {
-        setHasTerms(true);
-        setIntendedTerms([value]);
-    };
-    return &lt;ErrorBoundary&gt;
-        {showWarning ?
-            &lt;Warning callback={updateWarning}&gt;
-                &lt;Text&gt;Did you mean &lt;Color bold green&gt;{intendedCommand} {intendedTerms.join(&apos; &apos;)}&lt;/Color&gt;?&lt;/Text&gt;
-            &lt;/Warning&gt; :
-            (hasCommand &amp;&amp; hasTerms) ?
-                &lt;TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}&gt;&lt;/TaskList&gt; :
-                hasCommand ?
-                    &lt;SubCommandSelect items={selectInputCommandItems} onSelect={updateTerms}&gt;&lt;/SubCommandSelect&gt; :
-                    &lt;UnderConstruction /&gt;
-        }
-    &lt;/ErrorBoundary&gt;;
-};
+        (key === &apos;\r&apos;) ? this.setState({showWarning: false}) : process.exit(0);
+    }
+    /**
+     * @param {Object} args Function options
+     * @param {string} args.value Intended term
+     * @return {undefined} Returns nothing
+     */
+    updateTerms({value}) {
+        this.setState({
+            hasTerms: true,
+            intendedTerms: [value]
+        });
+    }
+}
 Check.propTypes = {
     isSkipped: PropTypes.bool
 };
 Check.defaultProps = {
     isSkipped: false
+};
+Description.propTypes = {
+    command: PropTypes.string
 };
 SubCommandSelect.propTypes = {
     items: PropTypes.arrayOf(PropTypes.object),
