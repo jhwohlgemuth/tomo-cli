@@ -7,7 +7,8 @@ const BABEL_CORE = [
     '@babel/runtime'
 ];
 const BABEL_PRESETS = [
-    '@babel/preset-env'
+    '@babel/preset-env',
+    'babel-preset-minify'
 ];
 const BABEL_PLUGINS = [
     '@babel/plugin-transform-runtime',

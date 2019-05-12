@@ -6,11 +6,11 @@ exports[`"Add" commands add-babel (with React) 1`] = `
     children: [
         {
             name: babel.config.js,
-            size: 318,
+            size: 347,
             type: file
         }
     ],
-    size: 318,
+    size: 347,
     type: directory
 }
 "
@@ -26,6 +26,7 @@ exports[`"Add" commands add-babel (with React) 2`] = `
     ],
     presets: [
         @babel/preset-env,
+        babel-preset-minify,
         @babel/preset-react
     ]
 };"
@@ -37,11 +38,11 @@ exports[`"Add" commands add-babel 1`] = `
     children: [
         {
             name: babel.config.js,
-            size: 291,
+            size: 309,
             type: file
         }
     ],
-    size: 291,
+    size: 309,
     type: directory
 }
 "
@@ -56,7 +57,8 @@ exports[`"Add" commands add-babel 2`] = `
         '@babel/plugin-proposal-optional-chaining'
     ],
     presets: [
-        '@babel/preset-env'
+        '@babel/preset-env',
+        'minify'
     ]
 };"
 `;
@@ -310,7 +312,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: babel.config.js,
-            size: 318,
+            size: 347,
             type: file
         },
         {
@@ -375,7 +377,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: directory
         }
     ],
-    size: 10841,
+    size: 10870,
     type: directory
 }
 "
@@ -534,7 +536,7 @@ exports[`"Add" commands add-webpack 1`] = `
     children: [
         {
             name: babel.config.js,
-            size: 318,
+            size: 347,
             type: file
         },
         {
@@ -543,7 +545,7 @@ exports[`"Add" commands add-webpack 1`] = `
             type: file
         }
     ],
-    size: 968,
+    size: 997,
     type: directory
 }
 "
@@ -629,7 +631,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: babel.config.js,
-            size: 291,
+            size: 309,
             type: file
         },
         {
@@ -694,7 +696,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: directory
         }
     ],
-    size: 10067,
+    size: 10085,
     type: directory
 }
 "
@@ -716,7 +718,7 @@ exports[`"Create/New" commands create new project 1`] = `
         },
         {
             name: babel.config.js,
-            size: 291,
+            size: 309,
             type: file
         },
         {
@@ -731,7 +733,7 @@ exports[`"Create/New" commands create new project 1`] = `
             type: directory
         }
     ],
-    size: 954,
+    size: 972,
     type: directory
 }
 "

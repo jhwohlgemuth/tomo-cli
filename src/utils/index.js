@@ -89,7 +89,7 @@ export const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {
         `'@babel/plugin-proposal-export-default-from'`,
         `'@babel/plugin-proposal-optional-chaining'`
     ],
-    presets: [`'@babel/preset-env'`]
+    presets: [`'@babel/preset-env'`, `'minify'`]
 });
 /**
  * Create and edit an ESLint configuration file with a fluent API

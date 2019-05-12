@@ -1,6 +1,4 @@
-"use strict";
-
-/**
+"use strict";/**
  * @file Add Redux store to application
  * @description Features:
  * - Enhanced getState that accepts path parameter
@@ -18,67 +16,9 @@
  * app.getState('count');// 42
  * app.dispatch({type: 'INCREMENT'});
  * app.getState('count');// 43
-**/
-const {
-  get,
-  update
-} = require('lodash');
-
-const {
-  applyMiddleware,
-  compose,
-  createStore
-} = require('redux');
-
-const initialState = {
-  name: 'omaha-project',
-  count: 42
-};
-module.exports = createStore(reducer, initialState, compose(applyMiddleware(dispatchLogger), addGetStatePathParameter())); // state reducer
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'INCREMENT':
-      return update(state, 'count', increment);
-
-    case 'DECREMENT':
-      return update(state, 'count', decrement);
-
-    default:
-      return state;
-  }
-} // middleware
-
-
-function dispatchLogger() {
-  return next => action => // console.log(`Dispatch: ${action.type}`);
-  next(action);
-} // store enhancer
-
-
-function addGetStatePathParameter() {
-  return createStore => (reducer, preloadedState, enhancer) => {
-    const store = createStore(reducer, preloadedState, enhancer);
-
-    const getState = path => typeof path === 'string' ? get(store.getState(), path) : store.getState();
-
-    const {
-      dispatch,
-      subscribe
-    } = store;
-    return {
-      getState,
-      dispatch,
-      subscribe
-    };
-  };
-} // pure functions
-
-
-function increment(val) {
-  return val + 1;
-}
-
-function decrement(val) {
-  return val - 1;
-}
+**/const{get,update}=require("lodash"),{applyMiddleware,compose,createStore}=require("redux"),initialState={name:"omaha-project",count:42};module.exports=createStore(reducer,initialState,compose(applyMiddleware(dispatchLogger),addGetStatePathParameter()));// state reducer
+function reducer(a,b){switch(b.type){case"INCREMENT":return update(a,"count",increment);case"DECREMENT":return update(a,"count",decrement);default:return a;}}// middleware
+function dispatchLogger(){return a=>b=>// console.log(`Dispatch: ${action.type}`);
+a(b)}// store enhancer
+function addGetStatePathParameter(){return a=>(b,c,d)=>{const e=a(b,c,d),{dispatch:f,subscribe:g}=e;return{getState:a=>"string"==typeof a?get(e.getState(),a):e.getState(),dispatch:f,subscribe:g}}}// pure functions
+function increment(a){return a+1}function decrement(a){return a-1}
