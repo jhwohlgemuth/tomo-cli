@@ -20,7 +20,8 @@ const help = `
         --use-react, -r         Add React support to workflow [Default: false]
         --react-version         React version for ESLint configuration [Default: '16.8']
 		--ignore-warnings, -i   Ignore warning messages [Default: false]
-		--skip-install, -s      Skip npm installations [Default: false]
+        --skip-install, -s      Skip npm installations [Default: false]
+        --debug                 Show debug data [Default: false]
 
 	${gray.bold('Examples')}
 
@@ -59,6 +60,10 @@ const options = {
             type: 'boolean',
             default: false,
             alias: 's'
+        },
+        debug: {
+            type: 'boolean',
+            default: false
         }
     }
 };
