@@ -31,6 +31,7 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-OfflineWarning">OfflineWarning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
@@ -193,34 +194,7 @@ describe(&apos;Task component&apos;, () =&gt; {
         expect(lastFrame()).toMatchSnapshot();
     });
 });
-xdescribe(&apos;TaskList component&apos;, () =&gt; {
-    let tempDirectory;
-    const skipInstall = true;
-    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
-    const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console
-    beforeAll(() =&gt; {
-        console.error = jest.fn();//eslint-disable-line no-console
-    });
-    afterAll(() =&gt; {
-        console.error = ORIGINAL_CONSOLE_ERROR;//eslint-disable-line no-console
-    });
-    beforeEach(async () =&gt; {
-        tempDirectory = await setTempDir();
-        process.chdir(tempDirectory);
-    });
-    afterEach(async () =&gt; {
-        await cleanupTempDir();
-    });
-    test(&apos;can render&apos;, done =&gt; {
-        const options = {skipInstall};
-        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} terms={[&apos;eslint&apos;]} options={options} done={complete}&gt;&lt;/TaskList&gt;);
-        function complete() {
-            expect(lastFrame()).toMatchSnapshot();
-            done();
-        }
-    });
-});
-xdescribe(&apos;tomo&apos;, () =&gt; {
+describe(&apos;tomo&apos;, () =&gt; {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
@@ -245,7 +219,7 @@ xdescribe(&apos;tomo&apos;, () =&gt; {
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
     });
-    test(&apos;add eslint&apos;, done =&gt; {
+    xtest(&apos;add eslint&apos;, done =&gt; {
         const input = [&apos;add&apos;, &apos;eslint&apos;];
         const flags = {skipInstall};
         const {lastFrame} = render(&lt;Tomo input={input} flags={flags} done={complete}/&gt;);
@@ -254,7 +228,7 @@ xdescribe(&apos;tomo&apos;, () =&gt; {
             done();
         }
     });
-    test(&apos;add eslint --use-react&apos;, done =&gt; {
+    xtest(&apos;add eslint --use-react&apos;, done =&gt; {
         const input = [&apos;add&apos;, &apos;eslint&apos;];
         const flags = {useReact: true, skipInstall};
         const {lastFrame} = render(&lt;Tomo input={input} flags={flags} done={complete}/&gt;);

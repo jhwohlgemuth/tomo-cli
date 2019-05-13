@@ -31,6 +31,7 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-OfflineWarning">OfflineWarning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
@@ -76,7 +77,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/ui.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, {useContext, useEffect, useReducer, useState} from &apos;react&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, {Component, Fragment, useContext, useEffect, useReducer, useState} from &apos;react&apos;;
 import PropTypes from &apos;prop-types&apos;;
 import {isFunction, isString, isUndefined} from &apos;lodash&apos;;
 import {bold, dim} from &apos;chalk&apos;;
@@ -87,8 +88,10 @@ import {default as InkBox} from &apos;ink-box&apos;;
 import Spinner from &apos;ink-spinner&apos;;
 import SelectInput from &apos;ink-select-input&apos;;
 import figures from &apos;figures&apos;;
+import {highlight} from &apos;cardinal&apos;;
 import commands from &apos;./commands&apos;;
 import {getIntendedInput} from &apos;./utils&apos;;
+import {format} from &apos;./utils/common&apos;;
 const pino = require(&apos;pino&apos;);
 
 const {assign, entries} = Object;
@@ -99,12 +102,34 @@ const X = () =&gt; &lt;Color bold red&gt;{figures.cross}{space}&lt;/Color&gt;;
 const Pending = () =&gt; &lt;Color cyan&gt;&lt;Spinner&gt;&lt;/Spinner&gt;{space}&lt;/Color&gt;;
 const Item = ({isSelected, label}) =&gt; &lt;Color bold={isSelected} cyan={isSelected}&gt;{label}&lt;/Color&gt;;
 const Indicator = ({isSelected}) =&gt; &lt;Box marginRight={1}&gt;{isSelected ? &lt;Color bold cyan&gt;{figures.arrowRight}&lt;/Color&gt; : &apos; &apos;}&lt;/Box&gt;;
+export const CommandError = errors =&gt; {
+    const log = pino(
+        {prettyPrint: {levelFirst: true}},
+        pino.destination(&apos;./tomo-errors.txt&apos;)
+    );
+    useEffect(() =&gt; {
+        log.error(errors);
+    }, []);
+    return &lt;Box flexDirection={&apos;column&apos;} marginTop={1} marginLeft={1}&gt;
+        &lt;Box&gt;&lt;X /&gt;&lt;Text&gt;Something has gone horribly &lt;Color bold red&gt;wrong&lt;/Color&gt;&lt;/Text&gt;&lt;/Box&gt;
+        &lt;Box marginLeft={2}&gt;&#x21B3;{space}&lt;Color dim&gt;Details written to ./tomo-errors.txt&lt;/Color&gt;&lt;/Box&gt;
+    &lt;/Box&gt;;
+};
+export const Debug = ({data, title}) =&gt; &lt;Box flexDirection={&apos;column&apos;} marginTop={1} marginLeft={1}&gt;
+    &lt;Box&gt;
+        &lt;Color bold cyan&gt;DEBUG: &lt;/Color&gt;
+        &lt;Color dim&gt;{title}&lt;/Color&gt;
+    &lt;/Box&gt;
+    &lt;Box&gt;
+        {highlight(format(data))}
+    &lt;/Box&gt;
+&lt;/Box&gt;;
 const Description = ({command}) =&gt; {
     const getDescription = item =&gt; {
         const DEFAULT = `${dim(&apos;Sorry, I don\&apos;t have anything to say about&apos;)} ${item}`;
         const lookup = dict({
             project: `Scaffold a new Node.js project with ${bold.yellow(&apos;Babel&apos;)}, ${bold.cyan(&apos;ESLint&apos;)}, and ${bold.magenta(&apos;Jest&apos;)}`,
-            app: `Scaffold a new ${bold.cyan(&apos;web application&apos;)} - basically a project with CSS, bundling, and stuff`,
+            app: `Scaffold a new ${bold.red(&apos;Marionette.js&apos;)} ${bold.cyan(&apos;web application&apos;)} - basically a project with CSS, bundling, and stuff`,
             server: `Scaffold a new Express server with security baked in - ${bold.yellow(&apos;WORK IN PROGRESS&apos;)}`,
             a11y: `Add automated ${bold.cyan(&apos;accessibility&apos;)} testing`,
             babel: `Use next generation JavaScript, ${bold.cyan(&apos;today!&apos;)}`,
@@ -121,6 +146,38 @@ const Description = ({command}) =&gt; {
         &lt;Color cyan&gt;{getDescription(command)}&lt;/Color&gt;
     &lt;/Box&gt;;
 };
+const ErrorMessage = ({info}) =&gt; &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;
+    &lt;InkBox borderColor={&apos;yellow&apos;} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}&gt;
+        &lt;Color yellow&gt;(&#x256F;&#xB0;&#x25A1; &#xB0;)&#x256F; &#x253B;&#x2501;&#x253B; arrrgh...&lt;/Color&gt;
+    &lt;/InkBox&gt;
+    &lt;Box marginLeft={4}&gt;
+        &#x21B3; &lt;Color dim&gt;Something went wrong...&lt;/Color&gt;
+    &lt;/Box&gt;
+    &lt;Box marginLeft={6} marginTop={1}&gt;
+        &lt;Color dim&gt;&lt;Box&gt;{info}&lt;/Box&gt;&lt;/Color&gt;
+    &lt;/Box&gt;
+&lt;/Box&gt;;
+class ErrorBoundary extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            info: &apos;&apos;,
+            error: {},
+            hasError: false
+        };
+    }
+    static getDerivedStateFromError() {
+        return {hasError: true};
+    }
+    componentDidCatch(error, info) {
+        this.setState({error, info});
+    }
+    render() {
+        const {error, hasError} = this.state;
+        const {children} = this.props;
+        return hasError ? &lt;ErrorMessage error={error}/&gt; : children;
+    }
+}
 const SubCommandSelect = ({items, onSelect}) =&gt; {
     const [highlighted, setHighlighted] = useState(items[0].value);
     const onHighlight = item =&gt; {
@@ -142,38 +199,6 @@ const UnderConstruction = () =&gt; &lt;Box marginBottom={1}&gt;
         &lt;Color bold yellow&gt;UNDER CONSTRUCTION&lt;/Color&gt;
     &lt;/InkBox&gt;
 &lt;/Box&gt;;
-const ErrorMessage = ({info}) =&gt; &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;
-    &lt;InkBox borderColor={&apos;yellow&apos;} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}&gt;
-        &lt;Color yellow&gt;(&#x256F;&#xB0;&#x25A1; &#xB0;)&#x256F; &#x253B;&#x2501;&#x253B; arrrgh...&lt;/Color&gt;
-    &lt;/InkBox&gt;
-    &lt;Box marginLeft={4}&gt;
-        &#x21B3; &lt;Color dim&gt;Something went wrong...&lt;/Color&gt;
-    &lt;/Box&gt;
-    &lt;Box marginLeft={6} marginTop={1}&gt;
-        &lt;Color dim&gt;&lt;Box&gt;{info}&lt;/Box&gt;&lt;/Color&gt;
-    &lt;/Box&gt;
-&lt;/Box&gt;;
-class ErrorBoundary extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            info: &apos;&apos;,
-            error: {},
-            hasError: false
-        };
-    }
-    static getDerivedStateFromError() {
-        return {hasError: true};
-    }
-    componentDidCatch(error, info) {
-        this.setState({error, info});
-    }
-    render() {
-        const {error, hasError} = this.state;
-        const {children} = this.props;
-        return hasError ? &lt;ErrorMessage error={error}/&gt; : children;
-    }
-}
 /**
  * Component to display warning message requiring user input
  * @param {Object} props Function component props
@@ -215,19 +240,6 @@ export const OfflineWarning = () =&gt; &lt;Box flexDirection={&apos;column&apos;
         &lt;Color dim&gt;No dependencies were installed&lt;/Color&gt;
     &lt;/Box&gt;
 &lt;/Box&gt;;
-export const CommandError = errors =&gt; {
-    const log = pino(
-        {prettyPrint: {levelFirst: true}},
-        pino.destination(&apos;./tomo-errors.txt&apos;)
-    );
-    useEffect(() =&gt; {
-        log.error(errors);
-    }, []);
-    return &lt;Box flexDirection={&apos;column&apos;} marginTop={1} marginLeft={1}&gt;
-        &lt;Box&gt;&lt;X/&gt;&lt;Text&gt;Something has gone horribly &lt;Color bold red&gt;wrong&lt;/Color&gt;&lt;/Text&gt;&lt;/Box&gt;
-        &lt;Box marginLeft={2}&gt;&#x21B3;{space}&lt;Color dim&gt;Details written to ./tomo-errors.txt&lt;/Color&gt;&lt;/Box&gt;
-    &lt;/Box&gt;;
-};
 /**
  * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
  * @param {Object} data Data to be used for populating queue
@@ -322,16 +334,17 @@ export const TaskList = ({command, options, terms, done}) =&gt; {
     const [state, dispatch] = useReducer(reducer, initialState);
     const {completed, errors, skipped, status} = state;
     const queue = new Queue({concurrency: 1});
-    const tasks = commands[command][terms[0]];
-    // const tasks = terms.map(term =&gt; commands[command][term]).flat(1);
+    // const tasks = commands[command][terms[0]];
+    const tasks = terms.map(term =&gt; commands[command][term]).flat(1);
     const tasksComplete = ((completed.length + skipped.length) === tasks.length);
     const hasError = (errors.length &gt; 0);
-    const {skipInstall} = options;
+    const {debug, skipInstall} = options;
     useEffect(() =&gt; {
         populateQueue({queue, tasks, options, dispatch});
-    }, [tasks]);
+    }, []);
     tasksComplete &amp;&amp; isFunction(done) &amp;&amp; done();
     return &lt;ErrorBoundary&gt;
+        {debug &amp;&amp; &lt;Debug data={{completed, errors, skipped, tasks, terms}} title={&apos;Tasklist data&apos;}&gt;&lt;/Debug&gt;}
         {status === &apos;offline&apos; &amp;&amp; !skipInstall &amp;&amp; &lt;OfflineWarning/&gt;}
         {hasError &amp;&amp; &lt;CommandError errors={errors}&gt;&lt;/CommandError&gt;}
         &lt;Box flexDirection={&apos;column&apos;} marginBottom={1}&gt;
@@ -350,16 +363,16 @@ export const TaskList = ({command, options, terms, done}) =&gt; {
                     const isErrored = errors.map(error =&gt; error.payload.index).includes(index);
                     const isPending = [isComplete, isSkipped, isErrored].every(val =&gt; !val);
                     const shouldBeShown = isUndefined(optional) || (isFunction(optional) &amp;&amp; optional(options));
+                    const data = {isSkipped, isComplete, isErrored, isPending, text};
                     return shouldBeShown ?
-                        &lt;Task
+                        &lt;Fragment key={index}&gt;{debug &amp;&amp; &lt;Debug data={data} title={`Data - task #${index}`}&gt;&lt;/Debug&gt;}&lt;Task
                             text={text}
                             isSkipped={isSkipped}
                             isComplete={isComplete}
                             isErrored={isErrored}
-                            isPending={isPending}
-                            key={index}&gt;
-                        &lt;/Task&gt; :
-                        &lt;Box key={index}&gt;&lt;/Box&gt;;
+                            isPending={isPending}&gt;
+                        &lt;/Task&gt;&lt;/Fragment&gt; :
+                        &lt;Fragment key={index}&gt;{debug &amp;&amp; &lt;Debug data={data} title={`Data - task #${index}`}&gt;&lt;/Debug&gt;}&lt;Box&gt;&lt;/Box&gt;&lt;/Fragment&gt;;
                 })}
             &lt;/Box&gt;
         &lt;/Box&gt;
@@ -370,7 +383,7 @@ export const TaskList = ({command, options, terms, done}) =&gt; {
  * @param {Object} props Component props
  * @return {ReactComponent} Main tomo UI component
  */
-class UI extends React.Component {
+class UI extends Component {
     constructor(props) {
         super(props);
         const {flags, input} = props;
@@ -435,6 +448,10 @@ Check.propTypes = {
 };
 Check.defaultProps = {
     isSkipped: false
+};
+Debug.propTypes = {
+    data: PropTypes.any,
+    title: PropTypes.string
 };
 Description.propTypes = {
     command: PropTypes.string

@@ -255,14 +255,13 @@ export const TaskList = ({command, options, terms, done}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const {completed, errors, skipped, status} = state;
     const queue = new Queue({concurrency: 1});
-    const tasks = commands[command][terms[0]];
-    // const tasks = terms.map(term => commands[command][term]).flat(1);
+    const tasks = terms.map(term => commands[command][term]).flat(1);
     const tasksComplete = ((completed.length + skipped.length) === tasks.length);
     const hasError = (errors.length > 0);
     const {debug, skipInstall} = options;
     useEffect(() => {
         populateQueue({queue, tasks, options, dispatch});
-    }, [tasks]);
+    }, []);
     tasksComplete && isFunction(done) && done();
     return <ErrorBoundary>
         {debug && <Debug data={{completed, errors, skipped, tasks, terms}} title={'Tasklist data'}></Debug>}

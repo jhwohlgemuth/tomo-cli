@@ -120,6 +120,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/ui.js~debug",
+    "function/index.html#static-function-Debug",
+    "<span>Debug</span> <span class=\"search-result-import-path\">tomo-cli/src/ui.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/utils/index.js~eslintconfigmoduleeditor",
     "variable/index.html#static-variable-EslintConfigModuleEditor",
     "<span>EslintConfigModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
@@ -640,30 +646,6 @@ window.esdocSearchIndex = [
     "test-file/__tests__/yodawg.test.js.html",
     "__tests__/yodawg.test.js",
     "testFile"
-  ],
-  [
-    "",
-    "test-file/__tests__/ui.test.js.html#lineNumber163",
-    "add",
-    "test"
-  ],
-  [
-    "",
-    "test-file/__tests__/ui.test.js.html#lineNumber170",
-    "add eslint",
-    "test"
-  ],
-  [
-    "",
-    "test-file/__tests__/ui.test.js.html#lineNumber179",
-    "add eslint --use-react",
-    "test"
-  ],
-  [
-    "",
-    "test-file/__tests__/ui.test.js.html#lineNumber136",
-    "can render",
-    "test"
   ],
   [
     "",
@@ -1330,5 +1312,17 @@ window.esdocSearchIndex = [
     "file/src/utils/index.js.html",
     "src/utils/index.js",
     "file"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber118",
+    "tomo",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/ui.test.js.html#lineNumber136",
+    "tomo add",
+    "test"
   ]
 ]

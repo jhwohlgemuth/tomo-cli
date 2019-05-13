@@ -31,6 +31,7 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ui.js~UI.html">UI</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-CommandError">CommandError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Debug">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-OfflineWarning">OfflineWarning</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Task">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-TaskList">TaskList</a></span></span></li>
@@ -167,7 +168,7 @@ export const BabelConfigModuleEditor = createModuleEditor(&apos;babel.config.js&
         `&apos;@babel/plugin-proposal-export-default-from&apos;`,
         `&apos;@babel/plugin-proposal-optional-chaining&apos;`
     ],
-    presets: [`&apos;@babel/preset-env&apos;`]
+    presets: [`&apos;@babel/preset-env&apos;`, `&apos;minify&apos;`]
 });
 /**
  * Create and edit an ESLint configuration file with a fluent API
