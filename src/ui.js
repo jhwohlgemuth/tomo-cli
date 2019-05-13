@@ -26,7 +26,7 @@ const Description = ({command}) => {
         const DEFAULT = `${dim('Sorry, I don\'t have anything to say about')} ${item}`;
         const lookup = dict({
             project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold.cyan('ESLint')}, and ${bold.magenta('Jest')}`,
-            app: `Scaffold a new ${bold.cyan('web application')} - basically a project with CSS, bundling, and stuff`,
+            app: `Scaffold a new ${bold.red('Marionette.js')} ${bold.cyan('web application')} - basically a project with CSS, bundling, and stuff`,
             server: `Scaffold a new Express server with security baked in - ${bold.yellow('WORK IN PROGRESS')}`,
             a11y: `Add automated ${bold.cyan('accessibility')} testing`,
             babel: `Use next generation JavaScript, ${bold.cyan('today!')}`,
