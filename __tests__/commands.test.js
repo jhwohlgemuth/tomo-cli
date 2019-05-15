@@ -21,11 +21,6 @@ import addMarionette from '../src/commands/add-marionette';
 import addWebpack from '../src/commands/add-webpack';
 
 jest.mock('is-online', () => (async () => true));
-// jest.mock('../src/commands', () => ({
-//     create: {
-//         app: ['foo', 'bar']
-//     }
-// }));
 
 describe('"Create/New" commands', () => {
     let tempDirectory;
@@ -52,6 +47,8 @@ describe('"Create/New" commands', () => {
         await run(create.app, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
+        const pkg = fileContents('package.json');
+        expect(pkg).toMatchSnapshot();
     });
     test('create package.json', async () => {
         await run(createPackageJson, {});

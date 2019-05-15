@@ -295,6 +295,47 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 },
                 {
+                    name: fonts,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: images,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: index.html,
+                    size: 531,
+                    type: file
+                },
+                {
+                    name: library,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
                     name: templates,
                     children: [
                         {
@@ -305,9 +346,21 @@ exports[`"Add" commands add-makefile 2`] = `
                     ],
                     size: 0,
                     type: directory
+                },
+                {
+                    name: workers,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
                 }
             ],
-            size: 38,
+            size: 569,
             type: directory
         },
         {
@@ -317,21 +370,23 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 473,
+            size: 502,
             type: file
         },
         {
             name: src,
             children: [
                 {
-                    name: app.js,
+                    name: components,
+                    children: [
+                        {
+                            name: app.js,
+                            size: 435,
+                            type: file
+                        }
+                    ],
                     size: 435,
-                    type: file
-                },
-                {
-                    name: index.html,
-                    size: 531,
-                    type: file
+                    type: directory
                 },
                 {
                     name: main.js,
@@ -373,11 +428,11 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 9075,
+            size: 8544,
             type: directory
         }
     ],
-    size: 10870,
+    size: 10899,
     type: directory
 }
 "
@@ -427,6 +482,47 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 },
                 {
+                    name: fonts,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: images,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: index.html,
+                    size: 531,
+                    type: file
+                },
+                {
+                    name: library,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
                     name: templates,
                     children: [
                         {
@@ -437,23 +533,37 @@ exports[`"Add" commands add-marionette 1`] = `
                     ],
                     size: 0,
                     type: directory
+                },
+                {
+                    name: workers,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
                 }
             ],
-            size: 38,
+            size: 569,
             type: directory
         },
         {
             name: src,
             children: [
                 {
-                    name: app.js,
+                    name: components,
+                    children: [
+                        {
+                            name: app.js,
+                            size: 435,
+                            type: file
+                        }
+                    ],
                     size: 435,
-                    type: file
-                },
-                {
-                    name: index.html,
-                    size: 531,
-                    type: file
+                    type: directory
                 },
                 {
                     name: main.js,
@@ -495,7 +605,7 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 9075,
+            size: 8544,
             type: directory
         }
     ],
@@ -614,6 +724,47 @@ exports[`"Create/New" commands create new app 1`] = `
                     type: directory
                 },
                 {
+                    name: fonts,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: images,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: index.html,
+                    size: 531,
+                    type: file
+                },
+                {
+                    name: library,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
                     name: templates,
                     children: [
                         {
@@ -624,9 +775,21 @@ exports[`"Create/New" commands create new app 1`] = `
                     ],
                     size: 0,
                     type: directory
+                },
+                {
+                    name: workers,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
                 }
             ],
-            size: 38,
+            size: 569,
             type: directory
         },
         {
@@ -636,21 +799,23 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 473,
+            size: 502,
             type: file
         },
         {
             name: src,
             children: [
                 {
-                    name: app.js,
+                    name: components,
+                    children: [
+                        {
+                            name: app.js,
+                            size: 435,
+                            type: file
+                        }
+                    ],
                     size: 435,
-                    type: file
-                },
-                {
-                    name: index.html,
-                    size: 531,
-                    type: file
+                    type: directory
                 },
                 {
                     name: main.js,
@@ -692,12 +857,31 @@ exports[`"Create/New" commands create new app 1`] = `
                     type: directory
                 }
             ],
-            size: 9075,
+            size: 8544,
             type: directory
         }
     ],
-    size: 10085,
+    size: 10114,
     type: directory
+}
+"
+`;
+
+exports[`"Create/New" commands create new app 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"test\\": \\"jest .*.test.js --coverage\\",
+        \\"test:watch\\": \\"npm test -- --watchAll\\"
+    },
+    \\"main\\": \\"./src/main.js\\"
 }
 "
 `;
