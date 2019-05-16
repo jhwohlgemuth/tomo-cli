@@ -651,18 +651,19 @@ exports[`"Add" commands add-webpack 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 650,
+            size: 672,
             type: file
         }
     ],
-    size: 997,
+    size: 1019,
     type: directory
 }
 "
 `;
 
 exports[`"Add" commands add-webpack 2`] = `
-"const {resolve} = require('path');
+"/* eslint-env node */
+const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = {

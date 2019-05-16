@@ -28,6 +28,7 @@ export const addWebpack = [
                 .create()
                 .prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`)
                 .prepend(`const {resolve} = require('path');`)
+                .prepend(`/* eslint-env node */`)
                 .extend({entry})
                 .commit();
         },
