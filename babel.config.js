@@ -4,6 +4,10 @@ module.exports = {
         '@babel/preset-react',
         'minify'
     ],
+    ignore: [
+        './src/commands/add-eslint/templates',
+        './src/commands/add-marionette/templates'
+    ],
     plugins: [
         '@babel/transform-runtime',
         '@babel/proposal-class-properties',

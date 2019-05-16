@@ -15,10 +15,10 @@
         "node": ">=6"
     },
     "scripts": {
-        "copy:assets": "cpy '**/*.(html|hbs|css)' '**/[.]*' '../dist/' --cwd=src --parents --recursive",
+        "copy:assets": "cpy '**/templates/*.(js|html|hbs|css)' '**/[.]*' '../dist/' --cwd=src --parents --recursive",
         "dev": "stmux [ \"npm run build:watch\" : \"npm run lint:watch\" ]",
         "prebuild": "npm run build:clean",
-        "build": "babel src --out-dir dist --ignore __tests__",
+        "build": "babel src --out-dir dist",
         "postbuild": "npm run copy:assets",
         "build:clean": "rm -frd ./dist",
         "build:watch": "watch 'npm run build' ./src",
