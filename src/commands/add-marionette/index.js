@@ -70,7 +70,7 @@ export const tasks = [
     {
         text: 'Set package.json "main" attribute',
         task: async ({sourceDirectory}) => {
-            const main = `./${sourceDirectory}/main.js`;
+            const main = `${sourceDirectory}/main.js`;
             await (new PackageJsonEditor())
                 .extend({main})
                 .commit();
