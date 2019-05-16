@@ -21,7 +21,7 @@ const {get, update} = require('lodash');
 const {applyMiddleware, compose, createStore} = require('redux');
 
 const initialState = {
-    name: 'omaha-project',
+    name: 'tomo-app',
     count: 42
 };
 
