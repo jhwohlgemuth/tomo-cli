@@ -7,7 +7,7 @@
 const Backbone = require('backbone');
 const Mn = require('backbone.marionette');
 const AppRouter = require('marionette.approuter');
-const app = require('./app');
+const app = require('components/app');
 // const JST = require('templates');
 
 const name = app.getState('name');

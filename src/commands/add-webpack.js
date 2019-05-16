@@ -24,12 +24,15 @@ export const addWebpack = [
             const entry = {
                 app: `'${sourceDirectory}/main.js'`
             };
+            const resolve = {
+                modules: `[resolve(__dirname, '${sourceDirectory}'), 'node_modules']`
+            };
             await (new WebpackConfigEditor())
                 .create()
                 .prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`)
                 .prepend(`const {resolve} = require('path');`)
                 .prepend(`/* eslint-env node */`)
-                .extend({entry})
+                .extend({entry, resolve})
                 .commit();
         },
         condition: () => allDoNotExist('webpack.config.js')

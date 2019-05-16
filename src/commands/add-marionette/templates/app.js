@@ -7,8 +7,8 @@
 **/
 
 const Mn = require('backbone.marionette');
-const logging = require('./plugins/mn.radio.logging');
-const state = require('./plugins/mn.redux.state');
+const logging = require('../plugins/mn.radio.logging');
+const state = require('../plugins/mn.redux.state');
 
 // require('./shims/mn.renderer.shim');
 

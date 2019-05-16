@@ -381,16 +381,16 @@ exports[`"Add" commands add-makefile 2`] = `
                     children: [
                         {
                             name: app.js,
-                            size: 435,
+                            size: 437,
                             type: file
                         }
                     ],
-                    size: 435,
+                    size: 437,
                     type: directory
                 },
                 {
                     name: main.js,
-                    size: 1080,
+                    size: 1089,
                     type: file
                 },
                 {
@@ -428,11 +428,11 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 8544,
+            size: 8555,
             type: directory
         }
     ],
-    size: 10897,
+    size: 10908,
     type: directory
 }
 "
@@ -558,16 +558,16 @@ exports[`"Add" commands add-marionette 1`] = `
                     children: [
                         {
                             name: app.js,
-                            size: 435,
+                            size: 437,
                             type: file
                         }
                     ],
-                    size: 435,
+                    size: 437,
                     type: directory
                 },
                 {
                     name: main.js,
-                    size: 1080,
+                    size: 1089,
                     type: file
                 },
                 {
@@ -605,11 +605,11 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 8544,
+            size: 8555,
             type: directory
         }
     ],
-    size: 9113,
+    size: 9124,
     type: directory
 }
 "
@@ -651,11 +651,11 @@ exports[`"Add" commands add-webpack 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 672,
+            size: 755,
             type: file
         }
     ],
-    size: 1019,
+    size: 1102,
     type: directory
 }
 "
@@ -691,7 +691,10 @@ module.exports = {
     },
     plugins: [
         new DashboardPlugin()
-    ]
+    ],
+    resolve: {
+        modules: [resolve(__dirname, 'src'), 'node_modules']
+    }
 };"
 `;
 
@@ -811,16 +814,16 @@ exports[`"Create/New" commands create new app 1`] = `
                     children: [
                         {
                             name: app.js,
-                            size: 435,
+                            size: 437,
                             type: file
                         }
                     ],
-                    size: 435,
+                    size: 437,
                     type: directory
                 },
                 {
                     name: main.js,
-                    size: 1080,
+                    size: 1089,
                     type: file
                 },
                 {
@@ -858,11 +861,11 @@ exports[`"Create/New" commands create new app 1`] = `
                     type: directory
                 }
             ],
-            size: 8544,
+            size: 8555,
             type: directory
         }
     ],
-    size: 10112,
+    size: 10123,
     type: directory
 }
 "
