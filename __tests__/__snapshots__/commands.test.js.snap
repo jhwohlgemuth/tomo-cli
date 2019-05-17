@@ -106,21 +106,56 @@ exports[`"Add" commands add-esdoc (with React) 2`] = `
 
 exports[`"Add" commands add-esdoc 1`] = `
 "{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Add" commands add-esdoc 2`] = `
+"{
     name: tomo-test,
     children: [
         {
             name: esdoc.conf.json,
             size: 286,
             type: file
+        },
+        {
+            name: package.json,
+            size: 512,
+            type: file
         }
     ],
-    size: 286,
+    size: 798,
     type: directory
 }
 "
 `;
 
-exports[`"Add" commands add-esdoc 2`] = `
+exports[`"Add" commands add-esdoc 3`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint:docs\\": \\"eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\\",
+        \\"build:docs\\": \\"jsdoc src -r --destination ./docs\\",
+        \\"open:docs\\": \\"opn ./docs/index.html\\",
+        \\"preesdoc\\": \\"npm run lint:docs\\",
+        \\"esdoc\\": \\"npm run build:docs\\",
+        \\"postesdoc\\": \\"npm run open:docs\\"
+    }
+}
+"
+`;
+
+exports[`"Add" commands add-esdoc 4`] = `
 "{
     \\"source\\": \\"./src\\",
     \\"destination\\": \\"./docs\\",
@@ -320,7 +355,7 @@ exports[`"Add" commands add-makefile 2`] = `
                 },
                 {
                     name: index.html,
-                    size: 531,
+                    size: 534,
                     type: file
                 },
                 {
@@ -360,7 +395,7 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 569,
+            size: 572,
             type: directory
         },
         {
@@ -432,7 +467,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: directory
         }
     ],
-    size: 10587,
+    size: 10590,
     type: directory
 }
 "
@@ -507,7 +542,7 @@ exports[`"Add" commands add-marionette 1`] = `
                 },
                 {
                     name: index.html,
-                    size: 531,
+                    size: 534,
                     type: file
                 },
                 {
@@ -547,7 +582,7 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 569,
+            size: 572,
             type: directory
         },
         {
@@ -609,7 +644,7 @@ exports[`"Add" commands add-marionette 1`] = `
             type: directory
         }
     ],
-    size: 8803,
+    size: 8806,
     type: directory
 }
 "
@@ -642,6 +677,17 @@ exports[`"Add" commands add-postcss 2`] = `
 
 exports[`"Add" commands add-webpack 1`] = `
 "{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Add" commands add-webpack 2`] = `
+"{
     name: tomo-test,
     children: [
         {
@@ -650,18 +696,23 @@ exports[`"Add" commands add-webpack 1`] = `
             type: file
         },
         {
+            name: package.json,
+            size: 314,
+            type: file
+        },
+        {
             name: webpack.config.js,
             size: 755,
             type: file
         }
     ],
-    size: 1102,
+    size: 1416,
     type: directory
 }
 "
 `;
 
-exports[`"Add" commands add-webpack 2`] = `
+exports[`"Add" commands add-webpack 3`] = `
 "/* eslint-env node */
 const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
@@ -696,6 +747,21 @@ module.exports = {
         modules: [resolve(__dirname, 'src'), 'node_modules']
     }
 };"
+`;
+
+exports[`"Add" commands add-webpack 4`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build\\": \\"webpack\\",
+        \\"build:watch\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\"
+    }
+}
+"
 `;
 
 exports[`"Create/New" commands create new app 1`] = `
@@ -753,7 +819,7 @@ exports[`"Create/New" commands create new app 1`] = `
                 },
                 {
                     name: index.html,
-                    size: 531,
+                    size: 534,
                     type: file
                 },
                 {
@@ -793,7 +859,7 @@ exports[`"Create/New" commands create new app 1`] = `
                     type: directory
                 }
             ],
-            size: 569,
+            size: 572,
             type: directory
         },
         {
@@ -865,7 +931,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: directory
         }
     ],
-    size: 9802,
+    size: 9805,
     type: directory
 }
 "

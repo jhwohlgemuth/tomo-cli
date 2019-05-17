@@ -96,9 +96,14 @@ describe('"Add" commands', () => {
     test('add-esdoc', async () => {
         const sourceDirectory = 'src';
         const options = {skipInstall, sourceDirectory};
+        await run(createPackageJson, {});
+        const pre = fileContents('./package.json');
+        expect(pre).toMatchSnapshot();
         await run(addEsdoc, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
+        const post = fileContents('./package.json');
+        expect(post).toMatchSnapshot();
         const contents = fileContents('./esdoc.conf.json');
         expect(contents).toMatchSnapshot();
     });
@@ -170,11 +175,16 @@ describe('"Add" commands', () => {
     test('add-webpack', async () => {
         const sourceDirectory = 'src';
         const options = {skipInstall, sourceDirectory};
+        await run(createPackageJson, {});
+        const pre = fileContents('./package.json');
+        expect(pre).toMatchSnapshot();
         await run(addBabel, options);
         await run(addWebpack, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
         const contents = fileContents('./webpack.config.js');
         expect(contents).toMatchSnapshot();
+        const post = fileContents('./package.json');
+        expect(post).toMatchSnapshot();
     });
 });
