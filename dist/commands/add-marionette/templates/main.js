@@ -1,23 +1,21 @@
 /* eslint-env browser */
 /**
- * @file Main entry point for application
- * @requires app
-**/
-
-const Backbone = require('backbone');
-const Mn = require('backbone.marionette');
-const _ = require('lodash');
-const app = require('components/app');
+ * Main entry point for application
+ */
+import {template} from 'lodash';
+import {Model} from 'backbone';
+import Mn from 'backbone.marionette';
+import app from 'components/app';
 // const JST = require('templates');
 
 const name = app.getState('name');
 
-const ExampleModel = Backbone.Model.extend({
+const ExampleModel = Model.extend({
     defaults: {name}
 });
 const View = Mn.View.extend({
     // view code goes here
-    template: _.template(`<div>Hello world</div>`),
+    template: template(`<div>Hello world</div>`),
     model: new ExampleModel()
 });
 app.on('before:start', () => {

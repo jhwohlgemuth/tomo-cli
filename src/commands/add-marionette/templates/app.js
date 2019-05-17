@@ -1,22 +1,17 @@
 /**
- * @file Application Core
+ * Application Core
  * @version 1.0.0
- * @license MIT
- * @module app
- * @exports app
-**/
-
-const Mn = require('backbone.marionette');
-const logging = require('../plugins/mn.radio.logging');
-const state = require('../plugins/mn.redux.state');
-
-// require('./shims/mn.renderer.shim');
+ */
+import Mn from 'backbone.marionette';
+import logging from '../plugins/mn.radio.logging';
+import state from '../plugins/mn.redux.state';
+// import './shims/mn.renderer.shim';
 
 const Application = Mn.Application.extend({
     region: 'body'
 });
 
-module.exports = Object.assign(new Application(),
+export default Object.assign(new Application(),
     logging,
     state
 );
