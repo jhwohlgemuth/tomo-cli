@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {isFunction, isString, isUndefined} from 'lodash';
 import {bold, dim} from 'chalk';
 import Queue from 'p-queue';
+import pino from 'pino';
 import isOnline from 'is-online';
 import {Box, Color, StdinContext, Text} from 'ink';
 import {default as InkBox} from 'ink-box';
@@ -13,7 +14,6 @@ import {highlight} from 'cardinal';
 import commands from './commands';
 import {getIntendedInput} from './utils';
 import {format} from './utils/common';
-const pino = require('pino');
 
 const {assign, entries} = Object;
 const dict = val => new Map(entries(val));
