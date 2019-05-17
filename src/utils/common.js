@@ -1,7 +1,5 @@
 import {join} from 'path';
 import {pathExists, pathExistsSync} from 'fs-extra';
-import {which} from 'shelljs';
-import {isNull, negate} from 'lodash';
 import prettier from 'prettier';
 
 const PRETTIER_OPTIONS = {
@@ -12,11 +10,6 @@ const PRETTIER_OPTIONS = {
     quotes: true
 };
 export const parse = data => JSON.parse(JSON.stringify(data));
-export const getCommandDirectory = command => {
-    const data = which(command);
-    const commandExists = negate(isNull)(data);
-    return commandExists ? data.toString().split(command)[0] : '';
-};
 export const getBinDirectory = path => {
     const [packageDirectory] = path.split('Makefile');
     return `${packageDirectory}node_modules/.bin/`;
