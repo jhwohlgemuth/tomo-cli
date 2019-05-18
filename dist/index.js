@@ -10,6 +10,7 @@ const help=`
 	${_chalk.gray.bold("Options")}
 
         --source-directory, -d  Directory for source code [Default: ./src]
+        --output-directory, -o  Directory for build targets [Default: ./dist]
         --assets-directory,     Directory for assets [Default: ./assets]
         --use-react, -r         Add React support to workflow [Default: false]
         --react-version         React version for ESLint configuration [Default: '16.8']
@@ -23,4 +24,4 @@ const help=`
 		    ${(0,_chalk.dim)("I love Ink")}
 		$ tomo --name=ponies
 		    ${(0,_chalk.dim)("I love ponies")}	
-`,options={help,flags:{sourceDirectory:{type:"string",default:"./src",alias:"d"},assetsDirectory:{type:"string",default:"./assets"},useReact:{type:"boolean",default:!1,alias:"r"},reactVersion:{type:"string",default:"16.8"},ignoreWarnings:{type:"boolean",default:!1,alias:"i"},skipInstall:{type:"boolean",default:!1,alias:"s"},debug:{type:"boolean",default:!1}}},cli=(0,_meow.default)(options),{input,flags}=cli;(0,_ink.render)(_react.default.createElement(_ui.default,{input:input,flags:flags}),{exitOnCtrlC:!0});
+`,options={help,flags:{sourceDirectory:{type:"string",default:"./src",alias:"d"},outputDirectory:{type:"string",default:"./dist",alias:"o"},assetsDirectory:{type:"string",default:"./assets"},useReact:{type:"boolean",default:!1,alias:"r"},reactVersion:{type:"string",default:"16.8"},ignoreWarnings:{type:"boolean",default:!1,alias:"i"},skipInstall:{type:"boolean",default:!1,alias:"s"},debug:{type:"boolean",default:!1}}},cli=(0,_meow.default)(options),{input,flags}=cli;(0,_ink.render)(_react.default.createElement(_ui.default,{input:input,flags:flags}),{exitOnCtrlC:!0});

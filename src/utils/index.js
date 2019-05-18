@@ -149,15 +149,8 @@ export const PackageJsonEditor = createJsonEditor('package.json', {
  * await cfg.create().commit();
  */
 export const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
-    parser: `require('postcss-safe-parser')`,
-    processors: [
-        `require('stylelint')()`,
-        `require('postcss-import')()`,
-        `require('postcss-cssnext')()`,
-        `require('uncss').postcssPlugin({html: ['index.html']})`,
-        `require('cssnano')()`,
-        `require('postcss-reporter')({clearReportedMessages: true})`
-    ]
+    map: true,
+    parser: `require('postcss-safe-parser')`
 });
 /**
  * Create and edit a Webpack configuration file with a fluent API

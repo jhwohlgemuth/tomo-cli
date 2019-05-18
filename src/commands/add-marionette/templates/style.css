@@ -1,3 +1,15 @@
+/* This comment will be removed by cssnano */
 body {
     background-color: yellow;
+}
+a {
+    color: rgb(0 0 100% / 90%);
+    &:hover {
+      color: rebeccapurple;
+    }
+}
+.foo {
+    &.bar {
+        color: #rrrr;
+    }
 }

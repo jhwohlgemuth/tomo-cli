@@ -71,7 +71,7 @@
  * @example
  * const cfg = new PostcssConfigEditor();
  * await cfg.create().commit();
- */exports.PackageJsonEditor=PackageJsonEditor;const PostcssConfigEditor=(0,_createModuleEditor.default)("postcss.config.js",{parser:`require('postcss-safe-parser')`,processors:[`require('stylelint')()`,`require('postcss-import')()`,`require('postcss-cssnext')()`,`require('uncss').postcssPlugin({html: ['index.html']})`,`require('cssnano')()`,`require('postcss-reporter')({clearReportedMessages: true})`]});/**
+ */exports.PackageJsonEditor=PackageJsonEditor;const PostcssConfigEditor=(0,_createModuleEditor.default)("postcss.config.js",{map:!0,parser:`require('postcss-safe-parser')`});/**
  * Create and edit a Webpack configuration file with a fluent API
  * @type {ModuleEditor}
  * @example

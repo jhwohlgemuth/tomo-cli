@@ -10,7 +10,7 @@ import addEslint from './add-eslint';
 import addJest from './add-jest';
 import addMakefile from './add-makefile';
 import addMarionette from './add-marionette';
-import addPostcss from './add-postcss';
+import {addPostcss, removePostcss} from './add-postcss';
 import {addWebpack, removeWebpack} from './add-webpack';
 
 const createProject = [
@@ -50,6 +50,7 @@ const add = {
     ]
 };
 const remove = {
+    postcss: removePostcss,
     webpack: removeWebpack
 };
 

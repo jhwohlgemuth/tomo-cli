@@ -16,6 +16,7 @@ const help = `
 	${gray.bold('Options')}
 
         --source-directory, -d  Directory for source code [Default: ./src]
+        --output-directory, -o  Directory for build targets [Default: ./dist]
         --assets-directory,     Directory for assets [Default: ./assets]
         --use-react, -r         Add React support to workflow [Default: false]
         --react-version         React version for ESLint configuration [Default: '16.8']
@@ -37,6 +38,11 @@ const options = {
             type: 'string',
             default: './src',
             alias: 'd'
+        },
+        outputDirectory: {
+            type: 'string',
+            default: './dist',
+            alias: 'o'
         },
         assetsDirectory: {
             type: 'string',

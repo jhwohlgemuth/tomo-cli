@@ -322,11 +322,11 @@ exports[`"Add" commands add-makefile 2`] = `
                     children: [
                         {
                             name: style.css,
-                            size: 38,
+                            size: 219,
                             type: file
                         }
                     ],
-                    size: 38,
+                    size: 219,
                     type: directory
                 },
                 {
@@ -395,7 +395,7 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 572,
+            size: 753,
             type: directory
         },
         {
@@ -467,7 +467,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: directory
         }
     ],
-    size: 10469,
+    size: 10650,
     type: directory
 }
 "
@@ -509,11 +509,11 @@ exports[`"Add" commands add-marionette 1`] = `
                     children: [
                         {
                             name: style.css,
-                            size: 38,
+                            size: 219,
                             type: file
                         }
                     ],
-                    size: 38,
+                    size: 219,
                     type: directory
                 },
                 {
@@ -582,7 +582,7 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 572,
+            size: 753,
             type: directory
         },
         {
@@ -644,7 +644,7 @@ exports[`"Add" commands add-marionette 1`] = `
             type: directory
         }
     ],
-    size: 8685,
+    size: 8866,
     type: directory
 }
 "
@@ -652,12 +652,13 @@ exports[`"Add" commands add-marionette 1`] = `
 
 exports[`"Add" commands add-postcss 1`] = `
 "module.exports = {
+    map: true,
     parser: require('postcss-safe-parser'),
-    processors: [
-        require('stylelint')(),
+    plugins: [
+        require('stylelint')({config: {extends: 'stylelint-config-recommended'}}),
+        require('uncss').postcssPlugin({html: ['./dist/index.html']}),
         require('postcss-import')(),
-        require('postcss-cssnext')(),
-        require('uncss').postcssPlugin({html: ['index.html']}),
+        require('postcss-preset-env')({stage: 0}),
         require('cssnano')(),
         require('postcss-reporter')({clearReportedMessages: true})
     ]
@@ -670,7 +671,10 @@ exports[`"Add" commands add-postcss 2`] = `
     \\"version\\": \\"0.0.0\\",
     \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
     \\"license\\": \\"MIT\\",
-    \\"keywords\\": []
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\"
+    }
 }
 "
 `;
@@ -786,11 +790,11 @@ exports[`"Create/New" commands create new app 1`] = `
                     children: [
                         {
                             name: style.css,
-                            size: 38,
+                            size: 219,
                             type: file
                         }
                     ],
-                    size: 38,
+                    size: 219,
                     type: directory
                 },
                 {
@@ -859,7 +863,7 @@ exports[`"Create/New" commands create new app 1`] = `
                     type: directory
                 }
             ],
-            size: 572,
+            size: 753,
             type: directory
         },
         {
@@ -931,7 +935,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: directory
         }
     ],
-    size: 9684,
+    size: 9865,
     type: directory
 }
 "
@@ -1016,6 +1020,69 @@ exports[`"Create/New" commands create source directory 1`] = `
         }
     ],
     size: 0,
+    type: directory
+}
+"
+`;
+
+exports[`"Remove" commands remove postcss 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\"
+    }
+}
+"
+`;
+
+exports[`"Remove" commands remove postcss 2`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 259,
+            type: file
+        },
+        {
+            name: postcss.config.js,
+            size: 440,
+            type: file
+        }
+    ],
+    size: 699,
+    type: directory
+}
+"
+`;
+
+exports[`"Remove" commands remove postcss 3`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {}
+}
+"
+`;
+
+exports[`"Remove" commands remove postcss 4`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 187,
+            type: file
+        }
+    ],
+    size: 187,
     type: directory
 }
 "

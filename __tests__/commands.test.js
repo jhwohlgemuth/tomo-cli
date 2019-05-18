@@ -15,7 +15,7 @@ import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
 import addJest from '../src/commands/add-jest';
 import addMakefile from '../src/commands/add-makefile';
-import addPostcss from '../src/commands/add-postcss';
+import {addPostcss, removePostcss} from '../src/commands/add-postcss';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
 import {addWebpack, removeWebpack} from '../src/commands/add-webpack';
@@ -164,7 +164,8 @@ describe('"Add" commands', () => {
         expect(tree).toMatchSnapshot();
     });
     test('add-postcss', async () => {
-        const options = {skipInstall};
+        const outputDirectory = './dist';
+        const options = {outputDirectory, skipInstall};
         await run(createPackageJson, {});
         await run(addPostcss, options);
         const contents = fileContents('./postcss.config.js');
@@ -198,6 +199,21 @@ describe('"Remove" commands', () => {
     });
     afterEach(async () => {
         await cleanupTempDir();
+    });
+    test('remove postcss', async () => {
+        const outputDirectory = './dist';
+        const options = { outputDirectory, skipInstall };
+        await run(createPackageJson, {});
+        await run(addPostcss, options);
+        const pre = fileContents('./package.json');
+        const preTree = getDirectoryTree(tempDirectory);
+        await run(removePostcss, {});
+        const post = fileContents('./package.json');
+        const postTree = getDirectoryTree(tempDirectory);
+        expect(pre).toMatchSnapshot();
+        expect(preTree).toMatchSnapshot();
+        expect(post).toMatchSnapshot();
+        expect(postTree).toMatchSnapshot();
     });
     test('remove webpack', async () => {
         const sourceDirectory = 'src';
