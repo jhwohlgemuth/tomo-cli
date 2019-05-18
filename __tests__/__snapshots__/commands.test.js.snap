@@ -673,7 +673,8 @@ exports[`"Add" commands add-postcss 2`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\"
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css:watch\\": \\"npm run build:css -- --watch\\"
     }
 }
 "
@@ -1033,7 +1034,8 @@ exports[`"Remove" commands remove postcss 1`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\"
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css:watch\\": \\"npm run build:css -- --watch\\"
     }
 }
 "
@@ -1045,7 +1047,7 @@ exports[`"Remove" commands remove postcss 2`] = `
     children: [
         {
             name: package.json,
-            size: 259,
+            size: 318,
             type: file
         },
         {
@@ -1054,7 +1056,7 @@ exports[`"Remove" commands remove postcss 2`] = `
             type: file
         }
     ],
-    size: 699,
+    size: 758,
     type: directory
 }
 "
