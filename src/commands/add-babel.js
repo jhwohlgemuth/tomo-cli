@@ -39,6 +39,20 @@ export const addBabel = [
         condition: () => allDoNotExist('babel.config.js', '.babelrc', '.babelrc.js')
     },
     {
+        text: 'Add build task to package.json',
+        task: async ({outputDirectory, sourceDirectory}) => {
+            const scripts = {
+                build: `babel ${sourceDirectory} --out-dir ${outputDirectory}`,
+                'build:watch': `watch 'npm run build' ${sourceDirectory}`
+            };
+            await (new PackageJsonEditor())
+                .extend({scripts})
+                .commit();
+
+        },
+        condition: () => someDoExist('package.json')
+    },
+    {
         text: 'Install Babel core, CLI, presets, and plugins',
         task: ({skipInstall}) => install(BABEL_DEPENDENCIES, {dev: true, skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && someDoExist('package.json'))

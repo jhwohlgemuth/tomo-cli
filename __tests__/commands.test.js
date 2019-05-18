@@ -43,7 +43,8 @@ describe('"Create/New" commands', () => {
     });
     test('create new app', async () => {
         const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory};
+        const outputDirectory = './dist';
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(create.app, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
@@ -77,7 +78,8 @@ describe('"Add" commands', () => {
     });
     test('add-babel', async () => {
         const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory};
+        const outputDirectory = './dist';
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(addBabel, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
@@ -86,7 +88,8 @@ describe('"Add" commands', () => {
     });
     test('add-babel (with React)', async () => {
         const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory, useReact};
+        const outputDirectory = './dist';
+        const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
         await run(addBabel, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
@@ -145,7 +148,8 @@ describe('"Add" commands', () => {
     });
     test('add-makefile', async () => {
         const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory};
+        const outputDirectory = './dist';
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(addMakefile, options);
         expect(getDirectoryTree(tempDirectory)).toMatchSnapshot();
         const pre = readMakefileContent();
@@ -202,7 +206,7 @@ describe('"Remove" commands', () => {
     });
     test('remove postcss', async () => {
         const outputDirectory = './dist';
-        const options = { outputDirectory, skipInstall };
+        const options = {outputDirectory, skipInstall};
         await run(createPackageJson, {});
         await run(addPostcss, options);
         const pre = fileContents('./package.json');
@@ -217,7 +221,7 @@ describe('"Remove" commands', () => {
     });
     test('remove webpack', async () => {
         const sourceDirectory = 'src';
-        const options = { skipInstall, sourceDirectory };
+        const options = {skipInstall, sourceDirectory};
         await run(createPackageJson, {});
         await run(addWebpack, options);
         const preTree = getDirectoryTree(tempDirectory);

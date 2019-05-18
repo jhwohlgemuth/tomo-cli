@@ -311,7 +311,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 548,
+            size: 662,
             type: file
         },
         {
@@ -405,7 +405,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 500,
+            size: 599,
             type: file
         },
         {
@@ -467,7 +467,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: directory
         }
     ],
-    size: 10650,
+    size: 10863,
     type: directory
 }
 "
@@ -477,6 +477,12 @@ exports[`"Add" commands add-makefile 3`] = `"# Makefile built with tomo"`;
 
 exports[`"Add" commands add-makefile 4`] = `
 "# Makefile built from /path/to/package.json
+
+build: ## Task description
+	babel src --out-dir ./dist
+
+build-watch: ## Task description
+	watch 'make build' src
 
 lint: ## Task description
 	eslint . -c ./.eslintrc.js --fix
@@ -874,7 +880,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 500,
+            size: 599,
             type: file
         },
         {
@@ -936,7 +942,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: directory
         }
     ],
-    size: 9865,
+    size: 9964,
     type: directory
 }
 "
@@ -950,6 +956,8 @@ exports[`"Create/New" commands create new app 2`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
+        \\"build\\": \\"babel src --out-dir ./dist\\",
+        \\"build:watch\\": \\"watch 'npm run build' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:watch\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
@@ -982,7 +990,7 @@ exports[`"Create/New" commands create new project 1`] = `
         },
         {
             name: package.json,
-            size: 473,
+            size: 575,
             type: file
         },
         {
@@ -992,7 +1000,7 @@ exports[`"Create/New" commands create new project 1`] = `
             type: directory
         }
     ],
-    size: 972,
+    size: 1074,
     type: directory
 }
 "

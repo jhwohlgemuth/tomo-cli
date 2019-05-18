@@ -1,7 +1,8 @@
 import {
     PackageJsonEditor,
     PostcssConfigEditor,
-    install
+    install,
+    uninstall
 } from '../utils';
 import {allDoNotExist, someDoExist} from '../utils/common';
 
@@ -84,7 +85,8 @@ export const removePostcss = [
     {
         text: 'Uninstall PostCSS dependencies',
         task: () => uninstall(POSTCSS_DEPENDENCIES),
-        condition: () => someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...POSTCSS_DEPENDENCIES)
+        condition: ({skipInstall}) => !skipInstall && someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...POSTCSS_DEPENDENCIES),
+        optional: ({skipInstall}) => !skipInstall
     }
 ];
 export default addPostcss;

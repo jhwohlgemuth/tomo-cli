@@ -85,7 +85,8 @@ export const removeWebpack = [
     {
         text: 'Uninstall Webpack dependencies',
         task: () => uninstall(WEBPACK_DEPENDENCIES),
-        condition: () => someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_DEPENDENCIES)
+        condition: ({skipInstall}) => !skipInstall && someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_DEPENDENCIES),
+        optional: ({skipInstall}) => !skipInstall
     }
 ];
 export default addWebpack;
