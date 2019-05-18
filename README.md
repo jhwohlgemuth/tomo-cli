@@ -20,6 +20,7 @@ $ tomo --help
   Options
 
     --source-directory, -d  Directory for source code [Default: ./src]
+    --output-directory, -o  Directory for build targets [Default: ./dist]
     --assets-directory,     Directory for assets [Default: ./assets]
     --use-react, -r         Add React support to workflow [Default: false]
     --react-version         React version for ESLint configuration [Default: '16.8']
