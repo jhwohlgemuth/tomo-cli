@@ -99,13 +99,14 @@ class ErrorBoundary extends Component {
         return hasError ? <ErrorMessage error={error}/> : children;
     }
 }
-const SubCommandSelect = ({items, onSelect}) => {
+const SubCommandSelect = ({command, items, onSelect}) => {
     const [highlighted, setHighlighted] = useState(items[0].value);
     const onHighlight = item => {
         setHighlighted(item.value);
     };
+    const showWithRemove = `${bold.yellow('CAUTION:')} tomo shall ${bold.red('remove')} that which tomo would have ${bold.green('added')}`;
     return <Box flexDirection={'column'} paddingTop={1} paddingBottom={1} paddingLeft={1}>
-        <Description command={highlighted}></Description>
+        {command === 'remove' ? <Box marginBottom={1}>{showWithRemove}</Box> : <Description command={highlighted}></Description>}
         <SelectInput
             items={items}
             onSelect={onSelect}
@@ -337,7 +338,7 @@ class UI extends Component {
                 (hasCommand && hasTerms) ?
                     <TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :
                     hasCommand ?
-                        <SubCommandSelect items={selectInputCommandItems} onSelect={this.updateTerms}></SubCommandSelect> :
+                        <SubCommandSelect command={intendedCommand} items={selectInputCommandItems} onSelect={this.updateTerms}></SubCommandSelect> :
                         <UnderConstruction />
             }
         </ErrorBoundary>;
@@ -377,6 +378,7 @@ Description.propTypes = {
     command: PropTypes.string
 };
 SubCommandSelect.propTypes = {
+    command: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.object),
     onSelect: PropTypes.func
 };

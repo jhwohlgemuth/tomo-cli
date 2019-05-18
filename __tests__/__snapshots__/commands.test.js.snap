@@ -1020,3 +1020,67 @@ exports[`"Create/New" commands create source directory 1`] = `
 }
 "
 `;
+
+exports[`"Remove" commands remove webpack 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 314,
+            type: file
+        },
+        {
+            name: webpack.config.js,
+            size: 755,
+            type: file
+        }
+    ],
+    size: 1069,
+    type: directory
+}
+"
+`;
+
+exports[`"Remove" commands remove webpack 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build\\": \\"webpack\\",
+        \\"build:watch\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\"
+    }
+}
+"
+`;
+
+exports[`"Remove" commands remove webpack 3`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 187,
+            type: file
+        }
+    ],
+    size: 187,
+    type: directory
+}
+"
+`;
+
+exports[`"Remove" commands remove webpack 4`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {}
+}
+"
+`;

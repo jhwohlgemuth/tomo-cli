@@ -11,7 +11,7 @@ import addJest from './add-jest';
 import addMakefile from './add-makefile';
 import addMarionette from './add-marionette';
 import addPostcss from './add-postcss';
-import addWebpack from './add-webpack';
+import {addWebpack, removeWebpack} from './add-webpack';
 
 const createProject = [
     ...createPackageJson,
@@ -49,9 +49,13 @@ const add = {
         ...addWebpack
     ]
 };
+const remove = {
+    webpack: removeWebpack
+};
 
-module.exports = {
+export default {
     add,
+    remove,
     create,
     new: create// alias for create
 };

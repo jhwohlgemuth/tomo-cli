@@ -18,7 +18,7 @@ import addMakefile from '../src/commands/add-makefile';
 import addPostcss from '../src/commands/add-postcss';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
-import addWebpack from '../src/commands/add-webpack';
+import {addWebpack, removeWebpack} from '../src/commands/add-webpack';
 
 jest.mock('is-online', () => (async () => true));
 
@@ -186,5 +186,32 @@ describe('"Add" commands', () => {
         expect(contents).toMatchSnapshot();
         const post = fileContents('./package.json');
         expect(post).toMatchSnapshot();
+    });
+});
+describe('"Remove" commands', () => {
+    let tempDirectory;
+    const skipInstall = true;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () => {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () => {
+        await cleanupTempDir();
+    });
+    test('remove webpack', async () => {
+        const sourceDirectory = 'src';
+        const options = { skipInstall, sourceDirectory };
+        await run(createPackageJson, {});
+        await run(addWebpack, options);
+        const preTree = getDirectoryTree(tempDirectory);
+        const prePkg = fileContents('./package.json');
+        expect(preTree).toMatchSnapshot();
+        expect(prePkg).toMatchSnapshot();
+        await run(removeWebpack, {});
+        const postTree = getDirectoryTree(tempDirectory);
+        const postPkg = fileContents('./package.json');
+        expect(postTree).toMatchSnapshot();
+        expect(postPkg).toMatchSnapshot();
     });
 });

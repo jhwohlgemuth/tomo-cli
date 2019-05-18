@@ -1,7 +1,8 @@
 import {
     PackageJsonEditor,
     WebpackConfigEditor,
-    install
+    install,
+    uninstall
 } from '../utils';
 import {allDoNotExist, someDoExist} from '../utils/common';
 
@@ -55,6 +56,36 @@ export const addWebpack = [
         text: 'Install Webpack dependencies',
         task: ({skipInstall}) => install(WEBPACK_DEPENDENCIES, {dev: true, skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
+    }
+];
+export const removeWebpack = [
+    {
+        text: 'Delete Webpack configuration file',
+        task: async () => {
+            await (new WebpackConfigEditor())
+                .delete()
+                .commit();
+        },
+        condition: () => someDoExist('webpack.config.js')
+    },
+    {
+        text: 'Remove Webpack build tasks from package.json',
+        task: async () => {
+            const scripts = {
+                build: undefined,
+                'build:watch': undefined
+            };
+            await (new PackageJsonEditor())
+                .extend({scripts})
+                .commit();
+
+        },
+        condition: () => someDoExist('package.json')
+    },
+    {
+        text: 'Uninstall Webpack dependencies',
+        task: () => uninstall(WEBPACK_DEPENDENCIES),
+        condition: () => someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_DEPENDENCIES)
     }
 ];
 export default addWebpack;

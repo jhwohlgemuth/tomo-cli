@@ -1,10 +1,11 @@
 import {readMakefile as read} from './tomo-test';
 import {
     EslintConfigModuleEditor,
+    PackageJsonEditor,
     getIntendedInput,
     getVersions,
     install,
-    PackageJsonEditor
+    uninstall
 } from '../src/utils';
 import MakefileEditor from '../src/utils/MakefileEditor';
 import {join} from 'path';
@@ -201,5 +202,17 @@ describe('install', () => {
         const INVALID_NAME = 'eLaBorAtE-paCkAgE-with-mixed-case';
         expect(await install([INVALID_NAME])).toEqual(['install']);
         expect(await install(['jest', INVALID_NAME])).toEqual(['install', 'jest@latest']);
+    });
+});
+describe('uninstall', () => {
+    test('handle array of string names', async () => {
+        expect(await uninstall()).toEqual(['uninstall']);
+        expect(await uninstall(['some-module'])).toEqual(['uninstall', 'some-module']);
+        expect(await uninstall(['some-module', 'foo', 'bar'])).toEqual(['uninstall', 'some-module', 'foo', 'bar']);
+    });
+    test('only allow valid module names', async () => {
+        const INVALID_NAME = 'eLaBorAtE-paCkAgE-with-mixed-case';
+        expect(await uninstall([INVALID_NAME])).toEqual(['uninstall']);
+        expect(await uninstall(['jest', INVALID_NAME])).toEqual(['uninstall', 'jest']);
     });
 });

@@ -62,6 +62,11 @@ export const install = async (dependencies = [], options = {dev: false, latest: 
     skipInstall || await execa('npm', args);
     return args;
 };
+export const uninstall = async (dependencies = []) => {
+    const args = ['uninstall'].concat(dependencies.filter(name => validate(name).validForNewPackages));
+    (args.length === 1) || await execa('npm', args);
+    return args;
+};
 /**
  * Determine if system supports Rust (necessary Rust dependencies are installed)
  * @return {boolean} Are Rust components installed?
