@@ -22,7 +22,7 @@ const scaffolder = new Scaffolder({sourceDirectory});
  */
 export const tasks = [
     {
-        text: 'Add Marionette.js boilerplate',
+        text: 'Add Marionette.js boilerplate and assets',
         task: async ({sourceDirectory}) => {
             await scaffolder
                 .target(sourceDirectory).copy('main.js')
@@ -33,26 +33,12 @@ export const tasks = [
                 .target(`${sourceDirectory}/plugins`)
                 .copy('mn.radio.logging.js')
                 .copy('mn.redux.state.js')
-                .commit();
-        },
-        condition: ALWAYS
-    },
-    {
-        text: 'Add CSS assets',
-        task: async () => {
-            await scaffolder
-                .target('assets').copy('index.html')
+                .target('assets')
+                .copy('index.html')
                 .target('assets/css')
                 .copy('style.css')
-                .commit();
-        },
-        condition: ALWAYS
-    },
-    {
-        text: 'Add template assets',
-        task: async ({sourceDirectory}) => {
-            await scaffolder
-                .target(`${sourceDirectory}/shims`).copy('mn.templates.shim.js')
+                .target(`${sourceDirectory}/shims`)
+                .copy('mn.templates.shim.js')
                 .target('assets/templates')
                 .copy('example.hbs')
                 .target('assets/images')
