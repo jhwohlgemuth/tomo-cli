@@ -78,12 +78,13 @@ describe('"Add" commands', () => {
         await cleanupTempDir();
     });
     test('add dev tasks', async () => {
+        const outputDirectory = './dist';
         await run(createPackageJson, {});
         await run(addDevTasks, {});
         const noop = fileContents('package.json');
-        await run(addBabel, { skipInstall });
-        await run(addWebpack, { skipInstall });
-        await run(addPostcss, { skipInstall });
+        await run(addBabel, {outputDirectory, skipInstall});
+        await run(addWebpack, {outputDirectory, skipInstall});
+        await run(addPostcss, {outputDirectory, skipInstall});
         const pre = fileContents('package.json');
         await run(addDevTasks, {});
         const post = fileContents('package.json');
@@ -237,7 +238,8 @@ describe('"Remove" commands', () => {
     });
     test('remove webpack', async () => {
         const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory};
+        const outputDirectory = './dist';
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(createPackageJson, {});
         await run(addWebpack, options);
         const preTree = getDirectoryTree(tempDirectory);
