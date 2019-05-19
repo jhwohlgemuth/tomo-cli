@@ -105,6 +105,7 @@ exports[`"Add" commands add-browsersync 3`] = `
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
         \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\",
         \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve:dev\\",
+        \\"prestart\\": \\"npm run build\\",
         \\"serve:dev\\": \\"browser-sync start --server ./dist --files ./dist\\"
     }
 }
@@ -359,7 +360,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1460,
+            size: 1475,
             type: file
         },
         {
@@ -453,7 +454,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1338,
+            size: 1375,
             type: file
         },
         {
@@ -525,7 +526,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 13595,
+    size: 13647,
     type: directory
 }
 "
@@ -581,6 +582,7 @@ dev: ## Task description
 	npm-run-all --parallel build:watch build:css:watch
 
 start: ## Task description
+	$(MAKE) build
 	npm-run-all --parallel build:watch build:css:watch serve:dev
 
 serve-dev: ## Task description
@@ -973,7 +975,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1338,
+            size: 1375,
             type: file
         },
         {
@@ -1045,7 +1047,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 11898,
+    size: 11935,
     type: directory
 }
 "
@@ -1076,6 +1078,7 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
         \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\",
         \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve:dev\\",
+        \\"prestart\\": \\"npm run build\\",
         \\"serve:dev\\": \\"browser-sync start --server ./dist --files ./dist\\"
     },
     \\"main\\": \\"src/main.js\\"
