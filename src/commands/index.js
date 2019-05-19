@@ -24,7 +24,9 @@ const create = {
     project: createProject,
     app: [
         ...createProject,
-        ...addMarionette
+        ...addMarionette,
+        ...addWebpack,
+        ...addPostcss
     ],
     server: [
         ...createProject

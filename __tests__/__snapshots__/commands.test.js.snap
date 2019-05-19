@@ -311,7 +311,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 662,
+            size: 1202,
             type: file
         },
         {
@@ -405,7 +405,12 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 599,
+            size: 1107,
+            type: file
+        },
+        {
+            name: postcss.config.js,
+            size: 440,
             type: file
         },
         {
@@ -465,9 +470,14 @@ exports[`"Add" commands add-makefile 2`] = `
             ],
             size: 8113,
             type: directory
+        },
+        {
+            name: webpack.config.js,
+            size: 755,
+            type: file
         }
     ],
-    size: 10863,
+    size: 13106,
     type: directory
 }
 "
@@ -479,7 +489,9 @@ exports[`"Add" commands add-makefile 4`] = `
 "# Makefile built from /path/to/package.json
 
 build: ## Task description
-	babel src --out-dir ./dist
+	del-cli ./dist
+	webpack
+	$(MAKE) copy
 
 build-watch: ## Task description
 	watch 'make build' src
@@ -498,6 +510,24 @@ test: ## Task description
 
 test-watch: ## Task description
 	jest .*.test.js --coverage --watchAll
+
+copy: ## Task description
+	npm-run-all --parallel copy:assets copy:index
+
+copy-assets: ## Task description
+	cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive
+
+copy-index: ## Task description
+	cpy './assets/index.html' ./dist
+
+build-dashboard: ## Task description
+	webpack-dashboard -- webpack-dev-server --config ./webpack.config.js
+
+build-css: ## Task description
+	postcss ./assets/css/style.css --dir ./dist
+
+build-css-watch: ## Task description
+	postcss ./assets/css/style.css --dir ./dist --watch
 
 help: ## Show this help
 	@fgrep -h \\"##\\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'"
@@ -886,7 +916,12 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 599,
+            size: 1107,
+            type: file
+        },
+        {
+            name: postcss.config.js,
+            size: 440,
             type: file
         },
         {
@@ -946,9 +981,14 @@ exports[`"Create/New" commands create new app 1`] = `
             ],
             size: 8113,
             type: directory
+        },
+        {
+            name: webpack.config.js,
+            size: 755,
+            type: file
         }
     ],
-    size: 9964,
+    size: 11667,
     type: directory
 }
 "
@@ -962,13 +1002,21 @@ exports[`"Create/New" commands create new app 2`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"build\\": \\"babel src --out-dir ./dist\\",
+        \\"build\\": \\"webpack\\",
         \\"build:watch\\": \\"watch 'npm run build' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:watch\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
-        \\"test:watch\\": \\"npm test -- --watchAll\\"
+        \\"test:watch\\": \\"npm test -- --watchAll\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli ./dist\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css:watch\\": \\"npm run build:css -- --watch\\"
     },
     \\"main\\": \\"src/main.js\\"
 }
