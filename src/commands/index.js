@@ -5,6 +5,7 @@ import {
 } from './common';
 import addA11y from './add-a11y';
 import addBabel from './add-babel';
+import {addBrowsersync} from './add-browsersync';
 import addEsdoc from './add-esdoc';
 import addEslint from './add-eslint';
 import addJest from './add-jest';
@@ -26,7 +27,8 @@ const create = {
         ...createProject,
         ...addMarionette,
         ...addWebpack,
-        ...addPostcss
+        ...addPostcss,
+        ...addBrowsersync
     ],
     server: [
         ...createProject
@@ -35,6 +37,7 @@ const create = {
 const add = {
     a11y: addA11y,
     babel: addBabel,
+    browsersync: addBrowsersync,
     esdoc: addEsdoc,
     eslint: [
         ...addBabel,

@@ -12,6 +12,7 @@ import {
 } from '../src/commands/common';
 import commands from '../src/commands';
 import addBabel from '../src/commands/add-babel';
+import {addBrowsersync} from '../src/commands/add-browsersync';
 import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
 import addJest from '../src/commands/add-jest';
@@ -96,6 +97,22 @@ describe('"Add" commands', () => {
         expect(tree).toMatchSnapshot();
         const contents = fileContents('./babel.config.js');
         expect(contents).toMatchSnapshot();
+    });
+    test('add-browsersync', async () => {
+        const sourceDirectory = 'src';
+        const outputDirectory = './dist';
+        const options = { outputDirectory, skipInstall, sourceDirectory };
+        await run(createPackageJson, {});
+        const pre = fileContents('package.json');
+        await run(addBrowsersync, options);
+        const noop = fileContents('package.json');
+        await run(addWebpack, options);
+        await run(addPostcss, options);
+        await run(addBrowsersync, options);
+        const post = fileContents('package.json');
+        expect(pre).toMatchSnapshot();
+        expect(noop).toMatchSnapshot();
+        expect(post).toMatchSnapshot();
     });
     test('add-esdoc', async () => {
         const sourceDirectory = 'src';

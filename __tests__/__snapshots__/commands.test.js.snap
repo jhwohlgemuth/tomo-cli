@@ -63,6 +63,54 @@ exports[`"Add" commands add-babel 2`] = `
 };"
 `;
 
+exports[`"Add" commands add-browsersync 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Add" commands add-browsersync 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Add" commands add-browsersync 3`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli ./dist/assets\\",
+        \\"build\\": \\"webpack\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\",
+        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve:dev\\",
+        \\"serve:dev\\": \\"browser-sync start --server ./dist --files ./dist\\"
+    }
+}
+"
+`;
+
 exports[`"Add" commands add-esdoc (with React) 1`] = `
 "{
     name: tomo-test,
@@ -311,7 +359,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1287,
+            size: 1460,
             type: file
         },
         {
@@ -405,7 +453,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1183,
+            size: 1338,
             type: file
         },
         {
@@ -477,7 +525,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 13267,
+    size: 13595,
     type: directory
 }
 "
@@ -531,6 +579,12 @@ build-css-watch: ## Task description
 
 dev: ## Task description
 	npm-run-all --parallel build:watch build:css:watch
+
+start: ## Task description
+	npm-run-all --parallel build:watch build:css:watch serve:dev
+
+serve-dev: ## Task description
+	browser-sync start --server ./dist --files ./dist
 
 help: ## Show this help
 	@fgrep -h \\"##\\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'"
@@ -919,7 +973,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1183,
+            size: 1338,
             type: file
         },
         {
@@ -991,7 +1045,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 11743,
+    size: 11898,
     type: directory
 }
 "
@@ -1020,7 +1074,9 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
-        \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\"
+        \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\",
+        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve:dev\\",
+        \\"serve:dev\\": \\"browser-sync start --server ./dist --files ./dist\\"
     },
     \\"main\\": \\"src/main.js\\"
 }
