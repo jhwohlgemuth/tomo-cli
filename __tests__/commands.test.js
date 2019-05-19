@@ -179,7 +179,8 @@ describe('"Add" commands', () => {
     });
     test('add-webpack', async () => {
         const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory};
+        const outputDirectory = './dist';
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(createPackageJson, {});
         const pre = fileContents('./package.json');
         expect(pre).toMatchSnapshot();

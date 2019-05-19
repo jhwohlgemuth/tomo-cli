@@ -708,7 +708,7 @@ exports[`"Add" commands add-webpack 2`] = `
         },
         {
             name: package.json,
-            size: 314,
+            size: 671,
             type: file
         },
         {
@@ -717,7 +717,7 @@ exports[`"Add" commands add-webpack 2`] = `
             type: file
         }
     ],
-    size: 1416,
+    size: 1773,
     type: directory
 }
 "
@@ -769,7 +769,13 @@ exports[`"Add" commands add-webpack 4`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"build\\": \\"webpack\\",
-        \\"build:watch\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\"
+        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli ./dist\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\"
     }
 }
 "
@@ -1104,7 +1110,7 @@ exports[`"Remove" commands remove webpack 1`] = `
     children: [
         {
             name: package.json,
-            size: 314,
+            size: 680,
             type: file
         },
         {
@@ -1113,7 +1119,7 @@ exports[`"Remove" commands remove webpack 1`] = `
             type: file
         }
     ],
-    size: 1069,
+    size: 1435,
     type: directory
 }
 "
@@ -1127,8 +1133,14 @@ exports[`"Remove" commands remove webpack 2`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' undefined --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' undefined\\",
+        \\"prebuild\\": \\"del-cli undefined\\",
         \\"build\\": \\"webpack\\",
-        \\"build:watch\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\"
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\"
     }
 }
 "

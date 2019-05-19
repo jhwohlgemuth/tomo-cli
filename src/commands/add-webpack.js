@@ -7,6 +7,9 @@ import {
 import {allDoNotExist, someDoExist} from '../utils/common';
 
 const WEBPACK_DEPENDENCIES = [
+    'cpy-cli',
+    'del-cli',
+    'npm-run-all',
     'webpack',
     'webpack-cli',
     'webpack-dashboard',
@@ -40,10 +43,16 @@ export const addWebpack = [
     },
     {
         text: 'Add build tasks to package.json',
-        task: async () => {
+        task: async ({outputDirectory, sourceDirectory}) => {
             const scripts = {
+                copy: 'npm-run-all --parallel copy:assets copy:index',
+                'copy:assets': `cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ${outputDirectory} --parents --recursive`,
+                'copy:index': `cpy './assets/index.html' ${outputDirectory}`,
+                prebuild: `del-cli ${outputDirectory}`,
                 build: 'webpack',
-                'build:watch': 'webpack-dashboard -- webpack-dev-server --config ./webpack.config.js'
+                postbuild: 'npm run copy',
+                'build:watch': `watch 'npm run build' ${sourceDirectory}`,
+                'build:dashboard': 'webpack-dashboard -- webpack-dev-server --config ./webpack.config.js'
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
@@ -72,8 +81,14 @@ export const removeWebpack = [
         text: 'Remove Webpack build tasks from package.json',
         task: async () => {
             const scripts = {
+                copy: undefined,
+                'copy:assets': undefined,
+                'copy:index': undefined,
+                prebuild: undefined,
                 build: undefined,
-                'build:watch': undefined
+                postbuild: undefined,
+                'build:watch': undefined,
+                'build:dashboard': undefined
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
