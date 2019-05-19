@@ -6,6 +6,7 @@ import {
     useTemporaryDirectory
 } from './tomo-test';
 import {
+    addDevTasks,
     createPackageJson,
     createSourceDirectory
 } from '../src/commands/common';
@@ -75,6 +76,20 @@ describe('"Add" commands', () => {
     });
     afterEach(async () => {
         await cleanupTempDir();
+    });
+    test('add dev tasks', async () => {
+        await run(createPackageJson, {});
+        await run(addDevTasks, {});
+        const noop = fileContents('package.json');
+        await run(addBabel, { skipInstall });
+        await run(addWebpack, { skipInstall });
+        await run(addPostcss, { skipInstall });
+        const pre = fileContents('package.json');
+        await run(addDevTasks, {});
+        const post = fileContents('package.json');
+        expect(noop).toMatchSnapshot();
+        expect(pre).toMatchSnapshot();
+        expect(post).toMatchSnapshot();
     });
     test('add-babel', async () => {
         const sourceDirectory = 'src';

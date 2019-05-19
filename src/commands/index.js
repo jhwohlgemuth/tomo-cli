@@ -1,5 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import {
+    addDevTasks,
     createPackageJson,
     createSourceDirectory
 } from './common';
@@ -26,7 +27,8 @@ const create = {
         ...createProject,
         ...addMarionette,
         ...addWebpack,
-        ...addPostcss
+        ...addPostcss,
+        ...addDevTasks
     ],
     server: [
         ...createProject
