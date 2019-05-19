@@ -1,64 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`"Add" commands add dev tasks 1`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": []
-}
-"
-`;
-
-exports[`"Add" commands add dev tasks 2`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"build\\": \\"webpack\\",
-        \\"build:watch\\": \\"watch 'npm run build' undefined\\",
-        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"prebuild\\": \\"del-cli ./dist/assets\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\"
-    }
-}
-"
-`;
-
-exports[`"Add" commands add dev tasks 3`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"build\\": \\"webpack\\",
-        \\"build:watch\\": \\"watch 'npm run build' undefined\\",
-        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"prebuild\\": \\"del-cli ./dist/assets\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
-        \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\",
-        \\"start\\": \\"echo under construction\\"
-    }
-}
-"
-`;
-
 exports[`"Add" commands add-babel (with React) 1`] = `
 "{
     name: tomo-test,
@@ -370,7 +311,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1340,
+            size: 1287,
             type: file
         },
         {
@@ -464,7 +405,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1227,
+            size: 1183,
             type: file
         },
         {
@@ -536,7 +477,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 13364,
+    size: 13267,
     type: directory
 }
 "
@@ -590,9 +531,6 @@ build-css-watch: ## Task description
 
 dev: ## Task description
 	npm-run-all --parallel build:watch build:css:watch
-
-start: ## Task description
-	echo under construction
 
 help: ## Show this help
 	@fgrep -h \\"##\\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'"
@@ -981,7 +919,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1227,
+            size: 1183,
             type: file
         },
         {
@@ -1053,7 +991,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 11787,
+    size: 11743,
     type: directory
 }
 "
@@ -1082,8 +1020,7 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
-        \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\",
-        \\"start\\": \\"echo under construction\\"
+        \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\"
     },
     \\"main\\": \\"src/main.js\\"
 }

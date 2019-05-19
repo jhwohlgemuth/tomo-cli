@@ -9,10 +9,6 @@ import {
 } from '../src/utils';
 import MakefileEditor from '../src/utils/MakefileEditor';
 import {join} from 'path';
-import crypto from 'crypto';
-import {mkdirp} from 'fs-extra';
-import rimraf from 'rimraf';
-import {tmpdir} from 'os';
 import execa from 'execa';
 import commands from '../src/commands';
 
@@ -152,19 +148,6 @@ describe('Makefile editor', () => {
             .appendScripts()
             .done();
         expect(read(makefile)).toMatchSnapshot();
-    });
-});
-describe('File & folder scaffolder', () => {
-    let tempDirectory;
-    beforeEach(async () => {
-        tempDirectory = join(tmpdir(), `tomo-test-${crypto.randomBytes(20).toString('hex')}`);// eslint-disable-line no-magic-numbers
-        await mkdirp(tempDirectory);
-        process.chdir(tempDirectory);
-    });
-    afterEach(done => {
-        rimraf(tempDirectory, done);
-    });
-    test('can copy files', async () => {
     });
 });
 describe('getIntendedInput', () => {

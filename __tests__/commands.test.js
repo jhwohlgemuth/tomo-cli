@@ -77,21 +77,6 @@ describe('"Add" commands', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    test('add dev tasks', async () => {
-        const outputDirectory = './dist';
-        await run(createPackageJson, {});
-        await run(addDevTasks, {});
-        const noop = fileContents('package.json');
-        await run(addBabel, {outputDirectory, skipInstall});
-        await run(addWebpack, {outputDirectory, skipInstall});
-        await run(addPostcss, {outputDirectory, skipInstall});
-        const pre = fileContents('package.json');
-        await run(addDevTasks, {});
-        const post = fileContents('package.json');
-        expect(noop).toMatchSnapshot();
-        expect(pre).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
-    });
     test('add-babel', async () => {
         const sourceDirectory = 'src';
         const outputDirectory = './dist';

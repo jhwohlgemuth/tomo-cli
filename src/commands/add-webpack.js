@@ -4,7 +4,7 @@ import {
     install,
     uninstall
 } from '../utils';
-import {allDoNotExist, someDoExist} from '../utils/common';
+import {allDoExist, allDoExistSync, allDoNotExist, someDoExist} from '../utils/common';
 
 const WEBPACK_DEPENDENCIES = [
     'cpy-cli',
@@ -60,6 +60,19 @@ export const addWebpack = [
 
         },
         condition: () => someDoExist('package.json')
+    },
+    {
+        text: 'Add dev task to package.json',
+        task: async () => {
+            const scripts = {
+                dev: 'npm-run-all --parallel build:watch build:css:watch'
+            };
+            await (new PackageJsonEditor())
+                .extend({scripts})
+                .commit();
+        },
+        condition: () => allDoExist('package.json', 'postcss.config.js'),
+        optional: () => allDoExistSync('package.json', 'postcss.config.js')
     },
     {
         text: 'Install Webpack dependencies',
