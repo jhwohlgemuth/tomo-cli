@@ -203,6 +203,7 @@ describe('"Add" commands', () => {
         const pre = fileContents('./package.json');
         expect(pre).toMatchSnapshot();
         await run(addBabel, options);
+        await run(addEslint, options);
         await run(addWebpack, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();

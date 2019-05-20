@@ -4,7 +4,7 @@ import {
     install,
     uninstall
 } from '../utils';
-import {allDoExist, allDoExistSync, allDoNotExist, someDoExist} from '../utils/common';
+import {allDoNotExist, someDoExist} from '../utils/common';
 
 const POSTCSS_DEPENDENCIES = [
     'cssnano',
@@ -52,19 +52,6 @@ export const addPostcss = [
                 .commit();
         },
         condition: () => someDoExist('package.json')
-    },
-    {
-        text: 'Add dev task to package.json',
-        task: async () => {
-            const scripts = {
-                dev: 'npm-run-all --parallel build:watch build:css:watch'
-            };
-            await (new PackageJsonEditor())
-                .extend({scripts})
-                .commit();
-        },
-        condition: () => allDoExist('package.json', 'webpack.config.js'),
-        optional: () => allDoExistSync('package.json', 'webpack.config.js')
     },
     {
         text: 'Install PostCSS dependencies',

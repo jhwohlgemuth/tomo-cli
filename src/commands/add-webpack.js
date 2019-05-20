@@ -62,20 +62,21 @@ export const addWebpack = [
         condition: () => someDoExist('package.json')
     },
     {
-        text: 'Add dev task to package.json',
-        task: async () => {
+        text: 'Install development dependencies and add dev task to package.json',
+        task: async ({skipInstall}) => {
             const scripts = {
-                dev: 'npm-run-all --parallel build:watch build:css:watch'
+                dev: 'stmux [ \"npm run build:dashboard\" : \"npm run lint:watch\" ]'
             };
+            await install(['stmux'], {dev: true, skipInstall});
             await (new PackageJsonEditor())
                 .extend({scripts})
                 .commit();
         },
-        condition: () => allDoExist('package.json', 'postcss.config.js'),
-        optional: () => allDoExistSync('package.json', 'postcss.config.js')
+        condition: () => allDoExist('package.json', '.eslintrc.js'),
+        optional: () => allDoExistSync('package.json', '.eslintrc.js')
     },
     {
-        text: 'Install Webpack dependencies',
+        text: 'Install Webpack and development dependencies',
         task: ({skipInstall}) => install(WEBPACK_DEPENDENCIES, {dev: true, skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
     }

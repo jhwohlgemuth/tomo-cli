@@ -103,7 +103,6 @@ exports[`"Add" commands add-browsersync 3`] = `
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
-        \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\",
         \\"prestart\\": \\"npm run build\\",
         \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve:dev\\",
         \\"serve:dev\\": \\"browser-sync start --server ./dist --files ./dist\\"
@@ -360,7 +359,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1475,
+            size: 1477,
             type: file
         },
         {
@@ -454,7 +453,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1375,
+            size: 1387,
             type: file
         },
         {
@@ -526,7 +525,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 13647,
+    size: 13661,
     type: directory
 }
 "
@@ -572,14 +571,14 @@ copy-index: ## Task description
 build-dashboard: ## Task description
 	webpack-dashboard -- webpack-dev-server --config ./webpack.config.js
 
+dev: ## Task description
+	stmux [ 'make build-dashboard' : 'make lint-watch' ]
+
 build-css: ## Task description
 	postcss ./assets/css/style.css --dir ./dist
 
 build-css-watch: ## Task description
 	postcss ./assets/css/style.css --dir ./dist --watch
-
-dev: ## Task description
-	npm-run-all --parallel build:watch build:css:watch
 
 start: ## Task description
 	$(MAKE) build
@@ -791,13 +790,23 @@ exports[`"Add" commands add-webpack 2`] = `
     name: tomo-test,
     children: [
         {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 353,
+            type: file
+        },
+        {
             name: babel.config.js,
             size: 347,
             type: file
         },
         {
             name: package.json,
-            size: 678,
+            size: 947,
             type: file
         },
         {
@@ -806,7 +815,7 @@ exports[`"Add" commands add-webpack 2`] = `
             type: file
         }
     ],
-    size: 1780,
+    size: 2438,
     type: directory
 }
 "
@@ -859,12 +868,16 @@ exports[`"Add" commands add-webpack 4`] = `
     \\"scripts\\": {
         \\"build\\": \\"webpack\\",
         \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"prebuild\\": \\"del-cli ./dist/assets\\",
         \\"postbuild\\": \\"npm run copy\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\"
+        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
     }
 }
 "
@@ -975,7 +988,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1375,
+            size: 1387,
             type: file
         },
         {
@@ -1047,7 +1060,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 11935,
+    size: 11947,
     type: directory
 }
 "
@@ -1074,9 +1087,9 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"prebuild\\": \\"del-cli ./dist/assets\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
-        \\"dev\\": \\"npm-run-all --parallel build:watch build:css:watch\\",
         \\"prestart\\": \\"npm run build\\",
         \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve:dev\\",
         \\"serve:dev\\": \\"browser-sync start --server ./dist --files ./dist\\"
