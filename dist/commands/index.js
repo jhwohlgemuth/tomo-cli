@@ -3,6 +3,6 @@
  * @typedef {Object} task
  * @property {string} text Display text for task
  * @property {function} task Task to execute
- * @property {function} condition Predicate to decide when to execute the task (true) or not (false)
- * @property {function} [optional] Predicate to decide when to show the task (true) or not (false)
+ * @property {function} condition Predicate to decide when to execute the task (true) or not (false) - can be async or sync
+ * @property {function} [optional] Predicate to decide when to show the task (true) or not (false) - MUST be sync
  */exports.default=_default;

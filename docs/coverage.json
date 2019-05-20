@@ -1,7 +1,7 @@
 {
-  "coverage": "41.66%",
-  "expectCount": 132,
-  "actualCount": 55,
+  "coverage": "41.17%",
+  "expectCount": 136,
+  "actualCount": 56,
   "files": {
     "src/commands/add-a11y.js": {
       "expectCount": 1,
@@ -17,6 +17,13 @@
         13,
         19,
         22
+      ]
+    },
+    "src/commands/add-browsersync.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        4
       ]
     },
     "src/commands/add-esdoc.js": {
@@ -62,10 +69,11 @@
       ]
     },
     "src/commands/add-postcss.js": {
-      "expectCount": 2,
+      "expectCount": 3,
       "actualCount": 1,
       "undocumentLines": [
-        8
+        9,
+        75
       ]
     },
     "src/commands/add-rust.js": {
@@ -74,10 +82,11 @@
       "undocumentLines": []
     },
     "src/commands/add-webpack.js": {
-      "expectCount": 2,
+      "expectCount": 3,
       "actualCount": 1,
       "undocumentLines": [
-        8
+        9,
+        83
       ]
     },
     "src/commands/common.js": {
@@ -86,12 +95,13 @@
       "undocumentLines": []
     },
     "src/commands/index.js": {
-      "expectCount": 3,
+      "expectCount": 4,
       "actualCount": 0,
       "undocumentLines": [
-        16,
-        23,
-        33
+        17,
+        24,
+        37,
+        57
       ]
     },
     "src/index.js": {
@@ -99,16 +109,15 @@
       "actualCount": 0,
       "undocumentLines": [
         12,
-        33,
-        70,
-        72
+        34,
+        76,
+        78
       ]
     },
     "src/ui.js": {
-      "expectCount": 32,
+      "expectCount": 31,
       "actualCount": 7,
       "undocumentLines": [
-        16,
         18,
         19,
         20,
@@ -128,8 +137,8 @@
         93,
         96,
         102,
-        118,
-        152,
+        119,
+        153,
         308,
         318,
         328
@@ -171,13 +180,12 @@
       ]
     },
     "src/utils/common.js": {
-      "expectCount": 11,
+      "expectCount": 10,
       "actualCount": 7,
       "undocumentLines": [
-        7,
-        14,
-        15,
-        20
+        5,
+        12,
+        13
       ]
     },
     "src/utils/createJsonEditor.js": {
@@ -197,9 +205,11 @@
       ]
     },
     "src/utils/index.js": {
-      "expectCount": 9,
+      "expectCount": 10,
       "actualCount": 9,
-      "undocumentLines": []
+      "undocumentLines": [
+        65
+      ]
     }
   }
 }
