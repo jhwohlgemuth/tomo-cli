@@ -1,4 +1,7 @@
-import {flow, kebabCase, last, negate} from 'lodash';
+import flow from 'lodash/flow';
+import kebabCase from 'lodash/kebabCase';
+import last from 'lodash/last';
+import negate from 'lodash/negate';
 import {existsSync} from 'fs-extra';
 import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';

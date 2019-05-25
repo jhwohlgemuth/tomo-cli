@@ -1,6 +1,8 @@
 import React, {Component, Fragment, useContext, useEffect, useReducer, useState} from 'react';
 import PropTypes from 'prop-types';
-import {isFunction, isString, isUndefined} from 'lodash';
+import isFunction from 'lodash/isFunction';
+import isString from 'lodash/isString';
+import isUndefined from 'lodash/isUndefined';
 import {bold, dim} from 'chalk';
 import Queue from 'p-queue';
 import pino from 'pino';

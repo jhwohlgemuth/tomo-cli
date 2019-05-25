@@ -1,6 +1,6 @@
 import execa from 'execa';
 import semver from 'semver';
-import {first} from 'lodash';
+import first from 'lodash/first';
 import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
 import createJsonEditor from './createJsonEditor';
