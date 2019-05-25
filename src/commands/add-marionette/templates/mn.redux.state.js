@@ -1,14 +1,14 @@
 /**
- * @file Add Redux store to application
+ * Add Redux store to application
  * @description Features:
  * - Enhanced getState that accepts path parameter
  * - "dispatch logging" middleware
  * - Basic reducer showcasing how to leverage lodash for updating state
- * @module plugins/redux.state
  * @example <caption>Extend application object</caption>
- * var state = require('./plugins/redux.state');
- * var app = new Marionette.Application();
- * module.exports = Object.assign(app, state);
+ * import {Application} from 'backbone.marionette';
+ * import state from './plugins/redux.state';
+ * const app = new Application();
+ * export default Object.assign(app, state);
  * @example <caption>Enhanced getState accepts path parameter</caption>
  * app.getState();// {name: 'omaha-project', count: 42}
  * app.getState('count');// 42
@@ -17,15 +17,15 @@
  * app.dispatch({type: 'INCREMENT'});
  * app.getState('count');// 43
 **/
-const {get, update} = require('lodash');
-const {applyMiddleware, compose, createStore} = require('redux');
+import {get, update} from 'lodash-es';
+import {applyMiddleware, compose, createStore} from 'redux';
 
 const initialState = {
     name: 'tomo-app',
     count: 42
 };
 
-module.exports = createStore(
+export default createStore(
     reducer,
     initialState,
     compose(

@@ -10,7 +10,7 @@ const MARIONETTE_DEPENDENCIES = [
     'backbone.radio',
     'marionette.approuter',
     'handlebars',
-    'lodash',
+    'lodash-es',
     'redux'
 ];
 const ALWAYS = async () => true;
@@ -25,11 +25,13 @@ export const tasks = [
         text: 'Add Marionette.js boilerplate and assets',
         task: async ({sourceDirectory}) => {
             await scaffolder
-                .target(sourceDirectory).copy('main.js')
+                .target(sourceDirectory)
+                .copy('main.js')
                 .target(`${sourceDirectory}/components`)
                 .copy('app.js')
                 .target(`${sourceDirectory}/shims`)
                 .copy('mn.renderer.shim.js')
+                .copy('mn.templates.shim.js')
                 .target(`${sourceDirectory}/plugins`)
                 .copy('mn.radio.logging.js')
                 .copy('mn.redux.state.js')
@@ -37,8 +39,6 @@ export const tasks = [
                 .copy('index.html')
                 .target('assets/css')
                 .copy('style.css')
-                .target(`${sourceDirectory}/shims`)
-                .copy('mn.templates.shim.js')
                 .target('assets/templates')
                 .copy('example.hbs')
                 .target('assets/images')

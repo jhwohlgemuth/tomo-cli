@@ -2,20 +2,20 @@
 /**
  * Main entry point for application
  */
-import {template} from 'lodash';
-import {Model} from 'backbone';
-import Mn from 'backbone.marionette';
-import app from 'components/app';
+import {template} from 'lodash-es';
+import * as Backbone from 'backbone';
+import {View} from 'backbone.marionette';
+import app from './components/app';
 // const JST = require('templates');
 
 const name = app.getState('name');
 
-const ExampleModel = Model.extend({
+const ExampleModel = Backbone.Model.extend({
     defaults: {name}
 });
-const View = Mn.View.extend({
+const ExampleView = View.extend({
     // view code goes here
-    template: template(`<div>Hello world</div>`),
+    template: template(`<div>It is functioning as desired!</div>`),
     model: new ExampleModel()
 });
 app.on('before:start', () => {
@@ -23,6 +23,6 @@ app.on('before:start', () => {
 });
 app.on('start', () => {
     app.info(`${name} is started!`);
-    app.getRegion().show(new View());
+    app.getRegion().show(new ExampleView());
 });
 document.addEventListener('DOMContentLoaded', () => app.start());
