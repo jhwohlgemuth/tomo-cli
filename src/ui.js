@@ -51,17 +51,18 @@ const Description = ({command}) => {
     const getDescription = item => {
         const DEFAULT = `${dim('Sorry, I don\'t have anything to say about')} ${item}`;
         const lookup = dict({
-            project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold.cyan('ESLint')}, and ${bold.magenta('Jest')}`,
-            app: `Scaffold a new ${bold.red('Marionette.js')} ${bold.cyan('web application')} - basically a project with CSS, bundling, and stuff`,
+            project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold('ESLint')}, and ${bold.magenta('Jest')}`,
+            app: `Scaffold a new ${bold.red('Marionette.js')} ${bold('web application')} - basically a project with CSS, bundling, and stuff`,
             server: `Scaffold a new Express server with security baked in - ${bold.yellow('WORK IN PROGRESS')}`,
-            a11y: `Add automated ${bold.cyan('accessibility')} testing`,
-            babel: `Use next generation JavaScript, ${bold.cyan('today!')}`,
-            esdoc: `Generate ${bold.cyan('documentation')} from your comments`,
-            eslint: `Pluggable ${bold.cyan('linting')} utility for JavaScript and JSX`,
-            jest: `Delightful JavaScript ${bold.cyan('Testing')} Framework with a focus on simplicity`,
-            makefile: `Create a ${bold.cyan('Makefile')} from your package.json, like ${bold.magenta('magic!')}`,
-            postcss: `Use ${bold.cyan('future CSS')}, never write vendor prefixes again, and much much more!`,
-            webpack: `${bold.cyan('Bundle')} your assets`
+            a11y: `Add automated ${bold('accessibility')} testing`,
+            babel: `Use next generation JavaScript, ${bold('today!')}`,
+            esdoc: `Generate ${bold('documentation')} from your comments`,
+            eslint: `Pluggable ${bold('linting')} utility for JavaScript and JSX`,
+            jest: `Delightful JavaScript ${bold('Testing')} Framework with a focus on simplicity`,
+            makefile: `Create a ${bold('Makefile')} from your package.json, like ${bold.magenta('magic!')}`,
+            postcss: `Use ${bold('future CSS')}, never write vendor prefixes again, and much much more!`,
+            rollup: `${bold('Bundle')} your assets (focused on ${bold('ES6')} modules and tree shaking)`,
+            webpack: `${bold('Bundle')} your assets (with great support and a rich ecosystem)`
         });
         return lookup.has(item) ? lookup.get(item) : DEFAULT;
     };

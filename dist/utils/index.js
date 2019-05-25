@@ -1,4 +1,4 @@
-"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.WebpackConfigEditor=exports.PostcssConfigEditor=exports.PackageJsonEditor=exports.EslintConfigModuleEditor=exports.BabelConfigModuleEditor=exports.verifyRustInstallation=exports.uninstall=exports.install=exports.getVersions=exports.getIntendedInput=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_execa=_interopRequireDefault(require("execa")),_semver=_interopRequireDefault(require("semver")),_first=_interopRequireDefault(require("lodash/first")),_validateNpmPackageName=_interopRequireDefault(require("validate-npm-package-name")),_stringSimilarity=require("string-similarity"),_createJsonEditor=_interopRequireDefault(require("./createJsonEditor")),_createModuleEditor=_interopRequireDefault(require("./createModuleEditor"));/**
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.WebpackConfigEditor=exports.RollupConfigEditor=exports.PostcssConfigEditor=exports.PackageJsonEditor=exports.EslintConfigModuleEditor=exports.BabelConfigModuleEditor=exports.verifyRustInstallation=exports.uninstall=exports.install=exports.getVersions=exports.getIntendedInput=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_execa=_interopRequireDefault(require("execa")),_semver=_interopRequireDefault(require("semver")),_first=_interopRequireDefault(require("lodash/first")),_commonTags=require("common-tags"),_validateNpmPackageName=_interopRequireDefault(require("validate-npm-package-name")),_stringSimilarity=require("string-similarity"),_createJsonEditor=_interopRequireDefault(require("./createJsonEditor")),_createModuleEditor=_interopRequireDefault(require("./createModuleEditor"));/**
  * Use string-similarity module to determine closest matching string
  * @param {Object} commands Object with commands as key values, terms as key values for each command object
  * @param {string} command Command string input
@@ -69,12 +69,26 @@
  * Create and edit an PostCSS configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
- * const cfg = new PostcssConfigEditor();
- * await cfg.create().commit();
+ * await (new PostcssConfigEditor())
+ *     .create()
+ *     .commit();
  */exports.PackageJsonEditor=PackageJsonEditor;const PostcssConfigEditor=(0,_createModuleEditor.default)("postcss.config.js",{map:!0,parser:`require('postcss-safe-parser')`});/**
+ * Create and edit a Rollup configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example
+ * await (new RollupConfigEditor())
+ *     .create()
+ *     .commit();
+ */exports.PostcssConfigEditor=PostcssConfigEditor;const RollupConfigEditor=(0,_createModuleEditor.default)("rollup.config.js",{input:`'./src/main.js'`,output:{file:`'./dist/bundle.min.js'`,format:`'iife'`,sourceMap:`'inline'`},plugins:[`babel({exclude: 'node_modules/**', runtimeHelpers: true})`,_commonTags.oneLineTrim`commonjs({
+            namedExports: {
+                './node_modules/backbone/backbone.js': ['Model', 'history'],
+                './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View']
+            }
+        })`,`resolve({browser: true})`,`replace({'process.env.NODE_ENV': JSON.stringify('production')})`]});/**
  * Create and edit a Webpack configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
- * const cfg = new WebpackConfigEditor();
- * await cfg.create().commit();
- */exports.PostcssConfigEditor=PostcssConfigEditor;const WebpackConfigEditor=(0,_createModuleEditor.default)("webpack.config.js",{mode:`'development'`,entry:{app:`'./src/main.js'`},output:{path:`resolve('./dist')`,filename:`'bundle.min.js'`},module:{rules:[{test:`/\.js?$/`,exclude:`/node_modules/`,loader:`'babel-loader'`,query:{presets:[`'@babel/env'`]}}]},plugins:[`new DashboardPlugin()`]});exports.WebpackConfigEditor=WebpackConfigEditor;
+ * await (new WebpackConfigEditor())
+ *     .create()
+ *     .commit();
+ */exports.RollupConfigEditor=RollupConfigEditor;const WebpackConfigEditor=(0,_createModuleEditor.default)("webpack.config.js",{mode:`'development'`,entry:{app:`'./src/main.js'`},output:{path:`resolve('./dist')`,filename:`'bundle.min.js'`},module:{rules:[{test:`/\.js?$/`,exclude:`/node_modules/`,loader:`'babel-loader'`,query:{presets:[`'@babel/env'`]}}]},plugins:[`new DashboardPlugin()`]});exports.WebpackConfigEditor=WebpackConfigEditor;

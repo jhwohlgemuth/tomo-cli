@@ -12,6 +12,7 @@ import addJest from './add-jest';
 import addMakefile from './add-makefile';
 import addMarionette from './add-marionette';
 import {addPostcss, removePostcss} from './add-postcss';
+import {addRollup, removeRollup} from './add-rollup';
 import {addWebpack, removeWebpack} from './add-webpack';
 
 const createProject = [
@@ -49,6 +50,10 @@ const add = {
     ],
     makefile: addMakefile,
     postcss: addPostcss,
+    rollup: [
+        ...addBabel,
+        ...addRollup
+    ],
     webpack: [
         ...addBabel,
         ...addWebpack
@@ -56,6 +61,7 @@ const add = {
 };
 const remove = {
     postcss: removePostcss,
+    rollup: removeRollup,
     webpack: removeWebpack
 };
 

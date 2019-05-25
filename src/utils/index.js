@@ -1,11 +1,11 @@
 import execa from 'execa';
 import semver from 'semver';
 import first from 'lodash/first';
+import {oneLineTrim} from 'common-tags';
 import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
 import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';
-
 /**
  * Use string-similarity module to determine closest matching string
  * @param {Object} commands Object with commands as key values, terms as key values for each command object
@@ -145,19 +145,48 @@ export const PackageJsonEditor = createJsonEditor('package.json', {
  * Create and edit an PostCSS configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
- * const cfg = new PostcssConfigEditor();
- * await cfg.create().commit();
+ * await (new PostcssConfigEditor())
+ *     .create()
+ *     .commit();
  */
 export const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
     map: true,
     parser: `require('postcss-safe-parser')`
 });
 /**
+ * Create and edit a Rollup configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example
+ * await (new RollupConfigEditor())
+ *     .create()
+ *     .commit();
+ */
+export const RollupConfigEditor = createModuleEditor('rollup.config.js', {
+    input: `'./src/main.js'`,
+    output: {
+        file: `'./dist/bundle.min.js'`,
+        format: `'iife'`,
+        sourceMap: `'inline'`
+    },
+    plugins: [
+        `babel({exclude: 'node_modules/**', runtimeHelpers: true})`,
+        oneLineTrim`commonjs({
+            namedExports: {
+                './node_modules/backbone/backbone.js': ['Model', 'history'],
+                './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View']
+            }
+        })`,
+        `resolve({browser: true})`,
+        `replace({'process.env.NODE_ENV': JSON.stringify('production')})`
+    ]
+});
+/**
  * Create and edit a Webpack configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
- * const cfg = new WebpackConfigEditor();
- * await cfg.create().commit();
+ * await (new WebpackConfigEditor())
+ *     .create()
+ *     .commit();
  */
 export const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
     mode: `'development'`,

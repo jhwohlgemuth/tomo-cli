@@ -774,6 +774,49 @@ exports[`"Add" commands add-postcss 2`] = `
 "
 `;
 
+exports[`"Add" commands add-rollup 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli ./dist/assets\\",
+        \\"build\\": \\"rollup -c\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:watch\\": \\"watch 'npm run build' src\\"
+    }
+}
+"
+`;
+
+exports[`"Add" commands add-rollup 2`] = `
+"/* eslint-disable max-len */
+import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import resolve from 'rollup-plugin-node-resolve'
+import replace from 'rollup-plugin-replace'
+
+module.exports = {
+    input: 'src/main.js',
+    output: {
+        file: './dist/bundle.min.js',
+        format: 'iife',
+        sourceMap: 'inline'
+    },
+    plugins: [
+        babel({exclude: 'node_modules/**', runtimeHelpers: true}),
+        commonjs({namedExports: {'./node_modules/backbone/backbone.js': ['Model', 'history'],'./node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View']}}),
+        resolve({browser: true}),
+        replace({'process.env.NODE_ENV': JSON.stringify('production')})
+    ]
+};"
+`;
+
 exports[`"Add" commands add-webpack 1`] = `
 "{
     \\"name\\": \\"my-project\\",
@@ -1213,6 +1256,75 @@ exports[`"Remove" commands remove postcss 3`] = `
 `;
 
 exports[`"Remove" commands remove postcss 4`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 187,
+            type: file
+        }
+    ],
+    size: 187,
+    type: directory
+}
+"
+`;
+
+exports[`"Remove" commands remove rollup 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli ./dist/assets\\",
+        \\"build\\": \\"rollup -c\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:watch\\": \\"watch 'npm run build' src\\"
+    }
+}
+"
+`;
+
+exports[`"Remove" commands remove rollup 2`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 581,
+            type: file
+        },
+        {
+            name: rollup.config.js,
+            size: 747,
+            type: file
+        }
+    ],
+    size: 1328,
+    type: directory
+}
+"
+`;
+
+exports[`"Remove" commands remove rollup 3`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {}
+}
+"
+`;
+
+exports[`"Remove" commands remove rollup 4`] = `
 "{
     name: tomo-test,
     children: [

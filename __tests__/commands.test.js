@@ -6,7 +6,6 @@ import {
     useTemporaryDirectory
 } from './tomo-test';
 import {
-    addDevTasks,
     createPackageJson,
     createSourceDirectory
 } from '../src/commands/common';
@@ -20,6 +19,7 @@ import addMakefile from '../src/commands/add-makefile';
 import {addPostcss, removePostcss} from '../src/commands/add-postcss';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
+import { addRollup, removeRollup } from '../src/commands/add-rollup';
 import {addWebpack, removeWebpack} from '../src/commands/add-webpack';
 
 jest.mock('is-online', () => (async () => true));
@@ -195,6 +195,17 @@ describe('"Add" commands', () => {
         const pkg = fileContents('./package.json');
         expect(pkg).toMatchSnapshot();
     });
+    test('add-rollup', async () => {
+        const sourceDirectory = 'src';
+        const outputDirectory = './dist';
+        const options = { outputDirectory, skipInstall , sourceDirectory};
+        await run(createPackageJson, {});
+        await run(addRollup, options);
+        const pkg = fileContents('package.json');
+        const contents = fileContents('rollup.config.js');
+        expect(pkg).toMatchSnapshot();
+        expect(contents).toMatchSnapshot();
+    });
     test('add-webpack', async () => {
         const sourceDirectory = 'src';
         const outputDirectory = './dist';
@@ -233,6 +244,22 @@ describe('"Remove" commands', () => {
         const preTree = getDirectoryTree(tempDirectory);
         await run(removePostcss, {});
         const post = fileContents('./package.json');
+        const postTree = getDirectoryTree(tempDirectory);
+        expect(pre).toMatchSnapshot();
+        expect(preTree).toMatchSnapshot();
+        expect(post).toMatchSnapshot();
+        expect(postTree).toMatchSnapshot();
+    });
+    test('remove rollup', async () => {
+        const sourceDirectory = 'src';
+        const outputDirectory = './dist';
+        const options = { outputDirectory, skipInstall, sourceDirectory };
+        await run(createPackageJson, {});
+        await run(addRollup, options);
+        const pre = fileContents('package.json');
+        const preTree = getDirectoryTree(tempDirectory);
+        await run(removeRollup, options);
+        const post = fileContents('package.json');
         const postTree = getDirectoryTree(tempDirectory);
         expect(pre).toMatchSnapshot();
         expect(preTree).toMatchSnapshot();

@@ -6,10 +6,12 @@ import {
 } from '../utils';
 import {allDoExist, allDoExistSync, allDoNotExist, someDoExist} from '../utils/common';
 
-const WEBPACK_DEPENDENCIES = [
+const BUILD_DEPENDENCIES = [
     'cpy-cli',
     'del-cli',
-    'npm-run-all',
+    'npm-run-all'
+];
+const WEBPACK_DEPENDENCIES = [
     'webpack',
     'webpack-cli',
     'webpack-dashboard',
@@ -57,7 +59,6 @@ export const addWebpack = [
             await (new PackageJsonEditor())
                 .extend({scripts})
                 .commit();
-
         },
         condition: () => someDoExist('package.json')
     },
@@ -77,7 +78,7 @@ export const addWebpack = [
     },
     {
         text: 'Install Webpack and development dependencies',
-        task: ({skipInstall}) => install(WEBPACK_DEPENDENCIES, {dev: true, skipInstall}),
+        task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES], {dev: true, skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
     }
 ];
@@ -107,13 +108,12 @@ export const removeWebpack = [
             await (new PackageJsonEditor())
                 .extend({scripts})
                 .commit();
-
         },
         condition: () => someDoExist('package.json')
     },
     {
         text: 'Uninstall Webpack dependencies',
-        task: () => uninstall(WEBPACK_DEPENDENCIES),
+        task: () => uninstall([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES]),
         condition: ({skipInstall}) => !skipInstall && someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_DEPENDENCIES),
         optional: ({skipInstall}) => !skipInstall
     }
