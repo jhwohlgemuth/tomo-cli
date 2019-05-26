@@ -2,6 +2,7 @@ import {readMakefile as read} from './tomo-test';
 import {
     EslintConfigModuleEditor,
     PackageJsonEditor,
+    choose,
     getIntendedInput,
     getVersions,
     install,
@@ -148,6 +149,25 @@ describe('Makefile editor', () => {
             .appendScripts()
             .done();
         expect(read(makefile)).toMatchSnapshot();
+    });
+});
+describe('choose via options', () => {
+    test('with and without default options', () => {
+        const withoutDefault = {
+            a: [1, 2, 3],
+            b: [4, 5, 6],
+            c: [7, 8, 9]
+        };
+        const withDefault = {
+            a: [1, 2, 3],
+            b: [4, 5, 6],
+            c: [7, 8, 9],
+            default: [0, 0, 0]
+        };
+        expect(choose(withoutDefault)({ d: true })).toEqual(withoutDefault.a);
+        expect(choose(withDefault)({ d: true })).toEqual(withDefault.default);
+        expect(choose(withDefault)({b: true})).toEqual(withDefault.b);
+        expect(choose(withDefault)({b: true, c: true})).toEqual(withDefault.b);
     });
 });
 describe('getIntendedInput', () => {

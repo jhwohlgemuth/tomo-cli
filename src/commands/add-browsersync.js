@@ -22,7 +22,7 @@ export const addBrowsersync = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => allDoExist('package.json', 'webpack.config.js', 'postcss.config.js')
+        condition: () => allDoExist('package.json', 'postcss.config.js') && someDoExist('webpack.config.js', 'rollup.config.js')
     },
     {
         text: 'Install Browsersync dependencies',

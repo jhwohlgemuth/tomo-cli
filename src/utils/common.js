@@ -9,6 +9,7 @@ const PRETTIER_OPTIONS = {
     tabWidth: 4,
     quotes: true
 };
+export const dict = val => new Map(Object.entries(val));
 export const parse = data => JSON.parse(JSON.stringify(data));
 export const getBinDirectory = path => {
     const [packageDirectory] = path.split('Makefile');

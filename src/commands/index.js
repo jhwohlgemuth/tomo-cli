@@ -1,4 +1,5 @@
 /* eslint-disable no-magic-numbers */
+import {choose} from '../utils';
 import {
     createPackageJson,
     createSourceDirectory
@@ -27,7 +28,10 @@ const create = {
     app: [
         ...createProject,
         ...addMarionette,
-        ...addWebpack,
+        choose({
+            default: addWebpack,
+            useRollup: addRollup
+        }),
         ...addPostcss,
         ...addBrowsersync
     ],

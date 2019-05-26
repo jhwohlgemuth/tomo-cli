@@ -15,10 +15,9 @@ import figures from 'figures';
 import {highlight} from 'cardinal';
 import commands from './commands';
 import {getIntendedInput} from './utils';
-import {format} from './utils/common';
+import {dict, format} from './utils/common';
 
-const {assign, entries} = Object;
-const dict = val => new Map(entries(val));
+const {assign} = Object;
 const space = ' ';
 const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
 const X = () => <Color bold red>{figures.cross}{space}</Color>;
@@ -260,7 +259,11 @@ export const TaskList = ({command, options, terms, done}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const {completed, errors, skipped, status} = state;
     const queue = new Queue({concurrency: 1});
-    const tasks = terms.map(term => commands[command][term]).flat(1);
+    const tasks = terms
+        .map(term => commands[command][term])
+        .flat(1)
+        .map(val => (isFunction(val) ? val(options) : val))
+        .flat(1);
     const tasksComplete = ((completed.length + skipped.length) === tasks.length);
     const hasError = (errors.length > 0);
     const {debug, skipInstall} = options;

@@ -4,8 +4,24 @@ import first from 'lodash/first';
 import {oneLineTrim} from 'common-tags';
 import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
+import {dict} from './common';
 import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';
+
+const {keys} = Object;
+/**
+ * Choose tasks based on CLI options
+ * @param {Object} choices Object to create choice dictionary from
+ * @return {function} Accepts CLI options and returns array of tasks
+ */
+export const choose = choices => options => {
+    const possible = keys(choices);
+    const passed = keys(options);
+    const lookup = dict(choices);
+    const DEFAULT = lookup.has('default') ? lookup.get('default') : lookup.get(possible[0]);
+    const [choice] = possible.filter(val => passed.includes(val));
+    return choice ? lookup.get(choice) : DEFAULT;
+};
 /**
  * Use string-similarity module to determine closest matching string
  * @param {Object} commands Object with commands as key values, terms as key values for each command object
@@ -16,9 +32,9 @@ import createModuleEditor from './createModuleEditor';
  * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)
  */
 export const getIntendedInput = (commands, command, terms = []) => {
-    const VALID_COMMANDS = Object.keys(commands);
+    const VALID_COMMANDS = keys(commands);
     const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);
-    const VALID_TERMS = Object.keys(commands[intendedCommand]);
+    const VALID_TERMS = keys(commands[intendedCommand]);
     const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);
     return {intendedCommand, intendedTerms};
 };

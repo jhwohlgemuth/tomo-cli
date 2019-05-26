@@ -4,7 +4,8 @@ import {join} from 'path';
 import {existsSync, mkdirp, readFileSync} from 'fs-extra';
 import rimraf from 'rimraf';
 import dirTree from 'directory-tree';
-import {omit} from 'lodash';
+import omit from 'lodash/omit';
+import isFunction from 'lodash/isFunction';
 import Queue from 'p-queue';
 import delay from 'delay';
 import {populateQueue} from '../src/ui';
@@ -45,7 +46,13 @@ export const getDirectoryTree = (directory, options = {omit: ['extension', 'path
 export const run = (tasks, options) => {
     const queue = new Queue({concurrency: tasks.length});
     const dispatch = () => {};
-    return populateQueue({queue, dispatch, tasks, options});
+    const apply = val => (isFunction(val) ? val(options) : val);
+    return populateQueue({
+        queue,
+        options,
+        dispatch,
+        tasks: tasks.map(apply).flat(1)
+    });
 };
 export const fileContents = path => {
     const fullpath = join(process.cwd(), path);

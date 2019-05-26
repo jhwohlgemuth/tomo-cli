@@ -1,4 +1,8 @@
-"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.WebpackConfigEditor=exports.RollupConfigEditor=exports.PostcssConfigEditor=exports.PackageJsonEditor=exports.EslintConfigModuleEditor=exports.BabelConfigModuleEditor=exports.verifyRustInstallation=exports.uninstall=exports.install=exports.getVersions=exports.getIntendedInput=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_execa=_interopRequireDefault(require("execa")),_semver=_interopRequireDefault(require("semver")),_first=_interopRequireDefault(require("lodash/first")),_commonTags=require("common-tags"),_validateNpmPackageName=_interopRequireDefault(require("validate-npm-package-name")),_stringSimilarity=require("string-similarity"),_createJsonEditor=_interopRequireDefault(require("./createJsonEditor")),_createModuleEditor=_interopRequireDefault(require("./createModuleEditor"));/**
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.includes"),require("core-js/modules/es.array.iterator"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.WebpackConfigEditor=exports.RollupConfigEditor=exports.PostcssConfigEditor=exports.PackageJsonEditor=exports.EslintConfigModuleEditor=exports.BabelConfigModuleEditor=exports.verifyRustInstallation=exports.uninstall=exports.install=exports.getVersions=exports.getIntendedInput=exports.choose=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_execa=_interopRequireDefault(require("execa")),_semver=_interopRequireDefault(require("semver")),_first=_interopRequireDefault(require("lodash/first")),_commonTags=require("common-tags"),_validateNpmPackageName=_interopRequireDefault(require("validate-npm-package-name")),_stringSimilarity=require("string-similarity"),_common=require("./common"),_createJsonEditor=_interopRequireDefault(require("./createJsonEditor")),_createModuleEditor=_interopRequireDefault(require("./createModuleEditor"));const{keys}=Object,choose=a=>b=>{const c=keys(a),d=keys(b),e=(0,_common.dict)(a),f=e.has("default")?e.get("default"):e.get(c[0]),[g]=c.filter(a=>d.includes(a));return g?e.get(g):f};/**
+ * Choose tasks based on CLI options
+ * @param {Object} choices Object to create choice dictionary from
+ * @return {function} Accepts CLI options and returns array of tasks
+ */exports.choose=choose;/**
  * Use string-similarity module to determine closest matching string
  * @param {Object} commands Object with commands as key values, terms as key values for each command object
  * @param {string} command Command string input
@@ -6,7 +10,7 @@
  * @example
  * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);
  * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)
- */const getIntendedInput=(a,b,c=[])=>{const d=Object.keys(a),{bestMatch:{target:e}}=(0,_stringSimilarity.findBestMatch)(b,d),f=Object.keys(a[e]),g=c.map(a=>(0,_stringSimilarity.findBestMatch)(a,f).bestMatch.target);return{intendedCommand:e,intendedTerms:g}};/**
+ */const getIntendedInput=(a,b,c=[])=>{const d=keys(a),{bestMatch:{target:e}}=(0,_stringSimilarity.findBestMatch)(b,d),f=keys(a[e]),g=c.map(a=>(0,_stringSimilarity.findBestMatch)(a,f).bestMatch.target);return{intendedCommand:e,intendedTerms:g}};/**
  * Use npm CLI to return array of module versions
  * @param {string} name npm module name
  * @example
