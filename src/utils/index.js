@@ -179,7 +179,7 @@ export const RollupConfigEditor = createModuleEditor('rollup.config.js', {
         `resolve({browser: true})`,
         `replace({'process.env.NODE_ENV': JSON.stringify('production')})`
     ]
-});
+}, {esm: true});
 /**
  * Create and edit a Webpack configuration file with a fluent API
  * @type {ModuleEditor}

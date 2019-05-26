@@ -13,14 +13,15 @@ const silent = () => { };
  * @param {string} [prependedContents=''] Content prepended to top of file
  * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})
  */
-export const createModuleEditor = (filename, contents = 'module.exports = {};', prependedContents = '') => class ModuleEditor extends BasicEditor {
+export const createModuleEditor = (filename, contents = 'module.exports = {};', options = {esm: false}) => class ModuleEditor extends BasicEditor {
     contents = contents;
-    prependedContents = prependedContents;
+    prependedContents = '';
     created = false;
     constructor(cwd = process.cwd()) {
         super();
+        const {esm} = options;
         const path = join(cwd, filename);
-        assign(this, {path});
+        assign(this, {esm, path});
     }
     create() {
         const self = this;
@@ -34,8 +35,9 @@ export const createModuleEditor = (filename, contents = 'module.exports = {};', 
     }
     write(contents) {
         const self = this;
-        const {fs, path, prependedContents, queue} = self;
-        const formatted = `${prependedContents}module.exports = ${format(contents)}`.replace(/\r*\n$/g, ';');
+        const {esm, fs, path, prependedContents, queue} = self;
+        const exportString = esm ? 'export default ' : 'module.exports = ';
+        const formatted = `${prependedContents}${exportString}${format(contents)}`.replace(/\r*\n$/g, ';');
         queue
             .add(() => fs.write(path, formatted))
             .then(() => self.created = existsSync(path))

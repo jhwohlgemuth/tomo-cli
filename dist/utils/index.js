@@ -84,7 +84,7 @@
                 './node_modules/backbone/backbone.js': ['Model', 'history'],
                 './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View']
             }
-        })`,`resolve({browser: true})`,`replace({'process.env.NODE_ENV': JSON.stringify('production')})`]});/**
+        })`,`resolve({browser: true})`,`replace({'process.env.NODE_ENV': JSON.stringify('production')})`]},{esm:!0});/**
  * Create and edit a Webpack configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
