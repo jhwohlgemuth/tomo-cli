@@ -319,6 +319,14 @@ exports[`"Add" commands add-jest 2`] = `
     \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
+    \\"jest\\": {
+        \\"testMatch\\": [
+            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ],
+        \\"setupFilesAfterEnv\\": [
+            \\"<rootDir>/__tests__/setup.js\\"
+        ]
+    },
     \\"scripts\\": {
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:watch\\": \\"npm test -- --watchAll\\"
@@ -361,6 +369,23 @@ exports[`"Add" commands add-makefile 2`] = `
             name: Makefile,
             size: 1477,
             type: file
+        },
+        {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js,
+                    size: 337,
+                    type: file
+                },
+                {
+                    name: setup.js,
+                    size: 370,
+                    type: file
+                }
+            ],
+            size: 707,
+            type: directory
         },
         {
             name: assets,
@@ -453,7 +478,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1387,
+            size: 1580,
             type: file
         },
         {
@@ -525,7 +550,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 13876,
+    size: 14776,
     type: directory
 }
 "
@@ -941,6 +966,23 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         },
         {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js,
+                    size: 337,
+                    type: file
+                },
+                {
+                    name: setup.js,
+                    size: 370,
+                    type: file
+                }
+            ],
+            size: 707,
+            type: directory
+        },
+        {
             name: assets,
             children: [
                 {
@@ -1031,7 +1073,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1387,
+            size: 1580,
             type: file
         },
         {
@@ -1103,7 +1145,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 12162,
+    size: 13062,
     type: directory
 }
 "
@@ -1137,6 +1179,14 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve:dev\\",
         \\"serve:dev\\": \\"browser-sync start --server ./dist --files ./dist\\"
     },
+    \\"jest\\": {
+        \\"testMatch\\": [
+            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ],
+        \\"setupFilesAfterEnv\\": [
+            \\"<rootDir>/__tests__/setup.js\\"
+        ]
+    },
     \\"main\\": \\"src/main.js\\"
 }
 "
@@ -1157,13 +1207,30 @@ exports[`"Create/New" commands create new project 1`] = `
             type: file
         },
         {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js,
+                    size: 337,
+                    type: file
+                },
+                {
+                    name: setup.js,
+                    size: 370,
+                    type: file
+                }
+            ],
+            size: 707,
+            type: directory
+        },
+        {
             name: babel.config.js,
             size: 309,
             type: file
         },
         {
             name: package.json,
-            size: 575,
+            size: 768,
             type: file
         },
         {
@@ -1173,7 +1240,7 @@ exports[`"Create/New" commands create new project 1`] = `
             type: directory
         }
     ],
-    size: 1074,
+    size: 1974,
     type: directory
 }
 "
