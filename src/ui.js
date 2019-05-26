@@ -56,6 +56,7 @@ const Description = ({command}) => {
             server: `Scaffold a new Express server with security baked in - ${bold.yellow('WORK IN PROGRESS')}`,
             a11y: `Add automated ${bold('accessibility')} testing`,
             babel: `Use next generation JavaScript, ${bold('today!')}`,
+            browsersync: `Time-saving ${bold('synchronised browser')} testing (demo your app with ${bold.yellow('live-reload')})`,
             esdoc: `Generate ${bold('documentation')} from your comments`,
             eslint: `Pluggable ${bold('linting')} utility for JavaScript and JSX`,
             jest: `Delightful JavaScript ${bold('Testing')} Framework with a focus on simplicity`,
