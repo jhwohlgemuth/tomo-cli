@@ -1,5 +1,6 @@
 import React, {Component, Fragment, useContext, useEffect, useReducer, useState} from 'react';
 import PropTypes from 'prop-types';
+import camelCase from 'lodash/camelCase';
 import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
@@ -286,6 +287,7 @@ export const TaskList = ({command, options, terms, done}) => {
             <Box flexDirection='column' marginBottom={1}>
                 {tasks.map(({optional, text}, index) => {
                     const {completed, errors, skipped} = state;
+                    const key = camelCase(text);
                     const isSkipped = skipped.includes(index);
                     const isComplete = completed.includes(index) || isSkipped;
                     const isErrored = errors.map(error => error.payload.index).includes(index);
@@ -293,14 +295,14 @@ export const TaskList = ({command, options, terms, done}) => {
                     const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));
                     const data = {isSkipped, isComplete, isErrored, isPending, text};
                     return shouldBeShown ?
-                        <Fragment key={index}>{debug && <Debug data={data} title={`Data - task #${index}`}></Debug>}<Task
+                        <Fragment key={key}>{debug && <Debug data={data} title={`Data - task #${index}`}></Debug>}<Task
                             text={text}
                             isSkipped={isSkipped}
                             isComplete={isComplete}
                             isErrored={isErrored}
                             isPending={isPending}>
                         </Task></Fragment> :
-                        <Fragment key={index}>{debug && <Debug data={data} title={`Data - task #${index}`}></Debug>}<Box></Box></Fragment>;
+                        <Fragment key={key}>{debug && <Debug data={data} title={`Data - task #${index}`}></Debug>}<Box></Box></Fragment>;
                 })}
             </Box>
         </Box>
