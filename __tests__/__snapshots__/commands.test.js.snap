@@ -801,7 +801,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
 
-module.exports = {
+export default {
     input: 'src/main.js',
     output: {
         file: './dist/bundle.min.js',
@@ -1302,11 +1302,11 @@ exports[`"Remove" commands remove rollup 2`] = `
         },
         {
             name: rollup.config.js,
-            size: 747,
+            size: 745,
             type: file
         }
     ],
-    size: 1328,
+    size: 1326,
     type: directory
 }
 "
