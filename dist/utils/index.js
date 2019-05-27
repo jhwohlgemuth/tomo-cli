@@ -86,7 +86,7 @@
  */exports.PostcssConfigEditor=PostcssConfigEditor;const RollupConfigEditor=(0,_createModuleEditor.default)("rollup.config.js",{input:`'./src/main.js'`,output:{file:`'./dist/bundle.min.js'`,format:`'iife'`,sourceMap:`'inline'`},plugins:[`babel({exclude: 'node_modules/**', runtimeHelpers: true})`,_commonTags.oneLineTrim`commonjs({
             namedExports: {
                 './node_modules/backbone/backbone.js': ['Model', 'history'],
-                './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View']
+                './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']
             }
         })`,`resolve({browser: true})`,`replace({'process.env.NODE_ENV': JSON.stringify('production')})`]},{esm:!0});/**
  * Create and edit a Webpack configuration file with a fluent API

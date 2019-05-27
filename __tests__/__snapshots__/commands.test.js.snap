@@ -494,16 +494,16 @@ exports[`"Add" commands add-makefile 2`] = `
                     children: [
                         {
                             name: app.js,
-                            size: 360,
+                            size: 1313,
                             type: file
                         }
                     ],
-                    size: 360,
+                    size: 1313,
                     type: directory
                 },
                 {
                     name: main.js,
-                    size: 779,
+                    size: 193,
                     type: file
                 },
                 {
@@ -516,11 +516,11 @@ exports[`"Add" commands add-makefile 2`] = `
                         },
                         {
                             name: mn.redux.state.js,
-                            size: 2061,
+                            size: 2039,
                             type: file
                         }
                     ],
-                    size: 6041,
+                    size: 6019,
                     type: directory
                 },
                 {
@@ -541,7 +541,7 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 8328,
+            size: 8673,
             type: directory
         },
         {
@@ -550,7 +550,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 14776,
+    size: 15121,
     type: directory
 }
 "
@@ -712,16 +712,16 @@ exports[`"Add" commands add-marionette 1`] = `
                     children: [
                         {
                             name: app.js,
-                            size: 360,
+                            size: 1313,
                             type: file
                         }
                     ],
-                    size: 360,
+                    size: 1313,
                     type: directory
                 },
                 {
                     name: main.js,
-                    size: 779,
+                    size: 193,
                     type: file
                 },
                 {
@@ -734,11 +734,11 @@ exports[`"Add" commands add-marionette 1`] = `
                         },
                         {
                             name: mn.redux.state.js,
-                            size: 2061,
+                            size: 2039,
                             type: file
                         }
                     ],
-                    size: 6041,
+                    size: 6019,
                     type: directory
                 },
                 {
@@ -759,11 +759,11 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 8328,
+            size: 8673,
             type: directory
         }
     ],
-    size: 9081,
+    size: 9426,
     type: directory
 }
 "
@@ -835,7 +835,7 @@ export default {
     },
     plugins: [
         babel({exclude: 'node_modules/**', runtimeHelpers: true}),
-        commonjs({namedExports: {'./node_modules/backbone/backbone.js': ['Model', 'history'],'./node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View']}}),
+        commonjs({namedExports: {'./node_modules/backbone/backbone.js': ['Model', 'history'],'./node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']}}),
         resolve({browser: true}),
         replace({'process.env.NODE_ENV': JSON.stringify('production')})
     ]
@@ -1089,16 +1089,16 @@ exports[`"Create/New" commands create new app 1`] = `
                     children: [
                         {
                             name: app.js,
-                            size: 360,
+                            size: 1313,
                             type: file
                         }
                     ],
-                    size: 360,
+                    size: 1313,
                     type: directory
                 },
                 {
                     name: main.js,
-                    size: 779,
+                    size: 193,
                     type: file
                 },
                 {
@@ -1111,11 +1111,11 @@ exports[`"Create/New" commands create new app 1`] = `
                         },
                         {
                             name: mn.redux.state.js,
-                            size: 2061,
+                            size: 2039,
                             type: file
                         }
                     ],
-                    size: 6041,
+                    size: 6019,
                     type: directory
                 },
                 {
@@ -1136,7 +1136,7 @@ exports[`"Create/New" commands create new app 1`] = `
                     type: directory
                 }
             ],
-            size: 8328,
+            size: 8673,
             type: directory
         },
         {
@@ -1145,7 +1145,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13062,
+    size: 13407,
     type: directory
 }
 "
@@ -1369,11 +1369,11 @@ exports[`"Remove" commands remove rollup 2`] = `
         },
         {
             name: rollup.config.js,
-            size: 745,
+            size: 757,
             type: file
         }
     ],
-    size: 1326,
+    size: 1338,
     type: directory
 }
 "

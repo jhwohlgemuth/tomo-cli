@@ -21,7 +21,6 @@ import {get, update} from 'lodash-es';
 import {applyMiddleware, compose, createStore} from 'redux';
 
 const initialState = {
-    name: 'tomo-app',
     count: 42
 };
 

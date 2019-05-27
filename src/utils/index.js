@@ -189,7 +189,7 @@ export const RollupConfigEditor = createModuleEditor('rollup.config.js', {
         oneLineTrim`commonjs({
             namedExports: {
                 './node_modules/backbone/backbone.js': ['Model', 'history'],
-                './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View']
+                './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']
             }
         })`,
         `resolve({browser: true})`,
