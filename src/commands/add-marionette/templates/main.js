@@ -4,4 +4,7 @@
  */
 import app from './components/app';
 
-document.addEventListener('DOMContentLoaded', () => app.start({name: 'My Tomo App'}));
+const options = {
+    name: 'My Tomo App'
+};
+document.addEventListener('DOMContentLoaded', () => app.start(options));
