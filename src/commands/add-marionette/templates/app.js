@@ -2,13 +2,12 @@
  * Application Core
  * @version 1.0.0
 */
-import {template} from 'lodash-es';
 import * as Backbone from 'backbone';
 import {Application, View} from 'backbone.marionette';
 import AppRouter from 'marionette.approuter';
 import * as logging from '../plugins/mn.radio.logging';
 import state from '../plugins/mn.redux.state';
-// import './shims/mn.renderer.shim';
+import '../shims/mn.renderer.shim';
 
 const Router = AppRouter.extend({
     appRoutes: {
@@ -34,7 +33,7 @@ const App = Application.extend({
             defaults: {name}
         });
         const ExampleView = View.extend({
-            template: template('<div><%= name %> is functioning as desired!</div>'),
+            template: '<div><%= name %> is functioning as desired!</div>',
             model: new ExampleModel()
         });
         app.getRegion().show(new ExampleView());

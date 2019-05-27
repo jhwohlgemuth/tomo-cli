@@ -9,7 +9,7 @@ const MARIONETTE_DEPENDENCIES = [
     'backbone.marionette',
     'backbone.radio',
     'marionette.approuter',
-    'handlebars',
+    'morphdom',
     'lodash-es',
     'redux'
 ];
