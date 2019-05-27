@@ -45,7 +45,7 @@ export const addEsdoc = [
             const scripts = {
                 'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
                 'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
-                'open:docs': 'opn ./docs/index.html',
+                'open:docs': 'open-cli ./docs/index.html',
                 preesdoc: 'npm run lint:docs',
                 esdoc: 'npm run build:docs',
                 postesdoc: 'npm run open:docs'
@@ -57,7 +57,7 @@ export const addEsdoc = [
     },
     {
         text: 'Install esdoc dependencies',
-        task: ({skipInstall}) => install([...ESDOC_DEPENDENCIES, 'opn-cli'], {dev: true, skipInstall}),
+        task: ({skipInstall}) => install([...ESDOC_DEPENDENCIES, 'open-cli'], {dev: true, skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
     },
     {

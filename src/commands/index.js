@@ -12,6 +12,7 @@ import addEslint from './add-eslint';
 import addJest from './add-jest';
 import addMakefile from './add-makefile';
 import addMarionette from './add-marionette';
+import {addParcel, removeParcel} from './add-parcel';
 import {addPostcss, removePostcss} from './add-postcss';
 import {addRollup, removeRollup} from './add-rollup';
 import {addWebpack, removeWebpack} from './add-webpack';
@@ -30,10 +31,14 @@ const create = {
         ...addMarionette,
         choose({
             default: addWebpack,
-            useRollup: addRollup
+            useRollup: addRollup,
+            useParcel: addParcel
         }),
         ...addPostcss,
-        ...addBrowsersync
+        choose({
+            default: addBrowsersync,
+            useParcel: []// do nothing
+        })
     ],
     server: [
         ...createProject
@@ -53,6 +58,10 @@ const add = {
         ...addJest
     ],
     makefile: addMakefile,
+    parcel: [
+        ...addBabel,
+        ...addParcel
+    ],
     postcss: addPostcss,
     rollup: [
         ...addBabel,
@@ -64,6 +73,7 @@ const add = {
     ]
 };
 const remove = {
+    parcel: removeParcel,
     postcss: removePostcss,
     rollup: removeRollup,
     webpack: removeWebpack

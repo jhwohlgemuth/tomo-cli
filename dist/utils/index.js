@@ -1,4 +1,4 @@
-"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.includes"),require("core-js/modules/es.array.iterator"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.WebpackConfigEditor=exports.RollupConfigEditor=exports.PostcssConfigEditor=exports.PackageJsonEditor=exports.EslintConfigModuleEditor=exports.BabelConfigModuleEditor=exports.verifyRustInstallation=exports.uninstall=exports.install=exports.getVersions=exports.getIntendedInput=exports.choose=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_execa=_interopRequireDefault(require("execa")),_semver=_interopRequireDefault(require("semver")),_first=_interopRequireDefault(require("lodash/first")),_commonTags=require("common-tags"),_validateNpmPackageName=_interopRequireDefault(require("validate-npm-package-name")),_stringSimilarity=require("string-similarity"),_common=require("./common"),_createJsonEditor=_interopRequireDefault(require("./createJsonEditor")),_createModuleEditor=_interopRequireDefault(require("./createModuleEditor"));const{keys}=Object,choose=a=>b=>{const c=keys(a),d=keys(b),e=(0,_common.dict)(a),f=e.has("default")?e.get("default"):e.get(c[0]),[g]=c.filter(a=>d.includes(a));return g?e.get(g):f};/**
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.includes"),require("core-js/modules/es.array.iterator"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.WebpackConfigEditor=exports.RollupConfigEditor=exports.PurgecssConfigEditor=exports.PostcssConfigEditor=exports.PackageJsonEditor=exports.EslintConfigModuleEditor=exports.BabelConfigModuleEditor=exports.verifyRustInstallation=exports.uninstall=exports.install=exports.getVersions=exports.getIntendedInput=exports.choose=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_execa=_interopRequireDefault(require("execa")),_semver=_interopRequireDefault(require("semver")),_first=_interopRequireDefault(require("lodash/first")),_commonTags=require("common-tags"),_validateNpmPackageName=_interopRequireDefault(require("validate-npm-package-name")),_stringSimilarity=require("string-similarity"),_common=require("./common"),_createJsonEditor=_interopRequireDefault(require("./createJsonEditor")),_createModuleEditor=_interopRequireDefault(require("./createModuleEditor"));const{keys}=Object,choose=a=>b=>{const c=keys(a),d=keys(b),e=(0,_common.dict)(a),f=e.has("default")?e.get("default"):e.get(c[0]),[g]=c.filter(a=>d.includes(a));return g?e.get(g):f};/**
  * Choose tasks based on CLI options
  * @param {Object} choices Object to create choice dictionary from
  * @return {function} Accepts CLI options and returns array of tasks
@@ -70,20 +70,27 @@
  *     .extend({script}, false)
  *     .commit();
  */exports.EslintConfigModuleEditor=EslintConfigModuleEditor;const PackageJsonEditor=(0,_createJsonEditor.default)("package.json",{name:"my-project",version:"0.0.0",description:"A super cool app/server/tool/library/widget/thingy",license:"MIT",keywords:[]});/**
- * Create and edit an PostCSS configuration file with a fluent API
+ * Create and edit a PostCSS configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
  * await (new PostcssConfigEditor())
  *     .create()
  *     .commit();
  */exports.PackageJsonEditor=PackageJsonEditor;const PostcssConfigEditor=(0,_createModuleEditor.default)("postcss.config.js",{map:!0,parser:`require('postcss-safe-parser')`});/**
+ * Create and edit a PurgeCSS configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example
+ * await (new PurgecssConfigEditor())
+ *     .create()
+ *     .commit();
+ */exports.PostcssConfigEditor=PostcssConfigEditor;const PurgecssConfigEditor=(0,_createModuleEditor.default)("purgecss.config.js",{contents:["assets/index.html"]});/**
  * Create and edit a Rollup configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
  * await (new RollupConfigEditor())
  *     .create()
  *     .commit();
- */exports.PostcssConfigEditor=PostcssConfigEditor;const RollupConfigEditor=(0,_createModuleEditor.default)("rollup.config.js",{input:`'./src/main.js'`,output:{file:`'./dist/bundle.min.js'`,format:`'iife'`,sourceMap:`'inline'`},plugins:[`babel({exclude: 'node_modules/**', runtimeHelpers: true})`,_commonTags.oneLineTrim`commonjs({
+ */exports.PurgecssConfigEditor=PurgecssConfigEditor;const RollupConfigEditor=(0,_createModuleEditor.default)("rollup.config.js",{input:`'./src/main.js'`,output:{file:`'./dist/bundle.min.js'`,format:`'iife'`,sourceMap:`'inline'`},plugins:[`babel({exclude: 'node_modules/**', runtimeHelpers: true})`,_commonTags.oneLineTrim`commonjs({
             namedExports: {
                 './node_modules/backbone/backbone.js': ['Model', 'history'],
                 './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']

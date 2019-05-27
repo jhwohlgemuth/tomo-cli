@@ -61,6 +61,7 @@ const Description = ({command}) => {
             eslint: `Pluggable ${bold('linting')} utility for JavaScript and JSX`,
             jest: `Delightful JavaScript ${bold('Testing')} Framework with a focus on simplicity`,
             makefile: `Create a ${bold('Makefile')} from your package.json, like ${bold.magenta('magic!')}`,
+            parcel: `${bold('Bundle')} your assets (blazing fast with ${bold('zero configuration')})`,
             postcss: `Use ${bold('future CSS')}, never write vendor prefixes again, and much much more!`,
             rollup: `${bold('Bundle')} your assets (focused on ${bold('ES6')} modules and tree shaking)`,
             webpack: `${bold('Bundle')} your assets (with great support and a rich ecosystem)`

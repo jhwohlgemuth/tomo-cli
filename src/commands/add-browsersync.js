@@ -1,5 +1,5 @@
 import {PackageJsonEditor, install} from '../utils';
-import {allDoExist, someDoExist} from '../utils/common';
+import {allDoExist, someDoExist, someDoExistSync} from '../utils/common';
 
 const BROWSERSYNC_DEPENDENCIES = [
     'browser-sync',
@@ -15,14 +15,14 @@ export const addBrowsersync = [
         task: async ({outputDirectory}) => {
             const scripts = {
                 prestart: 'npm run build',
-                start: 'npm-run-all --parallel build:watch build:css:watch serve:dev',
-                'serve:dev': `browser-sync start --server ${outputDirectory} --files ${outputDirectory}`
+                start: 'npm-run-all --parallel build:watch build:css:watch serve',
+                serve: `browser-sync start --server ${outputDirectory} --files ${outputDirectory}`
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
                 .commit();
         },
-        condition: () => allDoExist('package.json', 'postcss.config.js') && someDoExist('webpack.config.js', 'rollup.config.js')
+        condition: ({useParcel}) => allDoExist('package.json', 'postcss.config.js') && (someDoExistSync('webpack.config.js', 'rollup.config.js') || useParcel) // eslint-disable-line max-len
     },
     {
         text: 'Install Browsersync dependencies',

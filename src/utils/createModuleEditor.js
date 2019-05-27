@@ -10,7 +10,8 @@ const silent = () => { };
  * Create and edit a JS module with a fluent API
  * @param {string} filename Name of file to edit
  * @param {string} [contents='module.exports = {};'] Contents of file
- * @param {string} [prependedContents=''] Content prepended to top of file
+ * @param {Object} options Options to configure module
+ * @param {boolean} [options.esm=false] Select to use 'module.exports =' (false) or 'export default' (true)
  * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})
  */
 export const createModuleEditor = (filename, contents = 'module.exports = {};', options = {esm: false}) => class ModuleEditor extends BasicEditor {

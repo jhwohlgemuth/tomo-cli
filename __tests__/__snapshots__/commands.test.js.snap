@@ -104,8 +104,8 @@ exports[`"Add" commands add-browsersync 3`] = `
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
         \\"prestart\\": \\"npm run build\\",
-        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve:dev\\",
-        \\"serve:dev\\": \\"browser-sync start --server ./dist --files ./dist\\"
+        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
+        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     }
 }
 "
@@ -174,11 +174,11 @@ exports[`"Add" commands add-esdoc 2`] = `
         },
         {
             name: package.json,
-            size: 512,
+            size: 517,
             type: file
         }
     ],
-    size: 798,
+    size: 803,
     type: directory
 }
 "
@@ -194,7 +194,7 @@ exports[`"Add" commands add-esdoc 3`] = `
     \\"scripts\\": {
         \\"lint:docs\\": \\"eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\\",
         \\"build:docs\\": \\"jsdoc src -r --destination ./docs\\",
-        \\"open:docs\\": \\"opn ./docs/index.html\\",
+        \\"open:docs\\": \\"open-cli ./docs/index.html\\",
         \\"preesdoc\\": \\"npm run lint:docs\\",
         \\"esdoc\\": \\"npm run build:docs\\",
         \\"postesdoc\\": \\"npm run open:docs\\"
@@ -367,7 +367,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1477,
+            size: 1473,
             type: file
         },
         {
@@ -466,7 +466,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1580,
+            size: 1578,
             type: file
         },
         {
@@ -529,11 +529,11 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: webpack.config.js,
-            size: 755,
+            size: 759,
             type: file
         }
     ],
-    size: 14838,
+    size: 14836,
     type: directory
 }
 "
@@ -550,13 +550,13 @@ build: ## Task description
 	$(MAKE) copy
 
 build-watch: ## Task description
-	watch 'make build' src
+	watch 'make build' ./src
 
 lint: ## Task description
 	eslint . -c ./.eslintrc.js --fix
 
 lint-watch: ## Task description
-	watch 'make lint' src
+	watch 'make lint' ./src
 
 lint-tests: ## Task description
 	eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore
@@ -590,9 +590,9 @@ build-css-watch: ## Task description
 
 start: ## Task description
 	$(MAKE) build
-	npm-run-all --parallel build:watch build:css:watch serve:dev
+	npm-run-all --parallel build:watch build:css:watch serve
 
-serve-dev: ## Task description
+serve: ## Task description
 	browser-sync start --server ./dist --files ./dist
 
 help: ## Show this help
@@ -735,6 +735,40 @@ exports[`"Add" commands add-marionette 1`] = `
 "
 `;
 
+exports[`"Add" commands add-parcel 1`] = `
+"module.exports = {
+    contents: [
+        assets/index.html
+    ]
+};"
+`;
+
+exports[`"Add" commands add-parcel 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"clean:build\\": \\"del-cli ./dist\\",
+        \\"prebuild\\": \\"npm run clean:build\\",
+        \\"build\\": \\"parcel build ./assets/index.html\\",
+        \\"prebuild:watch\\": \\"npm run clean:build\\",
+        \\"build:watch\\": \\"parcel watch ./assets/index.html\\",
+        \\"open\\": \\"open-cli http://localhost:1234\\",
+        \\"serve\\": \\"parcel ./assets/index.html\\",
+        \\"prestart\\": \\"npm run open\\",
+        \\"start\\": \\"npm run serve\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run build:watch\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
+    }
+}
+"
+`;
+
 exports[`"Add" commands add-postcss 1`] = `
 "module.exports = {
     map: true,
@@ -773,13 +807,17 @@ exports[`"Add" commands add-rollup 1`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"prebuild\\": \\"del-cli ./dist/assets\\",
         \\"build\\": \\"rollup -c\\",
         \\"postbuild\\": \\"npm run copy\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\"
+        \\"build:watch\\": \\"watch 'npm run build' ./src\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run build:watch\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
     }
 }
 "
@@ -793,7 +831,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
 
 export default {
-    input: 'src/main.js',
+    input: './src/main.js',
     output: {
         file: './dist/bundle.min.js',
         format: 'iife',
@@ -1027,7 +1065,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1580,
+            size: 1572,
             type: file
         },
         {
@@ -1094,7 +1132,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13124,
+    size: 13116,
     type: directory
 }
 "
@@ -1125,8 +1163,8 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
         \\"prestart\\": \\"npm run build\\",
-        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve:dev\\",
-        \\"serve:dev\\": \\"browser-sync start --server ./dist --files ./dist\\"
+        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
+        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     },
     \\"jest\\": {
         \\"testMatch\\": [
@@ -1218,6 +1256,77 @@ exports[`"Create/New" commands create source directory 1`] = `
         }
     ],
     size: 0,
+    type: directory
+}
+"
+`;
+
+exports[`"Remove" commands remove parcel 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"clean:build\\": \\"del-cli ./dist\\",
+        \\"prebuild\\": \\"npm run clean:build\\",
+        \\"build\\": \\"parcel build ./assets/index.html\\",
+        \\"prebuild:watch\\": \\"npm run clean:build\\",
+        \\"build:watch\\": \\"parcel watch ./assets/index.html\\",
+        \\"open\\": \\"open-cli http://localhost:1234\\",
+        \\"serve\\": \\"parcel ./assets/index.html\\",
+        \\"prestart\\": \\"npm run open\\",
+        \\"start\\": \\"npm run serve\\"
+    }
+}
+"
+`;
+
+exports[`"Remove" commands remove parcel 2`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 603,
+            type: file
+        },
+        {
+            name: purgecss.config.js,
+            size: 69,
+            type: file
+        }
+    ],
+    size: 672,
+    type: directory
+}
+"
+`;
+
+exports[`"Remove" commands remove parcel 3`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {}
+}
+"
+`;
+
+exports[`"Remove" commands remove parcel 4`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 187,
+            type: file
+        }
+    ],
+    size: 187,
     type: directory
 }
 "

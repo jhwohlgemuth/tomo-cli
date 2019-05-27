@@ -23,7 +23,8 @@ const scaffolder = new Scaffolder({sourceDirectory});
 export const tasks = [
     {
         text: 'Add Marionette.js boilerplate and assets',
-        task: async ({sourceDirectory}) => {
+        task: async ({sourceDirectory, useParcel, usePika}) => {
+            const index = (useParcel || usePika) ? 'index-in-place.html' : 'index.html';
             await scaffolder
                 .target(sourceDirectory)
                 .copy('main.js')
@@ -35,7 +36,7 @@ export const tasks = [
                 .copy('mn.radio.logging.js')
                 .copy('mn.redux.state.js')
                 .target('assets')
-                .copy('index.html')
+                .copy(index, 'index.html')
                 .target('assets/css')
                 .copy('style.css')
                 .target('assets/images')

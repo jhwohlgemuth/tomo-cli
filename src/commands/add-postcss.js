@@ -24,10 +24,10 @@ const POSTCSS_DEPENDENCIES = [
 export const addPostcss = [
     {
         text: 'Create PostCSS config file',
-        task: async ({outputDirectory}) => {
+        task: async ({outputDirectory, useParcel}) => {
             const plugins = [
                 `require('stylelint')({config: {extends: 'stylelint-config-recommended'}})`,
-                `require('uncss').postcssPlugin({html: ['${outputDirectory}/index.html']})`,
+                ...(useParcel ? [] : [`require('uncss').postcssPlugin({html: ['${outputDirectory}/index.html']})`]),
                 `require('postcss-import')()`,
                 `require('postcss-preset-env')({stage: 0})`,
                 `require('cssnano')()`,

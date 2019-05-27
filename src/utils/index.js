@@ -158,7 +158,7 @@ export const PackageJsonEditor = createJsonEditor('package.json', {
     keywords: []
 });
 /**
- * Create and edit an PostCSS configuration file with a fluent API
+ * Create and edit a PostCSS configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
  * await (new PostcssConfigEditor())
@@ -168,6 +168,17 @@ export const PackageJsonEditor = createJsonEditor('package.json', {
 export const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
     map: true,
     parser: `require('postcss-safe-parser')`
+});
+/**
+ * Create and edit a PurgeCSS configuration file with a fluent API
+ * @type {ModuleEditor}
+ * @example
+ * await (new PurgecssConfigEditor())
+ *     .create()
+ *     .commit();
+ */
+export const PurgecssConfigEditor = createModuleEditor('purgecss.config.js', {
+    contents: ['assets/index.html']
 });
 /**
  * Create and edit a Rollup configuration file with a fluent API

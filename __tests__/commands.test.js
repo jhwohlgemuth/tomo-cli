@@ -16,10 +16,11 @@ import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
 import addJest from '../src/commands/add-jest';
 import addMakefile from '../src/commands/add-makefile';
+import {addParcel, removeParcel} from '../src/commands/add-parcel';
 import {addPostcss, removePostcss} from '../src/commands/add-postcss';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
-import { addRollup, removeRollup } from '../src/commands/add-rollup';
+import {addRollup, removeRollup} from '../src/commands/add-rollup';
 import {addWebpack, removeWebpack} from '../src/commands/add-webpack';
 
 jest.mock('is-online', () => (async () => true));
@@ -101,7 +102,7 @@ describe('"Add" commands', () => {
     test('add-browsersync', async () => {
         const sourceDirectory = 'src';
         const outputDirectory = './dist';
-        const options = { outputDirectory, skipInstall, sourceDirectory };
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(createPackageJson, {});
         const pre = fileContents('package.json');
         await run(addBrowsersync, options);
@@ -147,7 +148,7 @@ describe('"Add" commands', () => {
         expect(contents).toMatchSnapshot();
     });
     test('add-eslint (with React)', async () => {
-        const sourceDirectory = 'src';
+        const sourceDirectory = './src';
         const options = {skipInstall, sourceDirectory, useReact};
         await run(addEslint, options);
         const tree = getDirectoryTree(tempDirectory);
@@ -165,7 +166,7 @@ describe('"Add" commands', () => {
         expect(post).toMatchSnapshot();
     });
     test('add-makefile', async () => {
-        const sourceDirectory = 'src';
+        const sourceDirectory = './src';
         const outputDirectory = './dist';
         const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(addMakefile, options);
@@ -179,11 +180,23 @@ describe('"Add" commands', () => {
         expect(post).toMatchSnapshot();
     });
     test('add-marionette', async () => {
-        const sourceDirectory = 'src';
+        const sourceDirectory = './src';
         const options = {skipInstall, sourceDirectory};
         await run(addMarionette, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
+    });
+    test('add-parcel', async () => {
+        const sourceDirectory = './src';
+        const outputDirectory = './dist';
+        const options = { outputDirectory, skipInstall, sourceDirectory};
+        await run(createPackageJson, {});
+        await run(addEslint, options);
+        await run(addParcel, options);
+        const contents = fileContents('./purgecss.config.js');
+        const pkg = fileContents('./package.json');
+        expect(contents).toMatchSnapshot();
+        expect(pkg).toMatchSnapshot();
     });
     test('add-postcss', async () => {
         const outputDirectory = './dist';
@@ -196,10 +209,11 @@ describe('"Add" commands', () => {
         expect(pkg).toMatchSnapshot();
     });
     test('add-rollup', async () => {
-        const sourceDirectory = 'src';
+        const sourceDirectory = './src';
         const outputDirectory = './dist';
-        const options = { outputDirectory, skipInstall , sourceDirectory};
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(createPackageJson, {});
+        await run(addEslint, options);
         await run(addRollup, options);
         const pkg = fileContents('package.json');
         const contents = fileContents('rollup.config.js');
@@ -235,6 +249,21 @@ describe('"Remove" commands', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
+    test('remove parcel', async () => {
+        const outputDirectory = './dist';
+        const options = { outputDirectory, skipInstall };
+        await run(createPackageJson, {});
+        await run(addParcel, options);
+        const pre = fileContents('./package.json');
+        const preTree = getDirectoryTree(tempDirectory);
+        await run(removeParcel, {});
+        const post = fileContents('./package.json');
+        const postTree = getDirectoryTree(tempDirectory);
+        expect(pre).toMatchSnapshot();
+        expect(preTree).toMatchSnapshot();
+        expect(post).toMatchSnapshot();
+        expect(postTree).toMatchSnapshot();
+    });
     test('remove postcss', async () => {
         const outputDirectory = './dist';
         const options = {outputDirectory, skipInstall};
@@ -253,7 +282,7 @@ describe('"Remove" commands', () => {
     test('remove rollup', async () => {
         const sourceDirectory = 'src';
         const outputDirectory = './dist';
-        const options = { outputDirectory, skipInstall, sourceDirectory };
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(createPackageJson, {});
         await run(addRollup, options);
         const pre = fileContents('package.json');

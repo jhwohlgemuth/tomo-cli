@@ -39,7 +39,7 @@ export const addBabel = [
         condition: () => allDoNotExist('babel.config.js', '.babelrc', '.babelrc.js')
     },
     {
-        text: 'Add build task to package.json',
+        text: 'Add Babel build task to package.json',
         task: async ({outputDirectory, sourceDirectory}) => {
             const scripts = {
                 build: `babel ${sourceDirectory} --out-dir ${outputDirectory}`,

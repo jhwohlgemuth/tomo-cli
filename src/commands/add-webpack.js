@@ -44,7 +44,7 @@ export const addWebpack = [
         condition: () => allDoNotExist('webpack.config.js')
     },
     {
-        text: 'Add build tasks to package.json',
+        text: 'Add Webpack build tasks to package.json',
         task: async ({outputDirectory, sourceDirectory}) => {
             const scripts = {
                 copy: 'npm-run-all --parallel copy:assets copy:index',
@@ -99,6 +99,7 @@ export const removeWebpack = [
                 copy: undefined,
                 'copy:assets': undefined,
                 'copy:index': undefined,
+                dev: undefined,
                 prebuild: undefined,
                 build: undefined,
                 postbuild: undefined,
@@ -113,7 +114,7 @@ export const removeWebpack = [
     },
     {
         text: 'Uninstall Webpack dependencies',
-        task: () => uninstall([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES]),
+        task: () => uninstall([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES, 'stmux']),
         condition: ({skipInstall}) => !skipInstall && someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_DEPENDENCIES),
         optional: ({skipInstall}) => !skipInstall
     }
