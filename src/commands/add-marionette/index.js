@@ -38,8 +38,6 @@ export const tasks = [
                 .copy('index.html')
                 .target('assets/css')
                 .copy('style.css')
-                .target('assets/templates')
-                .copy('example.hbs')
                 .target('assets/images')
                 .copy('.gitkeep')
                 .target('assets/fonts')
