@@ -1,4 +1,5 @@
 import {join} from 'path';
+import isString from 'lodash/isString';
 import Queue from 'p-queue';
 import memFs from 'mem-fs';
 import editor from 'mem-fs-editor';
@@ -48,13 +49,14 @@ export class Scaffolder {
     /**
      * Copy a file
      * @param {string} path Path string of file to be copied
+     * @param {string} [filename] Name for copied file
      * @returns {Scaffolder} Chaining OK
      */
-    copy(path) {
+    copy(path, filename) {
         const self = this;
         const {fs, queue, sourceDirectory, targetDirectory} = self;
         const source = join(sourceDirectory, path);
-        const target = join(process.cwd(), targetDirectory, ...path.split('/'));
+        const target = join(process.cwd(), targetDirectory, ...(isString(filename) ? filename : path).split('/'));
         queue.add(() => fs.copy(source, target)).catch(silent);
         return self;
     }

@@ -1,4 +1,4 @@
-"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.iterator"),require("core-js/modules/es.promise"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=exports.Scaffolder=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_path=require("path"),_pQueue=_interopRequireDefault(require("p-queue")),_memFs=_interopRequireDefault(require("mem-fs")),_memFsEditor=_interopRequireDefault(require("mem-fs-editor"));const{assign}=Object,silent=()=>{};/**
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.iterator"),require("core-js/modules/es.promise"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=exports.Scaffolder=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_path=require("path"),_isString=_interopRequireDefault(require("lodash/isString")),_pQueue=_interopRequireDefault(require("p-queue")),_memFs=_interopRequireDefault(require("mem-fs")),_memFsEditor=_interopRequireDefault(require("mem-fs-editor"));const{assign}=Object,silent=()=>{};/**
  * Class to create scaffolders when creating folders, and copying files/templates
  * @example
  * import {Scaffolder} from './utils';
@@ -23,8 +23,9 @@
      */target(a){return assign(this,{targetDirectory:a})}/**
      * Copy a file
      * @param {string} path Path string of file to be copied
+     * @param {string} [filename] Name for copied file
      * @returns {Scaffolder} Chaining OK
-     */copy(a){const b=this,{fs:c,queue:d,sourceDirectory:e,targetDirectory:f}=b,g=(0,_path.join)(e,a),h=(0,_path.join)(process.cwd(),f,...a.split("/"));return d.add(()=>c.copy(g,h)).catch(silent),b}/**
+     */copy(a,b){const c=this,{fs:d,queue:e,sourceDirectory:f,targetDirectory:g}=c,h=(0,_path.join)(f,a),i=(0,_path.join)(process.cwd(),g,...((0,_isString.default)(b)?b:a).split("/"));return e.add(()=>d.copy(h,i)).catch(silent),c}/**
      * Write changes to disk
      * @return {Promise} Resolves when queue is empty
      */commit(){var a=this;return(0,_asyncToGenerator2.default)(function*(){const{fs:b,queue:c}=a;yield new Promise(a=>b.commit(a)),yield c.onEmpty()})()}}exports.Scaffolder=Scaffolder;var _default=Scaffolder;exports.default=_default;
