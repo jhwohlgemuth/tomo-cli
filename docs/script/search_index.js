@@ -1,127 +1,151 @@
 window.esdocSearchIndex = [
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber68",
+    "test-file/__tests__/commands.test.js.html#lineNumber69",
     "\"Add\" commands",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber81",
+    "test-file/__tests__/commands.test.js.html#lineNumber82",
     "\"Add\" commands add-babel",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber91",
+    "test-file/__tests__/commands.test.js.html#lineNumber92",
     "\"Add\" commands add-babel (with React)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber101",
+    "test-file/__tests__/commands.test.js.html#lineNumber102",
     "\"Add\" commands add-browsersync",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber117",
+    "test-file/__tests__/commands.test.js.html#lineNumber118",
     "\"Add\" commands add-esdoc",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber131",
+    "test-file/__tests__/commands.test.js.html#lineNumber132",
     "\"Add\" commands add-esdoc (with React)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber140",
+    "test-file/__tests__/commands.test.js.html#lineNumber141",
     "\"Add\" commands add-eslint",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber149",
+    "test-file/__tests__/commands.test.js.html#lineNumber150",
     "\"Add\" commands add-eslint (with React)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber158",
+    "test-file/__tests__/commands.test.js.html#lineNumber159",
     "\"Add\" commands add-jest",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber167",
+    "test-file/__tests__/commands.test.js.html#lineNumber168",
     "\"Add\" commands add-makefile",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber181",
+    "test-file/__tests__/commands.test.js.html#lineNumber182",
     "\"Add\" commands add-marionette",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber188",
+    "test-file/__tests__/commands.test.js.html#lineNumber189",
+    "\"Add\" commands add-parcel",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber201",
     "\"Add\" commands add-postcss",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber198",
+    "test-file/__tests__/commands.test.js.html#lineNumber211",
+    "\"Add\" commands add-rollup",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber223",
     "\"Add\" commands add-webpack",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber27",
+    "test-file/__tests__/commands.test.js.html#lineNumber28",
     "\"Create/New\" commands",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber46",
+    "test-file/__tests__/commands.test.js.html#lineNumber47",
     "\"Create/New\" commands create new app",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber39",
+    "test-file/__tests__/commands.test.js.html#lineNumber40",
     "\"Create/New\" commands create new project",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber56",
+    "test-file/__tests__/commands.test.js.html#lineNumber57",
     "\"Create/New\" commands create package.json",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber61",
+    "test-file/__tests__/commands.test.js.html#lineNumber62",
     "\"Create/New\" commands create source directory",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber215",
+    "test-file/__tests__/commands.test.js.html#lineNumber241",
     "\"Remove\" commands",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber226",
+    "test-file/__tests__/commands.test.js.html#lineNumber252",
+    "\"Remove\" commands remove parcel",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber267",
     "\"Remove\" commands remove postcss",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/commands.test.js.html#lineNumber241",
+    "test-file/__tests__/commands.test.js.html#lineNumber282",
+    "\"Remove\" commands remove rollup",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands.test.js.html#lineNumber298",
     "\"Remove\" commands remove webpack",
     "test"
   ],
@@ -177,6 +201,18 @@ window.esdocSearchIndex = [
     "tomo-cli/src/utils/index.js~postcssconfigeditor",
     "variable/index.html#static-variable-PostcssConfigEditor",
     "<span>PostcssConfigEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/utils/index.js~purgecssconfigeditor",
+    "variable/index.html#static-variable-PurgecssConfigEditor",
+    "<span>PurgecssConfigEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/utils/index.js~rollupconfigeditor",
+    "variable/index.html#static-variable-RollupConfigEditor",
+    "<span>RollupConfigEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
     "variable"
   ],
   [
@@ -240,9 +276,9 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "tomo-cli/src/commands/add-jest.js~addjest",
+    "tomo-cli/src/commands/add-jest/index.js~addjest",
     "variable/index.html#static-variable-addJest",
-    "<span>addJest</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-jest.js</span>",
+    "<span>addJest</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-jest/index.js</span>",
     "variable"
   ],
   [
@@ -252,9 +288,21 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "tomo-cli/src/commands/add-parcel.js~addparcel",
+    "variable/index.html#static-variable-addParcel",
+    "<span>addParcel</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-parcel.js</span>",
+    "variable"
+  ],
+  [
     "tomo-cli/src/commands/add-postcss.js~addpostcss",
     "variable/index.html#static-variable-addPostcss",
     "<span>addPostcss</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-postcss.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/commands/add-rollup.js~addrollup",
+    "variable/index.html#static-variable-addRollup",
+    "<span>addRollup</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-rollup.js</span>",
     "variable"
   ],
   [
@@ -288,6 +336,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils/index.js~choose",
+    "function/index.html#static-function-choose",
+    "<span>choose</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/utils/createjsoneditor.js~createjsoneditor",
     "function/index.html#static-function-createJsonEditor",
     "<span>createJsonEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/createJsonEditor.js</span>",
@@ -297,6 +351,12 @@ window.esdocSearchIndex = [
     "tomo-cli/src/utils/createmoduleeditor.js~createmoduleeditor",
     "function/index.html#static-function-createModuleEditor",
     "<span>createModuleEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/createModuleEditor.js</span>",
+    "function"
+  ],
+  [
+    "tomo-cli/src/utils/common.js~dict",
+    "function/index.html#static-function-dict",
+    "<span>dict</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/common.js</span>",
     "function"
   ],
   [
@@ -342,9 +402,21 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/commands/add-parcel.js~removeparcel",
+    "variable/index.html#static-variable-removeParcel",
+    "<span>removeParcel</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-parcel.js</span>",
+    "variable"
+  ],
+  [
     "tomo-cli/src/commands/add-postcss.js~removepostcss",
     "variable/index.html#static-variable-removePostcss",
     "<span>removePostcss</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-postcss.js</span>",
+    "variable"
+  ],
+  [
+    "tomo-cli/src/commands/add-rollup.js~removerollup",
+    "variable/index.html#static-variable-removeRollup",
+    "<span>removeRollup</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-rollup.js</span>",
     "variable"
   ],
   [
@@ -409,49 +481,49 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber108",
+    "test-file/__tests__/utils.test.js.html#lineNumber109",
     "Makefile editor",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber128",
+    "test-file/__tests__/utils.test.js.html#lineNumber129",
     "Makefile editor addComment",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber121",
+    "test-file/__tests__/utils.test.js.html#lineNumber122",
     "Makefile editor addTask",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber117",
+    "test-file/__tests__/utils.test.js.html#lineNumber118",
     "Makefile editor append",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber137",
+    "test-file/__tests__/utils.test.js.html#lineNumber138",
     "Makefile editor appendScripts (no bin variable)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber145",
+    "test-file/__tests__/utils.test.js.html#lineNumber146",
     "Makefile editor appendScripts (with bin variable)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber113",
+    "test-file/__tests__/utils.test.js.html#lineNumber114",
     "Makefile editor create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber132",
+    "test-file/__tests__/utils.test.js.html#lineNumber133",
     "Makefile editor importScripts",
     "test"
   ],
@@ -547,85 +619,85 @@ window.esdocSearchIndex = [
   ],
   [
     "eslintconfigmoduleeditor src/utils/index.js~eslintconfigmoduleeditor,eslintconfigmoduleeditor",
-    "test-file/__tests__/utils.test.js.html#lineNumber70",
+    "test-file/__tests__/utils.test.js.html#lineNumber71",
     "Verify ESLint module editor can create and edit an ESLint configuration file",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber75",
+    "test-file/__tests__/utils.test.js.html#lineNumber76",
     "Verify ESLint module editor can create and edit an ESLint configuration file create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber91",
+    "test-file/__tests__/utils.test.js.html#lineNumber92",
     "Verify ESLint module editor can create and edit an ESLint configuration file delete",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber84",
+    "test-file/__tests__/utils.test.js.html#lineNumber85",
     "Verify ESLint module editor can create and edit an ESLint configuration file extend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber99",
+    "test-file/__tests__/utils.test.js.html#lineNumber100",
     "Verify ESLint module editor can create and edit an ESLint configuration file prepend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber81",
+    "test-file/__tests__/utils.test.js.html#lineNumber82",
     "Verify ESLint module editor can create and edit an ESLint configuration file read",
     "test"
   ],
   [
     "packagejsoneditor src/utils/index.js~packagejsoneditor,packagejsoneditor",
-    "test-file/__tests__/utils.test.js.html#lineNumber22",
+    "test-file/__tests__/utils.test.js.html#lineNumber23",
     "Verify package.json editor can create and edit a package.json manifest file",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber40",
+    "test-file/__tests__/utils.test.js.html#lineNumber41",
     "Verify package.json editor can create and edit a package.json manifest file copy",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber27",
+    "test-file/__tests__/utils.test.js.html#lineNumber28",
     "Verify package.json editor can create and edit a package.json manifest file create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber45",
+    "test-file/__tests__/utils.test.js.html#lineNumber46",
     "Verify package.json editor can create and edit a package.json manifest file delete",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber36",
+    "test-file/__tests__/utils.test.js.html#lineNumber37",
     "Verify package.json editor can create and edit a package.json manifest file extend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber58",
+    "test-file/__tests__/utils.test.js.html#lineNumber59",
     "Verify package.json editor can create and edit a package.json manifest file hasAll",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber53",
+    "test-file/__tests__/utils.test.js.html#lineNumber54",
     "Verify package.json editor can create and edit a package.json manifest file hasSome",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber33",
+    "test-file/__tests__/utils.test.js.html#lineNumber34",
     "Verify package.json editor can create and edit a package.json manifest file read",
     "test"
   ],
@@ -679,49 +751,61 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber153",
+    "test-file/__tests__/utils.test.js.html#lineNumber154",
+    "choose via options",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber155",
+    "choose via options with and without default options",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber173",
     "getIntendedInput",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber154",
+    "test-file/__tests__/utils.test.js.html#lineNumber174",
     "getIntendedInput return closest matches",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber160",
+    "test-file/__tests__/utils.test.js.html#lineNumber180",
     "getVersions",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber164",
+    "test-file/__tests__/utils.test.js.html#lineNumber184",
     "getVersions format response from npm (only allow valid version strings)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber161",
+    "test-file/__tests__/utils.test.js.html#lineNumber181",
     "getVersions handle no module name",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber170",
+    "test-file/__tests__/utils.test.js.html#lineNumber190",
     "install",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber174",
+    "test-file/__tests__/utils.test.js.html#lineNumber194",
     "install handle array of string names",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber184",
+    "test-file/__tests__/utils.test.js.html#lineNumber204",
     "install only allow valid module names",
     "test"
   ],
@@ -1068,9 +1152,21 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/commands/add-jest.js",
-    "file/src/commands/add-jest.js.html",
-    "src/commands/add-jest.js",
+    "src/commands/add-jest/index.js",
+    "file/src/commands/add-jest/index.js.html",
+    "src/commands/add-jest/index.js",
+    "file"
+  ],
+  [
+    "src/commands/add-jest/templates/example.test.js",
+    "file/src/commands/add-jest/templates/example.test.js.html",
+    "src/commands/add-jest/templates/example.test.js",
+    "file"
+  ],
+  [
+    "src/commands/add-jest/templates/setup.js",
+    "file/src/commands/add-jest/templates/setup.js.html",
+    "src/commands/add-jest/templates/setup.js",
     "file"
   ],
   [
@@ -1086,9 +1182,21 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/commands/add-parcel.js",
+    "file/src/commands/add-parcel.js.html",
+    "src/commands/add-parcel.js",
+    "file"
+  ],
+  [
     "src/commands/add-postcss.js",
     "file/src/commands/add-postcss.js.html",
     "src/commands/add-postcss.js",
+    "file"
+  ],
+  [
+    "src/commands/add-rollup.js",
+    "file/src/commands/add-rollup.js.html",
+    "src/commands/add-rollup.js",
     "file"
   ],
   [
@@ -1363,19 +1471,19 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber190",
+    "test-file/__tests__/utils.test.js.html#lineNumber210",
     "uninstall",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber191",
+    "test-file/__tests__/utils.test.js.html#lineNumber211",
     "uninstall handle array of string names",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber196",
+    "test-file/__tests__/utils.test.js.html#lineNumber216",
     "uninstall only allow valid module names",
     "test"
   ]

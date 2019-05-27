@@ -1,7 +1,7 @@
 {
-  "coverage": "41.17%",
-  "expectCount": 136,
-  "actualCount": 56,
+  "coverage": "38.12%",
+  "expectCount": 160,
+  "actualCount": 61,
   "files": {
     "src/commands/add-a11y.js": {
       "expectCount": 1,
@@ -46,11 +46,34 @@
         16
       ]
     },
-    "src/commands/add-jest.js": {
-      "expectCount": 2,
+    "src/commands/add-jest/index.js": {
+      "expectCount": 5,
       "actualCount": 1,
       "undocumentLines": [
-        4
+        6,
+        7,
+        11,
+        12
+      ]
+    },
+    "src/commands/add-jest/templates/example.test.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/commands/add-jest/templates/setup.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        3,
+        5,
+        8,
+        11,
+        14
       ]
     },
     "src/commands/add-makefile.js": {
@@ -68,12 +91,30 @@
         18
       ]
     },
+    "src/commands/add-parcel.js": {
+      "expectCount": 4,
+      "actualCount": 1,
+      "undocumentLines": [
+        9,
+        13,
+        70
+      ]
+    },
     "src/commands/add-postcss.js": {
       "expectCount": 3,
       "actualCount": 1,
       "undocumentLines": [
         9,
-        75
+        62
+      ]
+    },
+    "src/commands/add-rollup.js": {
+      "expectCount": 4,
+      "actualCount": 1,
+      "undocumentLines": [
+        9,
+        14,
+        83
       ]
     },
     "src/commands/add-rust.js": {
@@ -82,11 +123,12 @@
       "undocumentLines": []
     },
     "src/commands/add-webpack.js": {
-      "expectCount": 3,
+      "expectCount": 4,
       "actualCount": 1,
       "undocumentLines": [
         9,
-        83
+        14,
+        85
       ]
     },
     "src/commands/common.js": {
@@ -98,10 +140,10 @@
       "expectCount": 4,
       "actualCount": 0,
       "undocumentLines": [
-        17,
-        24,
-        37,
-        57
+        20,
+        27,
+        47,
+        75
       ]
     },
     "src/index.js": {
@@ -115,33 +157,32 @@
       ]
     },
     "src/ui.js": {
-      "expectCount": 31,
+      "expectCount": 30,
       "actualCount": 7,
       "undocumentLines": [
-        18,
-        19,
-        20,
         21,
         22,
         23,
         24,
         25,
         26,
-        39,
-        48,
-        70,
-        81,
-        82,
-        84,
-        90,
-        93,
-        96,
-        102,
-        119,
-        153,
-        308,
+        27,
+        28,
+        41,
+        50,
+        75,
+        86,
+        87,
+        89,
+        95,
+        98,
+        101,
+        107,
+        124,
+        158,
         318,
-        328
+        328,
+        338
       ]
     },
     "src/utils/BasicEditor.js": {
@@ -157,35 +198,36 @@
       "expectCount": 20,
       "actualCount": 8,
       "undocumentLines": [
-        7,
-        8,
-        9,
         10,
         11,
-        23,
-        24,
-        25,
+        12,
+        13,
+        14,
         26,
+        27,
+        28,
         29,
-        137,
-        149
+        32,
+        140,
+        152
       ]
     },
     "src/utils/Scaffolder.js": {
       "expectCount": 8,
       "actualCount": 6,
       "undocumentLines": [
-        6,
-        7
+        7,
+        8
       ]
     },
     "src/utils/common.js": {
-      "expectCount": 10,
+      "expectCount": 11,
       "actualCount": 7,
       "undocumentLines": [
         5,
         12,
-        13
+        13,
+        14
       ]
     },
     "src/utils/createJsonEditor.js": {
@@ -205,10 +247,11 @@
       ]
     },
     "src/utils/index.js": {
-      "expectCount": 10,
-      "actualCount": 9,
+      "expectCount": 14,
+      "actualCount": 12,
       "undocumentLines": [
-        65
+        11,
+        81
       ]
     }
   }
