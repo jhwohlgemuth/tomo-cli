@@ -31,7 +31,6 @@ export const tasks = [
                 .copy('app.js')
                 .target(`${sourceDirectory}/shims`)
                 .copy('mn.renderer.shim.js')
-                .copy('mn.templates.shim.js')
                 .target(`${sourceDirectory}/plugins`)
                 .copy('mn.radio.logging.js')
                 .copy('mn.redux.state.js')
