@@ -7,8 +7,7 @@ import {
 import {allDoExist, allDoExistSync, allDoNotExist, someDoExist} from '../utils/common';
 
 const BUILD_DEPENDENCIES = [
-    'del-cli',
-    'open-cli'
+    'del-cli'
 ];
 const PARCEL_DEPENDENCIES = [
     'parcel-bundler'
@@ -27,10 +26,7 @@ export const addParcel = [
                 build: `parcel build ./assets/index.html`,
                 'prebuild:watch': 'npm run clean:build',
                 'build:watch': `parcel watch ./assets/index.html`,
-                open: 'open-cli http://localhost:1234',
-                serve: 'parcel ./assets/index.html',
-                prestart: 'npm run open',
-                start: 'npm run serve'
+                start: 'parcel ./assets/index.html --open'
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
@@ -78,9 +74,6 @@ export const removeParcel = [
                 build: undefined,
                 'prebuild:watch': undefined,
                 'build:watch': undefined,
-                open: undefined,
-                serve: undefined,
-                prestart: undefined,
                 start: undefined
             };
             await (new PackageJsonEditor())

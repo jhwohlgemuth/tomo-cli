@@ -759,10 +759,7 @@ exports[`"Add" commands add-parcel 2`] = `
         \\"build\\": \\"parcel build ./assets/index.html\\",
         \\"prebuild:watch\\": \\"npm run clean:build\\",
         \\"build:watch\\": \\"parcel watch ./assets/index.html\\",
-        \\"open\\": \\"open-cli http://localhost:1234\\",
-        \\"serve\\": \\"parcel ./assets/index.html\\",
-        \\"prestart\\": \\"npm run open\\",
-        \\"start\\": \\"npm run serve\\",
+        \\"start\\": \\"parcel ./assets/index.html --open\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run build:watch\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
     }
 }
@@ -1274,10 +1271,7 @@ exports[`"Remove" commands remove parcel 1`] = `
         \\"build\\": \\"parcel build ./assets/index.html\\",
         \\"prebuild:watch\\": \\"npm run clean:build\\",
         \\"build:watch\\": \\"parcel watch ./assets/index.html\\",
-        \\"open\\": \\"open-cli http://localhost:1234\\",
-        \\"serve\\": \\"parcel ./assets/index.html\\",
-        \\"prestart\\": \\"npm run open\\",
-        \\"start\\": \\"npm run serve\\"
+        \\"start\\": \\"parcel ./assets/index.html --open\\"
     }
 }
 "
@@ -1289,7 +1283,7 @@ exports[`"Remove" commands remove parcel 2`] = `
     children: [
         {
             name: package.json,
-            size: 603,
+            size: 490,
             type: file
         },
         {
@@ -1298,7 +1292,7 @@ exports[`"Remove" commands remove parcel 2`] = `
             type: file
         }
     ],
-    size: 672,
+    size: 559,
     type: directory
 }
 "
