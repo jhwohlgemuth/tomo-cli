@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "description": "A friendly command line tool designed to help create sustainable software using web technology",
     "license": "MIT",
+    "main": "dist/utils/index.js",
     "bin": {
         "tomo": "dist/index.js"
     },
@@ -112,10 +113,5 @@
     "bugs": {
         "url": "https://github.com/jhwohlgemuth/tomo-cli/issues"
     },
-    "homepage": "https://github.com/jhwohlgemuth/tomo-cli#readme",
-    "script": {
-        "lint": "eslint . -c ./.eslintrc.js --fix",
-        "lint:watch": "watch 'npm run lint' undefined",
-        "lint:tests": "eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore"
-    }
+    "homepage": "https://github.com/jhwohlgemuth/tomo-cli#readme"
 }
