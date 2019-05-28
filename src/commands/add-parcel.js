@@ -23,10 +23,10 @@ export const addParcel = [
             const scripts = {
                 'clean:build': `del-cli ${outputDirectory}`,
                 prebuild: 'npm run clean:build',
-                build: `parcel build ./assets/index.html`,
+                build: `parcel build --out-dir ${outputDirectory} ./assets/index.html`,
                 'prebuild:watch': 'npm run clean:build',
-                'build:watch': `parcel watch ./assets/index.html`,
-                start: 'parcel ./assets/index.html --open'
+                'build:watch': `parcel watch --out-dir ${outputDirectory} ./assets/index.html`,
+                start: `parcel ./assets/index.html --out-dir ${outputDirectory} --open`
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
