@@ -1,13 +1,13 @@
-"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.iterator"),require("core-js/modules/es.object.entries"),require("core-js/modules/es.promise"),require("core-js/modules/es.string.replace"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.allDoNotExistSync=exports.allDoNotExist=exports.allDoExistSync=exports.allDoExist=exports.someDoExistSync=exports.someDoExist=exports.format=exports.getBinDirectory=exports.parse=exports.dict=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_path=require("path"),_fsExtra=require("fs-extra"),_prettier=_interopRequireDefault(require("prettier"));const PRETTIER_OPTIONS={bracketSpacing:!1,parser:"json-stringify",printWidth:80,tabWidth:4,quotes:!0},dict=a=>new Map(Object.entries(a));exports.dict=dict;const parse=a=>JSON.parse(JSON.stringify(a));exports.parse=parse;const getBinDirectory=a=>{const[b]=a.split("Makefile");return`${b}node_modules/.bin/`};/**
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.iterator"),require("core-js/modules/es.object.entries"),require("core-js/modules/es.promise"),require("core-js/modules/es.string.replace"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.allDoNotExistSync=exports.allDoNotExist=exports.allDoExistSync=exports.allDoExist=exports.someDoExistSync=exports.someDoExist=exports.format=exports.getBinDirectory=exports.parse=exports.dict=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_path=require("path"),_fsExtra=require("fs-extra"),_prettier=_interopRequireDefault(require("prettier"));const PRETTIER_OPTIONS={bracketSpacing:!1,parser:"json-stringify",printWidth:150,tabWidth:4,singleQuote:!0},dict=a=>new Map(Object.entries(a));exports.dict=dict;const parse=a=>JSON.parse(JSON.stringify(a));exports.parse=parse;const getBinDirectory=a=>{const[b]=a.split("Makefile");return`${b}node_modules/.bin/`};/**
  * Format input code using Prettier
  * @param {*} [code=''] Code to be formatted
  * @example <caption>Prettier options</caption>
  * {
  *     bracketSpacing: false,
  *     parser: 'json-stringify',
- *     printWidth: 80,
+ *     printWidth: 150,
  *     tabWidth: 4,
- *     quotes: true
+ *     singleQuote: true
  * }
  * @return {string} Code formatted by Prettier
  */exports.getBinDirectory=getBinDirectory;const format=(a={})=>_prettier.default.format(JSON.stringify(a),PRETTIER_OPTIONS).replace(/"/g,"");/**

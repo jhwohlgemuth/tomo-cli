@@ -5,9 +5,9 @@ import prettier from 'prettier';
 const PRETTIER_OPTIONS = {
     bracketSpacing: false,
     parser: 'json-stringify',
-    printWidth: 80,
+    printWidth: 150,
     tabWidth: 4,
-    quotes: true
+    singleQuote: true
 };
 export const dict = val => new Map(Object.entries(val));
 export const parse = data => JSON.parse(JSON.stringify(data));
@@ -22,9 +22,9 @@ export const getBinDirectory = path => {
  * {
  *     bracketSpacing: false,
  *     parser: 'json-stringify',
- *     printWidth: 80,
+ *     printWidth: 150,
  *     tabWidth: 4,
- *     quotes: true
+ *     singleQuote: true
  * }
  * @return {string} Code formatted by Prettier
  */
