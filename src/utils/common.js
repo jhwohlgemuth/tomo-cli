@@ -9,8 +9,11 @@ const PRETTIER_OPTIONS = {
     tabWidth: 4,
     singleQuote: true
 };
-export const dict = val => new Map(Object.entries(val));
-export const parse = data => JSON.parse(JSON.stringify(data));
+const joinPath = name => join(process.cwd(), name);
+const checkPathExists = name => name |> joinPath |> pathExists;
+const checkPathExistsSync = name => name |> joinPath |> pathExistsSync;
+export const dict = val => val |> Object.entries |> new Map(#);
+export const parse = data => data |> JSON.stringify |> JSON.parse;
 export const getBinDirectory = path => {
     const [packageDirectory] = path.split('Makefile');
     return `${packageDirectory}node_modules/.bin/`;
@@ -28,7 +31,9 @@ export const getBinDirectory = path => {
  * }
  * @return {string} Code formatted by Prettier
  */
-export const format = (code = {}) => prettier.format(JSON.stringify(code), PRETTIER_OPTIONS).replace(/"/g, '');
+export const format = (code = {}) => prettier
+    .format(JSON.stringify(code), PRETTIER_OPTIONS)
+    .replace(/"/g, '');
 /**
  * Check that at least one file or files exist
  * @param  {...string} args File or folder path(s)
@@ -45,7 +50,7 @@ export const format = (code = {}) => prettier.format(JSON.stringify(code), PRETT
  * @return {boolean} Some files/path do exist (true) or all do not exist (false)
  */
 export const someDoExist = async (...args) => {
-    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));
+    const checks = await Promise.all(args.map(checkPathExists));
     return checks.some(Boolean);
 };
 /**
@@ -53,14 +58,14 @@ export const someDoExist = async (...args) => {
  * @param  {...string} args File or folder path(s)
  * @return {boolean} Some files/path do exist (true) or all do not exist (false)
  */
-export const someDoExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).some(Boolean);
+export const someDoExistSync = (...args) => args.map(checkPathExistsSync).some(Boolean);
 /**
  * Check that all files exist
  * @param  {...string} args File of folder paths
  * @return {boolean} All files/paths exist (true) or do not (false)
  */
 export const allDoExist = async (...args) => {
-    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));
+    const checks = await Promise.all(args.map(checkPathExists));
     return checks.every(Boolean);
 };
 /**
@@ -68,7 +73,7 @@ export const allDoExist = async (...args) => {
  * @param  {...string} args File of folder paths
  * @return {boolean} All files/paths exist (true) or do not (false)
  */
-export const allDoExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).every(Boolean);
+export const allDoExistSync = (...args) => args.map(checkPathExistsSync).every(Boolean);
 /**
  * Check that all files do not exist
  * @example
@@ -81,7 +86,7 @@ export const allDoExistSync = (...args) => args.map(val => pathExistsSync(join(p
  * @return {boolean} All files/paths do not exist (true) or some do (false)
  */
 export const allDoNotExist = async (...args) => {
-    const checks = await Promise.all(args.map(val => pathExists(join(process.cwd(), val))));
+    const checks = await Promise.all(args.map(checkPathExists));
     return checks.every(val => !val);
 };
 /**
@@ -89,4 +94,4 @@ export const allDoNotExist = async (...args) => {
  * @param  {...string} args File or folder path(s)
  * @return {boolean} All files/paths do not exist (true) or some do (false)
  */
-export const allDoNotExistSync = (...args) => args.map(val => pathExistsSync(join(process.cwd(), val))).every(val => !val);
+export const allDoNotExistSync = (...args) => args.map(checkPathExistsSync).every(val => !val);
