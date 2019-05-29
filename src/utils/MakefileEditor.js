@@ -1,4 +1,3 @@
-import flow from 'lodash/flow';
 import kebabCase from 'lodash/kebabCase';
 import last from 'lodash/last';
 import negate from 'lodash/negate';
@@ -86,11 +85,10 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
             const matches = action.match(re);
             return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial);
         };
-        const formatted = flow(
-            replaceNpmRunQuotes,
-            replaceNpmWithArguments,
-            replaceNpmRunCommands
-        )(action);
+        const formatted = action
+            |> replaceNpmRunQuotes
+            |> replaceNpmWithArguments
+            |> replaceNpmRunCommands;
         const [command] = formatted.split(' ');
         const useBinVariable = isLocalNpmCommand(command, path);
         this.useBinVariable = this.useBinVariable || useBinVariable;
