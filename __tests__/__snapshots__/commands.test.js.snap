@@ -738,7 +738,7 @@ exports[`"Add" commands add-marionette 1`] = `
 exports[`"Add" commands add-parcel 1`] = `
 "module.exports = {
     contents: [
-        assets/index.html
+        './assets/index.html'
     ]
 };"
 `;
@@ -1288,11 +1288,11 @@ exports[`"Remove" commands remove parcel 2`] = `
         },
         {
             name: purgecss.config.js,
-            size: 69,
+            size: 73,
             type: file
         }
     ],
-    size: 610,
+    size: 614,
     type: directory
 }
 "
