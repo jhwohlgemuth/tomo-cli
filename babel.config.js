@@ -12,6 +12,7 @@ module.exports = {
         '@babel/transform-runtime',
         '@babel/proposal-class-properties',
         '@babel/proposal-optional-chaining',
-        '@babel/proposal-export-default-from'
+        '@babel/proposal-export-default-from',
+        ['@babel/proposal-pipeline-operator', {proposal: 'smart'}]
     ]
 };
