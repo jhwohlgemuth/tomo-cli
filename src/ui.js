@@ -285,6 +285,27 @@ export const TaskList = ({command, options, terms, done}) => {
                 borderStyle={'round'}>
                 <Color bold white>{command} {terms.join(' ')}</Color>
             </InkBox>
+            <Box flexDirection={'column'}>
+                <Box marginLeft={4} marginBottom={1}>
+                    <Color dim>↳  </Color>
+                    {tasksComplete ?
+                        <Color bold green>All Done!</Color> :
+                        <>
+                            <Color dim>Finished </Color>
+                            <Color bold white>{completed.length + skipped.length}</Color>
+                            <Color bold dim> of </Color>
+                            <Color bold white>{tasks.length}</Color>
+                            <Color dim> tasks</Color>
+                        </>
+                    }
+                    <Color dim> (</Color>
+                    <Color bold>{completed.length}</Color>
+                    <Color dim> completed, </Color>
+                    <Color bold>{skipped.length}</Color>
+                    <Color dim> skipped</Color>
+                    <Color>)</Color>
+                </Box>
+            </Box>
             <Box flexDirection='column' marginBottom={1}>
                 {tasks.map(({optional, text}, index) => {
                     const {completed, errors, skipped} = state;
@@ -295,7 +316,8 @@ export const TaskList = ({command, options, terms, done}) => {
                     const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
                     const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));
                     const data = {isSkipped, isComplete, isErrored, isPending, text};
-                    return shouldBeShown ?
+                    const isCurrentOrPrevious = (index - 1) <= Math.max(...[...completed, ...skipped]);
+                    return (isCurrentOrPrevious && shouldBeShown) ?
                         <Fragment key={key}>{debug && <Debug data={data} title={`Data - task #${index}`}></Debug>}<Task
                             text={text}
                             isSkipped={isSkipped}
