@@ -5,10 +5,10 @@ exports[`Offline warning can render 1`] = `
 [33m ┌───────────────────────────┐[39m
  [33m│[39m [33m(⌒_⌒;) This is awkward...[39m [33m│[39m
 [33m └───────────────────────────┘[39m
-    ↳ ...but you appear to be [31m[1moffline[22m[39m
+    ↳ ...you appear to be [31m[1moffline[22m[39m
     ↳ Please connect to the internet and [36m[1mtry again[22m[39m
 
-      [2mNo dependencies were installed[22m
+      [2mNo dependencies will be installed[22m
 "
 `;
 
@@ -17,7 +17,7 @@ exports[`Offline warning does not render when offline and skipInstall === true 1
 [36m ╭───────────╮[39m
  [36m│[39m [37m[1madd babel[22m[39m [36m│[39m
 [36m ╰───────────╯[39m
-    [2m↳  [22m[2mFinished [22m[37m[1m4[22m[39m[2m[1m of [2m[22m[37m[1m5[22m[39m[2m tasks[22m[2m ([22m[1m1[22m[2m completed, [22m[1m3[22m[2m skipped[22m)
+    [2m↳  [22m[2mFinished [22m[37m[1m1[22m[39m[2m[1m of [2m[22m[37m[1m2[22m[39m[2m tasks[22m[2m ([22m[1m1[22m[2m completed, [22m[1m3[22m[2m skipped[22m)
 
    [32m[1m✔ [22m[39m[2mCreate Babel config file[22m
    [2m[1m✔ [2m[22m[2mAdd Babel build task to package.json[22m
@@ -31,16 +31,16 @@ exports[`Offline warning renders when offline and skipInstall === false 1`] = `
 [33m ┌───────────────────────────┐[39m
  [33m│[39m [33m(⌒_⌒;) This is awkward...[39m [33m│[39m
 [33m └───────────────────────────┘[39m
-    ↳ ...but you appear to be [31m[1moffline[22m[39m
+    ↳ ...you appear to be [31m[1moffline[22m[39m
     ↳ Please connect to the internet and [36m[1mtry again[22m[39m
 
-      [2mNo dependencies were installed[22m
+      [2mNo dependencies will be installed[22m
 
 [36m[39m
 [36m ╭───────────╮[39m
  [36m│[39m [37m[1madd babel[22m[39m [36m│[39m
 [36m ╰───────────╯[39m
-    [2m↳  [22m[2mFinished [22m[37m[1m4[22m[39m[2m[1m of [2m[22m[37m[1m5[22m[39m[2m tasks[22m[2m ([22m[1m1[22m[2m completed, [22m[1m3[22m[2m skipped[22m)
+    [2m↳  [22m[2mFinished [22m[37m[1m1[22m[39m[2m[1m of [2m[22m[37m[1m2[22m[39m[2m tasks[22m[2m ([22m[1m1[22m[2m completed, [22m[1m3[22m[2m skipped[22m)
 
    [32m[1m✔ [22m[39m[2mCreate Babel config file[22m
    [2m[1m✔ [2m[22m[2mAdd Babel build task to package.json[22m

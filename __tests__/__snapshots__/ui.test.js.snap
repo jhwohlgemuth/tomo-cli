@@ -54,7 +54,9 @@ exports[`populateQueue function can only run tasks that pass condition 2`] = `
 Array [
   Array [
     Object {
-      "payload": "online",
+      "payload": Object {
+        "online": true,
+      },
       "type": "status",
     },
   ],
@@ -89,7 +91,9 @@ exports[`populateQueue function can run tasks with options and dispatch task res
 Array [
   Array [
     Object {
-      "payload": "online",
+      "payload": Object {
+        "online": true,
+      },
       "type": "status",
     },
   ],

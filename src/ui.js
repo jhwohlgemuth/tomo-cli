@@ -20,6 +20,7 @@ import {dict, format} from './utils/common';
 
 const {assign} = Object;
 const space = ' ';
+const maybeApply = fn => isFunction(fn) && fn();
 const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
 const X = () => <Color bold red>{figures.cross}{space}</Color>;
 const Pending = () => <Color cyan><Spinner></Spinner>{space}</Color>;
@@ -160,13 +161,41 @@ export const OfflineWarning = () => <Box flexDirection={'column'} marginBottom={
         <Color yellow>(⌒_⌒;) This is awkward...</Color>
     </InkBox>
     <Box marginLeft={4} flexDirection={'column'}>
-        <Box>↳ <Text>...but you appear to be <Color bold red>offline</Color></Text></Box>
+        <Box>↳ <Text>...you appear to be <Color bold red>offline</Color></Text></Box>
         <Box>↳ <Text>Please connect to the internet and <Color bold cyan>try again</Color></Text></Box>
     </Box>
     <Box marginLeft={6} marginTop={1}>
-        <Color dim>No dependencies were installed</Color>
+        <Color dim>No dependencies will be installed</Color>
     </Box>
 </Box>;
+export const Status = ({tasks, completed, skipped}) => {
+    const tasksComplete = (completed.length + skipped.length) === tasks.length;
+    return <Box flexDirection={'column'}>
+        <Box marginLeft={4} marginBottom={1}>
+            <Color dim>↳  </Color>
+            {tasksComplete ?
+                <Color bold green>All Done!</Color> :
+                <Fragment>
+                    <Color dim>Finished </Color>
+                    <Color bold white>{completed.length}</Color>
+                    <Color bold dim> of </Color>
+                    <Color bold white>{tasks.length - skipped.length}</Color>
+                    <Color dim> tasks</Color>
+                </Fragment>
+            }
+            <Color dim> (</Color>
+            <Color bold>{completed.length}</Color>
+            <Color dim> completed, </Color>
+            <Color bold>{skipped.length}</Color>
+            <Color dim> skipped</Color>
+            <Color>)</Color>
+        </Box>
+    </Box>;
+};
+export const WarningAndErrorsHeader = ({errors, hasError, isOnline, options: {skipInstall}}) => <Fragment>
+    {!isOnline && !skipInstall && <OfflineWarning/>}
+    {hasError && <CommandError errors={errors}></CommandError>}
+</Fragment>;
 /**
  * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
  * @param {Object} data Data to be used for populating queue
@@ -180,7 +209,7 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
     const {queue, tasks, dispatch, options} = data;
     const {skipInstall} = options;
     const isNotOffline = skipInstall || await isOnline();
-    dispatch({type: 'status', payload: isNotOffline ? 'online' : 'offline'});
+    dispatch({type: 'status', payload: {online: isNotOffline}});
     for (const [index, item] of tasks.entries()) {
         const {condition, task} = item;
         try {
@@ -230,6 +259,37 @@ export const Task = ({isComplete, isErrored, isPending, isSkipped, text}) => <Bo
     {isPending && <Pending/>}
     <Text><Color dim={isComplete}>{text}</Color></Text>
 </Box>;
+export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='column' marginBottom={1}>
+    {tasks.map(({optional, text}, index) => {
+        const maybeApplyOrReturnTrue = (val, options) => isUndefined(val) || (isFunction(val) && val(options));
+        const {completed, errors, skipped} = state;
+        const key = camelCase(text);
+        const isSkipped = skipped.includes(index);
+        const isComplete = completed.includes(index) || isSkipped;
+        const isErrored = errors.map(error => error.payload.index).includes(index);
+        const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
+        const shouldBeShown = maybeApplyOrReturnTrue(optional, options);
+        const data = {isSkipped, isComplete, isErrored, isPending, text};
+        const showDebug = debug && <Debug data={data} title={`Data - task #${index}`}></Debug>;
+        const isCurrentOrPrevious = (index - 1) <= Math.max(...[...completed, ...skipped]);
+        return (isCurrentOrPrevious && shouldBeShown) ?
+            <Fragment key={key}>{showDebug}<Task
+                text={text}
+                isSkipped={isSkipped}
+                isComplete={isComplete}
+                isErrored={isErrored}
+                isPending={isPending}>
+            </Task></Fragment> :
+            <Fragment key={key}>{showDebug}<Box></Box></Fragment>;
+    })}
+</Box>;
+export const TaskListTitle = ({command, hasError, isComplete, terms}) => <InkBox
+    margin={{left: 1, top: 1}}
+    padding={{left: 1, right: 1}}
+    borderColor={isComplete ? 'green' : (hasError ? 'red' : 'cyan')}
+    borderStyle={'round'}>
+    <Color bold white>{command} {terms.join(' ')}</Color>
+</InkBox>;
 /**
  * Task list component
  * @param {Object} props Function component props
@@ -256,10 +316,10 @@ export const TaskList = ({command, options, terms, done}) => {
         completed: [],
         skipped: [],
         errors: [],
-        status: 'online'
+        status: {online: true}
     };
     const [state, dispatch] = useReducer(reducer, initialState);
-    const {completed, errors, skipped, status} = state;
+    const {completed, errors, skipped, status: {online}} = state;
     const queue = new Queue({concurrency: 1});
     const tasks = terms
         .map(term => commands[command][term])
@@ -268,66 +328,19 @@ export const TaskList = ({command, options, terms, done}) => {
         .flat(1);
     const tasksComplete = ((completed.length + skipped.length) === tasks.length);
     const hasError = (errors.length > 0);
-    const {debug, skipInstall} = options;
+    const {debug} = options;
+    const data = {completed, errors, skipped, tasks, terms};
     useEffect(() => {
         populateQueue({queue, tasks, options, dispatch});
     }, []);
-    tasksComplete && isFunction(done) && done();
+    tasksComplete && maybeApply(done);
     return <ErrorBoundary>
-        {debug && <Debug data={{completed, errors, skipped, tasks, terms}} title={'Tasklist data'}></Debug>}
-        {status === 'offline' && !skipInstall && <OfflineWarning/>}
-        {hasError && <CommandError errors={errors}></CommandError>}
+        {debug && <Debug data={data} title={'Tasklist data'}></Debug>}
+        <WarningAndErrorsHeader errors={errors} hasError={hasError} isOnline={online} options={options}></WarningAndErrorsHeader>
         <Box flexDirection={'column'} marginBottom={1}>
-            <InkBox
-                margin={{left: 1, top: 1}}
-                padding={{left: 1, right: 1}}
-                borderColor={tasksComplete ? 'green' : (hasError ? 'red' : 'cyan')}
-                borderStyle={'round'}>
-                <Color bold white>{command} {terms.join(' ')}</Color>
-            </InkBox>
-            <Box flexDirection={'column'}>
-                <Box marginLeft={4} marginBottom={1}>
-                    <Color dim>↳  </Color>
-                    {tasksComplete ?
-                        <Color bold green>All Done!</Color> :
-                        <>
-                            <Color dim>Finished </Color>
-                            <Color bold white>{completed.length + skipped.length}</Color>
-                            <Color bold dim> of </Color>
-                            <Color bold white>{tasks.length}</Color>
-                            <Color dim> tasks</Color>
-                        </>
-                    }
-                    <Color dim> (</Color>
-                    <Color bold>{completed.length}</Color>
-                    <Color dim> completed, </Color>
-                    <Color bold>{skipped.length}</Color>
-                    <Color dim> skipped</Color>
-                    <Color>)</Color>
-                </Box>
-            </Box>
-            <Box flexDirection='column' marginBottom={1}>
-                {tasks.map(({optional, text}, index) => {
-                    const {completed, errors, skipped} = state;
-                    const key = camelCase(text);
-                    const isSkipped = skipped.includes(index);
-                    const isComplete = completed.includes(index) || isSkipped;
-                    const isErrored = errors.map(error => error.payload.index).includes(index);
-                    const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
-                    const shouldBeShown = isUndefined(optional) || (isFunction(optional) && optional(options));
-                    const data = {isSkipped, isComplete, isErrored, isPending, text};
-                    const isCurrentOrPrevious = (index - 1) <= Math.max(...[...completed, ...skipped]);
-                    return (isCurrentOrPrevious && shouldBeShown) ?
-                        <Fragment key={key}>{debug && <Debug data={data} title={`Data - task #${index}`}></Debug>}<Task
-                            text={text}
-                            isSkipped={isSkipped}
-                            isComplete={isComplete}
-                            isErrored={isErrored}
-                            isPending={isPending}>
-                        </Task></Fragment> :
-                        <Fragment key={key}>{debug && <Debug data={data} title={`Data - task #${index}`}></Debug>}<Box></Box></Fragment>;
-                })}
-            </Box>
+            <TaskListTitle command={command} hasError={hasError} isComplete={tasksComplete} terms={terms}></TaskListTitle>
+            <Status tasks={tasks} completed={completed} skipped={skipped}></Status>
+            <Tasks debug={debug} options={options} state={state} tasks={tasks}></Tasks>
         </Box>
     </ErrorBoundary>;
 };
@@ -360,8 +373,6 @@ class UI extends Component {
     render() {
         const {done, flags} = this.props;
         const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
-        const VALID_COMMANDS = hasCommand ? Object.keys(commands[intendedCommand]) : [];
-        const selectInputCommandItems = hasCommand ? VALID_COMMANDS.map(command => ({label: command, value: command})) : [];
         return <ErrorBoundary>
             {showWarning ?
                 <Warning callback={this.updateWarning}>
@@ -370,7 +381,11 @@ class UI extends Component {
                 (hasCommand && hasTerms) ?
                     <TaskList command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :
                     hasCommand ?
-                        <SubCommandSelect command={intendedCommand} items={selectInputCommandItems} onSelect={this.updateTerms}></SubCommandSelect> :
+                        <SubCommandSelect
+                            command={intendedCommand}
+                            items={Object.keys(commands[intendedCommand]).map(command => ({label: command, value: command}))}
+                            onSelect={this.updateTerms}>
+                        </SubCommandSelect> :
                         <UnderConstruction />
             }
         </ErrorBoundary>;
@@ -433,6 +448,11 @@ ErrorMessage.propTypes = {
 ErrorBoundary.propTypes = {
     children: PropTypes.node
 };
+Status.propTypes = {
+    completed: PropTypes.array,
+    skipped: PropTypes.array,
+    tasks: PropTypes.arrayOf(PropTypes.object)
+};
 Task.propTypes = {
     isComplete: PropTypes.bool,
     isErrored: PropTypes.bool,
@@ -458,9 +478,27 @@ TaskList.defaultProps = {
     options: {skipInstall: false},
     terms: []
 };
+TaskListTitle.propTypes = {
+    command: PropTypes.string,
+    hasError: PropTypes.bool,
+    isComplete: PropTypes.bool,
+    terms: PropTypes.arrayOf(PropTypes.string)
+};
+Tasks.propTypes = {
+    debug: PropTypes.bool,
+    options: PropTypes.object,
+    state: PropTypes.object,
+    tasks: PropTypes.arrayOf(PropTypes.object)
+};
 Warning.propTypes = {
     callback: PropTypes.func,
     children: PropTypes.node
+};
+WarningAndErrorsHeader.propTypes = {
+    errors: PropTypes.array,
+    hasError: PropTypes.bool,
+    isOnline: PropTypes.bool,
+    options: PropTypes.object
 };
 UI.propTypes = {
     input: PropTypes.array,
