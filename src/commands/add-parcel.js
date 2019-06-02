@@ -58,7 +58,7 @@ export const addParcel = [
         condition: () => allDoNotExist('purgecss.config.js')
     },
     {
-        text: 'Install Parcel and development dependencies',
+        text: 'Install Parcel development dependencies',
         task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...PARCEL_DEPENDENCIES], {dev: true, skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
     }

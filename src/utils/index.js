@@ -19,7 +19,7 @@ export const choose = choices => options => {
     const passed = keys(options);
     const lookup = dict(choices);
     const DEFAULT = lookup.has('default') ? lookup.get('default') : lookup.get(possible[0]);
-    const [choice] = possible.filter(val => passed.includes(val));
+    const [choice] = possible.filter(val => passed.includes(val)).filter(val => options[val]);
     return choice ? lookup.get(choice) : DEFAULT;
 };
 /**
