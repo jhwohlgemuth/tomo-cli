@@ -168,6 +168,7 @@ describe('choose via options', () => {
         expect(choose(withDefault)({d: true})).toEqual(withDefault.default);
         expect(choose(withDefault)({b: true})).toEqual(withDefault.b);
         expect(choose(withDefault)({b: true, c: true})).toEqual(withDefault.b);
+        expect(choose(withDefault)({a: false, c: true})).toEqual(withDefault.c);
     });
 });
 describe('getIntendedInput', () => {

@@ -189,7 +189,7 @@ describe('"Add" commands', () => {
     test('add-parcel', async () => {
         const sourceDirectory = './src';
         const outputDirectory = './dist';
-        const options = { outputDirectory, skipInstall, sourceDirectory};
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(createPackageJson, {});
         await run(addEslint, options);
         await run(addParcel, options);
@@ -251,7 +251,7 @@ describe('"Remove" commands', () => {
     });
     test('remove parcel', async () => {
         const outputDirectory = './dist';
-        const options = { outputDirectory, skipInstall };
+        const options = {outputDirectory, skipInstall};
         await run(createPackageJson, {});
         await run(addParcel, options);
         const pre = fileContents('./package.json');
