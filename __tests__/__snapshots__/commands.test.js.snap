@@ -96,7 +96,7 @@ exports[`"Add" commands add-browsersync 3`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"prebuild\\": \\"del-cli ./dist/assets\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
         \\"build\\": \\"webpack\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:watch\\": \\"watch 'npm run build' src\\",
@@ -367,7 +367,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1473,
+            size: 1471,
             type: file
         },
         {
@@ -466,7 +466,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1578,
+            size: 1576,
             type: file
         },
         {
@@ -533,7 +533,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 14773,
+    size: 14769,
     type: directory
 }
 "
@@ -545,7 +545,7 @@ exports[`"Add" commands add-makefile 4`] = `
 "# Makefile built from /path/to/package.json
 
 build: ## Task description
-	del-cli ./dist/assets
+	del-cli dist/assets
 	webpack
 	$(MAKE) copy
 
@@ -810,7 +810,7 @@ exports[`"Add" commands add-rollup 1`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"prebuild\\": \\"del-cli ./dist/assets\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
         \\"build\\": \\"rollup -c\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:watch\\": \\"watch 'npm run build' ./src\\",
@@ -875,7 +875,7 @@ exports[`"Add" commands add-webpack 2`] = `
         },
         {
             name: package.json,
-            size: 947,
+            size: 945,
             type: file
         },
         {
@@ -884,7 +884,7 @@ exports[`"Add" commands add-webpack 2`] = `
             type: file
         }
     ],
-    size: 2438,
+    size: 2436,
     type: directory
 }
 "
@@ -943,7 +943,7 @@ exports[`"Add" commands add-webpack 4`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"prebuild\\": \\"del-cli ./dist/assets\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
@@ -1062,7 +1062,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1572,
+            size: 1570,
             type: file
         },
         {
@@ -1129,7 +1129,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13053,
+    size: 13051,
     type: directory
 }
 "
@@ -1153,7 +1153,7 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"prebuild\\": \\"del-cli ./dist/assets\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
@@ -1401,7 +1401,7 @@ exports[`"Remove" commands remove rollup 1`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"prebuild\\": \\"del-cli ./dist/assets\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
         \\"build\\": \\"rollup -c\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:watch\\": \\"watch 'npm run build' src\\"
@@ -1416,7 +1416,7 @@ exports[`"Remove" commands remove rollup 2`] = `
     children: [
         {
             name: package.json,
-            size: 581,
+            size: 579,
             type: file
         },
         {
@@ -1425,7 +1425,7 @@ exports[`"Remove" commands remove rollup 2`] = `
             type: file
         }
     ],
-    size: 1338,
+    size: 1336,
     type: directory
 }
 "
@@ -1465,7 +1465,7 @@ exports[`"Remove" commands remove webpack 1`] = `
     children: [
         {
             name: package.json,
-            size: 678,
+            size: 676,
             type: file
         },
         {
@@ -1474,7 +1474,7 @@ exports[`"Remove" commands remove webpack 1`] = `
             type: file
         }
     ],
-    size: 1433,
+    size: 1431,
     type: directory
 }
 "
@@ -1491,7 +1491,7 @@ exports[`"Remove" commands remove webpack 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"prebuild\\": \\"del-cli ./dist/assets\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
         \\"build\\": \\"webpack\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:watch\\": \\"watch 'npm run build' src\\",

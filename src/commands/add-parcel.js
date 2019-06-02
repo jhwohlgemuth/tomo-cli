@@ -19,14 +19,14 @@ const PARCEL_DEPENDENCIES = [
 export const addParcel = [
     {
         text: 'Add Parcel build tasks to package.json',
-        task: async ({outputDirectory}) => {
+        task: async ({assetsDirectory, outputDirectory}) => {
             const scripts = {
                 'clean:build': `del-cli ${outputDirectory}`,
                 prebuild: 'npm run clean:build',
-                build: `parcel build --out-dir ${outputDirectory} ./assets/index.html`,
+                build: `parcel build --out-dir ${outputDirectory} ${assetsDirectory}/index.html`,
                 'prebuild:watch': 'npm run clean:build',
-                'build:watch': `parcel watch --out-dir ${outputDirectory} ./assets/index.html`,
-                start: `parcel ./assets/index.html --out-dir ${outputDirectory} --open`
+                'build:watch': `parcel watch --out-dir ${outputDirectory} ${assetsDirectory}/index.html`,
+                start: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --open`
             };
             await (new PackageJsonEditor())
                 .extend({scripts})

@@ -42,9 +42,9 @@ export const addPostcss = [
     },
     {
         text: 'Add PostCSS tasks to package.json',
-        task: async ({outputDirectory}) => {
+        task: async ({assetsDirectory, outputDirectory}) => {
             const scripts = {
-                'build:css': `postcss ./assets/css/style.css --dir ${outputDirectory}`,
+                'build:css': `postcss ${assetsDirectory}/css/style.css --dir ${outputDirectory}`,
                 'build:css:watch': 'npm run build:css -- --watch'
             };
             await (new PackageJsonEditor())

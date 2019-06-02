@@ -22,8 +22,8 @@ const scaffolder = new Scaffolder({sourceDirectory});
  */
 export const tasks = [
     {
-        text: 'Add Marionette.js boilerplate and assets',
-        task: async ({sourceDirectory, useParcel, usePika}) => {
+        text: 'Copy Marionette.js boilerplate and assets',
+        task: async ({assetsDirectory, sourceDirectory, useParcel, usePika}) => {
             const index = (useParcel || usePika) ? 'index-in-place.html' : 'index.html';
             await scaffolder
                 .target(sourceDirectory)
@@ -35,17 +35,17 @@ export const tasks = [
                 .target(`${sourceDirectory}/plugins`)
                 .copy('mn.radio.logging.js')
                 .copy('mn.redux.state.js')
-                .target('assets')
+                .target(`${assetsDirectory}`)
                 .copy(index, 'index.html')
-                .target('assets/css')
+                .target(`${assetsDirectory}/css`)
                 .copy('style.css')
-                .target('assets/images')
+                .target(`${assetsDirectory}/images`)
                 .copy('.gitkeep')
-                .target('assets/fonts')
+                .target(`${assetsDirectory}/fonts`)
                 .copy('.gitkeep')
-                .target('assets/library')
+                .target(`${assetsDirectory}/library`)
                 .copy('.gitkeep')
-                .target('assets/workers')
+                .target(`${assetsDirectory}/workers`)
                 .copy('.gitkeep')
                 .commit();
         },

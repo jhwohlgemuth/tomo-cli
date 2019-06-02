@@ -1,3 +1,4 @@
+import {join} from 'path';
 import {
     PackageJsonEditor,
     WebpackConfigEditor,
@@ -45,12 +46,12 @@ export const addWebpack = [
     },
     {
         text: 'Add Webpack build tasks to package.json',
-        task: async ({outputDirectory, sourceDirectory}) => {
+        task: async ({assetsDirectory, outputDirectory, sourceDirectory}) => {
             const scripts = {
                 copy: 'npm-run-all --parallel copy:assets copy:index',
-                'copy:assets': `cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ${outputDirectory} --parents --recursive`,
-                'copy:index': `cpy './assets/index.html' ${outputDirectory}`,
-                prebuild: `del-cli ${outputDirectory}/assets`,
+                'copy:assets': `cpy '${assetsDirectory}/!(css)/**/*.*' '${assetsDirectory}/**/[.]*' ${outputDirectory} --parents --recursive`,
+                'copy:index': `cpy '${assetsDirectory}/index.html' ${outputDirectory}`,
+                prebuild: `del-cli ${join(outputDirectory, assetsDirectory)}`,
                 build: 'webpack',
                 postbuild: 'npm run copy',
                 'build:watch': `watch 'npm run build' ${sourceDirectory}`,

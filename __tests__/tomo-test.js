@@ -44,14 +44,15 @@ export const getDirectoryTree = (directory, options = {omit: ['extension', 'path
     return format(removeAttributes(result, ...omit));
 };
 export const run = (tasks, options) => {
+    const {assign} = Object;
     const queue = new Queue({concurrency: tasks.length});
     const dispatch = () => {};
     const apply = val => (isFunction(val) ? val(options) : val);
     return populateQueue({
         queue,
-        options,
         dispatch,
-        tasks: tasks.map(apply).flat(1)
+        tasks: tasks.map(apply).flat(1),
+        options: assign({}, options, {assetsDirectory: './assets'})
     });
 };
 export const fileContents = path => {
