@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 
 const config = require('config');
@@ -37,12 +36,12 @@ https.createServer({key, cert}, app).listen(config.get('https').port);
 //
 // WebSocket Server
 //
-const wss = require('./socket.js');
+const wss = require('./socket');
 wss.on('error', data => log.error(data));
 //
 // GraphQL Server
 //
-const gql = require('./graphql.js');
+const gql = require('./graphql');
 gql.listen(config.get('graphql').port);
 //
 // Log startup and port numbers
