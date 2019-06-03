@@ -48,7 +48,7 @@ export const tasks = [
                 .target('./')
                 .copy('.env')
                 .copy('favicon.ico')
-                .copy('.gitignore')
+                .copy('_gitignore', '.gitignore')
                 .copy('index.js')
                 .copy('server.js')
                 .copy('socket.js')
