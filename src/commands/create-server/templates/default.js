@@ -13,8 +13,7 @@ module.exports = {
         },
         resave: false,
         saveUninitialized: false,
-        cookie: {httpOnly: true, secure: true
-        }
+        cookie: {httpOnly: true, secure: true}
     },
     websocket: {
         port: 13337

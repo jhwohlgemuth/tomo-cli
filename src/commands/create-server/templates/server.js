@@ -61,7 +61,7 @@ const app = express()
         });
     })
     .set('view engine', 'html')
-    .set('views', `${__dirname}/client`)
+    .set('views', `${__dirname}/public`)
     .use(session(config.get('session')))
     .use(setCsrfHeader)
     .disable('x-powered-by') // Do not advertise Express
@@ -80,7 +80,9 @@ const app = express()
     .use(compress()) // Use gzip compression
     .use(express.static(__dirname)); // Serve static files
 app.get('/', verifyCsrfHeader, (req, res) => {
-    res.render('index', {message: 'The server is functioning properly!'});
+    res.render('index', {
+        message: 'The server is functioning properly!'
+    });
 });
 app.get('/:page.md', verifyCsrfHeader, (req, res) => {
     const {page} = req.params;

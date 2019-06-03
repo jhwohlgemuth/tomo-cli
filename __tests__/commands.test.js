@@ -54,6 +54,14 @@ describe('"Create/New" commands', () => {
         const pkg = fileContents('package.json');
         expect(pkg).toMatchSnapshot();
     });
+    test('create new server', async () => {
+        const options = {skipInstall};
+        await run(create.server, options);
+        const tree = getDirectoryTree(tempDirectory);
+        const pkg = fileContents('package.json');
+        expect(tree).toMatchSnapshot();
+        expect(pkg).toMatchSnapshot();
+    });
     test('create package.json', async () => {
         await run(createPackageJson, {});
         const contents = fileContents('./package.json');

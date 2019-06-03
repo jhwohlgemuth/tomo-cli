@@ -54,7 +54,7 @@ const Description = ({command}) => {
         const lookup = dict({
             project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold('ESLint')}, and ${bold.magenta('Jest')}`,
             app: `Scaffold a new ${bold.red('Marionette.js')} ${bold('web application')} - basically a project with CSS, bundling, and stuff`,
-            server: `Scaffold a new Express server with security baked in - ${bold.yellow('WORK IN PROGRESS')}`,
+            server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security "baked in"`,
             a11y: `Add automated ${bold('accessibility')} testing`,
             babel: `Use next generation JavaScript, ${bold('today!')}`,
             browsersync: `Time-saving ${bold('synchronised browser')} testing (demo your app with ${bold.yellow('live-reload')})`,

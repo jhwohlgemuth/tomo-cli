@@ -8,9 +8,8 @@ const https = require('https');
 //
 // SSL credentials
 //
-const privateKey = fs.readFileSync('web/ssl/server.key', 'utf8');
-const certificate = fs.readFileSync('web/ssl/server.cert', 'utf8');
-const credentials = {key: privateKey, cert: certificate};
+const key = fs.readFileSync('ssl/server.key', 'utf8');
+const cert = fs.readFileSync('ssl/server.cert', 'utf8');
 //
 // Handle error conditions
 //
@@ -29,21 +28,21 @@ process.on('uncaughtException', err => {
 //
 // Static HTTP Server
 //
-const app = require('./web/server');
+const app = require('./server');
 app.listen(config.get('http').port);
 //
 // Static HTTPS Server
 //
-https.createServer(credentials, app).listen(config.get('https').port);
+https.createServer({key, cert}, app).listen(config.get('https').port);
 //
 // WebSocket Server
 //
-const wss = require('./web/socket.js');
+const wss = require('./socket.js');
 wss.on('error', data => log.error(data));
 //
 // GraphQL Server
 //
-const gql = require('./web/graphql.js');
+const gql = require('./graphql.js');
 gql.listen(config.get('graphql').port);
 //
 // Log startup and port numbers

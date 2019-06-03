@@ -16,32 +16,35 @@ import {addParcel, removeParcel} from './add-parcel';
 import {addPostcss, removePostcss} from './add-postcss';
 import {addRollup, removeRollup} from './add-rollup';
 import {addWebpack, removeWebpack} from './add-webpack';
+import createServer from './create-server';
 
 const createProject = [
     ...createPackageJson,
     ...createSourceDirectory,
     ...addBabel,
-    ...addEslint,
-    ...addJest
+    ...addEslint
 ];
 const create = {
     project: createProject,
     app: [
         ...createProject,
         ...addMarionette,
+        ...addPostcss,
+        ...addJest,
         choose({
             default: addWebpack,
             useRollup: addRollup,
             useParcel: addParcel
         }),
-        ...addPostcss,
         choose({
             default: addBrowsersync,
             useParcel: []// do nothing
         })
     ],
     server: [
-        ...createProject
+        ...createPackageJson,
+        ...addEslint,
+        ...createServer
     ]
 };
 const add = {
