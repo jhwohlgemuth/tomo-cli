@@ -34,8 +34,6 @@ const md = new Remarkable({
         return '';
     }
 });
-const NINETY_DAYS_IN_MILLISECONDS = 7776000000;
-
 const setCsrfHeader = (req, res, next) => {
     res.set('X-CSRF', req.sessionID);
     return next();
@@ -72,11 +70,6 @@ const app = express()
     .use(helmet.noSniff())
     .use(helmet.ieNoOpen())
     .use(helmet.referrerPolicy({policy: 'no-referrer'}))
-    .use(helmet.hpkp({
-        maxAge: NINETY_DAYS_IN_MILLISECONDS,
-        sha256s: ['base64==', 'base64=='], // Needs to be changed
-        includeSubdomains: true
-    }))
     .use(compress()) // Use gzip compression
     .use(express.static(__dirname)); // Serve static files
 app.get('/', verifyCsrfHeader, (req, res) => {
