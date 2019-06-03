@@ -561,6 +561,12 @@ lint-watch: ## Task description
 lint-tests: ## Task description
 	eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore
 
+build-css: ## Task description
+	postcss ./assets/css/style.css --dir ./dist
+
+build-css-watch: ## Task description
+	postcss ./assets/css/style.css --dir ./dist --watch
+
 test: ## Task description
 	jest .*.test.js --coverage
 
@@ -581,12 +587,6 @@ build-dashboard: ## Task description
 
 dev: ## Task description
 	stmux [ 'make build-dashboard' : 'make lint-watch' ]
-
-build-css: ## Task description
-	postcss ./assets/css/style.css --dir ./dist
-
-build-css-watch: ## Task description
-	postcss ./assets/css/style.css --dir ./dist --watch
 
 start: ## Task description
 	$(MAKE) build
@@ -1148,6 +1148,8 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:watch\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:watch\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
@@ -1157,12 +1159,11 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
         \\"prestart\\": \\"npm run build\\",
         \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
         \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     },
+    \\"main\\": \\"src/main.js\\",
     \\"jest\\": {
         \\"testMatch\\": [
             \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
@@ -1170,8 +1171,7 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"setupFilesAfterEnv\\": [
             \\"<rootDir>/__tests__/setup.js\\"
         ]
-    },
-    \\"main\\": \\"src/main.js\\"
+    }
 }
 "
 `;
@@ -1191,30 +1191,13 @@ exports[`"Create/New" commands create new project 1`] = `
             type: file
         },
         {
-            name: __tests__,
-            children: [
-                {
-                    name: example.test.js,
-                    size: 337,
-                    type: file
-                },
-                {
-                    name: setup.js,
-                    size: 370,
-                    type: file
-                }
-            ],
-            size: 707,
-            type: directory
-        },
-        {
             name: babel.config.js,
             size: 309,
             type: file
         },
         {
             name: package.json,
-            size: 768,
+            size: 481,
             type: file
         },
         {
@@ -1224,8 +1207,136 @@ exports[`"Create/New" commands create new project 1`] = `
             type: directory
         }
     ],
-    size: 1974,
+    size: 980,
     type: directory
+}
+"
+`;
+
+exports[`"Create/New" commands create new server 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .env,
+            size: 0,
+            type: file
+        },
+        {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 154,
+            type: file
+        },
+        {
+            name: .gitignore,
+            size: 18,
+            type: file
+        },
+        {
+            name: config,
+            children: [
+                {
+                    name: default.js,
+                    size: 862,
+                    type: file
+                }
+            ],
+            size: 862,
+            type: directory
+        },
+        {
+            name: favicon.ico,
+            size: 0,
+            type: file
+        },
+        {
+            name: graphql.js,
+            size: 1774,
+            type: file
+        },
+        {
+            name: index.js,
+            size: 1441,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 645,
+            type: file
+        },
+        {
+            name: public,
+            children: [
+                {
+                    name: example.md,
+                    size: 263,
+                    type: file
+                },
+                {
+                    name: index.html,
+                    size: 191,
+                    type: file
+                }
+            ],
+            size: 454,
+            type: directory
+        },
+        {
+            name: server.js,
+            size: 2994,
+            type: file
+        },
+        {
+            name: socket.js,
+            size: 624,
+            type: file
+        },
+        {
+            name: ssl,
+            children: [
+                {
+                    name: server.cert,
+                    size: 1241,
+                    type: file
+                },
+                {
+                    name: server.key,
+                    size: 1704,
+                    type: file
+                }
+            ],
+            size: 2945,
+            type: directory
+        }
+    ],
+    size: 11947,
+    type: directory
+}
+"
+`;
+
+exports[`"Create/New" commands create new server 2`] = `
+"{
+    \\"name\\": \\"tomo-server\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"Node.js HTTP(S), WebSocket, and GraphQL servers with an 80% solution for security 'baked in'\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' undefined\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"predev\\": \\"npm run open\\",
+        \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" .. \\\\\\"npm run lint:watch\\\\\\" ]\\",
+        \\"start\\": \\"node index.js\\",
+        \\"open\\": \\"open-cli http://localhost:8111\\"
+    },
+    \\"main\\": \\"index.js\\"
 }
 "
 `;
