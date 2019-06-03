@@ -4,9 +4,7 @@ import {allDoExist} from '../../utils/common';
 import {Scaffolder} from '../../utils/Scaffolder';
 
 const DEPENDENCIES = [
-    'apollo-errors',
     'apollo-server-express',
-    'body-parser',
     'compression',
     'config',
     'cookie-session',
@@ -16,7 +14,6 @@ const DEPENDENCIES = [
     'express-session',
     'fs-extra',
     'graphql',
-    'graphql-tools',
     'helmet',
     'lusca',
     'remarkable',
