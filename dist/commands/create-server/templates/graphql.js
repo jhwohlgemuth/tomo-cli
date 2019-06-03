@@ -2,10 +2,8 @@
  * GraphQL Server
  * @see {@link https://www.apollographql.com/docs/apollo-server}
  */
-const bodyParser = require('body-parser');
-const {makeExecutableSchema} = require('graphql-tools');
-const {formatErrors} = require('apollo-errors');
-const {graphqlExpress, graphiqlExpress} = require('apollo-server-express');
+const {ApolloServer, gql} = require('apollo-server-express');
+const app = require('./server');
 //
 // API test data
 //
@@ -23,28 +21,29 @@ const posts = [
 //
 // API configuration
 //
-const endpointURL = '/graphql';
-const typeDefs = `
+const Query = gql`
+  type Query {
+    posts: [Post]
+    author(id: Int!): Author
+  }
+  `;
+const Author = gql`
   type Author {
     id: Int!
     firstName: String
     lastName: String
     posts: [Post]
   }
-
+  `;
+const Post = gql`
   type Post {
     id: Int!
     title: String
     author: Author
     votes: Int
   }
-
-  # the schema allows the following query:
-  type Query {
-    posts: [Post]
-    author(id: Int!): Author
-  }
-`;
+  `;
+const typeDefs = [Query, Author, Post];
 const resolvers = {
     Query: {
         posts: () => posts,
@@ -57,13 +56,17 @@ const resolvers = {
         author: post => authors.find(author => (author.id === post.authorId))
     }
 };
-const schema = makeExecutableSchema({
+const playground = {
+    endpoint: '/graphql',
+    settings: {
+        'editor.theme': 'dark'
+    }
+};
+const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    playground
 });
-const app = require('./server');
-app
-    .use('/graphiql', graphiqlExpress({endpointURL}))
-    .use(endpointURL, bodyParser.json(), graphqlExpress({schema, formatErrors}));
+server.applyMiddleware({app});
 
 module.exports = app;
