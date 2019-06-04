@@ -6,7 +6,8 @@ import {
     getIntendedInput,
     getVersions,
     install,
-    uninstall
+    uninstall,
+    withOptions
 } from '../src/utils';
 import MakefileEditor from '../src/utils/MakefileEditor';
 import {join} from 'path';
@@ -220,3 +221,9 @@ describe('uninstall', () => {
         expect(await uninstall(['jest', INVALID_NAME])).toEqual(['uninstall', 'jest']);
     });
 });
+describe('withOptions', () => {
+    test('add custom options', () => {
+        const options = {a: 1, b: 2}
+        expect(withOptions({a: 0, c: 1})(options)).toMatchSnapshot();
+    })
+})

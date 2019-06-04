@@ -1,6 +1,9 @@
 import execa from 'execa';
 import semver from 'semver';
 import first from 'lodash/first';
+import has from 'lodash/has';
+import isFunction from 'lodash/isFunction';
+import isString from 'lodash/isString';
 import {oneLineTrim} from 'common-tags';
 import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
@@ -9,6 +12,8 @@ import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';
 
 const {keys} = Object;
+export const isValidTask = val => has(val, 'text') && has(val, 'task') && isString(val.text) && isFunction(val.task);
+export const withOptions = val => options => ({...options, ...val});
 /**
  * Choose tasks based on CLI options
  * @param {Object} choices Object to create choice dictionary from
