@@ -215,7 +215,7 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
     for (const [index, item] of tasks.filter(isValidTask).entries()) {
         const {condition, task} = item;
         try {
-            if (await condition({...options, isNotOffline})) {
+            if (await condition({...options, ...customOptions, isNotOffline})) {
                 await queue
                     .add(() => task({...options, ...customOptions, isNotOffline}))
                     .then(() => dispatch({type: 'complete', payload: index}))

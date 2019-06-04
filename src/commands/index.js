@@ -45,7 +45,7 @@ const create = {
         })
     ],
     server: [
-        withOptions({sourceDirectory: '.'}),
+        withOptions({sourceDirectory: '.', useReact: false}),
         ...createPackageJson,
         ...addEslint,
         ...createServer
