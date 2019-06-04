@@ -10,6 +10,7 @@ const ARROW_DOWN = '\u001B[B';
 const {assign} = Object;
 
 describe('populateQueue function', () => {
+    const text = 'test task text';
     test('can run with defaults', () => {
         populateQueue();
     });
@@ -19,9 +20,9 @@ describe('populateQueue function', () => {
         const options = {foo: 'bar'};
         const dispatch = jest.fn();
         const tasks = [
-            {condition, task},
-            {condition, task},
-            {condition, task}
+            {condition, task, text},
+            {condition, task, text},
+            {condition, task, text}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
@@ -36,10 +37,10 @@ describe('populateQueue function', () => {
         const options = {foo: 'bar'};
         const dispatch = jest.fn();
         const tasks = [
-            {condition: async () => true, task},
-            {condition: async () => false, task},
-            {condition: async () => true, task},
-            {condition: async () => false, task}
+            {condition: async () => true, task, text},
+            {condition: async () => false, task, text},
+            {condition: async () => true, task, text},
+            {condition: async () => false, task, text}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
@@ -53,10 +54,10 @@ describe('populateQueue function', () => {
         const options = {foo: 'bar'};
         const dispatch = jest.fn();
         const tasks = [
-            {condition: async () => true, task},
-            {condition: async () => {throw new Error();}, task},
-            {condition: async () => true, task},
-            {condition: async () => false, task}
+            {text, condition: async () => true, task},
+            {text, condition: async () => {throw new Error();}, task},
+            {text, condition: async () => true, task},
+            {text, condition: async () => false, task}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});

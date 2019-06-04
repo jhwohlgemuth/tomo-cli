@@ -1163,7 +1163,6 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
         \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     },
-    \\"main\\": \\"src/main.js\\",
     \\"jest\\": {
         \\"testMatch\\": [
             \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
@@ -1171,7 +1170,8 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"setupFilesAfterEnv\\": [
             \\"<rootDir>/__tests__/setup.js\\"
         ]
-    }
+    },
+    \\"main\\": \\"src/main.js\\"
 }
 "
 `;
@@ -1266,7 +1266,7 @@ exports[`"Create/New" commands create new server 1`] = `
         },
         {
             name: package.json,
-            size: 645,
+            size: 637,
             type: file
         },
         {
@@ -1314,7 +1314,7 @@ exports[`"Create/New" commands create new server 1`] = `
             type: directory
         }
     ],
-    size: 11573,
+    size: 11565,
     type: directory
 }
 "
@@ -1329,7 +1329,7 @@ exports[`"Create/New" commands create new server 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' undefined\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' .\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"predev\\": \\"npm run open\\",
         \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" .. \\\\\\"npm run lint:watch\\\\\\" ]\\",

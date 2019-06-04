@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import {choose} from '../utils';
+import {choose, withOptions} from '../utils';
 import {
     createPackageJson,
     createSourceDirectory
@@ -28,9 +28,12 @@ const create = {
     project: createProject,
     app: [
         ...createProject,
-        ...addMarionette,
         ...addPostcss,
         ...addJest,
+        choose({
+            default: addMarionette,
+            useReact: []// do nothing
+        }),
         choose({
             default: addWebpack,
             useRollup: addRollup,
@@ -42,6 +45,7 @@ const create = {
         })
     ],
     server: [
+        withOptions({sourceDirectory: '.'}),
         ...createPackageJson,
         ...addEslint,
         ...createServer

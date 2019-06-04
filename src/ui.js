@@ -4,6 +4,7 @@ import camelCase from 'lodash/camelCase';
 import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
+import negate from 'lodash/negate';
 import {bold, dim} from 'chalk';
 import Queue from 'p-queue';
 import pino from 'pino';
@@ -15,7 +16,7 @@ import SelectInput from 'ink-select-input';
 import figures from 'figures';
 import {highlight} from 'cardinal';
 import commands from './commands';
-import {getIntendedInput} from './utils';
+import {isValidTask, getIntendedInput} from './utils';
 import {dict, format} from './utils/common';
 
 const {assign} = Object;
@@ -209,13 +210,14 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
     const {queue, tasks, dispatch, options} = data;
     const {skipInstall} = options;
     const isNotOffline = skipInstall || await isOnline();
+    const [customOptions] = tasks.filter(negate(isValidTask));
     dispatch({type: 'status', payload: {online: isNotOffline}});
-    for (const [index, item] of tasks.entries()) {
+    for (const [index, item] of tasks.filter(isValidTask).entries()) {
         const {condition, task} = item;
         try {
-            if (await condition({...options, isNotOffline})) {
+            if (await condition({...options, ...customOptions, isNotOffline})) {
                 await queue
-                    .add(() => task({...options, isNotOffline}))
+                    .add(() => task({...options, ...customOptions, isNotOffline}))
                     .then(() => dispatch({type: 'complete', payload: index}))
                     .catch(() => dispatch({
                         type: 'error', payload: {
