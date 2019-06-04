@@ -215,7 +215,7 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
     for (const [index, item] of tasks.filter(isValidTask).entries()) {
         const {condition, task} = item;
         try {
-            if (await condition({...options, ...customOptions, isNotOffline})) {
+            if (await condition({...options, isNotOffline})) {
                 await queue
                     .add(() => task({...options, ...customOptions, isNotOffline}))
                     .then(() => dispatch({type: 'complete', payload: index}))
@@ -328,7 +328,8 @@ export const TaskList = ({command, options, terms, done}) => {
         .flat(1)
         .map(val => (isFunction(val) ? val(options) : val))
         .flat(1);
-    const tasksComplete = ((completed.length + skipped.length) === tasks.length);
+    const validTasks = tasks.filter(isValidTask);
+    const tasksComplete = ((completed.length + skipped.length) === validTasks.length);
     const hasError = (errors.length > 0);
     const {debug} = options;
     const data = {completed, errors, skipped, tasks, terms};
@@ -341,8 +342,8 @@ export const TaskList = ({command, options, terms, done}) => {
         <WarningAndErrorsHeader errors={errors} hasError={hasError} isOnline={online} options={options}></WarningAndErrorsHeader>
         <Box flexDirection={'column'} marginBottom={1}>
             <TaskListTitle command={command} hasError={hasError} isComplete={tasksComplete} terms={terms}></TaskListTitle>
-            <Status tasks={tasks} completed={completed} skipped={skipped}></Status>
-            <Tasks debug={debug} options={options} state={state} tasks={tasks}></Tasks>
+            <Status completed={completed} skipped={skipped} tasks={validTasks}></Status>
+            <Tasks debug={debug} options={options} state={state} tasks={validTasks}></Tasks>
         </Box>
     </ErrorBoundary>;
 };

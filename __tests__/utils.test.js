@@ -223,7 +223,7 @@ describe('uninstall', () => {
 });
 describe('withOptions', () => {
     test('add custom options', () => {
-        const options = {a: 1, b: 2}
+        const options = {a: 1, b: 2};
         expect(withOptions({a: 0, c: 1})(options)).toMatchSnapshot();
-    })
-})
+    });
+});

@@ -18,18 +18,20 @@ describe('populateQueue function', () => {
         const condition = async () => true;
         const task = jest.fn();
         const options = {foo: 'bar'};
+        const customOptions = {some: 'option'};
         const dispatch = jest.fn();
         const tasks = [
+            {some: 'option'},
             {condition, task, text},
             {condition, task, text},
             {condition, task, text}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
-        expect(task.mock.calls.length).toBe(tasks.length);
-        expect(dispatch.mock.calls.length).toBe(tasks.length + 1);
+        expect(task.mock.calls.length).toBe(3);
+        expect(dispatch.mock.calls.length).toBe(4);// eslint-disable-line no-magic-numbers
         const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];
-        expect(passedOptions).toEqual(assign(options, {isNotOffline: true}));
+        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));
         expect(dispatch.mock.calls).toMatchSnapshot();
     });
     test('can only run tasks that pass condition', async () => {
