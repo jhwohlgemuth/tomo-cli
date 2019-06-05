@@ -63,14 +63,14 @@ export const tasks = [
         condition: ALWAYS
     },
     {
-        text: 'Add tasks to package.json',
+        text: 'Configure metadata and add tasks to package.json',
         task: async () => {
             const description = `Node.js HTTP(S), WebSocket, and GraphQL servers with an 80% solution for security 'baked in'`;
             const main = 'index.js';
             const name = 'tomo-server';
             const scripts = {
                 predev: 'npm run open',
-                dev: 'stmux [ \"nodemon index.js\" .. \"npm run lint:watch\" ]',
+                dev: 'stmux [ \"nodemon index.js\" : \"npm run lint:watch\" ]',
                 start: `node ${main}`,
                 open: 'open-cli http://localhost:8111'
             };
@@ -81,7 +81,7 @@ export const tasks = [
         condition: () => allDoExist('package.json')
     },
     {
-        text: 'Install dependencies',
+        text: 'Install server dependencies',
         task: async ({skipInstall}) => {
             await install(DEPENDENCIES, {skipInstall});
             await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
