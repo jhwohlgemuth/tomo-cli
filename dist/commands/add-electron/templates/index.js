@@ -1,6 +1,6 @@
 const {join} = require('path');
 const {app, BrowserWindow, Menu} = require('electron');
-const ContextMenu = require('electron-context-menu');
+const contextMenu = require('electron-context-menu');
 //
 // electron-reloaoder - https://github.com/sindresorhus/electron-reloader
 // main process file change --> app restart
@@ -12,6 +12,8 @@ try {require('electron-reloader')(module);} catch (err) {/* intentionally left b
 //
 require('electron-debug')();
 
+let mainWindow;
+const preload = join(__dirname, 'bin', 'preload.js');
 const menuItems = [
     {
         label: 'Application',
@@ -30,10 +32,6 @@ const menuItems = [
     }
 ];
 const applicationMenu = Menu.buildFromTemplate(menuItems);
-
-let mainWindow;
-const preload = join(__dirname, 'bin', 'preload.js');
-
 const createWindow = () => {
     mainWindow = new BrowserWindow({
         width: 800,
@@ -41,7 +39,7 @@ const createWindow = () => {
         webPreferences: {preload}
     });
     Menu.setApplicationMenu(applicationMenu);
-    ContextMenu({prepend: (params, browserWindow) => menuItems});
+    contextMenu({prepend: () => menuItems});
     mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
     //
     // Open dev console
