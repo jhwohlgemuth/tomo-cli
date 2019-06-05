@@ -36,12 +36,12 @@ export const tasks = [
     },
     {
         text: 'Configure metadata and add tasks to package.json',
-        task: async () => {
+        task: async ({useParcel}) => {
             const description = `Native Desktop application built with Electron`;
             const main = 'index.js';
             const name = 'tomo-native-app';
             const scripts = {
-                'preelectron:start': 'npm run build',
+                'preelectron:start': useParcel ? 'npm run build' : 'npm-run-all build build:css',
                 'electron:start': 'electron index',
                 'electron:dev': 'npm run electron:start -- --enable-logging'
             };

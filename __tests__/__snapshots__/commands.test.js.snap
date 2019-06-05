@@ -120,7 +120,7 @@ exports[`"Add" commands add-electron 1`] = `
     \\"keywords\\": [],
     \\"main\\": \\"index.js\\",
     \\"scripts\\": {
-        \\"preelectron:start\\": \\"npm run build\\",
+        \\"preelectron:start\\": \\"npm-run-all build build:css\\",
         \\"electron:start\\": \\"electron index\\",
         \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\"
     }
@@ -151,11 +151,11 @@ exports[`"Add" commands add-electron 2`] = `
         },
         {
             name: package.json,
-            size: 376,
+            size: 390,
             type: file
         }
     ],
-    size: 2688,
+    size: 2702,
     type: directory
 }
 "
