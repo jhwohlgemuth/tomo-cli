@@ -7,6 +7,7 @@ import {
 import addA11y from './add-a11y';
 import addBabel from './add-babel';
 import {addBrowsersync} from './add-browsersync';
+import addElectron from './add-electron';
 import addEsdoc from './add-esdoc';
 import addEslint from './add-eslint';
 import addJest from './add-jest';
@@ -32,7 +33,12 @@ const create = {
         ...addJest,
         choose({
             default: addMarionette,
-            useReact: []// do nothing
+            native: [
+                withOptions({sourceDirectory: './renderer/src', assetsDirectory: './renderer/assets'}),
+                ...addMarionette,
+                ...addElectron
+            ],
+            useReact: [] // under construction
         }),
         choose({
             default: addWebpack,
@@ -41,7 +47,8 @@ const create = {
         }),
         choose({
             default: addBrowsersync,
-            useParcel: []// do nothing
+            native: [], // do nothing
+            useParcel: [] // do nothing
         })
     ],
     server: [
@@ -55,6 +62,7 @@ const add = {
     a11y: addA11y,
     babel: addBabel,
     browsersync: addBrowsersync,
+    electron: addElectron,
     esdoc: addEsdoc,
     eslint: [
         ...addBabel,

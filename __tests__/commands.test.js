@@ -12,6 +12,7 @@ import {
 import commands from '../src/commands';
 import addBabel from '../src/commands/add-babel';
 import {addBrowsersync} from '../src/commands/add-browsersync';
+import addElectron from '../src/commands/add-electron';
 import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
 import addJest from '../src/commands/add-jest';
@@ -123,6 +124,15 @@ describe('"Add" commands', () => {
         expect(noop).toMatchSnapshot();
         expect(post).toMatchSnapshot();
     });
+    test('add-electron', async () => {
+        const options = {skipInstall};
+        await run(createPackageJson, {});
+        await run(addElectron, options);
+        const pkg = fileContents('package.json');
+        const tree = getDirectoryTree(tempDirectory);
+        expect(pkg).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
+    })
     test('add-esdoc', async () => {
         const sourceDirectory = 'src';
         const options = {skipInstall, sourceDirectory};

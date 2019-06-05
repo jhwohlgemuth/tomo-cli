@@ -111,6 +111,56 @@ exports[`"Add" commands add-browsersync 3`] = `
 "
 `;
 
+exports[`"Add" commands add-electron 1`] = `
+"{
+    \\"name\\": \\"tomo-native-app\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"Native Desktop application built with Electron\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"main\\": \\"index.js\\",
+    \\"scripts\\": {
+        \\"preelectron:start\\": \\"npm run build\\",
+        \\"electron:start\\": \\"electron index\\",
+        \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\"
+    }
+}
+"
+`;
+
+exports[`"Add" commands add-electron 2`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: bin,
+            children: [
+                {
+                    name: preload.js,
+                    size: 283,
+                    type: file
+                }
+            ],
+            size: 283,
+            type: directory
+        },
+        {
+            name: index.js,
+            size: 2029,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 376,
+            type: file
+        }
+    ],
+    size: 2688,
+    type: directory
+}
+"
+`;
+
 exports[`"Add" commands add-esdoc (with React) 1`] = `
 "{
     name: tomo-test,
@@ -756,7 +806,7 @@ exports[`"Add" commands add-parcel 2`] = `
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"clean:build\\": \\"del-cli ./dist\\",
         \\"prebuild\\": \\"npm run clean:build\\",
-        \\"build\\": \\"parcel build --out-dir ./dist ./assets/index.html\\",
+        \\"build\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"prebuild:watch\\": \\"npm run clean:build\\",
         \\"build:watch\\": \\"parcel watch --out-dir ./dist ./assets/index.html\\",
         \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\",
@@ -1266,7 +1316,7 @@ exports[`"Create/New" commands create new server 1`] = `
         },
         {
             name: package.json,
-            size: 637,
+            size: 636,
             type: file
         },
         {
@@ -1314,7 +1364,7 @@ exports[`"Create/New" commands create new server 1`] = `
             type: directory
         }
     ],
-    size: 11565,
+    size: 11564,
     type: directory
 }
 "
@@ -1332,7 +1382,7 @@ exports[`"Create/New" commands create new server 2`] = `
         \\"lint:watch\\": \\"watch 'npm run lint' .\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"predev\\": \\"npm run open\\",
-        \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" .. \\\\\\"npm run lint:watch\\\\\\" ]\\",
+        \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
         \\"start\\": \\"node index.js\\",
         \\"open\\": \\"open-cli http://localhost:8111\\"
     },
@@ -1379,7 +1429,7 @@ exports[`"Remove" commands remove parcel 1`] = `
     \\"scripts\\": {
         \\"clean:build\\": \\"del-cli ./dist\\",
         \\"prebuild\\": \\"npm run clean:build\\",
-        \\"build\\": \\"parcel build --out-dir ./dist ./assets/index.html\\",
+        \\"build\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"prebuild:watch\\": \\"npm run clean:build\\",
         \\"build:watch\\": \\"parcel watch --out-dir ./dist ./assets/index.html\\",
         \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\"
@@ -1394,7 +1444,7 @@ exports[`"Remove" commands remove parcel 2`] = `
     children: [
         {
             name: package.json,
-            size: 541,
+            size: 557,
             type: file
         },
         {
@@ -1403,7 +1453,7 @@ exports[`"Remove" commands remove parcel 2`] = `
             type: file
         }
     ],
-    size: 614,
+    size: 630,
     type: directory
 }
 "

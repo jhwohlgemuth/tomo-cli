@@ -23,7 +23,7 @@ export const addParcel = [
             const scripts = {
                 'clean:build': `del-cli ${outputDirectory}`,
                 prebuild: 'npm run clean:build',
-                build: `parcel build --out-dir ${outputDirectory} ${assetsDirectory}/index.html`,
+                build: `parcel build --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
                 'prebuild:watch': 'npm run clean:build',
                 'build:watch': `parcel watch --out-dir ${outputDirectory} ${assetsDirectory}/index.html`,
                 start: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --open`

@@ -21,7 +21,7 @@ import {dict, format} from './utils/common';
 
 const {assign} = Object;
 const space = ' ';
-const maybeApply = fn => isFunction(fn) && fn();
+const maybeApply = (val, options) => isFunction(val) ? val(options) : val;
 const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
 const X = () => <Color bold red>{figures.cross}{space}</Color>;
 const Pending = () => <Color cyan><Spinner></Spinner>{space}</Color>;
@@ -59,6 +59,7 @@ const Description = ({command}) => {
             a11y: `Add automated ${bold('accessibility')} testing`,
             babel: `Use next generation JavaScript, ${bold('today!')}`,
             browsersync: `Time-saving ${bold('synchronised browser')} testing (demo your app with ${bold.yellow('live-reload')})`,
+            electron: `Create a ${bold('native desktop application')} using web technologies`,
             esdoc: `Generate ${bold('documentation')} from your comments`,
             eslint: `Pluggable ${bold('linting')} utility for JavaScript and JSX`,
             jest: `Delightful JavaScript ${bold('Testing')} Framework with a focus on simplicity`,
@@ -263,13 +264,13 @@ export const Task = ({isComplete, isErrored, isPending, isSkipped, text}) => <Bo
 </Box>;
 export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='column' marginBottom={1}>
     {tasks.map(({optional, text}, index) => {
-        const maybeApplyOrReturnTrue = (val, options) => isUndefined(val) || (isFunction(val) && val(options));
         const {completed, errors, skipped} = state;
         const key = camelCase(text);
         const isSkipped = skipped.includes(index);
         const isComplete = completed.includes(index) || isSkipped;
         const isErrored = errors.map(error => error.payload.index).includes(index);
         const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
+        const maybeApplyOrReturnTrue = (val, options) => isUndefined(val) || (isFunction(val) && val(options));
         const shouldBeShown = maybeApplyOrReturnTrue(optional, options);
         const data = {isSkipped, isComplete, isErrored, isPending, text};
         const showDebug = debug && <Debug data={data} title={`Data - task #${index}`}></Debug>;
@@ -324,10 +325,9 @@ export const TaskList = ({command, options, terms, done}) => {
     const {completed, errors, skipped, status: {online}} = state;
     const queue = new Queue({concurrency: 1});
     const tasks = terms
-        .map(term => commands[command][term])
-        .flat(1)
-        .map(val => (isFunction(val) ? val(options) : val))
-        .flat(1);
+        .flatMap(term => commands[command][term])
+        .flatMap(val => maybeApply(val, options))
+        .flatMap(val => maybeApply(val, options));
     const validTasks = tasks.filter(isValidTask);
     const tasksComplete = ((completed.length + skipped.length) === validTasks.length);
     const hasError = (errors.length > 0);
