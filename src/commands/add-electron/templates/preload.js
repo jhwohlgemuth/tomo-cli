@@ -1,3 +1,4 @@
+/* eslint-env browser */
 process.once('loaded', () => {
     window.nodeRequire = require;
     delete window.require;
