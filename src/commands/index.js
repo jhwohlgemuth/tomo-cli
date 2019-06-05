@@ -34,7 +34,11 @@ const create = {
         choose({
             default: addMarionette,
             native: [
-                withOptions({sourceDirectory: './renderer/src', assetsDirectory: './renderer/assets'}),
+                withOptions({
+                    outputDirectory: './dist',
+                    sourceDirectory: './renderer/src',
+                    assetsDirectory: './renderer/assets'
+                }),
                 ...addMarionette,
                 ...addElectron
             ],
