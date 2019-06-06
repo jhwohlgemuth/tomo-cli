@@ -1,3 +1,4 @@
+/* eslint-env node */
 const {join} = require('path');
 const {app, BrowserWindow, Menu} = require('electron');
 const contextMenu = require('electron-context-menu');
