@@ -132,7 +132,14 @@ describe('"Add" commands', () => {
         const tree = getDirectoryTree(tempDirectory);
         expect(pkg).toMatchSnapshot();
         expect(tree).toMatchSnapshot();
-    })
+    });
+    test('add-electron --use-parcel', async () => {
+        const options = {skipInstall, useParcel: true};
+        await run(createPackageJson, {});
+        await run(addElectron, options);
+        const pkg = fileContents('package.json');
+        expect(pkg).toMatchSnapshot();
+    });
     test('add-esdoc', async () => {
         const sourceDirectory = 'src';
         const options = {skipInstall, sourceDirectory};
