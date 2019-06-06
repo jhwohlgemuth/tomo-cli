@@ -158,11 +158,11 @@ exports[`"Add" commands add-electron 2`] = `
             children: [
                 {
                     name: preload.js,
-                    size: 313,
+                    size: 314,
                     type: file
                 }
             ],
-            size: 313,
+            size: 314,
             type: directory
         },
         {
@@ -176,7 +176,7 @@ exports[`"Add" commands add-electron 2`] = `
             type: file
         }
     ],
-    size: 3046,
+    size: 3047,
     type: directory
 }
 "
@@ -304,11 +304,11 @@ exports[`"Add" commands add-eslint (with React) 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 353,
+            size: 373,
             type: file
         }
     ],
-    size: 389,
+    size: 409,
     type: directory
 }
 "
@@ -318,7 +318,8 @@ exports[`"Add" commands add-eslint (with React) 2`] = `
 "module.exports = {
     env: {
         es6: true,
-        jest: true
+        jest: true,
+        node: true
     },
     extends: [
         omaha-prime-grade,
@@ -349,11 +350,11 @@ exports[`"Add" commands add-eslint 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 154,
+            size: 174,
             type: file
         }
     ],
-    size: 190,
+    size: 210,
     type: directory
 }
 "
@@ -363,7 +364,8 @@ exports[`"Add" commands add-eslint 2`] = `
 "module.exports = {
     env: {
         es6: true,
-        jest: true
+        jest: true,
+        node: true
     },
     extends: [
         'omaha-prime-grade'
@@ -433,7 +435,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: .eslintrc.js,
-            size: 353,
+            size: 373,
             type: file
         },
         {
@@ -604,7 +606,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 14769,
+    size: 14789,
     type: directory
 }
 "
@@ -936,7 +938,7 @@ exports[`"Add" commands add-webpack 2`] = `
         },
         {
             name: .eslintrc.js,
-            size: 353,
+            size: 373,
             type: file
         },
         {
@@ -955,7 +957,7 @@ exports[`"Add" commands add-webpack 2`] = `
             type: file
         }
     ],
-    size: 2436,
+    size: 2456,
     type: directory
 }
 "
@@ -1300,7 +1302,7 @@ exports[`"Create/New" commands create new server 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 154,
+            size: 174,
             type: file
         },
         {
@@ -1309,15 +1311,37 @@ exports[`"Create/New" commands create new server 1`] = `
             type: file
         },
         {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js,
+                    size: 320,
+                    type: file
+                },
+                {
+                    name: setup.js,
+                    size: 370,
+                    type: file
+                }
+            ],
+            size: 690,
+            type: directory
+        },
+        {
             name: config,
             children: [
                 {
                     name: default.js,
-                    size: 862,
+                    size: 857,
+                    type: file
+                },
+                {
+                    name: test.js,
+                    size: 857,
                     type: file
                 }
             ],
-            size: 862,
+            size: 1714,
             type: directory
         },
         {
@@ -1337,7 +1361,7 @@ exports[`"Create/New" commands create new server 1`] = `
         },
         {
             name: package.json,
-            size: 636,
+            size: 837,
             type: file
         },
         {
@@ -1385,7 +1409,7 @@ exports[`"Create/New" commands create new server 1`] = `
             type: directory
         }
     ],
-    size: 11564,
+    size: 13327,
     type: directory
 }
 "
@@ -1402,12 +1426,19 @@ exports[`"Create/New" commands create new server 2`] = `
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:watch\\": \\"watch 'npm run lint' .\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"test\\": \\"jest .*.test.js --coverage\\",
+        \\"test:watch\\": \\"npm test -- --watchAll\\",
         \\"predev\\": \\"npm run open\\",
         \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
         \\"start\\": \\"node index.js\\",
         \\"open\\": \\"open-cli http://localhost:8111\\"
     },
-    \\"main\\": \\"index.js\\"
+    \\"main\\": \\"index.js\\",
+    \\"jest\\": {
+        \\"testMatch\\": [
+            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ]
+    }
 }
 "
 `;

@@ -59,6 +59,7 @@ const create = {
         withOptions({sourceDirectory: '.', useReact: false}),
         ...createPackageJson,
         ...addEslint,
+        ...addJest,
         ...createServer
     ]
 };

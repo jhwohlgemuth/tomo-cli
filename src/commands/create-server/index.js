@@ -1,6 +1,10 @@
 import {join} from 'path';
-import {PackageJsonEditor, install} from '../../utils';
-import {allDoExist} from '../../utils/common';
+import {
+    EslintConfigModuleEditor,
+    PackageJsonEditor,
+    install
+} from '../../utils';
+import {allDoExist, allDoExistSync} from '../../utils/common';
 import {Scaffolder} from '../../utils/Scaffolder';
 
 const DEPENDENCIES = [
@@ -18,7 +22,7 @@ const DEPENDENCIES = [
     'lusca',
     'remarkable',
     'highlight.js',
-    'node-uuid',
+    'uuid',
     'npmlog',
     'protocolify',
     'ws'
@@ -26,7 +30,8 @@ const DEPENDENCIES = [
 const DEV_DEPENDENCIES = [
     'nodemon',
     'open-cli',
-    'stmux'
+    'stmux',
+    'supertest'
 ];
 const ALWAYS = () => true;
 const sourceDirectory = join(__dirname, 'templates');
@@ -52,12 +57,15 @@ export const tasks = [
                 .copy('graphql.js')
                 .target('config')
                 .copy('default.js')
+                .copy('default.js', 'test.js')
                 .target('ssl')
                 .copy('server.key')
                 .copy('server.cert')
                 .target('public')
                 .copy('index.html')
                 .copy('example.md')
+                .target('__tests__')
+                .copy('example.test.js')
                 .commit();
         },
         condition: ALWAYS
@@ -79,6 +87,26 @@ export const tasks = [
                 .commit();
         },
         condition: () => allDoExist('package.json')
+    },
+    {
+        text: 'Augment .eslintrc.js and configure package.json Jest attribute',
+        task: async () => {
+            const env = {
+                node: true
+            };
+            const jest = {
+                testMatch: ['**/__tests__/**/*.(e2e|test).[jt]s?(x)']
+            };
+            await (new EslintConfigModuleEditor())
+                .extend({env})
+                .commit();
+            await (new PackageJsonEditor())
+                .extend({jest: undefined})
+                .extend({jest})
+                .commit();
+        },
+        condition: () => allDoExist('.eslintrc.js'),
+        optional: () => allDoExistSync('.eslintrc.js')
     },
     {
         text: 'Install server dependencies',
