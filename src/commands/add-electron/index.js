@@ -41,9 +41,11 @@ export const tasks = [
             const main = 'index.js';
             const name = 'tomo-native-app';
             const scripts = {
-                'preelectron:start': useParcel ? 'npm run build' : 'npm-run-all build build:css',
+                'electron:build': 'npm-run-all build build:css',
+                'preelectron:start': 'npm run electron:build',
                 'electron:start': 'electron index',
-                'electron:dev': 'npm run electron:start -- --enable-logging'
+                'electron:dev': 'npm run electron:start -- --enable-logging',
+                dev: `npm-run-all${useParcel ? '' : ' electron:build'} --parallel build:watch${useParcel ? '' : ' build:css:watch'} electron:dev`
             };
             await (new PackageJsonEditor())
                 .extend({description, main, name, scripts})

@@ -32,6 +32,11 @@ const create = {
         ...addPostcss,
         ...addJest,
         choose({
+            default: addWebpack,
+            useRollup: addRollup,
+            useParcel: addParcel
+        }),
+        choose({
             default: addMarionette,
             native: [
                 withOptions({
@@ -43,11 +48,6 @@ const create = {
                 ...addElectron
             ],
             useReact: [] // under construction
-        }),
-        choose({
-            default: addWebpack,
-            useRollup: addRollup,
-            useParcel: addParcel
         }),
         choose({
             default: addBrowsersync,

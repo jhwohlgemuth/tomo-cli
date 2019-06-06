@@ -111,6 +111,25 @@ exports[`"Add" commands add-browsersync 3`] = `
 "
 `;
 
+exports[`"Add" commands add-electron --use-parcel 1`] = `
+"{
+    \\"name\\": \\"tomo-native-app\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"Native Desktop application built with Electron\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"main\\": \\"index.js\\",
+    \\"scripts\\": {
+        \\"electron:build\\": \\"npm-run-all build build:css\\",
+        \\"preelectron:start\\": \\"npm run electron:build\\",
+        \\"electron:start\\": \\"electron index\\",
+        \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\",
+        \\"dev\\": \\"npm-run-all --parallel build:watch electron:dev\\"
+    }
+}
+"
+`;
+
 exports[`"Add" commands add-electron 1`] = `
 "{
     \\"name\\": \\"tomo-native-app\\",
@@ -120,9 +139,11 @@ exports[`"Add" commands add-electron 1`] = `
     \\"keywords\\": [],
     \\"main\\": \\"index.js\\",
     \\"scripts\\": {
-        \\"preelectron:start\\": \\"npm-run-all build build:css\\",
+        \\"electron:build\\": \\"npm-run-all build build:css\\",
+        \\"preelectron:start\\": \\"npm run electron:build\\",
         \\"electron:start\\": \\"electron index\\",
-        \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\"
+        \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\",
+        \\"dev\\": \\"npm-run-all electron:build --parallel build:watch build:css:watch electron:dev\\"
     }
 }
 "
@@ -151,11 +172,11 @@ exports[`"Add" commands add-electron 2`] = `
         },
         {
             name: package.json,
-            size: 390,
+            size: 539,
             type: file
         }
     ],
-    size: 2704,
+    size: 2853,
     type: directory
 }
 "
@@ -808,7 +829,7 @@ exports[`"Add" commands add-parcel 2`] = `
         \\"prebuild\\": \\"npm run clean:build\\",
         \\"build\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"prebuild:watch\\": \\"npm run clean:build\\",
-        \\"build:watch\\": \\"parcel watch --out-dir ./dist ./assets/index.html\\",
+        \\"build:watch\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run build:watch\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
     }
@@ -1431,7 +1452,7 @@ exports[`"Remove" commands remove parcel 1`] = `
         \\"prebuild\\": \\"npm run clean:build\\",
         \\"build\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"prebuild:watch\\": \\"npm run clean:build\\",
-        \\"build:watch\\": \\"parcel watch --out-dir ./dist ./assets/index.html\\",
+        \\"build:watch\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\"
     }
 }
@@ -1444,7 +1465,7 @@ exports[`"Remove" commands remove parcel 2`] = `
     children: [
         {
             name: package.json,
-            size: 557,
+            size: 573,
             type: file
         },
         {
@@ -1453,7 +1474,7 @@ exports[`"Remove" commands remove parcel 2`] = `
             type: file
         }
     ],
-    size: 630,
+    size: 646,
     type: directory
 }
 "
