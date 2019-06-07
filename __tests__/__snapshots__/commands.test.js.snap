@@ -1361,7 +1361,7 @@ exports[`"Create/New" commands create new server 1`] = `
         },
         {
             name: package.json,
-            size: 837,
+            size: 870,
             type: file
         },
         {
@@ -1409,7 +1409,7 @@ exports[`"Create/New" commands create new server 1`] = `
             type: directory
         }
     ],
-    size: 13327,
+    size: 13360,
     type: directory
 }
 "
@@ -1430,6 +1430,7 @@ exports[`"Create/New" commands create new server 2`] = `
         \\"test:watch\\": \\"npm test -- --watchAll\\",
         \\"predev\\": \\"npm run open\\",
         \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
+        \\"prestart\\": \\"npm audit\\",
         \\"start\\": \\"node index.js\\",
         \\"open\\": \\"open-cli http://localhost:8111\\"
     },

@@ -79,6 +79,7 @@ export const tasks = [
             const scripts = {
                 predev: 'npm run open',
                 dev: 'stmux [ \"nodemon index.js\" : \"npm run lint:watch\" ]',
+                prestart: 'npm audit',
                 start: `node ${main}`,
                 open: 'open-cli http://localhost:8111'
             };
