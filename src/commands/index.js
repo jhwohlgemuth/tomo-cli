@@ -6,7 +6,7 @@ import {
 } from './common';
 import addA11y from './add-a11y';
 import addBabel from './add-babel';
-import {addBrowsersync} from './add-browsersync';
+import {addBrowsersync, removeBrowsersync} from './add-browsersync';
 import addElectron from './add-electron';
 import addEsdoc from './add-esdoc';
 import addEslint from './add-eslint';
@@ -78,6 +78,7 @@ const add = {
         ...addJest
     ],
     makefile: addMakefile,
+    marionette: addMarionette,
     parcel: [
         ...addBabel,
         ...addParcel
@@ -93,6 +94,7 @@ const add = {
     ]
 };
 const remove = {
+    browsersync: removeBrowsersync,
     parcel: removeParcel,
     postcss: removePostcss,
     rollup: removeRollup,

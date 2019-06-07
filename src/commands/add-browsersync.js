@@ -1,4 +1,8 @@
-import {PackageJsonEditor, install} from '../utils';
+import {
+    PackageJsonEditor,
+    install,
+    uninstall
+} from '../utils';
 import {allDoExist, someDoExist, someDoExistSync} from '../utils/common';
 
 const BROWSERSYNC_DEPENDENCIES = [
@@ -30,3 +34,26 @@ export const addBrowsersync = [
         condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
     }
 ];
+export const removeBrowsersync = [
+    {
+        text: 'Remove Browsersync tasks from package.json',
+        task: async () => {
+            const scripts = {
+                prestart: undefined,
+                start: undefined,
+                serve: undefined
+            };
+            await (new PackageJsonEditor())
+                .extend({scripts})
+                .commit();
+        },
+        condition: () => allDoExist('package.json')
+    },
+    {
+        text: 'Uninstall Browsersync dependencies',
+        task: () => uninstall(BROWSERSYNC_DEPENDENCIES),
+        condition: ({skipInstall}) => !skipInstall && someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...BROWSERSYNC_DEPENDENCIES),
+        optional: ({skipInstall}) => !skipInstall
+    }
+];
+export default addBrowsersync;

@@ -1472,6 +1472,55 @@ exports[`"Create/New" commands create source directory 1`] = `
 "
 `;
 
+exports[`"Remove" commands remove browsersync 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
+        \\"build\\": \\"webpack\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"prestart\\": \\"npm run build\\",
+        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
+        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
+    }
+}
+"
+`;
+
+exports[`"Remove" commands remove browsersync 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
+        \\"build\\": \\"webpack\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css:watch\\": \\"npm run build:css -- --watch\\"
+    }
+}
+"
+`;
+
 exports[`"Remove" commands remove parcel 1`] = `
 "{
     \\"name\\": \\"my-project\\",

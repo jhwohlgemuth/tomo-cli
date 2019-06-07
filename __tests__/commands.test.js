@@ -11,7 +11,7 @@ import {
 } from '../src/commands/common';
 import commands from '../src/commands';
 import addBabel from '../src/commands/add-babel';
-import {addBrowsersync} from '../src/commands/add-browsersync';
+import {addBrowsersync, removeBrowsersync} from '../src/commands/add-browsersync';
 import addElectron from '../src/commands/add-electron';
 import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
@@ -274,6 +274,20 @@ describe('"Remove" commands', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
+    test('remove browsersync', async () => {
+        const sourceDirectory = 'src';
+        const outputDirectory = './dist';
+        const options = { outputDirectory, skipInstall, sourceDirectory };
+        await run(createPackageJson, {});
+        await run(addWebpack, options);
+        await run(addPostcss, options);
+        await run(addBrowsersync, options);
+        const pre = fileContents('package.json');
+        await run(removeBrowsersync, {});
+        const post = fileContents('package.json');
+        expect(pre).toMatchSnapshot();
+        expect(post).toMatchSnapshot();
+    })
     test('remove parcel', async () => {
         const outputDirectory = './dist';
         const options = {outputDirectory, skipInstall};

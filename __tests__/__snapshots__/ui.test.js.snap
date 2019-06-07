@@ -130,6 +130,7 @@ exports[`tomo add 1`] = `
    eslint
    jest
    makefile
+   marionette
    parcel
    postcss
    rollup
@@ -149,6 +150,7 @@ exports[`tomo add 2`] = `
    eslint
    jest
    makefile
+   marionette
    parcel
    postcss
    rollup
@@ -183,5 +185,29 @@ exports[`tomo add eslint 1`] = `
    [2m[1m✔ [2m[22m[2mAdd lint tasks to package.json[22m
    [2m[1m✔ [2m[22m[2mInstall ESLint dependencies[22m
 
+"
+`;
+
+exports[`tomo remove 1`] = `
+"
+ [1m[33mCAUTION:[39m[22m tomo shall [1m[31mremove[39m[22m that which tomo would have [1m[32madded[39m[22m
+
+ [36m[1m→[22m[39m [39m[36m[1mbrowsersync[22m[39m[39m
+   parcel
+   postcss
+   rollup
+   webpack
+"
+`;
+
+exports[`tomo remove 2`] = `
+"
+ [1m[33mCAUTION:[39m[22m tomo shall [1m[31mremove[39m[22m that which tomo would have [1m[32madded[39m[22m
+
+   browsersync
+ [36m[1m→[22m[39m [39m[36m[1mparcel[22m[39m[39m
+   postcss
+   rollup
+   webpack
 "
 `;

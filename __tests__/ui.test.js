@@ -143,6 +143,13 @@ describe('tomo', () => {
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
     });
+    test('remove', () => {
+        const input = ['remove'];
+        const { lastFrame, stdin } = render(<Tomo input={input} flags={{ skipInstall }} />);
+        expect(lastFrame()).toMatchSnapshot();
+        stdin.write(ARROW_DOWN);
+        expect(lastFrame()).toMatchSnapshot();
+    });
     xtest('add eslint', done => {
         const input = ['add', 'eslint'];
         const flags = {skipInstall};
