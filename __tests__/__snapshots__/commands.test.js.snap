@@ -374,7 +374,7 @@ exports[`"Add" commands add-eslint 2`] = `
 };"
 `;
 
-exports[`"Add" commands add-jest 1`] = `
+exports[`"Add" commands add-jest --browser 1`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -385,7 +385,23 @@ exports[`"Add" commands add-jest 1`] = `
 "
 `;
 
-exports[`"Add" commands add-jest 2`] = `
+exports[`"Add" commands add-jest --browser 2`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 168,
+            type: file
+        }
+    ],
+    size: 168,
+    type: directory
+}
+"
+`;
+
+exports[`"Add" commands add-jest --browser 3`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -404,6 +420,114 @@ exports[`"Add" commands add-jest 2`] = `
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:watch\\": \\"npm test -- --watchAll\\"
     }
+}
+"
+`;
+
+exports[`"Add" commands add-jest --browser 4`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js,
+                    size: 337,
+                    type: file
+                },
+                {
+                    name: setup.js,
+                    size: 370,
+                    type: file
+                }
+            ],
+            size: 707,
+            type: directory
+        },
+        {
+            name: package.json,
+            size: 478,
+            type: file
+        }
+    ],
+    size: 1185,
+    type: directory
+}
+"
+`;
+
+exports[`"Add" commands add-jest 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Add" commands add-jest 2`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json,
+            size: 168,
+            type: file
+        }
+    ],
+    size: 168,
+    type: directory
+}
+"
+`;
+
+exports[`"Add" commands add-jest 3`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"jest\\": {
+        \\"testMatch\\": [
+            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ]
+    },
+    \\"scripts\\": {
+        \\"test\\": \\"jest .*.test.js --coverage\\",
+        \\"test:watch\\": \\"npm test -- --watchAll\\"
+    }
+}
+"
+`;
+
+exports[`"Add" commands add-jest 4`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js,
+                    size: 337,
+                    type: file
+                }
+            ],
+            size: 337,
+            type: directory
+        },
+        {
+            name: package.json,
+            size: 392,
+            type: file
+        }
+    ],
+    size: 729,
+    type: directory
 }
 "
 `;
@@ -1317,14 +1441,9 @@ exports[`"Create/New" commands create new server 1`] = `
                     name: example.test.js,
                     size: 698,
                     type: file
-                },
-                {
-                    name: setup.js,
-                    size: 370,
-                    type: file
                 }
             ],
-            size: 1068,
+            size: 698,
             type: directory
         },
         {
@@ -1409,7 +1528,7 @@ exports[`"Create/New" commands create new server 1`] = `
             type: directory
         }
     ],
-    size: 13738,
+    size: 13368,
     type: directory
 }
 "
@@ -1434,12 +1553,12 @@ exports[`"Create/New" commands create new server 2`] = `
         \\"start\\": \\"node index.js\\",
         \\"open\\": \\"open-cli http://localhost:8111\\"
     },
-    \\"main\\": \\"index.js\\",
     \\"jest\\": {
         \\"testMatch\\": [
             \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
         ]
-    }
+    },
+    \\"main\\": \\"index.js\\"
 }
 "
 `;

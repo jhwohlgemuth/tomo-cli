@@ -185,10 +185,27 @@ describe('"Add" commands', () => {
         const options = {skipInstall};
         await run(createPackageJson, {});
         const pre = fileContents('./package.json');
+        const preTree = getDirectoryTree(tempDirectory);
         await run(addJest, options);
         const post = fileContents('./package.json');
+        const postTree = getDirectoryTree(tempDirectory);
         expect(pre).toMatchSnapshot();
+        expect(preTree).toMatchSnapshot();
         expect(post).toMatchSnapshot();
+        expect(postTree).toMatchSnapshot();
+    });
+    test('add-jest --browser', async () => {
+        const options = {browser: true, skipInstall};
+        await run(createPackageJson, {});
+        const pre = fileContents('./package.json');
+        const preTree = getDirectoryTree(tempDirectory);
+        await run(addJest, options);
+        const post = fileContents('./package.json');
+        const postTree = getDirectoryTree(tempDirectory);
+        expect(pre).toMatchSnapshot();
+        expect(preTree).toMatchSnapshot();
+        expect(post).toMatchSnapshot();
+        expect(postTree).toMatchSnapshot();
     });
     test('add-makefile', async () => {
         const sourceDirectory = './src';
@@ -277,7 +294,7 @@ describe('"Remove" commands', () => {
     test('remove browsersync', async () => {
         const sourceDirectory = 'src';
         const outputDirectory = './dist';
-        const options = { outputDirectory, skipInstall, sourceDirectory };
+        const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(createPackageJson, {});
         await run(addWebpack, options);
         await run(addPostcss, options);
@@ -287,7 +304,7 @@ describe('"Remove" commands', () => {
         const post = fileContents('package.json');
         expect(pre).toMatchSnapshot();
         expect(post).toMatchSnapshot();
-    })
+    });
     test('remove parcel', async () => {
         const outputDirectory = './dist';
         const options = {outputDirectory, skipInstall};

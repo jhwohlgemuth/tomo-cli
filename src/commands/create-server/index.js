@@ -90,20 +90,13 @@ export const tasks = [
         condition: () => allDoExist('package.json')
     },
     {
-        text: 'Augment .eslintrc.js and configure package.json Jest attribute',
+        text: 'Configure .eslintrc.js for use with Node.js',
         task: async () => {
             const env = {
                 node: true
             };
-            const jest = {
-                testMatch: ['**/__tests__/**/*.(e2e|test).[jt]s?(x)']
-            };
             await (new EslintConfigModuleEditor())
                 .extend({env})
-                .commit();
-            await (new PackageJsonEditor())
-                .extend({jest: undefined})
-                .extend({jest})
                 .commit();
         },
         condition: () => allDoExist('.eslintrc.js'),

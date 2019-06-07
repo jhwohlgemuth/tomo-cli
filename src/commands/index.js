@@ -28,6 +28,7 @@ const createProject = [
 const create = {
     project: createProject,
     app: [
+        withOptions({browser: true}),
         ...createProject,
         ...addPostcss,
         ...addJest,

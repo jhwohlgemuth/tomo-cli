@@ -17,14 +17,14 @@ const scaffolder = new Scaffolder({sourceDirectory});
 export const addJest = [
     {
         text: 'Add test tasks and Jest configuration to package.json',
-        task: async () => {
+        task: async ({browser}) => {
             const scripts = {
                 test: 'jest .*.test.js --coverage',
                 'test:watch': 'npm test -- --watchAll'
             };
             const jest = {
                 testMatch: ['**/__tests__/**/*.(e2e|test).[jt]s?(x)'],
-                setupFilesAfterEnv: ['<rootDir>/__tests__/setup.js']
+                setupFilesAfterEnv: browser ? ['<rootDir>/__tests__/setup.js'] : undefined
             };
             await (new PackageJsonEditor())
                 .extend({jest, scripts})
@@ -34,10 +34,12 @@ export const addJest = [
     },
     {
         text: 'Copy Jest boilerplate',
-        task: async () => {
+        task: async ({browser}) => {
+            browser && await scaffolder
+                .target('__tests__')
+                .copy('setup.js');
             await scaffolder
                 .target('__tests__')
-                .copy('setup.js')
                 .copy('example.test.js')
                 .commit();
         },

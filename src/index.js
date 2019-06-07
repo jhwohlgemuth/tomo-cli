@@ -24,6 +24,7 @@ const help = `
         --react-version         React version for ESLint configuration [Default: '16.8']
 		--ignore-warnings, -i   Ignore warning messages [Default: false]
         --skip-install, -s      Skip npm installations [Default: false]
+        --browser               Indicate tasks are intended for the browser [Default: false]
         --debug                 Show debug data [Default: false]
 
 	${gray.bold('Examples')}
@@ -77,6 +78,10 @@ const options = {
             type: 'boolean',
             default: false,
             alias: 's'
+        },
+        browser: {
+            type: 'boolean',
+            default: false
         },
         debug: {
             type: 'boolean',
