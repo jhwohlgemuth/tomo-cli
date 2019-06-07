@@ -592,11 +592,11 @@ exports[`"Add" commands add-makefile 2`] = `
                     children: [
                         {
                             name: style.css,
-                            size: 219,
+                            size: 238,
                             type: file
                         }
                     ],
-                    size: 219,
+                    size: 238,
                     type: directory
                 },
                 {
@@ -653,7 +653,7 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 1062,
+            size: 1081,
             type: directory
         },
         {
@@ -668,7 +668,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: postcss.config.js,
-            size: 440,
+            size: 509,
             type: file
         },
         {
@@ -730,7 +730,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 14789,
+    size: 14877,
     type: directory
 }
 "
@@ -808,11 +808,11 @@ exports[`"Add" commands add-marionette 1`] = `
                     children: [
                         {
                             name: style.css,
-                            size: 219,
+                            size: 238,
                             type: file
                         }
                     ],
-                    size: 219,
+                    size: 238,
                     type: directory
                 },
                 {
@@ -869,7 +869,7 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 1062,
+            size: 1081,
             type: directory
         },
         {
@@ -926,7 +926,7 @@ exports[`"Add" commands add-marionette 1`] = `
             type: directory
         }
     ],
-    size: 9080,
+    size: 9099,
     type: directory
 }
 "
@@ -934,7 +934,7 @@ exports[`"Add" commands add-marionette 1`] = `
 
 exports[`"Add" commands add-parcel 1`] = `
 "module.exports = {
-    contents: [
+    content: [
         './assets/index.html'
     ]
 };"
@@ -972,6 +972,7 @@ exports[`"Add" commands add-postcss 1`] = `
         require('uncss').postcssPlugin({html: ['./dist/index.html']}),
         require('postcss-import')(),
         require('postcss-preset-env')({stage: 0}),
+        require('postcss-normalize')({browsers: 'last 2 versions'}),
         require('cssnano')(),
         require('postcss-reporter')({clearReportedMessages: true})
     ]
@@ -1188,11 +1189,11 @@ exports[`"Create/New" commands create new app 1`] = `
                     children: [
                         {
                             name: style.css,
-                            size: 219,
+                            size: 238,
                             type: file
                         }
                     ],
-                    size: 219,
+                    size: 238,
                     type: directory
                 },
                 {
@@ -1249,7 +1250,7 @@ exports[`"Create/New" commands create new app 1`] = `
                     type: directory
                 }
             ],
-            size: 1062,
+            size: 1081,
             type: directory
         },
         {
@@ -1264,7 +1265,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: postcss.config.js,
-            size: 440,
+            size: 509,
             type: file
         },
         {
@@ -1326,7 +1327,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13051,
+    size: 13139,
     type: directory
 }
 "
@@ -1670,11 +1671,11 @@ exports[`"Remove" commands remove parcel 2`] = `
         },
         {
             name: purgecss.config.js,
-            size: 73,
+            size: 72,
             type: file
         }
     ],
-    size: 646,
+    size: 645,
     type: directory
 }
 "
@@ -1734,11 +1735,11 @@ exports[`"Remove" commands remove postcss 2`] = `
         },
         {
             name: postcss.config.js,
-            size: 440,
+            size: 509,
             type: file
         }
     ],
-    size: 758,
+    size: 827,
     type: directory
 }
 "

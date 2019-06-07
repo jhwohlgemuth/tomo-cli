@@ -10,7 +10,8 @@ const BUILD_DEPENDENCIES = [
     'del-cli'
 ];
 const PARCEL_DEPENDENCIES = [
-    'parcel-bundler'
+    'parcel-bundler',
+    'parcel-plugin-purgecss'
 ];
 /**
  * @type {task[]}
@@ -50,9 +51,11 @@ export const addParcel = [
     },
     {
         text: 'Create PurgeCSS config file',
-        task: async () => {
+        task: async ({assetsDirectory}) => {
+            const content = [`'${assetsDirectory}/index.html'`];
             await (new PurgecssConfigEditor())
                 .create()
+                .extend({content})
                 .commit();
         },
         condition: () => allDoNotExist('purgecss.config.js')

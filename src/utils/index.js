@@ -183,7 +183,7 @@ export const PostcssConfigEditor = createModuleEditor('postcss.config.js', {
  *     .commit();
  */
 export const PurgecssConfigEditor = createModuleEditor('purgecss.config.js', {
-    contents: [`'./assets/index.html'`]
+    content: [`'./assets/index.html'`]
 });
 /**
  * Create and edit a Rollup configuration file with a fluent API

@@ -9,6 +9,7 @@ import {allDoNotExist, someDoExist} from '../utils/common';
 const POSTCSS_DEPENDENCIES = [
     'cssnano',
     'postcss-cli',
+    'postcss-normalize',
     'postcss-reporter',
     'postcss-safe-parser',
     'postcss-import',
@@ -30,6 +31,7 @@ export const addPostcss = [
                 ...(useParcel ? [] : [`require('uncss').postcssPlugin({html: ['${outputDirectory}/index.html']})`]),
                 `require('postcss-import')()`,
                 `require('postcss-preset-env')({stage: 0})`,
+                `require('postcss-normalize')({browsers: 'last 2 versions'})`,
                 `require('cssnano')()`,
                 `require('postcss-reporter')({clearReportedMessages: true})`
             ];

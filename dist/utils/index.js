@@ -83,7 +83,7 @@
  * await (new PurgecssConfigEditor())
  *     .create()
  *     .commit();
- */exports.PostcssConfigEditor=PostcssConfigEditor;const PurgecssConfigEditor=(0,_createModuleEditor.default)("purgecss.config.js",{contents:[`'./assets/index.html'`]});/**
+ */exports.PostcssConfigEditor=PostcssConfigEditor;const PurgecssConfigEditor=(0,_createModuleEditor.default)("purgecss.config.js",{content:[`'./assets/index.html'`]});/**
  * Create and edit a Rollup configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
