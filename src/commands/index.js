@@ -80,6 +80,7 @@ const add = {
     makefile: addMakefile,
     marionette: addMarionette,
     parcel: [
+        withOptions({useParcel: true}),
         ...addBabel,
         ...addParcel
     ],
