@@ -4,7 +4,7 @@ import {
     createPackageJson,
     createSourceDirectory
 } from './common';
-import addA11y from './add-a11y';
+import {addA11y, removeA11y} from './add-a11y';
 import addBabel from './add-babel';
 import {addBrowsersync, removeBrowsersync} from './add-browsersync';
 import addElectron from './add-electron';
@@ -96,6 +96,7 @@ const add = {
     ]
 };
 const remove = {
+    a11y: removeA11y,
     browsersync: removeBrowsersync,
     parcel: removeParcel,
     postcss: removePostcss,

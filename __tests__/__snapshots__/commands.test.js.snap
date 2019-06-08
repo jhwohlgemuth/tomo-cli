@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`"Add" commands add-a11y 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint:a11y\\": \\"pa11y ./dist/index.html\\"
+    }
+}
+"
+`;
+
 exports[`"Add" commands add-babel (with React) 1`] = `
 "{
     name: tomo-test,
@@ -1588,6 +1602,32 @@ exports[`"Create/New" commands create source directory 1`] = `
     ],
     size: 0,
     type: directory
+}
+"
+`;
+
+exports[`"Remove" commands remove a11y 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint:a11y\\": \\"pa11y ./dist/index.html\\"
+    }
+}
+"
+`;
+
+exports[`"Remove" commands remove a11y 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {}
 }
 "
 `;
