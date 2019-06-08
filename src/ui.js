@@ -17,11 +17,10 @@ import figures from 'figures';
 import {highlight} from 'cardinal';
 import commands from './commands';
 import {isValidTask, getIntendedInput} from './utils';
-import {dict, format} from './utils/common';
+import {dict, format, maybeApply} from './utils/common';
 
 const {assign} = Object;
 const space = ' ';
-const maybeApply = (val, options) => isFunction(val) ? val(options) : val;
 const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
 const X = () => <Color bold red>{figures.cross}{space}</Color>;
 const Pending = () => <Color cyan><Spinner></Spinner>{space}</Color>;

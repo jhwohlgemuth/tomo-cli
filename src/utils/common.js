@@ -1,4 +1,5 @@
 import {join} from 'path';
+import isFunction from 'lodash/isFunction';
 import {pathExists, pathExistsSync} from 'fs-extra';
 import prettier from 'prettier';
 
@@ -15,6 +16,7 @@ const checkPathExists = name => name |> joinPath |> pathExists;
 const checkPathExistsSync = name => name |> joinPath |> pathExistsSync;
 export const dict = val => val |> Object.entries |> newMap;
 export const parse = data => data |> JSON.stringify |> JSON.parse;
+export const maybeApply = (val, options) => isFunction(val) ? val(options) : val;
 export const getBinDirectory = path => {
     const [packageDirectory] = path.split('Makefile');
     return `${packageDirectory}node_modules/.bin/`;
