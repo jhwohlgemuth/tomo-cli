@@ -28,6 +28,9 @@ $ tomo --help
     --react-version         React version for ESLint configuration [Default: '16.8']
     --ignore-warnings, -i   Ignore warning messages [Default: false]
     --skip-install, -s      Skip npm installations [Default: false]
+    --overwrite             Copy files, even if they alrady exist [Default: false]
+    --browser               Indicate tasks are intended for the browser [Default: false]
+    --debug                 Show debug data [Default: false]
 
 ```
 
