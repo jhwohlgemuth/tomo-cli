@@ -80,7 +80,7 @@ const ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>
         <Color yellow>(╯°□ °)╯ ┻━┻ arrrgh...</Color>
     </InkBox>
     <Box marginLeft={4}>
-        ↳ <Color dim>Something went wrong...</Color>
+        ↳{space}<Color dim>Something went wrong...</Color>
     </Box>
     <Box marginLeft={6} marginTop={1}>
         <Color dim><Box>{info}</Box></Color>
@@ -151,7 +151,7 @@ export const Warning = ({callback, children}) => {
             <Color yellow>oops...</Color>
         </InkBox>
         <Box marginLeft={4}>
-            ↳ {children}
+            ↳{space}{children}
         </Box>
         <Box marginLeft={6} marginTop={1}>
             <Color dim>Press </Color><Text bold>ENTER</Text><Color dim> to continue</Color>
@@ -163,8 +163,8 @@ export const OfflineWarning = () => <Box flexDirection={'column'} marginBottom={
         <Color yellow>(⌒_⌒;) This is awkward...</Color>
     </InkBox>
     <Box marginLeft={4} flexDirection={'column'}>
-        <Box>↳ <Text>...you appear to be <Color bold red>offline</Color></Text></Box>
-        <Box>↳ <Text>Please connect to the internet and <Color bold cyan>try again</Color></Text></Box>
+        <Box>↳{space}<Text>...you appear to be <Color bold red>offline</Color></Text></Box>
+        <Box>↳{space}<Text>Please connect to the internet and <Color bold cyan>try again</Color></Text></Box>
     </Box>
     <Box marginLeft={6} marginTop={1}>
         <Color dim>No dependencies will be installed</Color>
@@ -174,7 +174,7 @@ export const Status = ({tasks, completed, skipped}) => {
     const tasksComplete = (completed.length + skipped.length) === tasks.length;
     return <Box flexDirection={'column'}>
         <Box marginLeft={4} marginBottom={1}>
-            <Color dim>↳  </Color>
+            <Color dim>↳{space}</Color>
             {tasksComplete ?
                 <Color bold green>All Done!</Color> :
                 <Fragment>
