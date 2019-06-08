@@ -5,11 +5,10 @@ import {existsSync, mkdirp, readFileSync} from 'fs-extra';
 import rimraf from 'rimraf';
 import dirTree from 'directory-tree';
 import omit from 'lodash/omit';
-import isFunction from 'lodash/isFunction';
 import Queue from 'p-queue';
 import delay from 'delay';
 import {populateQueue} from '../src/ui';
-import {format} from '../src/utils/common';
+import {format, maybeApply} from '../src/utils/common';
 
 // eslint-disable-next-line no-magic-numbers
 export const testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());
@@ -47,12 +46,12 @@ export const run = (tasks, options) => {
     const {assign} = Object;
     const queue = new Queue({concurrency: tasks.length});
     const dispatch = () => {};
-    const apply = val => (isFunction(val) ? val(options) : val);
+    const _options = assign({}, options, {assetsDirectory: './assets'});
     return populateQueue({
         queue,
         dispatch,
-        tasks: tasks.map(apply).flat(1),
-        options: assign({}, options, {assetsDirectory: './assets'})
+        tasks: tasks.flatMap(val => maybeApply(val, _options)),
+        options: _options
     });
 };
 export const fileContents = path => {
