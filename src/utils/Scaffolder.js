@@ -25,10 +25,11 @@ export class Scaffolder {
      */
     constructor(options = {sourceDirectory: join(__dirname, 'templates')}) {
         const {sourceDirectory} = options;
+        const copyIfExists = false;
         const targetDirectory = './';
         const fs = editor.create(memFs.create());
         const queue = new Queue({concurrency: 1});
-        assign(this, {fs, queue, sourceDirectory, targetDirectory});
+        assign(this, {copyIfExists, fs, queue, sourceDirectory, targetDirectory});
     }
     /**
      * Set source directory
@@ -54,11 +55,15 @@ export class Scaffolder {
      */
     copy(path, filename) {
         const self = this;
-        const {fs, queue, sourceDirectory, targetDirectory} = self;
+        const {copyIfExists, fs, queue, sourceDirectory, targetDirectory} = self;
         const source = join(sourceDirectory, path);
         const target = join(process.cwd(), targetDirectory, ...(isString(filename) ? filename : path).split('/'));
-        queue.add(() => fs.copy(source, target)).catch(silent);
+        const shouldCopy = !fs.exists(target) || copyIfExists;
+        shouldCopy && queue.add(() => fs.copy(source, target)).catch(silent);
         return self;
+    }
+    overwrite(flag) {
+        return assign(this, {copyIfExists: flag});
     }
     /**
      * Write changes to disk

@@ -12,7 +12,7 @@
      *
      * @param {Object} options Scaffolding options
      * @param {string} options.sourceDirectory Source directory for template files
-     */constructor(a={sourceDirectory:(0,_path.join)(__dirname,"templates")}){const{sourceDirectory:b}=a,c=_memFsEditor.default.create(_memFs.default.create()),d=new _pQueue.default({concurrency:1});assign(this,{fs:c,queue:d,sourceDirectory:b,targetDirectory:"./"})}/**
+     */constructor(a={sourceDirectory:(0,_path.join)(__dirname,"templates")}){const{sourceDirectory:b}=a,c=_memFsEditor.default.create(_memFs.default.create()),d=new _pQueue.default({concurrency:1});assign(this,{copyIfExists:!1,fs:c,queue:d,sourceDirectory:b,targetDirectory:"./"})}/**
      * Set source directory
      * @param {string} sourceDirectory Source directory of template files
      * @returns {Scaffolder} Chaining OK
@@ -25,7 +25,7 @@
      * @param {string} path Path string of file to be copied
      * @param {string} [filename] Name for copied file
      * @returns {Scaffolder} Chaining OK
-     */copy(a,b){const c=this,{fs:d,queue:e,sourceDirectory:f,targetDirectory:g}=c,h=(0,_path.join)(f,a),i=(0,_path.join)(process.cwd(),g,...((0,_isString.default)(b)?b:a).split("/"));return e.add(()=>d.copy(h,i)).catch(silent),c}/**
+     */copy(a,b){const c=this,{copyIfExists:d,fs:e,queue:f,sourceDirectory:g,targetDirectory:h}=c,i=(0,_path.join)(g,a),j=(0,_path.join)(process.cwd(),h,...((0,_isString.default)(b)?b:a).split("/")),k=!e.exists(j)||d;return k&&f.add(()=>e.copy(i,j)).catch(silent),c}overwrite(a){return assign(this,{copyIfExists:a})}/**
      * Write changes to disk
      * @return {Promise} Resolves when queue is empty
      */commit(){var a=this;return(0,_asyncToGenerator2.default)(function*(){const{fs:b,queue:c}=a;yield new Promise(a=>b.commit(a)),yield c.onEmpty()})()}}exports.Scaffolder=Scaffolder;var _default=Scaffolder;exports.default=_default;

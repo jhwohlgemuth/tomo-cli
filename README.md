@@ -29,8 +29,6 @@ $ tomo --help
     --ignore-warnings, -i   Ignore warning messages [Default: false]
     --skip-install, -s      Skip npm installations [Default: false]
 
-  Examples
-    $ tomo
 ```
 
 

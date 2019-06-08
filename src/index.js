@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import React from 'react';
-import {cyan, dim, gray} from 'chalk';
+import {cyan, dim} from 'chalk';
 import {render} from 'ink';
 import meow from 'meow';
 import getStdin from 'get-stdin';
@@ -11,10 +11,10 @@ import Tomo from './ui';
 // updateNotifier({pkg}).notify();
 
 const help = `
-	${gray.bold('Usage')}
+	${dim.bold('Usage')}
 		$ ${cyan('tomo [command] [term] [options]')}
 
-	${gray.bold('Options')}
+	${dim.bold('Options')}
 
         --source-directory, -d  Directory for source code [Default: ./src]
         --output-directory, -o  Directory for build targets [Default: ./dist]
@@ -23,17 +23,11 @@ const help = `
         --use-parcel,           Use Parcel instead of Webpack [Default: false]
         --use-react, -r         Add React support to workflow [Default: false]
         --react-version         React version for ESLint configuration [Default: '16.8']
-		--ignore-warnings, -i   Ignore warning messages [Default: false]
+        --ignore-warnings, -i   Ignore warning messages [Default: false]
         --skip-install, -s      Skip npm installations [Default: false]
+        --overwrite             Copy files, even if they alrady exist [Default: false]
         --browser               Indicate tasks are intended for the browser [Default: false]
-        --debug                 Show debug data [Default: false]
-
-	${gray.bold('Examples')}
-
-		$ tomo
-		    ${dim('I love Ink')}
-		$ tomo --name=ponies
-		    ${dim('I love ponies')}	
+        --debug                 Show debug data [Default: false]	
 `;
 const options = {
     help,
@@ -81,6 +75,10 @@ const options = {
             alias: 's'
         },
         browser: {
+            type: 'boolean',
+            default: false
+        },
+        overwrite: {
             type: 'boolean',
             default: false
         },

@@ -376,7 +376,7 @@ class UI extends Component {
         this.updateTerms = this.updateTerms.bind(this);
     }
     render() {
-        const {done, flags, stdin} = this.props;
+        const {done, flags} = this.props;
         const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
         return <ErrorBoundary>
             {showWarning ?

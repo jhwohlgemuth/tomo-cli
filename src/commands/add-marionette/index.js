@@ -23,9 +23,10 @@ const scaffolder = new Scaffolder({sourceDirectory});
 export const tasks = [
     {
         text: 'Copy Marionette.js boilerplate and assets',
-        task: async ({assetsDirectory, sourceDirectory, useParcel, usePika}) => {
+        task: async ({assetsDirectory, overwrite, sourceDirectory, useParcel, usePika}) => {
             const index = (useParcel || usePika) ? 'index-in-place.html' : 'index.html';
             await scaffolder
+                .overwrite(overwrite)
                 .target(sourceDirectory)
                 .copy('main.js')
                 .target(`${sourceDirectory}/components`)

@@ -65,6 +65,7 @@ export const tasks = [
                 .copy('index.html')
                 .copy('example.md')
                 .target('__tests__')
+                .overwrite(true)
                 .copy('example.test.js')
                 .commit();
         },
