@@ -34,8 +34,6 @@ const DEV_DEPENDENCIES = [
     'supertest'
 ];
 const ALWAYS = () => true;
-const sourceDirectory = join(__dirname, 'templates');
-const scaffolder = new Scaffolder({sourceDirectory});
 /**
  * @type {task[]}
  * @see https://expressjs.com/
@@ -46,7 +44,7 @@ export const tasks = [
     {
         text: 'Copy server files',
         task: async () => {
-            await scaffolder
+            await (new Scaffolder({sourceDirectory: join(__dirname, 'templates')}))
                 .target('./')
                 .copy('.env')
                 .copy('favicon.ico')

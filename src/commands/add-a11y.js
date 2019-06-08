@@ -42,7 +42,7 @@ export const removeA11y = [
     },
     {
         text: 'Uninstall pa11y',
-        task: ({skipInstall}) => uninstall(['pa11y']),
+        task: () => uninstall(['pa11y']),
         condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll('pa11y'),
         optional: ({skipInstall}) => !skipInstall
     }

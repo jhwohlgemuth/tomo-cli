@@ -302,7 +302,7 @@ describe('"Remove" commands', () => {
     });
     test('remove a11y', async () => {
         const outputDirectory = './dist';
-        const options = { outputDirectory, skipInstall };
+        const options = {outputDirectory, skipInstall};
         await run(createPackageJson, {});
         await run(addA11y, options);
         const pre = fileContents('package.json');

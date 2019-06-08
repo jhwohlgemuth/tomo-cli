@@ -32,20 +32,20 @@ export class Scaffolder {
         assign(this, {copyIfExists, fs, queue, sourceDirectory, targetDirectory});
     }
     /**
-     * Set source directory
-     * @param {string} sourceDirectory Source directory of template files
-     * @returns {Scaffolder} Chaining OK
-     */
-    source(sourceDirectory) {
-        return assign(this, {sourceDirectory});
-    }
-    /**
      * Set target directory
      * @param {string} targetDirectory Target directory of template files
      * @returns {Scaffolder} Chaining OK
      */
     target(targetDirectory) {
         return assign(this, {targetDirectory});
+    }
+    /**
+     * Set overwrite flag
+     * @param {boolean} flag Overwrite files (true) or not (false)
+     * @returns {Scaffolder} Chaining OK
+     */
+    overwrite(flag) {
+        return assign(this, {copyIfExists: flag});
     }
     /**
      * Copy a file
@@ -61,9 +61,6 @@ export class Scaffolder {
         const shouldCopy = !fs.exists(target) || copyIfExists;
         shouldCopy && queue.add(() => fs.copy(source, target)).catch(silent);
         return self;
-    }
-    overwrite(flag) {
-        return assign(this, {copyIfExists: flag});
     }
     /**
      * Write changes to disk

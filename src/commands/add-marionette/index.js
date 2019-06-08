@@ -14,8 +14,6 @@ const MARIONETTE_DEPENDENCIES = [
     'redux'
 ];
 const ALWAYS = async () => true;
-const sourceDirectory = join(__dirname, 'templates');
-const scaffolder = new Scaffolder({sourceDirectory});
 /**
  * @type {task[]}
  * @see https://marionettejs.com/
@@ -25,7 +23,9 @@ export const tasks = [
         text: 'Copy Marionette.js boilerplate and assets',
         task: async ({assetsDirectory, overwrite, sourceDirectory, useParcel, usePika}) => {
             const index = (useParcel || usePika) ? 'index-in-place.html' : 'index.html';
-            await scaffolder
+            const templates = join(__dirname, 'templates');
+            const commonTemplates = join(__dirname, '..', 'common', 'templates');
+            await (new Scaffolder({sourceDirectory: templates}))
                 .overwrite(overwrite)
                 .target(sourceDirectory)
                 .copy('main.js')
@@ -36,10 +36,6 @@ export const tasks = [
                 .target(`${sourceDirectory}/plugins`)
                 .copy('mn.radio.logging.js')
                 .copy('mn.redux.state.js')
-                .target(`${assetsDirectory}`)
-                .copy(index, 'index.html')
-                .target(`${assetsDirectory}/css`)
-                .copy('style.css')
                 .target(`${assetsDirectory}/images`)
                 .copy('.gitkeep')
                 .target(`${assetsDirectory}/fonts`)
@@ -48,6 +44,12 @@ export const tasks = [
                 .copy('.gitkeep')
                 .target(`${assetsDirectory}/workers`)
                 .copy('.gitkeep')
+                .commit();
+            await (new Scaffolder({sourceDirectory: commonTemplates}))
+                .target(`${assetsDirectory}`)
+                .copy(index, 'index.html')
+                .target(`${assetsDirectory}/css`)
+                .copy('style.css')
                 .commit();
         },
         condition: ALWAYS
