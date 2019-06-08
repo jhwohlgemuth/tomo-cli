@@ -15,8 +15,6 @@ const DEV_DEPENDENCIES = [
     'spectron'
 ];
 const ALWAYS = () => true;
-const sourceDirectory = join(__dirname, 'templates');
-const scaffolder = new Scaffolder({sourceDirectory});
 /**
  * @type {task[]}
  * @see https://electronjs.org/
@@ -25,7 +23,7 @@ export const tasks = [
     {
         text: 'Copy electron application files',
         task: async () => {
-            await scaffolder
+            await (new Scaffolder(join(__dirname, 'templates')))
                 .target('.')
                 .copy('index.js')
                 .target('bin')

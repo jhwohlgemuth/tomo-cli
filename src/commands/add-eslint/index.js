@@ -12,8 +12,6 @@ const ESLINT_DEPENDENCIES = [
 const ESLINT_REACT_PLUGINS = [
     'eslint-plugin-react'
 ];
-const sourceDirectory = join(__dirname, 'templates');
-const scaffolder = new Scaffolder({sourceDirectory});
 /**
  * @type {task[]}
  * @see https://eslint.org/
@@ -25,7 +23,7 @@ export const tasks = [
             await (new EslintConfigModuleEditor())
                 .create()
                 .commit();
-            await scaffolder
+            await (new Scaffolder(join(__dirname, 'templates')))
                 .copy('.eslintignore')
                 .commit();
         },

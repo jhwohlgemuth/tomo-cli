@@ -8,8 +8,6 @@ const JEST_DEPENDENCIES = [
     'jest',
     'babel-jest'
 ];
-const sourceDirectory = join(__dirname, 'templates');
-const scaffolder = new Scaffolder({sourceDirectory});
 /**
  * @type {task[]}
  * @see https://jestjs.io/
@@ -35,6 +33,7 @@ export const addJest = [
     {
         text: 'Copy Jest boilerplate',
         task: async ({browser}) => {
+            const scaffolder = new Scaffolder(join(__dirname, 'templates'));
             browser && await scaffolder
                 .target('__tests__')
                 .copy('setup.js');

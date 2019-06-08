@@ -2,17 +2,15 @@
  * Class to create scaffolders when creating folders, and copying files/templates
  * @example
  * import {Scaffolder} from './utils';
- * const scaffolder = new Scaffolder();
+ * const scaffolder = new Scaffolder('path/to/templates');
  * await scaffolder
  *     .target('/path/to/copy/files')
  *     .copy('foo.js')
  *     .copy('bar.js')
  *     .commit();
  */class Scaffolder{/**
-     *
-     * @param {Object} options Scaffolding options
-     * @param {string} options.sourceDirectory Source directory for template files
-     */constructor(a={sourceDirectory:(0,_path.join)(__dirname,"templates")}){const{sourceDirectory:b}=a,c=_memFsEditor.default.create(_memFs.default.create()),d=new _pQueue.default({concurrency:1});assign(this,{copyIfExists:!1,fs:c,queue:d,sourceDirectory:b,targetDirectory:"./"})}/**
+     * @param {string} sourceDirectory Source directory for template files
+     */constructor(a="./templates"){const b=_memFsEditor.default.create(_memFs.default.create()),c=new _pQueue.default({concurrency:1});assign(this,{copyIfExists:!1,fs:b,queue:c,sourceDirectory:a,targetDirectory:"./"})}/**
      * Set target directory
      * @param {string} targetDirectory Target directory of template files
      * @returns {Scaffolder} Chaining OK

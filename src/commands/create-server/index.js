@@ -43,8 +43,9 @@ const ALWAYS = () => true;
 export const tasks = [
     {
         text: 'Copy server files',
-        task: async () => {
-            await (new Scaffolder({sourceDirectory: join(__dirname, 'templates')}))
+        task: async ({overwrite}) => {
+            await (new Scaffolder(join(__dirname, 'templates')))
+                .overwrite(overwrite)
                 .target('./')
                 .copy('.env')
                 .copy('favicon.ico')

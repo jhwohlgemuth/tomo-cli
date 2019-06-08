@@ -10,7 +10,7 @@ const silent = () => {};
  * Class to create scaffolders when creating folders, and copying files/templates
  * @example
  * import {Scaffolder} from './utils';
- * const scaffolder = new Scaffolder();
+ * const scaffolder = new Scaffolder('path/to/templates');
  * await scaffolder
  *     .target('/path/to/copy/files')
  *     .copy('foo.js')
@@ -19,12 +19,9 @@ const silent = () => {};
  */
 export class Scaffolder {
     /**
-     *
-     * @param {Object} options Scaffolding options
-     * @param {string} options.sourceDirectory Source directory for template files
+     * @param {string} sourceDirectory Source directory for template files
      */
-    constructor(options = {sourceDirectory: join(__dirname, 'templates')}) {
-        const {sourceDirectory} = options;
+    constructor(sourceDirectory = './templates') {
         const copyIfExists = false;
         const targetDirectory = './';
         const fs = editor.create(memFs.create());

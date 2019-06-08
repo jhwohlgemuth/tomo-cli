@@ -5,7 +5,6 @@
  * @see [krakenjs/lusca]{@link https://github.com/krakenjs/lusca}
  * @see [helmetjs/helmet]{@link https://github.com/helmetjs/helmet}
  */
-
 const fs = require('fs-extra');
 const config = require('config');
 const log = require('npmlog');
