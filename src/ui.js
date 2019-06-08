@@ -364,7 +364,7 @@ class UI extends Component {
         const hasTerms = terms.length > 0;
         const {intendedCommand, intendedTerms} = hasCommand ? getIntendedInput(commands, command, terms) : {};
         const compare = (term, index) => (term !== terms[index]);
-        const showWarning = ((command !== intendedCommand) || intendedTerms.map(compare).some(Boolean)) && !ignoreWarnings;
+        const showWarning = ((command !== intendedCommand) || (hasTerms && intendedTerms.map(compare).some(Boolean))) && !ignoreWarnings;
         this.state = {
             hasTerms,
             hasCommand,
@@ -376,7 +376,7 @@ class UI extends Component {
         this.updateTerms = this.updateTerms.bind(this);
     }
     render() {
-        const {done, flags} = this.props;
+        const {done, flags, stdin} = this.props;
         const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
         return <ErrorBoundary>
             {showWarning ?
@@ -391,7 +391,7 @@ class UI extends Component {
                             items={Object.keys(commands[intendedCommand]).map(command => ({label: command, value: command}))}
                             onSelect={this.updateTerms}>
                         </SubCommandSelect> :
-                        <UnderConstruction />
+                        <UnderConstruction/>
             }
         </ErrorBoundary>;
     }
@@ -508,7 +508,8 @@ WarningAndErrorsHeader.propTypes = {
 UI.propTypes = {
     input: PropTypes.array,
     flags: PropTypes.object,
-    done: PropTypes.func
+    done: PropTypes.func,
+    stdin: PropTypes.string
 };
 UI.defaultProps = {
     input: [],

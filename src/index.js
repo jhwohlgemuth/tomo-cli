@@ -3,6 +3,7 @@ import React from 'react';
 import {cyan, dim, gray} from 'chalk';
 import {render} from 'ink';
 import meow from 'meow';
+import getStdin from 'get-stdin';
 import Tomo from './ui';
 // import updateNotifier from 'update-notifier';
 // Notify updater
@@ -90,6 +91,8 @@ const options = {
     }
 };
 const cli = meow(options);
-
 const {input, flags} = cli;
-render(<Tomo input={input} flags={flags}/>, {exitOnCtrlC: true});
+(async () => {
+    const stdin = await getStdin();
+    render(<Tomo input={input} flags={flags} stdin={stdin}/>, {exitOnCtrlC: true});
+})();
