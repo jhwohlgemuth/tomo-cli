@@ -1,12 +1,14 @@
 {
-  "coverage": "38.12%",
-  "expectCount": 160,
-  "actualCount": 61,
+  "coverage": "28.57%",
+  "expectCount": 175,
+  "actualCount": 50,
   "files": {
     "src/commands/add-a11y.js": {
-      "expectCount": 1,
+      "expectCount": 2,
       "actualCount": 1,
-      "undocumentLines": []
+      "undocumentLines": [
+        30
+      ]
     },
     "src/commands/add-babel.js": {
       "expectCount": 6,
@@ -20,10 +22,33 @@
       ]
     },
     "src/commands/add-browsersync.js": {
-      "expectCount": 2,
+      "expectCount": 3,
       "actualCount": 1,
       "undocumentLines": [
-        4
+        8,
+        37
+      ]
+    },
+    "src/commands/add-electron/index.js": {
+      "expectCount": 4,
+      "actualCount": 1,
+      "undocumentLines": [
+        6,
+        12,
+        17
+      ]
+    },
+    "src/commands/add-electron/templates/index.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        3,
+        4,
+        17,
+        18,
+        35,
+        36
       ]
     },
     "src/commands/add-esdoc.js": {
@@ -37,23 +62,19 @@
       ]
     },
     "src/commands/add-eslint/index.js": {
-      "expectCount": 5,
+      "expectCount": 3,
       "actualCount": 1,
       "undocumentLines": [
         6,
-        12,
-        15,
-        16
+        12
       ]
     },
     "src/commands/add-jest/index.js": {
-      "expectCount": 5,
+      "expectCount": 3,
       "actualCount": 1,
       "undocumentLines": [
         6,
-        7,
-        11,
-        12
+        7
       ]
     },
     "src/commands/add-jest/templates/example.test.js": {
@@ -82,13 +103,11 @@
       "undocumentLines": []
     },
     "src/commands/add-marionette/index.js": {
-      "expectCount": 5,
+      "expectCount": 3,
       "actualCount": 1,
       "undocumentLines": [
         6,
-        16,
-        17,
-        18
+        16
       ]
     },
     "src/commands/add-parcel.js": {
@@ -96,8 +115,8 @@
       "actualCount": 1,
       "undocumentLines": [
         9,
-        13,
-        70
+        12,
+        69
       ]
     },
     "src/commands/add-postcss.js": {
@@ -105,16 +124,16 @@
       "actualCount": 1,
       "undocumentLines": [
         9,
-        62
+        64
       ]
     },
     "src/commands/add-rollup.js": {
       "expectCount": 4,
       "actualCount": 1,
       "undocumentLines": [
-        9,
-        14,
-        83
+        10,
+        15,
+        84
       ]
     },
     "src/commands/add-rust.js": {
@@ -126,9 +145,9 @@
       "expectCount": 4,
       "actualCount": 1,
       "undocumentLines": [
-        9,
-        14,
-        85
+        10,
+        15,
+        86
       ]
     },
     "src/commands/common.js": {
@@ -136,31 +155,96 @@
       "actualCount": 2,
       "undocumentLines": []
     },
+    "src/commands/create-server/index.js": {
+      "expectCount": 4,
+      "actualCount": 1,
+      "undocumentLines": [
+        10,
+        30,
+        36
+      ]
+    },
+    "src/commands/create-server/templates/default.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/commands/create-server/templates/example.test.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        3,
+        5
+      ]
+    },
+    "src/commands/create-server/templates/graphql.js": {
+      "expectCount": 11,
+      "actualCount": 1,
+      "undocumentLines": [
+        6,
+        10,
+        15,
+        24,
+        30,
+        38,
+        46,
+        47,
+        59,
+        65
+      ]
+    },
+    "src/commands/create-server/templates/index.js": {
+      "expectCount": 9,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        4,
+        5,
+        6,
+        10,
+        11,
+        30,
+        39,
+        44
+      ]
+    },
+    "src/commands/create-server/templates/socket.js": {
+      "expectCount": 4,
+      "actualCount": 1,
+      "undocumentLines": [
+        6,
+        7,
+        9
+      ]
+    },
     "src/commands/index.js": {
       "expectCount": 4,
       "actualCount": 0,
       "undocumentLines": [
-        20,
-        27,
-        47,
-        75
+        22,
+        28,
+        67,
+        98
       ]
     },
     "src/index.js": {
       "expectCount": 4,
       "actualCount": 0,
       "undocumentLines": [
-        12,
-        34,
-        76,
-        78
+        13,
+        32,
+        91,
+        92
       ]
     },
     "src/ui.js": {
-      "expectCount": 30,
+      "expectCount": 34,
       "actualCount": 7,
       "undocumentLines": [
-        21,
         22,
         23,
         24,
@@ -168,21 +252,26 @@
         26,
         27,
         28,
-        41,
-        50,
-        75,
-        86,
-        87,
+        29,
+        42,
+        51,
+        78,
         89,
-        95,
+        90,
+        92,
         98,
         101,
-        107,
-        124,
-        158,
-        318,
-        328,
-        338
+        104,
+        110,
+        127,
+        161,
+        173,
+        197,
+        267,
+        291,
+        358,
+        368,
+        378
       ]
     },
     "src/utils/BasicEditor.js": {
@@ -194,40 +283,12 @@
         37
       ]
     },
-    "src/utils/MakefileEditor.js": {
-      "expectCount": 20,
-      "actualCount": 8,
-      "undocumentLines": [
-        10,
-        11,
-        12,
-        13,
-        14,
-        26,
-        27,
-        28,
-        29,
-        32,
-        140,
-        152
-      ]
-    },
     "src/utils/Scaffolder.js": {
       "expectCount": 8,
       "actualCount": 6,
       "undocumentLines": [
         7,
         8
-      ]
-    },
-    "src/utils/common.js": {
-      "expectCount": 11,
-      "actualCount": 7,
-      "undocumentLines": [
-        5,
-        12,
-        13,
-        14
       ]
     },
     "src/utils/createJsonEditor.js": {
@@ -247,11 +308,13 @@
       ]
     },
     "src/utils/index.js": {
-      "expectCount": 14,
+      "expectCount": 16,
       "actualCount": 12,
       "undocumentLines": [
-        11,
-        81
+        14,
+        15,
+        16,
+        86
       ]
     }
   }

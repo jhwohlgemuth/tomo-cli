@@ -35,37 +35,39 @@
  * Create and edit a Babel.js configuration file with a fluent API
  * @type {ModuleEditor}
  * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>
- * const cfg = new BabelConfigModuleEditor();
- * await cfg
+ * await (new BabelConfigModuleEditor())
  *     .create()
- *     .extend({
- *         presets: [`'@babel/preset-env'`]
- *     })
+ *     .extend({presets: [`'@babel/preset-env'`]})
  *     .prepend(`const {existsSync} = require('fs-extra');`)
  *     .commit();
  */exports.verifyRustInstallation=verifyRustInstallation;const BabelConfigModuleEditor=(0,_createModuleEditor.default)("babel.config.js",{plugins:[`'@babel/plugin-transform-runtime'`,`'@babel/plugin-proposal-class-properties'`,`'@babel/plugin-proposal-export-default-from'`,`'@babel/plugin-proposal-optional-chaining'`],presets:[`'@babel/preset-env'`,`'minify'`]});/**
  * Create and edit an ESLint configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
- * const cfg = new EslintConfigModuleEditor();
- * await cfg.create().commit();
+ * await (new EslintConfigModuleEditor())
+ *     .create()
+ *     .commit();
  */exports.BabelConfigModuleEditor=BabelConfigModuleEditor;const EslintConfigModuleEditor=(0,_createModuleEditor.default)(".eslintrc.js",{env:{es6:!0,jest:!0},extends:[`'omaha-prime-grade'`],parser:`'babel-eslint'`});/**
  * Create and edit a package.json manifest file with a fluent API
  * @type {JsonEditor}
  * @example <caption>Create a new package.json</caption>
- * const pkg = new PackageJsonEditor();
- * await pkg.create().commit();
+ * await (new PackageJsonEditor())
+ *     .create()
+ *     .commit();
  * @example <caption>Create a new package.json and read its contents (chaining OK)</caption>
- * const pkg = new PackageJsonEditor();
- * const contents = pkg.create().read();
+ * const contents = (new PackageJsonEditor())
+ *     .create()
+ *     .read();
  * @example <caption>Extend a package.json</caption>
  * const script = {test: 'jest --coverage'};
- * await pkg.extend({script}).commit();
+ * await (new PackageJsonEditor())
+ *     .extend({script})
+ *     .commit();
  * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>
  * const script = {
  *     lint: 'eslint index.js -c ./.eslintrc.js'
  * };
- * await pkg
+ * await (new PackageJsonEditor())
  *     .create(false)
  *     .extend({script}, false)
  *     .commit();
