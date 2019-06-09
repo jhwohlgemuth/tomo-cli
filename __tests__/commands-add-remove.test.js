@@ -5,10 +5,7 @@ import {
     run,
     useTemporaryDirectory
 } from './tomo-test';
-import {
-    createPackageJson,
-    createSourceDirectory
-} from '../src/commands/common';
+import {createPackageJson} from '../src/commands/common';
 import commands from '../src/commands';
 import {addA11y, removeA11y} from '../src/commands/add-a11y';
 import addBabel from '../src/commands/add-babel';
@@ -27,55 +24,6 @@ import {addWebpack, removeWebpack} from '../src/commands/add-webpack';
 
 jest.mock('is-online', () => (async () => true));
 
-describe('"Create/New" commands', () => {
-    let tempDirectory;
-    const skipInstall = true;
-    const {create} = commands;
-    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
-    beforeEach(async () => {
-        tempDirectory = await setTempDir();
-        process.chdir(tempDirectory);
-    });
-    afterEach(async () => {
-        await cleanupTempDir();
-    });
-    test('create new project', async () => {
-        const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory};
-        await run(create.project, options);
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-    });
-    test('create new app', async () => {
-        const sourceDirectory = 'src';
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
-        await run(create.app, options);
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-        const pkg = fileContents('package.json');
-        expect(pkg).toMatchSnapshot();
-    });
-    test('create new server', async () => {
-        const options = {skipInstall};
-        await run(create.server, options);
-        const tree = getDirectoryTree(tempDirectory);
-        const pkg = fileContents('package.json');
-        expect(tree).toMatchSnapshot();
-        expect(pkg).toMatchSnapshot();
-    });
-    test('create package.json', async () => {
-        await run(createPackageJson, {});
-        const contents = fileContents('./package.json');
-        expect(contents).toMatchSnapshot();
-    });
-    test('create source directory', async () => {
-        const sourceDirectory = 'some-random-folder-name';
-        await run(createSourceDirectory, {sourceDirectory});
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-    });
-});
 describe('"Add" commands', () => {
     let tempDirectory;
     const skipInstall = true;
@@ -182,8 +130,9 @@ describe('"Add" commands', () => {
         expect(contents).toMatchSnapshot();
     });
     test('add-eslint (with React)', async () => {
+        const reactVersion = '16.2';
         const sourceDirectory = './src';
-        const options = {skipInstall, sourceDirectory, useReact};
+        const options = {reactVersion, skipInstall, sourceDirectory, useReact};
         await run(addEslint, options);
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
@@ -281,6 +230,28 @@ describe('"Add" commands', () => {
         await run(addBabel, options);
         await run(addEslint, options);
         await run(addWebpack, options);
+        const cfg = fileContents('.eslintrc.js');
+        expect(cfg).toMatchSnapshot();
+        const tree = getDirectoryTree(tempDirectory);
+        expect(tree).toMatchSnapshot();
+        const contents = fileContents('./webpack.config.js');
+        expect(contents).toMatchSnapshot();
+        const post = fileContents('./package.json');
+        expect(post).toMatchSnapshot();
+    });
+    test('add-webpack --use-react', async () => {
+        const sourceDirectory = 'src';
+        const outputDirectory = './dist';
+        const useReact = true;
+        const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
+        await run(createPackageJson, {});
+        const pre = fileContents('./package.json');
+        expect(pre).toMatchSnapshot();
+        await run(addBabel, options);
+        await run(addEslint, options);
+        await run(addWebpack, options);
+        const cfg = fileContents('.eslintrc.js');
+        expect(cfg).toMatchSnapshot();
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
         const contents = fileContents('./webpack.config.js');

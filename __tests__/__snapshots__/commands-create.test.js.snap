@@ -1,0 +1,702 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`"Create/New" commands create new app 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 177,
+            type: file
+        },
+        {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js,
+                    size: 337,
+                    type: file
+                },
+                {
+                    name: setup.js,
+                    size: 370,
+                    type: file
+                }
+            ],
+            size: 707,
+            type: directory
+        },
+        {
+            name: assets,
+            children: [
+                {
+                    name: css,
+                    children: [
+                        {
+                            name: style.css,
+                            size: 238,
+                            type: file
+                        }
+                    ],
+                    size: 238,
+                    type: directory
+                },
+                {
+                    name: fonts,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: images,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: index.html,
+                    size: 1029,
+                    type: file
+                },
+                {
+                    name: library,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: workers,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                }
+            ],
+            size: 1267,
+            type: directory
+        },
+        {
+            name: babel.config.js,
+            size: 322,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 1570,
+            type: file
+        },
+        {
+            name: postcss.config.js,
+            size: 509,
+            type: file
+        },
+        {
+            name: src,
+            children: [
+                {
+                    name: components,
+                    children: [
+                        {
+                            name: app.js,
+                            size: 1265,
+                            type: file
+                        }
+                    ],
+                    size: 1265,
+                    type: directory
+                },
+                {
+                    name: main.js,
+                    size: 199,
+                    type: file
+                },
+                {
+                    name: plugins,
+                    children: [
+                        {
+                            name: mn.radio.logging.js,
+                            size: 3980,
+                            type: file
+                        },
+                        {
+                            name: mn.redux.state.js,
+                            size: 2039,
+                            type: file
+                        }
+                    ],
+                    size: 6019,
+                    type: directory
+                },
+                {
+                    name: shims,
+                    children: [
+                        {
+                            name: mn.renderer.shim.js,
+                            size: 510,
+                            type: file
+                        }
+                    ],
+                    size: 510,
+                    type: directory
+                }
+            ],
+            size: 7993,
+            type: directory
+        },
+        {
+            name: webpack.config.js,
+            size: 862,
+            type: file
+        }
+    ],
+    size: 13443,
+    type: directory
+}
+"
+`;
+
+exports[`"Create/New" commands create new app 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build\\": \\"webpack\\",
+        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"test\\": \\"jest .*.test.js --coverage\\",
+        \\"test:watch\\": \\"npm test -- --watchAll\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
+        \\"prestart\\": \\"npm run build\\",
+        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
+        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
+    },
+    \\"jest\\": {
+        \\"testMatch\\": [
+            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ],
+        \\"setupFilesAfterEnv\\": [
+            \\"<rootDir>/__tests__/setup.js\\"
+        ]
+    },
+    \\"main\\": \\"src/main.js\\"
+}
+"
+`;
+
+exports[`"Create/New" commands create new app 3`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true,
+        browser: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint'
+};"
+`;
+
+exports[`"Create/New" commands create new project 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 154,
+            type: file
+        },
+        {
+            name: babel.config.js,
+            size: 322,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 481,
+            type: file
+        },
+        {
+            name: src,
+            children: [],
+            size: 0,
+            type: directory
+        }
+    ],
+    size: 993,
+    type: directory
+}
+"
+`;
+
+exports[`"Create/New" commands create new react app 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 371,
+            type: file
+        },
+        {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js,
+                    size: 337,
+                    type: file
+                },
+                {
+                    name: setup.js,
+                    size: 370,
+                    type: file
+                }
+            ],
+            size: 707,
+            type: directory
+        },
+        {
+            name: assets,
+            children: [
+                {
+                    name: css,
+                    children: [
+                        {
+                            name: style.css,
+                            size: 238,
+                            type: file
+                        }
+                    ],
+                    size: 238,
+                    type: directory
+                },
+                {
+                    name: fonts,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: images,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: index.html,
+                    size: 1064,
+                    type: file
+                },
+                {
+                    name: library,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                },
+                {
+                    name: workers,
+                    children: [
+                        {
+                            name: .gitkeep,
+                            size: 0,
+                            type: file
+                        }
+                    ],
+                    size: 0,
+                    type: directory
+                }
+            ],
+            size: 1302,
+            type: directory
+        },
+        {
+            name: babel.config.js,
+            size: 387,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 1522,
+            type: file
+        },
+        {
+            name: postcss.config.js,
+            size: 509,
+            type: file
+        },
+        {
+            name: src,
+            children: [
+                {
+                    name: components,
+                    children: [
+                        {
+                            name: App.js,
+                            size: 202,
+                            type: file
+                        }
+                    ],
+                    size: 202,
+                    type: directory
+                },
+                {
+                    name: main.js,
+                    size: 220,
+                    type: file
+                }
+            ],
+            size: 422,
+            type: directory
+        },
+        {
+            name: webpack.config.js,
+            size: 870,
+            type: file
+        }
+    ],
+    size: 6126,
+    type: directory
+}
+"
+`;
+
+exports[`"Create/New" commands create new react app 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build\\": \\"webpack\\",
+        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"test\\": \\"jest .*.test.js --coverage\\",
+        \\"test:watch\\": \\"npm test -- --watchAll\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
+        \\"serve\\": \\"webpack-dev-server --hot --open --mode development\\",
+        \\"start\\": \\"npm-run-all --parallel build:css:watch serve\\"
+    },
+    \\"jest\\": {
+        \\"testMatch\\": [
+            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ],
+        \\"setupFilesAfterEnv\\": [
+            \\"<rootDir>/__tests__/setup.js\\"
+        ]
+    },
+    \\"main\\": \\"src/main.js\\"
+}
+"
+`;
+
+exports[`"Create/New" commands create new react app 3`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true,
+        browser: true
+    },
+    extends: [
+        omaha-prime-grade,
+        plugin:react/recommended
+    ],
+    parser: 'babel-eslint',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
+        }
+    },
+    settings: {
+        react: {
+            version: '16.2'
+        }
+    }
+};"
+`;
+
+exports[`"Create/New" commands create new server 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .env,
+            size: 0,
+            type: file
+        },
+        {
+            name: .eslintignore,
+            size: 36,
+            type: file
+        },
+        {
+            name: .eslintrc.js,
+            size: 392,
+            type: file
+        },
+        {
+            name: .gitignore,
+            size: 18,
+            type: file
+        },
+        {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js,
+                    size: 698,
+                    type: file
+                }
+            ],
+            size: 698,
+            type: directory
+        },
+        {
+            name: config,
+            children: [
+                {
+                    name: default.js,
+                    size: 857,
+                    type: file
+                },
+                {
+                    name: test.js,
+                    size: 857,
+                    type: file
+                }
+            ],
+            size: 1714,
+            type: directory
+        },
+        {
+            name: favicon.ico,
+            size: 0,
+            type: file
+        },
+        {
+            name: graphql.js,
+            size: 1630,
+            type: file
+        },
+        {
+            name: index.js,
+            size: 1434,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 870,
+            type: file
+        },
+        {
+            name: public,
+            children: [
+                {
+                    name: example.md,
+                    size: 263,
+                    type: file
+                },
+                {
+                    name: index.html,
+                    size: 191,
+                    type: file
+                }
+            ],
+            size: 454,
+            type: directory
+        },
+        {
+            name: server.js,
+            size: 2770,
+            type: file
+        },
+        {
+            name: socket.js,
+            size: 624,
+            type: file
+        },
+        {
+            name: ssl,
+            children: [
+                {
+                    name: server.cert,
+                    size: 1241,
+                    type: file
+                },
+                {
+                    name: server.key,
+                    size: 1704,
+                    type: file
+                }
+            ],
+            size: 2945,
+            type: directory
+        }
+    ],
+    size: 13585,
+    type: directory
+}
+"
+`;
+
+exports[`"Create/New" commands create new server 2`] = `
+"{
+    \\"name\\": \\"tomo-server\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"Node.js HTTP(S), WebSocket, and GraphQL servers with an 80% solution for security 'baked in'\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' .\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"test\\": \\"jest .*.test.js --coverage\\",
+        \\"test:watch\\": \\"npm test -- --watchAll\\",
+        \\"predev\\": \\"npm run open\\",
+        \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
+        \\"prestart\\": \\"npm audit\\",
+        \\"start\\": \\"node index.js\\",
+        \\"open\\": \\"open-cli http://localhost:8111\\"
+    },
+    \\"jest\\": {
+        \\"testMatch\\": [
+            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ]
+    },
+    \\"main\\": \\"index.js\\"
+}
+"
+`;
+
+exports[`"Create/New" commands create new server 3`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true,
+        browser: false,
+        node: true
+    },
+    extends: [
+        omaha-prime-grade,
+        plugin:react/recommended
+    ],
+    parser: 'babel-eslint',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
+        }
+    },
+    settings: {
+        react: {
+            version: '16.2'
+        }
+    }
+};"
+`;
+
+exports[`"Create/New" commands create package.json 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Create/New" commands create source directory 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: some-random-folder-name,
+            children: [],
+            size: 0,
+            type: directory
+        }
+    ],
+    size: 0,
+    type: directory
+}
+"
+`;

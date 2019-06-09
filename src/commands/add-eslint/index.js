@@ -19,9 +19,11 @@ const ESLINT_REACT_PLUGINS = [
 export const tasks = [
     {
         text: 'Create ESLint configuration and .eslintignore files',
-        task: async () => {
+        task: async ({browser}) => {
+            const env = {browser};
             await (new EslintConfigModuleEditor())
                 .create()
+                .extend({env})
                 .commit();
             await (new Scaffolder(join(__dirname, 'templates')))
                 .copy('.eslintignore')

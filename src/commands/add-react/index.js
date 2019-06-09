@@ -3,37 +3,27 @@ import {PackageJsonEditor, install} from '../../utils';
 import {allDoExist} from '../../utils/common';
 import {Scaffolder} from '../../utils/Scaffolder';
 
-const MARIONETTE_DEPENDENCIES = [
-    'jquery',
-    'backbone',
-    'backbone.marionette',
-    'backbone.radio',
-    'marionette.approuter',
-    'morphdom',
-    'lodash-es',
-    'redux'
+const REACT_DEPENDENCIES = [
+    'prop-types',
+    'react',
+    'react-dom'
 ];
-const ALWAYS = async () => true;
+const ALWAYS = () => true;
 /**
  * @type {task[]}
- * @see https://marionettejs.com/
+ * @see https://reactjs.org/
  */
-export const tasks = [
+export const addReact = [
     {
-        text: 'Copy Marionette.js boilerplate and assets',
-        task: async ({assetsDirectory, overwrite, sourceDirectory, useParcel, usePika}) => {
-            const index = (useParcel || usePika) ? 'index-in-place.html' : 'index.html';
+        text: 'Copy React boilerplate and assets',
+        task: async ({assetsDirectory, sourceDirectory, overwrite, useParcel}) => {
+            const index = useParcel ? 'index-in-place-react.html' : 'index-react.html';
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)
                 .target(sourceDirectory)
                 .copy('main.js')
                 .target(`${sourceDirectory}/components`)
-                .copy('app.js')
-                .target(`${sourceDirectory}/shims`)
-                .copy('mn.renderer.shim.js')
-                .target(`${sourceDirectory}/plugins`)
-                .copy('mn.radio.logging.js')
-                .copy('mn.redux.state.js')
+                .copy('App.js')
                 .commit();
             await (new Scaffolder(join(__dirname, '..', 'common', 'templates')))
                 .overwrite(overwrite)
@@ -54,19 +44,24 @@ export const tasks = [
         condition: ALWAYS
     },
     {
-        text: 'Set package.json "main" attribute',
-        task: async ({sourceDirectory}) => {
+        text: 'Set package.json "main" attribute and add scripts tasks',
+        task: async ({sourceDirectory, useParcel}) => {
             const main = `${sourceDirectory}/main.js`;
+            const scripts = {
+                serve: 'webpack-dev-server --hot --open --mode development',
+                start: 'npm-run-all --parallel build:css:watch serve'
+            };
             await (new PackageJsonEditor())
                 .extend({main})
+                .extend(useParcel ? {} : {scripts})
                 .commit();
         },
         condition: () => allDoExist('package.json')
     },
     {
-        text: 'Install Marionette.js dependencies',
-        task: ({skipInstall}) => install(MARIONETTE_DEPENDENCIES, {skipInstall}),
+        text: 'Install React dependencies',
+        task: ({skipInstall}) => install(REACT_DEPENDENCIES, {skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     }
 ];
-export default tasks;
+export default addReact;

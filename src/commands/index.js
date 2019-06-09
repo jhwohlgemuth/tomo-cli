@@ -1,9 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import {choose, withOptions} from '../utils';
-import {
-    createPackageJson,
-    createSourceDirectory
-} from './common';
+import {createPackageJson, createSourceDirectory} from './common';
 import {addA11y, removeA11y} from './add-a11y';
 import addBabel from './add-babel';
 import {addBrowsersync, removeBrowsersync} from './add-browsersync';
@@ -15,6 +12,7 @@ import addMakefile from './add-makefile';
 import addMarionette from './add-marionette';
 import {addParcel, removeParcel} from './add-parcel';
 import {addPostcss, removePostcss} from './add-postcss';
+import addReact from './add-react';
 import {addRollup, removeRollup} from './add-rollup';
 import {addWebpack, removeWebpack} from './add-webpack';
 import createServer from './create-server';
@@ -40,24 +38,24 @@ const create = {
         choose({
             default: addMarionette,
             native: [
-                withOptions({
-                    outputDirectory: './dist',
-                    sourceDirectory: './renderer/src',
-                    assetsDirectory: './renderer/assets'
-                }),
+                withOptions({outputDirectory: './dist', sourceDirectory: './renderer/src', assetsDirectory: './renderer/assets'}),
                 ...addMarionette,
                 ...addElectron
             ],
-            useReact: [] // under construction
+            useReact: [
+                withOptions({useReact: true, useRollup: false}),
+                ...addReact
+            ]
         }),
         choose({
             default: addBrowsersync,
             native: [], // do nothing
-            useParcel: [] // do nothing
+            useParcel: [], // do nothing
+            useReact: [] // do nothing
         })
     ],
     server: [
-        withOptions({sourceDirectory: '.', useReact: false}),
+        withOptions({browser: false, sourceDirectory: '.', useReact: false}),
         ...createPackageJson,
         ...addEslint,
         ...addJest,
@@ -86,6 +84,10 @@ const add = {
         ...addParcel
     ],
     postcss: addPostcss,
+    react: [
+        withOptions({useReact: true}),
+        ...addReact
+    ],
     rollup: [
         ...addBabel,
         ...addRollup

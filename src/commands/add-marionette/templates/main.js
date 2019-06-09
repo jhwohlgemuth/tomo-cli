@@ -1,4 +1,3 @@
-/* eslint-env browser */
 /**
  * Main entry point for application
  */

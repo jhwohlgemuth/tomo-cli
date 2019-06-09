@@ -27,19 +27,24 @@ const WEBPACK_DEPENDENCIES = [
 export const addWebpack = [
     {
         text: 'Create Webpack configuration file',
-        task: async ({sourceDirectory}) => {
+        task: async ({outputDirectory, sourceDirectory, useReact}) => {
             const entry = {
                 app: `'${sourceDirectory}/main.js'`
             };
             const resolve = {
-                modules: `[resolve(__dirname, '${sourceDirectory}'), 'node_modules']`
+                modules: `[resolve(__dirname, '${sourceDirectory}'), 'node_modules']`,
+                extensions: `[${useReact ? `'.js', '.jsx'` : `'.js'`}]`
+            };
+            const devServer = {
+                contentBase: `'${outputDirectory}'`,
+                compress: true
             };
             await (new WebpackConfigEditor())
                 .create()
                 .prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`)
                 .prepend(`const {resolve} = require('path');`)
                 .prepend(`/* eslint-env node */`)
-                .extend({entry, resolve})
+                .extend({devServer, entry, resolve})
                 .commit();
         },
         condition: () => allDoNotExist('webpack.config.js')

@@ -40,7 +40,7 @@
  *     .extend({presets: [`'@babel/preset-env'`]})
  *     .prepend(`const {existsSync} = require('fs-extra');`)
  *     .commit();
- */exports.verifyRustInstallation=verifyRustInstallation;const BabelConfigModuleEditor=(0,_createModuleEditor.default)("babel.config.js",{plugins:[`'@babel/plugin-transform-runtime'`,`'@babel/plugin-proposal-class-properties'`,`'@babel/plugin-proposal-export-default-from'`,`'@babel/plugin-proposal-optional-chaining'`],presets:[`'@babel/preset-env'`,`'minify'`]});/**
+ */exports.verifyRustInstallation=verifyRustInstallation;const BabelConfigModuleEditor=(0,_createModuleEditor.default)("babel.config.js",{plugins:[`'@babel/plugin-transform-runtime'`,`'@babel/plugin-proposal-class-properties'`,`'@babel/plugin-proposal-export-default-from'`,`'@babel/plugin-proposal-optional-chaining'`],presets:[`'@babel/preset-env'`,`'babel-preset-minify'`]});/**
  * Create and edit an ESLint configuration file with a fluent API
  * @type {ModuleEditor}
  * @example

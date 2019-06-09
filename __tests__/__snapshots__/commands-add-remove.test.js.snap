@@ -20,11 +20,11 @@ exports[`"Add" commands add-babel (with React) 1`] = `
     children: [
         {
             name: babel.config.js,
-            size: 347,
+            size: 387,
             type: file
         }
     ],
-    size: 347,
+    size: 387,
     type: directory
 }
 "
@@ -36,12 +36,13 @@ exports[`"Add" commands add-babel (with React) 2`] = `
         '@babel/plugin-transform-runtime',
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-export-default-from',
-        '@babel/plugin-proposal-optional-chaining'
+        '@babel/plugin-proposal-optional-chaining',
+        'react-hot-loader/babel'
     ],
     presets: [
-        @babel/preset-env,
-        babel-preset-minify,
-        @babel/preset-react
+        '@babel/preset-env',
+        'babel-preset-minify',
+        '@babel/preset-react'
     ]
 };"
 `;
@@ -52,11 +53,11 @@ exports[`"Add" commands add-babel 1`] = `
     children: [
         {
             name: babel.config.js,
-            size: 309,
+            size: 322,
             type: file
         }
     ],
-    size: 309,
+    size: 322,
     type: directory
 }
 "
@@ -72,7 +73,7 @@ exports[`"Add" commands add-babel 2`] = `
     ],
     presets: [
         '@babel/preset-env',
-        'minify'
+        'babel-preset-minify'
     ]
 };"
 `;
@@ -318,11 +319,11 @@ exports[`"Add" commands add-eslint (with React) 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 373,
+            size: 348,
             type: file
         }
     ],
-    size: 409,
+    size: 384,
     type: directory
 }
 "
@@ -332,8 +333,7 @@ exports[`"Add" commands add-eslint (with React) 2`] = `
 "module.exports = {
     env: {
         es6: true,
-        jest: true,
-        node: true
+        jest: true
     },
     extends: [
         omaha-prime-grade,
@@ -347,7 +347,7 @@ exports[`"Add" commands add-eslint (with React) 2`] = `
     },
     settings: {
         react: {
-            version: 'undefined'
+            version: '16.2'
         }
     }
 };"
@@ -364,11 +364,11 @@ exports[`"Add" commands add-eslint 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 174,
+            size: 154,
             type: file
         }
     ],
-    size: 210,
+    size: 190,
     type: directory
 }
 "
@@ -378,8 +378,7 @@ exports[`"Add" commands add-eslint 2`] = `
 "module.exports = {
     env: {
         es6: true,
-        jest: true,
-        node: true
+        jest: true
     },
     extends: [
         'omaha-prime-grade'
@@ -573,7 +572,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: .eslintrc.js,
-            size: 373,
+            size: 371,
             type: file
         },
         {
@@ -672,7 +671,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: babel.config.js,
-            size: 347,
+            size: 387,
             type: file
         },
         {
@@ -702,7 +701,7 @@ exports[`"Add" commands add-makefile 2`] = `
                 },
                 {
                     name: main.js,
-                    size: 224,
+                    size: 199,
                     type: file
                 },
                 {
@@ -735,16 +734,16 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 8018,
+            size: 7993,
             type: directory
         },
         {
             name: webpack.config.js,
-            size: 759,
+            size: 866,
             type: file
         }
     ],
-    size: 15063,
+    size: 15183,
     type: directory
 }
 "
@@ -903,7 +902,7 @@ exports[`"Add" commands add-marionette 1`] = `
                 },
                 {
                     name: main.js,
-                    size: 224,
+                    size: 199,
                     type: file
                 },
                 {
@@ -936,11 +935,11 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 8018,
+            size: 7993,
             type: directory
         }
     ],
-    size: 9285,
+    size: 9260,
     type: directory
 }
 "
@@ -1055,7 +1054,7 @@ export default {
 };"
 `;
 
-exports[`"Add" commands add-webpack 1`] = `
+exports[`"Add" commands add-webpack --use-react 1`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -1066,7 +1065,32 @@ exports[`"Add" commands add-webpack 1`] = `
 "
 `;
 
-exports[`"Add" commands add-webpack 2`] = `
+exports[`"Add" commands add-webpack --use-react 2`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true,
+        browser: true
+    },
+    extends: [
+        omaha-prime-grade,
+        plugin:react/recommended
+    ],
+    parser: 'babel-eslint',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
+        }
+    },
+    settings: {
+        react: {
+            version: 'undefined'
+        }
+    }
+};"
+`;
+
+exports[`"Add" commands add-webpack --use-react 3`] = `
 "{
     name: tomo-test,
     children: [
@@ -1077,12 +1101,12 @@ exports[`"Add" commands add-webpack 2`] = `
         },
         {
             name: .eslintrc.js,
-            size: 373,
+            size: 376,
             type: file
         },
         {
             name: babel.config.js,
-            size: 347,
+            size: 387,
             type: file
         },
         {
@@ -1092,17 +1116,17 @@ exports[`"Add" commands add-webpack 2`] = `
         },
         {
             name: webpack.config.js,
-            size: 755,
+            size: 870,
             type: file
         }
     ],
-    size: 2456,
+    size: 2614,
     type: directory
 }
 "
 `;
 
-exports[`"Add" commands add-webpack 3`] = `
+exports[`"Add" commands add-webpack --use-react 4`] = `
 "/* eslint-env node */
 const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
@@ -1133,13 +1157,18 @@ module.exports = {
     plugins: [
         new DashboardPlugin()
     ],
+    devServer: {
+        contentBase: './dist',
+        compress: true
+    },
     resolve: {
-        modules: [resolve(__dirname, 'src'), 'node_modules']
+        modules: [resolve(__dirname, 'src'), 'node_modules'],
+        extensions: ['.js', '.jsx']
     }
 };"
 `;
 
-exports[`"Add" commands add-webpack 4`] = `
+exports[`"Add" commands add-webpack --use-react 5`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -1164,7 +1193,43 @@ exports[`"Add" commands add-webpack 4`] = `
 "
 `;
 
-exports[`"Create/New" commands create new app 1`] = `
+exports[`"Add" commands add-webpack 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": []
+}
+"
+`;
+
+exports[`"Add" commands add-webpack 2`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true,
+        browser: true
+    },
+    extends: [
+        omaha-prime-grade,
+        plugin:react/recommended
+    ],
+    parser: 'babel-eslint',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
+        }
+    },
+    settings: {
+        react: {
+            version: '16.2'
+        }
+    }
+};"
+`;
+
+exports[`"Add" commands add-webpack 3`] = `
 "{
     name: tomo-test,
     children: [
@@ -1175,179 +1240,74 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 154,
+            size: 371,
             type: file
         },
         {
-            name: __tests__,
-            children: [
-                {
-                    name: example.test.js,
-                    size: 337,
-                    type: file
-                },
-                {
-                    name: setup.js,
-                    size: 370,
-                    type: file
-                }
-            ],
-            size: 707,
-            type: directory
-        },
-        {
-            name: assets,
-            children: [
-                {
-                    name: css,
-                    children: [
-                        {
-                            name: style.css,
-                            size: 238,
-                            type: file
-                        }
-                    ],
-                    size: 238,
-                    type: directory
-                },
-                {
-                    name: fonts,
-                    children: [
-                        {
-                            name: .gitkeep,
-                            size: 0,
-                            type: file
-                        }
-                    ],
-                    size: 0,
-                    type: directory
-                },
-                {
-                    name: images,
-                    children: [
-                        {
-                            name: .gitkeep,
-                            size: 0,
-                            type: file
-                        }
-                    ],
-                    size: 0,
-                    type: directory
-                },
-                {
-                    name: index.html,
-                    size: 1029,
-                    type: file
-                },
-                {
-                    name: library,
-                    children: [
-                        {
-                            name: .gitkeep,
-                            size: 0,
-                            type: file
-                        }
-                    ],
-                    size: 0,
-                    type: directory
-                },
-                {
-                    name: workers,
-                    children: [
-                        {
-                            name: .gitkeep,
-                            size: 0,
-                            type: file
-                        }
-                    ],
-                    size: 0,
-                    type: directory
-                }
-            ],
-            size: 1267,
-            type: directory
-        },
-        {
             name: babel.config.js,
-            size: 309,
+            size: 387,
             type: file
         },
         {
             name: package.json,
-            size: 1570,
+            size: 945,
             type: file
-        },
-        {
-            name: postcss.config.js,
-            size: 509,
-            type: file
-        },
-        {
-            name: src,
-            children: [
-                {
-                    name: components,
-                    children: [
-                        {
-                            name: app.js,
-                            size: 1265,
-                            type: file
-                        }
-                    ],
-                    size: 1265,
-                    type: directory
-                },
-                {
-                    name: main.js,
-                    size: 224,
-                    type: file
-                },
-                {
-                    name: plugins,
-                    children: [
-                        {
-                            name: mn.radio.logging.js,
-                            size: 3980,
-                            type: file
-                        },
-                        {
-                            name: mn.redux.state.js,
-                            size: 2039,
-                            type: file
-                        }
-                    ],
-                    size: 6019,
-                    type: directory
-                },
-                {
-                    name: shims,
-                    children: [
-                        {
-                            name: mn.renderer.shim.js,
-                            size: 510,
-                            type: file
-                        }
-                    ],
-                    size: 510,
-                    type: directory
-                }
-            ],
-            size: 8018,
-            type: directory
         },
         {
             name: webpack.config.js,
-            size: 755,
+            size: 862,
             type: file
         }
     ],
-    size: 13325,
+    size: 2601,
     type: directory
 }
 "
 `;
 
-exports[`"Create/New" commands create new app 2`] = `
+exports[`"Add" commands add-webpack 4`] = `
+"/* eslint-env node */
+const {resolve} = require('path');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+
+module.exports = {
+    mode: 'development',
+    entry: {
+        app: 'src/main.js'
+    },
+    output: {
+        path: resolve('./dist'),
+        filename: 'bundle.min.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /.js?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                query: {
+                    presets: [
+                        '@babel/env'
+                    ]
+                }
+            }
+        ]
+    },
+    plugins: [
+        new DashboardPlugin()
+    ],
+    devServer: {
+        contentBase: './dist',
+        compress: true
+    },
+    resolve: {
+        modules: [resolve(__dirname, 'src'), 'node_modules'],
+        extensions: ['.js']
+    }
+};"
+`;
+
+exports[`"Add" commands add-webpack 5`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -1360,248 +1320,14 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:watch\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
-        \\"test\\": \\"jest .*.test.js --coverage\\",
-        \\"test:watch\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"prebuild\\": \\"del-cli dist/assets\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
-        \\"prestart\\": \\"npm run build\\",
-        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
-        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
-    },
-    \\"jest\\": {
-        \\"testMatch\\": [
-            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
-        ],
-        \\"setupFilesAfterEnv\\": [
-            \\"<rootDir>/__tests__/setup.js\\"
-        ]
-    },
-    \\"main\\": \\"src/main.js\\"
-}
-"
-`;
-
-exports[`"Create/New" commands create new project 1`] = `
-"{
-    name: tomo-test,
-    children: [
-        {
-            name: .eslintignore,
-            size: 36,
-            type: file
-        },
-        {
-            name: .eslintrc.js,
-            size: 154,
-            type: file
-        },
-        {
-            name: babel.config.js,
-            size: 309,
-            type: file
-        },
-        {
-            name: package.json,
-            size: 481,
-            type: file
-        },
-        {
-            name: src,
-            children: [],
-            size: 0,
-            type: directory
-        }
-    ],
-    size: 980,
-    type: directory
-}
-"
-`;
-
-exports[`"Create/New" commands create new server 1`] = `
-"{
-    name: tomo-test,
-    children: [
-        {
-            name: .env,
-            size: 0,
-            type: file
-        },
-        {
-            name: .eslintignore,
-            size: 36,
-            type: file
-        },
-        {
-            name: .eslintrc.js,
-            size: 174,
-            type: file
-        },
-        {
-            name: .gitignore,
-            size: 18,
-            type: file
-        },
-        {
-            name: __tests__,
-            children: [
-                {
-                    name: example.test.js,
-                    size: 698,
-                    type: file
-                }
-            ],
-            size: 698,
-            type: directory
-        },
-        {
-            name: config,
-            children: [
-                {
-                    name: default.js,
-                    size: 857,
-                    type: file
-                },
-                {
-                    name: test.js,
-                    size: 857,
-                    type: file
-                }
-            ],
-            size: 1714,
-            type: directory
-        },
-        {
-            name: favicon.ico,
-            size: 0,
-            type: file
-        },
-        {
-            name: graphql.js,
-            size: 1630,
-            type: file
-        },
-        {
-            name: index.js,
-            size: 1434,
-            type: file
-        },
-        {
-            name: package.json,
-            size: 870,
-            type: file
-        },
-        {
-            name: public,
-            children: [
-                {
-                    name: example.md,
-                    size: 263,
-                    type: file
-                },
-                {
-                    name: index.html,
-                    size: 191,
-                    type: file
-                }
-            ],
-            size: 454,
-            type: directory
-        },
-        {
-            name: server.js,
-            size: 2770,
-            type: file
-        },
-        {
-            name: socket.js,
-            size: 624,
-            type: file
-        },
-        {
-            name: ssl,
-            children: [
-                {
-                    name: server.cert,
-                    size: 1241,
-                    type: file
-                },
-                {
-                    name: server.key,
-                    size: 1704,
-                    type: file
-                }
-            ],
-            size: 2945,
-            type: directory
-        }
-    ],
-    size: 13367,
-    type: directory
-}
-"
-`;
-
-exports[`"Create/New" commands create new server 2`] = `
-"{
-    \\"name\\": \\"tomo-server\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"Node.js HTTP(S), WebSocket, and GraphQL servers with an 80% solution for security 'baked in'\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' .\\",
-        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
-        \\"test\\": \\"jest .*.test.js --coverage\\",
-        \\"test:watch\\": \\"npm test -- --watchAll\\",
-        \\"predev\\": \\"npm run open\\",
-        \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
-        \\"prestart\\": \\"npm audit\\",
-        \\"start\\": \\"node index.js\\",
-        \\"open\\": \\"open-cli http://localhost:8111\\"
-    },
-    \\"jest\\": {
-        \\"testMatch\\": [
-            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
-        ]
-    },
-    \\"main\\": \\"index.js\\"
-}
-"
-`;
-
-exports[`"Create/New" commands create package.json 1`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": []
-}
-"
-`;
-
-exports[`"Create/New" commands create source directory 1`] = `
-"{
-    name: tomo-test,
-    children: [
-        {
-            name: some-random-folder-name,
-            children: [],
-            size: 0,
-            type: directory
-        }
-    ],
-    size: 0,
-    type: directory
+        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
+    }
 }
 "
 `;
@@ -1893,11 +1619,11 @@ exports[`"Remove" commands remove webpack 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 755,
+            size: 862,
             type: file
         }
     ],
-    size: 1431,
+    size: 1538,
     type: directory
 }
 "

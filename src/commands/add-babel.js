@@ -16,7 +16,10 @@ const BABEL_PLUGINS = [
     '@babel/plugin-proposal-export-default-from',
     '@babel/plugin-proposal-optional-chaining'
 ];
-const BABEL_REACT_PRESET = [
+const BABEL_REACT_PLUGINS = [
+    'react-hot-loader'
+];
+const BABEL_REACT_PRESETS = [
     '@babel/preset-react'
 ];
 const BABEL_DEPENDENCIES = [
@@ -58,17 +61,20 @@ export const addBabel = [
         condition: ({isNotOffline}) => isNotOffline && (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && someDoExist('package.json'))
     },
     {
-        text: 'Install Babel React preset',
-        task: ({skipInstall}) => install(BABEL_REACT_PRESET, {dev: true, skipInstall}),
+        text: 'Install Babel React presets and plugins',
+        task: ({skipInstall}) => install([...BABEL_REACT_PRESETS, ...BABEL_REACT_PLUGINS], {dev: true, skipInstall}),
         condition: ({useReact}) => (useReact && someDoExist('package.json')),
         optional: ({isNotOffline, useReact}) => isNotOffline && useReact
     },
     {
         text: 'Add React support to Babel configuration file',
         task: async () => {
-            const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESET];
+            const quotes = str => `'${str}'`;
+            const maybeRename = name => (name === 'react-hot-loader') ? 'react-hot-loader/babel' : name;
+            const plugins = [...BABEL_PLUGINS, ...BABEL_REACT_PLUGINS].map(maybeRename).map(quotes);
+            const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESETS].map(quotes);
             await (new BabelConfigModuleEditor())
-                .extend({presets})
+                .extend({plugins, presets})
                 .commit();
         },
         condition: ({useReact}) => useReact && someDoExist('babel.config.js'),
