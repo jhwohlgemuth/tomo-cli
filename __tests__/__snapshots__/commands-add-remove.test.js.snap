@@ -319,11 +319,11 @@ exports[`"Add" commands add-eslint (with React) 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 348,
+            size: 352,
             type: file
         }
     ],
-    size: 384,
+    size: 388,
     type: directory
 }
 "
@@ -336,8 +336,8 @@ exports[`"Add" commands add-eslint (with React) 2`] = `
         jest: true
     },
     extends: [
-        omaha-prime-grade,
-        plugin:react/recommended
+        'omaha-prime-grade',
+        'plugin:react/recommended'
     ],
     parser: 'babel-eslint',
     parserOptions: {
@@ -572,7 +572,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: .eslintrc.js,
-            size: 371,
+            size: 375,
             type: file
         },
         {
@@ -743,7 +743,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 15285,
+    size: 15289,
     type: directory
 }
 "
@@ -1073,8 +1073,8 @@ exports[`"Add" commands add-webpack --use-react 2`] = `
         browser: true
     },
     extends: [
-        omaha-prime-grade,
-        plugin:react/recommended
+        'omaha-prime-grade',
+        'plugin:react/recommended'
     ],
     parser: 'babel-eslint',
     parserOptions: {
@@ -1101,7 +1101,7 @@ exports[`"Add" commands add-webpack --use-react 3`] = `
         },
         {
             name: .eslintrc.js,
-            size: 376,
+            size: 380,
             type: file
         },
         {
@@ -1120,7 +1120,7 @@ exports[`"Add" commands add-webpack --use-react 3`] = `
             type: file
         }
     ],
-    size: 2614,
+    size: 2618,
     type: directory
 }
 "
@@ -1212,8 +1212,8 @@ exports[`"Add" commands add-webpack 2`] = `
         browser: true
     },
     extends: [
-        omaha-prime-grade,
-        plugin:react/recommended
+        'omaha-prime-grade',
+        'plugin:react/recommended'
     ],
     parser: 'babel-eslint',
     parserOptions: {
@@ -1240,7 +1240,7 @@ exports[`"Add" commands add-webpack 3`] = `
         },
         {
             name: .eslintrc.js,
-            size: 371,
+            size: 375,
             type: file
         },
         {
@@ -1259,7 +1259,7 @@ exports[`"Add" commands add-webpack 3`] = `
             type: file
         }
     ],
-    size: 2601,
+    size: 2605,
     type: directory
 }
 "

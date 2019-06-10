@@ -70,7 +70,7 @@ export const tasks = [
                         version: `'${reactVersion}'`
                     }
                 },
-                extends: ['omaha-prime-grade', 'plugin:react/recommended']
+                extends: [`'omaha-prime-grade'`, `'plugin:react/recommended'`]
             };
             await (new EslintConfigModuleEditor())
                 .extend(REACT_BABEL_SETTINGS)
