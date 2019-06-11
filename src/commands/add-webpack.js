@@ -18,7 +18,8 @@ const WEBPACK_DEPENDENCIES = [
     'webpack-dashboard',
     'webpack-jarvis',
     'webpack-dev-server',
-    'babel-loader'
+    'babel-loader',
+    'terser-webpack-plugin'
 ];
 /**
  * @type {task[]}
@@ -39,12 +40,17 @@ export const addWebpack = [
                 contentBase: `'${outputDirectory}'`,
                 compress: true
             };
+            const optimization = {
+                minimize: true,
+                minimizer: `[new TerserPlugin()]`
+            };
             await (new WebpackConfigEditor())
                 .create()
+                .prepend(`const TerserPlugin = require('terser-webpack-plugin');`)
                 .prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`)
                 .prepend(`const {resolve} = require('path');`)
                 .prepend(`/* eslint-env node */`)
-                .extend({devServer, entry, resolve})
+                .extend({devServer, entry, optimization, resolve})
                 .commit();
         },
         condition: () => allDoNotExist('webpack.config.js')
