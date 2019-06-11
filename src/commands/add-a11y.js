@@ -13,7 +13,7 @@ export const addA11y = [
         text: 'Add pa11y tasks to package.json',
         task: async ({outputDirectory}) => {
             const scripts = {
-                'lint:a11y': `pa11y ${outputDirectory}/index.html`
+                'lint:aria': `pa11y ${outputDirectory}/index.html`
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
@@ -32,7 +32,7 @@ export const removeA11y = [
         text: 'Remove pa11y tasks from package.json',
         task: async () => {
             const scripts = {
-                'lint:a11y': undefined
+                'lint:aria': undefined
             };
             await (new PackageJsonEditor())
                 .extend({scripts})

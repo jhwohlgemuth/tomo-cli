@@ -29,6 +29,7 @@ const create = {
         withOptions({browser: true}),
         ...createProject,
         ...addPostcss,
+        ...addA11y,
         ...addJest,
         choose({
             default: addWebpack,

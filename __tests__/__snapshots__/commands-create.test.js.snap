@@ -110,7 +110,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1696,
+            size: 1744,
             type: file
         },
         {
@@ -177,7 +177,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13817,
+    size: 13865,
     type: directory
 }
 "
@@ -198,6 +198,7 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"lint:aria\\": \\"pa11y ./dist/index.html\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:watch\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
@@ -290,7 +291,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 375,
+            size: 455,
             type: file
         },
         {
@@ -389,7 +390,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: package.json,
-            size: 1648,
+            size: 1696,
             type: file
         },
         {
@@ -427,7 +428,7 @@ exports[`"Create/New" commands create new react app 1`] = `
             type: file
         }
     ],
-    size: 6504,
+    size: 6632,
     type: directory
 }
 "
@@ -448,6 +449,7 @@ exports[`"Create/New" commands create new react app 2`] = `
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"lint:aria\\": \\"pa11y ./dist/index.html\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:watch\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
@@ -486,7 +488,8 @@ exports[`"Create/New" commands create new react app 3`] = `
     },
     extends: [
         'omaha-prime-grade',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'plugin:jsx-a11y/recommended'
     ],
     parser: 'babel-eslint',
     parserOptions: {
@@ -494,6 +497,9 @@ exports[`"Create/New" commands create new react app 3`] = `
             jsx: true
         }
     },
+    plugins: [
+        'jsx-a11y'
+    ],
     settings: {
         react: {
             version: '16.2'
@@ -518,7 +524,7 @@ exports[`"Create/New" commands create new server 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 396,
+            size: 476,
             type: file
         },
         {
@@ -620,7 +626,7 @@ exports[`"Create/New" commands create new server 1`] = `
             type: directory
         }
     ],
-    size: 13715,
+    size: 13795,
     type: directory
 }
 "
@@ -669,7 +675,8 @@ exports[`"Create/New" commands create new server 3`] = `
     },
     extends: [
         'omaha-prime-grade',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'plugin:jsx-a11y/recommended'
     ],
     parser: 'babel-eslint',
     parserOptions: {
@@ -677,6 +684,9 @@ exports[`"Create/New" commands create new server 3`] = `
             jsx: true
         }
     },
+    plugins: [
+        'jsx-a11y'
+    ],
     settings: {
         react: {
             version: '16.2'

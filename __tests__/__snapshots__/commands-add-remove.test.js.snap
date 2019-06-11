@@ -8,7 +8,7 @@ exports[`"Add" commands add-a11y 1`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"lint:a11y\\": \\"pa11y ./dist/index.html\\"
+        \\"lint:aria\\": \\"pa11y ./dist/index.html\\"
     }
 }
 "
@@ -319,11 +319,11 @@ exports[`"Add" commands add-eslint (with React) 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 352,
+            size: 432,
             type: file
         }
     ],
-    size: 388,
+    size: 468,
     type: directory
 }
 "
@@ -337,7 +337,8 @@ exports[`"Add" commands add-eslint (with React) 2`] = `
     },
     extends: [
         'omaha-prime-grade',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'plugin:jsx-a11y/recommended'
     ],
     parser: 'babel-eslint',
     parserOptions: {
@@ -345,6 +346,9 @@ exports[`"Add" commands add-eslint (with React) 2`] = `
             jsx: true
         }
     },
+    plugins: [
+        'jsx-a11y'
+    ],
     settings: {
         react: {
             version: '16.2'
@@ -580,12 +584,12 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: .eslintrc.js,
-            size: 375,
+            size: 455,
             type: file
         },
         {
             name: Makefile,
-            size: 1471,
+            size: 1528,
             type: file
         },
         {
@@ -684,7 +688,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1702,
+            size: 1750,
             type: file
         },
         {
@@ -751,7 +755,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 15561,
+    size: 15746,
     type: directory
 }
 "
@@ -784,6 +788,9 @@ build-css: ## Task description
 
 build-css-watch: ## Task description
 	postcss ./assets/css/style.css --dir ./dist --watch
+
+lint-aria: ## Task description
+	pa11y ./dist/index.html
 
 test: ## Task description
 	jest .*.test.js --coverage
@@ -1133,7 +1140,8 @@ exports[`"Add" commands add-webpack (with React) 2`] = `
     },
     extends: [
         'omaha-prime-grade',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'plugin:jsx-a11y/recommended'
     ],
     parser: 'babel-eslint',
     parserOptions: {
@@ -1141,6 +1149,9 @@ exports[`"Add" commands add-webpack (with React) 2`] = `
             jsx: true
         }
     },
+    plugins: [
+        'jsx-a11y'
+    ],
     settings: {
         react: {
             version: 'undefined'
@@ -1160,7 +1171,7 @@ exports[`"Add" commands add-webpack (with React) 3`] = `
         },
         {
             name: .eslintrc.js,
-            size: 380,
+            size: 460,
             type: file
         },
         {
@@ -1179,7 +1190,7 @@ exports[`"Add" commands add-webpack (with React) 3`] = `
             type: file
         }
     ],
-    size: 2764,
+    size: 2844,
     type: directory
 }
 "
@@ -1277,7 +1288,8 @@ exports[`"Add" commands add-webpack 2`] = `
     },
     extends: [
         'omaha-prime-grade',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'plugin:jsx-a11y/recommended'
     ],
     parser: 'babel-eslint',
     parserOptions: {
@@ -1285,6 +1297,9 @@ exports[`"Add" commands add-webpack 2`] = `
             jsx: true
         }
     },
+    plugins: [
+        'jsx-a11y'
+    ],
     settings: {
         react: {
             version: 'undefined'
@@ -1304,7 +1319,7 @@ exports[`"Add" commands add-webpack 3`] = `
         },
         {
             name: .eslintrc.js,
-            size: 380,
+            size: 460,
             type: file
         },
         {
@@ -1323,7 +1338,7 @@ exports[`"Add" commands add-webpack 3`] = `
             type: file
         }
     ],
-    size: 2756,
+    size: 2836,
     type: directory
 }
 "
@@ -1409,7 +1424,7 @@ exports[`"Remove" commands remove a11y 1`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"lint:a11y\\": \\"pa11y ./dist/index.html\\"
+        \\"lint:aria\\": \\"pa11y ./dist/index.html\\"
     }
 }
 "

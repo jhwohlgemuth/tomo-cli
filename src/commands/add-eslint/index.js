@@ -58,20 +58,26 @@ export const tasks = [
     },
     {
         text: 'Add React support to ESLint configuration file',
-        task: async ({reactVersion}) => {
+        task: async ({reactVersion, skipInstall}) => {
             const REACT_BABEL_SETTINGS = {
                 parserOptions: {
                     ecmaFeatures: {
                         jsx: true
                     }
                 },
+                plugins: [`'jsx-a11y'`],
                 settings: {
                     react: {
                         version: `'${reactVersion}'`
                     }
                 },
-                extends: [`'omaha-prime-grade'`, `'plugin:react/recommended'`]
+                extends: [
+                    `'omaha-prime-grade'`,
+                    `'plugin:react/recommended'`,
+                    `'plugin:jsx-a11y/recommended'`
+                ]
             };
+            await install(['eslint-plugin-jsx-a11y'], {dev: true, skipInstall});
             await (new EslintConfigModuleEditor())
                 .extend(REACT_BABEL_SETTINGS)
                 .commit();
