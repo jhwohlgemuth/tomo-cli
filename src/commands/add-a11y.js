@@ -10,7 +10,7 @@ import {allDoExist} from '../utils/common';
  */
 export const addA11y = [
     {
-        text: 'Add pa11y tasks to package.json',
+        text: 'Add accessibility tasks to package.json',
         task: async ({outputDirectory}) => {
             const scripts = {
                 'lint:aria': `pa11y ${outputDirectory}/index.html`
@@ -22,14 +22,14 @@ export const addA11y = [
         condition: () => allDoExist('package.json')
     },
     {
-        text: 'Install pa11y',
+        text: 'Install pa11y for checking accessibility rules',
         task: ({skipInstall}) => install(['pa11y'], {dev: true, skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     }
 ];
 export const removeA11y = [
     {
-        text: 'Remove pa11y tasks from package.json',
+        text: 'Remove accessibility tasks from package.json',
         task: async () => {
             const scripts = {
                 'lint:aria': undefined
