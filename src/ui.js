@@ -66,6 +66,7 @@ const Description = ({command}) => {
             marionette: `${bold('Flexible Backbone framework')} with robust views and architecture solutions`,
             parcel: `${bold('Bundle')} your assets (${bold.red('blazing')} fast with ${bold.white('zero configuration')})`,
             postcss: `Use ${bold('future CSS')}, never write vendor prefixes again, and much much more!`,
+            react: `Build user interfaces with ${bold('components')} ${figures.arrowRight} learn once, write ${bold('anywhere')}`,
             rollup: `${bold('Bundle')} your assets (focused on ${bold('ES6')} modules and tree shaking - ${bold.white('best for libraries')})`,
             webpack: `${bold('Bundle')} your assets (with great support and a rich ecosystem)`
         });
