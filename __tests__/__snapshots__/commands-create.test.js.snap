@@ -110,7 +110,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1570,
+            size: 1696,
             type: file
         },
         {
@@ -177,7 +177,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13545,
+    size: 13671,
     type: directory
 }
 "
@@ -217,6 +217,10 @@ exports[`"Create/New" commands create new app 2`] = `
         ],
         \\"setupFilesAfterEnv\\": [
             \\"<rootDir>/__tests__/setup.js\\"
+        ],
+        \\"watchPlugins\\": [
+            \\"jest-watch-typeahead/filename\\",
+            \\"jest-watch-typeahead/testname\\"
         ]
     },
     \\"main\\": \\"src/main.js\\"
@@ -385,7 +389,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: package.json,
-            size: 1522,
+            size: 1648,
             type: file
         },
         {
@@ -423,7 +427,7 @@ exports[`"Create/New" commands create new react app 1`] = `
             type: file
         }
     ],
-    size: 6232,
+    size: 6358,
     type: directory
 }
 "
@@ -462,6 +466,10 @@ exports[`"Create/New" commands create new react app 2`] = `
         ],
         \\"setupFilesAfterEnv\\": [
             \\"<rootDir>/__tests__/setup.js\\"
+        ],
+        \\"watchPlugins\\": [
+            \\"jest-watch-typeahead/filename\\",
+            \\"jest-watch-typeahead/testname\\"
         ]
     },
     \\"main\\": \\"src/main.js\\"
@@ -564,7 +572,7 @@ exports[`"Create/New" commands create new server 1`] = `
         },
         {
             name: package.json,
-            size: 870,
+            size: 996,
             type: file
         },
         {
@@ -612,7 +620,7 @@ exports[`"Create/New" commands create new server 1`] = `
             type: directory
         }
     ],
-    size: 13589,
+    size: 13715,
     type: directory
 }
 "
@@ -640,6 +648,10 @@ exports[`"Create/New" commands create new server 2`] = `
     \\"jest\\": {
         \\"testMatch\\": [
             \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ],
+        \\"watchPlugins\\": [
+            \\"jest-watch-typeahead/filename\\",
+            \\"jest-watch-typeahead/testname\\"
         ]
     },
     \\"main\\": \\"index.js\\"

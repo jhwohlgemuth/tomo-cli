@@ -6,6 +6,7 @@ import {Scaffolder} from '../../utils/Scaffolder';
 const ALWAYS = () => true;
 const JEST_DEPENDENCIES = [
     'jest',
+    'jest-watch-typeahead',
     'babel-jest'
 ];
 /**
@@ -22,7 +23,8 @@ export const addJest = [
             };
             const jest = {
                 testMatch: ['**/__tests__/**/*.(e2e|test).[jt]s?(x)'],
-                setupFilesAfterEnv: browser ? ['<rootDir>/__tests__/setup.js'] : undefined
+                setupFilesAfterEnv: browser ? ['<rootDir>/__tests__/setup.js'] : undefined,
+                watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname']
             };
             await (new PackageJsonEditor())
                 .extend({jest, scripts})

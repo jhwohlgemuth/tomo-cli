@@ -427,6 +427,10 @@ exports[`"Add" commands add-jest --browser 3`] = `
         ],
         \\"setupFilesAfterEnv\\": [
             \\"<rootDir>/__tests__/setup.js\\"
+        ],
+        \\"watchPlugins\\": [
+            \\"jest-watch-typeahead/filename\\",
+            \\"jest-watch-typeahead/testname\\"
         ]
     },
     \\"scripts\\": {
@@ -460,11 +464,11 @@ exports[`"Add" commands add-jest --browser 4`] = `
         },
         {
             name: package.json,
-            size: 478,
+            size: 604,
             type: file
         }
     ],
-    size: 1185,
+    size: 1311,
     type: directory
 }
 "
@@ -507,6 +511,10 @@ exports[`"Add" commands add-jest 3`] = `
     \\"jest\\": {
         \\"testMatch\\": [
             \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ],
+        \\"watchPlugins\\": [
+            \\"jest-watch-typeahead/filename\\",
+            \\"jest-watch-typeahead/testname\\"
         ]
     },
     \\"scripts\\": {
@@ -535,11 +543,11 @@ exports[`"Add" commands add-jest 4`] = `
         },
         {
             name: package.json,
-            size: 392,
+            size: 518,
             type: file
         }
     ],
-    size: 729,
+    size: 855,
     type: directory
 }
 "
@@ -676,7 +684,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1576,
+            size: 1702,
             type: file
         },
         {
@@ -743,7 +751,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 15289,
+    size: 15415,
     type: directory
 }
 "
