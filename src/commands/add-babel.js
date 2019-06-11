@@ -68,10 +68,14 @@ export const addBabel = [
     },
     {
         text: 'Add React support to Babel configuration file',
-        task: async () => {
+        task: async ({useRollup}) => {
             const quotes = str => `'${str}'`;
+            const maybeRemove = name => (!useRollup || name !== 'react-hot-loader');
             const maybeRename = name => (name === 'react-hot-loader') ? 'react-hot-loader/babel' : name;
-            const plugins = [...BABEL_PLUGINS, ...BABEL_REACT_PLUGINS].map(maybeRename).map(quotes);
+            const plugins = [...BABEL_PLUGINS, ...BABEL_REACT_PLUGINS]
+                .filter(maybeRemove)
+                .map(maybeRename)
+                .map(quotes);
             const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESETS].map(quotes);
             await (new BabelConfigModuleEditor())
                 .extend({plugins, presets})

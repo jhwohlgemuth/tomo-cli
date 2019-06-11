@@ -42,13 +42,11 @@ const create = {
                 ...addMarionette,
                 ...addElectron
             ],
-            useReact: [
-                withOptions({useReact: true, useRollup: false}),
-                ...addReact
-            ]
+            useReact: addReact
         }),
         choose({
             default: addBrowsersync,
+            useRollup: addBrowsersync,
             native: [], // do nothing
             useParcel: [], // do nothing
             useReact: [] // do nothing
@@ -89,6 +87,7 @@ const add = {
         ...addReact
     ],
     rollup: [
+        withOptions({useRollup: true}),
         ...addBabel,
         ...addRollup
     ],

@@ -8,6 +8,9 @@ const REACT_DEPENDENCIES = [
     'react',
     'react-dom'
 ];
+const DEV_DEPENDENCIES = [
+    'npm-run-all'
+];
 const ALWAYS = () => true;
 /**
  * @type {task[]}
@@ -60,7 +63,7 @@ export const addReact = [
     },
     {
         text: 'Install React dependencies',
-        task: ({skipInstall}) => install(REACT_DEPENDENCIES, {skipInstall}),
+        task: ({skipInstall}) => install([...REACT_DEPENDENCIES, ...DEV_DEPENDENCIES], {skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     }
 ];
