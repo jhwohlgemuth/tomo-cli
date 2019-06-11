@@ -1015,6 +1015,55 @@ exports[`"Add" commands add-postcss 2`] = `
 "
 `;
 
+exports[`"Add" commands add-rollup (with React) 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:watch\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"prebuild\\": \\"del-cli dist/assets\\",
+        \\"build\\": \\"rollup -c\\",
+        \\"postbuild\\": \\"npm run copy\\",
+        \\"build:watch\\": \\"watch 'npm run build' ./src\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run build:watch\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
+    }
+}
+"
+`;
+
+exports[`"Add" commands add-rollup (with React) 2`] = `
+"/* eslint-disable max-len */
+import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-replace';
+import {terser} from 'rollup-plugin-terser';
+
+export default {
+    input: './src/main.js',
+    output: {
+        file: './dist/bundle.min.js',
+        format: 'iife',
+        sourceMap: 'inline'
+    },
+    plugins: [
+        babel({exclude: 'node_modules/**', runtimeHelpers: true}),
+        commonjs(),
+        resolve({browser: true}),
+        replace({'process.env.NODE_ENV': JSON.stringify('production')}),
+        terser()
+    ]
+};"
+`;
+
 exports[`"Add" commands add-rollup 1`] = `
 "{
     \\"name\\": \\"my-project\\",
@@ -1041,10 +1090,11 @@ exports[`"Add" commands add-rollup 1`] = `
 
 exports[`"Add" commands add-rollup 2`] = `
 "/* eslint-disable max-len */
-import babel from 'rollup-plugin-babel'
-import commonjs from 'rollup-plugin-commonjs'
-import resolve from 'rollup-plugin-node-resolve'
-import replace from 'rollup-plugin-replace'
+import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-replace';
+import {terser} from 'rollup-plugin-terser';
 
 export default {
     input: './src/main.js',
@@ -1057,12 +1107,13 @@ export default {
         babel({exclude: 'node_modules/**', runtimeHelpers: true}),
         commonjs({namedExports: {'./node_modules/backbone/backbone.js': ['Model', 'history'],'./node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']}}),
         resolve({browser: true}),
-        replace({'process.env.NODE_ENV': JSON.stringify('production')})
+        replace({'process.env.NODE_ENV': JSON.stringify('production')}),
+        terser()
     ]
 };"
 `;
 
-exports[`"Add" commands add-webpack --use-react 1`] = `
+exports[`"Add" commands add-webpack (with React) 1`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -1073,7 +1124,7 @@ exports[`"Add" commands add-webpack --use-react 1`] = `
 "
 `;
 
-exports[`"Add" commands add-webpack --use-react 2`] = `
+exports[`"Add" commands add-webpack (with React) 2`] = `
 "module.exports = {
     env: {
         es6: true,
@@ -1098,7 +1149,7 @@ exports[`"Add" commands add-webpack --use-react 2`] = `
 };"
 `;
 
-exports[`"Add" commands add-webpack --use-react 3`] = `
+exports[`"Add" commands add-webpack (with React) 3`] = `
 "{
     name: tomo-test,
     children: [
@@ -1134,7 +1185,7 @@ exports[`"Add" commands add-webpack --use-react 3`] = `
 "
 `;
 
-exports[`"Add" commands add-webpack --use-react 4`] = `
+exports[`"Add" commands add-webpack (with React) 4`] = `
 "/* eslint-env node */
 const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
@@ -1181,7 +1232,7 @@ module.exports = {
 };"
 `;
 
-exports[`"Add" commands add-webpack --use-react 5`] = `
+exports[`"Add" commands add-webpack (with React) 5`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -1236,7 +1287,7 @@ exports[`"Add" commands add-webpack 2`] = `
     },
     settings: {
         react: {
-            version: '16.2'
+            version: 'undefined'
         }
     }
 };"
@@ -1253,7 +1304,7 @@ exports[`"Add" commands add-webpack 3`] = `
         },
         {
             name: .eslintrc.js,
-            size: 375,
+            size: 380,
             type: file
         },
         {
@@ -1272,7 +1323,7 @@ exports[`"Add" commands add-webpack 3`] = `
             type: file
         }
     ],
-    size: 2751,
+    size: 2756,
     type: directory
 }
 "
@@ -1588,11 +1639,11 @@ exports[`"Remove" commands remove rollup 2`] = `
         },
         {
             name: rollup.config.js,
-            size: 757,
+            size: 646,
             type: file
         }
     ],
-    size: 1336,
+    size: 1225,
     type: directory
 }
 "

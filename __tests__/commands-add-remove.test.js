@@ -209,8 +209,8 @@ describe('"Add" commands', () => {
         expect(pkg).toMatchSnapshot();
     });
     test('add-rollup', async () => {
-        const sourceDirectory = './src';
         const outputDirectory = './dist';
+        const sourceDirectory = './src';
         const options = {outputDirectory, skipInstall, sourceDirectory};
         await run(createPackageJson, {});
         await run(addEslint, options);
@@ -220,10 +220,24 @@ describe('"Add" commands', () => {
         expect(pkg).toMatchSnapshot();
         expect(contents).toMatchSnapshot();
     });
-    test('add-webpack', async () => {
-        const sourceDirectory = 'src';
+    test('add-rollup (with React)', async () => {
         const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
+        const sourceDirectory = './src';
+        const useReact = true;
+        const options = { outputDirectory, skipInstall, sourceDirectory, useReact};
+        await run(createPackageJson, {});
+        await run(addEslint, options);
+        await run(addRollup, options);
+        const pkg = fileContents('package.json');
+        const contents = fileContents('rollup.config.js');
+        expect(pkg).toMatchSnapshot();
+        expect(contents).toMatchSnapshot();
+    });
+    test('add-webpack', async () => {
+        const outputDirectory = './dist';
+        const sourceDirectory = 'src';
+        const useReact = false;
+        const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
         await run(createPackageJson, {});
         const pre = fileContents('./package.json');
         expect(pre).toMatchSnapshot();
@@ -231,17 +245,17 @@ describe('"Add" commands', () => {
         await run(addEslint, options);
         await run(addWebpack, options);
         const cfg = fileContents('.eslintrc.js');
-        expect(cfg).toMatchSnapshot();
         const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
         const contents = fileContents('./webpack.config.js');
-        expect(contents).toMatchSnapshot();
         const post = fileContents('./package.json');
+        expect(cfg).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
+        expect(contents).toMatchSnapshot();
         expect(post).toMatchSnapshot();
     });
-    test('add-webpack --use-react', async () => {
-        const sourceDirectory = 'src';
+    test('add-webpack (with React)', async () => {
         const outputDirectory = './dist';
+        const sourceDirectory = 'src';
         const useReact = true;
         const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
         await run(createPackageJson, {});
@@ -251,12 +265,12 @@ describe('"Add" commands', () => {
         await run(addEslint, options);
         await run(addWebpack, options);
         const cfg = fileContents('.eslintrc.js');
-        expect(cfg).toMatchSnapshot();
         const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
         const contents = fileContents('./webpack.config.js');
-        expect(contents).toMatchSnapshot();
         const post = fileContents('./package.json');
+        expect(cfg).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
+        expect(contents).toMatchSnapshot();
         expect(post).toMatchSnapshot();
     });
 });

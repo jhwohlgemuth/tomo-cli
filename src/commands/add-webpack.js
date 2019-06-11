@@ -72,7 +72,7 @@ export const addWebpack = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Install development dependencies and add dev task to package.json',
@@ -102,7 +102,7 @@ export const removeWebpack = [
                 .delete()
                 .commit();
         },
-        condition: () => someDoExist('webpack.config.js')
+        condition: () => allDoExist('webpack.config.js')
     },
     {
         text: 'Remove Webpack build tasks from package.json',
@@ -122,7 +122,7 @@ export const removeWebpack = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Uninstall Webpack dependencies',

@@ -26,19 +26,22 @@ const ROLLUP_DEPENDENCIES = [
 export const addRollup = [
     {
         text: 'Create Rollup configuration file',
-        task: async ({outputDirectory, sourceDirectory}) => {
+        task: async ({outputDirectory, sourceDirectory, useReact}) => {
             const input =  `'${sourceDirectory}/main.js'`;
             const output = {
                 file: `'${outputDirectory}/bundle.min.js'`
             };
+            const plugins = [, `commonjs()`];
             await (new RollupConfigEditor())
                 .create()
-                .prepend(`import replace from 'rollup-plugin-replace'`)
-                .prepend(`import resolve from 'rollup-plugin-node-resolve'`)
-                .prepend(`import commonjs from 'rollup-plugin-commonjs'`)
-                .prepend(`import babel from 'rollup-plugin-babel'`)
+                .prepend(`import {terser} from 'rollup-plugin-terser';`)
+                .prepend(`import replace from 'rollup-plugin-replace';`)
+                .prepend(`import resolve from 'rollup-plugin-node-resolve';`)
+                .prepend(`import commonjs from 'rollup-plugin-commonjs';`)
+                .prepend(`import babel from 'rollup-plugin-babel';`)
                 .prepend(`/* eslint-disable max-len */`)
                 .extend({input, output})
+                .extend(useReact ? {plugins} : {})
                 .commit();
         },
         condition: () => allDoNotExist('webpack.config.js')

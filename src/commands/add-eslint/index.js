@@ -1,6 +1,6 @@
 import {join} from 'path';
 import {EslintConfigModuleEditor, PackageJsonEditor, install} from '../../utils';
-import {allDoNotExist, someDoExist} from '../../utils/common';
+import {allDoExist, allDoNotExist} from '../../utils/common';
 import {Scaffolder} from '../../utils/Scaffolder';
 
 const ESLINT_DEPENDENCIES = [
@@ -43,17 +43,17 @@ export const tasks = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Install ESLint dependencies',
         task: ({skipInstall}) => install(ESLINT_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     },
     {
         text: 'Install ESLint React plugins',
         task: ({skipInstall}) => install(ESLINT_REACT_PLUGINS, {dev: true, skipInstall}),
-        condition: ({useReact}) => (useReact && someDoExist('package.json')),
+        condition: ({useReact}) => (useReact && allDoExist('package.json')),
         optional: ({isNotOffline, useReact}) => isNotOffline && useReact
     },
     {
@@ -76,7 +76,7 @@ export const tasks = [
                 .extend(REACT_BABEL_SETTINGS)
                 .commit();
         },
-        condition: ({useReact}) => useReact && someDoExist('.eslintrc.js'),
+        condition: ({useReact}) => useReact && allDoExist('.eslintrc.js'),
         optional: ({useReact}) => useReact
     }
 ];

@@ -211,7 +211,8 @@ export const RollupConfigEditor = createModuleEditor('rollup.config.js', {
             }
         })`,
         `resolve({browser: true})`,
-        `replace({'process.env.NODE_ENV': JSON.stringify('production')})`
+        `replace({'process.env.NODE_ENV': JSON.stringify('production')})`,
+        `terser()`
     ]
 }, {esm: true});
 /**
