@@ -110,7 +110,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1744,
+            size: 1801,
             type: file
         },
         {
@@ -173,11 +173,11 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 1008,
+            size: 1040,
             type: file
         }
     ],
-    size: 13865,
+    size: 13954,
     type: directory
 }
 "
@@ -204,6 +204,7 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"prebuild\\": \\"del-cli dist/assets\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
@@ -390,7 +391,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: package.json,
-            size: 1696,
+            size: 1772,
             type: file
         },
         {
@@ -424,11 +425,11 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 1016,
+            size: 1048,
             type: file
         }
     ],
-    size: 6632,
+    size: 6740,
     type: directory
 }
 "
@@ -455,12 +456,13 @@ exports[`"Create/New" commands create new react app 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"prebuild\\": \\"del-cli dist/assets\\",
         \\"postbuild\\": \\"npm run copy\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
         \\"serve\\": \\"webpack-dev-server --hot --open --mode development\\",
-        \\"start\\": \\"npm-run-all --parallel build:css:watch serve\\"
+        \\"start\\": \\"npm-run-all build --parallel watch:assets build:css:watch serve\\"
     },
     \\"jest\\": {
         \\"testMatch\\": [

@@ -38,7 +38,8 @@ export const addWebpack = [
             };
             const devServer = {
                 contentBase: `'${outputDirectory}'`,
-                compress: true
+                compress: true,
+                watchContentBase: true
             };
             const optimization = {
                 minimize: true,
@@ -62,6 +63,7 @@ export const addWebpack = [
                 copy: 'npm-run-all --parallel copy:assets copy:index',
                 'copy:assets': `cpy '${assetsDirectory}/!(css)/**/*.*' '${assetsDirectory}/**/[.]*' ${outputDirectory} --parents --recursive`,
                 'copy:index': `cpy '${assetsDirectory}/index.html' ${outputDirectory}`,
+                'watch:assets': `watch 'npm run copy' ${assetsDirectory}`,
                 prebuild: `del-cli ${join(outputDirectory, assetsDirectory)}`,
                 build: 'webpack',
                 postbuild: 'npm run copy',
@@ -111,6 +113,7 @@ export const removeWebpack = [
                 copy: undefined,
                 'copy:assets': undefined,
                 'copy:index': undefined,
+                'watch:assets': undefined,
                 dev: undefined,
                 prebuild: undefined,
                 build: undefined,

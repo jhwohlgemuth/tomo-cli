@@ -17,7 +17,8 @@ const ROLLUP_DEPENDENCIES = [
     'rollup-plugin-babel',
     'rollup-plugin-commonjs',
     'rollup-plugin-node-resolve',
-    'rollup-plugin-replace'
+    'rollup-plugin-replace',
+    'rollup-plugin-terser'
 ];
 /**
  * @type {task[]}
@@ -53,6 +54,7 @@ export const addRollup = [
                 copy: 'npm-run-all --parallel copy:assets copy:index',
                 'copy:assets': `cpy '${assetsDirectory}/!(css)/**/*.*' '${assetsDirectory}/**/[.]*' ${outputDirectory} --parents --recursive`,
                 'copy:index': `cpy '${assetsDirectory}/index.html' ${outputDirectory}`,
+                'watch:assets': `watch 'npm run copy' ${assetsDirectory}`,
                 prebuild: `del-cli ${join(outputDirectory, assetsDirectory)}`,
                 build: 'rollup -c',
                 postbuild: 'npm run copy',
@@ -101,6 +103,7 @@ export const removeRollup = [
                 copy: undefined,
                 'copy:assets': undefined,
                 'copy:index': undefined,
+                'watch:assets': undefined,
                 dev: undefined,
                 prebuild: undefined,
                 build: undefined,
