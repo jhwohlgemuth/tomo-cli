@@ -118,6 +118,25 @@ Array [
 ]
 `;
 
+exports[`populateQueue function dedupes tasks based on text value 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "online": true,
+      },
+      "type": "status",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 0,
+      "type": "complete",
+    },
+  ],
+]
+`;
+
 exports[`tomo add 1`] = `
 "
  [36mAdd automated [1maccessibility[22m testing[39m

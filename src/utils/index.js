@@ -12,6 +12,7 @@ import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';
 
 const {keys} = Object;
+export const isUniqueTask = ({text}, index, tasks) => tasks.map(({text}) => text).indexOf(text) === index;
 export const isValidTask = val => has(val, 'text') && has(val, 'task') && isString(val.text) && isFunction(val.task);
 export const withOptions = val => options => ({...options, ...val});
 /**

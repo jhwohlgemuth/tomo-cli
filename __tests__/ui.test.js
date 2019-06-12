@@ -22,9 +22,9 @@ describe('populateQueue function', () => {
         const dispatch = jest.fn();
         const tasks = [
             {some: 'option'},
-            {condition, task, text},
-            {condition, task, text},
-            {condition, task, text}
+            {condition, task, text: text + '1'},
+            {condition, task, text: text + '2'},
+            {condition, task, text: text + '3'}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
@@ -34,15 +34,35 @@ describe('populateQueue function', () => {
         expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));
         expect(dispatch.mock.calls).toMatchSnapshot();
     });
+    test('dedupes tasks based on text value', async () => {
+        const condition = async () => true;
+        const task = jest.fn();
+        const options = {foo: 'bar'};
+        const customOptions = {some: 'option'};
+        const dispatch = jest.fn();
+        const tasks = [
+            {some: 'option'},
+            {condition, task, text},
+            {condition, task, text},
+            {condition, task, text}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        expect(task.mock.calls.length).toBe(1);
+        expect(dispatch.mock.calls.length).toBe(2);// eslint-disable-line no-magic-numbers
+        const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];
+        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));
+        expect(dispatch.mock.calls).toMatchSnapshot();
+    });
     test('can only run tasks that pass condition', async () => {
         const task = jest.fn();
         const options = {foo: 'bar'};
         const dispatch = jest.fn();
         const tasks = [
-            {condition: async () => true, task, text},
-            {condition: async () => false, task, text},
-            {condition: async () => true, task, text},
-            {condition: async () => false, task, text}
+            {condition: async () => true, task, text: text + '1'},
+            {condition: async () => false, task, text: text + '2'},
+            {condition: async () => true, task, text: text + '3'},
+            {condition: async () => false, task, text: text + '4'}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
@@ -56,10 +76,10 @@ describe('populateQueue function', () => {
         const options = {foo: 'bar'};
         const dispatch = jest.fn();
         const tasks = [
-            {text, condition: async () => true, task},
-            {text, condition: async () => {throw new Error();}, task},
-            {text, condition: async () => true, task},
-            {text, condition: async () => false, task}
+            {text: text + '1', condition: async () => true, task},
+            {text: text + '2', condition: async () => {throw new Error();}, task},
+            {text: text + '3', condition: async () => true, task},
+            {text: text + '4', condition: async () => false, task}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});

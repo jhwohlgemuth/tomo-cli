@@ -16,7 +16,7 @@ import SelectInput from 'ink-select-input';
 import figures from 'figures';
 import {highlight} from 'cardinal';
 import commands from './commands';
-import {isValidTask, getIntendedInput} from './utils';
+import {isUniqueTask, isValidTask, getIntendedInput} from './utils';
 import {dict, format, maybeApply} from './utils/common';
 
 const {assign} = Object;
@@ -216,7 +216,7 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
         .filter(negate(isValidTask))
         .reduce((acc, val) => ({...acc, ...val}), {});
     dispatch({type: 'status', payload: {online: isNotOffline}});
-    for (const [index, item] of tasks.filter(isValidTask).entries()) {
+    for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
         const {condition, task} = item;
         try {
             if (await condition({...options, ...customOptions, isNotOffline})) {
@@ -331,7 +331,9 @@ export const TaskList = ({command, options, terms, done}) => {
         .flatMap(term => commands[command][term])
         .flatMap(val => maybeApply(val, options))
         .flatMap(val => maybeApply(val, options));
-    const validTasks = tasks.filter(isValidTask);
+    const validTasks = tasks
+        .filter(isValidTask)
+        .filter(isUniqueTask);
     const tasksComplete = ((completed.length + skipped.length) === validTasks.length);
     const hasError = (errors.length > 0);
     const {debug} = options;
