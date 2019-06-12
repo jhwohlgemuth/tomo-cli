@@ -19,6 +19,7 @@ import {addParcel, removeParcel} from '../src/commands/add-parcel';
 import {addPostcss, removePostcss} from '../src/commands/add-postcss';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
+import {addReason, removeReason} from '../src/commands/add-reason';
 import {addRollup, removeRollup} from '../src/commands/add-rollup';
 import {addWebpack, removeWebpack} from '../src/commands/add-webpack';
 
@@ -272,6 +273,38 @@ describe('"Add" commands', () => {
         expect(tree).toMatchSnapshot();
         expect(contents).toMatchSnapshot();
         expect(post).toMatchSnapshot();
+    });
+});
+describe('Add Reason', () => {
+    let tempDirectory;
+    const outputDirectory = './dist';
+    const sourceDirectory = 'src';
+    const useReact = true;
+    const skipInstall = true;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () => {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () => {
+        await cleanupTempDir();
+    });
+    test('with Webpack', async () => {
+        const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
+        await run(createPackageJson, {});
+        await run(addReason, options);
+        const pkg = fileContents('package.json');
+        const cfg = fileContents('bsconfig.json');
+        const tree = getDirectoryTree(tempDirectory);
+        expect(pkg).toMatchSnapshot();
+        expect(cfg).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
+    });
+    test('with Parcel.js', async () => {
+
+    });
+    test('with Rollup.js', async () => {
+
     });
 });
 describe('"Remove" commands', () => {

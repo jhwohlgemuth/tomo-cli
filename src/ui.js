@@ -67,6 +67,7 @@ const Description = ({command}) => {
             parcel: `${bold('Bundle')} your assets (${bold.red('blazing')} fast with ${bold.white('zero configuration')})`,
             postcss: `Use ${bold('future CSS')}, never write vendor prefixes again, and much much more!`,
             react: `Build user interfaces with ${bold('components')} ${figures.arrowRight} learn once, write ${bold('anywhere')}`,
+            reason: `Write functional ${bold('type safe')} code with ${bold.yellow('JavaScript')}-like syntax (works with ${bold('React')})`,
             rollup: `${bold('Bundle')} your assets (focused on ${bold('ES6')} modules and tree shaking - ${bold.white('best for libraries')})`,
             webpack: `${bold('Bundle')} your assets (with great support and a rich ecosystem)`
         });

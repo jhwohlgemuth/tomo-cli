@@ -165,6 +165,23 @@ export const PackageJsonEditor = createJsonEditor('package.json', {
     license: 'MIT',
     keywords: []
 });
+export const BsConfigJsonEditor = createJsonEditor('bsconfig.json', {
+    'bs-dependencies': ['reason-react'],
+    'bsc-flags': ['-bs-super-errors'],
+    namespace: true,
+    'package-specs': [{
+        module: 'es6',
+        'in-source': true
+    }],
+    'ppx-flags': [],
+    reason: {'react-jsx': 3},
+    refmt: 3,
+    sources: [{
+        dir: 'src',
+        subdirs: true
+    }],
+    suffix: '.bs.js'
+});
 /**
  * Create and edit a PostCSS configuration file with a fluent API
  * @type {ModuleEditor}

@@ -13,6 +13,7 @@ import addMarionette from './add-marionette';
 import {addParcel, removeParcel} from './add-parcel';
 import {addPostcss, removePostcss} from './add-postcss';
 import addReact from './add-react';
+import {addReason, removeReason} from './add-reason';
 import {addRollup, removeRollup} from './add-rollup';
 import {addWebpack, removeWebpack} from './add-webpack';
 import createServer from './create-server';
@@ -87,6 +88,10 @@ const add = {
         withOptions({useReact: true}),
         ...addReact
     ],
+    reason: [
+        withOptions({useReact: true}),
+        ...addReason
+    ],
     rollup: [
         withOptions({useRollup: true}),
         ...addBabel,
@@ -102,6 +107,7 @@ const remove = {
     browsersync: removeBrowsersync,
     parcel: removeParcel,
     postcss: removePostcss,
+    reason: removeReason,
     rollup: removeRollup,
     webpack: removeWebpack
 };

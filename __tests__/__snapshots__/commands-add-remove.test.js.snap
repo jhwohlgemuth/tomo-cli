@@ -1775,3 +1775,95 @@ exports[`"Remove" commands remove webpack 4`] = `
 }
 "
 `;
+
+exports[`Add Reason with Webpack 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build:reason\\": \\"bsb -make-world -clean-world\\",
+        \\"watch:reason\\": \\"npm run build:reason -- -w\\"
+    }
+}
+"
+`;
+
+exports[`Add Reason with Webpack 2`] = `
+"{
+    \\"bs-dependencies\\": [
+        \\"reason-react\\"
+    ],
+    \\"bsc-flags\\": [
+        \\"-bs-super-errors\\"
+    ],
+    \\"namespace\\": true,
+    \\"package-specs\\": [
+        {
+            \\"module\\": \\"es6\\",
+            \\"in-source\\": true
+        }
+    ],
+    \\"ppx-flags\\": [],
+    \\"reason\\": {
+        \\"react-jsx\\": 3
+    },
+    \\"refmt\\": 3,
+    \\"sources\\": [
+        {
+            \\"dir\\": \\"src\\",
+            \\"subdirs\\": true
+        }
+    ],
+    \\"suffix\\": \\".bs.js\\",
+    \\"name\\": \\"my-project\\"
+}
+"
+`;
+
+exports[`Add Reason with Webpack 3`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: bsconfig.json,
+            size: 474,
+            type: file
+        },
+        {
+            name: package.json,
+            size: 301,
+            type: file
+        },
+        {
+            name: src,
+            children: [
+                {
+                    name: components,
+                    children: [
+                        {
+                            name: App.re,
+                            size: 116,
+                            type: file
+                        },
+                        {
+                            name: Example.re,
+                            size: 126,
+                            type: file
+                        }
+                    ],
+                    size: 242,
+                    type: directory
+                }
+            ],
+            size: 242,
+            type: directory
+        }
+    ],
+    size: 1017,
+    type: directory
+}
+"
+`;

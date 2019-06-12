@@ -16,7 +16,7 @@
         "node": ">=6"
     },
     "scripts": {
-        "copy:assets": "cpy '**/templates/*.(js|html|hbs|css|md|ico|cert|key)' '**/[.]*' '../dist/' --cwd=src --parents --recursive",
+        "copy:assets": "cpy '**/templates/*.(js|re|html|hbs|css|md|ico|cert|key)' '**/[.]*' '../dist/' --cwd=src --parents --recursive",
         "dev": "stmux [ \"npm run build:watch\" : \"npm run lint:watch\" ]",
         "prebuild": "npm run build:clean",
         "build": "babel src --out-dir dist",
