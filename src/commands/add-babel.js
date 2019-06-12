@@ -1,5 +1,5 @@
 import {BabelConfigModuleEditor, PackageJsonEditor, install} from '../utils';
-import {allDoNotExist, someDoExist} from '../utils/common';
+import {allDoExist, allDoNotExist} from '../utils/common';
 
 const BABEL_CORE = [
     '@babel/cli',
@@ -53,17 +53,17 @@ export const addBabel = [
                 .commit();
 
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Install Babel core, CLI, presets, and plugins',
         task: ({skipInstall}) => install(BABEL_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && someDoExist('package.json'))
+        condition: ({isNotOffline}) => isNotOffline && (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && allDoExist('package.json'))
     },
     {
         text: 'Install Babel React presets and plugins',
         task: ({skipInstall}) => install([...BABEL_REACT_PRESETS, ...BABEL_REACT_PLUGINS], {dev: true, skipInstall}),
-        condition: ({useReact}) => (useReact && someDoExist('package.json')),
+        condition: ({useReact}) => (useReact && allDoExist('package.json')),
         optional: ({isNotOffline, useReact}) => isNotOffline && useReact
     },
     {
@@ -78,7 +78,7 @@ export const addBabel = [
                 .extend({plugins, presets})
                 .commit();
         },
-        condition: ({useReact}) => useReact && someDoExist('babel.config.js'),
+        condition: ({useReact}) => useReact && allDoExist('babel.config.js'),
         optional: ({useReact}) => useReact
     }
 ];
