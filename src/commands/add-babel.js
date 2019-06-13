@@ -63,8 +63,8 @@ export const addBabel = [
     {
         text: 'Install Babel React presets and plugins',
         task: ({skipInstall}) => install([...BABEL_REACT_PRESETS, ...BABEL_REACT_PLUGINS], {dev: true, skipInstall}),
-        condition: ({useReact}) => (useReact && allDoExist('package.json')),
-        optional: ({isNotOffline, useReact}) => isNotOffline && useReact
+        condition: ({isNotOffline, useReact}) => isNotOffline && useReact && allDoExist('package.json'),
+        optional: ({useReact}) => useReact
     },
     {
         text: 'Add React support to Babel configuration file',

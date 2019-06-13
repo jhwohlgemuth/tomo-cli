@@ -39,15 +39,27 @@ export const CommandError = errors => {
         <Box marginLeft={2}>↳{space}<Color dim>Details written to ./tomo-errors.txt</Color></Box>
     </Box>;
 };
-export const Debug = ({data, title}) => <Box flexDirection={'column'} marginTop={1} marginLeft={1}>
-    <Box>
-        <Color bold cyan>DEBUG: </Color>
-        <Color dim>{title}</Color>
-    </Box>
-    <Box>
-        {highlight(format(data))}
-    </Box>
-</Box>;
+export const Debug = ({data, title}) => {
+    const {completed, errors, skipped, terms, options} = data;
+    const formatted = Object.keys(options)
+        .filter(key => !isString(options[key]))
+        .map(key => `${key} - ${options[key]}`)
+        .sort();
+    const print = value => value |> format |> highlight;
+    const DebugValue = ({title = 'value', value}) => <Box>
+        <Fragment><Color dim>{title}</Color>: {print(value)}</Fragment>
+    </Box>;
+    return <Box flexDirection={'column'} marginTop={1} marginLeft={1}>
+        <Box marginBottom={1}>
+            <Color bold cyan>DEBUG: </Color><Color bold dim>{title}</Color>
+        </Box>
+        <DebugValue title={'Terms'} value={terms}></DebugValue>
+        <DebugValue title={'Options'} value={formatted}></DebugValue>
+        <DebugValue title={'Completed'} value={completed}></DebugValue>
+        <DebugValue title={'Skipped'} value={skipped}></DebugValue>
+        <DebugValue title={'Errors'} value={errors}></DebugValue>
+    </Box>;
+};
 const Description = ({command}) => {
     const getDescription = item => {
         const DEFAULT = `${dim('Sorry, I don\'t have anything to say about')} ${item}`;
@@ -275,19 +287,19 @@ export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='col
         const isErrored = errors.map(error => error.payload.index).includes(index);
         const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
         const maybeApplyOrReturnTrue = (val, options) => isUndefined(val) || (isFunction(val) && val(options));
+        const showDebug = debug && <Color cyan>{index} - {text}</Color>;
         const shouldBeShown = maybeApplyOrReturnTrue(optional, options);
-        const data = {isSkipped, isComplete, isErrored, isPending, text};
-        const showDebug = debug && <Debug data={data} title={`Data - task #${index}`}></Debug>;
-        const isCurrentOrPrevious = (index - 1) <= Math.max(...[...completed, ...skipped]);
+        const isCurrentOrPrevious = index <= Math.max(...completed, ...skipped) + 1;
         return (isCurrentOrPrevious && shouldBeShown) ?
-            <Fragment key={key}>{showDebug}<Task
+            <Task
+                key={key}
                 text={text}
                 isSkipped={isSkipped}
                 isComplete={isComplete}
                 isErrored={isErrored}
                 isPending={isPending}>
-            </Task></Fragment> :
-            <Fragment key={key}>{showDebug}<Box></Box></Fragment>;
+            </Task> :
+            <Box key={key}>{showDebug}</Box>;
     })}
 </Box>;
 export const TaskListTitle = ({command, hasError, isComplete, terms}) => <InkBox
@@ -338,7 +350,7 @@ export const TaskList = ({command, options, terms, done}) => {
     const tasksComplete = ((completed.length + skipped.length) === validTasks.length);
     const hasError = (errors.length > 0);
     const {debug} = options;
-    const data = {completed, errors, skipped, tasks, terms};
+    const data = {completed, errors, skipped, tasks, terms, options};
     useEffect(() => {
         populateQueue({queue, tasks, options, dispatch});
     }, []);

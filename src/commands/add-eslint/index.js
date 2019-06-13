@@ -53,8 +53,8 @@ export const tasks = [
     {
         text: 'Install ESLint React plugins',
         task: ({skipInstall}) => install(ESLINT_REACT_PLUGINS, {dev: true, skipInstall}),
-        condition: ({useReact}) => (useReact && allDoExist('package.json')),
-        optional: ({isNotOffline, useReact}) => isNotOffline && useReact
+        condition: ({isNotOffline, useReact}) => isNotOffline && useReact && allDoExist('package.json'),
+        optional: ({useReact}) => useReact
     },
     {
         text: 'Add React support to ESLint configuration file',
