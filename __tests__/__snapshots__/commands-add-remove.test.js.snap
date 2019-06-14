@@ -136,11 +136,10 @@ exports[`"Add" commands add-electron --use-parcel 1`] = `
     \\"keywords\\": [],
     \\"main\\": \\"index.js\\",
     \\"scripts\\": {
-        \\"electron:build\\": \\"npm-run-all build:es build:css\\",
-        \\"preelectron:start\\": \\"npm run electron:build\\",
-        \\"electron:start\\": \\"electron index\\",
-        \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\",
-        \\"dev\\": \\"npm-run-all --parallel watch:es electron:dev\\"
+        \\"build:electron\\": \\"npm-run-all build:es build:css\\",
+        \\"prestart:electron\\": \\"npm run build:electron\\",
+        \\"start:electron\\": \\"electron index --enable-logging\\",
+        \\"dev\\": \\"npm-run-all --parallel watch:es start:electron\\"
     }
 }
 "
@@ -155,11 +154,10 @@ exports[`"Add" commands add-electron 1`] = `
     \\"keywords\\": [],
     \\"main\\": \\"index.js\\",
     \\"scripts\\": {
-        \\"electron:build\\": \\"npm-run-all build:es build:css\\",
-        \\"preelectron:start\\": \\"npm run electron:build\\",
-        \\"electron:start\\": \\"electron index\\",
-        \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\",
-        \\"dev\\": \\"npm-run-all electron:build --parallel watch:es watch:css electron:dev\\"
+        \\"build:electron\\": \\"npm-run-all build:es build:css\\",
+        \\"prestart:electron\\": \\"npm run build:electron\\",
+        \\"start:electron\\": \\"electron index --enable-logging\\",
+        \\"dev\\": \\"npm-run-all --parallel watch:es watch:css start:electron\\"
     }
 }
 "
@@ -188,11 +186,11 @@ exports[`"Add" commands add-electron 2`] = `
         },
         {
             name: package.json,
-            size: 533,
+            size: 467,
             type: file
         }
     ],
-    size: 3041,
+    size: 2975,
     type: directory
 }
 "
