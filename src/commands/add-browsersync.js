@@ -19,7 +19,7 @@ export const addBrowsersync = [
         task: async ({outputDirectory, useReact}) => {
             const scripts = {
                 prestart: 'npm run build',
-                start: `npm-run-all --parallel ${useReact ? 'watch:assets ' : ''}build:watch build:css:watch serve`,
+                start: `npm-run-all --parallel ${useReact ? 'watch:assets ' : ''}build:watch watch:css serve`,
                 serve: `browser-sync start --server ${outputDirectory} --files ${outputDirectory}`
             };
             await (new PackageJsonEditor())

@@ -44,11 +44,9 @@ export const addEsdoc = [
         task: async ({sourceDirectory}) => {
             const scripts = {
                 'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
-                'build:docs': `jsdoc ${sourceDirectory} -r --destination ./docs`,
-                'open:docs': 'open-cli ./docs/index.html',
-                preesdoc: 'npm run lint:docs',
-                esdoc: 'npm run build:docs',
-                postesdoc: 'npm run open:docs'
+                predocs: 'npm run lint:docs',
+                docs: `esdoc ${sourceDirectory} -r --destination ./docs`,
+                postdocs: 'open-cli ./docs/index.html'
             };
             const pkg = new PackageJsonEditor();
             await pkg.extend({scripts}).commit();

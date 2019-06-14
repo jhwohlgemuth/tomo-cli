@@ -52,7 +52,7 @@ export const addReact = [
             const main = `${sourceDirectory}/main.js`;
             const scripts = {
                 serve: 'webpack-dev-server --hot --open --mode development',
-                start: 'npm-run-all build --parallel watch:assets build:css:watch serve'
+                start: 'npm-run-all build --parallel watch:assets watch:css serve'
             };
             await (new PackageJsonEditor())
                 .extend({main})

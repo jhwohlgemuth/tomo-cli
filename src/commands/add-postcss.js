@@ -47,7 +47,7 @@ export const addPostcss = [
         task: async ({assetsDirectory, outputDirectory}) => {
             const scripts = {
                 'build:css': `postcss ${assetsDirectory}/css/style.css --dir ${outputDirectory}`,
-                'build:css:watch': 'npm run build:css -- --watch'
+                'watch:css': 'npm run build:css -- --watch'
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
@@ -76,7 +76,7 @@ export const removePostcss = [
         task: async () => {
             const scripts = {
                 'build:css': undefined,
-                'build:css:watch': undefined
+                'watch:css': undefined
             };
             await (new PackageJsonEditor())
                 .extend({scripts})

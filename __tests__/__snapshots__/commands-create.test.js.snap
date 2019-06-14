@@ -110,7 +110,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1801,
+            size: 1787,
             type: file
         },
         {
@@ -177,7 +177,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13954,
+    size: 13940,
     type: directory
 }
 "
@@ -194,10 +194,10 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"build\\": \\"webpack\\",
         \\"build:watch\\": \\"watch 'npm run build' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"lint:aria\\": \\"pa11y ./dist/index.html\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:watch\\": \\"npm test -- --watchAll\\",
@@ -210,7 +210,7 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
         \\"prestart\\": \\"npm run build\\",
-        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
+        \\"start\\": \\"npm-run-all --parallel build:watch watch:css serve\\",
         \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     },
     \\"jest\\": {
@@ -265,7 +265,7 @@ exports[`"Create/New" commands create new project 1`] = `
         },
         {
             name: package.json,
-            size: 481,
+            size: 479,
             type: file
         },
         {
@@ -275,7 +275,7 @@ exports[`"Create/New" commands create new project 1`] = `
             type: directory
         }
     ],
-    size: 993,
+    size: 991,
     type: directory
 }
 "
@@ -391,7 +391,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: package.json,
-            size: 1772,
+            size: 1758,
             type: file
         },
         {
@@ -429,7 +429,7 @@ exports[`"Create/New" commands create new react app 1`] = `
             type: file
         }
     ],
-    size: 6740,
+    size: 6726,
     type: directory
 }
 "
@@ -446,10 +446,10 @@ exports[`"Create/New" commands create new react app 2`] = `
         \\"build\\": \\"webpack\\",
         \\"build:watch\\": \\"watch 'npm run build' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"lint:aria\\": \\"pa11y ./dist/index.html\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:watch\\": \\"npm test -- --watchAll\\",
@@ -462,7 +462,7 @@ exports[`"Create/New" commands create new react app 2`] = `
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
         \\"serve\\": \\"webpack-dev-server --hot --open --mode development\\",
-        \\"start\\": \\"npm-run-all build --parallel watch:assets build:css:watch serve\\"
+        \\"start\\": \\"npm-run-all build --parallel watch:assets watch:css serve\\"
     },
     \\"jest\\": {
         \\"testMatch\\": [
@@ -580,7 +580,7 @@ exports[`"Create/New" commands create new server 1`] = `
         },
         {
             name: package.json,
-            size: 996,
+            size: 994,
             type: file
         },
         {
@@ -628,7 +628,7 @@ exports[`"Create/New" commands create new server 1`] = `
             type: directory
         }
     ],
-    size: 13795,
+    size: 13793,
     type: directory
 }
 "
@@ -643,7 +643,7 @@ exports[`"Create/New" commands create new server 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' .\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' .\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:watch\\": \\"npm test -- --watchAll\\",

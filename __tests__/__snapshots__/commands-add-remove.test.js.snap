@@ -118,9 +118,9 @@ exports[`"Add" commands add-browsersync 3`] = `
         \\"build:watch\\": \\"watch 'npm run build' src\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"prestart\\": \\"npm run build\\",
-        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
+        \\"start\\": \\"npm-run-all --parallel build:watch watch:css serve\\",
         \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     }
 }
@@ -159,7 +159,7 @@ exports[`"Add" commands add-electron 1`] = `
         \\"preelectron:start\\": \\"npm run electron:build\\",
         \\"electron:start\\": \\"electron index\\",
         \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\",
-        \\"dev\\": \\"npm-run-all electron:build --parallel build:watch build:css:watch electron:dev\\"
+        \\"dev\\": \\"npm-run-all electron:build --parallel build:watch watch:css electron:dev\\"
     }
 }
 "
@@ -188,11 +188,11 @@ exports[`"Add" commands add-electron 2`] = `
         },
         {
             name: package.json,
-            size: 539,
+            size: 533,
             type: file
         }
     ],
-    size: 3047,
+    size: 3041,
     type: directory
 }
 "
@@ -261,11 +261,11 @@ exports[`"Add" commands add-esdoc 2`] = `
         },
         {
             name: package.json,
-            size: 517,
+            size: 428,
             type: file
         }
     ],
-    size: 803,
+    size: 714,
     type: directory
 }
 "
@@ -280,11 +280,9 @@ exports[`"Add" commands add-esdoc 3`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint:docs\\": \\"eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\\",
-        \\"build:docs\\": \\"jsdoc src -r --destination ./docs\\",
-        \\"open:docs\\": \\"open-cli ./docs/index.html\\",
-        \\"preesdoc\\": \\"npm run lint:docs\\",
-        \\"esdoc\\": \\"npm run build:docs\\",
-        \\"postesdoc\\": \\"npm run open:docs\\"
+        \\"predocs\\": \\"npm run lint:docs\\",
+        \\"docs\\": \\"esdoc src -r --destination ./docs\\",
+        \\"postdocs\\": \\"open-cli ./docs/index.html\\"
     }
 }
 "
@@ -590,7 +588,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1591,
+            size: 1577,
             type: file
         },
         {
@@ -689,7 +687,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1807,
+            size: 1793,
             type: file
         },
         {
@@ -756,7 +754,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 15898,
+    size: 15870,
     type: directory
 }
 "
@@ -778,7 +776,7 @@ build-watch: ## Task description
 lint: ## Task description
 	eslint . -c ./.eslintrc.js --fix
 
-lint-watch: ## Task description
+lint-ing: ## Task description
 	watch 'make lint' ./src
 
 lint-tests: ## Task description
@@ -787,7 +785,7 @@ lint-tests: ## Task description
 build-css: ## Task description
 	postcss ./assets/css/style.css --dir ./dist
 
-build-css-watch: ## Task description
+watch-css: ## Task description
 	postcss ./assets/css/style.css --dir ./dist --watch
 
 lint-aria: ## Task description
@@ -819,7 +817,7 @@ dev: ## Task description
 
 start: ## Task description
 	$(MAKE) build
-	npm-run-all --parallel build:watch build:css:watch serve
+	npm-run-all --parallel build:watch watch:css serve
 
 serve: ## Task description
 	browser-sync start --server ./dist --files ./dist
@@ -981,7 +979,7 @@ exports[`"Add" commands add-parcel 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"clean:build\\": \\"del-cli ./dist\\",
         \\"prebuild\\": \\"npm run clean:build\\",
@@ -1020,7 +1018,7 @@ exports[`"Add" commands add-postcss 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\"
+        \\"watch:css\\": \\"npm run build:css -- --watch\\"
     }
 }
 "
@@ -1035,7 +1033,7 @@ exports[`"Add" commands add-rollup (with React) 1`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
@@ -1085,7 +1083,7 @@ exports[`"Add" commands add-rollup 1`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
@@ -1187,7 +1185,7 @@ exports[`"Add" commands add-webpack (with React) 3`] = `
         },
         {
             name: package.json,
-            size: 1002,
+            size: 1000,
             type: file
         },
         {
@@ -1196,7 +1194,7 @@ exports[`"Add" commands add-webpack (with React) 3`] = `
             type: file
         }
     ],
-    size: 2933,
+    size: 2931,
     type: directory
 }
 "
@@ -1261,7 +1259,7 @@ exports[`"Add" commands add-webpack (with React) 5`] = `
         \\"build\\": \\"webpack\\",
         \\"build:watch\\": \\"watch 'npm run build' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
@@ -1337,7 +1335,7 @@ exports[`"Add" commands add-webpack 3`] = `
         },
         {
             name: package.json,
-            size: 1002,
+            size: 1000,
             type: file
         },
         {
@@ -1346,7 +1344,7 @@ exports[`"Add" commands add-webpack 3`] = `
             type: file
         }
     ],
-    size: 2925,
+    size: 2923,
     type: directory
 }
 "
@@ -1411,7 +1409,7 @@ exports[`"Add" commands add-webpack 5`] = `
         \\"build\\": \\"webpack\\",
         \\"build:watch\\": \\"watch 'npm run build' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:watch\\": \\"watch 'npm run lint' src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
@@ -1470,9 +1468,9 @@ exports[`"Remove" commands remove browsersync 1`] = `
         \\"build:watch\\": \\"watch 'npm run build' src\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\",
+        \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"prestart\\": \\"npm run build\\",
-        \\"start\\": \\"npm-run-all --parallel build:watch build:css:watch serve\\",
+        \\"start\\": \\"npm-run-all --parallel build:watch watch:css serve\\",
         \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     }
 }
@@ -1497,7 +1495,7 @@ exports[`"Remove" commands remove browsersync 2`] = `
         \\"build:watch\\": \\"watch 'npm run build' src\\",
         \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\"
+        \\"watch:css\\": \\"npm run build:css -- --watch\\"
     }
 }
 "
@@ -1580,7 +1578,7 @@ exports[`"Remove" commands remove postcss 1`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"build:css:watch\\": \\"npm run build:css -- --watch\\"
+        \\"watch:css\\": \\"npm run build:css -- --watch\\"
     }
 }
 "
@@ -1592,7 +1590,7 @@ exports[`"Remove" commands remove postcss 2`] = `
     children: [
         {
             name: package.json,
-            size: 318,
+            size: 312,
             type: file
         },
         {
@@ -1601,7 +1599,7 @@ exports[`"Remove" commands remove postcss 2`] = `
             type: file
         }
     ],
-    size: 827,
+    size: 821,
     type: directory
 }
 "
