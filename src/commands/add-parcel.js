@@ -22,10 +22,10 @@ export const addParcel = [
         text: 'Add Parcel build tasks to package.json',
         task: async ({assetsDirectory, outputDirectory}) => {
             const scripts = {
-                'clean:build': `del-cli ${outputDirectory}`,
-                'prebuild:es': 'npm run clean:build',
+                clean: `del-cli ${outputDirectory}`,
+                'prebuild:es': 'npm run clean',
                 'build:es': `parcel build --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
-                'prewatch:es': 'npm run clean:build',
+                'prewatch:es': 'npm run clean',
                 'watch:es': `parcel watch --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
                 start: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --open`
             };
@@ -71,7 +71,7 @@ export const removeParcel = [
         text: 'Remove Parcel build tasks from package.json',
         task: async () => {
             const scripts = {
-                'clean:build': undefined,
+                clean: undefined,
                 dev: undefined,
                 'prebuild:es': undefined,
                 'build:es': undefined,

@@ -981,10 +981,10 @@ exports[`"Add" commands add-parcel 2`] = `
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
-        \\"clean:build\\": \\"del-cli ./dist\\",
-        \\"prebuild:es\\": \\"npm run clean:build\\",
+        \\"clean\\": \\"del-cli ./dist\\",
+        \\"prebuild:es\\": \\"npm run clean\\",
         \\"build:es\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
-        \\"prewatch:es\\": \\"npm run clean:build\\",
+        \\"prewatch:es\\": \\"npm run clean\\",
         \\"watch:es\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
@@ -1509,10 +1509,10 @@ exports[`"Remove" commands remove parcel 1`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"clean:build\\": \\"del-cli ./dist\\",
-        \\"prebuild:es\\": \\"npm run clean:build\\",
+        \\"clean\\": \\"del-cli ./dist\\",
+        \\"prebuild:es\\": \\"npm run clean\\",
         \\"build:es\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
-        \\"prewatch:es\\": \\"npm run clean:build\\",
+        \\"prewatch:es\\": \\"npm run clean\\",
         \\"watch:es\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\"
     }
@@ -1526,7 +1526,7 @@ exports[`"Remove" commands remove parcel 2`] = `
     children: [
         {
             name: package.json,
-            size: 573,
+            size: 555,
             type: file
         },
         {
@@ -1535,7 +1535,7 @@ exports[`"Remove" commands remove parcel 2`] = `
             type: file
         }
     ],
-    size: 645,
+    size: 627,
     type: directory
 }
 "
