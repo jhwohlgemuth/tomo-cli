@@ -19,7 +19,7 @@ export const addJest = [
         task: async ({browser}) => {
             const scripts = {
                 test: 'jest .*.test.js --coverage',
-                'test:watch': 'npm test -- --watchAll'
+                'test:ing': 'npm test -- --watchAll'
             };
             const jest = {
                 testMatch: ['**/__tests__/**/*.(e2e|test).[jt]s?(x)'],

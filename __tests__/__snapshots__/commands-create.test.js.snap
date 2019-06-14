@@ -110,7 +110,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1782,
+            size: 1780,
             type: file
         },
         {
@@ -177,7 +177,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13935,
+    size: 13933,
     type: directory
 }
 "
@@ -200,7 +200,7 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"lint:aria\\": \\"pa11y ./dist/index.html\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
-        \\"test:watch\\": \\"npm test -- --watchAll\\",
+        \\"test:ing\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
@@ -391,7 +391,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: package.json,
-            size: 1756,
+            size: 1754,
             type: file
         },
         {
@@ -429,7 +429,7 @@ exports[`"Create/New" commands create new react app 1`] = `
             type: file
         }
     ],
-    size: 6724,
+    size: 6722,
     type: directory
 }
 "
@@ -452,7 +452,7 @@ exports[`"Create/New" commands create new react app 2`] = `
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"lint:aria\\": \\"pa11y ./dist/index.html\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
-        \\"test:watch\\": \\"npm test -- --watchAll\\",
+        \\"test:ing\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
@@ -580,7 +580,7 @@ exports[`"Create/New" commands create new server 1`] = `
         },
         {
             name: package.json,
-            size: 994,
+            size: 992,
             type: file
         },
         {
@@ -628,7 +628,7 @@ exports[`"Create/New" commands create new server 1`] = `
             type: directory
         }
     ],
-    size: 13793,
+    size: 13791,
     type: directory
 }
 "
@@ -646,7 +646,7 @@ exports[`"Create/New" commands create new server 2`] = `
         \\"lint:ing\\": \\"watch 'npm run lint' .\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
-        \\"test:watch\\": \\"npm test -- --watchAll\\",
+        \\"test:ing\\": \\"npm test -- --watchAll\\",
         \\"predev\\": \\"npm run open\\",
         \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
         \\"prestart\\": \\"npm audit\\",

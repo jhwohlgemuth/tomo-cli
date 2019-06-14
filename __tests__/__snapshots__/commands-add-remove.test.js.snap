@@ -438,7 +438,7 @@ exports[`"Add" commands add-jest --browser 3`] = `
     },
     \\"scripts\\": {
         \\"test\\": \\"jest .*.test.js --coverage\\",
-        \\"test:watch\\": \\"npm test -- --watchAll\\"
+        \\"test:ing\\": \\"npm test -- --watchAll\\"
     }
 }
 "
@@ -467,11 +467,11 @@ exports[`"Add" commands add-jest --browser 4`] = `
         },
         {
             name: package.json,
-            size: 604,
+            size: 602,
             type: file
         }
     ],
-    size: 1311,
+    size: 1309,
     type: directory
 }
 "
@@ -522,7 +522,7 @@ exports[`"Add" commands add-jest 3`] = `
     },
     \\"scripts\\": {
         \\"test\\": \\"jest .*.test.js --coverage\\",
-        \\"test:watch\\": \\"npm test -- --watchAll\\"
+        \\"test:ing\\": \\"npm test -- --watchAll\\"
     }
 }
 "
@@ -546,11 +546,11 @@ exports[`"Add" commands add-jest 4`] = `
         },
         {
             name: package.json,
-            size: 518,
+            size: 516,
             type: file
         }
     ],
-    size: 855,
+    size: 853,
     type: directory
 }
 "
@@ -588,7 +588,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1566,
+            size: 1564,
             type: file
         },
         {
@@ -687,7 +687,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1788,
+            size: 1786,
             type: file
         },
         {
@@ -754,7 +754,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 15854,
+    size: 15850,
     type: directory
 }
 "
@@ -794,7 +794,7 @@ lint-aria: ## Task description
 test: ## Task description
 	jest .*.test.js --coverage
 
-test-watch: ## Task description
+test-ing: ## Task description
 	jest .*.test.js --coverage --watchAll
 
 copy: ## Task description
