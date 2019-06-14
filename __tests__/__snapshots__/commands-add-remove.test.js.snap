@@ -586,7 +586,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1564,
+            size: 1507,
             type: file
         },
         {
@@ -685,7 +685,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1786,
+            size: 1738,
             type: file
         },
         {
@@ -752,7 +752,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 15850,
+    size: 15745,
     type: directory
 }
 "
@@ -785,9 +785,6 @@ build-css: ## Task description
 
 watch-css: ## Task description
 	postcss ./assets/css/style.css --dir ./dist --watch
-
-lint-aria: ## Task description
-	pa11y ./dist/index.html
 
 test: ## Task description
 	jest .*.test.js --coverage

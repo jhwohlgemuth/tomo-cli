@@ -110,7 +110,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1780,
+            size: 1732,
             type: file
         },
         {
@@ -177,7 +177,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13933,
+    size: 13885,
     type: directory
 }
 "
@@ -198,7 +198,6 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
-        \\"lint:aria\\": \\"pa11y ./dist/index.html\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:ing\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
@@ -391,7 +390,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: package.json,
-            size: 1754,
+            size: 1706,
             type: file
         },
         {
@@ -429,7 +428,7 @@ exports[`"Create/New" commands create new react app 1`] = `
             type: file
         }
     ],
-    size: 6722,
+    size: 6674,
     type: directory
 }
 "
@@ -450,7 +449,6 @@ exports[`"Create/New" commands create new react app 2`] = `
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
-        \\"lint:aria\\": \\"pa11y ./dist/index.html\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:ing\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
