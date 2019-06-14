@@ -23,10 +23,10 @@ export const addParcel = [
         task: async ({assetsDirectory, outputDirectory}) => {
             const scripts = {
                 'clean:build': `del-cli ${outputDirectory}`,
-                prebuild: 'npm run clean:build',
-                build: `parcel build --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
-                'prebuild:watch': 'npm run clean:build',
-                'build:watch': `parcel watch --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
+                'prebuild:es': 'npm run clean:build',
+                'build:es': `parcel build --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
+                'prewatch:es': 'npm run clean:build',
+                'watch:es': `parcel watch --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
                 start: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --open`
             };
             await (new PackageJsonEditor())
@@ -39,7 +39,7 @@ export const addParcel = [
         text: 'Install development dependencies and add dev task to package.json',
         task: async ({skipInstall}) => {
             const scripts = {
-                dev: 'stmux [ \"npm run build:watch\" : \"npm run lint:watch\" ]'
+                dev: 'stmux [ \"npm run watch:es\" : \"npm run lint:ing\" ]'
             };
             await install(['stmux'], {dev: true, skipInstall});
             await (new PackageJsonEditor())
@@ -73,10 +73,10 @@ export const removeParcel = [
             const scripts = {
                 'clean:build': undefined,
                 dev: undefined,
-                prebuild: undefined,
-                build: undefined,
-                'prebuild:watch': undefined,
-                'build:watch': undefined,
+                'prebuild:es': undefined,
+                'build:es': undefined,
+                'prewatch:es': undefined,
+                'watch:es': undefined,
                 start: undefined
             };
             await (new PackageJsonEditor())

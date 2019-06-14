@@ -110,7 +110,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1787,
+            size: 1782,
             type: file
         },
         {
@@ -177,7 +177,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 13940,
+    size: 13935,
     type: directory
 }
 "
@@ -191,8 +191,8 @@ exports[`"Create/New" commands create new app 2`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"build\\": \\"webpack\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"build:es\\": \\"webpack\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
@@ -205,12 +205,12 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
-        \\"prestart\\": \\"npm run build\\",
-        \\"start\\": \\"npm-run-all --parallel build:watch watch:css serve\\",
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\",
+        \\"prestart\\": \\"npm run build:es\\",
+        \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
         \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     },
     \\"jest\\": {
@@ -265,7 +265,7 @@ exports[`"Create/New" commands create new project 1`] = `
         },
         {
             name: package.json,
-            size: 479,
+            size: 482,
             type: file
         },
         {
@@ -275,7 +275,7 @@ exports[`"Create/New" commands create new project 1`] = `
             type: directory
         }
     ],
-    size: 991,
+    size: 994,
     type: directory
 }
 "
@@ -391,7 +391,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: package.json,
-            size: 1758,
+            size: 1756,
             type: file
         },
         {
@@ -429,7 +429,7 @@ exports[`"Create/New" commands create new react app 1`] = `
             type: file
         }
     ],
-    size: 6726,
+    size: 6724,
     type: directory
 }
 "
@@ -443,8 +443,8 @@ exports[`"Create/New" commands create new react app 2`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"build\\": \\"webpack\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"build:es\\": \\"webpack\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
@@ -457,12 +457,12 @@ exports[`"Create/New" commands create new react app 2`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\",
         \\"serve\\": \\"webpack-dev-server --hot --open --mode development\\",
-        \\"start\\": \\"npm-run-all build --parallel watch:assets watch:css serve\\"
+        \\"start\\": \\"npm-run-all build:es --parallel watch:assets watch:css serve\\"
     },
     \\"jest\\": {
         \\"testMatch\\": [

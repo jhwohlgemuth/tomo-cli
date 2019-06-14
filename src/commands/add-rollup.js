@@ -55,10 +55,10 @@ export const addRollup = [
                 'copy:assets': `cpy '${assetsDirectory}/!(css)/**/*.*' '${assetsDirectory}/**/[.]*' ${outputDirectory} --parents --recursive`,
                 'copy:index': `cpy '${assetsDirectory}/index.html' ${outputDirectory}`,
                 'watch:assets': `watch 'npm run copy' ${assetsDirectory}`,
-                prebuild: `del-cli ${join(outputDirectory, assetsDirectory)}`,
-                build: 'rollup -c',
-                postbuild: 'npm run copy',
-                'build:watch': `watch 'npm run build' ${sourceDirectory}`
+                'prebuild:es': `del-cli ${join(outputDirectory, assetsDirectory)}`,
+                'build:es': 'rollup -c',
+                'postbuild:es': 'npm run copy',
+                'watch:es': `watch 'npm run build:es' ${sourceDirectory}`
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
@@ -70,7 +70,7 @@ export const addRollup = [
         text: 'Install development dependencies and add dev task to package.json',
         task: async ({skipInstall}) => {
             const scripts = {
-                dev: 'stmux [ \"npm run build:watch\" : \"npm run lint:watch\" ]'
+                dev: 'stmux [ \"npm run watch:es\" : \"npm run lint:ing\" ]'
             };
             await install(['stmux'], {dev: true, skipInstall});
             await (new PackageJsonEditor())
@@ -105,10 +105,10 @@ export const removeRollup = [
                 'copy:index': undefined,
                 'watch:assets': undefined,
                 dev: undefined,
-                prebuild: undefined,
-                build: undefined,
-                postbuild: undefined,
-                'build:watch': undefined
+                'prebuild:es': undefined,
+                'build:es': undefined,
+                'postbuild:es': undefined,
+                'watch:es': undefined
             };
             await (new PackageJsonEditor())
                 .extend({scripts})

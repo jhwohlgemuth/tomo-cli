@@ -64,11 +64,11 @@ export const addWebpack = [
                 'copy:assets': `cpy '${assetsDirectory}/!(css)/**/*.*' '${assetsDirectory}/**/[.]*' ${outputDirectory} --parents --recursive`,
                 'copy:index': `cpy '${assetsDirectory}/index.html' ${outputDirectory}`,
                 'watch:assets': `watch 'npm run copy' ${assetsDirectory}`,
-                prebuild: `del-cli ${join(outputDirectory, assetsDirectory)}`,
-                build: 'webpack',
-                postbuild: 'npm run copy',
-                'build:watch': `watch 'npm run build' ${sourceDirectory}`,
-                'build:dashboard': 'webpack-dashboard -- webpack-dev-server --config ./webpack.config.js'
+                'prebuild:es': `del-cli ${join(outputDirectory, assetsDirectory)}`,
+                'build:es': 'webpack',
+                'postbuild:es': 'npm run copy',
+                'watch:es': `watch 'npm run build:es' ${sourceDirectory}`,
+                dashboard: 'webpack-dashboard -- webpack-dev-server --config ./webpack.config.js'
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
@@ -80,7 +80,7 @@ export const addWebpack = [
         text: 'Install development dependencies and add dev task to package.json',
         task: async ({skipInstall}) => {
             const scripts = {
-                dev: 'stmux [ \"npm run build:dashboard\" : \"npm run lint:watch\" ]'
+                dev: 'stmux [ \"npm run dashboard\" : \"npm run lint:ing\" ]'
             };
             await install(['stmux'], {dev: true, skipInstall});
             await (new PackageJsonEditor())
@@ -115,11 +115,11 @@ export const removeWebpack = [
                 'copy:index': undefined,
                 'watch:assets': undefined,
                 dev: undefined,
-                prebuild: undefined,
-                build: undefined,
-                postbuild: undefined,
-                'build:watch': undefined,
-                'build:dashboard': undefined
+                'prebuild:es': undefined,
+                'build:es': undefined,
+                'postbuild:es': undefined,
+                'watch:es': undefined,
+                dashboard: undefined
             };
             await (new PackageJsonEditor())
                 .extend({scripts})

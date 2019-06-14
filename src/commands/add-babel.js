@@ -45,8 +45,8 @@ export const addBabel = [
         text: 'Add Babel build task to package.json',
         task: async ({outputDirectory, sourceDirectory}) => {
             const scripts = {
-                build: `babel ${sourceDirectory} --out-dir ${outputDirectory}`,
-                'build:watch': `watch 'npm run build' ${sourceDirectory}`
+                'build:es': `babel ${sourceDirectory} --out-dir ${outputDirectory}`,
+                'watch:es': `watch 'npm run build:es' ${sourceDirectory}`
             };
             await (new PackageJsonEditor())
                 .extend({scripts})

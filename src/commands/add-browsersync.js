@@ -18,8 +18,8 @@ export const addBrowsersync = [
         text: 'Add Browsersync tasks to package.json',
         task: async ({outputDirectory, useReact}) => {
             const scripts = {
-                prestart: 'npm run build',
-                start: `npm-run-all --parallel ${useReact ? 'watch:assets ' : ''}build:watch watch:css serve`,
+                prestart: 'npm run build:es',
+                start: `npm-run-all --parallel ${useReact ? 'watch:assets ' : ''}watch:es watch:css serve`,
                 serve: `browser-sync start --server ${outputDirectory} --files ${outputDirectory}`
             };
             await (new PackageJsonEditor())

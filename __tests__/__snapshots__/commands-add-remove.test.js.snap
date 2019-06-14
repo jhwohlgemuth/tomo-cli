@@ -112,15 +112,15 @@ exports[`"Add" commands add-browsersync 3`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"build\\": \\"webpack\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"build:es\\": \\"webpack\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
-        \\"prestart\\": \\"npm run build\\",
-        \\"start\\": \\"npm-run-all --parallel build:watch watch:css serve\\",
+        \\"prestart\\": \\"npm run build:es\\",
+        \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
         \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     }
 }
@@ -136,11 +136,11 @@ exports[`"Add" commands add-electron --use-parcel 1`] = `
     \\"keywords\\": [],
     \\"main\\": \\"index.js\\",
     \\"scripts\\": {
-        \\"electron:build\\": \\"npm-run-all build build:css\\",
+        \\"electron:build\\": \\"npm-run-all build:es build:css\\",
         \\"preelectron:start\\": \\"npm run electron:build\\",
         \\"electron:start\\": \\"electron index\\",
         \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\",
-        \\"dev\\": \\"npm-run-all --parallel build:watch electron:dev\\"
+        \\"dev\\": \\"npm-run-all --parallel watch:es electron:dev\\"
     }
 }
 "
@@ -155,11 +155,11 @@ exports[`"Add" commands add-electron 1`] = `
     \\"keywords\\": [],
     \\"main\\": \\"index.js\\",
     \\"scripts\\": {
-        \\"electron:build\\": \\"npm-run-all build build:css\\",
+        \\"electron:build\\": \\"npm-run-all build:es build:css\\",
         \\"preelectron:start\\": \\"npm run electron:build\\",
         \\"electron:start\\": \\"electron index\\",
         \\"electron:dev\\": \\"npm run electron:start -- --enable-logging\\",
-        \\"dev\\": \\"npm-run-all electron:build --parallel build:watch watch:css electron:dev\\"
+        \\"dev\\": \\"npm-run-all electron:build --parallel watch:es watch:css electron:dev\\"
     }
 }
 "
@@ -588,7 +588,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1577,
+            size: 1566,
             type: file
         },
         {
@@ -687,7 +687,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1793,
+            size: 1788,
             type: file
         },
         {
@@ -754,7 +754,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 15870,
+    size: 15854,
     type: directory
 }
 "
@@ -765,13 +765,13 @@ exports[`"Add" commands add-makefile 3`] = `"# Makefile built with tomo"`;
 exports[`"Add" commands add-makefile 4`] = `
 "# Makefile built from /path/to/package.json
 
-build: ## Task description
+build-es: ## Task description
 	del-cli dist/assets
 	webpack
 	$(MAKE) copy
 
-build-watch: ## Task description
-	watch 'make build' ./src
+watch-es: ## Task description
+	watch 'make build-es' ./src
 
 lint: ## Task description
 	eslint . -c ./.eslintrc.js --fix
@@ -809,15 +809,15 @@ copy-index: ## Task description
 watch-assets: ## Task description
 	watch 'make copy' ./assets
 
-build-dashboard: ## Task description
+dashboard: ## Task description
 	webpack-dashboard -- webpack-dev-server --config ./webpack.config.js
 
 dev: ## Task description
-	stmux [ 'make build-dashboard' : 'make lint-watch' ]
+	stmux [ 'make dashboard' : 'make lint-ing' ]
 
 start: ## Task description
-	$(MAKE) build
-	npm-run-all --parallel build:watch watch:css serve
+	$(MAKE) build-es
+	npm-run-all --parallel watch:es watch:css serve
 
 serve: ## Task description
 	browser-sync start --server ./dist --files ./dist
@@ -982,12 +982,12 @@ exports[`"Add" commands add-parcel 2`] = `
         \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"clean:build\\": \\"del-cli ./dist\\",
-        \\"prebuild\\": \\"npm run clean:build\\",
-        \\"build\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
-        \\"prebuild:watch\\": \\"npm run clean:build\\",
-        \\"build:watch\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
+        \\"prebuild:es\\": \\"npm run clean:build\\",
+        \\"build:es\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
+        \\"prewatch:es\\": \\"npm run clean:build\\",
+        \\"watch:es\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\",
-        \\"dev\\": \\"stmux [ \\\\\\"npm run build:watch\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
+        \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }
 "
@@ -1039,11 +1039,11 @@ exports[`"Add" commands add-rollup (with React) 1`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"build\\": \\"rollup -c\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:watch\\": \\"watch 'npm run build' ./src\\",
-        \\"dev\\": \\"stmux [ \\\\\\"npm run build:watch\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"build:es\\": \\"rollup -c\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }
 "
@@ -1089,11 +1089,11 @@ exports[`"Add" commands add-rollup 1`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"build\\": \\"rollup -c\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:watch\\": \\"watch 'npm run build' ./src\\",
-        \\"dev\\": \\"stmux [ \\\\\\"npm run build:watch\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"build:es\\": \\"rollup -c\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }
 "
@@ -1185,7 +1185,7 @@ exports[`"Add" commands add-webpack (with React) 3`] = `
         },
         {
             name: package.json,
-            size: 1000,
+            size: 995,
             type: file
         },
         {
@@ -1194,7 +1194,7 @@ exports[`"Add" commands add-webpack (with React) 3`] = `
             type: file
         }
     ],
-    size: 2931,
+    size: 2926,
     type: directory
 }
 "
@@ -1256,8 +1256,8 @@ exports[`"Add" commands add-webpack (with React) 5`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"build\\": \\"webpack\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"build:es\\": \\"webpack\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
@@ -1265,10 +1265,10 @@ exports[`"Add" commands add-webpack (with React) 5`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }
 "
@@ -1335,7 +1335,7 @@ exports[`"Add" commands add-webpack 3`] = `
         },
         {
             name: package.json,
-            size: 1000,
+            size: 995,
             type: file
         },
         {
@@ -1344,7 +1344,7 @@ exports[`"Add" commands add-webpack 3`] = `
             type: file
         }
     ],
-    size: 2923,
+    size: 2918,
     type: directory
 }
 "
@@ -1406,8 +1406,8 @@ exports[`"Add" commands add-webpack 5`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"build\\": \\"webpack\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\",
+        \\"build:es\\": \\"webpack\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
@@ -1415,10 +1415,10 @@ exports[`"Add" commands add-webpack 5`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"dev\\": \\"stmux [ \\\\\\"npm run build:dashboard\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\"
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }
 "
@@ -1462,15 +1462,15 @@ exports[`"Remove" commands remove browsersync 1`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"build\\": \\"webpack\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"build:es\\": \\"webpack\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
-        \\"prestart\\": \\"npm run build\\",
-        \\"start\\": \\"npm-run-all --parallel build:watch watch:css serve\\",
+        \\"prestart\\": \\"npm run build:es\\",
+        \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
         \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
     }
 }
@@ -1489,11 +1489,11 @@ exports[`"Remove" commands remove browsersync 2`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"build\\": \\"webpack\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"build:es\\": \\"webpack\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\"
     }
@@ -1510,10 +1510,10 @@ exports[`"Remove" commands remove parcel 1`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"clean:build\\": \\"del-cli ./dist\\",
-        \\"prebuild\\": \\"npm run clean:build\\",
-        \\"build\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
-        \\"prebuild:watch\\": \\"npm run clean:build\\",
-        \\"build:watch\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
+        \\"prebuild:es\\": \\"npm run clean:build\\",
+        \\"build:es\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
+        \\"prewatch:es\\": \\"npm run clean:build\\",
+        \\"watch:es\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\"
     }
 }
@@ -1645,10 +1645,10 @@ exports[`"Remove" commands remove rollup 1`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"build\\": \\"rollup -c\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\"
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"build:es\\": \\"rollup -c\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' src\\"
     }
 }
 "
@@ -1660,7 +1660,7 @@ exports[`"Remove" commands remove rollup 2`] = `
     children: [
         {
             name: package.json,
-            size: 636,
+            size: 645,
             type: file
         },
         {
@@ -1669,7 +1669,7 @@ exports[`"Remove" commands remove rollup 2`] = `
             type: file
         }
     ],
-    size: 1282,
+    size: 1291,
     type: directory
 }
 "
@@ -1709,7 +1709,7 @@ exports[`"Remove" commands remove webpack 1`] = `
     children: [
         {
             name: package.json,
-            size: 733,
+            size: 736,
             type: file
         },
         {
@@ -1718,7 +1718,7 @@ exports[`"Remove" commands remove webpack 1`] = `
             type: file
         }
     ],
-    size: 1773,
+    size: 1776,
     type: directory
 }
 "
@@ -1736,11 +1736,11 @@ exports[`"Remove" commands remove webpack 2`] = `
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild\\": \\"del-cli dist/assets\\",
-        \\"build\\": \\"webpack\\",
-        \\"postbuild\\": \\"npm run copy\\",
-        \\"build:watch\\": \\"watch 'npm run build' src\\",
-        \\"build:dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\"
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"build:es\\": \\"webpack\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\"
     }
 }
 "
