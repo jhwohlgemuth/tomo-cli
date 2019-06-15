@@ -16,10 +16,10 @@ const BROWSERSYNC_DEPENDENCIES = [
 export const addBrowsersync = [
     {
         text: 'Add Browsersync tasks to package.json',
-        task: async ({outputDirectory, useReact}) => {
+        task: async ({outputDirectory}) => {
             const scripts = {
                 prestart: 'npm run build:es',
-                start: `npm-run-all --parallel ${useReact ? 'watch:assets ' : ''}watch:es watch:css serve`,
+                start: `npm-run-all --parallel watch:es watch:css serve`,
                 serve: `browser-sync start --server ${outputDirectory} --files ${outputDirectory}`
             };
             await (new PackageJsonEditor())
