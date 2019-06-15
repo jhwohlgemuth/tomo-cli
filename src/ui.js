@@ -225,16 +225,14 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
     const {queue, tasks, dispatch, options} = data;
     const {skipInstall} = options;
     const isNotOffline = skipInstall || await isOnline();
-    const customOptions = tasks
-        .filter(negate(isValidTask))
-        .reduce((acc, val) => ({...acc, ...val}), options);
+    const customOptions = assign(tasks.filter(negate(isValidTask)).reduce((acc, val) => ({...acc, ...val}), options), {isNotOffline});
     dispatch({type: 'status', payload: {online: isNotOffline}});
     for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
         const {condition, task} = item;
         try {
-            if (await condition({...customOptions, isNotOffline})) {
+            if (await condition(customOptions)) {
                 await queue
-                    .add(() => task({...customOptions, isNotOffline}))
+                    .add(() => task(customOptions))
                     .then(() => dispatch({type: 'complete', payload: index}))
                     .catch(() => dispatch({
                         type: 'error', payload: {
@@ -347,9 +345,7 @@ export const TaskList = ({command, options, terms, done}) => {
         .flatMap(term => commands[command][term])
         .flatMap(val => maybeApply(val, options))
         .flatMap(val => maybeApply(val, options));
-    const customOptions = tasks
-        .filter(negate(isValidTask))
-        .reduce((acc, val) => ({...acc, ...val}), options);
+    const customOptions = assign(tasks.filter(negate(isValidTask)).reduce((acc, val) => ({...acc, ...val}), options), {isNotOffline: online});
     const validTasks = tasks
         .filter(isValidTask)
         .filter(isUniqueTask);
