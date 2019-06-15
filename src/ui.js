@@ -227,14 +227,14 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
     const isNotOffline = skipInstall || await isOnline();
     const customOptions = tasks
         .filter(negate(isValidTask))
-        .reduce((acc, val) => ({...acc, ...val}), {});
+        .reduce((acc, val) => ({...acc, ...val}), options);
     dispatch({type: 'status', payload: {online: isNotOffline}});
     for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
         const {condition, task} = item;
         try {
-            if (await condition({...options, ...customOptions, isNotOffline})) {
+            if (await condition({...customOptions, isNotOffline})) {
                 await queue
-                    .add(() => task({...options, ...customOptions, isNotOffline}))
+                    .add(() => task({...customOptions, isNotOffline}))
                     .then(() => dispatch({type: 'complete', payload: index}))
                     .catch(() => dispatch({
                         type: 'error', payload: {
@@ -278,30 +278,33 @@ export const Task = ({isComplete, isErrored, isPending, isSkipped, text}) => <Bo
     {isPending && <Pending/>}
     <Text><Color dim={isComplete}>{text}</Color></Text>
 </Box>;
-export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='column' marginBottom={1}>
-    {tasks.map(({optional, text}, index) => {
-        const {completed, errors, skipped} = state;
-        const key = camelCase(text);
-        const isSkipped = skipped.includes(index);
-        const isComplete = completed.includes(index) || isSkipped;
-        const isErrored = errors.map(error => error.payload.index).includes(index);
-        const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
-        const maybeApplyOrReturnTrue = (val, options) => isUndefined(val) || (isFunction(val) && val(options));
-        const showDebug = debug && <Color cyan>{index} - {text}</Color>;
-        const shouldBeShown = maybeApplyOrReturnTrue(optional, options);
-        const isCurrentOrPrevious = index <= Math.max(...completed, ...skipped) + 1;
-        return (isCurrentOrPrevious && shouldBeShown) ?
-            <Task
-                key={key}
-                text={text}
-                isSkipped={isSkipped}
-                isComplete={isComplete}
-                isErrored={isErrored}
-                isPending={isPending}>
-            </Task> :
-            <Box key={key}>{showDebug}</Box>;
-    })}
-</Box>;
+export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='column' marginBottom={1}>{
+    tasks
+        .filter(isValidTask)
+        .filter(isUniqueTask)
+        .map(({optional, text}, index) => {
+            const {completed, errors, skipped} = state;
+            const key = camelCase(text);
+            const isSkipped = skipped.includes(index);
+            const isComplete = completed.includes(index) || isSkipped;
+            const isErrored = errors.map(error => error.payload.index).includes(index);
+            const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
+            const maybeApplyOrReturnTrue = (val, options) => isUndefined(val) || (isFunction(val) && val(options));
+            const showDebug = debug && <Color cyan>{index} - {text}</Color>;
+            const shouldBeShown = maybeApplyOrReturnTrue(optional, options);
+            const isCurrentOrPrevious = index <= Math.max(...completed, ...skipped) + 1;
+            return (isCurrentOrPrevious && shouldBeShown) ?
+                <Task
+                    key={key}
+                    text={text}
+                    isSkipped={isSkipped}
+                    isComplete={isComplete}
+                    isErrored={isErrored}
+                    isPending={isPending}>
+                </Task> :
+                <Box key={key}>{showDebug}</Box>;
+        })
+}</Box>;
 export const TaskListTitle = ({command, hasError, isComplete, terms}) => <InkBox
     margin={{left: 1, top: 1}}
     padding={{left: 1, right: 1}}
@@ -344,24 +347,27 @@ export const TaskList = ({command, options, terms, done}) => {
         .flatMap(term => commands[command][term])
         .flatMap(val => maybeApply(val, options))
         .flatMap(val => maybeApply(val, options));
+    const customOptions = tasks
+        .filter(negate(isValidTask))
+        .reduce((acc, val) => ({...acc, ...val}), options);
     const validTasks = tasks
         .filter(isValidTask)
         .filter(isUniqueTask);
     const tasksComplete = ((completed.length + skipped.length) === validTasks.length);
     const hasError = (errors.length > 0);
     const {debug} = options;
-    const data = {completed, errors, skipped, tasks, terms, options};
+    const data = {completed, errors, skipped, tasks, terms, options: customOptions};
     useEffect(() => {
-        populateQueue({queue, tasks, options, dispatch});
+        populateQueue({queue, tasks, options: customOptions, dispatch});
     }, []);
     tasksComplete && maybeApply(done);
     return <ErrorBoundary>
         {debug && <Debug data={data} title={'Tasklist data'}></Debug>}
-        <WarningAndErrorsHeader errors={errors} hasError={hasError} isOnline={online} options={options}></WarningAndErrorsHeader>
+        <WarningAndErrorsHeader errors={errors} hasError={hasError} isOnline={online} options={customOptions}></WarningAndErrorsHeader>
         <Box flexDirection={'column'} marginBottom={1}>
             <TaskListTitle command={command} hasError={hasError} isComplete={tasksComplete} terms={terms}></TaskListTitle>
             <Status completed={completed} skipped={skipped} tasks={validTasks}></Status>
-            <Tasks debug={debug} options={options} state={state} tasks={validTasks}></Tasks>
+            <Tasks debug={debug} options={customOptions} state={state} tasks={tasks}></Tasks>
         </Box>
     </ErrorBoundary>;
 };
