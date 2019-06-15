@@ -39,8 +39,8 @@ const create = {
         choose({
             default: addMarionette,
             native: [
-                withOptions({outputDirectory: './dist', sourceDirectory: './renderer/src', assetsDirectory: './renderer/assets'}),
-                ...addMarionette,
+                withOptions({outputDirectory: './dist', sourceDirectory: './renderer/src', assetsDirectory: './renderer/assets', useReact: false}),
+                ...addMarionette, // Only Marionette.js support, for native react apps, one should probably use ReactNative
                 ...addElectron
             ],
             useReact: [
