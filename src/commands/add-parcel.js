@@ -20,7 +20,10 @@ const PARCEL_DEPENDENCIES = [
 export const addParcel = [
     {
         text: 'Add Parcel build tasks to package.json',
-        task: async ({assetsDirectory, outputDirectory}) => {
+        task: async ({assetsDirectory, outputDirectory, useReact}) => {
+            const alias = {
+                'react-dom': '@hot-loader/react-dom'
+            };
             const scripts = {
                 clean: `del-cli ${outputDirectory}`,
                 'prebuild:es': 'npm run clean',
@@ -30,6 +33,7 @@ export const addParcel = [
                 start: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --open`
             };
             await (new PackageJsonEditor())
+                .extend(useReact ? {alias} : {})
                 .extend({scripts})
                 .commit();
         },

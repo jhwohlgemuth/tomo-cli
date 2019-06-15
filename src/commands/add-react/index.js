@@ -6,7 +6,8 @@ import {Scaffolder} from '../../utils/Scaffolder';
 const REACT_DEPENDENCIES = [
     'prop-types',
     'react',
-    'react-dom'
+    'react-dom',
+    '@hot-loader/react-dom'
 ];
 const DEV_DEPENDENCIES = [
     'npm-run-all'
@@ -27,6 +28,7 @@ export const addReact = [
                 .copy('main.js')
                 .target(`${sourceDirectory}/components`)
                 .copy('App.js')
+                .copy('Message.js')
                 .commit();
             await (new Scaffolder(join(__dirname, '..', 'common', 'templates')))
                 .overwrite(overwrite)
@@ -48,11 +50,11 @@ export const addReact = [
     },
     {
         text: 'Set package.json "main" attribute and add scripts tasks',
-        task: async ({sourceDirectory, useParcel}) => {
+        task: async ({sourceDirectory, useParcel, useRollup}) => {
             const main = `${sourceDirectory}/main.js`;
             const scripts = {
-                serve: 'webpack-dev-server --hot --open --mode development',
-                start: 'npm-run-all build:es --parallel watch:assets watch:css serve'
+                'watch:es': useRollup ? `watch 'npm run build:es' ${sourceDirectory}` : 'webpack-dev-server --hot --open --mode development',
+                start: 'npm-run-all build:es --parallel watch:*'
             };
             await (new PackageJsonEditor())
                 .extend({main})

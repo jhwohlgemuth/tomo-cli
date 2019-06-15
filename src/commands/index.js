@@ -43,7 +43,10 @@ const create = {
                 ...addMarionette,
                 ...addElectron
             ],
-            useReact: addReact
+            useReact: [
+                withOptions({useRollup: false}), // Rollup does not support HMR - it's just not worth using Rollup for a React app.
+                ...addReact
+            ]
         }),
         choose({
             default: addBrowsersync,

@@ -29,8 +29,16 @@ export const addWebpack = [
     {
         text: 'Create Webpack configuration file',
         task: async ({outputDirectory, sourceDirectory, useReact}) => {
-            const entry = {
+            const entryWithReact = [
+                `'react-hot-loader/patch'`,
+                `'${sourceDirectory}/main.js'`
+            ];
+            const entryWithoutReact = {
                 app: `'${sourceDirectory}/main.js'`
+            };
+            const entry = useReact ? entryWithReact : entryWithoutReact;
+            const alias = {
+                '\'react-dom\'': `'@hot-loader/react-dom'`
             };
             const resolve = {
                 modules: `[resolve(__dirname, '${sourceDirectory}'), 'node_modules']`,
@@ -52,6 +60,7 @@ export const addWebpack = [
                 .prepend(`const {resolve} = require('path');`)
                 .prepend(`/* eslint-env node */`)
                 .extend({devServer, entry, optimization, resolve})
+                .extend(useReact ? {resolve: {alias}} : {})
                 .commit();
         },
         condition: () => allDoNotExist('webpack.config.js')

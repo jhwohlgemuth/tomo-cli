@@ -33,11 +33,11 @@ exports[`"Add" commands add-babel (with React) 1`] = `
 exports[`"Add" commands add-babel (with React) 2`] = `
 "module.exports = {
     plugins: [
+        'react-hot-loader/babel',
         '@babel/plugin-transform-runtime',
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-export-default-from',
-        '@babel/plugin-proposal-optional-chaining',
-        'react-hot-loader/babel'
+        '@babel/plugin-proposal-optional-chaining'
     ],
     presets: [
         '@babel/preset-env',
@@ -1185,11 +1185,11 @@ exports[`"Add" commands add-webpack (with React) 3`] = `
         },
         {
             name: webpack.config.js,
-            size: 1048,
+            size: 1154,
             type: file
         }
     ],
-    size: 2926,
+    size: 3032,
     type: directory
 }
 "
@@ -1203,9 +1203,10 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: {
-        app: 'src/main.js'
-    },
+    entry: [
+        'react-hot-loader/patch',
+        'src/main.js'
+    ],
     output: {
         path: resolve('./dist'),
         filename: 'bundle.min.js'
@@ -1238,7 +1239,10 @@ module.exports = {
     },
     resolve: {
         modules: [resolve(__dirname, 'src'), 'node_modules'],
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        alias: {
+            'react-dom': '@hot-loader/react-dom'
+        }
     }
 };"
 `;
@@ -1709,11 +1713,11 @@ exports[`"Remove" commands remove webpack 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 1040,
+            size: 1146,
             type: file
         }
     ],
-    size: 1776,
+    size: 1882,
     type: directory
 }
 "

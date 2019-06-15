@@ -390,7 +390,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: package.json,
-            size: 1706,
+            size: 1636,
             type: file
         },
         {
@@ -406,29 +406,34 @@ exports[`"Create/New" commands create new react app 1`] = `
                     children: [
                         {
                             name: App.js,
-                            size: 202,
+                            size: 621,
+                            type: file
+                        },
+                        {
+                            name: Message.js,
+                            size: 199,
                             type: file
                         }
                     ],
-                    size: 202,
+                    size: 820,
                     type: directory
                 },
                 {
                     name: main.js,
-                    size: 220,
+                    size: 361,
                     type: file
                 }
             ],
-            size: 422,
+            size: 1181,
             type: directory
         },
         {
             name: webpack.config.js,
-            size: 1048,
+            size: 1154,
             type: file
         }
     ],
-    size: 6674,
+    size: 7469,
     type: directory
 }
 "
@@ -443,7 +448,7 @@ exports[`"Create/New" commands create new react app 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"build:es\\": \\"webpack\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
+        \\"watch:es\\": \\"webpack-dev-server --hot --open --mode development\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
@@ -459,8 +464,7 @@ exports[`"Create/New" commands create new react app 2`] = `
         \\"postbuild:es\\": \\"npm run copy\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\",
-        \\"serve\\": \\"webpack-dev-server --hot --open --mode development\\",
-        \\"start\\": \\"npm-run-all build:es --parallel watch:assets watch:css serve\\"
+        \\"start\\": \\"npm-run-all build:es --parallel watch:*\\"
     },
     \\"jest\\": {
         \\"testMatch\\": [
