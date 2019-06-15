@@ -1,6 +1,6 @@
 import {join} from 'path';
 import {BsConfigJsonEditor, PackageJsonEditor, install, uninstall} from '../../utils';
-import {allDoExist, allDoExistSync, allDoNotExist, allDoNotExistSync} from '../../utils/common';
+import {allDoExist, allDoNotExist} from '../../utils/common';
 import {Scaffolder} from '../../utils/Scaffolder';
 
 const DEPENDENCIES = [
@@ -39,14 +39,6 @@ export const addReason = [
         condition: () => allDoExist('package.json')
     },
     {
-        text: 'Install ReasonReact dependencies',
-        task: async ({skipInstall}) => {
-            await install(DEPENDENCIES, {skipInstall});
-            await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
-        },
-        condition: () => allDoExist('package.json')
-    },
-    {
         text: 'Copy ReasonReact boilerplate files',
         task: async ({overwrite, sourceDirectory}) => {
             await (new Scaffolder(join(__dirname, 'templates')))
@@ -60,28 +52,12 @@ export const addReason = [
         optional: ({useReact}) => useReact
     },
     {
-        text: 'Configure Webpack Reason support',
-        task: async () => {
-
+        text: 'Install ReasonReact dependencies',
+        task: async ({skipInstall}) => {
+            await install(DEPENDENCIES, {skipInstall});
+            await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
         },
-        condition: () => allDoExist('webpack.config.js'),
-        optional: () => allDoExistSync('webpack.config.js')
-    },
-    {
-        text: 'Configure Parcel.js Reason support',
-        task: async () => {
-
-        },
-        condition: ({useParcel}) => useParcel || allDoNotExist('webpack.config.js', 'rollup.config.js'),
-        optional: ({useParcel}) => useParcel || allDoNotExistSync('webpack.config.js', 'rollup.config.js')
-    },
-    {
-        text: 'Configure Rollup.js Reason support',
-        task: async () => {
-
-        },
-        condition: ({useRollup}) => useRollup || allDoExist('rollup.config.js'),
-        optional: ({useRollup}) => useRollup || allDoExistSync('rollup.config.js')
+        condition: () => allDoExist('package.json')
     }
 ];
 export const removeReason = [
