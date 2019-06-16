@@ -49,6 +49,9 @@ export const Debug = ({data, title}) => {
     const DebugValue = ({title = 'value', value}) => <Box>
         <Fragment><Color dim>{title}</Color>: {print(value)}</Fragment>
     </Box>;
+    DebugValue.propTypes = {
+        value: PropTypes.any
+    };
     return <Box flexDirection={'column'} marginTop={1} marginLeft={1}>
         <Box marginBottom={1}>
             <Color bold cyan>DEBUG: </Color><Color bold dim>{title}</Color>
@@ -340,6 +343,7 @@ export const TaskList = ({command, options, terms, done}) => {
     };
     const [state, dispatch] = useReducer(reducer, initialState);
     const {completed, errors, skipped, status: {online}} = state;
+    const {debug} = options;
     const queue = new Queue({concurrency: 1});
     const tasks = terms
         .flatMap(term => commands[command][term])
@@ -351,10 +355,21 @@ export const TaskList = ({command, options, terms, done}) => {
         .filter(isUniqueTask);
     const tasksComplete = ((completed.length + skipped.length) === validTasks.length);
     const hasError = (errors.length > 0);
-    const {debug} = options;
-    const data = {completed, errors, skipped, tasks, terms, options: customOptions};
+    const data = {
+        tasks,
+        terms,
+        errors,
+        skipped,
+        completed,
+        options: customOptions
+    };
     useEffect(() => {
-        populateQueue({queue, tasks, options: customOptions, dispatch});
+        populateQueue({
+            queue,
+            tasks,
+            dispatch,
+            options: customOptions
+        });
     }, []);
     tasksComplete && maybeApply(done);
     return <ErrorBoundary>
