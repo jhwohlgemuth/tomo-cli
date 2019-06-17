@@ -9,6 +9,7 @@ module.exports = {
         './src/commands/add-marionette/templates'
     ],
     plugins: [
+        'ramda',
         '@babel/transform-runtime',
         '@babel/proposal-class-properties',
         '@babel/proposal-optional-chaining',

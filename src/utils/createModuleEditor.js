@@ -15,14 +15,13 @@ const silent = () => { };
  * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})
  */
 export const createModuleEditor = (filename, contents = 'module.exports = {};', options = {esm: false}) => class ModuleEditor extends BasicEditor {
-    contents = contents;
     prependedContents = '';
     created = false;
     constructor(cwd = process.cwd()) {
         super();
         const {esm} = options;
         const path = join(cwd, filename);
-        assign(this, {esm, path});
+        assign(this, {contents, esm, path});
     }
     create() {
         const self = this;
@@ -46,7 +45,7 @@ export const createModuleEditor = (filename, contents = 'module.exports = {};', 
         return assign(self, {contents});
     }
     extend(code) {
-        this.contents = merge(contents, code);
+        this.contents = merge(this.contents, code);
         this.write(this.contents);
         return this;
     }

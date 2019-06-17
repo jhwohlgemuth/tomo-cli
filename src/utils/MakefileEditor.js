@@ -1,6 +1,4 @@
-import kebabCase from 'lodash/kebabCase';
-import last from 'lodash/last';
-import negate from 'lodash/negate';
+import {complement, join, last, pipe, replace, split} from 'ramda';
 import {existsSync} from 'fs-extra';
 import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';
@@ -8,7 +6,8 @@ import {getBinDirectory, parse} from './common';
 
 const {assign, entries} = Object;
 const {isArray} = Array;
-const isNotArray = negate(isArray);
+const isNotArray = complement(isArray);
+const kebabCase = pipe(split(':'), join('-'));
 const silent = () => {};
 const isLocalNpmCommand = (command, path = process.cwd()) => {
     const [packageDirectory] = path.split('Makefile');
@@ -65,7 +64,13 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
      */
     formatTask(action, scripts = {}) {
         const {path} = this;
-        const formatTaskName = val => kebabCase(last(val.split(' ')));
+        const formatTaskName = pipe(
+            split(':'),
+            join('-'),
+            split(' '),
+            last,
+            replace(/["']/g, '')
+        );
         const replaceNpmRunQuotes = initial => {
             const re = /['"]npm run .[^"]*['"]/g;
             const matches = action.match(re);

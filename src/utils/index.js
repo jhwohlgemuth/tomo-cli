@@ -1,9 +1,6 @@
 import execa from 'execa';
 import semver from 'semver';
-import first from 'lodash/first';
-import has from 'lodash/has';
-import isFunction from 'lodash/isFunction';
-import isString from 'lodash/isString';
+import {has, head} from 'ramda';
 import {oneLineTrim} from 'common-tags';
 import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
@@ -12,8 +9,9 @@ import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';
 
 const {keys} = Object;
+const {isArray} = Array;
 export const isUniqueTask = ({text}, index, tasks) => tasks.map(({text}) => text).indexOf(text) === index;
-export const isValidTask = val => has(val, 'text') && has(val, 'task') && isString(val.text) && isFunction(val.task);
+export const isValidTask = val => has('text', val) && has('task', val) && (typeof val.text === 'string') && (typeof val.task === 'function');
 export const withOptions = val => options => ({...options, ...val});
 /**
  * Choose tasks based on CLI options
@@ -55,7 +53,8 @@ export const getVersions = async (name = '') => (name.length === 0) ? [] : (awai
     .stdout
     .split(',\n')
     .map(str => str.match(/\d+[.]\d+[.]\d+/))
-    .map(first)
+    .filter(isArray)
+    .map(head)
     .map(semver.valid)
     .filter(Boolean);
 /**

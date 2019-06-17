@@ -1,4 +1,7 @@
-import {readMakefile as read} from './tomo-test';
+import {
+    readMakefile as read,
+    useTemporaryDirectory
+} from './tomo-test';
 import {
     EslintConfigModuleEditor,
     PackageJsonEditor,
@@ -71,8 +74,15 @@ describe('package.json mem-fs editor', () => {
  */
 describe('.eslintrc.js mem-fs editor', () => {
     let cfg;
-    beforeEach(() => {
+    let tempDirectory;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () => {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
         cfg = new EslintConfigModuleEditor(testDirectory);
+    });
+    afterEach(async () => {
+        await cleanupTempDir();
     });
     test('create', async () => {
         cfg = new EslintConfigModuleEditor('/some/directory');
@@ -84,11 +94,11 @@ describe('.eslintrc.js mem-fs editor', () => {
         expect(cfg.read()).toMatchSnapshot();
     });
     test('extend', async () => {
-        expect(cfg.read()).toMatchSnapshot();
+        expect(await cfg.read()).toMatchSnapshot();
         await cfg.extend({key: {foo: `'foo'`}});
-        expect(cfg.read()).toMatchSnapshot();
-        await cfg.extend({key: {bar: `'bar'`}});
-        expect(cfg.read()).toMatchSnapshot();
+        expect(await cfg.read()).toMatchSnapshot();
+        await cfg.extend({ key: { bar: `'bar'` } });
+        expect(await cfg.read()).toMatchSnapshot();
     });
     test('delete', async () => {
         cfg = new EslintConfigModuleEditor('/some/directory');
