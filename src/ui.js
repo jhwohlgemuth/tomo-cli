@@ -1,10 +1,6 @@
 import React, {Component, Fragment, useContext, useEffect, useReducer, useState} from 'react';
 import PropTypes from 'prop-types';
-import camelCase from 'lodash/camelCase';
-import isFunction from 'lodash/isFunction';
-import isString from 'lodash/isString';
-import isUndefined from 'lodash/isUndefined';
-import negate from 'lodash/negate';
+import {complement, is} from 'ramda';
 import {bold, dim} from 'chalk';
 import Queue from 'p-queue';
 import pino from 'pino';
@@ -42,7 +38,7 @@ export const CommandError = errors => {
 export const Debug = ({data, title}) => {
     const {completed, errors, skipped, terms, options} = data;
     const formatted = Object.keys(options)
-        .filter(key => !isString(options[key]))
+        .filter(key => !is(String)(options[key]))
         .map(key => `${key} - ${options[key]}`)
         .sort();
     const print = value => value |> format |> highlight;
@@ -228,7 +224,7 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
     const {queue, tasks, dispatch, options} = data;
     const {skipInstall} = options;
     const isNotOffline = skipInstall || await isOnline();
-    const customOptions = assign(tasks.filter(negate(isValidTask)).reduce((acc, val) => ({...acc, ...val}), options), {isNotOffline});
+    const customOptions = assign(tasks.filter(complement(isValidTask)).reduce((acc, val) => ({...acc, ...val}), options), {isNotOffline});
     dispatch({type: 'status', payload: {online: isNotOffline}});
     for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
         const {condition, task} = item;
@@ -285,25 +281,24 @@ export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='col
         .filter(isUniqueTask)
         .map(({optional, text}, index) => {
             const {completed, errors, skipped} = state;
-            const key = camelCase(text);
             const isSkipped = skipped.includes(index);
             const isComplete = completed.includes(index) || isSkipped;
             const isErrored = errors.map(error => error.payload.index).includes(index);
             const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
-            const maybeApplyOrReturnTrue = (val, options) => isUndefined(val) || (isFunction(val) && val(options));
+            const maybeApplyOrReturnTrue = (val, options) => (val === undefined) || (is(Function)(val) && val(options));
             const showDebug = debug && <Color cyan>{index} - {text}</Color>;
             const shouldBeShown = maybeApplyOrReturnTrue(optional, options);
             const isCurrentOrPrevious = index <= Math.max(...completed, ...skipped) + 1;
             return (isCurrentOrPrevious && shouldBeShown) ?
                 <Task
-                    key={key}
+                    key={text}
                     text={text}
                     isSkipped={isSkipped}
                     isComplete={isComplete}
                     isErrored={isErrored}
                     isPending={isPending}>
                 </Task> :
-                <Box key={key}>{showDebug}</Box>;
+                <Box key={text}>{showDebug}</Box>;
         })
 }</Box>;
 export const TaskListTitle = ({command, hasError, isComplete, terms}) => <InkBox
@@ -349,7 +344,7 @@ export const TaskList = ({command, options, terms, done}) => {
         .flatMap(term => commands[command][term])
         .flatMap(val => maybeApply(val, options))
         .flatMap(val => maybeApply(val, options));
-    const customOptions = assign(tasks.filter(negate(isValidTask)).reduce((acc, val) => ({...acc, ...val}), options), {isNotOffline: online});
+    const customOptions = assign(tasks.filter(complement(isValidTask)).reduce((acc, val) => ({...acc, ...val}), options), {isNotOffline: online});
     const validTasks = tasks
         .filter(isValidTask)
         .filter(isUniqueTask);
@@ -393,7 +388,7 @@ class UI extends Component {
         const {flags, input} = props;
         const {ignoreWarnings} = flags;
         const [command, ...terms] = input;
-        const hasCommand = isString(command);
+        const hasCommand = is(String)(command);
         const hasTerms = terms.length > 0;
         const {intendedCommand, intendedTerms} = hasCommand ? getIntendedInput(commands, command, terms) : {};
         const compare = (term, index) => (term !== terms[index]);

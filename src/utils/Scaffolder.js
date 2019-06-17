@@ -1,5 +1,4 @@
 import {join} from 'path';
-import isString from 'lodash/isString';
 import Queue from 'p-queue';
 import memFs from 'mem-fs';
 import editor from 'mem-fs-editor';
@@ -54,7 +53,7 @@ export class Scaffolder {
         const self = this;
         const {copyIfExists, fs, queue, sourceDirectory, targetDirectory} = self;
         const source = join(sourceDirectory, path);
-        const target = join(process.cwd(), targetDirectory, ...(isString(filename) ? filename : path).split('/'));
+        const target = join(process.cwd(), targetDirectory, ...((typeof filename === 'string') ? filename : path).split('/'));
         const shouldCopy = !fs.exists(target) || copyIfExists;
         shouldCopy && queue.add(() => fs.copy(source, target)).catch(silent);
         return self;
