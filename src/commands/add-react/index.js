@@ -37,7 +37,7 @@ export const addReact = [
                 .target(`${assetsDirectory}/css`)
                 .copy('style.css')
                 .target(`${assetsDirectory}/images`)
-                .copy('.gitkeep')
+                .copy('react.png')
                 .target(`${assetsDirectory}/fonts`)
                 .copy('.gitkeep')
                 .target(`${assetsDirectory}/library`)

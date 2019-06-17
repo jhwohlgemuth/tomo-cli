@@ -104,4 +104,4 @@
  * await (new WebpackConfigEditor())
  *     .create()
  *     .commit();
- */exports.RollupConfigEditor=RollupConfigEditor;const WebpackConfigEditor=(0,_createModuleEditor.default)("webpack.config.js",{mode:`'development'`,entry:{app:`'./src/main.js'`},output:{path:`resolve('./dist')`,filename:`'bundle.min.js'`},module:{rules:[{test:`/\.js?$/`,exclude:`/node_modules/`,loader:`'babel-loader'`,query:{presets:[`'@babel/env'`]}}]},plugins:[`new DashboardPlugin()`]});exports.WebpackConfigEditor=WebpackConfigEditor;
+ */exports.RollupConfigEditor=RollupConfigEditor;const WebpackConfigEditor=(0,_createModuleEditor.default)("webpack.config.js",{mode:`'development'`,entry:{app:`'./src/main.js'`},output:{path:`resolve('./dist')`,filename:`'bundle.min.js'`},module:{rules:[{test:`/\.jsx?$/`,exclude:`/node_modules/`,loader:`'babel-loader'`,query:{presets:[`'@babel/env'`]}}]},plugins:[`new DashboardPlugin()`]});exports.WebpackConfigEditor=WebpackConfigEditor;

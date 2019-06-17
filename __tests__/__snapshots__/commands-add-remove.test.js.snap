@@ -637,12 +637,12 @@ exports[`"Add" commands add-makefile 2`] = `
                     name: images,
                     children: [
                         {
-                            name: .gitkeep,
-                            size: 0,
+                            name: blank_canvas.png,
+                            size: 88698,
                             type: file
                         }
                     ],
-                    size: 0,
+                    size: 88698,
                     type: directory
                 },
                 {
@@ -675,7 +675,7 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 1369,
+            size: 90067,
             type: directory
         },
         {
@@ -748,11 +748,11 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: webpack.config.js,
-            size: 1044,
+            size: 1045,
             type: file
         }
     ],
-    size: 15745,
+    size: 104444,
     type: directory
 }
 "
@@ -856,12 +856,12 @@ exports[`"Add" commands add-marionette 1`] = `
                     name: images,
                     children: [
                         {
-                            name: .gitkeep,
-                            size: 0,
+                            name: blank_canvas.png,
+                            size: 88698,
                             type: file
                         }
                     ],
-                    size: 0,
+                    size: 88698,
                     type: directory
                 },
                 {
@@ -894,7 +894,7 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 1369,
+            size: 90067,
             type: directory
         },
         {
@@ -951,7 +951,7 @@ exports[`"Add" commands add-marionette 1`] = `
             type: directory
         }
     ],
-    size: 9362,
+    size: 98060,
     type: directory
 }
 "
@@ -1185,11 +1185,11 @@ exports[`"Add" commands add-webpack (with React) 3`] = `
         },
         {
             name: webpack.config.js,
-            size: 1154,
+            size: 1155,
             type: file
         }
     ],
-    size: 3032,
+    size: 3033,
     type: directory
 }
 "
@@ -1214,7 +1214,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.js?$/,
+                test: /.jsx?$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query: {
@@ -1339,11 +1339,11 @@ exports[`"Add" commands add-webpack 3`] = `
         },
         {
             name: webpack.config.js,
-            size: 1040,
+            size: 1041,
             type: file
         }
     ],
-    size: 2918,
+    size: 2919,
     type: directory
 }
 "
@@ -1367,7 +1367,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.js?$/,
+                test: /.jsx?$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query: {
@@ -1713,11 +1713,11 @@ exports[`"Remove" commands remove webpack 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 1146,
+            size: 1147,
             type: file
         }
     ],
-    size: 1882,
+    size: 1883,
     type: directory
 }
 "

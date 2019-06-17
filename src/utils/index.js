@@ -253,7 +253,7 @@ export const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
     module: {
         rules: [
             {
-                test: `/\.js?$/`,
+                test: `/\.jsx?$/`,
                 exclude: `/node_modules/`,
                 loader: `'babel-loader'`,
                 query: {
