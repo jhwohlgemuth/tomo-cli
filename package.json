@@ -26,7 +26,7 @@
         "build:docs": "esdoc -c ./esdoc.conf.json",
         "test": "jest .*.test.js --coverage",
         "test:e2e": "jest .*.e2e.js",
-        "test:watch": "npm test -- --watchAll",
+        "test:ing": "npm test -- --watchAll",
         "open:coverage": "open-cli ./coverage/lcov-report/index.html",
         "open:docs": "open-cli ./docs/index.html",
         "lint": "eslint . -c ./.eslintrc.js --fix",
