@@ -19,6 +19,7 @@ const ESDOC_CONF = {
 };
 const ESDOC_DEPENDENCIES = [
     'esdoc',
+    'esdoc-jsx-plugin',
     'esdoc-ecmascript-proposal-plugin',
     'esdoc-standard-plugin'
 ];
@@ -41,11 +42,11 @@ export const addEsdoc = [
     },
     {
         text: 'Add documentation tasks to package.json',
-        task: async ({sourceDirectory}) => {
+        task: async () => {
             const scripts = {
                 'lint:docs': `eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint`,
                 predocs: 'npm run lint:docs',
-                docs: `esdoc ${sourceDirectory} -r --destination ./docs`,
+                docs: `esdoc -c esdoc.conf.json`,
                 postdocs: 'open-cli ./docs/index.html'
             };
             const pkg = new PackageJsonEditor();

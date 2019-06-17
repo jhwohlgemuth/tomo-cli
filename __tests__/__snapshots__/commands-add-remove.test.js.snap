@@ -259,11 +259,11 @@ exports[`"Add" commands add-esdoc 2`] = `
         },
         {
             name: package.json,
-            size: 428,
+            size: 419,
             type: file
         }
     ],
-    size: 714,
+    size: 705,
     type: directory
 }
 "
@@ -279,7 +279,7 @@ exports[`"Add" commands add-esdoc 3`] = `
     \\"scripts\\": {
         \\"lint:docs\\": \\"eslint . --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\\",
         \\"predocs\\": \\"npm run lint:docs\\",
-        \\"docs\\": \\"esdoc src -r --destination ./docs\\",
+        \\"docs\\": \\"esdoc -c esdoc.conf.json\\",
         \\"postdocs\\": \\"open-cli ./docs/index.html\\"
     }
 }
