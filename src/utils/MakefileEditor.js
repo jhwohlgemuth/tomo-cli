@@ -1,4 +1,4 @@
-import {complement, join, last, pipe, replace, split} from 'ramda';
+import {join, last, pipe, replace, split} from 'ramda';
 import {existsSync} from 'fs-extra';
 import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';
@@ -6,7 +6,6 @@ import {getBinDirectory, parse} from './common';
 
 const {assign, entries} = Object;
 const {isArray} = Array;
-const isNotArray = complement(isArray);
 const kebabCase = pipe(split(':'), join('-'));
 const silent = () => {};
 const isLocalNpmCommand = (command, path = process.cwd()) => {
@@ -74,21 +73,21 @@ export class MakefileEditor extends createModuleEditor('Makefile') {
         const replaceNpmRunQuotes = initial => {
             const re = /['"]npm run .[^"]*['"]/g;
             const matches = action.match(re);
-            return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `'make ${formatTaskName(match)}'`), initial);
+            return isArray(matches) ? matches.reduce((acc, match) => acc.replace(match, `'make ${formatTaskName(match)}'`), initial) : initial;
         };
         const replaceNpmWithArguments = initial => {
             const re = /npm .* -- --.*/g;
             const matches = action.match(re);
-            return isNotArray(matches) ? initial : matches.reduce((acc, match) => {
+            const getTaskName = pipe(split(' '), last);
+            return isArray(matches) ? matches.reduce((acc, match) => {
                 const [commands, options] = match.split(' -- ');
-                const task = last(commands.split(' '));
-                return acc.replace(match, `${scripts[task]} ${options}`);
-            }, initial);
+                return acc.replace(match, `${scripts[getTaskName(commands)]} ${options}`);
+            }, initial) : initial;
         };
         const replaceNpmRunCommands = initial => {
             const re = /^npm run .*/g;
             const matches = action.match(re);
-            return isNotArray(matches) ? initial : matches.reduce((acc, match) => acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial);
+            return isArray(matches) ? matches.reduce((acc, match) => acc.replace(match, `$(MAKE) ${formatTaskName(match)}`), initial) : initial;
         };
         const formatted = action
             |> replaceNpmRunQuotes
