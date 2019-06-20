@@ -43,6 +43,7 @@ export const tasks = [
                 .copy('style.css')
                 .target(`${assetsDirectory}/images`)
                 .copy('blank_canvas.png')
+                .copy('preferences.png')
                 .target(`${assetsDirectory}/fonts`)
                 .copy('.gitkeep')
                 .target(`${assetsDirectory}/library`)
