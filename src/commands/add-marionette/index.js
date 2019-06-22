@@ -23,7 +23,7 @@ export const tasks = [
         text: 'Copy Marionette.js boilerplate and assets',
         task: async ({assetsDirectory, overwrite, sourceDirectory, useParcel, usePika}) => {
             const index = (useParcel || usePika) ? 'index-in-place.html' : 'index.html';
-            const style = useParcel ? 'style-in-place.css' : 'style.css';
+            const fonts = useParcel ? 'fonts-in-place.css' : 'fonts.css';
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)
                 .target(sourceDirectory)
@@ -41,7 +41,8 @@ export const tasks = [
                 .target(`${assetsDirectory}`)
                 .copy(index, 'index.html')
                 .target(`${assetsDirectory}/css`)
-                .copy(style, 'style.css')
+                .copy('style.css')
+                .copy(fonts, 'fonts.css')
                 .target(`${assetsDirectory}/images`)
                 .copy('blank_canvas.png')
                 .copy('preferences.png')

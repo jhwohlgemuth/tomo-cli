@@ -613,12 +613,17 @@ exports[`"Add" commands add-makefile 2`] = `
                     name: css,
                     children: [
                         {
+                            name: fonts.css,
+                            size: 558,
+                            type: file
+                        },
+                        {
                             name: style.css,
-                            size: 1528,
+                            size: 1094,
                             type: file
                         }
                     ],
-                    size: 1528,
+                    size: 1652,
                     type: directory
                 },
                 {
@@ -700,7 +705,7 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 489733,
+            size: 489857,
             type: directory
         },
         {
@@ -715,7 +720,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: postcss.config.js,
-            size: 438,
+            size: 369,
             type: file
         },
         {
@@ -777,7 +782,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 504603,
+    size: 504658,
     type: directory
 }
 "
@@ -857,12 +862,17 @@ exports[`"Add" commands add-marionette 1`] = `
                     name: css,
                     children: [
                         {
+                            name: fonts.css,
+                            size: 558,
+                            type: file
+                        },
+                        {
                             name: style.css,
-                            size: 1528,
+                            size: 1094,
                             type: file
                         }
                     ],
-                    size: 1528,
+                    size: 1652,
                     type: directory
                 },
                 {
@@ -944,7 +954,7 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 489733,
+            size: 489857,
             type: directory
         },
         {
@@ -1001,7 +1011,7 @@ exports[`"Add" commands add-marionette 1`] = `
             type: directory
         }
     ],
-    size: 498290,
+    size: 498414,
     type: directory
 }
 "
@@ -1051,7 +1061,6 @@ exports[`"Add" commands add-postcss 1`] = `
         require('stylelint')({config: {extends: 'stylelint-config-recommended'}}),
         require('postcss-import')(),
         require('postcss-preset-env')({stage: 0}),
-        require('postcss-normalize')({browsers: 'last 2 versions'}),
         require('cssnano')(),
         require('postcss-reporter')({clearReportedMessages: true})
     ]
@@ -1653,11 +1662,11 @@ exports[`"Remove" commands remove postcss 2`] = `
         },
         {
             name: postcss.config.js,
-            size: 438,
+            size: 369,
             type: file
         }
     ],
-    size: 750,
+    size: 681,
     type: directory
 }
 "

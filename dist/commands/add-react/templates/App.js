@@ -1,19 +1,16 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment} from 'react';
 import {hot} from 'react-hot-loader';
 import PropTypes from 'prop-types';
-import Message from './Message';
+import Header from './Header';
+import Body from './Body';
+import Footer from './Footer';
 
-const App = ({name}) => {
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-        const counter = setInterval(() => setCount(count + 1), 1000);// eslint-disable-line no-magic-numbers
-        return () => clearInterval(counter);
-    });
-    return <Fragment>
-        <Message name={name}></Message>
-        <div>Count is: {count}</div>
-    </Fragment>;
-};
+const App = ({name}) => <Fragment>
+    <Header></Header>
+    <Body></Body>
+    <Footer name={name}></Footer>
+</Fragment>;
+
 App.propTypes = {
     name: PropTypes.string
 };

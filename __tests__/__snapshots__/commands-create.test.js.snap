@@ -38,12 +38,17 @@ exports[`"Create/New" commands create new app 1`] = `
                     name: css,
                     children: [
                         {
+                            name: fonts.css,
+                            size: 558,
+                            type: file
+                        },
+                        {
                             name: style.css,
-                            size: 1528,
+                            size: 1094,
                             type: file
                         }
                     ],
-                    size: 1528,
+                    size: 1652,
                     type: directory
                 },
                 {
@@ -125,7 +130,7 @@ exports[`"Create/New" commands create new app 1`] = `
                     type: directory
                 }
             ],
-            size: 489733,
+            size: 489857,
             type: directory
         },
         {
@@ -140,7 +145,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: postcss.config.js,
-            size: 438,
+            size: 369,
             type: file
         },
         {
@@ -202,7 +207,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 502743,
+    size: 502798,
     type: directory
 }
 "
@@ -343,12 +348,17 @@ exports[`"Create/New" commands create new react app 1`] = `
                     name: css,
                     children: [
                         {
+                            name: fonts.css,
+                            size: 558,
+                            type: file
+                        },
+                        {
                             name: style.css,
-                            size: 1528,
+                            size: 1094,
                             type: file
                         }
                     ],
-                    size: 1528,
+                    size: 1652,
                     type: directory
                 },
                 {
@@ -430,7 +440,7 @@ exports[`"Create/New" commands create new react app 1`] = `
                     type: directory
                 }
             ],
-            size: 529414,
+            size: 529538,
             type: directory
         },
         {
@@ -445,7 +455,7 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: postcss.config.js,
-            size: 438,
+            size: 369,
             type: file
         },
         {
@@ -456,16 +466,26 @@ exports[`"Create/New" commands create new react app 1`] = `
                     children: [
                         {
                             name: App.js,
-                            size: 621,
+                            size: 407,
                             type: file
                         },
                         {
-                            name: Message.js,
-                            size: 199,
+                            name: Body.js,
+                            size: 179,
+                            type: file
+                        },
+                        {
+                            name: Footer.js,
+                            size: 736,
+                            type: file
+                        },
+                        {
+                            name: Header.js,
+                            size: 417,
                             type: file
                         }
                     ],
-                    size: 820,
+                    size: 1739,
                     type: directory
                 },
                 {
@@ -474,7 +494,7 @@ exports[`"Create/New" commands create new react app 1`] = `
                     type: file
                 }
             ],
-            size: 1181,
+            size: 2100,
             type: directory
         },
         {
@@ -483,7 +503,7 @@ exports[`"Create/New" commands create new react app 1`] = `
             type: file
         }
     ],
-    size: 535409,
+    size: 536383,
     type: directory
 }
 "

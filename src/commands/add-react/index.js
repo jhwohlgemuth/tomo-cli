@@ -22,21 +22,24 @@ export const addReact = [
         text: 'Copy React boilerplate and assets',
         task: async ({assetsDirectory, sourceDirectory, overwrite, useParcel}) => {
             const index = useParcel ? 'index-in-place-react.html' : 'index-react.html';
-            const style = useParcel ? 'style-in-place.css' : 'style.css';
+            const fonts = useParcel ? 'fonts-in-place.css' : 'fonts.css';
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)
                 .target(sourceDirectory)
                 .copy('main.js')
                 .target(`${sourceDirectory}/components`)
                 .copy('App.js')
-                .copy('Message.js')
+                .copy('Header.js')
+                .copy('Body.js')
+                .copy('Footer.js')
                 .commit();
             await (new Scaffolder(join(__dirname, '..', 'common', 'templates')))
                 .overwrite(overwrite)
                 .target(`${assetsDirectory}`)
                 .copy(index, 'index.html')
                 .target(`${assetsDirectory}/css`)
-                .copy(style, 'style.css')
+                .copy('style.css')
+                .copy(fonts, 'fonts.css')
                 .target(`${assetsDirectory}/images`)
                 .copy('react.png')
                 .copy('preferences.png')
