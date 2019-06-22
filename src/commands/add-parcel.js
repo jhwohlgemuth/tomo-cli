@@ -7,7 +7,9 @@ import {
 import {allDoExist, allDoExistSync, allDoNotExist, someDoExist} from '../utils/common';
 
 const BUILD_DEPENDENCIES = [
-    'del-cli'
+    'cpy-cli',
+    'del-cli',
+    'npm-run-all'
 ];
 const PARCEL_DEPENDENCIES = [
     'parcel-bundler',
@@ -26,11 +28,16 @@ export const addParcel = [
             };
             const scripts = {
                 clean: `del-cli ${outputDirectory}`,
+                copy: 'npm-run-all --parallel copy:assets copy:index',
+                'copy:assets': `cpy '${assetsDirectory}/!(css)/**/*.*' '${assetsDirectory}/**/[.]*' ${outputDirectory} --parents --recursive`,
+                'copy:index': `cpy '${assetsDirectory}/index.html' ${outputDirectory}`,
+                'watch:assets': `watch 'npm run copy' ${assetsDirectory}`,
                 'prebuild:es': 'npm run clean',
                 'build:es': `parcel build --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
                 'prewatch:es': 'npm run clean',
                 'watch:es': `parcel watch --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
-                start: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --open`
+                serve: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --open`,
+                start: 'npm-run-all --parallel watch:assets serve'
             };
             await (new PackageJsonEditor())
                 .extend(useReact ? {alias} : {})
@@ -76,11 +83,16 @@ export const removeParcel = [
         task: async () => {
             const scripts = {
                 clean: undefined,
+                copy: undefined,
+                'copy:assets': undefined,
+                'copy:index': undefined,
+                'watch:assets': undefined,
                 dev: undefined,
                 'prebuild:es': undefined,
                 'build:es': undefined,
                 'prewatch:es': undefined,
                 'watch:es': undefined,
+                serve: undefined,
                 start: undefined
             };
             await (new PackageJsonEditor())

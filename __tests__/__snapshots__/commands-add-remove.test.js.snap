@@ -614,23 +614,43 @@ exports[`"Add" commands add-makefile 2`] = `
                     children: [
                         {
                             name: style.css,
-                            size: 238,
+                            size: 1207,
                             type: file
                         }
                     ],
-                    size: 238,
+                    size: 1207,
                     type: directory
                 },
                 {
                     name: fonts,
                     children: [
                         {
-                            name: .gitkeep,
-                            size: 0,
+                            name: SansForgetica-Regular.eot,
+                            size: 53094,
+                            type: file
+                        },
+                        {
+                            name: SansForgetica-Regular.svg,
+                            size: 167134,
+                            type: file
+                        },
+                        {
+                            name: SansForgetica-Regular.ttf,
+                            size: 52788,
+                            type: file
+                        },
+                        {
+                            name: SansForgetica-Regular.woff,
+                            size: 25732,
+                            type: file
+                        },
+                        {
+                            name: SansForgetica-Regular.woff2,
+                            size: 18112,
                             type: file
                         }
                     ],
-                    size: 0,
+                    size: 316860,
                     type: directory
                 },
                 {
@@ -680,7 +700,7 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 171446,
+            size: 489275,
             type: directory
         },
         {
@@ -695,7 +715,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: postcss.config.js,
-            size: 509,
+            size: 438,
             type: file
         },
         {
@@ -706,11 +726,11 @@ exports[`"Add" commands add-makefile 2`] = `
                     children: [
                         {
                             name: app.js,
-                            size: 1265,
+                            size: 1308,
                             type: file
                         }
                     ],
-                    size: 1265,
+                    size: 1308,
                     type: directory
                 },
                 {
@@ -748,7 +768,7 @@ exports[`"Add" commands add-makefile 2`] = `
                     type: directory
                 }
             ],
-            size: 7993,
+            size: 8036,
             type: directory
         },
         {
@@ -757,7 +777,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 185823,
+    size: 503624,
     type: directory
 }
 "
@@ -838,23 +858,43 @@ exports[`"Add" commands add-marionette 1`] = `
                     children: [
                         {
                             name: style.css,
-                            size: 238,
+                            size: 1207,
                             type: file
                         }
                     ],
-                    size: 238,
+                    size: 1207,
                     type: directory
                 },
                 {
                     name: fonts,
                     children: [
                         {
-                            name: .gitkeep,
-                            size: 0,
+                            name: SansForgetica-Regular.eot,
+                            size: 53094,
+                            type: file
+                        },
+                        {
+                            name: SansForgetica-Regular.svg,
+                            size: 167134,
+                            type: file
+                        },
+                        {
+                            name: SansForgetica-Regular.ttf,
+                            size: 52788,
+                            type: file
+                        },
+                        {
+                            name: SansForgetica-Regular.woff,
+                            size: 25732,
+                            type: file
+                        },
+                        {
+                            name: SansForgetica-Regular.woff2,
+                            size: 18112,
                             type: file
                         }
                     ],
-                    size: 0,
+                    size: 316860,
                     type: directory
                 },
                 {
@@ -904,7 +944,7 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 171446,
+            size: 489275,
             type: directory
         },
         {
@@ -915,11 +955,11 @@ exports[`"Add" commands add-marionette 1`] = `
                     children: [
                         {
                             name: app.js,
-                            size: 1265,
+                            size: 1308,
                             type: file
                         }
                     ],
-                    size: 1265,
+                    size: 1308,
                     type: directory
                 },
                 {
@@ -957,11 +997,11 @@ exports[`"Add" commands add-marionette 1`] = `
                     type: directory
                 }
             ],
-            size: 7993,
+            size: 8036,
             type: directory
         }
     ],
-    size: 179439,
+    size: 497311,
     type: directory
 }
 "
@@ -987,11 +1027,16 @@ exports[`"Add" commands add-parcel 2`] = `
         \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"clean\\": \\"del-cli ./dist\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"prebuild:es\\": \\"npm run clean\\",
         \\"build:es\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"prewatch:es\\": \\"npm run clean\\",
         \\"watch:es\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
-        \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\",
+        \\"serve\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\",
+        \\"start\\": \\"npm-run-all --parallel watch:assets serve\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }
@@ -1004,7 +1049,6 @@ exports[`"Add" commands add-postcss 1`] = `
     parser: require('postcss-safe-parser'),
     plugins: [
         require('stylelint')({config: {extends: 'stylelint-config-recommended'}}),
-        require('uncss').postcssPlugin({html: ['./dist/index.html']}),
         require('postcss-import')(),
         require('postcss-preset-env')({stage: 0}),
         require('postcss-normalize')({browsers: 'last 2 versions'}),
@@ -1519,11 +1563,16 @@ exports[`"Remove" commands remove parcel 1`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"clean\\": \\"del-cli ./dist\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"prebuild:es\\": \\"npm run clean\\",
         \\"build:es\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"prewatch:es\\": \\"npm run clean\\",
         \\"watch:es\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
-        \\"start\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\"
+        \\"serve\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\",
+        \\"start\\": \\"npm-run-all --parallel watch:assets serve\\"
     }
 }
 "
@@ -1535,7 +1584,7 @@ exports[`"Remove" commands remove parcel 2`] = `
     children: [
         {
             name: package.json,
-            size: 555,
+            size: 900,
             type: file
         },
         {
@@ -1544,7 +1593,7 @@ exports[`"Remove" commands remove parcel 2`] = `
             type: file
         }
     ],
-    size: 627,
+    size: 972,
     type: directory
 }
 "
@@ -1604,11 +1653,11 @@ exports[`"Remove" commands remove postcss 2`] = `
         },
         {
             name: postcss.config.js,
-            size: 509,
+            size: 438,
             type: file
         }
     ],
-    size: 821,
+    size: 750,
     type: directory
 }
 "

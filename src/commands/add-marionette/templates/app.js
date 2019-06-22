@@ -14,6 +14,10 @@ const Router = AppRouter.extend({
         hello: 'sayHello'
     }
 });
+const template = `
+<div><%= name %> is working!</div>
+<div>This is a <span>link</span></div>
+`;
 const App = Application.extend({
     region: 'body',
     onBeforeStart(app, options) {
@@ -33,7 +37,7 @@ const App = Application.extend({
             defaults: {name}
         });
         const ExampleView = View.extend({
-            template: '<div><%= name %> is functioning as desired!</div>',
+            template,
             model: new ExampleModel()
         });
         app.getRegion().show(new ExampleView());

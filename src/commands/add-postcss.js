@@ -15,8 +15,7 @@ const POSTCSS_DEPENDENCIES = [
     'postcss-import',
     'postcss-preset-env',
     'stylelint',
-    'stylelint-config-recommended',
-    'uncss'
+    'stylelint-config-recommended'
 ];
 /**
  * @type {task[]}
@@ -25,10 +24,9 @@ const POSTCSS_DEPENDENCIES = [
 export const addPostcss = [
     {
         text: 'Create PostCSS config file',
-        task: async ({outputDirectory, useParcel}) => {
+        task: async () => {
             const plugins = [
                 `require('stylelint')({config: {extends: 'stylelint-config-recommended'}})`,
-                ...(useParcel ? [] : [`require('uncss').postcssPlugin({html: ['${outputDirectory}/index.html']})`]),
                 `require('postcss-import')()`,
                 `require('postcss-preset-env')({stage: 0})`,
                 `require('postcss-normalize')({browsers: 'last 2 versions'})`,
