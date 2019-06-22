@@ -15,8 +15,22 @@ const Router = AppRouter.extend({
     }
 });
 const template = `
-<div><%= name %> is working!</div>
-<div>This is a <span>link</span></div>
+<section>
+    <img src="assets/images/blank_canvas.png"/>
+    <p>What happens next is up to you...</p>
+</section>
+<footer>
+    <p>
+        <%= name %> was created with <span class="heart">❤</span> using <a href="https://github.com/jhwohlgemuth/tomo-cli">tomo-cli</a>
+    </p>
+    <p>
+        Illustration created by <a href="https://twitter.com/ninalimpi">Katerina Limpitsouni</a>,
+        available at <a href="https://undraw.co/">unDraw</a>
+    </p>
+    <p>
+        Sans Forgetica font available for free from <a href="https://www.sansforgetica.rmit/">RMIT University</a>
+    </p>
+</footer>
 `;
 const App = Application.extend({
     region: 'body',

@@ -12,36 +12,52 @@
     font-style: normal;
 }
 body {
-    background-color: yellow;
+    background-color: white;
+    color: #777;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 2rem 0 4rem 0;
 }
 a {
-    color: rgb(0 0 100% / 90%);
-    &:hover {
-      color: rebeccapurple;
-    }
-}
-.foo {
-    &.bar {
-        color: #rrrr;
-    }
-}
-span {
     position: relative;
-    color: red;
+    color: #be2edd;
     cursor: pointer;
+    text-decoration: none;
 }
-span::before {
+a::before {
     content: '';
     position: absolute;
     left: 50%;
     bottom: 0;
     width: 100%;
-    height: 5px;
-    background-color: #fc2f70;
+    height: 2px;
+    background-color: #be2edd;
     transform-origin: center;
     transform: translate(-50%, 0) scaleX(0);
     transition: transform 0.3s ease-in-out;
 }
-span:hover::before {
+a:hover::before {
     transform: translate(-50%, 0) scaleX(1);
+}
+section {
+    font-family: 'Sans Forgetica', sans-serif;
+    font-size: 2rem;
+    text-align: center;
+    width: 100%;
+    & img {
+        width: 600px;
+    }
+}
+footer {
+    bottom: 0;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+.heart {
+    color: red;
+}
+.foo {
+    &.bar {
+        color: #rrrr;
+    }
 }
