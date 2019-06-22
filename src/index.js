@@ -1,8 +1,10 @@
 #!/usr/bin/env node
+import {join} from 'path';
 import React from 'react';
 import {cyan, dim} from 'chalk';
 import {render} from 'ink';
 import meow from 'meow';
+import read from 'read-pkg';
 import getStdin from 'get-stdin';
 import Tomo from './ui';
 // import updateNotifier from 'update-notifier';
@@ -10,21 +12,31 @@ import Tomo from './ui';
 // const pkg = require(`../package.json`);
 // updateNotifier({pkg}).notify();
 
+const showVersion = () => {
+    const cwd = join(__dirname, '..');
+    const {version} = read.sync({cwd});
+    console.log(version); // eslint-disable-line no-console
+    process.exit();
+};
 const help = `
-	${dim.bold('Usage')}
-		$ ${cyan('tomo [command] [term] [options]')}
+    ${dim.bold('Usage')}
 
-	${dim.bold('Options')}
+        ${cyan('>')} tomo version
 
+        ${cyan('>')} tomo [command] [terms] [options]
+
+    ${dim.bold('Options')}
+
+        --version,          -v  Print version
         --source-directory, -d  Directory for source code [Default: ./src]
         --output-directory, -o  Directory for build targets [Default: ./dist]
         --assets-directory, -a  Directory for assets [Default: ./assets]
         --use-rollup,           Use Rollup instead of Webpack [Default: false]
         --use-parcel,           Use Parcel instead of Webpack [Default: false]
-        --use-react, -r         Add React support to workflow [Default: false]
+        --use-react,        -r  Add React support to workflow [Default: false]
         --react-version         React version for ESLint configuration [Default: '16.8']
-        --ignore-warnings, -i   Ignore warning messages [Default: false]
-        --skip-install, -s      Skip npm installations [Default: false]
+        --ignore-warnings,  -i  Ignore warning messages [Default: false]
+        --skip-install,     -s  Skip npm installations [Default: false]
         --overwrite             Copy files, even if they alrady exist [Default: false]
         --browser               Indicate tasks are intended for the browser [Default: false]
         --debug                 Show debug data [Default: false]	
@@ -32,6 +44,11 @@ const help = `
 const options = {
     help,
     flags: {
+        version: {
+            type: 'boolean',
+            default: false,
+            alias: 'v'
+        },
         sourceDirectory: {
             type: 'string',
             default: './src',
@@ -88,8 +105,8 @@ const options = {
         }
     }
 };
-const cli = meow(options);
-const {input, flags} = cli;
+const {input, flags} = meow(options);
+(input[0] === 'version' || flags.version) && showVersion();
 (async () => {
     const stdin = await getStdin();
     render(<Tomo input={input} flags={flags} stdin={stdin}/>, {exitOnCtrlC: true});
