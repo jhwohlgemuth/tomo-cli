@@ -9,19 +9,16 @@ import {createPackageJson} from '../src/commands/common';
 import commands from '../src/commands';
 import {addA11y, removeA11y} from '../src/commands/add-a11y';
 import addBabel from '../src/commands/add-babel';
-import {addBrowsersync, removeBrowsersync} from '../src/commands/add-browsersync';
 import addElectron from '../src/commands/add-electron';
 import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
 import addJest from '../src/commands/add-jest';
 import addMakefile from '../src/commands/add-makefile';
 import {addParcel, removeParcel} from '../src/commands/add-parcel';
-import {addPostcss} from '../src/commands/add-postcss';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
 import {addReason} from '../src/commands/add-reason';
 import {addRollup, removeRollup} from '../src/commands/add-rollup';
-import {addWebpack} from '../src/commands/add-webpack';
 
 jest.mock('is-online', () => (async () => true));
 
@@ -65,22 +62,6 @@ describe('"Add" commands', () => {
         expect(tree).toMatchSnapshot();
         const contents = fileContents('./babel.config.js');
         expect(contents).toMatchSnapshot();
-    });
-    test('add-browsersync', async () => {
-        const sourceDirectory = 'src';
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
-        await run(createPackageJson, {});
-        const pre = fileContents('package.json');
-        await run(addBrowsersync, options);
-        const noop = fileContents('package.json');
-        await run(addWebpack, options);
-        await run(addPostcss, options);
-        await run(addBrowsersync, options);
-        const post = fileContents('package.json');
-        expect(pre).toMatchSnapshot();
-        expect(noop).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
     });
     test('add-electron', async () => {
         const options = {skipInstall};
@@ -275,20 +256,6 @@ describe('"Remove" commands', () => {
         await run(addA11y, options);
         const pre = fileContents('package.json');
         await run(removeA11y, {});
-        const post = fileContents('package.json');
-        expect(pre).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
-    });
-    test('remove browsersync', async () => {
-        const sourceDirectory = 'src';
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
-        await run(createPackageJson, {});
-        await run(addWebpack, options);
-        await run(addPostcss, options);
-        await run(addBrowsersync, options);
-        const pre = fileContents('package.json');
-        await run(removeBrowsersync, {});
         const post = fileContents('package.json');
         expect(pre).toMatchSnapshot();
         expect(post).toMatchSnapshot();

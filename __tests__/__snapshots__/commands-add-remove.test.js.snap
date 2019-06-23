@@ -78,55 +78,6 @@ exports[`"Add" commands add-babel 2`] = `
 };"
 `;
 
-exports[`"Add" commands add-browsersync 1`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": []
-}
-"
-`;
-
-exports[`"Add" commands add-browsersync 2`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": []
-}
-"
-`;
-
-exports[`"Add" commands add-browsersync 3`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild:es\\": \\"del-cli dist/assets\\",
-        \\"build:es\\": \\"webpack\\",
-        \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
-        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"watch:css\\": \\"npm run build:css -- --watch\\",
-        \\"prestart\\": \\"npm run build:es\\",
-        \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
-        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist --port 4669\\"
-    }
-}
-"
-`;
-
 exports[`"Add" commands add-electron --use-parcel 1`] = `
 "{
     \\"name\\": \\"tomo-native-app\\",
@@ -1175,57 +1126,6 @@ exports[`"Remove" commands remove a11y 2`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {}
-}
-"
-`;
-
-exports[`"Remove" commands remove browsersync 1`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild:es\\": \\"del-cli dist/assets\\",
-        \\"build:es\\": \\"webpack\\",
-        \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
-        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"watch:css\\": \\"npm run build:css -- --watch\\",
-        \\"prestart\\": \\"npm run build:es\\",
-        \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
-        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist --port 4669\\"
-    }
-}
-"
-`;
-
-exports[`"Remove" commands remove browsersync 2`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild:es\\": \\"del-cli dist/assets\\",
-        \\"build:es\\": \\"webpack\\",
-        \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
-        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"watch:css\\": \\"npm run build:css -- --watch\\"
-    }
 }
 "
 `;
