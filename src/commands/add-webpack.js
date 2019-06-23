@@ -28,7 +28,7 @@ const WEBPACK_DEPENDENCIES = [
 export const addWebpack = [
     {
         text: 'Create Webpack configuration file',
-        task: async ({outputDirectory, sourceDirectory, useReact}) => {
+        task: async ({outputDirectory, port, sourceDirectory, useReact}) => {
             const entryWithReact = [
                 `'react-hot-loader/patch'`,
                 `'${sourceDirectory}/main.js'`
@@ -45,6 +45,7 @@ export const addWebpack = [
                 extensions: `[${useReact ? `'.js', '.jsx'` : `'.js'`}]`
             };
             const devServer = {
+                port,
                 contentBase: `'${outputDirectory}'`,
                 compress: true,
                 watchContentBase: true

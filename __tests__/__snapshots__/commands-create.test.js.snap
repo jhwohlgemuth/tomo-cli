@@ -140,7 +140,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: package.json,
-            size: 1732,
+            size: 1744,
             type: file
         },
         {
@@ -203,11 +203,11 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 1041,
+            size: 1061,
             type: file
         }
     ],
-    size: 502798,
+    size: 502830,
     type: directory
 }
 "
@@ -240,7 +240,7 @@ exports[`"Create/New" commands create new app 2`] = `
         \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\",
         \\"prestart\\": \\"npm run build:es\\",
         \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
-        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
+        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist --port 4669\\"
     },
     \\"jest\\": {
         \\"testMatch\\": [
@@ -499,11 +499,11 @@ exports[`"Create/New" commands create new react app 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 1155,
+            size: 1175,
             type: file
         }
     ],
-    size: 536383,
+    size: 536403,
     type: directory
 }
 "

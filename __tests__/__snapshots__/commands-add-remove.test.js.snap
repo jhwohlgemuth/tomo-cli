@@ -121,7 +121,7 @@ exports[`"Add" commands add-browsersync 3`] = `
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"prestart\\": \\"npm run build:es\\",
         \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
-        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
+        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist --port 4669\\"
     }
 }
 "
@@ -586,7 +586,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: Makefile,
-            size: 1507,
+            size: 1519,
             type: file
         },
         {
@@ -715,7 +715,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: package.json,
-            size: 1738,
+            size: 1750,
             type: file
         },
         {
@@ -778,11 +778,11 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: webpack.config.js,
-            size: 1045,
+            size: 1065,
             type: file
         }
     ],
-    size: 504658,
+    size: 504702,
     type: directory
 }
 "
@@ -845,7 +845,7 @@ start: ## Task description
 	npm-run-all --parallel watch:es watch:css serve
 
 serve: ## Task description
-	browser-sync start --server ./dist --files ./dist
+	browser-sync start --server ./dist --files ./dist --port 4669
 
 help: ## Show this help
 	@fgrep -h \\"##\\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'"
@@ -1044,8 +1044,8 @@ exports[`"Add" commands add-parcel 2`] = `
         \\"prebuild:es\\": \\"npm run clean\\",
         \\"build:es\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"prewatch:es\\": \\"npm run clean\\",
-        \\"watch:es\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
-        \\"serve\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\",
+        \\"watch:es\\": \\"npm run build:es\\",
+        \\"serve\\": \\"parcel ./assets/index.html --out-dir ./dist --port 4669 --open\\",
         \\"start\\": \\"npm-run-all --parallel watch:assets serve\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
@@ -1248,11 +1248,11 @@ exports[`"Add" commands add-webpack (with React) 3`] = `
         },
         {
             name: webpack.config.js,
-            size: 1155,
+            size: 1175,
             type: file
         }
     ],
-    size: 3033,
+    size: 3053,
     type: directory
 }
 "
@@ -1292,6 +1292,7 @@ module.exports = {
         new DashboardPlugin()
     ],
     devServer: {
+        port: 4669,
         contentBase: './dist',
         compress: true,
         watchContentBase: true
@@ -1402,11 +1403,11 @@ exports[`"Add" commands add-webpack 3`] = `
         },
         {
             name: webpack.config.js,
-            size: 1041,
+            size: 1061,
             type: file
         }
     ],
-    size: 2919,
+    size: 2939,
     type: directory
 }
 "
@@ -1445,6 +1446,7 @@ module.exports = {
         new DashboardPlugin()
     ],
     devServer: {
+        port: 4669,
         contentBase: './dist',
         compress: true,
         watchContentBase: true
@@ -1533,7 +1535,7 @@ exports[`"Remove" commands remove browsersync 1`] = `
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"prestart\\": \\"npm run build:es\\",
         \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
-        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist\\"
+        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist --port 4669\\"
     }
 }
 "
@@ -1579,8 +1581,8 @@ exports[`"Remove" commands remove parcel 1`] = `
         \\"prebuild:es\\": \\"npm run clean\\",
         \\"build:es\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
         \\"prewatch:es\\": \\"npm run clean\\",
-        \\"watch:es\\": \\"parcel watch --out-dir ./dist --public-url ./ ./assets/index.html\\",
-        \\"serve\\": \\"parcel ./assets/index.html --out-dir ./dist --open\\",
+        \\"watch:es\\": \\"npm run build:es\\",
+        \\"serve\\": \\"parcel ./assets/index.html --out-dir ./dist --port 4669 --open\\",
         \\"start\\": \\"npm-run-all --parallel watch:assets serve\\"
     }
 }
@@ -1593,7 +1595,7 @@ exports[`"Remove" commands remove parcel 2`] = `
     children: [
         {
             name: package.json,
-            size: 900,
+            size: 863,
             type: file
         },
         {
@@ -1602,7 +1604,7 @@ exports[`"Remove" commands remove parcel 2`] = `
             type: file
         }
     ],
-    size: 972,
+    size: 935,
     type: directory
 }
 "
@@ -1781,11 +1783,11 @@ exports[`"Remove" commands remove webpack 1`] = `
         },
         {
             name: webpack.config.js,
-            size: 1147,
+            size: 1167,
             type: file
         }
     ],
-    size: 1883,
+    size: 1903,
     type: directory
 }
 "

@@ -22,7 +22,7 @@ const PARCEL_DEPENDENCIES = [
 export const addParcel = [
     {
         text: 'Add Parcel build tasks to package.json',
-        task: async ({assetsDirectory, outputDirectory, useReact}) => {
+        task: async ({assetsDirectory, outputDirectory, port, useReact}) => {
             const alias = {
                 'react-dom': '@hot-loader/react-dom'
             };
@@ -35,8 +35,8 @@ export const addParcel = [
                 'prebuild:es': 'npm run clean',
                 'build:es': `parcel build --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
                 'prewatch:es': 'npm run clean',
-                'watch:es': `parcel watch --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
-                serve: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --open`,
+                'watch:es': `npm run build:es`,
+                serve: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --port ${port} --open`,
                 start: 'npm-run-all --parallel watch:assets serve'
             };
             await (new PackageJsonEditor())
