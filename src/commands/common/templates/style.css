@@ -29,11 +29,11 @@ a:hover::before {
 }
 header {
     margin: 1rem;
-    & p:first-child {
-        font-weight: bold;
-    }
     & > p {
         margin: 0;
+    }
+    & p:first-child {
+        font-weight: bold;
     }
 }
 section {
