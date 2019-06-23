@@ -1,7 +1,7 @@
 import {fileContents, getDirectoryTree, run, useTemporaryDirectory} from './tomo-test';
 import {createPackageJson} from '../src/commands/common';
-import {addCypress, removeCypress} from '../src/commands/add-cypress';
 import addEslint from '../src/commands/add-eslint';
+import {addCypress, removeCypress} from '../src/commands/add-cypress';
 
 jest.mock('is-online', () => (async () => true));
 

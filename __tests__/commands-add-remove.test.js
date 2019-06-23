@@ -21,7 +21,7 @@ import {addPostcss, removePostcss} from '../src/commands/add-postcss';
 import addMarionette from '../src/commands/add-marionette';
 import {addReason} from '../src/commands/add-reason';
 import {addRollup, removeRollup} from '../src/commands/add-rollup';
-import {addWebpack, removeWebpack} from '../src/commands/add-webpack';
+import {addWebpack} from '../src/commands/add-webpack';
 
 jest.mock('is-online', () => (async () => true));
 
@@ -234,46 +234,6 @@ describe('"Add" commands', () => {
         expect(pkg).toMatchSnapshot();
         expect(contents).toMatchSnapshot();
     });
-    test('add-webpack', async () => {
-        const outputDirectory = './dist';
-        const sourceDirectory = 'src';
-        const useReact = false;
-        const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
-        await run(createPackageJson, {});
-        const pre = fileContents('./package.json');
-        expect(pre).toMatchSnapshot();
-        await run(addBabel, options);
-        await run(addEslint, options);
-        await run(addWebpack, options);
-        const cfg = fileContents('.eslintrc.js');
-        const tree = getDirectoryTree(tempDirectory);
-        const contents = fileContents('./webpack.config.js');
-        const post = fileContents('./package.json');
-        expect(cfg).toMatchSnapshot();
-        expect(tree).toMatchSnapshot();
-        expect(contents).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
-    });
-    test('add-webpack (with React)', async () => {
-        const outputDirectory = './dist';
-        const sourceDirectory = 'src';
-        const useReact = true;
-        const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
-        await run(createPackageJson, {});
-        const pre = fileContents('./package.json');
-        expect(pre).toMatchSnapshot();
-        await run(addBabel, options);
-        await run(addEslint, options);
-        await run(addWebpack, options);
-        const cfg = fileContents('.eslintrc.js');
-        const tree = getDirectoryTree(tempDirectory);
-        const contents = fileContents('./webpack.config.js');
-        const post = fileContents('./package.json');
-        expect(cfg).toMatchSnapshot();
-        expect(tree).toMatchSnapshot();
-        expect(contents).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
-    });
 });
 describe('Add Reason', () => {
     let tempDirectory;
@@ -388,21 +348,5 @@ describe('"Remove" commands', () => {
         expect(preTree).toMatchSnapshot();
         expect(post).toMatchSnapshot();
         expect(postTree).toMatchSnapshot();
-    });
-    test('remove webpack', async () => {
-        const sourceDirectory = 'src';
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
-        await run(createPackageJson, {});
-        await run(addWebpack, options);
-        const preTree = getDirectoryTree(tempDirectory);
-        const prePkg = fileContents('./package.json');
-        expect(preTree).toMatchSnapshot();
-        expect(prePkg).toMatchSnapshot();
-        await run(removeWebpack, {});
-        const postTree = getDirectoryTree(tempDirectory);
-        const postPkg = fileContents('./package.json');
-        expect(postTree).toMatchSnapshot();
-        expect(postPkg).toMatchSnapshot();
     });
 });

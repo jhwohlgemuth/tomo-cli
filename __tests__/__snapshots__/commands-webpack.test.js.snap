@@ -1,0 +1,268 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Webpack Add support (+React) 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: babel.config.js
+        },
+        {
+            name: package.json
+        },
+        {
+            name: webpack.config.js
+        }
+    ]
+}
+"
+`;
+
+exports[`Webpack Add support (+React) 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build:es\\": \\"webpack\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
+    }
+}
+"
+`;
+
+exports[`Webpack Add support (+React) 3`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade',
+        'plugin:react/recommended',
+        'plugin:jsx-a11y/recommended'
+    ],
+    parser: 'babel-eslint',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
+        }
+    },
+    plugins: [
+        'jsx-a11y'
+    ],
+    settings: {
+        react: {
+            version: 'undefined'
+        }
+    }
+};"
+`;
+
+exports[`Webpack Add support (+React) 4`] = `
+"/* eslint-env node */
+const {resolve} = require('path');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
+module.exports = {
+    mode: 'development',
+    entry: [
+        'react-hot-loader/patch',
+        './src/main.js'
+    ],
+    output: {
+        path: resolve('./dist'),
+        filename: 'bundle.min.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                query: {
+                    presets: [
+                        '@babel/env'
+                    ]
+                }
+            }
+        ]
+    },
+    plugins: [
+        new DashboardPlugin()
+    ],
+    devServer: {
+        port: 4669,
+        contentBase: './dist',
+        compress: true,
+        watchContentBase: true
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()]
+    },
+    resolve: {
+        modules: [resolve(__dirname, './src'), 'node_modules'],
+        extensions: ['.js', '.jsx'],
+        alias: {
+            'react-dom': '@hot-loader/react-dom'
+        }
+    }
+};"
+`;
+
+exports[`Webpack Add support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: babel.config.js
+        },
+        {
+            name: package.json
+        },
+        {
+            name: webpack.config.js
+        }
+    ]
+}
+"
+`;
+
+exports[`Webpack Add support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build:es\\": \\"webpack\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
+    }
+}
+"
+`;
+
+exports[`Webpack Add support 3`] = `
+"/* eslint-env node */
+const {resolve} = require('path');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
+module.exports = {
+    mode: 'development',
+    entry: {
+        app: './src/main.js'
+    },
+    output: {
+        path: resolve('./dist'),
+        filename: 'bundle.min.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                query: {
+                    presets: [
+                        '@babel/env'
+                    ]
+                }
+            }
+        ]
+    },
+    plugins: [
+        new DashboardPlugin()
+    ],
+    devServer: {
+        port: 4669,
+        contentBase: './dist',
+        compress: true,
+        watchContentBase: true
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()]
+    },
+    resolve: {
+        modules: [resolve(__dirname, './src'), 'node_modules'],
+        extensions: ['.js']
+    }
+};"
+`;
+
+exports[`Webpack Remove support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: babel.config.js
+        },
+        {
+            name: package.json
+        }
+    ]
+}
+"
+`;
+
+exports[`Webpack Remove support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\"
+    }
+}
+"
+`;
