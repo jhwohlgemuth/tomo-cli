@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cypress Add support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: cypress,
+            children: [
+                {
+                    name: integration,
+                    children: [
+                        {
+                            name: visual-regression.test.js
+                        }
+                    ]
+                },
+                {
+                    name: support,
+                    children: [
+                        {
+                            name: commands.js
+                        },
+                        {
+                            name: index.js
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: cypress.json
+        },
+        {
+            name: package.json
+        }
+    ]
+}
+"
+`;
+
+exports[`Cypress Add support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"cypress\\": \\"cypress open\\",
+        \\"test:e2e\\": \\"npm-run-all --parallel start cypress\\"
+    }
+}
+"
+`;
+
+exports[`Cypress Add support 3`] = `
+"{
+    \\"baseUrl\\": \\"http://localhost:4669\\"
+}
+"
+`;
+
+exports[`Cypress Add support 4`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint',
+    globals: {
+        cy: true
+    }
+};"
+`;
+
+exports[`Cypress Remove support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: cypress,
+            children: [
+                {
+                    name: integration,
+                    children: [
+                        {
+                            name: visual-regression.test.js
+                        }
+                    ]
+                },
+                {
+                    name: support,
+                    children: [
+                        {
+                            name: commands.js
+                        },
+                        {
+                            name: index.js
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: package.json
+        }
+    ]
+}
+"
+`;
+
+exports[`Cypress Remove support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\"
+    }
+}
+"
+`;
+
+exports[`Cypress Remove support 3`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint',
+    globals: {
+        cy: false
+    }
+};"
+`;

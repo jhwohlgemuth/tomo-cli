@@ -22,9 +22,9 @@ describe('populateQueue function', () => {
         const dispatch = jest.fn();
         const tasks = [
             {some: 'option'},
-            {condition, task, text: text + '1'},
-            {condition, task, text: text + '2'},
-            {condition, task, text: text + '3'}
+            {condition, task, text: `${text}1`},
+            {condition, task, text: `${text}2`},
+            {condition, task, text: `${text}3`}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
@@ -59,10 +59,10 @@ describe('populateQueue function', () => {
         const options = {foo: 'bar'};
         const dispatch = jest.fn();
         const tasks = [
-            {condition: async () => true, task, text: text + '1'},
-            {condition: async () => false, task, text: text + '2'},
-            {condition: async () => true, task, text: text + '3'},
-            {condition: async () => false, task, text: text + '4'}
+            {condition: async () => true, task, text: `${text}1`},
+            {condition: async () => false, task, text: `${text}2`},
+            {condition: async () => true, task, text: `${text}3`},
+            {condition: async () => false, task, text: `${text}4`}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
@@ -76,10 +76,10 @@ describe('populateQueue function', () => {
         const options = {foo: 'bar'};
         const dispatch = jest.fn();
         const tasks = [
-            {text: text + '1', condition: async () => true, task},
-            {text: text + '2', condition: async () => {throw new Error();}, task},
-            {text: text + '3', condition: async () => true, task},
-            {text: text + '4', condition: async () => false, task}
+            {text: `${text}1`, condition: async () => true, task},
+            {text: `${text}2`, condition: async () => {throw new Error();}, task},
+            {text: `${text}3`, condition: async () => true, task},
+            {text: `${text}4`, condition: async () => false, task}
         ];
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});

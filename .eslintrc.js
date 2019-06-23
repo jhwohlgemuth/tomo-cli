@@ -15,6 +15,9 @@ module.exports = {
         'omaha-prime-grade',
         'plugin:react/recommended'
     ],
+    globals: {
+        cy: true
+    },
     rules: {
         'compat/compat': 'off',
         'valid-jsdoc': 'off',

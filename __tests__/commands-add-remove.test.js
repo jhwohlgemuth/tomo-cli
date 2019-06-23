@@ -19,7 +19,7 @@ import {addParcel, removeParcel} from '../src/commands/add-parcel';
 import {addPostcss, removePostcss} from '../src/commands/add-postcss';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
-import {addReason, removeReason} from '../src/commands/add-reason';
+import {addReason} from '../src/commands/add-reason';
 import {addRollup, removeRollup} from '../src/commands/add-rollup';
 import {addWebpack, removeWebpack} from '../src/commands/add-webpack';
 
@@ -225,7 +225,7 @@ describe('"Add" commands', () => {
         const outputDirectory = './dist';
         const sourceDirectory = './src';
         const useReact = true;
-        const options = { outputDirectory, skipInstall, sourceDirectory, useReact};
+        const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
         await run(createPackageJson, {});
         await run(addEslint, options);
         await run(addRollup, options);

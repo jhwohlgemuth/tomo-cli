@@ -4,6 +4,7 @@ import {createPackageJson, createSourceDirectory} from './common';
 import {addA11y, removeA11y} from './add-a11y';
 import addBabel from './add-babel';
 import {addBrowsersync, removeBrowsersync} from './add-browsersync';
+import {addCypress, removeCypress} from './add-cypress';
 import addElectron from './add-electron';
 import addEsdoc from './add-esdoc';
 import addEslint from './add-eslint';
@@ -68,6 +69,7 @@ const add = {
     a11y: addA11y,
     babel: addBabel,
     browsersync: addBrowsersync,
+    cypress: addCypress,
     electron: addElectron,
     esdoc: addEsdoc,
     eslint: [
@@ -107,6 +109,7 @@ const add = {
 const remove = {
     a11y: removeA11y,
     browsersync: removeBrowsersync,
+    cypress: removeCypress,
     parcel: removeParcel,
     postcss: removePostcss,
     reason: removeReason,

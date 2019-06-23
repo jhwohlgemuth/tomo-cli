@@ -1,0 +1,1 @@
+"use strict";var _cypressMatchScreenshot=require("cypress-match-screenshot");(0,_cypressMatchScreenshot.register)();

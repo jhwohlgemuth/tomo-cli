@@ -1,6 +1,6 @@
 import {join} from 'path';
 import {PackageJsonEditor, install} from '../../utils';
-import {someDoExist} from '../../utils/common';
+import {allDoExist} from '../../utils/common';
 import {Scaffolder} from '../../utils/Scaffolder';
 
 const ALWAYS = () => true;
@@ -30,7 +30,7 @@ export const addJest = [
                 .extend({jest, scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Copy Jest boilerplate',
@@ -49,7 +49,7 @@ export const addJest = [
     {
         text: 'Install Jest dependencies',
         task: ({skipInstall}) => install(JEST_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     }
 ];
 export default addJest;

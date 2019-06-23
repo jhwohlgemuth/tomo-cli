@@ -39,6 +39,7 @@ const help = `
         --skip-install,     -s  Skip npm installations [Default: false]
         --overwrite             Copy files, even if they alrady exist [Default: false]
         --browser               Indicate tasks are intended for the browser [Default: false]
+        --port              -p  Configure port for workflow tasks that use it [Default: 4669]
         --debug                 Show debug data [Default: false]	
 `;
 const options = {
@@ -94,6 +95,11 @@ const options = {
         browser: {
             type: 'boolean',
             default: false
+        },
+        port: {
+            type: 'number',
+            default: 4669,
+            alias: 'p'
         },
         overwrite: {
             type: 'boolean',

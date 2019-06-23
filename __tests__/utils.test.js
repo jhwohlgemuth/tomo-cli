@@ -97,7 +97,7 @@ describe('.eslintrc.js mem-fs editor', () => {
         expect(await cfg.read()).toMatchSnapshot();
         await cfg.extend({key: {foo: `'foo'`}});
         expect(await cfg.read()).toMatchSnapshot();
-        await cfg.extend({ key: { bar: `'bar'` } });
+        await cfg.extend({key: {bar: `'bar'`}});
         expect(await cfg.read()).toMatchSnapshot();
     });
     test('delete', async () => {
