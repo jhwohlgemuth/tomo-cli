@@ -225,7 +225,7 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
     const {queue, tasks, dispatch, options} = data;
     const {skipInstall} = options;
     const isNotOffline = skipInstall || await isOnline();
-    const customOptions = assign(tasks.filter(complement(isValidTask)).reduce((acc, val) => ({...acc, ...val}), options), {isNotOffline});
+    const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) => assign(acc, val), options), {isNotOffline});
     dispatch({type: 'status', payload: {online: isNotOffline}});
     for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
         const {condition, task} = item;
