@@ -1053,35 +1053,6 @@ exports[`"Add" commands add-parcel 2`] = `
 "
 `;
 
-exports[`"Add" commands add-postcss 1`] = `
-"module.exports = {
-    map: true,
-    parser: require('postcss-safe-parser'),
-    plugins: [
-        require('stylelint')({config: {extends: 'stylelint-config-recommended'}}),
-        require('postcss-import')(),
-        require('postcss-preset-env')({stage: 0}),
-        require('cssnano')(),
-        require('postcss-reporter')({clearReportedMessages: true})
-    ]
-};"
-`;
-
-exports[`"Add" commands add-postcss 2`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"watch:css\\": \\"npm run build:css -- --watch\\"
-    }
-}
-"
-`;
-
 exports[`"Add" commands add-rollup (with React) 1`] = `
 "{
     \\"name\\": \\"my-project\\",
@@ -1317,70 +1288,6 @@ exports[`"Remove" commands remove parcel 3`] = `
 `;
 
 exports[`"Remove" commands remove parcel 4`] = `
-"{
-    name: tomo-test,
-    children: [
-        {
-            name: package.json,
-            size: 187,
-            type: file
-        }
-    ],
-    size: 187,
-    type: directory
-}
-"
-`;
-
-exports[`"Remove" commands remove postcss 1`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
-        \\"watch:css\\": \\"npm run build:css -- --watch\\"
-    }
-}
-"
-`;
-
-exports[`"Remove" commands remove postcss 2`] = `
-"{
-    name: tomo-test,
-    children: [
-        {
-            name: package.json,
-            size: 312,
-            type: file
-        },
-        {
-            name: postcss.config.js,
-            size: 369,
-            type: file
-        }
-    ],
-    size: 681,
-    type: directory
-}
-"
-`;
-
-exports[`"Remove" commands remove postcss 3`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {}
-}
-"
-`;
-
-exports[`"Remove" commands remove postcss 4`] = `
 "{
     name: tomo-test,
     children: [

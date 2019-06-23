@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostCSS Add support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json
+        },
+        {
+            name: postcss.config.js
+        }
+    ]
+}
+"
+`;
+
+exports[`PostCSS Add support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"watch:css\\": \\"npm run build:css -- --watch\\"
+    }
+}
+"
+`;
+
+exports[`PostCSS Add support 3`] = `
+"module.exports = {
+    map: true,
+    parser: require('postcss-safe-parser'),
+    plugins: [
+        require('stylelint')({config: {extends: 'stylelint-config-recommended'}}),
+        require('postcss-import')(),
+        require('postcss-preset-env')({stage: 0}),
+        require('cssnano')(),
+        require('postcss-reporter')({clearReportedMessages: true})
+    ]
+};"
+`;
+
+exports[`PostCSS Remove support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json
+        }
+    ]
+}
+"
+`;
+
+exports[`PostCSS Remove support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {}
+}
+"
+`;

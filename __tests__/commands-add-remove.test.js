@@ -16,7 +16,7 @@ import addEslint from '../src/commands/add-eslint';
 import addJest from '../src/commands/add-jest';
 import addMakefile from '../src/commands/add-makefile';
 import {addParcel, removeParcel} from '../src/commands/add-parcel';
-import {addPostcss, removePostcss} from '../src/commands/add-postcss';
+import {addPostcss} from '../src/commands/add-postcss';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
 import {addReason} from '../src/commands/add-reason';
@@ -199,16 +199,6 @@ describe('"Add" commands', () => {
         expect(contents).toMatchSnapshot();
         expect(pkg).toMatchSnapshot();
     });
-    test('add-postcss', async () => {
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall};
-        await run(createPackageJson, {});
-        await run(addPostcss, options);
-        const contents = fileContents('./postcss.config.js');
-        expect(contents).toMatchSnapshot();
-        const pkg = fileContents('./package.json');
-        expect(pkg).toMatchSnapshot();
-    });
     test('add-rollup', async () => {
         const outputDirectory = './dist';
         const sourceDirectory = './src';
@@ -311,21 +301,6 @@ describe('"Remove" commands', () => {
         const pre = fileContents('./package.json');
         const preTree = getDirectoryTree(tempDirectory);
         await run(removeParcel, {});
-        const post = fileContents('./package.json');
-        const postTree = getDirectoryTree(tempDirectory);
-        expect(pre).toMatchSnapshot();
-        expect(preTree).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
-        expect(postTree).toMatchSnapshot();
-    });
-    test('remove postcss', async () => {
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall};
-        await run(createPackageJson, {});
-        await run(addPostcss, options);
-        const pre = fileContents('./package.json');
-        const preTree = getDirectoryTree(tempDirectory);
-        await run(removePostcss, {});
         const post = fileContents('./package.json');
         const postTree = getDirectoryTree(tempDirectory);
         expect(pre).toMatchSnapshot();

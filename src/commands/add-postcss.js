@@ -4,7 +4,7 @@ import {
     install,
     uninstall
 } from '../utils';
-import {allDoNotExist, someDoExist} from '../utils/common';
+import {allDoExist, allDoNotExist} from '../utils/common';
 
 const POSTCSS_DEPENDENCIES = [
     'cssnano',
@@ -49,12 +49,12 @@ export const addPostcss = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Install PostCSS dependencies',
         task: ({skipInstall}) => install(POSTCSS_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     }
 ];
 export const removePostcss = [
@@ -65,7 +65,7 @@ export const removePostcss = [
                 .delete()
                 .commit();
         },
-        condition: () => someDoExist('postcss.config.js')
+        condition: () => allDoExist('postcss.config.js')
     },
     {
         text: 'Remove PostCSS build task from package.json',
@@ -78,12 +78,12 @@ export const removePostcss = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Uninstall PostCSS dependencies',
         task: () => uninstall(POSTCSS_DEPENDENCIES),
-        condition: ({skipInstall}) => !skipInstall && someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...POSTCSS_DEPENDENCIES),
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...POSTCSS_DEPENDENCIES),
         optional: ({skipInstall}) => !skipInstall
     }
 ];

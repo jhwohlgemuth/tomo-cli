@@ -5,7 +5,7 @@ import {
     install,
     uninstall
 } from '../utils';
-import {allDoExist, allDoExistSync, allDoNotExist, someDoExist} from '../utils/common';
+import {allDoExist, allDoExistSync, allDoNotExist} from '../utils/common';
 
 const BUILD_DEPENDENCIES = [
     'cpy-cli',
@@ -103,7 +103,7 @@ export const addWebpack = [
     {
         text: 'Install Webpack and development dependencies',
         task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     }
 ];
 export const removeWebpack = [
@@ -140,7 +140,7 @@ export const removeWebpack = [
     {
         text: 'Uninstall Webpack dependencies',
         task: () => uninstall([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES, 'stmux']),
-        condition: ({skipInstall}) => !skipInstall && someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_DEPENDENCIES),
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_DEPENDENCIES),
         optional: ({skipInstall}) => !skipInstall
     }
 ];
