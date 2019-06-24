@@ -5,7 +5,7 @@ import {
     install,
     uninstall
 } from '../utils';
-import {allDoExist, allDoExistSync, allDoNotExist, someDoExist} from '../utils/common';
+import {allDoExist, allDoExistSync, allDoNotExist} from '../utils/common';
 
 const BUILD_DEPENDENCIES = [
     'cpy-cli',
@@ -64,7 +64,7 @@ export const addRollup = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Install development dependencies and add dev task to package.json',
@@ -83,7 +83,7 @@ export const addRollup = [
     {
         text: 'Install Rollup dependencies',
         task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...ROLLUP_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     }
 ];
 export const removeRollup = [
@@ -94,7 +94,7 @@ export const removeRollup = [
                 .delete()
                 .commit();
         },
-        condition: () => someDoExist('rollup.config.js')
+        condition: () => allDoExist('rollup.config.js')
     },
     {
         text: 'Remove Rollup build tasks from package.json',
@@ -114,12 +114,12 @@ export const removeRollup = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Uninstall Rollup dependencies',
         task: () => uninstall([...BUILD_DEPENDENCIES, ...ROLLUP_DEPENDENCIES, 'stmux']),
-        condition: ({skipInstall}) => !skipInstall && someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...ROLLUP_DEPENDENCIES),
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...ROLLUP_DEPENDENCIES),
         optional: ({skipInstall}) => !skipInstall
     }
 ];

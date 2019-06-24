@@ -4,7 +4,7 @@ import {
     install,
     uninstall
 } from '../utils';
-import {allDoExist, allDoExistSync, allDoNotExist, someDoExist} from '../utils/common';
+import {allDoExist, allDoExistSync, allDoNotExist} from '../utils/common';
 
 const BUILD_DEPENDENCIES = [
     'cpy-cli',
@@ -44,7 +44,7 @@ export const addParcel = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Install development dependencies and add dev task to package.json',
@@ -74,7 +74,7 @@ export const addParcel = [
     {
         text: 'Install Parcel development dependencies',
         task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...PARCEL_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && someDoExist('package.json')
+        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     }
 ];
 export const removeParcel = [
@@ -99,7 +99,7 @@ export const removeParcel = [
                 .extend({scripts})
                 .commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     },
     {
         text: 'Delete PurgeCSS config file',
@@ -108,12 +108,12 @@ export const removeParcel = [
                 .delete()
                 .commit();
         },
-        condition: () => someDoExist('purgecss.config.js')
+        condition: () => allDoExist('purgecss.config.js')
     },
     {
         text: 'Uninstall Parcel dependencies',
         task: () => uninstall([...BUILD_DEPENDENCIES, ...PARCEL_DEPENDENCIES, 'stmux']),
-        condition: ({skipInstall}) => !skipInstall && someDoExist('package.json') && (new PackageJsonEditor()).hasAll(...PARCEL_DEPENDENCIES),
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...PARCEL_DEPENDENCIES),
         optional: ({skipInstall}) => !skipInstall
     }
 ];

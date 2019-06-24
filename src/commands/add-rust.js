@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import {arrowRight} from 'figures';
 import {PackageJsonEditor} from '../utils';
-import {someDoExist} from '../utils/common';
+import {allDoExist} from '../utils/common';
 /**
  * @type {task[]}
  * @see https://webpack.js.org/
@@ -17,7 +17,7 @@ export const rustTasks = [
             const pkg = new PackageJsonEditor();
             await pkg.extend({scripts}).commit();
         },
-        condition: () => someDoExist('package.json')
+        condition: () => allDoExist('package.json')
     }
 ];
 export default rustTasks;
