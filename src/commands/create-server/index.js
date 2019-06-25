@@ -91,8 +91,9 @@ export const tasks = [
     },
     {
         text: 'Configure .eslintrc.js for use with Node.js',
-        task: async () => {
+        task: async ({browser}) => {
             const env = {
+                browser,
                 node: true
             };
             await (new EslintConfigModuleEditor())

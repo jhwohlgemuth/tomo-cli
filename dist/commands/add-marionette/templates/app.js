@@ -5,35 +5,24 @@
 import * as Backbone from 'backbone';
 import {Application, View} from 'backbone.marionette';
 import AppRouter from 'marionette.approuter';
+import {html} from 'lit-html';
 import * as logging from '../plugins/mn.radio.logging';
 import state from '../plugins/mn.redux.state';
 import '../shims/mn.renderer.shim';
+import header from './header';
+import body from './body';
+import footer from './footer';
 
 const Router = AppRouter.extend({
     appRoutes: {
         hello: 'sayHello'
     }
 });
-const template = `
-<section>
-    <img src="assets/images/blank_canvas.png"/>
-    <p>What happens next is up to you...</p>
-</section>
-<footer>
-    <p>
-        <%= name %> was created with <span class="heart">❤</span> using <a href="https://github.com/jhwohlgemuth/tomo-cli">tomo-cli</a>
-    </p>
-    <p>
-        Illustration created by <a href="https://twitter.com/ninalimpi">Katerina Limpitsouni</a>,
-        available at <a href="https://undraw.co/">unDraw</a>
-    </p>
-    <p>
-        Sans Forgetica font available for free from <a href="https://www.sansforgetica.rmit/">RMIT University</a>
-    </p>
-</footer>
-`;
 const App = Application.extend({
-    region: 'body',
+    region: {
+        el: 'body',
+        replaceElement: true
+    },
     onBeforeStart(app, options) {
         const {name} = options;
         const controller = {
@@ -47,14 +36,19 @@ const App = Application.extend({
     },
     onStart(app, options) {
         const {name} = options;
-        const ExampleModel = Backbone.Model.extend({
+        const Model = Backbone.Model.extend({
             defaults: {name}
         });
-        const ExampleView = View.extend({
-            template,
-            model: new ExampleModel()
+        const MainView = View.extend({
+            tagName: 'body',
+            template: ({name}) => html`
+                ${header({name})}
+                ${body}
+                ${footer({name})}
+            `,
+            model: new Model()
         });
-        app.getRegion().show(new ExampleView());
+        app.getRegion().show(new MainView());
         app.info(`${name} is started!`);
     }
 });

@@ -45,7 +45,7 @@ const create = {
                 ...addElectron
             ],
             useReact: [
-                withOptions({useRollup: false}), // Rollup does not support HMR - it's just not worth using Rollup for a React app.
+                withOptions({browser: true, useRollup: false}), // Rollup does not support HMR - it's just not worth using Rollup for a React app.
                 ...addReact
             ]
         }),

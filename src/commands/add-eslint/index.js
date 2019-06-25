@@ -1,6 +1,7 @@
 import {join} from 'path';
+import merge from 'lodash/merge';
 import {EslintConfigModuleEditor, PackageJsonEditor, install} from '../../utils';
-import {allDoExist, allDoNotExist} from '../../utils/common';
+import {allDoExist, allDoNotExist, allDoNotExistSync} from '../../utils/common';
 import {Scaffolder} from '../../utils/Scaffolder';
 
 const ESLINT_DEPENDENCIES = [
@@ -12,6 +13,24 @@ const ESLINT_DEPENDENCIES = [
 const ESLINT_REACT_PLUGINS = [
     'eslint-plugin-react'
 ];
+const ESLINT_SETTINGS = {
+    extends: [
+        `'omaha-prime-grade'`
+    ]
+};
+const REACT_ESLINT_SETTINGS = merge({}, ESLINT_SETTINGS, {
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
+        }
+    },
+    plugins: [`'jsx-a11y'`],
+    extends: [
+        `'omaha-prime-grade'`,
+        `'plugin:react/recommended'`,
+        `'plugin:jsx-a11y/recommended'`
+    ]
+});
 /**
  * @type {task[]}
  * @see https://eslint.org/
@@ -19,13 +38,11 @@ const ESLINT_REACT_PLUGINS = [
 export const tasks = [
     {
         text: 'Create ESLint configuration and .eslintignore files',
-        task: async ({browser}) => {
-            const env = {browser};
+        task: async ({overwrite}) => {
             await (new EslintConfigModuleEditor())
                 .create()
-                .extend({env})
                 .commit();
-            await (new Scaffolder(join(__dirname, 'templates')))
+            (allDoNotExistSync('.eslintignore') || overwrite) && await (new Scaffolder(join(__dirname, 'templates')))
                 .copy('.eslintignore')
                 .commit();
         },
@@ -57,29 +74,31 @@ export const tasks = [
         optional: ({useReact}) => useReact
     },
     {
+        text: 'Add lit-html support to ESLint configuration file',
+        task: async ({browser, skipInstall}) => {
+            const env = {browser};
+            const plugins = [`'lit'`];
+            await install(['eslint-plugin-lit'], {dev: true, skipInstall});
+            await (new EslintConfigModuleEditor())
+                .extend(merge({}, ESLINT_SETTINGS, {env, plugins}))
+                .extend({extends: [`'plugin:lit/recommended'`]})
+                .commit();
+        },
+        condition: ({browser, isNotOffline, useReact}) => isNotOffline && browser && !useReact && allDoExist('package.json', '.eslintrc.js'),
+        optional: ({browser, useReact}) => browser && !useReact
+    },
+    {
         text: 'Add React support to ESLint configuration file',
-        task: async ({reactVersion, skipInstall}) => {
-            const REACT_BABEL_SETTINGS = {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                },
-                plugins: [`'jsx-a11y'`],
-                settings: {
-                    react: {
-                        version: `'${reactVersion}'`
-                    }
-                },
-                extends: [
-                    `'omaha-prime-grade'`,
-                    `'plugin:react/recommended'`,
-                    `'plugin:jsx-a11y/recommended'`
-                ]
+        task: async ({browser, reactVersion, skipInstall}) => {
+            const env = {browser};
+            const settings = {
+                react: {
+                    version: `'${reactVersion}'`
+                }
             };
             await install(['eslint-plugin-jsx-a11y'], {dev: true, skipInstall});
             await (new EslintConfigModuleEditor())
-                .extend(REACT_BABEL_SETTINGS)
+                .extend(merge({}, REACT_ESLINT_SETTINGS, {env, settings}))
                 .commit();
         },
         condition: ({useReact}) => useReact && allDoExist('.eslintrc.js'),

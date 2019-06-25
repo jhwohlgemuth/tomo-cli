@@ -11,7 +11,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 177,
+            size: 218,
             type: file
         },
         {
@@ -156,11 +156,26 @@ exports[`"Create/New" commands create new app 1`] = `
                     children: [
                         {
                             name: app.js,
-                            size: 1829,
+                            size: 1516,
+                            type: file
+                        },
+                        {
+                            name: body.js,
+                            size: 186,
+                            type: file
+                        },
+                        {
+                            name: footer.js,
+                            size: 657,
+                            type: file
+                        },
+                        {
+                            name: header.js,
+                            size: 117,
                             type: file
                         }
                     ],
-                    size: 1829,
+                    size: 2476,
                     type: directory
                 },
                 {
@@ -190,15 +205,15 @@ exports[`"Create/New" commands create new app 1`] = `
                     children: [
                         {
                             name: mn.renderer.shim.js,
-                            size: 510,
+                            size: 851,
                             type: file
                         }
                     ],
-                    size: 510,
+                    size: 851,
                     type: directory
                 }
             ],
-            size: 8557,
+            size: 9545,
             type: directory
         },
         {
@@ -207,7 +222,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 502830,
+    size: 503859,
     type: directory
 }
 "
@@ -267,9 +282,12 @@ exports[`"Create/New" commands create new app 3`] = `
         browser: true
     },
     extends: [
-        'omaha-prime-grade'
+        'plugin:lit/recommended'
     ],
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
+    plugins: [
+        'lit'
+    ]
 };"
 `;
 
@@ -566,14 +584,14 @@ exports[`"Create/New" commands create new react app 3`] = `
         'plugin:jsx-a11y/recommended'
     ],
     parser: 'babel-eslint',
+    plugins: [
+        'jsx-a11y'
+    ],
     parserOptions: {
         ecmaFeatures: {
             jsx: true
         }
     },
-    plugins: [
-        'jsx-a11y'
-    ],
     settings: {
         react: {
             version: '16.2'
@@ -753,14 +771,14 @@ exports[`"Create/New" commands create new server 3`] = `
         'plugin:jsx-a11y/recommended'
     ],
     parser: 'babel-eslint',
+    plugins: [
+        'jsx-a11y'
+    ],
     parserOptions: {
         ecmaFeatures: {
             jsx: true
         }
     },
-    plugins: [
-        'jsx-a11y'
-    ],
     settings: {
         react: {
             version: '16.2'

@@ -9,7 +9,7 @@ const MARIONETTE_DEPENDENCIES = [
     'backbone.marionette',
     'backbone.radio',
     'marionette.approuter',
-    'morphdom',
+    'lit-html',
     'lodash-es',
     'redux'
 ];
@@ -30,6 +30,9 @@ export const tasks = [
                 .copy('main.js')
                 .target(`${sourceDirectory}/components`)
                 .copy('app.js')
+                .copy('header.js')
+                .copy('body.js')
+                .copy('footer.js')
                 .target(`${sourceDirectory}/shims`)
                 .copy('mn.renderer.shim.js')
                 .target(`${sourceDirectory}/plugins`)

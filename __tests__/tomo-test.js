@@ -50,7 +50,7 @@ export const run = (tasks, options) => {
     return populateQueue({
         queue,
         dispatch,
-        tasks: tasks.flatMap(val => maybeApply(val, _options)),
+        tasks: tasks.flatMap(val => maybeApply(val, _options)).flatMap(val => maybeApply(val, _options)),
         options: _options
     });
 };

@@ -67,16 +67,18 @@ const options = {
         },
         useRollup: {
             type: 'boolean',
-            default: false
+            default: false,
+            alias: 'rollup'
         },
         useParcel: {
             type: 'boolean',
-            default: false
+            default: false,
+            alias: 'parcel'
         },
         useReact: {
             type: 'boolean',
             default: false,
-            alias: 'r'
+            alias: ['r', 'react']
         },
         reactVersion: {
             type: 'string',
@@ -94,7 +96,8 @@ const options = {
         },
         browser: {
             type: 'boolean',
-            default: false
+            default: false,
+            alias: 'b'
         },
         port: {
             type: 'number',
