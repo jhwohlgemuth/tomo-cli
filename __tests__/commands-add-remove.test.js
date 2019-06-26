@@ -18,7 +18,6 @@ import {addParcel, removeParcel} from '../src/commands/add-parcel';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
 import {addReason} from '../src/commands/add-reason';
-import {addRollup, removeRollup} from '../src/commands/add-rollup';
 
 jest.mock('is-online', () => (async () => true));
 
@@ -180,31 +179,6 @@ describe('"Add" commands', () => {
         expect(contents).toMatchSnapshot();
         expect(pkg).toMatchSnapshot();
     });
-    test('add-rollup', async () => {
-        const outputDirectory = './dist';
-        const sourceDirectory = './src';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
-        await run(createPackageJson, {});
-        await run(addEslint, options);
-        await run(addRollup, options);
-        const pkg = fileContents('package.json');
-        const contents = fileContents('rollup.config.js');
-        expect(pkg).toMatchSnapshot();
-        expect(contents).toMatchSnapshot();
-    });
-    test('add-rollup (with React)', async () => {
-        const outputDirectory = './dist';
-        const sourceDirectory = './src';
-        const useReact = true;
-        const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
-        await run(createPackageJson, {});
-        await run(addEslint, options);
-        await run(addRollup, options);
-        const pkg = fileContents('package.json');
-        const contents = fileContents('rollup.config.js');
-        expect(pkg).toMatchSnapshot();
-        expect(contents).toMatchSnapshot();
-    });
 });
 describe('Add Reason', () => {
     let tempDirectory;
@@ -230,12 +204,6 @@ describe('Add Reason', () => {
         expect(pkg).toMatchSnapshot();
         expect(cfg).toMatchSnapshot();
         expect(tree).toMatchSnapshot();
-    });
-    test('with Parcel.js', async () => {
-
-    });
-    test('with Rollup.js', async () => {
-
     });
 });
 describe('"Remove" commands', () => {
@@ -269,22 +237,6 @@ describe('"Remove" commands', () => {
         const preTree = getDirectoryTree(tempDirectory);
         await run(removeParcel, {});
         const post = fileContents('./package.json');
-        const postTree = getDirectoryTree(tempDirectory);
-        expect(pre).toMatchSnapshot();
-        expect(preTree).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
-        expect(postTree).toMatchSnapshot();
-    });
-    test('remove rollup', async () => {
-        const sourceDirectory = 'src';
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
-        await run(createPackageJson, {});
-        await run(addRollup, options);
-        const pre = fileContents('package.json');
-        const preTree = getDirectoryTree(tempDirectory);
-        await run(removeRollup, options);
-        const post = fileContents('package.json');
         const postTree = getDirectoryTree(tempDirectory);
         expect(pre).toMatchSnapshot();
         expect(preTree).toMatchSnapshot();

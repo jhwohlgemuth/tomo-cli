@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rollup Add support (+React) 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: package.json
+        },
+        {
+            name: rollup.config.js
+        }
+    ]
+}
+"
+`;
+
+exports[`Rollup Add support (+React) 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"build:es\\": \\"rollup -c\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
+    }
+}
+"
+`;
+
+exports[`Rollup Add support (+React) 3`] = `
+"/* eslint-disable max-len */
+import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-replace';
+import {terser} from 'rollup-plugin-terser';
+
+export default {
+    input: './src/main.js',
+    output: {
+        file: './dist/bundle.min.js',
+        format: 'iife',
+        sourceMap: 'inline'
+    },
+    plugins: [
+        babel({exclude: 'node_modules/**', runtimeHelpers: true}),
+        commonjs(),
+        resolve({browser: true}),
+        replace({'process.env.NODE_ENV': JSON.stringify('production')}),
+        terser()
+    ]
+};"
+`;
+
+exports[`Rollup Add support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: package.json
+        },
+        {
+            name: rollup.config.js
+        }
+    ]
+}
+"
+`;
+
+exports[`Rollup Add support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
+        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"build:es\\": \\"rollup -c\\",
+        \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
+    }
+}
+"
+`;
+
+exports[`Rollup Add support 3`] = `
+"/* eslint-disable max-len */
+import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-replace';
+import {terser} from 'rollup-plugin-terser';
+
+export default {
+    input: './src/main.js',
+    output: {
+        file: './dist/bundle.min.js',
+        format: 'iife',
+        sourceMap: 'inline'
+    },
+    plugins: [
+        babel({exclude: 'node_modules/**', runtimeHelpers: true}),
+        commonjs({namedExports: {'./node_modules/backbone/backbone.js': ['Model', 'history'],'./node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']}}),
+        resolve({browser: true}),
+        replace({'process.env.NODE_ENV': JSON.stringify('production')}),
+        terser()
+    ]
+};"
+`;
+
+exports[`Rollup Remove support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: package.json
+        }
+    ]
+}
+"
+`;
+
+exports[`Rollup Remove support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\"
+    }
+}
+"
+`;
