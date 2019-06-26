@@ -13,7 +13,6 @@ import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
 import addJest from '../src/commands/add-jest';
 import addMakefile from '../src/commands/add-makefile';
-import {addParcel, removeParcel} from '../src/commands/add-parcel';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
 import {addReason} from '../src/commands/add-reason';
@@ -158,18 +157,6 @@ describe('"Add" commands', () => {
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
     });
-    test('add-parcel', async () => {
-        const sourceDirectory = './src';
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
-        await run(createPackageJson, {});
-        await run(addEslint, options);
-        await run(addParcel, options);
-        const contents = fileContents('./purgecss.config.js');
-        const pkg = fileContents('./package.json');
-        expect(contents).toMatchSnapshot();
-        expect(pkg).toMatchSnapshot();
-    });
 });
 describe('Add Reason', () => {
     let tempDirectory;
@@ -195,32 +182,5 @@ describe('Add Reason', () => {
         expect(pkg).toMatchSnapshot();
         expect(cfg).toMatchSnapshot();
         expect(tree).toMatchSnapshot();
-    });
-});
-describe('"Remove" commands', () => {
-    let tempDirectory;
-    const skipInstall = true;
-    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
-    beforeEach(async () => {
-        tempDirectory = await setTempDir();
-        process.chdir(tempDirectory);
-    });
-    afterEach(async () => {
-        await cleanupTempDir();
-    });
-    test('remove parcel', async () => {
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall};
-        await run(createPackageJson, {});
-        await run(addParcel, options);
-        const pre = fileContents('./package.json');
-        const preTree = getDirectoryTree(tempDirectory);
-        await run(removeParcel, {});
-        const post = fileContents('./package.json');
-        const postTree = getDirectoryTree(tempDirectory);
-        expect(pre).toMatchSnapshot();
-        expect(preTree).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
-        expect(postTree).toMatchSnapshot();
     });
 });
