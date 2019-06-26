@@ -1,19 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`"Add" commands add-a11y 1`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"lint:aria\\": \\"pa11y ./dist/index.html\\"
-    }
-}
-"
-`;
-
 exports[`"Add" commands add-babel (with React) 1`] = `
 "{
     name: tomo-test,
@@ -1030,32 +1016,6 @@ exports[`"Add" commands add-parcel 2`] = `
         \\"start\\": \\"npm-run-all --parallel watch:assets serve\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
-}
-"
-`;
-
-exports[`"Remove" commands remove a11y 1`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {
-        \\"lint:aria\\": \\"pa11y ./dist/index.html\\"
-    }
-}
-"
-`;
-
-exports[`"Remove" commands remove a11y 2`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": [],
-    \\"scripts\\": {}
 }
 "
 `;

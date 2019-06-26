@@ -7,7 +7,6 @@ import {
 } from './tomo-test';
 import {createPackageJson} from '../src/commands/common';
 import commands from '../src/commands';
-import {addA11y, removeA11y} from '../src/commands/add-a11y';
 import addBabel from '../src/commands/add-babel';
 import addElectron from '../src/commands/add-electron';
 import addEsdoc from '../src/commands/add-esdoc';
@@ -33,14 +32,6 @@ describe('"Add" commands', () => {
     });
     afterEach(async () => {
         await cleanupTempDir();
-    });
-    test('add-a11y', async () => {
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall};
-        await run(createPackageJson, {});
-        await run(addA11y, options);
-        const pkg = fileContents('package.json');
-        expect(pkg).toMatchSnapshot();
     });
     test('add-babel', async () => {
         const sourceDirectory = 'src';
@@ -216,17 +207,6 @@ describe('"Remove" commands', () => {
     });
     afterEach(async () => {
         await cleanupTempDir();
-    });
-    test('remove a11y', async () => {
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall};
-        await run(createPackageJson, {});
-        await run(addA11y, options);
-        const pre = fileContents('package.json');
-        await run(removeA11y, {});
-        const post = fileContents('package.json');
-        expect(pre).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
     });
     test('remove parcel', async () => {
         const outputDirectory = './dist';
