@@ -7,6 +7,7 @@ import createJsonEditor from '../../utils/createJsonEditor';
 const ALWAYS = () => true;
 const CYPRESS_DEPENDENCIES = [
     'cypress',
+    'cypress-image-snapshot',
     'cypress-match-screenshot'
 ];
 /**
@@ -18,7 +19,8 @@ export const addCypress = [
         text: 'Create Cypress config file',
         task: async ({port}) => {
             const Editor = createJsonEditor('cypress.json', {
-                baseUrl: `http://localhost:${port}`
+                baseUrl: `http://localhost:${port}`,
+                video: false
             });
             await (new Editor())
                 .create()
@@ -30,8 +32,12 @@ export const addCypress = [
         text: 'Add Cypress test tasks to package.json',
         task: async () => {
             const scripts = {
-                cypress: 'cypress open',
-                'test:e2e': 'npm-run-all --parallel start cypress'
+                'cy:open': 'cypress open',
+                'cy:run': 'cypress run',
+                'cy:update': 'npm run cy:run -- --env updateSnapshots=true',
+                'test:visual': 'npm-run-all --parallel start cy:open',
+                'test:visual:update': 'del-cli ./cypress/snapshots',
+                'test:visual:ci': 'npm-run-all --parallel start cy:run'
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
@@ -54,6 +60,8 @@ export const addCypress = [
         task: async ({overwrite}) => {
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)
+                .target('cypress/plugins')
+                .copy('plugins/index.js', 'index.js')
                 .target('cypress/support')
                 .copy('support/index.js', 'index.js')
                 .copy('support/commands.js', 'commands.js')
@@ -65,7 +73,7 @@ export const addCypress = [
     },
     {
         text: 'Install Cypress dependencies',
-        task: ({skipInstall}) => install([...CYPRESS_DEPENDENCIES, 'npm-run-all'], {dev: true, skipInstall}),
+        task: ({skipInstall}) => install([...CYPRESS_DEPENDENCIES, 'npm-run-all', 'del-cli'], {dev: true, skipInstall}),
         condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
     }
 ];
@@ -84,8 +92,12 @@ export const removeCypress = [
         text: 'Remove Cypress test tasks from package.json',
         task: async () => {
             const scripts = {
-                cypress: undefined,
-                'test:e2e': undefined
+                'cy:open': undefined,
+                'cy:run': undefined,
+                'cy:update': undefined,
+                'test:visual': undefined,
+                'test:visual:update': undefined,
+                'test:visual:ci': undefined
             };
             await (new PackageJsonEditor())
                 .extend({scripts})

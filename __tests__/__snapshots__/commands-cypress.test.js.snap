@@ -22,6 +22,14 @@ exports[`Cypress Add support 1`] = `
                     ]
                 },
                 {
+                    name: plugins,
+                    children: [
+                        {
+                            name: index.js
+                        }
+                    ]
+                },
+                {
                     name: support,
                     children: [
                         {
@@ -56,8 +64,12 @@ exports[`Cypress Add support 2`] = `
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
-        \\"cypress\\": \\"cypress open\\",
-        \\"test:e2e\\": \\"npm-run-all --parallel start cypress\\"
+        \\"cy:open\\": \\"cypress open\\",
+        \\"cy:run\\": \\"cypress run\\",
+        \\"cy:update\\": \\"npm run cy:run -- --env updateSnapshots=true\\",
+        \\"test:visual\\": \\"npm-run-all --parallel start cy:open\\",
+        \\"test:visual:update\\": \\"del-cli ./cypress/snapshots\\",
+        \\"test:visual:ci\\": \\"npm-run-all --parallel start cy:run\\"
     }
 }
 "
@@ -65,7 +77,8 @@ exports[`Cypress Add support 2`] = `
 
 exports[`Cypress Add support 3`] = `
 "{
-    \\"baseUrl\\": \\"http://localhost:4669\\"
+    \\"baseUrl\\": \\"http://localhost:4669\\",
+    \\"video\\": false
 }
 "
 `;
@@ -104,6 +117,14 @@ exports[`Cypress Remove support 1`] = `
                     children: [
                         {
                             name: visual-regression.test.js
+                        }
+                    ]
+                },
+                {
+                    name: plugins,
+                    children: [
+                        {
+                            name: index.js
                         }
                     ]
                 },

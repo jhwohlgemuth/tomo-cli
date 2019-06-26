@@ -10,13 +10,13 @@
  * const app = new Application();
  * export default Object.assign(app, state);
  * @example <caption>Enhanced getState accepts path parameter</caption>
- * app.getState();// {name: 'omaha-project', count: 42}
+ * app.getState();// {count: 42}
  * app.getState('count');// 42
  * @example <caption>Update state with Redux API</caption>
  * app.getState('count');// 42
  * app.dispatch({type: 'INCREMENT'});
  * app.getState('count');// 43
-**/
+ */
 import {get, update} from 'lodash-es';
 import {applyMiddleware, compose, createStore} from 'redux';
 

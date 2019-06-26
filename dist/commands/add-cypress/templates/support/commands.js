@@ -1,1 +1,1 @@
-"use strict";var _cypressMatchScreenshot=require("cypress-match-screenshot");(0,_cypressMatchScreenshot.register)();
+"use strict";var _command=require("cypress-image-snapshot/command");(0,_command.addMatchImageSnapshotCommand)({failureThreshold:0,failureThresholdType:"percent",customDiffConfig:{threshold:0},capture:"viewport"});

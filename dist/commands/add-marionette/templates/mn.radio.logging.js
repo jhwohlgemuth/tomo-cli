@@ -40,7 +40,7 @@
  * import * as logging from './plugins/radio.logging';
  * const app = new Application();
  * export default Object.assign(app, logging);
-**/
+ */
 'use strict';
 
 import {zipObject, isNumber, isString} from 'lodash-es';

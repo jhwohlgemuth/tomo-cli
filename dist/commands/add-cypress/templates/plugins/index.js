@@ -1,0 +1,1 @@
+"use strict";const{addMatchImageSnapshotPlugin}=require("cypress-image-snapshot/plugin");module.exports=(a,b)=>{addMatchImageSnapshotPlugin(a,b)};
