@@ -1,35 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`"Create/New" commands create new app 1`] = `
+exports[`Create new app 1`] = `
 "{
     name: tomo-test,
     children: [
         {
-            name: .eslintignore,
-            size: 36,
-            type: file
+            name: .eslintignore
         },
         {
-            name: .eslintrc.js,
-            size: 247,
-            type: file
+            name: .eslintrc.js
         },
         {
             name: __tests__,
             children: [
                 {
-                    name: example.test.js,
-                    size: 337,
-                    type: file
+                    name: example.test.js
                 },
                 {
-                    name: setup.js,
-                    size: 370,
-                    type: file
+                    name: setup.js
                 }
-            ],
-            size: 707,
-            type: directory
+            ]
         },
         {
             name: assets,
@@ -38,115 +28,73 @@ exports[`"Create/New" commands create new app 1`] = `
                     name: css,
                     children: [
                         {
-                            name: fonts.css,
-                            size: 558,
-                            type: file
+                            name: fonts.css
                         },
                         {
-                            name: style.css,
-                            size: 1094,
-                            type: file
+                            name: style.css
                         }
-                    ],
-                    size: 1652,
-                    type: directory
+                    ]
                 },
                 {
                     name: fonts,
                     children: [
                         {
-                            name: SansForgetica-Regular.eot,
-                            size: 53094,
-                            type: file
+                            name: SansForgetica-Regular.eot
                         },
                         {
-                            name: SansForgetica-Regular.svg,
-                            size: 167134,
-                            type: file
+                            name: SansForgetica-Regular.svg
                         },
                         {
-                            name: SansForgetica-Regular.ttf,
-                            size: 52788,
-                            type: file
+                            name: SansForgetica-Regular.ttf
                         },
                         {
-                            name: SansForgetica-Regular.woff,
-                            size: 25732,
-                            type: file
+                            name: SansForgetica-Regular.woff
                         },
                         {
-                            name: SansForgetica-Regular.woff2,
-                            size: 18112,
-                            type: file
+                            name: SansForgetica-Regular.woff2
                         }
-                    ],
-                    size: 316860,
-                    type: directory
+                    ]
                 },
                 {
                     name: images,
                     children: [
                         {
-                            name: blank_canvas.png,
-                            size: 88698,
-                            type: file
+                            name: blank_canvas.png
                         },
                         {
-                            name: preferences.png,
-                            size: 81379,
-                            type: file
+                            name: preferences.png
                         }
-                    ],
-                    size: 170077,
-                    type: directory
+                    ]
                 },
                 {
-                    name: index.html,
-                    size: 1268,
-                    type: file
+                    name: index.html
                 },
                 {
                     name: library,
                     children: [
                         {
-                            name: .gitkeep,
-                            size: 0,
-                            type: file
+                            name: .gitkeep
                         }
-                    ],
-                    size: 0,
-                    type: directory
+                    ]
                 },
                 {
                     name: workers,
                     children: [
                         {
-                            name: .gitkeep,
-                            size: 0,
-                            type: file
+                            name: .gitkeep
                         }
-                    ],
-                    size: 0,
-                    type: directory
+                    ]
                 }
-            ],
-            size: 489857,
-            type: directory
+            ]
         },
         {
-            name: babel.config.js,
-            size: 322,
-            type: file
+            name: babel.config.js
         },
         {
-            name: package.json,
-            size: 1744,
-            type: file
+            name: package.json
         },
         {
-            name: postcss.config.js,
-            size: 369,
-            type: file
+            name: postcss.config.js
         },
         {
             name: src,
@@ -155,80 +103,52 @@ exports[`"Create/New" commands create new app 1`] = `
                     name: components,
                     children: [
                         {
-                            name: app.js,
-                            size: 1516,
-                            type: file
+                            name: app.js
                         },
                         {
-                            name: body.js,
-                            size: 186,
-                            type: file
+                            name: body.js
                         },
                         {
-                            name: footer.js,
-                            size: 657,
-                            type: file
+                            name: footer.js
                         },
                         {
-                            name: header.js,
-                            size: 117,
-                            type: file
+                            name: header.js
                         }
-                    ],
-                    size: 2476,
-                    type: directory
+                    ]
                 },
                 {
-                    name: main.js,
-                    size: 199,
-                    type: file
+                    name: main.js
                 },
                 {
                     name: plugins,
                     children: [
                         {
-                            name: mn.radio.logging.js,
-                            size: 3980,
-                            type: file
+                            name: mn.radio.logging.js
                         },
                         {
-                            name: mn.redux.state.js,
-                            size: 2016,
-                            type: file
+                            name: mn.redux.state.js
                         }
-                    ],
-                    size: 5996,
-                    type: directory
+                    ]
                 },
                 {
                     name: shims,
                     children: [
                         {
-                            name: mn.renderer.shim.js,
-                            size: 851,
-                            type: file
+                            name: mn.renderer.shim.js
                         }
-                    ],
-                    size: 851,
-                    type: directory
+                    ]
                 }
-            ],
-            size: 9522,
-            type: directory
+            ]
         },
         {
-            name: webpack.config.js,
-            size: 1061,
-            type: file
+            name: webpack.config.js
         }
-    ],
-    size: 503865,
-    type: directory
+    ]
 }
 "
 `;
 
-exports[`"Create/New" commands create new app 2`] = `
+exports[`Create new app 2`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -237,9 +157,9 @@ exports[`"Create/New" commands create new app 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"build:es\\": \\"webpack\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' src\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
@@ -269,12 +189,12 @@ exports[`"Create/New" commands create new app 2`] = `
             \\"jest-watch-typeahead/testname\\"
         ]
     },
-    \\"main\\": \\"src/main.js\\"
+    \\"main\\": \\"./src/main.js\\"
 }
 "
 `;
 
-exports[`"Create/New" commands create new app 3`] = `
+exports[`Create new app 3`] = `
 "module.exports = {
     env: {
         es6: true,
@@ -292,73 +212,51 @@ exports[`"Create/New" commands create new app 3`] = `
 };"
 `;
 
-exports[`"Create/New" commands create new project 1`] = `
+exports[`Create new project 1`] = `
 "{
     name: tomo-test,
     children: [
         {
-            name: .eslintignore,
-            size: 36,
-            type: file
+            name: .eslintignore
         },
         {
-            name: .eslintrc.js,
-            size: 154,
-            type: file
+            name: .eslintrc.js
         },
         {
-            name: babel.config.js,
-            size: 322,
-            type: file
+            name: babel.config.js
         },
         {
-            name: package.json,
-            size: 482,
-            type: file
+            name: package.json
         },
         {
             name: src,
-            children: [],
-            size: 0,
-            type: directory
+            children: []
         }
-    ],
-    size: 994,
-    type: directory
+    ]
 }
 "
 `;
 
-exports[`"Create/New" commands create new react app 1`] = `
+exports[`Create new react app 1`] = `
 "{
     name: tomo-test,
     children: [
         {
-            name: .eslintignore,
-            size: 36,
-            type: file
+            name: .eslintignore
         },
         {
-            name: .eslintrc.js,
-            size: 455,
-            type: file
+            name: .eslintrc.js
         },
         {
             name: __tests__,
             children: [
                 {
-                    name: example.test.js,
-                    size: 337,
-                    type: file
+                    name: example.test.js
                 },
                 {
-                    name: setup.js,
-                    size: 370,
-                    type: file
+                    name: setup.js
                 }
-            ],
-            size: 707,
-            type: directory
+            ]
         },
         {
             name: assets,
@@ -367,115 +265,73 @@ exports[`"Create/New" commands create new react app 1`] = `
                     name: css,
                     children: [
                         {
-                            name: fonts.css,
-                            size: 558,
-                            type: file
+                            name: fonts.css
                         },
                         {
-                            name: style.css,
-                            size: 1094,
-                            type: file
+                            name: style.css
                         }
-                    ],
-                    size: 1652,
-                    type: directory
+                    ]
                 },
                 {
                     name: fonts,
                     children: [
                         {
-                            name: SansForgetica-Regular.eot,
-                            size: 53094,
-                            type: file
+                            name: SansForgetica-Regular.eot
                         },
                         {
-                            name: SansForgetica-Regular.svg,
-                            size: 167134,
-                            type: file
+                            name: SansForgetica-Regular.svg
                         },
                         {
-                            name: SansForgetica-Regular.ttf,
-                            size: 52788,
-                            type: file
+                            name: SansForgetica-Regular.ttf
                         },
                         {
-                            name: SansForgetica-Regular.woff,
-                            size: 25732,
-                            type: file
+                            name: SansForgetica-Regular.woff
                         },
                         {
-                            name: SansForgetica-Regular.woff2,
-                            size: 18112,
-                            type: file
+                            name: SansForgetica-Regular.woff2
                         }
-                    ],
-                    size: 316860,
-                    type: directory
+                    ]
                 },
                 {
                     name: images,
                     children: [
                         {
-                            name: preferences.png,
-                            size: 81379,
-                            type: file
+                            name: preferences.png
                         },
                         {
-                            name: react.png,
-                            size: 128344,
-                            type: file
+                            name: react.png
                         }
-                    ],
-                    size: 209723,
-                    type: directory
+                    ]
                 },
                 {
-                    name: index.html,
-                    size: 1303,
-                    type: file
+                    name: index.html
                 },
                 {
                     name: library,
                     children: [
                         {
-                            name: .gitkeep,
-                            size: 0,
-                            type: file
+                            name: .gitkeep
                         }
-                    ],
-                    size: 0,
-                    type: directory
+                    ]
                 },
                 {
                     name: workers,
                     children: [
                         {
-                            name: .gitkeep,
-                            size: 0,
-                            type: file
+                            name: .gitkeep
                         }
-                    ],
-                    size: 0,
-                    type: directory
+                    ]
                 }
-            ],
-            size: 529538,
-            type: directory
+            ]
         },
         {
-            name: babel.config.js,
-            size: 387,
-            type: file
+            name: babel.config.js
         },
         {
-            name: package.json,
-            size: 1636,
-            type: file
+            name: package.json
         },
         {
-            name: postcss.config.js,
-            size: 369,
-            type: file
+            name: postcss.config.js
         },
         {
             name: src,
@@ -484,51 +340,33 @@ exports[`"Create/New" commands create new react app 1`] = `
                     name: components,
                     children: [
                         {
-                            name: App.js,
-                            size: 407,
-                            type: file
+                            name: App.js
                         },
                         {
-                            name: Body.js,
-                            size: 179,
-                            type: file
+                            name: Body.js
                         },
                         {
-                            name: Footer.js,
-                            size: 736,
-                            type: file
+                            name: Footer.js
                         },
                         {
-                            name: Header.js,
-                            size: 417,
-                            type: file
+                            name: Header.js
                         }
-                    ],
-                    size: 1739,
-                    type: directory
+                    ]
                 },
                 {
-                    name: main.js,
-                    size: 361,
-                    type: file
+                    name: main.js
                 }
-            ],
-            size: 2100,
-            type: directory
+            ]
         },
         {
-            name: webpack.config.js,
-            size: 1175,
-            type: file
+            name: webpack.config.js
         }
-    ],
-    size: 536403,
-    type: directory
+    ]
 }
 "
 `;
 
-exports[`"Create/New" commands create new react app 2`] = `
+exports[`Create new react app 2`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -539,7 +377,7 @@ exports[`"Create/New" commands create new react app 2`] = `
         \\"build:es\\": \\"webpack\\",
         \\"watch:es\\": \\"webpack-dev-server --hot --open --mode development\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
@@ -567,12 +405,12 @@ exports[`"Create/New" commands create new react app 2`] = `
             \\"jest-watch-typeahead/testname\\"
         ]
     },
-    \\"main\\": \\"src/main.js\\"
+    \\"main\\": \\"./src/main.js\\"
 }
 "
 `;
 
-exports[`"Create/New" commands create new react app 3`] = `
+exports[`Create new react app 3`] = `
 "module.exports = {
     env: {
         es6: true,
@@ -601,131 +439,87 @@ exports[`"Create/New" commands create new react app 3`] = `
 };"
 `;
 
-exports[`"Create/New" commands create new server 1`] = `
+exports[`Create new server 1`] = `
 "{
     name: tomo-test,
     children: [
         {
-            name: .env,
-            size: 0,
-            type: file
+            name: .env
         },
         {
-            name: .eslintignore,
-            size: 36,
-            type: file
+            name: .eslintignore
         },
         {
-            name: .eslintrc.js,
-            size: 476,
-            type: file
+            name: .eslintrc.js
         },
         {
-            name: .gitignore,
-            size: 18,
-            type: file
+            name: .gitignore
         },
         {
             name: __tests__,
             children: [
                 {
-                    name: example.test.js,
-                    size: 698,
-                    type: file
+                    name: example.test.js
                 }
-            ],
-            size: 698,
-            type: directory
+            ]
         },
         {
             name: config,
             children: [
                 {
-                    name: default.js,
-                    size: 857,
-                    type: file
+                    name: default.js
                 },
                 {
-                    name: test.js,
-                    size: 857,
-                    type: file
+                    name: test.js
                 }
-            ],
-            size: 1714,
-            type: directory
+            ]
         },
         {
-            name: favicon.ico,
-            size: 0,
-            type: file
+            name: favicon.ico
         },
         {
-            name: graphql.js,
-            size: 1630,
-            type: file
+            name: graphql.js
         },
         {
-            name: index.js,
-            size: 1434,
-            type: file
+            name: index.js
         },
         {
-            name: package.json,
-            size: 992,
-            type: file
+            name: package.json
         },
         {
             name: public,
             children: [
                 {
-                    name: example.md,
-                    size: 263,
-                    type: file
+                    name: example.md
                 },
                 {
-                    name: index.html,
-                    size: 191,
-                    type: file
+                    name: index.html
                 }
-            ],
-            size: 454,
-            type: directory
+            ]
         },
         {
-            name: server.js,
-            size: 2770,
-            type: file
+            name: server.js
         },
         {
-            name: socket.js,
-            size: 624,
-            type: file
+            name: socket.js
         },
         {
             name: ssl,
             children: [
                 {
-                    name: server.cert,
-                    size: 1241,
-                    type: file
+                    name: server.cert
                 },
                 {
-                    name: server.key,
-                    size: 1704,
-                    type: file
+                    name: server.key
                 }
-            ],
-            size: 2945,
-            type: directory
+            ]
         }
-    ],
-    size: 13791,
-    type: directory
+    ]
 }
 "
 `;
 
-exports[`"Create/New" commands create new server 2`] = `
+exports[`Create new server 2`] = `
 "{
     \\"name\\": \\"tomo-server\\",
     \\"version\\": \\"0.0.0\\",
@@ -758,7 +552,7 @@ exports[`"Create/New" commands create new server 2`] = `
 "
 `;
 
-exports[`"Create/New" commands create new server 3`] = `
+exports[`Create new server 3`] = `
 "module.exports = {
     env: {
         es6: true,
@@ -788,7 +582,7 @@ exports[`"Create/New" commands create new server 3`] = `
 };"
 `;
 
-exports[`"Create/New" commands create package.json 1`] = `
+exports[`Create package.json 1`] = `
 "{
     \\"name\\": \\"my-project\\",
     \\"version\\": \\"0.0.0\\",
@@ -799,19 +593,15 @@ exports[`"Create/New" commands create package.json 1`] = `
 "
 `;
 
-exports[`"Create/New" commands create source directory 1`] = `
+exports[`Create source directory 1`] = `
 "{
     name: tomo-test,
     children: [
         {
             name: some-random-folder-name,
-            children: [],
-            size: 0,
-            type: directory
+            children: []
         }
-    ],
-    size: 0,
-    type: directory
+    ]
 }
 "
 `;
