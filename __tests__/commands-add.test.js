@@ -5,7 +5,6 @@ import {
     useTemporaryDirectory
 } from './tomo-test';
 import {createPackageJson} from '../src/commands/common';
-import addEsdoc from '../src/commands/add-esdoc';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
 import {addReason} from '../src/commands/add-reason';
@@ -15,7 +14,6 @@ jest.mock('is-online', () => (async () => true));
 describe('"Add" commands', () => {
     let tempDirectory;
     const skipInstall = true;
-    const useReact = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
         tempDirectory = await setTempDir();
@@ -23,29 +21,6 @@ describe('"Add" commands', () => {
     });
     afterEach(async () => {
         await cleanupTempDir();
-    });
-    test('add-esdoc', async () => {
-        const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory};
-        await run(createPackageJson, {});
-        const pre = fileContents('./package.json');
-        expect(pre).toMatchSnapshot();
-        await run(addEsdoc, options);
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-        const post = fileContents('./package.json');
-        expect(post).toMatchSnapshot();
-        const contents = fileContents('./esdoc.conf.json');
-        expect(contents).toMatchSnapshot();
-    });
-    test('add-esdoc (with React)', async () => {
-        const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory, useReact};
-        await run(addEsdoc, options);
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-        const contents = fileContents('./esdoc.conf.json');
-        expect(contents).toMatchSnapshot();
     });
     test('add-marionette', async () => {
         const sourceDirectory = './src';
