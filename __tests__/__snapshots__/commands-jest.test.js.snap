@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Jest Add support (+Browser) 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js
+                },
+                {
+                    name: setup.js
+                }
+            ]
+        },
+        {
+            name: package.json
+        }
+    ]
+}
+"
+`;
+
+exports[`Jest Add support (+Browser) 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"jest\\": {
+        \\"testMatch\\": [
+            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ],
+        \\"setupFilesAfterEnv\\": [
+            \\"<rootDir>/__tests__/setup.js\\"
+        ],
+        \\"watchPlugins\\": [
+            \\"jest-watch-typeahead/filename\\",
+            \\"jest-watch-typeahead/testname\\"
+        ]
+    },
+    \\"scripts\\": {
+        \\"test\\": \\"jest .*.test.js --coverage\\",
+        \\"test:ing\\": \\"npm test -- --watchAll\\"
+    }
+}
+"
+`;
+
+exports[`Jest Add support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js
+                }
+            ]
+        },
+        {
+            name: package.json
+        }
+    ]
+}
+"
+`;
+
+exports[`Jest Add support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"jest\\": {
+        \\"testMatch\\": [
+            \\"**/__tests__/**/*.(e2e|test).[jt]s?(x)\\"
+        ],
+        \\"watchPlugins\\": [
+            \\"jest-watch-typeahead/filename\\",
+            \\"jest-watch-typeahead/testname\\"
+        ]
+    },
+    \\"scripts\\": {
+        \\"test\\": \\"jest .*.test.js --coverage\\",
+        \\"test:ing\\": \\"npm test -- --watchAll\\"
+    }
+}
+"
+`;

@@ -8,7 +8,6 @@ import {createPackageJson} from '../src/commands/common';
 import addElectron from '../src/commands/add-electron';
 import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
-import addJest from '../src/commands/add-jest';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
 import {addReason} from '../src/commands/add-reason';
@@ -84,32 +83,6 @@ describe('"Add" commands', () => {
         expect(tree).toMatchSnapshot();
         const contents = fileContents('./.eslintrc.js');
         expect(contents).toMatchSnapshot();
-    });
-    test('add-jest', async () => {
-        const options = {skipInstall};
-        await run(createPackageJson, {});
-        const pre = fileContents('./package.json');
-        const preTree = getDirectoryTree(tempDirectory);
-        await run(addJest, options);
-        const post = fileContents('./package.json');
-        const postTree = getDirectoryTree(tempDirectory);
-        expect(pre).toMatchSnapshot();
-        expect(preTree).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
-        expect(postTree).toMatchSnapshot();
-    });
-    test('add-jest --browser', async () => {
-        const options = {browser: true, skipInstall};
-        await run(createPackageJson, {});
-        const pre = fileContents('./package.json');
-        const preTree = getDirectoryTree(tempDirectory);
-        await run(addJest, options);
-        const post = fileContents('./package.json');
-        const postTree = getDirectoryTree(tempDirectory);
-        expect(pre).toMatchSnapshot();
-        expect(preTree).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
-        expect(postTree).toMatchSnapshot();
     });
     test('add-marionette', async () => {
         const sourceDirectory = './src';
