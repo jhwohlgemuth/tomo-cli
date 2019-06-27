@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Makefile Add support (create empty Makefile) 1`] = `"# Makefile built with tomo"`;
+
+exports[`Makefile Add support (import tasks from package.json) 1`] = `
+"# Makefile built from /path/to/package.json
+
+build-es: ## Task description
+	del-cli dist/assets
+	webpack
+	$(MAKE) copy
+
+watch-es: ## Task description
+	watch 'make build-es' ./src
+
+lint: ## Task description
+	eslint . -c ./.eslintrc.js --fix
+
+lint-ing: ## Task description
+	watch 'make lint' ./src
+
+lint-tests: ## Task description
+	eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore
+
+build-css: ## Task description
+	postcss ./assets/css/style.css --dir ./dist
+
+watch-css: ## Task description
+	postcss ./assets/css/style.css --dir ./dist --watch
+
+test: ## Task description
+	jest .*.test.js --coverage
+
+test-ing: ## Task description
+	jest .*.test.js --coverage --watchAll
+
+copy: ## Task description
+	npm-run-all --parallel copy:assets copy:index
+
+copy-assets: ## Task description
+	cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive
+
+copy-index: ## Task description
+	cpy './assets/index.html' ./dist
+
+watch-assets: ## Task description
+	watch 'make copy' ./assets
+
+dashboard: ## Task description
+	webpack-dashboard -- webpack-dev-server --config ./webpack.config.js
+
+dev: ## Task description
+	stmux [ 'make dashboard' : 'make lint-ing' ]
+
+start: ## Task description
+	$(MAKE) build-es
+	npm-run-all --parallel watch:es watch:css serve
+
+serve: ## Task description
+	browser-sync start --server ./dist --files ./dist --port 4669
+
+help: ## Show this help
+	@fgrep -h \\"##\\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'"
+`;

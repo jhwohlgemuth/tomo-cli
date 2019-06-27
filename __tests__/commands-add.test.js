@@ -1,17 +1,14 @@
 import {
     fileContents,
     getDirectoryTree,
-    readMakefileContent,
     run,
     useTemporaryDirectory
 } from './tomo-test';
 import {createPackageJson} from '../src/commands/common';
-import commands from '../src/commands';
 import addElectron from '../src/commands/add-electron';
 import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
 import addJest from '../src/commands/add-jest';
-import addMakefile from '../src/commands/add-makefile';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
 import {addReason} from '../src/commands/add-reason';
@@ -22,7 +19,6 @@ describe('"Add" commands', () => {
     let tempDirectory;
     const skipInstall = true;
     const useReact = true;
-    const {create} = commands;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
         tempDirectory = await setTempDir();
@@ -114,20 +110,6 @@ describe('"Add" commands', () => {
         expect(preTree).toMatchSnapshot();
         expect(post).toMatchSnapshot();
         expect(postTree).toMatchSnapshot();
-    });
-    test('add-makefile', async () => {
-        const sourceDirectory = './src';
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
-        await run(addMakefile, options);
-        expect(getDirectoryTree(tempDirectory)).toMatchSnapshot();
-        const pre = readMakefileContent();
-        await run(create.app, options);
-        await run(addMakefile, options);
-        expect(getDirectoryTree(tempDirectory)).toMatchSnapshot();
-        const post = readMakefileContent();
-        expect(pre).toMatchSnapshot();
-        expect(post).toMatchSnapshot();
     });
     test('add-marionette', async () => {
         const sourceDirectory = './src';
