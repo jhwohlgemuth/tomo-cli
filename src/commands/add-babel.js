@@ -42,6 +42,21 @@ export const addBabel = [
         condition: () => allDoNotExist('babel.config.js', '.babelrc', '.babelrc.js')
     },
     {
+        text: 'Add React support to Babel configuration file',
+        task: async ({useRollup}) => {
+            const addQuotes = str => `'${str}'`;
+            const maybeRemove = name => (!useRollup || name !== 'react-hot-loader');
+            const maybeRename = name => (name === 'react-hot-loader') ? 'react-hot-loader/babel' : name;
+            const plugins = [...BABEL_REACT_PLUGINS, ...BABEL_PLUGINS].filter(maybeRemove).map(name => name |> maybeRename |> addQuotes);
+            const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESETS].map(addQuotes);
+            await (new BabelConfigModuleEditor())
+                .extend({plugins, presets})
+                .commit();
+        },
+        condition: ({useReact}) => useReact && allDoExist('babel.config.js'),
+        optional: ({useReact}) => useReact
+    },
+    {
         text: 'Add Babel build task to package.json',
         task: async ({outputDirectory, sourceDirectory}) => {
             const scripts = {
@@ -64,21 +79,6 @@ export const addBabel = [
         text: 'Install Babel React presets and plugins',
         task: ({skipInstall}) => install([...BABEL_REACT_PRESETS, ...BABEL_REACT_PLUGINS], {dev: true, skipInstall}),
         condition: ({isNotOffline, useReact}) => isNotOffline && useReact && allDoExist('package.json'),
-        optional: ({useReact}) => useReact
-    },
-    {
-        text: 'Add React support to Babel configuration file',
-        task: async ({useRollup}) => {
-            const addQuotes = str => `'${str}'`;
-            const maybeRemove = name => (!useRollup || name !== 'react-hot-loader');
-            const maybeRename = name => (name === 'react-hot-loader') ? 'react-hot-loader/babel' : name;
-            const plugins = [...BABEL_REACT_PLUGINS, ...BABEL_PLUGINS].filter(maybeRemove).map(name => name |> maybeRename |> addQuotes);
-            const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESETS].map(addQuotes);
-            await (new BabelConfigModuleEditor())
-                .extend({plugins, presets})
-                .commit();
-        },
-        condition: ({useReact}) => useReact && allDoExist('babel.config.js'),
         optional: ({useReact}) => useReact
     }
 ];

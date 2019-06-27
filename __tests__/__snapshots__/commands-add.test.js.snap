@@ -1,69 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`"Add" commands add-babel (with React) 1`] = `
-"{
-    name: tomo-test,
-    children: [
-        {
-            name: babel.config.js,
-            size: 387,
-            type: file
-        }
-    ],
-    size: 387,
-    type: directory
-}
-"
-`;
-
-exports[`"Add" commands add-babel (with React) 2`] = `
-"module.exports = {
-    plugins: [
-        'react-hot-loader/babel',
-        '@babel/plugin-transform-runtime',
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-export-default-from',
-        '@babel/plugin-proposal-optional-chaining'
-    ],
-    presets: [
-        '@babel/preset-env',
-        'babel-preset-minify',
-        '@babel/preset-react'
-    ]
-};"
-`;
-
-exports[`"Add" commands add-babel 1`] = `
-"{
-    name: tomo-test,
-    children: [
-        {
-            name: babel.config.js,
-            size: 322,
-            type: file
-        }
-    ],
-    size: 322,
-    type: directory
-}
-"
-`;
-
-exports[`"Add" commands add-babel 2`] = `
-"module.exports = {
-    plugins: [
-        '@babel/plugin-transform-runtime',
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-export-default-from',
-        '@babel/plugin-proposal-optional-chaining'
-    ],
-    presets: [
-        '@babel/preset-env',
-        'babel-preset-minify'
-    ]
-};"
-`;
-
 exports[`"Add" commands add-electron --use-parcel 1`] = `
 "{
     \\"name\\": \\"tomo-native-app\\",
@@ -647,7 +583,7 @@ exports[`"Add" commands add-makefile 2`] = `
         },
         {
             name: babel.config.js,
-            size: 387,
+            size: 322,
             type: file
         },
         {
@@ -734,7 +670,7 @@ exports[`"Add" commands add-makefile 2`] = `
             type: file
         }
     ],
-    size: 505667,
+    size: 505602,
     type: directory
 }
 "

@@ -7,7 +7,6 @@ import {
 } from './tomo-test';
 import {createPackageJson} from '../src/commands/common';
 import commands from '../src/commands';
-import addBabel from '../src/commands/add-babel';
 import addElectron from '../src/commands/add-electron';
 import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
@@ -31,26 +30,6 @@ describe('"Add" commands', () => {
     });
     afterEach(async () => {
         await cleanupTempDir();
-    });
-    test('add-babel', async () => {
-        const sourceDirectory = 'src';
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory};
-        await run(addBabel, options);
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-        const contents = fileContents('./babel.config.js');
-        expect(contents).toMatchSnapshot();
-    });
-    test('add-babel (with React)', async () => {
-        const sourceDirectory = 'src';
-        const outputDirectory = './dist';
-        const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
-        await run(addBabel, options);
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-        const contents = fileContents('./babel.config.js');
-        expect(contents).toMatchSnapshot();
     });
     test('add-electron', async () => {
         const options = {skipInstall};

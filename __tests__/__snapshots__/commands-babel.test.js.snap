@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Babel Add support (+React) 1`] = `
+"module.exports = {
+    plugins: [
+        'react-hot-loader/babel',
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-export-default-from',
+        '@babel/plugin-proposal-optional-chaining'
+    ],
+    presets: [
+        '@babel/preset-env',
+        'babel-preset-minify',
+        '@babel/preset-react'
+    ]
+};"
+`;
+
+exports[`Babel Add support (+React+Rollup) 1`] = `
+"module.exports = {
+    plugins: [
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-export-default-from',
+        '@babel/plugin-proposal-optional-chaining',
+        '@babel/plugin-proposal-optional-chaining'
+    ],
+    presets: [
+        '@babel/preset-env',
+        'babel-preset-minify',
+        '@babel/preset-react'
+    ]
+};"
+`;
+
+exports[`Babel Add support 1`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build:es\\": \\"babel ./src --out-dir ./dist\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\"
+    }
+}
+"
+`;
+
+exports[`Babel Add support 2`] = `
+"module.exports = {
+    plugins: [
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-export-default-from',
+        '@babel/plugin-proposal-optional-chaining'
+    ],
+    presets: [
+        '@babel/preset-env',
+        'babel-preset-minify'
+    ]
+};"
+`;
