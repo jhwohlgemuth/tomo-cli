@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Reason Add support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: bsconfig.json
+        },
+        {
+            name: package.json
+        },
+        {
+            name: src,
+            children: [
+                {
+                    name: components,
+                    children: [
+                        {
+                            name: App.re
+                        },
+                        {
+                            name: Example.re
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+"
+`;
+
+exports[`Reason Add support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"build:reason\\": \\"bsb -make-world -clean-world\\",
+        \\"watch:reason\\": \\"npm run build:reason -- -w\\"
+    }
+}
+"
+`;
+
+exports[`Reason Add support 3`] = `
+"{
+    \\"bs-dependencies\\": [
+        \\"reason-react\\"
+    ],
+    \\"bsc-flags\\": [
+        \\"-bs-super-errors\\"
+    ],
+    \\"namespace\\": true,
+    \\"package-specs\\": [
+        {
+            \\"module\\": \\"es6\\",
+            \\"in-source\\": true
+        }
+    ],
+    \\"ppx-flags\\": [],
+    \\"reason\\": {
+        \\"react-jsx\\": 3
+    },
+    \\"refmt\\": 3,
+    \\"sources\\": [
+        {
+            \\"dir\\": \\"src\\",
+            \\"subdirs\\": true
+        }
+    ],
+    \\"suffix\\": \\".bs.js\\",
+    \\"name\\": \\"my-project\\"
+}
+"
+`;
+
+exports[`Reason Remove support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: package.json
+        },
+        {
+            name: src,
+            children: [
+                {
+                    name: components,
+                    children: [
+                        {
+                            name: App.re
+                        },
+                        {
+                            name: Example.re
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+"
+`;
+
+exports[`Reason Remove support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {}
+}
+"
+`;

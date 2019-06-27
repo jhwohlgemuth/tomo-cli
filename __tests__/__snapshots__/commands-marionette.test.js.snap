@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Marionette Add support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: assets,
+            children: [
+                {
+                    name: css,
+                    children: [
+                        {
+                            name: fonts.css
+                        },
+                        {
+                            name: style.css
+                        }
+                    ]
+                },
+                {
+                    name: fonts,
+                    children: [
+                        {
+                            name: SansForgetica-Regular.eot
+                        },
+                        {
+                            name: SansForgetica-Regular.svg
+                        },
+                        {
+                            name: SansForgetica-Regular.ttf
+                        },
+                        {
+                            name: SansForgetica-Regular.woff
+                        },
+                        {
+                            name: SansForgetica-Regular.woff2
+                        }
+                    ]
+                },
+                {
+                    name: images,
+                    children: [
+                        {
+                            name: blank_canvas.png
+                        },
+                        {
+                            name: preferences.png
+                        }
+                    ]
+                },
+                {
+                    name: index.html
+                },
+                {
+                    name: library,
+                    children: [
+                        {
+                            name: .gitkeep
+                        }
+                    ]
+                },
+                {
+                    name: workers,
+                    children: [
+                        {
+                            name: .gitkeep
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: package.json
+        },
+        {
+            name: src,
+            children: [
+                {
+                    name: components,
+                    children: [
+                        {
+                            name: app.js
+                        },
+                        {
+                            name: body.js
+                        },
+                        {
+                            name: footer.js
+                        },
+                        {
+                            name: header.js
+                        }
+                    ]
+                },
+                {
+                    name: main.js
+                },
+                {
+                    name: plugins,
+                    children: [
+                        {
+                            name: mn.radio.logging.js
+                        },
+                        {
+                            name: mn.redux.state.js
+                        }
+                    ]
+                },
+                {
+                    name: shims,
+                    children: [
+                        {
+                            name: mn.renderer.shim.js
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+"
+`;
+
+exports[`Marionette Add support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"main\\": \\"./src/main.js\\"
+}
+"
+`;

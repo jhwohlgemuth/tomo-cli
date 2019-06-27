@@ -62,6 +62,15 @@ export const addReason = [
 ];
 export const removeReason = [
     {
+        text: 'Delete bsconfig.json file',
+        task: async () => {
+            await (new BsConfigJsonEditor())
+                .delete()
+                .commit();
+        },
+        condition: () => allDoExist('bsconfig.json')
+    },
+    {
         text: 'Remove Reason scripts from package.json',
         task: async () => {
             const scripts = {
