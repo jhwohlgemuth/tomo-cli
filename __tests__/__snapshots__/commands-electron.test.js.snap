@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Electron Add support (+Parcel) 1`] = `
+"{
+    \\"name\\": \\"tomo-native-app\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"Native Desktop application built with Electron\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"main\\": \\"index.js\\",
+    \\"scripts\\": {
+        \\"build:electron\\": \\"npm-run-all build:es build:css\\",
+        \\"prestart:electron\\": \\"npm run build:electron\\",
+        \\"start:electron\\": \\"electron index --enable-logging\\",
+        \\"dev\\": \\"npm-run-all --parallel watch:es start:electron\\"
+    }
+}
+"
+`;
+
+exports[`Electron Add support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: bin,
+            children: [
+                {
+                    name: preload.js
+                }
+            ]
+        },
+        {
+            name: index.js
+        },
+        {
+            name: package.json
+        }
+    ]
+}
+"
+`;
+
+exports[`Electron Add support 2`] = `
+"{
+    \\"name\\": \\"tomo-native-app\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"Native Desktop application built with Electron\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"main\\": \\"index.js\\",
+    \\"scripts\\": {
+        \\"build:electron\\": \\"npm-run-all build:es build:css\\",
+        \\"prestart:electron\\": \\"npm run build:electron\\",
+        \\"start:electron\\": \\"electron index --enable-logging\\",
+        \\"dev\\": \\"npm-run-all --parallel watch:es watch:css start:electron\\"
+    }
+}
+"
+`;

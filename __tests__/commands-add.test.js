@@ -5,7 +5,6 @@ import {
     useTemporaryDirectory
 } from './tomo-test';
 import {createPackageJson} from '../src/commands/common';
-import addElectron from '../src/commands/add-electron';
 import addEsdoc from '../src/commands/add-esdoc';
 import addEslint from '../src/commands/add-eslint';
 // import addRust from '../src/commands/add-rust';
@@ -25,22 +24,6 @@ describe('"Add" commands', () => {
     });
     afterEach(async () => {
         await cleanupTempDir();
-    });
-    test('add-electron', async () => {
-        const options = {skipInstall};
-        await run(createPackageJson, {});
-        await run(addElectron, options);
-        const pkg = fileContents('package.json');
-        const tree = getDirectoryTree(tempDirectory);
-        expect(pkg).toMatchSnapshot();
-        expect(tree).toMatchSnapshot();
-    });
-    test('add-electron --use-parcel', async () => {
-        const options = {skipInstall, useParcel: true};
-        await run(createPackageJson, {});
-        await run(addElectron, options);
-        const pkg = fileContents('package.json');
-        expect(pkg).toMatchSnapshot();
     });
     test('add-esdoc', async () => {
         const sourceDirectory = 'src';

@@ -22,8 +22,9 @@ const ALWAYS = () => true;
 export const tasks = [
     {
         text: 'Copy electron application files',
-        task: async () => {
+        task: async ({overwrite}) => {
             await (new Scaffolder(join(__dirname, 'templates')))
+                .overwrite(overwrite)
                 .target('.')
                 .copy('index.js')
                 .target('bin')
