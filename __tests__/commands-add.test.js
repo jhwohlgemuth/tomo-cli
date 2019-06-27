@@ -6,7 +6,6 @@ import {
 } from './tomo-test';
 import {createPackageJson} from '../src/commands/common';
 import addEsdoc from '../src/commands/add-esdoc';
-import addEslint from '../src/commands/add-eslint';
 // import addRust from '../src/commands/add-rust';
 import addMarionette from '../src/commands/add-marionette';
 import {addReason} from '../src/commands/add-reason';
@@ -46,25 +45,6 @@ describe('"Add" commands', () => {
         const tree = getDirectoryTree(tempDirectory);
         expect(tree).toMatchSnapshot();
         const contents = fileContents('./esdoc.conf.json');
-        expect(contents).toMatchSnapshot();
-    });
-    test('add-eslint', async () => {
-        const sourceDirectory = 'src';
-        const options = {skipInstall, sourceDirectory};
-        await run(addEslint, options);
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-        const contents = fileContents('./.eslintrc.js');
-        expect(contents).toMatchSnapshot();
-    });
-    test('add-eslint (with React)', async () => {
-        const reactVersion = '16.2';
-        const sourceDirectory = './src';
-        const options = {reactVersion, skipInstall, sourceDirectory, useReact};
-        await run(addEslint, options);
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-        const contents = fileContents('./.eslintrc.js');
         expect(contents).toMatchSnapshot();
     });
     test('add-marionette', async () => {

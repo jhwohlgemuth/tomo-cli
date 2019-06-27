@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ESLint Add support (+Browser) 1`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true,
+        browser: true
+    },
+    extends: [
+        'omaha-prime-grade',
+        'plugin:lit/recommended'
+    ],
+    parser: 'babel-eslint',
+    plugins: [
+        'lit'
+    ]
+};"
+`;
+
+exports[`ESLint Add support (+Browser+React) 1`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true,
+        browser: true
+    },
+    extends: [
+        'omaha-prime-grade',
+        'plugin:react/recommended',
+        'plugin:jsx-a11y/recommended'
+    ],
+    parser: 'babel-eslint',
+    plugins: [
+        'jsx-a11y'
+    ],
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
+        }
+    },
+    settings: {
+        react: {
+            version: '16.8'
+        }
+    }
+};"
+`;
+
+exports[`ESLint Add support 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: package.json
+        }
+    ]
+}
+"
+`;
+
+exports[`ESLint Add support 2`] = `
+"{
+    \\"name\\": \\"my-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
+    \\"license\\": \\"MIT\\",
+    \\"keywords\\": [],
+    \\"scripts\\": {
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\"
+    }
+}
+"
+`;
+
+exports[`ESLint Add support 3`] = `
+"module.exports = {
+    env: {
+        es6: true,
+        jest: true
+    },
+    extends: [
+        'omaha-prime-grade'
+    ],
+    parser: 'babel-eslint'
+};"
+`;

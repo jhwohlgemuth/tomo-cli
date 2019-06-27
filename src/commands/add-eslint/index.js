@@ -81,7 +81,7 @@ export const tasks = [
             await install(['eslint-plugin-lit'], {dev: true, skipInstall});
             await (new EslintConfigModuleEditor())
                 .extend(merge({}, ESLINT_SETTINGS, {env, plugins}))
-                .extend({extends: [`'plugin:lit/recommended'`]})
+                .extend({extends: [, `'plugin:lit/recommended'`]})
                 .commit();
         },
         condition: ({browser, isNotOffline, useReact}) => isNotOffline && browser && !useReact && allDoExist('package.json', '.eslintrc.js'),

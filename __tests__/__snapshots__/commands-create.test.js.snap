@@ -11,7 +11,7 @@ exports[`"Create/New" commands create new app 1`] = `
         },
         {
             name: .eslintrc.js,
-            size: 218,
+            size: 247,
             type: file
         },
         {
@@ -222,7 +222,7 @@ exports[`"Create/New" commands create new app 1`] = `
             type: file
         }
     ],
-    size: 503836,
+    size: 503865,
     type: directory
 }
 "
@@ -282,6 +282,7 @@ exports[`"Create/New" commands create new app 3`] = `
         browser: true
     },
     extends: [
+        'omaha-prime-grade',
         'plugin:lit/recommended'
     ],
     parser: 'babel-eslint',
