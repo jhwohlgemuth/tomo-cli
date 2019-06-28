@@ -7,11 +7,8 @@ jest.mock('is-online', () => (async () => true));
 describe('Babel', () => {
     let tempDirectory;
     const skipInstall = true;
-    const outputDirectory = './dist';
-    const sourceDirectory = './src';
     const useReact = true;
     const useRollup = true;
-    const options = {skipInstall, outputDirectory, sourceDirectory};
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
         tempDirectory = await setTempDir();
@@ -22,7 +19,7 @@ describe('Babel', () => {
     });
     test('Add support', async () => {
         await run(createPackageJson, {});
-        await run(addBabel, options);
+        await run(addBabel, {skipInstall});
         const pkg = fileContents('./package.json');
         const babelConfig = fileContents('./babel.config.js');
         expect(pkg).toMatchSnapshot();
@@ -30,13 +27,13 @@ describe('Babel', () => {
     });
     test('Add support (+React)', async () => {
         await run(createPackageJson, {});
-        await run(addBabel, {...options, useReact});
+        await run(addBabel, {skipInstall, useReact});
         const babelConfig = fileContents('./babel.config.js');
         expect(babelConfig).toMatchSnapshot();
     });
     test('Add support (+React+Rollup)', async () => {
         await run(createPackageJson, {});
-        await run(addBabel, {...options, useReact, useRollup});
+        await run(addBabel, {skipInstall, useReact, useRollup});
         const babelConfig = fileContents('./babel.config.js');
         expect(babelConfig).toMatchSnapshot();
     });

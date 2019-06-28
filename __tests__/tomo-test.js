@@ -46,7 +46,13 @@ export const run = (tasks, options) => {
     const {assign} = Object;
     const queue = new Queue({concurrency: tasks.length});
     const dispatch = () => {};
-    const _options = assign({}, options, {assetsDirectory: './assets', port: 4669});
+    const defaults = {
+        assetsDirectory: './assets',
+        sourceDirectory: './source',
+        outputDirectory: './output',
+        port: 4669
+    };
+    const _options = assign({}, options, defaults);
     return populateQueue({
         queue,
         dispatch,

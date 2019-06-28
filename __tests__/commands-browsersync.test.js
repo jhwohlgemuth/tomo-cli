@@ -9,9 +9,6 @@ jest.mock('is-online', () => (async () => true));
 describe('Browsersync', () => {
     let tempDirectory;
     const skipInstall = true;
-    const outputDirectory = './dist';
-    const sourceDirectory = './src';
-    const options = {skipInstall, outputDirectory, sourceDirectory};
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
         tempDirectory = await setTempDir();
@@ -22,20 +19,20 @@ describe('Browsersync', () => {
     });
     test('Add support', async () => {
         await run(createPackageJson, {});
-        await run(addBrowsersync, options);
+        await run(addBrowsersync, {skipInstall});
         const noop = fileContents('./package.json');
-        await run(addWebpack, options);
-        await run(addPostcss, options);
-        await run(addBrowsersync, options);
+        await run(addWebpack, {skipInstall});
+        await run(addPostcss, {skipInstall});
+        await run(addBrowsersync, {skipInstall});
         const packageJson = fileContents('./package.json');
         expect(noop).toMatchSnapshot();
         expect(packageJson).toMatchSnapshot();
     });
     test('Remove support', async () => {
         await run(createPackageJson, {});
-        await run(addWebpack, options);
-        await run(addPostcss, options);
-        await run(addBrowsersync, options);
+        await run(addWebpack, {skipInstall});
+        await run(addPostcss, {skipInstall});
+        await run(addBrowsersync, {skipInstall});
         await run(removeBrowsersync, {skipInstall});
         const packageJson = fileContents('./package.json');
         expect(packageJson).toMatchSnapshot();

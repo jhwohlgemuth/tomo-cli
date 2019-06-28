@@ -8,10 +8,7 @@ jest.mock('is-online', () => (async () => true));
 describe('Rollup', () => {
     let tempDirectory;
     const skipInstall = true;
-    const outputDirectory = './dist';
-    const sourceDirectory = './src';
     const useReact = true;
-    const options = {skipInstall, outputDirectory, sourceDirectory};
     const omit = ['extension', 'path', 'size', 'type'];
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
@@ -23,8 +20,8 @@ describe('Rollup', () => {
     });
     test('Add support', async () => {
         await run(createPackageJson, {});
-        await run(addEslint, options);
-        await run(addRollup, options);
+        await run(addEslint, {skipInstall});
+        await run(addRollup, {skipInstall});
         const tree = getDirectoryTree(tempDirectory, {omit});
         const pkg = fileContents('package.json');
         const rollupConfig = fileContents('rollup.config.js');
@@ -34,8 +31,8 @@ describe('Rollup', () => {
     });
     test('Add support (+React)', async () => {
         await run(createPackageJson, {});
-        await run(addEslint, {...options, useReact});
-        await run(addRollup, {...options, useReact});
+        await run(addEslint, {skipInstall, useReact});
+        await run(addRollup, {skipInstall, useReact});
         const tree = getDirectoryTree(tempDirectory, {omit});
         const pkg = fileContents('package.json');
         const rollupConfig = fileContents('rollup.config.js');
@@ -45,8 +42,8 @@ describe('Rollup', () => {
     });
     test('Remove support', async () => {
         await run(createPackageJson, {});
-        await run(addEslint, options);
-        await run(addRollup, options);
+        await run(addEslint, {skipInstall});
+        await run(addRollup, {skipInstall});
         await run(removeRollup, {skipInstall});
         const tree = getDirectoryTree(tempDirectory, {omit});
         const pkg = fileContents('package.json');

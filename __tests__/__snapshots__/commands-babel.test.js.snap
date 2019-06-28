@@ -42,8 +42,8 @@ exports[`Babel Add support 1`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"build:es\\": \\"babel ./src --out-dir ./dist\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\"
+        \\"build:es\\": \\"babel ./source --out-dir ./output\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\"
     }
 }
 "

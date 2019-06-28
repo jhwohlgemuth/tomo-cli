@@ -6,27 +6,27 @@ exports[`Makefile Add support (import tasks from package.json) 1`] = `
 "# Makefile built from /path/to/package.json
 
 build-es: ## Task description
-	del-cli dist/assets
+	del-cli output/assets
 	webpack
 	$(MAKE) copy
 
 watch-es: ## Task description
-	watch 'make build-es' ./src
+	watch 'make build-es' ./source
 
 lint: ## Task description
 	eslint . -c ./.eslintrc.js --fix
 
 lint-ing: ## Task description
-	watch 'make lint' ./src
+	watch 'make lint' ./source
 
 lint-tests: ## Task description
 	eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore
 
 build-css: ## Task description
-	postcss ./assets/css/style.css --dir ./dist
+	postcss ./assets/css/style.css --dir ./output
 
 watch-css: ## Task description
-	postcss ./assets/css/style.css --dir ./dist --watch
+	postcss ./assets/css/style.css --dir ./output --watch
 
 test: ## Task description
 	jest .*.test.js --coverage
@@ -38,10 +38,10 @@ copy: ## Task description
 	npm-run-all --parallel copy:assets copy:index
 
 copy-assets: ## Task description
-	cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive
+	cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive
 
 copy-index: ## Task description
-	cpy './assets/index.html' ./dist
+	cpy './assets/index.html' ./output
 
 watch-assets: ## Task description
 	watch 'make copy' ./assets
@@ -57,7 +57,7 @@ start: ## Task description
 	npm-run-all --parallel watch:es watch:css serve
 
 serve: ## Task description
-	browser-sync start --server ./dist --files ./dist --port 4669
+	browser-sync start --server ./output --files ./output --port 4669
 
 help: ## Show this help
 	@fgrep -h \\"##\\" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\\\$$//' | sed -e 's/##/\\\\n    /'"

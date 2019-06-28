@@ -8,9 +8,6 @@ jest.mock('is-online', () => (async () => true));
 describe('Parcel', () => {
     let tempDirectory;
     const skipInstall = true;
-    const outputDirectory = './dist';
-    const sourceDirectory = './src';
-    const options = {skipInstall, outputDirectory, sourceDirectory};
     const omit = ['extension', 'path', 'size', 'type'];
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
@@ -22,8 +19,8 @@ describe('Parcel', () => {
     });
     test('Add support', async () => {
         await run(createPackageJson, {});
-        await run(addEslint, options);
-        await run(addParcel, options);
+        await run(addEslint, {skipInstall});
+        await run(addParcel, {skipInstall});
         const pkg = fileContents('./package.json');
         const purgecssConfig = fileContents('./purgecss.config.js');
         expect(pkg).toMatchSnapshot();
@@ -31,8 +28,8 @@ describe('Parcel', () => {
     });
     test('Remove support', async () => {
         await run(createPackageJson, {});
-        await run(addEslint, options);
-        await run(addParcel, options);
+        await run(addEslint, {skipInstall});
+        await run(addParcel, {skipInstall});
         await run(removeParcel, {skipInstall});
         const tree = getDirectoryTree(tempDirectory, {omit});
         const pkg = fileContents('./package.json');

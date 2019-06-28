@@ -6,6 +6,7 @@ jest.mock('is-online', () => (async () => true));
 
 describe('Makefile', () => {
     let tempDirectory;
+    const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
         tempDirectory = await setTempDir();
@@ -21,12 +22,7 @@ describe('Makefile', () => {
     });
     test('Add support (import tasks from package.json)', async () => {
         const {create} = commands;
-        const options = {
-            skipInstall: true,
-            outputDirectory: './dist',
-            sourceDirectory: './src'
-        };
-        await run(create.app, options);
+        await run(create.app, {skipInstall});
         await run(addMakefile, {});
         const makefile = readMakefileContent();
         expect(makefile).toMatchSnapshot();

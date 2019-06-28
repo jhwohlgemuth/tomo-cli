@@ -7,10 +7,8 @@ jest.mock('is-online', () => (async () => true));
 describe('Reason', () => {
     let tempDirectory;
     const skipInstall = true;
-    const outputDirectory = './dist';
-    const sourceDirectory = './src';
     const useReact = true;
-    const options = {outputDirectory, skipInstall, sourceDirectory, useReact};
+    const options = {skipInstall, useReact};
     const omit = ['extension', 'path', 'size', 'type'];
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {

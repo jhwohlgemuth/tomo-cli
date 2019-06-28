@@ -20,19 +20,19 @@ exports[`Browsersync Add support 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"build:es\\": \\"webpack\\",
         \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./output\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"prestart\\": \\"npm run build:es\\",
         \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
-        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist --port 4669\\"
+        \\"serve\\": \\"browser-sync start --server ./output --files ./output --port 4669\\"
     }
 }
 "
@@ -47,15 +47,15 @@ exports[`Browsersync Remove support 1`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"build:es\\": \\"webpack\\",
         \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./output\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\"
     }
 }

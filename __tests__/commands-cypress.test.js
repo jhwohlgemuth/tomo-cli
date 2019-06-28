@@ -8,8 +8,6 @@ jest.mock('is-online', () => (async () => true));
 describe('Cypress', () => {
     let tempDirectory;
     const skipInstall = true;
-    const sourceDirectory = './src';
-    const options = {skipInstall, sourceDirectory};
     const omit = ['extension', 'path', 'size', 'type'];
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
@@ -21,8 +19,8 @@ describe('Cypress', () => {
     });
     test('Add support', async () => {
         await run(createPackageJson, {});
-        await run(addEslint, options);
-        await run(addCypress, options);
+        await run(addEslint, {skipInstall});
+        await run(addCypress, {skipInstall});
         const tree = getDirectoryTree(tempDirectory, {omit});
         const packageJson = fileContents('package.json');
         const cypressConfig = fileContents('cypress.json');
@@ -34,8 +32,8 @@ describe('Cypress', () => {
     });
     test('Remove support', async () => {
         await run(createPackageJson, {});
-        await run(addEslint, options);
-        await run(addCypress, options);
+        await run(addEslint, {skipInstall});
+        await run(addCypress, {skipInstall});
         await run(removeCypress, {});
         const tree = getDirectoryTree(tempDirectory, {omit});
         const packageJson = fileContents('package.json');

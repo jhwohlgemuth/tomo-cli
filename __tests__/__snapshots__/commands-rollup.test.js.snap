@@ -30,16 +30,16 @@ exports[`Rollup Add support (+React) 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"build:es\\": \\"rollup -c\\",
         \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }
@@ -55,9 +55,9 @@ import replace from 'rollup-plugin-replace';
 import {terser} from 'rollup-plugin-terser';
 
 export default {
-    input: './src/main.js',
+    input: './source/main.js',
     output: {
-        file: './dist/bundle.min.js',
+        file: './output/bundle.min.js',
         format: 'iife',
         sourceMap: 'inline'
     },
@@ -101,16 +101,16 @@ exports[`Rollup Add support 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"build:es\\": \\"rollup -c\\",
         \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }
@@ -126,9 +126,9 @@ import replace from 'rollup-plugin-replace';
 import {terser} from 'rollup-plugin-terser';
 
 export default {
-    input: './src/main.js',
+    input: './source/main.js',
     output: {
-        file: './dist/bundle.min.js',
+        file: './output/bundle.min.js',
         format: 'iife',
         sourceMap: 'inline'
     },
@@ -169,7 +169,7 @@ exports[`Rollup Remove support 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\"
     }
 }

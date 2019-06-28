@@ -7,9 +7,7 @@ jest.mock('is-online', () => (async () => true));
 describe('ESDoc', () => {
     let tempDirectory;
     const skipInstall = true;
-    const sourceDirectory = './src';
     const useReact = true;
-    const options = {skipInstall, sourceDirectory};
     const omit = ['extension', 'path', 'size', 'type'];
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
@@ -21,7 +19,7 @@ describe('ESDoc', () => {
     });
     test('Add support', async () => {
         await run(createPackageJson, {});
-        await run(addEsdoc, options);
+        await run(addEsdoc, {skipInstall});
         const tree = getDirectoryTree(tempDirectory, {omit});
         const pkg = fileContents('./package.json');
         const esdocConfig = fileContents('./esdoc.conf.json');
@@ -31,7 +29,7 @@ describe('ESDoc', () => {
     });
     test('Add support (+React)', async () => {
         await run(createPackageJson, {});
-        await run(addEsdoc, {...options, useReact});
+        await run(addEsdoc, {skipInstall, useReact});
         const esdocConfig = fileContents('./esdoc.conf.json');
         expect(esdocConfig).toMatchSnapshot();
     });

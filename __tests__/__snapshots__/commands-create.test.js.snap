@@ -97,7 +97,7 @@ exports[`Create new app 1`] = `
             name: postcss.config.js
         },
         {
-            name: src,
+            name: source,
             children: [
                 {
                     name: components,
@@ -157,25 +157,25 @@ exports[`Create new app 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"build:es\\": \\"webpack\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./src\\",
+        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./output\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:ing\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"postbuild:es\\": \\"npm run copy\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\",
         \\"prestart\\": \\"npm run build:es\\",
         \\"start\\": \\"npm-run-all --parallel watch:es watch:css serve\\",
-        \\"serve\\": \\"browser-sync start --server ./dist --files ./dist --port 4669\\"
+        \\"serve\\": \\"browser-sync start --server ./output --files ./output --port 4669\\"
     },
     \\"jest\\": {
         \\"testMatch\\": [
@@ -189,7 +189,7 @@ exports[`Create new app 2`] = `
             \\"jest-watch-typeahead/testname\\"
         ]
     },
-    \\"main\\": \\"./src/main.js\\"
+    \\"main\\": \\"./source/main.js\\"
 }
 "
 `;
@@ -229,7 +229,7 @@ exports[`Create new project 1`] = `
             name: package.json
         },
         {
-            name: src,
+            name: source,
             children: []
         }
     ]
@@ -334,7 +334,7 @@ exports[`Create new react app 1`] = `
             name: postcss.config.js
         },
         {
-            name: src,
+            name: source,
             children: [
                 {
                     name: components,
@@ -377,17 +377,17 @@ exports[`Create new react app 2`] = `
         \\"build:es\\": \\"webpack\\",
         \\"watch:es\\": \\"webpack-dev-server --hot --open --mode development\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
-        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./dist\\",
+        \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./output\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:ing\\": \\"npm test -- --watchAll\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"prebuild:es\\": \\"del-cli dist/assets\\",
+        \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"postbuild:es\\": \\"npm run copy\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\",
@@ -405,7 +405,7 @@ exports[`Create new react app 2`] = `
             \\"jest-watch-typeahead/testname\\"
         ]
     },
-    \\"main\\": \\"./src/main.js\\"
+    \\"main\\": \\"./source/main.js\\"
 }
 "
 `;
@@ -580,28 +580,4 @@ exports[`Create new server 3`] = `
         }
     }
 };"
-`;
-
-exports[`Create package.json 1`] = `
-"{
-    \\"name\\": \\"my-project\\",
-    \\"version\\": \\"0.0.0\\",
-    \\"description\\": \\"A super cool app/server/tool/library/widget/thingy\\",
-    \\"license\\": \\"MIT\\",
-    \\"keywords\\": []
-}
-"
-`;
-
-exports[`Create source directory 1`] = `
-"{
-    name: tomo-test,
-    children: [
-        {
-            name: some-random-folder-name,
-            children: []
-        }
-    ]
-}
-"
 `;

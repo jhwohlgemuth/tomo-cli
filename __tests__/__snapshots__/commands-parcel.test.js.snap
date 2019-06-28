@@ -9,18 +9,18 @@ exports[`Parcel Add support 1`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
-        \\"clean\\": \\"del-cli ./dist\\",
+        \\"clean\\": \\"del-cli ./output\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./dist --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./dist\\",
+        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
         \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"prebuild:es\\": \\"npm run clean\\",
-        \\"build:es\\": \\"parcel build --out-dir ./dist --public-url ./ ./assets/index.html\\",
+        \\"build:es\\": \\"parcel build --out-dir ./output --public-url ./ ./assets/index.html\\",
         \\"prewatch:es\\": \\"npm run clean\\",
         \\"watch:es\\": \\"npm run build:es\\",
-        \\"serve\\": \\"parcel ./assets/index.html --out-dir ./dist --port 4669 --open\\",
+        \\"serve\\": \\"parcel ./assets/index.html --out-dir ./output --port 4669 --open\\",
         \\"start\\": \\"npm-run-all --parallel watch:assets serve\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
@@ -63,7 +63,7 @@ exports[`Parcel Remove support 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' ./src\\",
+        \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\"
     }
 }
