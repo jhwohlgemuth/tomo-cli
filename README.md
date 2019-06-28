@@ -1,9 +1,9 @@
-<div style="text-align: center;">
+<div align="center">
     <img src="./resources/tomo-logo.png" width="350px"/>
-    <div style="padding-top: 16px;">
-        <a href="https://travis-ci.org/jhwohlgemuth/tomo-cli"><img src="https://img.shields.io/travis/jhwohlgemuth/tomo-cli.svg?logo=travis&style=for-the-badge" /></a>
-        <a href="https://codecov.io/gh/jhwohlgemuth/tomo-cli"><img src="https://img.shields.io/codecov/c/github/jhwohlgemuth/tomo-cli.svg?logo=codecov&style=for-the-badge" /></a>
-    </div>
+</div>
+<div align="center" style="padding-top: 16px;">
+    <a href="https://travis-ci.org/jhwohlgemuth/tomo-cli"><img src="https://img.shields.io/travis/jhwohlgemuth/tomo-cli.svg?logo=travis&style=for-the-badge" /></a>
+    <a href="https://codecov.io/gh/jhwohlgemuth/tomo-cli"><img src="https://img.shields.io/codecov/c/github/jhwohlgemuth/tomo-cli.svg?logo=codecov&style=for-the-badge" /></a>
 </div>
 
 # tomo
