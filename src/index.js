@@ -21,25 +21,48 @@ const showVersion = () => {
 const help = `
     ${dim.bold('Usage')}
 
+        ${cyan('>')} tomo [commands] [terms] [options]
+        
         ${cyan('>')} tomo version
 
-        ${cyan('>')} tomo [command] [terms] [options]
+        ${cyan('>')} tomo new app --use-react --use-parcel
+        
+        ${cyan('>')} tomo add
+
+
+    ${dim.bold('Commands')}
+
+        new, add, remove, version
+
+
+    ${dim.bold('Terms')}
+
+        [new]
+        project, app, server
+
+        [add]
+        a11y, babel, browsersync, cypress, electron, esdoc, eslint, jest,
+        marionette, makefile, parcel, postcss, react, reason, rollup, webpack 
+
+        [remove]
+        a11y, browsersync, cypress, parcel, postcss, reason, rollup, webpack
+
 
     ${dim.bold('Options')}
 
-        --version,          -v  Print version
+        --version, -v           Print version
         --source-directory, -d  Directory for source code [Default: ./src]
         --output-directory, -o  Directory for build targets [Default: ./dist]
         --assets-directory, -a  Directory for assets [Default: ./assets]
         --use-rollup,           Use Rollup instead of Webpack [Default: false]
         --use-parcel,           Use Parcel instead of Webpack [Default: false]
-        --use-react,        -r  Add React support to workflow [Default: false]
+        --use-react, -r         Add React support to workflow [Default: false]
         --react-version         React version for ESLint configuration [Default: '16.8']
-        --ignore-warnings,  -i  Ignore warning messages [Default: false]
-        --skip-install,     -s  Skip npm installations [Default: false]
+        --ignore-warnings, -i   Ignore warning messages [Default: false]
+        --skip-install, -s      Skip npm installations [Default: false]
         --overwrite             Copy files, even if they alrady exist [Default: false]
         --browser               Indicate tasks are intended for the browser [Default: false]
-        --port              -p  Configure port for workflow tasks that use it [Default: 4669]
+        --port, -p              Configure port for workflow tasks that use it [Default: 4669]
         --debug                 Show debug data [Default: false]	
 `;
 const options = {
