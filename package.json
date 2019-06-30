@@ -36,9 +36,9 @@
         "lint:config": "eslint -c ./.eslintrc.js *.js --fix",
         "lint:docs": "eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint",
         "lint:all": "npm-run-all lint lint:tests lint:docs",
-        "preesdoc": "npm run lint:docs",
-        "esdoc": "npm run build:docs",
-        "postesdoc": "npm run open:docs"
+        "predocs": "npm run lint:docs",
+        "docs": "npm run build:docs",
+        "postdocs": "npm run open:docs"
     },
     "jest": {
         "testMatch": [
@@ -106,6 +106,7 @@
         "directory-tree": "2.2.3",
         "esdoc": "1.1.0",
         "esdoc-ecmascript-proposal-plugin": "1.0.0",
+        "esdoc-inject-style-plugin": "^1.0.0",
         "esdoc-jsx-plugin": "1.0.0",
         "esdoc-standard-plugin": "1.0.0",
         "eslint": "5.16.0",

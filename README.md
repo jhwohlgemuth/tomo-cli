@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="./resources/tomo-logo.png" width="350px"/>
+    <img id="logo" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-logo.png" width="350px"/>
 </div>
 <br />
 <div align="center">
