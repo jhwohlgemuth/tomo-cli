@@ -4,6 +4,5 @@ const {existsSync} = require('fs-extra');
 module.exports = {
     env: {es6: true, jest: true},
     extends: ['omaha-prime-grade'],
-    parser: 'babel-eslint',
-    key: {foo: 'foo', bar: 'bar', baz: baz}
+    parser: 'babel-eslint'
 };
