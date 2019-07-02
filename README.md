@@ -25,7 +25,7 @@ $ npx tomo-cli new app [options]
 
 ## Usage
 
-> tomo wants to help you explore and exploit modern web technologies. With a strong focus on Developer Experience (DX), tomo will allow you to build new apps and augment existing apps and projects. "No [FOMO](https://en.wikipedia.org/wiki/Fear_of_missing_out) with tomo!"™
+> tomo wants to help you explore and exploit modern web technologies. With a strong focus on Developer Experience (DX), tomo will allow you to build new stuff and augment existing stuff. "No [FOMO](https://en.wikipedia.org/wiki/Fear_of_missing_out) with tomo!"™
 
 ### Create a new app with [Marionette.js](https://marionettejs.com/) and [Webpack](https://webpack.js.org/)
 
@@ -64,6 +64,7 @@ $ npx tomo-cli new app [options]
 </div>
 
 
+### Read the help! So exciting!
 
 ```js
 $ tomo --help
