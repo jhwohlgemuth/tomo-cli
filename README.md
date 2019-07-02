@@ -25,6 +25,46 @@ $ npx tomo-cli new app [options]
 
 ## Usage
 
+> tomo wants to help you explore and exploit modern web technologies. With a strong focus on Developer Experience (DX), tomo will allow you to build new apps and augment existing apps and projects. "No [FOMO](https://en.wikipedia.org/wiki/Fear_of_missing_out) with tomo!"™
+
+### Create a new app with [Marionette.js](https://marionettejs.com/) and [Webpack](https://webpack.js.org/)
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-new-app.gif"/>
+</div>
+
+### Create a new app with [React](https://reactjs.org/) and [Parcel](https://parceljs.org/)
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-new-app--use-react--use-parcel.gif"/>
+</div>
+
+### Add [ESLint](https://eslint.org/) to your project
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-add-eslint.gif"/>
+</div>
+
+### Select what you want to add via the tomo CLI "add" menu
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-add.gif"/>
+</div>
+
+### Replace [Webpack](https://webpack.js.org/) with [Rollup](https://rollupjs.org/guide/en/)
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-replace-webpack-with-rollup.gif"/>
+</div>
+
+### Made a mistake while typing? tomo has your back ;)
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-oops.gif"/>
+</div>
+
+
+
 ```js
 $ tomo --help
 
