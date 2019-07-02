@@ -66,7 +66,7 @@ $ npx tomo-cli new app [options]
 
 ### Read the help! So exciting!
 
-```js
+```bash
 $ tomo --help
 
   Usage
