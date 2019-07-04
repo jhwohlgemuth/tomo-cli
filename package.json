@@ -38,7 +38,9 @@
         "lint:all": "npm-run-all lint lint:tests lint:docs",
         "predocs": "npm run lint:docs",
         "docs": "npm run build:docs",
-        "postdocs": "npm run open:docs"
+        "postdocs": "npm run open:docs",
+        "preversion": "npm-run-all build lint test",
+        "postversion": "git push && git push --tags"
     },
     "jest": {
         "testMatch": [
