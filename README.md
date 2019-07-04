@@ -30,37 +30,37 @@ $ npx tomo-cli new app [options]
 ### Create a new app with [Marionette.js](https://marionettejs.com/) and [Webpack](https://webpack.js.org/)
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-new-app.gif"/>
+    <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-new-app.gif"/>
 </div>
 
 ### Create a new app with [React](https://reactjs.org/) and [Parcel](https://parceljs.org/)
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-new-app--use-react--use-parcel.gif"/>
+    <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-new-app--use-react--use-parcel.gif"/>
 </div>
 
 ### Add [ESLint](https://eslint.org/) to your project
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-add-eslint.gif"/>
+    <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-add-eslint.gif"/>
 </div>
 
 ### Select what you want to add via the tomo CLI "add" menu
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-add.gif"/>
+    <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-add.gif"/>
 </div>
 
 ### Replace [Webpack](https://webpack.js.org/) with [Rollup](https://rollupjs.org/guide/en/)
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-replace-webpack-with-rollup.gif"/>
+    <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-replace-webpack-with-rollup.gif"/>
 </div>
 
 ### Made a mistake while typing? tomo has your back ;)
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-oops.gif"/>
+    <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-oops.gif"/>
 </div>
 
 
