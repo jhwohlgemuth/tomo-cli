@@ -5,6 +5,7 @@
 <div align="center">
     <a href="https://travis-ci.org/jhwohlgemuth/tomo-cli"><img src="https://img.shields.io/travis/jhwohlgemuth/tomo-cli.svg?logo=travis&style=for-the-badge" /></a>
     <a href="https://codecov.io/gh/jhwohlgemuth/tomo-cli"><img src="https://img.shields.io/codecov/c/github/jhwohlgemuth/tomo-cli.svg?logo=codecov&style=for-the-badge" /></a>
+<a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fjhwohlgemuth%2Ftomo-cli?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjhwohlgemuth%2Ftomo-cli.svg?type=shield"/></a>
 </div>
 
 # tomo
@@ -117,3 +118,6 @@ $ tomo --help
 ## License
 
 MIT © [Jason Wohlgemuth](https://twitter.com/jhwohlgemuth)
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjhwohlgemuth%2Ftomo-cli.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjhwohlgemuth%2Ftomo-cli?ref=badge_large)
