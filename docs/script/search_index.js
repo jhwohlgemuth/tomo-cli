@@ -727,25 +727,25 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/yodawg.test.js.html#lineNumber11",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber6",
     "Tomo testing tools",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/yodawg.test.js.html#lineNumber12",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber7",
     "Tomo testing tools can create and cleanup temporary directories",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/yodawg.test.js.html#lineNumber19",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber14",
     "Tomo testing tools can format objects for use as snapshots",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/yodawg.test.js.html#lineNumber49",
+    "test-file/__tests__/yodawg.test.js.html#lineNumber44",
     "Tomo testing tools get directory tree",
     "test"
   ],

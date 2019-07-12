@@ -1,11 +1,6 @@
 import {existsSync} from 'fs';
 import {join} from 'path';
-import {
-    removeAttributes,
-    getDirectoryTree,
-    useTemporaryDirectory
-} from './tomo-test';
-import {partialRight} from 'lodash';
+import {removeAttributes, getDirectoryTree, useTemporaryDirectory} from './tomo-test';
 import {format} from '../src/utils/common';
 
 describe('Tomo testing tools', () => {
@@ -17,8 +12,7 @@ describe('Tomo testing tools', () => {
         expect(existsSync(tempDir)).not.toBeTruthy();
     });
     test('can format objects for use as snapshots', () => {
-        const removePaths = partialRight(removeAttributes, 'path');
-        const result = removePaths({
+        const data = {
             path: 'a',
             type: 'directory',
             children: [
@@ -43,7 +37,8 @@ describe('Tomo testing tools', () => {
                     ]
                 }
             ]
-        });
+        };
+        const result = removeAttributes(data, 'path');
         expect(format(result)).toMatchSnapshot();
     });
     test('get directory tree', () => {

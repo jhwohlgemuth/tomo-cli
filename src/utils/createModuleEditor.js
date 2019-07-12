@@ -1,6 +1,6 @@
 import {join} from 'path';
 import {existsSync} from 'fs-extra';
-import merge from 'lodash/merge';
+import merge from 'lodash.merge';
 import {format} from './common';
 import BasicEditor from './BasicEditor';
 

@@ -92,7 +92,7 @@ import {join} from &apos;path&apos;;
 import {existsSync, mkdirp, readFileSync} from &apos;fs-extra&apos;;
 import rimraf from &apos;rimraf&apos;;
 import dirTree from &apos;directory-tree&apos;;
-import omit from &apos;lodash/omit&apos;;
+import {omit} from &apos;ramda&apos;;
 import Queue from &apos;p-queue&apos;;
 import delay from &apos;delay&apos;;
 import {populateQueue} from &apos;../src/ui&apos;;
@@ -120,7 +120,7 @@ export const removeAttributes = (obj, ...attrs) =&gt; {
     const result = Object.entries(obj).reduce((acc, arr) =&gt; {
         const [key, val] = arr;
         const remove = val =&gt; removeAttributes(val, ...attrs);
-        return (key === &apos;children&apos;) ? {...acc, children: val.map(remove)} : {...acc, ...omit({[key]: val}, attrs)};
+        return (key === &apos;children&apos;) ? {...acc, children: val.map(remove)} : {...acc, ...omit(attrs, {[key]: val})};
     }, {});
     return result;
 };
