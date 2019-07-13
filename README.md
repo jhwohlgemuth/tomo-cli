@@ -11,6 +11,14 @@
 
 > A friendly command line tool designed to help create sustainable software using web technology
 
+*It's like* [create-react-app](https://github.com/facebook/create-react-app/), but with less complexity and more flexibility (tomo even has "out of the box" support for HMR using Webpack or [Parcel](https://github.com/jhwohlgemuth/tomo-cli#create-a-new-app-using-react-and-parcel-with-blazing-fast-hmr))
+
+*It's like* [yeoman](https://yeoman.io/)+[generator](https://yeoman.io/generators/), but with a bespoke interface written with [React](https://github.com/vadimdemedes/ink) that focuses on [User Experience (UX)](https://github.com/jhwohlgemuth/tomo-cli#made-a-mistake-while-typing-tomo-has-your-back-). tomo can also be used to [progressively enhance existing projects!](https://github.com/jhwohlgemuth/tomo-cli#add-eslint-to-your-project)
+
+*It's like* [GatsbyJS](https://www.gatsbyjs.org/), but can be used to make and enhance modules, libraries, plugins, apps, sites, servers, and more.
+
+*It's like* boilerplate from GitHub, but with a streamlined interface designed to be user friendly (and all of the stuff above too)
+
 ## Install
 
 ```

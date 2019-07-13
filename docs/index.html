@@ -98,37 +98,42 @@
 <h1 id="tomo">tomo</h1><blockquote>
 <p>A friendly command line tool designed to help create sustainable software using web technology</p>
 </blockquote>
-<h2 id="install">Install</h2><pre><code><code class="source-code prettyprint">$ npm install --global tomo-cli</code>
-</code></pre><h2 id="no-install">No install</h2><pre><code><code class="source-code prettyprint">$ npx tomo-cli new app [options]</code>
+<p><em>It&apos;s like</em> <a href="https://github.com/facebook/create-react-app/">create-react-app</a>, but with less complexity and more flexibility (tomo even has &quot;out of the box&quot; support for HMR using Webpack or <a href="https://github.com/jhwohlgemuth/tomo-cli#create-a-new-app-using-react-and-parcel-with-blazing-fast-hmr">Parcel</a>)</p>
+<p><em>It&apos;s like</em> <a href="https://yeoman.io/">yeoman</a>+<a href="https://yeoman.io/generators/">generator</a>, but with a bespoke interface written with <a href="https://github.com/vadimdemedes/ink">React</a> that focuses on <a href="https://github.com/jhwohlgemuth/tomo-cli#made-a-mistake-while-typing-tomo-has-your-back-">User Experience (UX)</a>. tomo can also be used to <a href="https://github.com/jhwohlgemuth/tomo-cli#add-eslint-to-your-project">progressively enhance existing projects!</a></p>
+<p><em>It&apos;s like</em> <a href="https://www.gatsbyjs.org/">GatsbyJS</a>, but can be used to make and enhance modules, libraries, plugins, apps, sites, servers, and more.</p>
+<p><em>It&apos;s like</em> boilerplate from GitHub, but with a streamlined interface designed to be user friendly (and all of the stuff above too)</p>
+<h2 id="install">Install</h2><pre><code><code class="source-code prettyprint">$ npm install --global tomo-cli
+$ tomo [command] [terms] [options]</code>
+</code></pre><h2 id="no-install">No install</h2><pre><code><code class="source-code prettyprint">$ npx tomo-cli [command] [terms] [options]</code>
 </code></pre><h2 id="usage">Usage</h2><blockquote>
 <p>tomo wants to help you explore and exploit modern web technologies. With a strong focus on Developer Experience (DX), tomo will allow you to build new stuff and augment existing stuff. &quot;No <a href="https://en.wikipedia.org/wiki/Fear_of_missing_out">FOMO</a> with tomo!&quot;&#x2122;</p>
 </blockquote>
-<h3 id="create-a-new-app-with--a-href--https---marionettejs-com---marionette-js--a--and--a-href--https---webpack-js-org---webpack--a-">Create a new app with <a href="https://marionettejs.com/">Marionette.js</a> and <a href="https://webpack.js.org/">Webpack</a></h3><p><div>
+<h4 id="create-a-new-app-with--a-href--https---marionettejs-com---marionette-js--a--and--a-href--https---webpack-js-org---webpack--a-">Create a new app with <a href="https://marionettejs.com/">Marionette.js</a> and <a href="https://webpack.js.org/">Webpack</a></h4><p><div>
     <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-new-app.gif">
 </div>
 
 </p>
-<h3 id="create-a-new-app-with--a-href--https---reactjs-org---react--a--and--a-href--https---parceljs-org---parcel--a-">Create a new app with <a href="https://reactjs.org/">React</a> and <a href="https://parceljs.org/">Parcel</a></h3><p><div>
+<h4 id="create-a-new-app-using--a-href--https---reactjs-org---react--a--and--a-href--https---parceljs-org---parcel--a---with-blazing-fast--a-href--https---parceljs-org-hmr-html--hmr--a--">Create a new app using <a href="https://reactjs.org/">React</a> and <a href="https://parceljs.org/">Parcel</a> (with blazing fast <a href="https://parceljs.org/hmr.html">HMR</a>)</h4><p><div>
     <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-new-app--use-react--use-parcel.gif">
 </div>
 
 </p>
-<h3 id="add--a-href--https---eslint-org---eslint--a--to-your-project">Add <a href="https://eslint.org/">ESLint</a> to your project</h3><p><div>
+<h4 id="add--a-href--https---eslint-org---eslint--a--to-your-project">Add <a href="https://eslint.org/">ESLint</a> to your project</h4><p><div>
     <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-add-eslint.gif">
 </div>
 
 </p>
-<h3 id="select-what-you-want-to-add-via-the-tomo-cli--quot-add-quot--menu">Select what you want to add via the tomo CLI &quot;add&quot; menu</h3><p><div>
+<h4 id="select-what-you-want-to-add-via-the-tomo-cli--quot-add-quot--menu">Select what you want to add via the tomo CLI &quot;add&quot; menu</h4><p><div>
     <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-add.gif">
 </div>
 
 </p>
-<h3 id="replace--a-href--https---webpack-js-org---webpack--a--with--a-href--https---rollupjs-org-guide-en---rollup--a-">Replace <a href="https://webpack.js.org/">Webpack</a> with <a href="https://rollupjs.org/guide/en/">Rollup</a></h3><p><div>
+<h4 id="replace--a-href--https---webpack-js-org---webpack--a--with--a-href--https---rollupjs-org-guide-en---rollup--a-">Replace <a href="https://webpack.js.org/">Webpack</a> with <a href="https://rollupjs.org/guide/en/">Rollup</a></h4><p><div>
     <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-replace-webpack-with-rollup.gif">
 </div>
 
 </p>
-<h3 id="made-a-mistake-while-typing--tomo-has-your-back---">Made a mistake while typing? tomo has your back ;)</h3><p><div>
+<h4 id="made-a-mistake-while-typing--tomo-has-your-back---">Made a mistake while typing? tomo has your back ;)</h4><p><div>
     <img class="gif" src="https://raw.githubusercontent.com/jhwohlgemuth/tomo-cli/master/resources/tomo-oops.gif">
 </div>
 
@@ -181,6 +186,7 @@
 <p><strong>tomo</strong> means <a href="https://translate.google.com/#view=home&amp;op=translate&amp;sl=ja&amp;tl=en&amp;text=%E5%8F%8B">&quot;friend&quot; in Japanese (&#x53CB;)</a></p>
 </blockquote>
 <h2 id="license">License</h2><p>MIT &#xA9; <a href="https://twitter.com/jhwohlgemuth">Jason Wohlgemuth</a></p>
+<p><a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fjhwohlgemuth%2Ftomo-cli?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjhwohlgemuth%2Ftomo-cli.svg?type=large"></a></p>
 </div>
 </div>
 
