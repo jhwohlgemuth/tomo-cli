@@ -57,12 +57,12 @@ export const addEsdoc = [
     {
         text: 'Install esdoc dependencies',
         task: ({skipInstall}) => install([...ESDOC_DEPENDENCIES, 'open-cli'], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     },
     {
         text: 'Install esdoc React plugins',
         task: ({skipInstall}) => install(ESDOC_REACT_PLUGINS, {dev: true, skipInstall}),
-        condition: ({isNotOffline, useReact}) => isNotOffline && useReact && allDoExist('package.json'),
+        condition: ({isNotOffline, skipInstall, useReact}) => !skipInstall && isNotOffline && useReact && allDoExist('package.json'),
         optional: ({useReact}) => useReact
     },
     {

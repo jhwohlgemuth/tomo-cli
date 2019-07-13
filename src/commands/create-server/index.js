@@ -78,7 +78,7 @@ export const tasks = [
             const name = 'tomo-server';
             const scripts = {
                 predev: 'npm run open',
-                dev: 'stmux [ \"nodemon index.js\" : \"npm run lint:watch\" ]',
+                dev: 'stmux [ \"nodemon index.js\" : \"npm run lint:ing\" ]',
                 prestart: 'npm audit',
                 start: `node ${main}`,
                 open: 'open-cli http://localhost:8111'
@@ -109,7 +109,7 @@ export const tasks = [
             await install(DEPENDENCIES, {skipInstall});
             await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
         },
-        condition: () => allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     }
 ];
 export default tasks;

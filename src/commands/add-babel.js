@@ -73,12 +73,12 @@ export const addBabel = [
     {
         text: 'Install Babel core, CLI, presets, and plugins',
         task: ({skipInstall}) => install(BABEL_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && allDoExist('package.json'))
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && allDoExist('package.json')) // eslint-disable-line max-len
     },
     {
         text: 'Install Babel React presets and plugins',
         task: ({skipInstall}) => install([...BABEL_REACT_PRESETS, ...BABEL_REACT_PLUGINS], {dev: true, skipInstall}),
-        condition: ({isNotOffline, useReact}) => isNotOffline && useReact && allDoExist('package.json'),
+        condition: ({isNotOffline, skipInstall, useReact}) => !skipInstall && isNotOffline && useReact && allDoExist('package.json'),
         optional: ({useReact}) => useReact
     }
 ];

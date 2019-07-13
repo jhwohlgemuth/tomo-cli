@@ -47,7 +47,7 @@ export const addParcel = [
         condition: () => allDoExist('package.json')
     },
     {
-        text: 'Install development dependencies and add dev task to package.json',
+        text: 'Configure dev task',
         task: async ({skipInstall}) => {
             const scripts = {
                 dev: 'stmux [ \"npm run watch:es\" : \"npm run lint:ing\" ]'
@@ -74,7 +74,7 @@ export const addParcel = [
     {
         text: 'Install Parcel development dependencies',
         task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...PARCEL_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     }
 ];
 export const removeParcel = [

@@ -67,7 +67,7 @@ export const addRollup = [
         condition: () => allDoExist('package.json')
     },
     {
-        text: 'Install development dependencies and add dev task to package.json',
+        text: 'Configure dev task',
         task: async ({skipInstall}) => {
             const scripts = {
                 dev: 'stmux [ \"npm run watch:es\" : \"npm run lint:ing\" ]'
@@ -83,7 +83,7 @@ export const addRollup = [
     {
         text: 'Install Rollup dependencies',
         task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...ROLLUP_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     }
 ];
 export const removeRollup = [

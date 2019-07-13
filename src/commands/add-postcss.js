@@ -54,7 +54,7 @@ export const addPostcss = [
     {
         text: 'Install PostCSS dependencies',
         task: ({skipInstall}) => install(POSTCSS_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     }
 ];
 export const removePostcss = [

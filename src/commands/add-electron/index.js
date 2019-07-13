@@ -57,7 +57,7 @@ export const tasks = [
             await install(DEPENDENCIES, {skipInstall});
             await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
         },
-        condition: () => allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     }
 ];
 export default tasks;

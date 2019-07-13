@@ -87,7 +87,7 @@ export const addWebpack = [
         condition: () => allDoExist('package.json')
     },
     {
-        text: 'Install development dependencies and add dev task to package.json',
+        text: 'Configure dev task',
         task: async ({skipInstall}) => {
             const scripts = {
                 dev: 'stmux [ \"npm run dashboard\" : \"npm run lint:ing\" ]'
@@ -103,7 +103,7 @@ export const addWebpack = [
     {
         text: 'Install Webpack and development dependencies',
         task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     }
 ];
 export const removeWebpack = [

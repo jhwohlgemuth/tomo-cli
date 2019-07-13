@@ -533,7 +533,7 @@ exports[`Create new server 2`] = `
         \\"test\\": \\"jest .*.test.js --coverage\\",
         \\"test:ing\\": \\"npm test -- --watchAll\\",
         \\"predev\\": \\"npm run open\\",
-        \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:watch\\\\\\" ]\\",
+        \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\",
         \\"prestart\\": \\"npm audit\\",
         \\"start\\": \\"node index.js\\",
         \\"open\\": \\"open-cli http://localhost:8111\\"

@@ -31,7 +31,7 @@ export const addBrowsersync = [
     {
         text: 'Install Browsersync dependencies',
         task: ({skipInstall}) => install(BROWSERSYNC_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     }
 ];
 export const removeBrowsersync = [

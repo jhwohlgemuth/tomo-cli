@@ -65,12 +65,12 @@ export const tasks = [
     {
         text: 'Install ESLint dependencies',
         task: ({skipInstall}) => install(ESLINT_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     },
     {
         text: 'Install ESLint React plugins',
         task: ({skipInstall}) => install(ESLINT_REACT_PLUGINS, {dev: true, skipInstall}),
-        condition: ({isNotOffline, useReact}) => isNotOffline && useReact && allDoExist('package.json'),
+        condition: ({isNotOffline, skipInstall, useReact}) => !skipInstall && isNotOffline && useReact && allDoExist('package.json'),
         optional: ({useReact}) => useReact
     },
     {

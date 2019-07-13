@@ -74,7 +74,7 @@ export const addCypress = [
     {
         text: 'Install Cypress dependencies',
         task: ({skipInstall}) => install([...CYPRESS_DEPENDENCIES, 'npm-run-all', 'del-cli'], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
+        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     }
 ];
 export const removeCypress = [
