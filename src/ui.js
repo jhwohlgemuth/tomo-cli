@@ -307,7 +307,7 @@ export const TaskListTitle = ({command, hasError, isComplete, terms}) => <InkBox
     padding={{left: 1, right: 1}}
     borderColor={isComplete ? 'green' : (hasError ? 'red' : 'cyan')}
     borderStyle={'round'}>
-    <Color bold white>{command} {terms.join(' ')}</Color>
+    <Color bolds>{command} {terms.join(' ')}</Color>
 </InkBox>;
 /**
  * Task list component
