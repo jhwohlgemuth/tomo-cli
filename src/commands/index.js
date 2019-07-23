@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import {choose, withOptions} from '../utils';
-import {createPackageJson, createSourceDirectory} from './common';
+import {createEditorConfiguration, createPackageJson, createSourceDirectory} from './common';
 import {addA11y, removeA11y} from './add-a11y';
 import addBabel from './add-babel';
 import {addBrowsersync, removeBrowsersync} from './add-browsersync';
@@ -21,6 +21,7 @@ import createServer from './create-server';
 
 const createProject = [
     ...createPackageJson,
+    ...createEditorConfiguration,
     ...createSourceDirectory,
     ...addBabel,
     ...addEslint

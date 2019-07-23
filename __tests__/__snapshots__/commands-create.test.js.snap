@@ -5,6 +5,9 @@ exports[`Create new app 1`] = `
     name: tomo-test,
     children: [
         {
+            name: .editorconfig
+        },
+        {
             name: .eslintignore
         },
         {
@@ -217,6 +220,9 @@ exports[`Create new project 1`] = `
     name: tomo-test,
     children: [
         {
+            name: .editorconfig
+        },
+        {
             name: .eslintignore
         },
         {
@@ -237,10 +243,29 @@ exports[`Create new project 1`] = `
 "
 `;
 
+exports[`Create new project 2`] = `
+"[*]
+indent_style = space
+
+[*.js]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+insert_final_newline = false
+max_line_length = 150
+trim_trailing_whitespace = true
+
+[*.json]
+indent_size = 2"
+`;
+
 exports[`Create new react app 1`] = `
 "{
     name: tomo-test,
     children: [
+        {
+            name: .editorconfig
+        },
         {
             name: .eslintignore
         },
