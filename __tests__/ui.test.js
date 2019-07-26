@@ -2,7 +2,8 @@ import {getDirectoryTree, useTemporaryDirectory} from './tomo-test';
 import Queue from 'p-queue';
 import React from 'react';
 import {render} from 'ink-testing-library';
-import Tomo, {CommandError, Warning, Task, populateQueue} from '../src/ui';
+import { populateQueue} from '../src/utils';
+import Tomo, {CommandError, Warning, Task} from '../src/ui';
 
 jest.mock('is-online', () => (async () => true));
 

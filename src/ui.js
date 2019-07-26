@@ -4,7 +4,6 @@ import {complement, is} from 'ramda';
 import {bold, dim} from 'chalk';
 import Queue from 'p-queue';
 import pino from 'pino';
-import isOnline from 'is-online';
 import {Box, Color, StdinContext, Text} from 'ink';
 import {default as InkBox} from 'ink-box';
 import Spinner from 'ink-spinner';
@@ -12,7 +11,7 @@ import SelectInput from 'ink-select-input';
 import figures from 'figures';
 import {highlight} from 'cardinal';
 import commands from './commands';
-import {isUniqueTask, isValidTask, getIntendedInput} from './utils';
+import {isUniqueTask, isValidTask, getIntendedInput, populateQueue} from './utils';
 import {dict, format, maybeApply} from './utils/common';
 
 const {assign} = Object;
@@ -212,53 +211,6 @@ export const WarningAndErrorsHeader = ({errors, hasError, isOnline, options: {sk
     {!isOnline && !skipInstall && <OfflineWarning/>}
     {hasError && <CommandError errors={errors}></CommandError>}
 </Fragment>;
-/**
- * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
- * @param {Object} data Data to be used for populating queue
- * @param {Queue} [data.queue={}] p-queue instance
- * @param {Object[]} [data.tasks=[]] Array of task objects
- * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
- * @param {Object} [data.options={}] Options object to pass to task function
- * @return {undefined} Returns nothing (side effects only)
- */
-export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => {}, options: {skipInstall: false}}) {
-    const {queue, tasks, dispatch, options} = data;
-    const {skipInstall} = options;
-    const isNotOffline = skipInstall || await isOnline();
-    const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) => assign(acc, val), options), {isNotOffline});
-    dispatch({type: 'status', payload: {online: isNotOffline}});
-    for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
-        const {condition, task} = item;
-        try {
-            if (await condition(customOptions)) {
-                await queue
-                    .add(() => task(customOptions))
-                    .then(() => dispatch({type: 'complete', payload: index}))
-                    .catch(() => dispatch({
-                        type: 'error', payload: {
-                            index,
-                            title: 'Failed to add task to queue',
-                            location: 'task',
-                            details: item.text
-                        }
-                    }));
-            } else {
-                dispatch({type: 'skipped', payload: index});
-            }
-        } catch (error) {
-            dispatch({
-                type: 'error',
-                payload: {
-                    error,
-                    index,
-                    title: 'Failed to test task conditions',
-                    location: 'condition',
-                    details: item.text
-                }
-            });
-        }
-    }
-}
 /**
  * Task component
  * @param {Object} props Function component props

@@ -1,6 +1,7 @@
 import execa from 'execa';
 import semver from 'semver';
-import {has, head} from 'ramda';
+import {complement, has, head} from 'ramda';
+import isOnline from 'is-online';
 import {oneLineTrim} from 'common-tags';
 import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
@@ -8,7 +9,7 @@ import {dict} from './common';
 import createJsonEditor from './createJsonEditor';
 import createModuleEditor from './createModuleEditor';
 
-const {keys} = Object;
+const {assign, keys} = Object;
 const {isArray} = Array;
 export const isUniqueTask = ({text}, index, tasks) => tasks.map(({text}) => text).indexOf(text) === index;
 export const isValidTask = val => has('text', val) && has('task', val) && (typeof val.text === 'string') && (typeof val.task === 'function');
@@ -89,12 +90,52 @@ export const uninstall = async (dependencies = []) => {
     return args;
 };
 /**
- * Determine if system supports Rust (necessary Rust dependencies are installed)
- * @return {boolean} Are Rust components installed?
+ * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
+ * @param {Object} data Data to be used for populating queue
+ * @param {Queue} [data.queue={}] p-queue instance
+ * @param {Object[]} [data.tasks=[]] Array of task objects
+ * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions
+ * @param {Object} [data.options={}] Options object to pass to task function
+ * @return {undefined} Returns nothing (side effects only)
  */
-export const verifyRustInstallation = () => {
-
-};
+export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => { }, options: {skipInstall: false}}) {
+    const {queue, tasks, dispatch, options} = data;
+    const {skipInstall} = options;
+    const isNotOffline = skipInstall || await isOnline();
+    const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) => assign(acc, val), options), {isNotOffline});
+    dispatch({type: 'status', payload: {online: isNotOffline}});
+    for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
+        const {condition, task} = item;
+        try {
+            if (await condition(customOptions)) {
+                await queue
+                    .add(() => task(customOptions))
+                    .then(() => dispatch({type: 'complete', payload: index}))
+                    .catch(() => dispatch({
+                        type: 'error', payload: {
+                            index,
+                            title: 'Failed to add task to queue',
+                            location: 'task',
+                            details: item.text
+                        }
+                    }));
+            } else {
+                dispatch({type: 'skipped', payload: index});
+            }
+        } catch (error) {
+            dispatch({
+                type: 'error',
+                payload: {
+                    error,
+                    index,
+                    title: 'Failed to test task conditions',
+                    location: 'condition',
+                    details: item.text
+                }
+            });
+        }
+    }
+}
 /**
  * Create and edit a Babel.js configuration file with a fluent API
  * @type {ModuleEditor}

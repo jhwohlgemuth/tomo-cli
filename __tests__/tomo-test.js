@@ -7,7 +7,7 @@ import dirTree from 'directory-tree';
 import {omit} from 'ramda';
 import Queue from 'p-queue';
 import delay from 'delay';
-import {populateQueue} from '../src/ui';
+import {populateQueue} from '../src/utils';
 import {format, maybeApply} from '../src/utils/common';
 
 // eslint-disable-next-line no-magic-numbers
