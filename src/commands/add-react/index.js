@@ -7,6 +7,7 @@ const REACT_DEPENDENCIES = [
     'prop-types',
     'react',
     'react-dom',
+    'wouter', // https://github.com/molefrog/wouter
     '@hot-loader/react-dom'
 ];
 const DEV_DEPENDENCIES = [
