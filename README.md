@@ -19,6 +19,8 @@
 
 *It's like* boilerplate from GitHub, but with a streamlined interface designed to be user friendly (and all of the stuff above too)
 
+(see the wiki for [my full list of alternatives/inspirations](https://github.com/jhwohlgemuth/tomo-cli/wiki/Alternatives))
+
 ## Install
 
 ```
