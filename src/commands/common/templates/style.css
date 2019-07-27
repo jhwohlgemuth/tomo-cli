@@ -42,7 +42,7 @@ section {
     text-align: center;
     width: 100%;
     & img {
-        width: 600px;
+        width: 500px;
     }
 }
 footer {
@@ -50,6 +50,9 @@ footer {
     position: fixed;
     text-align: center;
     width: 100%;
+    & > p {
+        line-height: 0.5rem;
+    }
 }
 .heart {
     color: red;
