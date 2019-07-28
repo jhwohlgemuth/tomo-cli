@@ -19,6 +19,9 @@ exports[`Browsersync Add support 2`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
+        \\"predeploy\\": \\"npm-run-all clean build:es build:css\\",
+        \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
+        \\"clean\\": \\"del-cli ./output\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
@@ -46,6 +49,9 @@ exports[`Browsersync Remove support 1`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
+        \\"predeploy\\": \\"npm-run-all clean build:es build:css\\",
+        \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
+        \\"clean\\": \\"del-cli ./output\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",

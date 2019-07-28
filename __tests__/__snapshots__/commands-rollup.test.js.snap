@@ -32,6 +32,9 @@ exports[`Rollup Add support (+React) 2`] = `
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"predeploy\\": \\"npm-run-all clean build:es build:css copy:assets\\",
+        \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
+        \\"clean\\": \\"del-cli ./output\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
@@ -103,6 +106,9 @@ exports[`Rollup Add support 2`] = `
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"predeploy\\": \\"npm-run-all clean build:es build:css copy:assets\\",
+        \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
+        \\"clean\\": \\"del-cli ./output\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
@@ -170,7 +176,10 @@ exports[`Rollup Remove support 2`] = `
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
-        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\"
+        \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
+        \\"predeploy\\": \\"npm-run-all clean build:es build:css copy:assets\\",
+        \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
+        \\"clean\\": \\"del-cli ./output\\"
     }
 }
 "

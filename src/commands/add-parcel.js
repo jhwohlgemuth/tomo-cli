@@ -6,6 +6,10 @@ import {
 } from '../utils';
 import {allDoExist, allDoExistSync, allDoNotExist} from '../utils/common';
 
+const DEPLOY_SCRIPTS = {
+    predeploy: 'npm-run-all clean build:es build:css copy:assets',
+    deploy: 'echo \"Not yet implemented - now.sh or surge.sh are supported out of the box\" && exit 1'
+};
 const BUILD_DEPENDENCIES = [
     'cpy-cli',
     'del-cli',
@@ -27,6 +31,7 @@ export const addParcel = [
                 'react-dom': '@hot-loader/react-dom'
             };
             const scripts = {
+                ...DEPLOY_SCRIPTS,
                 clean: `del-cli ${outputDirectory}`,
                 copy: 'npm-run-all --parallel copy:assets copy:index',
                 'copy:assets': `cpy '${assetsDirectory}/!(css)/**/*.*' '${assetsDirectory}/**/[.]*' ${outputDirectory} --parents --recursive`,

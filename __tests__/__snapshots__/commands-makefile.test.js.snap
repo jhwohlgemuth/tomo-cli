@@ -34,6 +34,13 @@ test: ## Task description
 test-ing: ## Task description
 	jest .*.test.js --coverage --watchAll
 
+deploy: ## Task description
+	npm-run-all clean build:es build:css
+	echo \\"Not yet implemented - now.sh or surge.sh are supported out of the box\\" && exit 1
+
+clean: ## Task description
+	del-cli ./output
+
 copy: ## Task description
 	npm-run-all --parallel copy:assets copy:index
 
