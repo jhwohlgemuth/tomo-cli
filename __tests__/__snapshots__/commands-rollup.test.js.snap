@@ -35,10 +35,10 @@ exports[`Rollup Add support (+React) 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"build:es\\": \\"rollup -c\\",
         \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
@@ -106,10 +106,10 @@ exports[`Rollup Add support 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"build:es\\": \\"rollup -c\\",
         \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }

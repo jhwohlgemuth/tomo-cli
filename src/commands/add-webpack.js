@@ -73,10 +73,10 @@ export const addWebpack = [
                 copy: 'npm-run-all --parallel copy:assets copy:index',
                 'copy:assets': `cpy '${assetsDirectory}/!(css)/**/*.*' '${assetsDirectory}/**/[.]*' ${outputDirectory} --parents --recursive`,
                 'copy:index': `cpy '${assetsDirectory}/index.html' ${outputDirectory}`,
-                'watch:assets': `watch 'npm run copy' ${assetsDirectory}`,
                 'prebuild:es': `del-cli ${join(outputDirectory, assetsDirectory)}`,
                 'build:es': 'webpack',
                 'postbuild:es': 'npm run copy',
+                'watch:assets': `watch 'npm run copy' ${assetsDirectory}`,
                 'watch:es': `watch 'npm run build:es' ${sourceDirectory}`,
                 dashboard: 'webpack-dashboard -- webpack-dev-server --config ./webpack.config.js'
             };

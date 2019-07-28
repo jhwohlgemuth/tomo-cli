@@ -40,9 +40,9 @@ exports[`Webpack Add support (+React) 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
@@ -171,9 +171,9 @@ exports[`Webpack Add support 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
         \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
         \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"postbuild:es\\": \\"npm run copy\\",
+        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
