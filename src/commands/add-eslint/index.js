@@ -1,5 +1,5 @@
 import {join} from 'path';
-import merge from 'lodash/merge';
+import merge from 'lodash.merge';
 import {EslintConfigModuleEditor, PackageJsonEditor, install} from '../../utils';
 import {allDoExist, allDoNotExist, allDoNotExistSync} from '../../utils/common';
 import {Scaffolder} from '../../utils/Scaffolder';
