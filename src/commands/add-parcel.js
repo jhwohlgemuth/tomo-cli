@@ -4,8 +4,9 @@ import {
     install,
     uninstall
 } from '../utils';
-import {allDoExist, allDoExistSync, allDoNotExist} from '../utils/common';
+import {allDoExist, allDoExistSync} from '../utils/common';
 
+const DISABLED = () => false;
 const DEPLOY_SCRIPTS = {
     predeploy: 'npm-run-all clean build:es build:css copy:assets',
     deploy: 'echo \"Not yet implemented - now.sh or surge.sh are supported out of the box\" && exit 1'
@@ -74,7 +75,8 @@ export const addParcel = [
                 .extend({content})
                 .commit();
         },
-        condition: () => allDoNotExist('purgecss.config.js')
+        condition: DISABLED,
+        optional: DISABLED
     },
     {
         text: 'Install Parcel development dependencies',
@@ -113,7 +115,8 @@ export const removeParcel = [
                 .delete()
                 .commit();
         },
-        condition: () => allDoExist('purgecss.config.js')
+        condition: DISABLED,
+        optional: DISABLED
     },
     {
         text: 'Uninstall Parcel dependencies',

@@ -22,9 +22,9 @@ describe('Parcel', () => {
         await run(addEslint, {skipInstall});
         await run(addParcel, {skipInstall});
         const pkg = fileContents('./package.json');
-        const purgecssConfig = fileContents('./purgecss.config.js');
+        // const purgecssConfig = fileContents('./purgecss.config.js');
         expect(pkg).toMatchSnapshot();
-        expect(purgecssConfig).toMatchSnapshot();
+        // expect(purgecssConfig).toMatchSnapshot();
     });
     test('Remove support', async () => {
         await run(createPackageJson, {});
