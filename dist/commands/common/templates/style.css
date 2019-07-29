@@ -27,6 +27,15 @@ a::before {
 a:hover::before {
     transform: translate(-50%, 0) scaleX(1);
 }
+footer {
+    bottom: 0;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    & > p {
+        line-height: 0.5rem;
+    }
+}
 header {
     margin: 1rem;
     & > p {
@@ -45,20 +54,6 @@ section {
         width: 500px;
     }
 }
-footer {
-    bottom: 0;
-    position: fixed;
-    text-align: center;
-    width: 100%;
-    & > p {
-        line-height: 0.5rem;
-    }
-}
 .heart {
     color: red;
-}
-.foo {
-    &.bar {
-        color: #rrrr;
-    }
 }
