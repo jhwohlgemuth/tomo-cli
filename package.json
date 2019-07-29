@@ -39,7 +39,7 @@
         "predocs": "npm run lint:docs",
         "docs": "npm run build:docs",
         "postdocs": "npm run open:docs",
-        "preversion": "npm-run-all build lint test",
+        "preversion": "npm-run-all lint build test",
         "postversion": "git push && git push --tags"
     },
     "jest": {
