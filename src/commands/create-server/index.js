@@ -54,6 +54,7 @@ export const tasks = [
                 .copy('server.js')
                 .copy('socket.js')
                 .copy('graphql.js')
+                .copy('db.json')
                 .target('config')
                 .copy('default.js')
                 .copy('default.js', 'test.js')
