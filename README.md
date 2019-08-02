@@ -34,6 +34,35 @@ $ tomo [command] [terms] [options]
 $ npx tomo-cli [command] [terms] [options]
 ```
 
+## Install and Deploy
+> tomo web apps work with [surge.sh](https://surge.sh/) and [now.sh](https://zeit.co/download) out of the box!
+
+1. [Install tomo-cli](https://github.com/jhwohlgemuth/tomo-cli#install)
+2. Install surge or now CLI
+3. Scaffold a web app:
+    ```shell
+    tomo new app [options]
+    ```
+4. Update `deploy` task in `package.json` (pick surge or now):
+    ```json
+    {
+        "deploy": "surge dist"
+    }
+    ```
+    ```json
+    {
+        "deploy": "now dist"
+    }
+5. Excecute deploy script:
+    ```shell
+    npm run deploy
+    ```
+
+## No Install and Deploy
+> Quickly see the results of `tomo new server`... live ... on [Heroku]()
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Usage
 
 > tomo wants to help you explore and exploit modern web technologies. With a strong focus on Developer Experience (DX), tomo will allow you to build new stuff and augment existing stuff. "No [FOMO](https://en.wikipedia.org/wiki/Fear_of_missing_out) with tomo!"™
