@@ -1,9 +1,4 @@
-import {
-    PackageJsonEditor,
-    PurgecssConfigEditor,
-    install,
-    uninstall
-} from '../utils';
+import {PackageJsonEditor, PurgecssConfigEditor, install, uninstall} from '../utils';
 import {allDoExist, allDoExistSync} from '../utils/common';
 
 const DISABLED = () => false;

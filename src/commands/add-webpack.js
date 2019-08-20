@@ -1,10 +1,5 @@
 import {join} from 'path';
-import {
-    PackageJsonEditor,
-    WebpackConfigEditor,
-    install,
-    uninstall
-} from '../utils';
+import {PackageJsonEditor, WebpackConfigEditor, install, uninstall} from '../utils';
 import {allDoExist, allDoExistSync, allDoNotExist} from '../utils/common';
 
 const DEPLOY_SCRIPTS = {

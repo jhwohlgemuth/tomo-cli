@@ -1,8 +1,4 @@
-import {
-    PackageJsonEditor,
-    install,
-    uninstall
-} from '../utils';
+import {PackageJsonEditor, install, uninstall} from '../utils';
 import {allDoExist, someDoExistSync} from '../utils/common';
 
 const BROWSERSYNC_DEPENDENCIES = [
