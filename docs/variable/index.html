@@ -63,6 +63,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -70,8 +71,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUniqueTask">isUniqueTask</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isValidTask">isValidTask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uninstall">uninstall</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-withOptions">withOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BsConfigJsonEditor">BsConfigJsonEditor</a></span></span></li>
@@ -1038,11 +1039,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber108">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber149">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {BabelConfigModuleEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber108">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {BabelConfigModuleEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber149">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a Babel.js configuration file with a fluent API</p>
@@ -1093,11 +1094,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber167">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber208">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {BsConfigJsonEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber167">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {BsConfigJsonEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber208">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1136,11 +1137,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber125">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber166">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {EslintConfigModuleEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber125">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {EslintConfigModuleEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber166">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit an ESLint configuration file with a fluent API</p>
@@ -1176,7 +1177,7 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/__tests__/utils.test.js.html#lineNumber75">Verify ESLint module editor can create and edit an ESLint configuration file</a></span></li>
+    <li data-ice="test"><span><a href="test-file/__tests__/utils.test.js.html#lineNumber76">Verify ESLint module editor can create and edit an ESLint configuration file</a></span></li>
 </ul>
   </div>
 
@@ -1195,11 +1196,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber160">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber201">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PackageJsonEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber160">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PackageJsonEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber201">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a package.json manifest file with a fluent API</p>
@@ -1258,7 +1259,7 @@ await (new PackageJsonEditor())
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/__tests__/utils.test.js.html#lineNumber27">Verify package.json editor can create and edit a package.json manifest file</a></span></li>
+    <li data-ice="test"><span><a href="test-file/__tests__/utils.test.js.html#lineNumber28">Verify package.json editor can create and edit a package.json manifest file</a></span></li>
 </ul>
   </div>
 
@@ -1277,11 +1278,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber192">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber233">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PostcssConfigEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber192">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PostcssConfigEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber233">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a PostCSS configuration file with a fluent API</p>
@@ -1330,11 +1331,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber204">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber245">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PurgecssConfigEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber204">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {PurgecssConfigEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber245">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a PurgeCSS configuration file with a fluent API</p>
@@ -1383,11 +1384,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber215">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber256">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {RollupConfigEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber215">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {RollupConfigEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber256">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a Rollup configuration file with a fluent API</p>
@@ -1436,11 +1437,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber243">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber284">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {WebpackConfigEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber243">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {WebpackConfigEditor} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber284">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a Webpack configuration file with a fluent API</p>
@@ -1532,11 +1533,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/commands/add-browsersync.js.html#lineNumber16">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/commands/add-browsersync.js.html#lineNumber12">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {addBrowsersync} from &apos;<span><a href="file/src/commands/add-browsersync.js.html#lineNumber16">tomo-cli/src/commands/add-browsersync.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {addBrowsersync} from &apos;<span><a href="file/src/commands/add-browsersync.js.html#lineNumber12">tomo-cli/src/commands/add-browsersync.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1833,11 +1834,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/commands/add-react/index.js.html#lineNumber20">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/commands/add-react/index.js.html#lineNumber21">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {addReact} from &apos;<span><a href="file/src/commands/add-react/index.js.html#lineNumber20">tomo-cli/src/commands/add-react/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {addReact} from &apos;<span><a href="file/src/commands/add-react/index.js.html#lineNumber21">tomo-cli/src/commands/add-react/index.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1919,11 +1920,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/commands/add-rollup.js.html#lineNumber27">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/commands/add-rollup.js.html#lineNumber26">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {addRollup} from &apos;<span><a href="file/src/commands/add-rollup.js.html#lineNumber27">tomo-cli/src/commands/add-rollup.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {addRollup} from &apos;<span><a href="file/src/commands/add-rollup.js.html#lineNumber26">tomo-cli/src/commands/add-rollup.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1962,11 +1963,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/commands/add-webpack.js.html#lineNumber28">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/commands/add-webpack.js.html#lineNumber27">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {addWebpack} from &apos;<span><a href="file/src/commands/add-webpack.js.html#lineNumber28">tomo-cli/src/commands/add-webpack.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {addWebpack} from &apos;<span><a href="file/src/commands/add-webpack.js.html#lineNumber27">tomo-cli/src/commands/add-webpack.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -2048,11 +2049,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/commands/add-browsersync.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/commands/add-browsersync.js.html#lineNumber33">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {removeBrowsersync} from &apos;<span><a href="file/src/commands/add-browsersync.js.html#lineNumber37">tomo-cli/src/commands/add-browsersync.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {removeBrowsersync} from &apos;<span><a href="file/src/commands/add-browsersync.js.html#lineNumber33">tomo-cli/src/commands/add-browsersync.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -2134,11 +2135,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/commands/add-parcel.js.html#lineNumber80">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/commands/add-parcel.js.html#lineNumber82">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {removeParcel} from &apos;<span><a href="file/src/commands/add-parcel.js.html#lineNumber80">tomo-cli/src/commands/add-parcel.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {removeParcel} from &apos;<span><a href="file/src/commands/add-parcel.js.html#lineNumber82">tomo-cli/src/commands/add-parcel.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -2263,11 +2264,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/commands/add-rollup.js.html#lineNumber89">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/commands/add-rollup.js.html#lineNumber90">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {removeRollup} from &apos;<span><a href="file/src/commands/add-rollup.js.html#lineNumber89">tomo-cli/src/commands/add-rollup.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {removeRollup} from &apos;<span><a href="file/src/commands/add-rollup.js.html#lineNumber90">tomo-cli/src/commands/add-rollup.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -2306,11 +2307,11 @@ await (new PackageJsonEditor())
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/commands/add-webpack.js.html#lineNumber109">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/commands/add-webpack.js.html#lineNumber110">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {removeWebpack} from &apos;<span><a href="file/src/commands/add-webpack.js.html#lineNumber109">tomo-cli/src/commands/add-webpack.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {removeWebpack} from &apos;<span><a href="file/src/commands/add-webpack.js.html#lineNumber110">tomo-cli/src/commands/add-webpack.js</a></span>&apos;</code></pre></div>
   
   
   

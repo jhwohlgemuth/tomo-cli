@@ -242,6 +242,42 @@ Object {
 }
 `;
 
+exports[`createFunctionModuleEditor can create function ES module (defaults) 1`] = `
+"export default () => ({
+    foo: 'bar'
+});"
+`;
+
+exports[`createFunctionModuleEditor can create function ES module with passed [] 1`] = `
+"export default () => ({
+    foo: 'bar'
+});"
+`;
+
+exports[`createFunctionModuleEditor can create function ES module with passed parameters 1`] = `
+"export default (foo, bar) => ({
+    foo: 'bar'
+});"
+`;
+
+exports[`createFunctionModuleEditor can create function module (defaults) 1`] = `
+"module.exports = () => ({
+    foo: 'bar'
+});"
+`;
+
+exports[`createFunctionModuleEditor can create function module with passed [] 1`] = `
+"module.exports = () => ({
+    foo: 'bar'
+});"
+`;
+
+exports[`createFunctionModuleEditor can create function module with passed parameters 1`] = `
+"module.exports = (foo, bar) => ({
+    foo: 'bar'
+});"
+`;
+
 exports[`getVersions format response from npm (only allow valid version strings) 1`] = `
 Array [
   "1.0.0",

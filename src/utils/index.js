@@ -7,7 +7,7 @@ import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
 import {dict} from './common';
 import createJsonEditor from './createJsonEditor';
-import createModuleEditor from './createModuleEditor';
+import {createFunctionModuleEditor, createModuleEditor} from './createModuleEditor';
 
 const {assign, keys} = Object;
 const {isArray} = Array;
@@ -281,7 +281,7 @@ export const RollupConfigEditor = createModuleEditor('rollup.config.js', {
  *     .create()
  *     .commit();
  */
-export const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
+export const WebpackConfigEditor = createFunctionModuleEditor('webpack.config.js', {
     mode: `'development'`,
     entry: {
         app: `'./src/main.js'`
@@ -305,4 +305,4 @@ export const WebpackConfigEditor = createModuleEditor('webpack.config.js', {
     plugins: [
         `new DashboardPlugin()`
     ]
-});
+}, {params: ['env', 'argv']});

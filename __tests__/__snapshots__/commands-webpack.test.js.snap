@@ -87,7 +87,7 @@ const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = {
+module.exports = (env, argv) => ({
     mode: 'development',
     entry: [
         'react-hot-loader/patch',
@@ -131,7 +131,7 @@ module.exports = {
             'react-dom': '@hot-loader/react-dom'
         }
     }
-};"
+});"
 `;
 
 exports[`Webpack Add support 1`] = `
@@ -193,7 +193,7 @@ const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = {
+module.exports = (env, argv) => ({
     mode: 'development',
     entry: {
         app: './source/main.js'
@@ -233,7 +233,7 @@ module.exports = {
         modules: [resolve(__dirname, './source'), 'node_modules'],
         extensions: ['.js']
     }
-};"
+});"
 `;
 
 exports[`Webpack Remove support 1`] = `

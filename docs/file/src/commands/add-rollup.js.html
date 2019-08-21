@@ -63,6 +63,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -70,8 +71,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUniqueTask">isUniqueTask</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isValidTask">isValidTask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uninstall">uninstall</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-withOptions">withOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BsConfigJsonEditor">BsConfigJsonEditor</a></span></span></li>
@@ -87,14 +88,13 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-rollup.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
-import {
-    PackageJsonEditor,
-    RollupConfigEditor,
-    install,
-    uninstall
-} from &apos;../utils&apos;;
+import {PackageJsonEditor, RollupConfigEditor, install, uninstall} from &apos;../utils&apos;;
 import {allDoExist, allDoExistSync, allDoNotExist} from &apos;../utils/common&apos;;
 
+const DEPLOY_SCRIPTS = {
+    predeploy: &apos;npm-run-all clean build:es build:css copy:assets&apos;,
+    deploy: &apos;echo \&quot;Not yet implemented - now.sh or surge.sh are supported out of the box\&quot; &amp;&amp; exit 1&apos;
+};
 const BUILD_DEPENDENCIES = [
     &apos;cpy-cli&apos;,
     &apos;del-cli&apos;,
@@ -139,13 +139,15 @@ export const addRollup = [
         text: &apos;Add Rollup build tasks to package.json&apos;,
         task: async ({assetsDirectory, outputDirectory, sourceDirectory}) =&gt; {
             const scripts = {
+                ...DEPLOY_SCRIPTS,
+                clean: `del-cli ${outputDirectory}`,
                 copy: &apos;npm-run-all --parallel copy:assets copy:index&apos;,
                 &apos;copy:assets&apos;: `cpy &apos;${assetsDirectory}/!(css)/**/*.*&apos; &apos;${assetsDirectory}/**/[.]*&apos; ${outputDirectory} --parents --recursive`,
                 &apos;copy:index&apos;: `cpy &apos;${assetsDirectory}/index.html&apos; ${outputDirectory}`,
-                &apos;watch:assets&apos;: `watch &apos;npm run copy&apos; ${assetsDirectory}`,
                 &apos;prebuild:es&apos;: `del-cli ${join(outputDirectory, assetsDirectory)}`,
                 &apos;build:es&apos;: &apos;rollup -c&apos;,
                 &apos;postbuild:es&apos;: &apos;npm run copy&apos;,
+                &apos;watch:assets&apos;: `watch &apos;npm run copy&apos; ${assetsDirectory}`,
                 &apos;watch:es&apos;: `watch &apos;npm run build:es&apos; ${sourceDirectory}`
             };
             await (new PackageJsonEditor())
@@ -155,7 +157,7 @@ export const addRollup = [
         condition: () =&gt; allDoExist(&apos;package.json&apos;)
     },
     {
-        text: &apos;Install development dependencies and add dev task to package.json&apos;,
+        text: &apos;Configure dev task&apos;,
         task: async ({skipInstall}) =&gt; {
             const scripts = {
                 dev: &apos;stmux [ \&quot;npm run watch:es\&quot; : \&quot;npm run lint:ing\&quot; ]&apos;
@@ -171,7 +173,7 @@ export const addRollup = [
     {
         text: &apos;Install Rollup dependencies&apos;,
         task: ({skipInstall}) =&gt; install([...BUILD_DEPENDENCIES, ...ROLLUP_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) =&gt; isNotOffline &amp;&amp; allDoExist(&apos;package.json&apos;)
+        condition: ({isNotOffline, skipInstall}) =&gt; !skipInstall &amp;&amp; isNotOffline &amp;&amp; allDoExist(&apos;package.json&apos;)
     }
 ];
 export const removeRollup = [

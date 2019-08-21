@@ -63,6 +63,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -70,8 +71,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUniqueTask">isUniqueTask</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isValidTask">isValidTask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uninstall">uninstall</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-withOptions">withOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BsConfigJsonEditor">BsConfigJsonEditor</a></span></span></li>
@@ -142,6 +143,7 @@ export const tasks = [
                 .copy(&apos;server.js&apos;)
                 .copy(&apos;socket.js&apos;)
                 .copy(&apos;graphql.js&apos;)
+                .copy(&apos;db.json&apos;)
                 .target(&apos;config&apos;)
                 .copy(&apos;default.js&apos;)
                 .copy(&apos;default.js&apos;, &apos;test.js&apos;)
@@ -166,8 +168,8 @@ export const tasks = [
             const name = &apos;tomo-server&apos;;
             const scripts = {
                 predev: &apos;npm run open&apos;,
-                dev: &apos;stmux [ \&quot;nodemon index.js\&quot; : \&quot;npm run lint:watch\&quot; ]&apos;,
-                prestart: &apos;npm audit&apos;,
+                dev: &apos;stmux [ \&quot;nodemon index.js\&quot; : \&quot;npm run lint:ing\&quot; ]&apos;,
+                prestart: &apos;npm audit --production&apos;,
                 start: `node ${main}`,
                 open: &apos;open-cli http://localhost:8111&apos;
             };
@@ -197,7 +199,7 @@ export const tasks = [
             await install(DEPENDENCIES, {skipInstall});
             await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
         },
-        condition: () =&gt; allDoExist(&apos;package.json&apos;)
+        condition: ({isNotOffline, skipInstall}) =&gt; !skipInstall &amp;&amp; isNotOffline &amp;&amp; allDoExist(&apos;package.json&apos;)
     }
 ];
 export default tasks;</code></pre>

@@ -13,6 +13,7 @@ import {
     withOptions
 } from '../src/utils';
 import MakefileEditor from '../src/utils/MakefileEditor';
+import {createFunctionModuleEditor} from '../src/utils/createModuleEditor';
 import {join} from 'path';
 import execa from 'execa';
 import commands from '../src/commands';
@@ -160,6 +161,40 @@ describe('Makefile editor', () => {
             .appendScripts()
             .done();
         expect(read(makefile)).toMatchSnapshot();
+    });
+});
+describe('createFunctionModuleEditor', () => {
+    const content = {foo: `'bar'`};
+    test('can create function module (defaults)', async () => {
+        const Module = createFunctionModuleEditor('webpack.config.js', content);
+        expect(await (new Module()).create().read()).toMatchSnapshot();
+    });
+    test('can create function module with passed parameters', async () => {
+        const params = ['foo', 'bar'];
+        const Module = createFunctionModuleEditor('webpack.config.js', content, {params});
+        expect(await (new Module()).create().read()).toMatchSnapshot();
+    });
+    test('can create function module with passed []', async () => {
+        const params = [];
+        const Module = createFunctionModuleEditor('webpack.config.js', content, {params});
+        expect(await (new Module()).create().read()).toMatchSnapshot();
+    });
+    test('can create function ES module (defaults)', async () => {
+        const esm = true;
+        const Module = createFunctionModuleEditor('webpack.config.js', content, {esm});
+        expect(await (new Module()).create().read()).toMatchSnapshot();
+    });
+    test('can create function ES module with passed parameters', async () => {
+        const esm = true;
+        const params = ['foo', 'bar'];
+        const Module = createFunctionModuleEditor('webpack.config.js', content, {esm, params});
+        expect(await (new Module()).create().read()).toMatchSnapshot();
+    });
+    test('can create function ES module with passed []', async () => {
+        const esm = true;
+        const params = [];
+        const Module = createFunctionModuleEditor('webpack.config.js', content, {esm, params});
+        expect(await (new Module()).create().read()).toMatchSnapshot();
     });
 });
 describe('choose via options', () => {

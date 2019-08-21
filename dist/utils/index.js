@@ -1,4 +1,4 @@
-"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.includes"),require("core-js/modules/es.array.iterator"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.populateQueue=populateQueue,exports.WebpackConfigEditor=exports.RollupConfigEditor=exports.PurgecssConfigEditor=exports.PostcssConfigEditor=exports.BsConfigJsonEditor=exports.PackageJsonEditor=exports.EslintConfigModuleEditor=exports.BabelConfigModuleEditor=exports.uninstall=exports.install=exports.getVersions=exports.getIntendedInput=exports.choose=exports.withOptions=exports.isValidTask=exports.isUniqueTask=void 0;var _complement2=_interopRequireDefault(require("ramda/src/complement")),_head2=_interopRequireDefault(require("ramda/src/head")),_asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_objectSpread2=_interopRequireDefault(require("@babel/runtime/helpers/objectSpread")),_has2=_interopRequireDefault(require("ramda/src/has")),_execa=_interopRequireDefault(require("execa")),_semver=_interopRequireDefault(require("semver")),_isOnline=_interopRequireDefault(require("is-online")),_commonTags=require("common-tags"),_validateNpmPackageName=_interopRequireDefault(require("validate-npm-package-name")),_stringSimilarity=require("string-similarity"),_common=require("./common"),_createJsonEditor=_interopRequireDefault(require("./createJsonEditor")),_createModuleEditor=_interopRequireDefault(require("./createModuleEditor"));const{assign,keys}=Object,{isArray}=Array,isUniqueTask=({text:a},b,c)=>c.map(({text:a})=>a).indexOf(a)===b;exports.isUniqueTask=isUniqueTask;const isValidTask=a=>(0,_has2.default)("text",a)&&(0,_has2.default)("task",a)&&"string"==typeof a.text&&"function"==typeof a.task;exports.isValidTask=isValidTask;const withOptions=a=>b=>(0,_objectSpread2.default)({},b,a);/**
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.includes"),require("core-js/modules/es.array.iterator"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.populateQueue=populateQueue,exports.WebpackConfigEditor=exports.RollupConfigEditor=exports.PurgecssConfigEditor=exports.PostcssConfigEditor=exports.BsConfigJsonEditor=exports.PackageJsonEditor=exports.EslintConfigModuleEditor=exports.BabelConfigModuleEditor=exports.uninstall=exports.install=exports.getVersions=exports.getIntendedInput=exports.choose=exports.withOptions=exports.isValidTask=exports.isUniqueTask=void 0;var _complement2=_interopRequireDefault(require("ramda/src/complement")),_head2=_interopRequireDefault(require("ramda/src/head")),_asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_objectSpread2=_interopRequireDefault(require("@babel/runtime/helpers/objectSpread")),_has2=_interopRequireDefault(require("ramda/src/has")),_execa=_interopRequireDefault(require("execa")),_semver=_interopRequireDefault(require("semver")),_isOnline=_interopRequireDefault(require("is-online")),_commonTags=require("common-tags"),_validateNpmPackageName=_interopRequireDefault(require("validate-npm-package-name")),_stringSimilarity=require("string-similarity"),_common=require("./common"),_createJsonEditor=_interopRequireDefault(require("./createJsonEditor")),_createModuleEditor=require("./createModuleEditor");const{assign,keys}=Object,{isArray}=Array,isUniqueTask=({text:a},b,c)=>c.map(({text:a})=>a).indexOf(a)===b;exports.isUniqueTask=isUniqueTask;const isValidTask=a=>(0,_has2.default)("text",a)&&(0,_has2.default)("task",a)&&"string"==typeof a.text&&"function"==typeof a.task;exports.isValidTask=isValidTask;const withOptions=a=>b=>(0,_objectSpread2.default)({},b,a);/**
  * Choose tasks based on CLI options
  * @param {Object} choices Object to create choice dictionary from
  * @return {function} Accepts CLI options and returns array of tasks
@@ -45,14 +45,14 @@
  *     .extend({presets: [`'@babel/preset-env'`]})
  *     .prepend(`const {existsSync} = require('fs-extra');`)
  *     .commit();
- */function _populateQueue(){return _populateQueue=(0,_asyncToGenerator2.default)(function*(a={queue:{},tasks:[],dispatch:()=>{},options:{skipInstall:!1}}){const{queue:b,tasks:c,dispatch:d,options:e}=a,{skipInstall:f}=e,g=f||(yield(0,_isOnline.default)()),h=assign({},c.filter((0,_complement2.default)(isValidTask)).reduce((a,b)=>assign(a,b),e),{isNotOffline:g});d({type:"status",payload:{online:g}});for(const[e,f]of c.filter(isValidTask).filter(isUniqueTask).entries()){const{condition:a,task:c}=f;try{(yield a(h))?yield b.add(()=>c(h)).then(()=>d({type:"complete",payload:e})).catch(()=>d({type:"error",payload:{index:e,title:"Failed to add task to queue",location:"task",details:f.text}})):d({type:"skipped",payload:e})}catch(a){d({type:"error",payload:{error:a,index:e,title:"Failed to test task conditions",location:"condition",details:f.text}})}}}),_populateQueue.apply(this,arguments)}const BabelConfigModuleEditor=(0,_createModuleEditor.default)("babel.config.js",{plugins:[`'@babel/plugin-transform-runtime'`,`'@babel/plugin-proposal-class-properties'`,`'@babel/plugin-proposal-export-default-from'`,`'@babel/plugin-proposal-optional-chaining'`],presets:[`'@babel/preset-env'`,`'babel-preset-minify'`]});/**
+ */function _populateQueue(){return _populateQueue=(0,_asyncToGenerator2.default)(function*(a={queue:{},tasks:[],dispatch:()=>{},options:{skipInstall:!1}}){const{queue:b,tasks:c,dispatch:d,options:e}=a,{skipInstall:f}=e,g=f||(yield(0,_isOnline.default)()),h=assign({},c.filter((0,_complement2.default)(isValidTask)).reduce((a,b)=>assign(a,b),e),{isNotOffline:g});d({type:"status",payload:{online:g}});for(const[e,f]of c.filter(isValidTask).filter(isUniqueTask).entries()){const{condition:a,task:c}=f;try{(yield a(h))?yield b.add(()=>c(h)).then(()=>d({type:"complete",payload:e})).catch(()=>d({type:"error",payload:{index:e,title:"Failed to add task to queue",location:"task",details:f.text}})):d({type:"skipped",payload:e})}catch(a){d({type:"error",payload:{error:a,index:e,title:"Failed to test task conditions",location:"condition",details:f.text}})}}}),_populateQueue.apply(this,arguments)}const BabelConfigModuleEditor=(0,_createModuleEditor.createModuleEditor)("babel.config.js",{plugins:[`'@babel/plugin-transform-runtime'`,`'@babel/plugin-proposal-class-properties'`,`'@babel/plugin-proposal-export-default-from'`,`'@babel/plugin-proposal-optional-chaining'`],presets:[`'@babel/preset-env'`,`'babel-preset-minify'`]});/**
  * Create and edit an ESLint configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
  * await (new EslintConfigModuleEditor())
  *     .create()
  *     .commit();
- */exports.BabelConfigModuleEditor=BabelConfigModuleEditor;const EslintConfigModuleEditor=(0,_createModuleEditor.default)(".eslintrc.js",{env:{es6:!0,jest:!0},extends:[`'omaha-prime-grade'`],parser:`'babel-eslint'`});/**
+ */exports.BabelConfigModuleEditor=BabelConfigModuleEditor;const EslintConfigModuleEditor=(0,_createModuleEditor.createModuleEditor)(".eslintrc.js",{env:{es6:!0,jest:!0},extends:[`'omaha-prime-grade'`],parser:`'babel-eslint'`});/**
  * Create and edit a package.json manifest file with a fluent API
  * @type {JsonEditor}
  * @example <caption>Create a new package.json</caption>
@@ -83,21 +83,21 @@
  * await (new PostcssConfigEditor())
  *     .create()
  *     .commit();
- */exports.BsConfigJsonEditor=BsConfigJsonEditor;const PostcssConfigEditor=(0,_createModuleEditor.default)("postcss.config.js",{map:!0,parser:`require('postcss-safe-parser')`});/**
+ */exports.BsConfigJsonEditor=BsConfigJsonEditor;const PostcssConfigEditor=(0,_createModuleEditor.createModuleEditor)("postcss.config.js",{map:!0,parser:`require('postcss-safe-parser')`});/**
  * Create and edit a PurgeCSS configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
  * await (new PurgecssConfigEditor())
  *     .create()
  *     .commit();
- */exports.PostcssConfigEditor=PostcssConfigEditor;const PurgecssConfigEditor=(0,_createModuleEditor.default)("purgecss.config.js",{content:[`'./assets/index.html'`]});/**
+ */exports.PostcssConfigEditor=PostcssConfigEditor;const PurgecssConfigEditor=(0,_createModuleEditor.createModuleEditor)("purgecss.config.js",{content:[`'./assets/index.html'`]});/**
  * Create and edit a Rollup configuration file with a fluent API
  * @type {ModuleEditor}
  * @example
  * await (new RollupConfigEditor())
  *     .create()
  *     .commit();
- */exports.PurgecssConfigEditor=PurgecssConfigEditor;const RollupConfigEditor=(0,_createModuleEditor.default)("rollup.config.js",{input:`'./src/main.js'`,output:{file:`'./dist/bundle.min.js'`,format:`'iife'`,sourceMap:`'inline'`},plugins:[`babel({exclude: 'node_modules/**', runtimeHelpers: true})`,_commonTags.oneLineTrim`commonjs({
+ */exports.PurgecssConfigEditor=PurgecssConfigEditor;const RollupConfigEditor=(0,_createModuleEditor.createModuleEditor)("rollup.config.js",{input:`'./src/main.js'`,output:{file:`'./dist/bundle.min.js'`,format:`'iife'`,sourceMap:`'inline'`},plugins:[`babel({exclude: 'node_modules/**', runtimeHelpers: true})`,_commonTags.oneLineTrim`commonjs({
             namedExports: {
                 './node_modules/backbone/backbone.js': ['Model', 'history'],
                 './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']
@@ -109,4 +109,4 @@
  * await (new WebpackConfigEditor())
  *     .create()
  *     .commit();
- */exports.RollupConfigEditor=RollupConfigEditor;const WebpackConfigEditor=(0,_createModuleEditor.default)("webpack.config.js",{mode:`'development'`,entry:{app:`'./src/main.js'`},output:{path:`resolve('./dist')`,filename:`'bundle.min.js'`},module:{rules:[{test:`/\.jsx?$/`,exclude:`/node_modules/`,loader:`'babel-loader'`,query:{presets:[`'@babel/env'`]}}]},plugins:[`new DashboardPlugin()`]});exports.WebpackConfigEditor=WebpackConfigEditor;
+ */exports.RollupConfigEditor=RollupConfigEditor;const WebpackConfigEditor=(0,_createModuleEditor.createFunctionModuleEditor)("webpack.config.js",{mode:`'development'`,entry:{app:`'./src/main.js'`},output:{path:`resolve('./dist')`,filename:`'bundle.min.js'`},module:{rules:[{test:`/\.jsx?$/`,exclude:`/node_modules/`,loader:`'babel-loader'`,query:{presets:[`'@babel/env'`]}}]},plugins:[`new DashboardPlugin()`]});exports.WebpackConfigEditor=WebpackConfigEditor;

@@ -63,6 +63,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -70,8 +71,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUniqueTask">isUniqueTask</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isValidTask">isValidTask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uninstall">uninstall</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-withOptions">withOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BsConfigJsonEditor">BsConfigJsonEditor</a></span></span></li>
@@ -145,12 +146,12 @@ export const addEsdoc = [
     {
         text: &apos;Install esdoc dependencies&apos;,
         task: ({skipInstall}) =&gt; install([...ESDOC_DEPENDENCIES, &apos;open-cli&apos;], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) =&gt; isNotOffline &amp;&amp; allDoExist(&apos;package.json&apos;)
+        condition: ({isNotOffline, skipInstall}) =&gt; !skipInstall &amp;&amp; isNotOffline &amp;&amp; allDoExist(&apos;package.json&apos;)
     },
     {
         text: &apos;Install esdoc React plugins&apos;,
         task: ({skipInstall}) =&gt; install(ESDOC_REACT_PLUGINS, {dev: true, skipInstall}),
-        condition: ({isNotOffline, useReact}) =&gt; isNotOffline &amp;&amp; useReact &amp;&amp; allDoExist(&apos;package.json&apos;),
+        condition: ({isNotOffline, skipInstall, useReact}) =&gt; !skipInstall &amp;&amp; isNotOffline &amp;&amp; useReact &amp;&amp; allDoExist(&apos;package.json&apos;),
         optional: ({useReact}) =&gt; useReact
     },
     {

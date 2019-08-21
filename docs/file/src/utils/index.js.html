@@ -63,6 +63,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -70,8 +71,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUniqueTask">isUniqueTask</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isValidTask">isValidTask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uninstall">uninstall</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-withOptions">withOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BsConfigJsonEditor">BsConfigJsonEditor</a></span></span></li>
@@ -88,15 +89,16 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import execa from &apos;execa&apos;;
 import semver from &apos;semver&apos;;
-import {has, head} from &apos;ramda&apos;;
+import {complement, has, head} from &apos;ramda&apos;;
+import isOnline from &apos;is-online&apos;;
 import {oneLineTrim} from &apos;common-tags&apos;;
 import validate from &apos;validate-npm-package-name&apos;;
 import {findBestMatch} from &apos;string-similarity&apos;;
 import {dict} from &apos;./common&apos;;
 import createJsonEditor from &apos;./createJsonEditor&apos;;
-import createModuleEditor from &apos;./createModuleEditor&apos;;
+import {createFunctionModuleEditor, createModuleEditor} from &apos;./createModuleEditor&apos;;
 
-const {keys} = Object;
+const {assign, keys} = Object;
 const {isArray} = Array;
 export const isUniqueTask = ({text}, index, tasks) =&gt; tasks.map(({text}) =&gt; text).indexOf(text) === index;
 export const isValidTask = val =&gt; has(&apos;text&apos;, val) &amp;&amp; has(&apos;task&apos;, val) &amp;&amp; (typeof val.text === &apos;string&apos;) &amp;&amp; (typeof val.task === &apos;function&apos;);
@@ -177,12 +179,52 @@ export const uninstall = async (dependencies = []) =&gt; {
     return args;
 };
 /**
- * Determine if system supports Rust (necessary Rust dependencies are installed)
- * @return {boolean} Are Rust components installed?
+ * Add async tasks to a queue, handle completion with actions dispatched via dispatch function
+ * @param {Object} data Data to be used for populating queue
+ * @param {Queue} [data.queue={}] p-queue instance
+ * @param {Object[]} [data.tasks=[]] Array of task objects
+ * @param {function} [data.dispatch=()=&gt;{}] Function to dispatch task completion (complete, skip, error) actions
+ * @param {Object} [data.options={}] Options object to pass to task function
+ * @return {undefined} Returns nothing (side effects only)
  */
-export const verifyRustInstallation = () =&gt; {
-
-};
+export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =&gt; { }, options: {skipInstall: false}}) {
+    const {queue, tasks, dispatch, options} = data;
+    const {skipInstall} = options;
+    const isNotOffline = skipInstall || await isOnline();
+    const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) =&gt; assign(acc, val), options), {isNotOffline});
+    dispatch({type: &apos;status&apos;, payload: {online: isNotOffline}});
+    for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
+        const {condition, task} = item;
+        try {
+            if (await condition(customOptions)) {
+                await queue
+                    .add(() =&gt; task(customOptions))
+                    .then(() =&gt; dispatch({type: &apos;complete&apos;, payload: index}))
+                    .catch(() =&gt; dispatch({
+                        type: &apos;error&apos;, payload: {
+                            index,
+                            title: &apos;Failed to add task to queue&apos;,
+                            location: &apos;task&apos;,
+                            details: item.text
+                        }
+                    }));
+            } else {
+                dispatch({type: &apos;skipped&apos;, payload: index});
+            }
+        } catch (error) {
+            dispatch({
+                type: &apos;error&apos;,
+                payload: {
+                    error,
+                    index,
+                    title: &apos;Failed to test task conditions&apos;,
+                    location: &apos;condition&apos;,
+                    details: item.text
+                }
+            });
+        }
+    }
+}
 /**
  * Create and edit a Babel.js configuration file with a fluent API
  * @type {ModuleEditor}
@@ -328,7 +370,7 @@ export const RollupConfigEditor = createModuleEditor(&apos;rollup.config.js&apos
  *     .create()
  *     .commit();
  */
-export const WebpackConfigEditor = createModuleEditor(&apos;webpack.config.js&apos;, {
+export const WebpackConfigEditor = createFunctionModuleEditor(&apos;webpack.config.js&apos;, {
     mode: `&apos;development&apos;`,
     entry: {
         app: `&apos;./src/main.js&apos;`
@@ -352,7 +394,7 @@ export const WebpackConfigEditor = createModuleEditor(&apos;webpack.config.js&ap
     plugins: [
         `new DashboardPlugin()`
     ]
-});</code></pre>
+}, {params: [&apos;env&apos;, &apos;argv&apos;]});</code></pre>
 
 </div>
 

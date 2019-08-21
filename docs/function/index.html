@@ -63,6 +63,7 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/Scaffolder.js~Scaffolder.html">Scaffolder</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createJsonEditor">createJsonEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -70,8 +71,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isUniqueTask">isUniqueTask</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isValidTask">isValidTask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uninstall">uninstall</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-withOptions">withOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BabelConfigModuleEditor">BabelConfigModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BsConfigJsonEditor">BsConfigJsonEditor</a></span></span></li>
@@ -195,6 +196,35 @@
         
         
         <div data-ice="description"><p>Choose tasks based on CLI options</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span><span class="code" data-ice="signature">(filename: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, contents: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span>ModuleEditor</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Create and edit a JS module (with function export) using a fluent API</p>
 </div>
       </div>
     </td>
@@ -474,13 +504,14 @@
           
           <span data-ice="async">async</span>
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-uninstall">uninstall</a></span></span><span class="code" data-ice="signature">(dependencies: <span><span>*</span><span>[]</span></span>): <span>*</span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-populateQueue">populateQueue</a></span></span><span class="code" data-ice="signature">(data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Add async tasks to a queue, handle completion with actions dispatched via dispatch function</p>
+</div>
       </div>
     </td>
     <td>
@@ -500,16 +531,15 @@
       <div>
         <p>
           
+          <span data-ice="async">async</span>
           
-          
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-verifyRustInstallation">verifyRustInstallation</a></span></span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-uninstall">uninstall</a></span></span><span class="code" data-ice="signature">(dependencies: <span><span>*</span><span>[]</span></span>): <span>*</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Determine if system supports Rust (necessary Rust dependencies are installed)</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -719,11 +749,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber21">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber22">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {choose} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber21">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {choose} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber22">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Choose tasks based on CLI options</p>
@@ -758,6 +788,111 @@
         <tr>
           <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span></td>
           <td class="return-desc" data-ice="returnDescription"><p>Accepts CLI options and returns array of tasks</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-createFunctionModuleEditor">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">createFunctionModuleEditor</span><span class="code" data-ice="signature">(filename: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, contents: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span>ModuleEditor</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/utils/createModuleEditor.js.html#lineNumber70">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {createFunctionModuleEditor} from &apos;<span><a href="file/src/utils/createModuleEditor.js.html#lineNumber70">tomo-cli/src/utils/createModuleEditor.js</a></span>&apos;</code></pre></div>
+  
+  
+  <div data-ice="description"><p>Create and edit a JS module (with function export) using a fluent API</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">filename</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Name of file to edit</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">contents</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: &apos;&apos;</li></ul></td>
+      <td data-ice="description"><p>Contents of file</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">options</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Options to configure module</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">options.params</td>
+      <td data-ice="type" class="code"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: []</li></ul></td>
+      <td data-ice="description"><p>Params to use as function parameters. ex: [&apos;a&apos;, &apos;b&apos;] becomes (a, b) =&gt; {}</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">options.esm</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: false</li></ul></td>
+      <td data-ice="description"><p>Select to use &apos;module.exports =&apos; (false) or &apos;export default&apos; (true)</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>ModuleEditor</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>ModuleEditor class (extends <span><a href="class/src/utils/BasicEditor.js~BasicEditor.html">BasicEditor</a></span>)</p>
 </td>
         </tr>
       </tbody>
@@ -875,11 +1010,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/createModuleEditor.js.html#lineNumber17">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/createModuleEditor.js.html#lineNumber51">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {createModuleEditor} from &apos;<span><a href="file/src/utils/createModuleEditor.js.html#lineNumber17">tomo-cli/src/utils/createModuleEditor.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {createModuleEditor} from &apos;<span><a href="file/src/utils/createModuleEditor.js.html#lineNumber51">tomo-cli/src/utils/createModuleEditor.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Create and edit a JS module with a fluent API</p>
@@ -905,7 +1040,8 @@
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">contents</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: &apos;&apos;</li></ul></td>
       <td data-ice="description"><p>Contents of file</p>
 </td>
     </tr>
@@ -1030,11 +1166,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber38">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber39">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getIntendedInput} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber38">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getIntendedInput} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber39">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Use string-similarity module to determine closest matching string</p>
@@ -1126,11 +1262,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber52">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber53">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getVersions} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber52">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getVersions} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber53">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Use npm CLI to return array of module versions</p>
@@ -1266,11 +1402,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber73">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber74">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {install} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber73">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {install} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber74">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Install dependencies with npm</p>
@@ -1383,11 +1519,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber13">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isUniqueTask} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber13">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isUniqueTask} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber14">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1454,11 +1590,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber14">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber15">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isValidTask} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber14">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isValidTask} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber15">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1502,6 +1638,111 @@
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-populateQueue">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    <span data-ice="async">async</span>
+    
+    <span class="code" data-ice="name">populateQueue</span><span class="code" data-ice="signature">(data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber101">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {populateQueue} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber101">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  
+  
+  <div data-ice="description"><p>Add async tasks to a queue, handle completion with actions dispatched via dispatch function</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">data</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Data to be used for populating queue</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">data.queue</td>
+      <td data-ice="type" class="code"><span>Queue</span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: {}</li></ul></td>
+      <td data-ice="description"><p>p-queue instance</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">data.tasks</td>
+      <td data-ice="type" class="code"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span><span>[]</span></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: []</li></ul></td>
+      <td data-ice="description"><p>Array of task objects</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">data.dispatch</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>Function to dispatch task completion (complete, skip, error) actions</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">data.options</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: {}</li></ul></td>
+      <td data-ice="description"><p>Options object to pass to task function</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Returns nothing (side effects only)</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-function-uninstall">
     <span class="access" data-ice="access">public</span>
     
@@ -1513,11 +1754,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber86">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber87">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {uninstall} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber86">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {uninstall} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber87">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1574,63 +1815,6 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-verifyRustInstallation">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">verifyRustInstallation</span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber95">source</a></span></span>
-    </span>
-  </h3>
-
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {verifyRustInstallation} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber95">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
-  
-  
-  <div data-ice="description"><p>Determine if system supports Rust (necessary Rust dependencies are installed)</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>Are Rust components installed?</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-function-withOptions">
     <span class="access" data-ice="access">public</span>
     
@@ -1642,11 +1826,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber15">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber16">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {withOptions} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber15">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {withOptions} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber16">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   
