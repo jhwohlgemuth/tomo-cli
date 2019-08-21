@@ -18,6 +18,8 @@
 
 *It's like* [GatsbyJS](https://www.gatsbyjs.org/), but can be used to make and enhance modules, libraries, plugins, apps, sites, servers, and more.
 
+*It's like* [mrm](https://github.com/sapegin/mrm), but with mostly different options, built with a React-based UI, and focused more on code, less on config. Honestly, `mrm` is really cool... `tomo` and `mrm` could definitely be used together.
+
 *It's like* boilerplate from GitHub, but with a streamlined interface designed to be user friendly (and all of the stuff above too)
 
 (see the wiki for [my full list of alternatives/inspirations](https://github.com/jhwohlgemuth/tomo-cli/wiki/Alternatives))
