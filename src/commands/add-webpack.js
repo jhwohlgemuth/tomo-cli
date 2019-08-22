@@ -50,7 +50,7 @@ export const addWebpack = [
                 watchContentBase: true
             };
             const optimization = {
-                minimize: true,
+                minimize: `argv.mode === 'production'`,
                 minimizer: `[new TerserPlugin()]`
             };
             await (new WebpackConfigEditor())

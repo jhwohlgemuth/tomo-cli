@@ -88,11 +88,12 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => ({
-    mode: 'development',
+    mode: argv.mode === 'production' ? 'production' : 'development',
     entry: [
         'react-hot-loader/patch',
         './source/main.js'
     ],
+    devtool: (argv.mode === 'production') ? void 0 : 'eval-source-map',
     output: {
         path: resolve('./dist'),
         filename: 'bundle.min.js'
@@ -121,7 +122,7 @@ module.exports = (env, argv) => ({
         watchContentBase: true
     },
     optimization: {
-        minimize: true,
+        minimize: argv.mode === 'production',
         minimizer: [new TerserPlugin()]
     },
     resolve: {
@@ -194,10 +195,11 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => ({
-    mode: 'development',
+    mode: argv.mode === 'production' ? 'production' : 'development',
     entry: {
         app: './source/main.js'
     },
+    devtool: (argv.mode === 'production') ? void 0 : 'eval-source-map',
     output: {
         path: resolve('./dist'),
         filename: 'bundle.min.js'
@@ -226,7 +228,7 @@ module.exports = (env, argv) => ({
         watchContentBase: true
     },
     optimization: {
-        minimize: true,
+        minimize: argv.mode === 'production',
         minimizer: [new TerserPlugin()]
     },
     resolve: {

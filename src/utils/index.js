@@ -282,10 +282,11 @@ export const RollupConfigEditor = createModuleEditor('rollup.config.js', {
  *     .commit();
  */
 export const WebpackConfigEditor = createFunctionModuleEditor('webpack.config.js', {
-    mode: `'development'`,
+    mode: `argv.mode === 'production' ? 'production' : 'development'`,
     entry: {
         app: `'./src/main.js'`
     },
+    devtool: `(argv.mode === 'production') ? void 0 : 'eval-source-map'`,
     output: {
         path: `resolve('./dist')`,
         filename: `'bundle.min.js'`
