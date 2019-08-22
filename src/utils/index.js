@@ -104,7 +104,7 @@ export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =
     const isNotOffline = skipInstall || await isOnline();
     const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) => assign(acc, val), options), {isNotOffline});
     dispatch({type: 'status', payload: {online: isNotOffline}});
-    for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
+    for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {// eslint-disable-line no-unused-vars
         const {condition, task} = item;
         try {
             if (await condition(customOptions)) {
