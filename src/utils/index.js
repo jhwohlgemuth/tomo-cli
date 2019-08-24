@@ -290,20 +290,5 @@ export const WebpackConfigEditor = createFunctionModuleEditor('webpack.config.js
     output: {
         path: `resolve('./dist')`,
         filename: `'bundle.min.js'`
-    },
-    module: {
-        rules: [
-            {
-                test: `/\.jsx?$/`,
-                exclude: `/node_modules/`,
-                loader: `'babel-loader'`,
-                query: {
-                    presets: [`'@babel/env'`]
-                }
-            }
-        ]
-    },
-    plugins: [
-        `new DashboardPlugin()`
-    ]
+    }
 }, {params: ['env', 'argv']});

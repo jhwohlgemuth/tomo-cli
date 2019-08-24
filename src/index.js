@@ -58,6 +58,7 @@ const help = `
         --use-parcel,           Use Parcel instead of Webpack [Default: false]
         --use-react, -r         Add React support to workflow [Default: false]
         --react-version         React version for ESLint configuration [Default: '16.8']
+        --with-cesium           Add Cesium.js to your project [Default: false]
         --ignore-warnings, -i   Ignore warning messages [Default: false]
         --skip-install, -s      Skip npm installations [Default: false]
         --overwrite             Copy files, even if they alrady exist [Default: false]
@@ -106,6 +107,10 @@ const options = {
         reactVersion: {
             type: 'string',
             default: '16.8'
+        },
+        withCesium: {
+            type: 'boolean',
+            default: false
         },
         ignoreWarnings: {
             type: 'boolean',

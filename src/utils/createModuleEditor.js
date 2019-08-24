@@ -36,7 +36,9 @@ class Common extends BasicEditor {
     prepend(code) {
         const self = this;
         const {contents, prependedContents} = self;
-        self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
+        if (typeof code === 'string' && code.length > 0) {
+            self.prependedContents = `${code}\n${prependedContents}`.replace(/\n*$/, '\n\n');
+        }
         return self.write(contents);
     }
 }

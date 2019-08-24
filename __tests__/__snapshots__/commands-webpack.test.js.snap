@@ -98,6 +98,12 @@ module.exports = (env, argv) => ({
         path: resolve('./dist'),
         filename: 'bundle.min.js'
     },
+    devServer: {
+        port: 4669,
+        contentBase: './output',
+        compress: true,
+        watchContentBase: true
+    },
     module: {
         rules: [
             {
@@ -112,19 +118,13 @@ module.exports = (env, argv) => ({
             }
         ]
     },
-    plugins: [
-        new DashboardPlugin()
-    ],
-    devServer: {
-        port: 4669,
-        contentBase: './output',
-        compress: true,
-        watchContentBase: true
-    },
     optimization: {
         minimize: argv.mode === 'production',
         minimizer: [new TerserPlugin()]
     },
+    plugins: [
+        new DashboardPlugin()
+    ],
     resolve: {
         modules: [resolve(__dirname, './source'), 'node_modules'],
         extensions: ['.js', '.jsx'],
@@ -204,6 +204,12 @@ module.exports = (env, argv) => ({
         path: resolve('./dist'),
         filename: 'bundle.min.js'
     },
+    devServer: {
+        port: 4669,
+        contentBase: './output',
+        compress: true,
+        watchContentBase: true
+    },
     module: {
         rules: [
             {
@@ -218,22 +224,17 @@ module.exports = (env, argv) => ({
             }
         ]
     },
-    plugins: [
-        new DashboardPlugin()
-    ],
-    devServer: {
-        port: 4669,
-        contentBase: './output',
-        compress: true,
-        watchContentBase: true
-    },
     optimization: {
         minimize: argv.mode === 'production',
         minimizer: [new TerserPlugin()]
     },
+    plugins: [
+        new DashboardPlugin()
+    ],
     resolve: {
         modules: [resolve(__dirname, './source'), 'node_modules'],
-        extensions: ['.js']
+        extensions: ['.js'],
+        alias: {}
     }
 });"
 `;
