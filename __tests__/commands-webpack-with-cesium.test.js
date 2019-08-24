@@ -1,8 +1,8 @@
-import { fileContents, getDirectoryTree, run, useTemporaryDirectory } from './tomo-test';
-import { createPackageJson } from '../src/commands/common';
+import {fileContents, run, useTemporaryDirectory} from './tomo-test';
+import {createPackageJson} from '../src/commands/common';
 import addBabel from '../src/commands/add-babel';
 import addEslint from '../src/commands/add-eslint';
-import { addWebpack } from '../src/commands/add-webpack';
+import {addWebpack} from '../src/commands/add-webpack';
 
 jest.mock('is-online', () => (async () => true));
 
@@ -21,17 +21,17 @@ describe('Webpack with Cesium', () => {
     });
     test('Add support', async () => {
         await run(createPackageJson, {});
-        await run(addBabel, { skipInstall });
-        await run(addEslint, { skipInstall });
-        await run(addWebpack, { skipInstall, withCesium });
+        await run(addBabel, {skipInstall});
+        await run(addEslint, {skipInstall});
+        await run(addWebpack, {skipInstall, withCesium});
         const webpackConfig = fileContents('./webpack.config.js');
         expect(webpackConfig).toMatchSnapshot();
     });
     test('Add support (+React)', async () => {
         await run(createPackageJson, {});
-        await run(addBabel, { skipInstall });
-        await run(addEslint, { skipInstall });
-        await run(addWebpack, { skipInstall, withCesium, useReact });
+        await run(addBabel, {skipInstall});
+        await run(addEslint, {skipInstall});
+        await run(addWebpack, {skipInstall, withCesium, useReact});
         const webpackConfig = fileContents('./webpack.config.js');
         expect(webpackConfig).toMatchSnapshot();
     });

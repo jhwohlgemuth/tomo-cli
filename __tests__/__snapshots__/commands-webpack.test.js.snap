@@ -271,8 +271,6 @@ exports[`Webpack Remove support 2`] = `
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
-        \\"predeploy\\": \\"npm-run-all clean build:es build:css\\",
-        \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
         \\"clean\\": \\"del-cli ./output\\"
     }
 }

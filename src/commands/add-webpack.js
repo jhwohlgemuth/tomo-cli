@@ -21,6 +21,12 @@ const WEBPACK_DEPENDENCIES = [
     'babel-loader',
     'terser-webpack-plugin'
 ];
+const WEBPACK_WITH_CESIUM_DEPENDENCIES = [
+    'copy-webpack-plugin',
+    'css-loader',
+    'style-loader',
+    'url-loader'
+];
 const WEBPACK_RULES = [
     {
         test: `/\.jsx?$/`,
@@ -63,24 +69,59 @@ const WEBPACK_PLUGINS_WITH_CESIUM = [
         }
     ])`
 ];
-const CESIUM_ALIASES = {
-    cesium$: `'cesium/Cesium'`,
-    cesium: `'cesium/Source'`
-};
-const CESIUM_WEBPACK_DEPENDENCIES = [
-    'copy-webpack-plugin',
-    'css-loader',
-    'style-loader',
-    'url-loader'
-];
 const CESIUM_DEPENDENCIES = [
-    ...CESIUM_WEBPACK_DEPENDENCIES,
+    ...WEBPACK_WITH_CESIUM_DEPENDENCIES,
     'cesium'
 ];
 const RESIUM_DEPENDENCIES = [
     ...CESIUM_DEPENDENCIES,
     'resium'
 ];
+const getAliasOption = (useReact = false, withCesium = false) => {
+    const CESIUM_ALIASES = {
+        cesium$: `'cesium/Cesium'`,
+        cesium: `'cesium/Source'`
+    };
+    return {
+        ...(useReact ? {'\'react-dom\'': `'@hot-loader/react-dom'`} : {}),
+        ...(withCesium ? CESIUM_ALIASES : {})
+    };
+};
+const getDevServerOption = (outputDirectory, port) => ({
+    port,
+    contentBase: `'${outputDirectory}'`,
+    compress: true,
+    watchContentBase: true
+});
+const getEntryOption = (sourceDirectory, useReact = false) => {
+    const entryWithReact = [
+        `'react-hot-loader/patch'`,
+        `'${sourceDirectory}/main.js'`
+    ];
+    const entryWithoutReact = {
+        app: `'${sourceDirectory}/main.js'`
+    };
+    return useReact ? entryWithReact : entryWithoutReact;
+};
+const getResolveOption = (sourceDirectory, alias = {}, useReact = false) => ({
+    modules: `[resolve(__dirname, '${sourceDirectory}'), 'node_modules']`,
+    extensions: `[${useReact ? `'.js', '.jsx'` : `'.js'`}]`,
+    alias
+});
+/*eslint-disable complexity*/
+const getWebpackConfigPrependContent = withCesium => [
+    `/* eslint-env node */`,
+    `const {${withCesium ? 'join, ' : ''}resolve} = require('path');`,
+    withCesium && `const {DefinePlugin} = require('webpack');`,
+    withCesium && `const CopyWebpackPlugin = require('copy-webpack-plugin');`,
+    `const DashboardPlugin = require('webpack-dashboard/plugin');`,
+    `const TerserPlugin = require('terser-webpack-plugin');`,
+    withCesium && `const source = 'node_modules/cesium/Source';`,
+    withCesium && `const workers = '../Build/Cesium/Workers';`
+]
+    .reverse()// prepend puts last on top
+    .filter(val => typeof val === 'string');
+/*eslint-enable complexity*/
 /**
  * @type {task[]}
  * @see https://webpack.js.org/
@@ -88,52 +129,18 @@ const RESIUM_DEPENDENCIES = [
 export const addWebpack = [
     {
         text: 'Create Webpack configuration file',
-        task: async ({outputDirectory, port, sourceDirectory, withCesium, useReact}) => {
-            const alias = {
-                ...(useReact ? {'\'react-dom\'': `'@hot-loader/react-dom'`} : {}),
-                ...(withCesium ? CESIUM_ALIASES : {})
-            };
-            const amd = {
-                toUrlUndefined: true
-            };
-            const devServer = {
-                port,
-                contentBase: `'${outputDirectory}'`,
-                compress: true,
-                watchContentBase: true
-            };
-            const entryWithReact = [
-                `'react-hot-loader/patch'`,
-                `'${sourceDirectory}/main.js'`
-            ];
-            const entryWithoutReact = {
-                app: `'${sourceDirectory}/main.js'`
-            };
-            const entry = useReact ? entryWithReact : entryWithoutReact;
-            const optimization = {
-                minimize: `argv.mode === 'production'`,
-                minimizer: `[new TerserPlugin()]`
-            };
-            const node = {
-                fs: `'empty'`
-            };
+        task: async ({outputDirectory, port, sourceDirectory, useReact, withCesium}) => {
+            const alias = getAliasOption(useReact, withCesium);
+            const amd = {toUrlUndefined: true};
+            const devServer = getDevServerOption(outputDirectory, port);
+            const entry = getEntryOption(sourceDirectory, useReact);
+            const node = {fs: `'empty'`};
+            const optimization = {minimize: `argv.mode === 'production'`, minimizer: `[new TerserPlugin()]`};
             const plugins = withCesium ? WEBPACK_PLUGINS_WITH_CESIUM : WEBPACK_PLUGINS;
-            const resolve = {
-                modules: `[resolve(__dirname, '${sourceDirectory}'), 'node_modules']`,
-                extensions: `[${useReact ? `'.js', '.jsx'` : `'.js'`}]`,
-                alias
-            };
+            const resolve = getResolveOption(sourceDirectory, alias, useReact);
             const rules = withCesium ? WEBPACK_RULES_WITH_CESIUM : WEBPACK_RULES;
-            await (new WebpackConfigEditor())
-                .create()
-                .prepend(withCesium ? `const workers = '../Build/Cesium/Workers';` : '')
-                .prepend(withCesium ? `const source = 'node_modules/cesium/Source';` : '')
-                .prepend(`const TerserPlugin = require('terser-webpack-plugin');`)
-                .prepend(`const DashboardPlugin = require('webpack-dashboard/plugin');`)
-                .prepend(withCesium ? `const CopyWebpackPlugin = require('copy-webpack-plugin');` : '')
-                .prepend(withCesium ? `const {DefinePlugin} = require('webpack');` : '')
-                .prepend(`const {${withCesium ? 'join, ' : ''}resolve} = require('path');`)
-                .prepend(`/* eslint-env node */`)
+            await getWebpackConfigPrependContent(withCesium)
+                .reduce((config, content) => config.prepend(content), (new WebpackConfigEditor()).create())
                 .extend({devServer, entry, module: {rules}, optimization, plugins, resolve})
                 .extend(withCesium ? {amd, node} : {})
                 .commit();
@@ -211,7 +218,9 @@ export const removeWebpack = [
                 'build:es': undefined,
                 'postbuild:es': undefined,
                 'watch:es': undefined,
-                dashboard: undefined
+                dashboard: undefined,
+                predeploy: undefined,
+                deploy: undefined
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
@@ -227,8 +236,8 @@ export const removeWebpack = [
     },
     {
         text: 'Uninstall Cesium Webpack dependencies',
-        task: () => uninstall(CESIUM_WEBPACK_DEPENDENCIES),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...CESIUM_WEBPACK_DEPENDENCIES),
+        task: () => uninstall(WEBPACK_WITH_CESIUM_DEPENDENCIES),
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_WITH_CESIUM_DEPENDENCIES), //eslint-disable-line max-len
         optional: ({skipInstall, withCesium}) => !skipInstall && withCesium
     }
 ];
