@@ -35,7 +35,7 @@ test-ing: ## Task description
 	jest .*.test.js --coverage --watchAll
 
 deploy: ## Task description
-	npm-run-all clean build:es build:css
+	npm-run-all clean \\"build:es -- --mode=production\\" build:css
 	echo \\"Not yet implemented - now.sh or surge.sh are supported out of the box\\" && exit 1
 
 clean: ## Task description

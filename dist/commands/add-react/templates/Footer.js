@@ -9,7 +9,7 @@ const links = {
 };
 
 const Footer = ({name}) => <footer>
-    <p>{name} was created with <span className="heart">❤</span> using <a href={links.tomo}>tomo-cli</a></p>
+    <p>{name} was created with <span className="heart">❤</span> using <a href={links.tomo}>tomo</a></p>
     <p>Illustration created by <a href={links.ninalimpi}>Katerina Limpitsouni</a>, available at <a href={links.undraw}>unDraw</a></p>
     <p>Sans Forgetica font available for free from <a href={links.forgetica}>RMIT University</a></p>
 </footer>;

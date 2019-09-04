@@ -4,7 +4,7 @@ import {PackageJsonEditor, WebpackConfigEditor, install, uninstall} from '../uti
 import {allDoExist, allDoExistSync, allDoNotExist} from '../utils/common';
 
 const DEPLOY_SCRIPTS = {
-    predeploy: 'npm-run-all clean build:es build:css',
+    predeploy: 'npm-run-all clean "build:es -- --mode=production" build:css',
     deploy: 'echo \"Not yet implemented - now.sh or surge.sh are supported out of the box\" && exit 1'
 };
 const BUILD_DEPENDENCIES = [
@@ -95,7 +95,7 @@ const getDevServerOption = (outputDirectory, port) => ({
 });
 const getEntryOption = (sourceDirectory, useReact = false) => {
     const entryWithReact = [
-        `'react-hot-loader/patch'`,
+        `...(argv.mode === 'production' ? [] : ['react-hot-loader/patch'])`,
         `'${sourceDirectory}/main.js'`
     ];
     const entryWithoutReact = {

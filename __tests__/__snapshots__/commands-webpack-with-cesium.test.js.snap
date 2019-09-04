@@ -13,7 +13,7 @@ const workers = '../Build/Cesium/Workers';
 module.exports = (env, argv) => ({
     mode: argv.mode === 'production' ? 'production' : 'development',
     entry: [
-        'react-hot-loader/patch',
+        ...(argv.mode === 'production' ? [] : ['react-hot-loader/patch']),
         './source/main.js'
     ],
     devtool: (argv.mode === 'production') ? void 0 : 'eval-source-map',
