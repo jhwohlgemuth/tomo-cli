@@ -135,7 +135,7 @@ export const tasks = [
                 .copy(&apos;.eslintignore&apos;)
                 .commit();
         },
-        condition: () =&gt; allDoNotExist(&apos;.eslintrc.js&apos;, &apos;.eslintrc&apos;, &apos;.eslintrc.json&apos;, &apos;.eslintrc.yml&apos;)
+        condition: ({overwrite}) =&gt; allDoNotExist(&apos;.eslintrc.js&apos;, &apos;.eslintrc&apos;, &apos;.eslintrc.json&apos;, &apos;.eslintrc.yml&apos;) || overwrite
     },
     {
         text: &apos;Add lint tasks to package.json&apos;,

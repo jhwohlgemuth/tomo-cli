@@ -88,11 +88,12 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-webpack.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
+import {oneLineTrim} from &apos;common-tags&apos;;
 import {PackageJsonEditor, WebpackConfigEditor, install, uninstall} from &apos;../utils&apos;;
 import {allDoExist, allDoExistSync, allDoNotExist} from &apos;../utils/common&apos;;
 
 const DEPLOY_SCRIPTS = {
-    predeploy: &apos;npm-run-all clean build:es build:css&apos;,
+    predeploy: &apos;npm-run-all clean &quot;build:es -- --mode=production&quot; build:css&apos;,
     deploy: &apos;echo \&quot;Not yet implemented - now.sh or surge.sh are supported out of the box\&quot; &amp;&amp; exit 1&apos;
 };
 const BUILD_DEPENDENCIES = [
@@ -109,6 +110,107 @@ const WEBPACK_DEPENDENCIES = [
     &apos;babel-loader&apos;,
     &apos;terser-webpack-plugin&apos;
 ];
+const WEBPACK_WITH_CESIUM_DEPENDENCIES = [
+    &apos;copy-webpack-plugin&apos;,
+    &apos;css-loader&apos;,
+    &apos;style-loader&apos;,
+    &apos;url-loader&apos;
+];
+const WEBPACK_RULES = [
+    {
+        test: `/\.jsx?$/`,
+        exclude: `/node_modules/`,
+        loader: `&apos;babel-loader&apos;`,
+        query: {
+            presets: [`&apos;@babel/env&apos;`]
+        }
+    }
+];
+const WEBPACK_RULES_WITH_CESIUM = [
+    ...WEBPACK_RULES,
+    {
+        test: `/\.css$/`,
+        use: [`&apos;style-loader&apos;`, `&apos;css-loader&apos;`]
+    },
+    {
+        test: `/\.(png|gif|jpg|jpeg|svg|xml|json)$/`,
+        use: [`&apos;url-loader&apos;`]
+    }
+];
+const WEBPACK_PLUGINS = [
+    `new DashboardPlugin()`
+];
+const WEBPACK_PLUGINS_WITH_CESIUM = [
+    ...WEBPACK_PLUGINS,
+    `new DefinePlugin({CESIUM_BASE_URL: JSON.stringify(&apos;/&apos;)})`,
+    oneLineTrim`new CopyWebpackPlugin([
+        {
+            from: join(source, workers),
+            to: &apos;Workers&apos;
+        },
+        {
+            from: join(source, &apos;Assets&apos;),
+            to: &apos;Assets&apos;
+        },
+        {
+            from: join(source, &apos;Widgets&apos;),
+            to: &apos;Widgets&apos;
+        }
+    ])`
+];
+const CESIUM_DEPENDENCIES = [
+    ...WEBPACK_WITH_CESIUM_DEPENDENCIES,
+    &apos;cesium&apos;
+];
+const RESIUM_DEPENDENCIES = [
+    ...CESIUM_DEPENDENCIES,
+    &apos;resium&apos;
+];
+const getAliasOption = (useReact = false, withCesium = false) =&gt; {
+    const CESIUM_ALIASES = {
+        cesium$: `&apos;cesium/Cesium&apos;`,
+        cesium: `&apos;cesium/Source&apos;`
+    };
+    return {
+        ...(useReact ? {&apos;\&apos;react-dom\&apos;&apos;: `&apos;@hot-loader/react-dom&apos;`} : {}),
+        ...(withCesium ? CESIUM_ALIASES : {})
+    };
+};
+const getDevServerOption = (outputDirectory, port) =&gt; ({
+    port,
+    contentBase: `&apos;${outputDirectory}&apos;`,
+    compress: true,
+    watchContentBase: true
+});
+const getEntryOption = (sourceDirectory, useReact = false) =&gt; {
+    const entryWithReact = [
+        `...(argv.mode === &apos;production&apos; ? [] : [&apos;react-hot-loader/patch&apos;])`,
+        `&apos;${sourceDirectory}/main.js&apos;`
+    ];
+    const entryWithoutReact = {
+        app: `&apos;${sourceDirectory}/main.js&apos;`
+    };
+    return useReact ? entryWithReact : entryWithoutReact;
+};
+const getResolveOption = (sourceDirectory, alias = {}, useReact = false) =&gt; ({
+    modules: `[resolve(__dirname, &apos;${sourceDirectory}&apos;), &apos;node_modules&apos;]`,
+    extensions: `[${useReact ? `&apos;.js&apos;, &apos;.jsx&apos;` : `&apos;.js&apos;`}]`,
+    alias
+});
+/*eslint-disable complexity*/
+const getWebpackConfigPrependContent = withCesium =&gt; [
+    `/* eslint-env node */`,
+    `const {${withCesium ? &apos;join, &apos; : &apos;&apos;}resolve} = require(&apos;path&apos;);`,
+    withCesium &amp;&amp; `const {DefinePlugin} = require(&apos;webpack&apos;);`,
+    withCesium &amp;&amp; `const CopyWebpackPlugin = require(&apos;copy-webpack-plugin&apos;);`,
+    `const DashboardPlugin = require(&apos;webpack-dashboard/plugin&apos;);`,
+    `const TerserPlugin = require(&apos;terser-webpack-plugin&apos;);`,
+    withCesium &amp;&amp; `const source = &apos;node_modules/cesium/Source&apos;;`,
+    withCesium &amp;&amp; `const workers = &apos;../Build/Cesium/Workers&apos;;`
+]
+    .reverse()// prepend puts last on top
+    .filter(val =&gt; typeof val === &apos;string&apos;);
+/*eslint-enable complexity*/
 /**
  * @type {task[]}
  * @see https://webpack.js.org/
@@ -116,40 +218,20 @@ const WEBPACK_DEPENDENCIES = [
 export const addWebpack = [
     {
         text: &apos;Create Webpack configuration file&apos;,
-        task: async ({outputDirectory, port, sourceDirectory, useReact}) =&gt; {
-            const entryWithReact = [
-                `&apos;react-hot-loader/patch&apos;`,
-                `&apos;${sourceDirectory}/main.js&apos;`
-            ];
-            const entryWithoutReact = {
-                app: `&apos;${sourceDirectory}/main.js&apos;`
-            };
-            const entry = useReact ? entryWithReact : entryWithoutReact;
-            const alias = {
-                &apos;\&apos;react-dom\&apos;&apos;: `&apos;@hot-loader/react-dom&apos;`
-            };
-            const resolve = {
-                modules: `[resolve(__dirname, &apos;${sourceDirectory}&apos;), &apos;node_modules&apos;]`,
-                extensions: `[${useReact ? `&apos;.js&apos;, &apos;.jsx&apos;` : `&apos;.js&apos;`}]`
-            };
-            const devServer = {
-                port,
-                contentBase: `&apos;${outputDirectory}&apos;`,
-                compress: true,
-                watchContentBase: true
-            };
-            const optimization = {
-                minimize: true,
-                minimizer: `[new TerserPlugin()]`
-            };
-            await (new WebpackConfigEditor())
-                .create()
-                .prepend(`const TerserPlugin = require(&apos;terser-webpack-plugin&apos;);`)
-                .prepend(`const DashboardPlugin = require(&apos;webpack-dashboard/plugin&apos;);`)
-                .prepend(`const {resolve} = require(&apos;path&apos;);`)
-                .prepend(`/* eslint-env node */`)
-                .extend({devServer, entry, optimization, resolve})
-                .extend(useReact ? {resolve: {alias}} : {})
+        task: async ({outputDirectory, port, sourceDirectory, useReact, withCesium}) =&gt; {
+            const alias = getAliasOption(useReact, withCesium);
+            const amd = {toUrlUndefined: true};
+            const devServer = getDevServerOption(outputDirectory, port);
+            const entry = getEntryOption(sourceDirectory, useReact);
+            const node = {fs: `&apos;empty&apos;`};
+            const optimization = {minimize: `argv.mode === &apos;production&apos;`, minimizer: `[new TerserPlugin()]`};
+            const plugins = withCesium ? WEBPACK_PLUGINS_WITH_CESIUM : WEBPACK_PLUGINS;
+            const resolve = getResolveOption(sourceDirectory, alias, useReact);
+            const rules = withCesium ? WEBPACK_RULES_WITH_CESIUM : WEBPACK_RULES;
+            await getWebpackConfigPrependContent(withCesium)
+                .reduce((config, content) =&gt; config.prepend(content), (new WebpackConfigEditor()).create())
+                .extend({devServer, entry, module: {rules}, optimization, plugins, resolve})
+                .extend(withCesium ? {amd, node} : {})
                 .commit();
         },
         condition: () =&gt; allDoNotExist(&apos;webpack.config.js&apos;)
@@ -194,6 +276,12 @@ export const addWebpack = [
         text: &apos;Install Webpack and development dependencies&apos;,
         task: ({skipInstall}) =&gt; install([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES], {dev: true, skipInstall}),
         condition: ({isNotOffline, skipInstall}) =&gt; !skipInstall &amp;&amp; isNotOffline &amp;&amp; allDoExist(&apos;package.json&apos;)
+    },
+    {
+        text: &apos;Install Cesium dependencies&apos;,
+        task: ({skipInstall, useReact}) =&gt; install(useReact ? RESIUM_DEPENDENCIES : CESIUM_DEPENDENCIES, {skipInstall}),
+        condition: ({withCesium}) =&gt; withCesium,
+        optional: ({withCesium}) =&gt; withCesium
     }
 ];
 export const removeWebpack = [
@@ -219,7 +307,9 @@ export const removeWebpack = [
                 &apos;build:es&apos;: undefined,
                 &apos;postbuild:es&apos;: undefined,
                 &apos;watch:es&apos;: undefined,
-                dashboard: undefined
+                dashboard: undefined,
+                predeploy: undefined,
+                deploy: undefined
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
@@ -232,6 +322,12 @@ export const removeWebpack = [
         task: () =&gt; uninstall([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES, &apos;stmux&apos;]),
         condition: ({skipInstall}) =&gt; !skipInstall &amp;&amp; allDoExist(&apos;package.json&apos;) &amp;&amp; (new PackageJsonEditor()).hasAll(...WEBPACK_DEPENDENCIES),
         optional: ({skipInstall}) =&gt; !skipInstall
+    },
+    {
+        text: &apos;Uninstall Cesium Webpack dependencies&apos;,
+        task: () =&gt; uninstall(WEBPACK_WITH_CESIUM_DEPENDENCIES),
+        condition: ({skipInstall}) =&gt; !skipInstall &amp;&amp; allDoExist(&apos;package.json&apos;) &amp;&amp; (new PackageJsonEditor()).hasAll(...WEBPACK_WITH_CESIUM_DEPENDENCIES), //eslint-disable-line max-len
+        optional: ({skipInstall, withCesium}) =&gt; !skipInstall &amp;&amp; withCesium
     }
 ];
 export default addWebpack;</code></pre>

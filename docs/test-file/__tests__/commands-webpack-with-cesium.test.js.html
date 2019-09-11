@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../../../">
-  <title data-ice="title">src/commands/add-marionette/templates/footer.js | tomo-cli</title>
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">__tests__/commands-webpack-with-cesium.test.js | tomo-cli</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -86,23 +86,45 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-marionette/templates/footer.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {html} from &apos;lit-html&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">__tests__/commands-webpack-with-cesium.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {fileContents, run, useTemporaryDirectory} from &apos;./tomo-test&apos;;
+import {createPackageJson} from &apos;../src/commands/common&apos;;
+import addBabel from &apos;../src/commands/add-babel&apos;;
+import addEslint from &apos;../src/commands/add-eslint&apos;;
+import {addWebpack} from &apos;../src/commands/add-webpack&apos;;
 
-const links = {
-    tomo: &apos;https://github.com/jhwohlgemuth/tomo-cli&apos;,
-    ninalimpi: &apos;https://twitter.com/ninalimpi&apos;,
-    undraw: &apos;https://undraw.co/&apos;,
-    forgetica: &apos;https://www.sansforgetica.rmit/&apos;
-};
+jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; true));
 
-export default ({name}) =&gt; html`
-    &lt;footer&gt;
-        &lt;p&gt;${name} was created with &lt;span class=&quot;heart&quot;&gt;&#x2764;&lt;/span&gt; using &lt;a href=${links.tomo}&gt;tomo&lt;/a&gt;&lt;/p&gt;
-        &lt;p&gt;Illustration created by &lt;a href=${links.ninalimpi}&gt;Katerina Limpitsouni&lt;/a&gt;, available at &lt;a href=${links.undraw}&gt;unDraw&lt;/a&gt;&lt;/p&gt;
-        &lt;p&gt;Sans Forgetica font available for free from &lt;a href=${links.forgetica}&gt;RMIT University&lt;/a&gt;&lt;/p&gt;
-    &lt;/footer&gt;
-`;</code></pre>
+describe(&apos;Webpack with Cesium&apos;, () =&gt; {
+    let tempDirectory;
+    const skipInstall = true;
+    const useReact = true;
+    const withCesium = true;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () =&gt; {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () =&gt; {
+        await cleanupTempDir();
+    });
+    test(&apos;Add support&apos;, async () =&gt; {
+        await run(createPackageJson, {});
+        await run(addBabel, {skipInstall});
+        await run(addEslint, {skipInstall});
+        await run(addWebpack, {skipInstall, withCesium});
+        const webpackConfig = fileContents(&apos;./webpack.config.js&apos;);
+        expect(webpackConfig).toMatchSnapshot();
+    });
+    test(&apos;Add support (+React)&apos;, async () =&gt; {
+        await run(createPackageJson, {});
+        await run(addBabel, {skipInstall});
+        await run(addEslint, {skipInstall});
+        await run(addWebpack, {skipInstall, withCesium, useReact});
+        const webpackConfig = fileContents(&apos;./webpack.config.js&apos;);
+        expect(webpackConfig).toMatchSnapshot();
+    });
+});</code></pre>
 
 </div>
 

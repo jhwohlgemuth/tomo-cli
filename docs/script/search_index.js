@@ -888,6 +888,24 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
+    "",
+    "test-file/__tests__/commands-webpack-with-cesium.test.js.html#lineNumber9",
+    "Webpack with Cesium",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands-webpack-with-cesium.test.js.html#lineNumber22",
+    "Webpack with Cesium Add support",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/commands-webpack-with-cesium.test.js.html#lineNumber30",
+    "Webpack with Cesium Add support (+React)",
+    "test"
+  ],
+  [
     "__tests__/api.test.js",
     "test-file/__tests__/api.test.js.html",
     "__tests__/api.test.js",
@@ -981,6 +999,12 @@ window.esdocSearchIndex = [
     "__tests__/commands-rollup.test.js",
     "test-file/__tests__/commands-rollup.test.js.html",
     "__tests__/commands-rollup.test.js",
+    "testFile"
+  ],
+  [
+    "__tests__/commands-webpack-with-cesium.test.js",
+    "test-file/__tests__/commands-webpack-with-cesium.test.js.html",
+    "__tests__/commands-webpack-with-cesium.test.js",
     "testFile"
   ],
   [

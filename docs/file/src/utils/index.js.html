@@ -371,29 +371,15 @@ export const RollupConfigEditor = createModuleEditor(&apos;rollup.config.js&apos
  *     .commit();
  */
 export const WebpackConfigEditor = createFunctionModuleEditor(&apos;webpack.config.js&apos;, {
-    mode: `&apos;development&apos;`,
+    mode: `argv.mode === &apos;production&apos; ? &apos;production&apos; : &apos;development&apos;`,
     entry: {
         app: `&apos;./src/main.js&apos;`
     },
+    devtool: `(argv.mode === &apos;production&apos;) ? void 0 : &apos;eval-source-map&apos;`,
     output: {
         path: `resolve(&apos;./dist&apos;)`,
         filename: `&apos;bundle.min.js&apos;`
-    },
-    module: {
-        rules: [
-            {
-                test: `/\.jsx?$/`,
-                exclude: `/node_modules/`,
-                loader: `&apos;babel-loader&apos;`,
-                query: {
-                    presets: [`&apos;@babel/env&apos;`]
-                }
-            }
-        ]
-    },
-    plugins: [
-        `new DashboardPlugin()`
-    ]
+    }
 }, {params: [&apos;env&apos;, &apos;argv&apos;]});</code></pre>
 
 </div>
