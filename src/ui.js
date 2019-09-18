@@ -2,7 +2,6 @@ import React, {Component, Fragment, useContext, useEffect, useReducer, useState}
 import PropTypes from 'prop-types';
 import {complement, is} from 'ramda';
 import {bold, dim} from 'chalk';
-import Queue from 'p-queue';
 import pino from 'pino';
 import {Box, Color, StdinContext, Text} from 'ink';
 import {default as InkBox} from 'ink-box';
@@ -292,7 +291,6 @@ export const TaskList = ({command, options, terms, done}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const {completed, errors, skipped, status: {online}} = state;
     const {debug} = options;
-    const queue = new Queue({concurrency: 1});
     const tasks = terms
         .flatMap(term => commands[command][term])
         .flatMap(val => maybeApply(val, options))
@@ -312,12 +310,7 @@ export const TaskList = ({command, options, terms, done}) => {
         options: customOptions
     };
     useEffect(() => {
-        populateQueue({
-            queue,
-            tasks,
-            dispatch,
-            options: customOptions
-        });
+        populateQueue({tasks, dispatch, options: customOptions});
     }, []);
     tasksComplete && maybeApply(done);
     return <ErrorBoundary>

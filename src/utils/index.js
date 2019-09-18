@@ -1,4 +1,5 @@
 import execa from 'execa';
+import Queue from 'p-queue';
 import semver from 'semver';
 import {complement, has, head} from 'ramda';
 import isOnline from 'is-online';
@@ -98,11 +99,11 @@ export const uninstall = async (dependencies = []) => {
  * @param {Object} [data.options={}] Options object to pass to task function
  * @return {undefined} Returns nothing (side effects only)
  */
-export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () => { }, options: {skipInstall: false}}) {
-    const {queue, tasks, dispatch, options} = data;
+export async function populateQueue({concurrency = 1, tasks = [], dispatch = () => {}, options = {skipInstall: false}} = {}) {
     const {skipInstall} = options;
     const isNotOffline = skipInstall || await isOnline();
     const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) => assign(acc, val), options), {isNotOffline});
+    const queue = new Queue({concurrency});
     dispatch({type: 'status', payload: {online: isNotOffline}});
     for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
         const {condition, task} = item;
