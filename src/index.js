@@ -7,10 +7,11 @@ import meow from 'meow';
 import read from 'read-pkg';
 import getStdin from 'get-stdin';
 import Tomo from './ui';
-// import updateNotifier from 'update-notifier';
+import updateNotifier from 'update-notifier';
+
 // Notify updater
-// const pkg = require(`../package.json`);
-// updateNotifier({pkg}).notify();
+const pkg = require(`../package.json`);
+updateNotifier({pkg}).notify();
 
 const showVersion = () => {
     const cwd = join(__dirname, '..');

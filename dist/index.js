@@ -1,9 +1,6 @@
 #!/usr/bin/env node
-"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault"),_asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_path=require("path"),_react=_interopRequireDefault(require("react")),_chalk=require("chalk"),_ink=require("ink"),_meow=_interopRequireDefault(require("meow")),_readPkg=_interopRequireDefault(require("read-pkg")),_getStdin=_interopRequireDefault(require("get-stdin")),_ui=_interopRequireDefault(require("./ui"));// import updateNotifier from 'update-notifier';
-// Notify updater
-// const pkg = require(`../package.json`);
-// updateNotifier({pkg}).notify();
-const showVersion=()=>{const a=(0,_path.join)(__dirname,".."),{version:b}=_readPkg.default.sync({cwd:a});// eslint-disable-line no-console
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault"),_asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_path=require("path"),_react=_interopRequireDefault(require("react")),_chalk=require("chalk"),_ink=require("ink"),_meow=_interopRequireDefault(require("meow")),_readPkg=_interopRequireDefault(require("read-pkg")),_getStdin=_interopRequireDefault(require("get-stdin")),_ui=_interopRequireDefault(require("./ui")),_updateNotifier=_interopRequireDefault(require("update-notifier"));// Notify updater
+const pkg=require(`../package.json`);(0,_updateNotifier.default)({pkg}).notify();const showVersion=()=>{const a=(0,_path.join)(__dirname,".."),{version:b}=_readPkg.default.sync({cwd:a});// eslint-disable-line no-console
 console.log(b),process.exit()},help=`
     ${_chalk.dim.bold("Usage")}
 
