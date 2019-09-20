@@ -87,10 +87,10 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">__tests__/api.test.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import api from &apos;../src/api&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import * as api from &apos;../src/api&apos;;
 
 describe(&apos;API&apos;, () =&gt; {
-    test(&apos;exports utils&apos;, () =&gt; {
+    test(&apos;exports API&apos;, () =&gt; {
         expect(Object.keys(api)).toMatchSnapshot();
     });
 });</code></pre>

@@ -88,6 +88,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import execa from &apos;execa&apos;;
+import Queue from &apos;p-queue&apos;;
 import semver from &apos;semver&apos;;
 import {complement, has, head} from &apos;ramda&apos;;
 import isOnline from &apos;is-online&apos;;
@@ -100,6 +101,12 @@ import {createFunctionModuleEditor, createModuleEditor} from &apos;./createModul
 
 const {assign, keys} = Object;
 const {isArray} = Array;
+
+// export {createFunctionModuleEditor, createJsonEditor, createModuleEditor};
+// export *  from &apos;./common&apos;;
+// export {MakefileEditor} from &apos;./MakefileEditor&apos;;
+// export {Scaffolder} from &apos;./Scaffolder&apos;;
+
 export const isUniqueTask = ({text}, index, tasks) =&gt; tasks.map(({text}) =&gt; text).indexOf(text) === index;
 export const isValidTask = val =&gt; has(&apos;text&apos;, val) &amp;&amp; has(&apos;task&apos;, val) &amp;&amp; (typeof val.text === &apos;string&apos;) &amp;&amp; (typeof val.task === &apos;function&apos;);
 export const withOptions = val =&gt; options =&gt; ({...options, ...val});
@@ -187,11 +194,11 @@ export const uninstall = async (dependencies = []) =&gt; {
  * @param {Object} [data.options={}] Options object to pass to task function
  * @return {undefined} Returns nothing (side effects only)
  */
-export async function populateQueue(data = {queue: {}, tasks: [], dispatch: () =&gt; { }, options: {skipInstall: false}}) {
-    const {queue, tasks, dispatch, options} = data;
+export async function populateQueue({concurrency = 1, tasks = [], dispatch = () =&gt; {}, options = {skipInstall: false}} = {}) {
     const {skipInstall} = options;
     const isNotOffline = skipInstall || await isOnline();
     const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) =&gt; assign(acc, val), options), {isNotOffline});
+    const queue = new Queue({concurrency});
     dispatch({type: &apos;status&apos;, payload: {online: isNotOffline}});
     for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
         const {condition, task} = item;

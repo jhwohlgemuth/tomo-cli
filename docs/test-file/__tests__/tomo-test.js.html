@@ -96,8 +96,7 @@ import dirTree from &apos;directory-tree&apos;;
 import {omit} from &apos;ramda&apos;;
 import Queue from &apos;p-queue&apos;;
 import delay from &apos;delay&apos;;
-import {populateQueue} from &apos;../src/utils&apos;;
-import {format, maybeApply} from &apos;../src/utils/common&apos;;
+import {format, maybeApply, populateQueue} from &apos;../src/api&apos;;
 
 // eslint-disable-next-line no-magic-numbers
 export const testAsyncFunction = () =&gt; async ({skipInstall}) =&gt; await delay(skipInstall ? 0 : 1000 * Math.random());
