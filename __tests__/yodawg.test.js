@@ -1,7 +1,7 @@
 import {existsSync} from 'fs';
 import {join} from 'path';
 import {removeAttributes, getDirectoryTree, useTemporaryDirectory} from './tomo-test';
-import {format} from '../src/utils/common';
+import {format} from '../src/api';
 
 describe('Tomo testing tools', () => {
     test('can create and cleanup temporary directories', async () => {

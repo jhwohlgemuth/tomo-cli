@@ -1,8 +1,14 @@
 import {join} from 'path';
 import merge from 'lodash.merge';
-import {EslintConfigModuleEditor, PackageJsonEditor, install} from '../../utils';
-import {allDoExist, allDoNotExist, allDoNotExistSync} from '../../utils/common';
-import {Scaffolder} from '../../utils/Scaffolder';
+import {
+    EslintConfigModuleEditor,
+    PackageJsonEditor,
+    Scaffolder,
+    allDoExist,
+    allDoNotExist,
+    allDoNotExistSync,
+    install
+} from '../../api';
 
 const ESLINT_DEPENDENCIES = [
     'eslint',

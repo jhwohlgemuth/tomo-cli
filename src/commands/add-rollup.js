@@ -1,6 +1,13 @@
 import {join} from 'path';
-import {PackageJsonEditor, RollupConfigEditor, install, uninstall} from '../utils';
-import {allDoExist, allDoExistSync, allDoNotExist} from '../utils/common';
+import {
+    PackageJsonEditor,
+    RollupConfigEditor,
+    allDoExist,
+    allDoNotExist,
+    allDoExistSync,
+    install,
+    uninstall
+} from '../api';
 
 const DEPLOY_SCRIPTS = {
     predeploy: 'npm-run-all clean build:es build:css copy:assets',

@@ -1,9 +1,9 @@
 import {
     PackageJsonEditor,
+    allDoExist,
     install,
     uninstall
-} from '../utils';
-import {allDoExist} from '../utils/common';
+} from '../api';
 /**
  * @type {task[]}
  * @see http://pa11y.org/

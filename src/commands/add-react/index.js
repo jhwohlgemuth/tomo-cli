@@ -1,7 +1,10 @@
 import {join} from 'path';
-import {PackageJsonEditor, install} from '../../utils';
-import {allDoExist} from '../../utils/common';
-import {Scaffolder} from '../../utils/Scaffolder';
+import {
+    PackageJsonEditor,
+    Scaffolder,
+    allDoExist,
+    install
+} from '../../api';
 
 const REACT_DEPENDENCIES = [
     'prop-types',

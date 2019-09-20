@@ -1,7 +1,14 @@
 import {join} from 'path';
 import {oneLineTrim} from 'common-tags';
-import {PackageJsonEditor, WebpackConfigEditor, install, uninstall} from '../utils';
-import {allDoExist, allDoExistSync, allDoNotExist} from '../utils/common';
+import {
+    PackageJsonEditor,
+    WebpackConfigEditor,
+    allDoExist,
+    allDoNotExist,
+    allDoExistSync,
+    install,
+    uninstall
+} from '../api';
 
 const DEPLOY_SCRIPTS = {
     predeploy: 'npm-run-all clean "build:es -- --mode=production" build:css',

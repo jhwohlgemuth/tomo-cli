@@ -1,9 +1,4 @@
-import {
-    allDoExist,
-    allDoExistSync,
-    allDoNotExist
-} from '../utils/common';
-import MakefileEditor from '../utils/MakefileEditor';
+import {allDoExist, allDoExistSync, allDoNotExist, MakefileEditor} from '../api';
 /**
  * @type {task[]}
  * @see https://www.gnu.org/software/make/manual/html_node/Simple-Makefile.html#Simple-Makefile

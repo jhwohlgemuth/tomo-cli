@@ -1,8 +1,14 @@
 import {join} from 'path';
-import {EslintConfigModuleEditor, PackageJsonEditor, install, uninstall} from '../../utils';
-import {allDoExist, allDoNotExist} from '../../utils/common';
-import {Scaffolder} from '../../utils/Scaffolder';
-import createJsonEditor from '../../utils/createJsonEditor';
+import {
+    EslintConfigModuleEditor,
+    PackageJsonEditor,
+    Scaffolder,
+    allDoExist,
+    allDoNotExist,
+    createJsonEditor,
+    install,
+    uninstall
+} from '../../api';
 
 const ALWAYS = () => true;
 const CYPRESS_DEPENDENCIES = [

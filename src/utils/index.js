@@ -12,6 +12,12 @@ import {createFunctionModuleEditor, createModuleEditor} from './createModuleEdit
 
 const {assign, keys} = Object;
 const {isArray} = Array;
+
+// export {createFunctionModuleEditor, createJsonEditor, createModuleEditor};
+// export *  from './common';
+// export {MakefileEditor} from './MakefileEditor';
+// export {Scaffolder} from './Scaffolder';
+
 export const isUniqueTask = ({text}, index, tasks) => tasks.map(({text}) => text).indexOf(text) === index;
 export const isValidTask = val => has('text', val) && has('task', val) && (typeof val.text === 'string') && (typeof val.task === 'function');
 export const withOptions = val => options => ({...options, ...val});

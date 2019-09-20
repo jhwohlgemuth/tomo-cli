@@ -1,5 +1,10 @@
-import {PackageJsonEditor, install, uninstall} from '../utils';
-import {allDoExist, someDoExistSync} from '../utils/common';
+import {
+    PackageJsonEditor,
+    allDoExist,
+    install,
+    someDoExistSync,
+    uninstall
+} from '../api';
 
 const BROWSERSYNC_DEPENDENCIES = [
     'browser-sync',

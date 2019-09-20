@@ -1,7 +1,13 @@
 import {join} from 'path';
-import {BsConfigJsonEditor, PackageJsonEditor, install, uninstall} from '../../utils';
-import {allDoExist, allDoNotExist} from '../../utils/common';
-import {Scaffolder} from '../../utils/Scaffolder';
+import {
+    BsConfigJsonEditor,
+    PackageJsonEditor,
+    Scaffolder,
+    allDoExist,
+    allDoNotExist,
+    install,
+    uninstall
+} from '../../api';
 
 const DEPENDENCIES = [
     'reason-react'

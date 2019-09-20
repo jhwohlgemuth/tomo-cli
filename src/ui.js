@@ -10,8 +10,15 @@ import SelectInput from 'ink-select-input';
 import figures from 'figures';
 import {highlight} from 'cardinal';
 import commands from './commands';
-import {isUniqueTask, isValidTask, getIntendedInput, populateQueue} from './utils';
-import {dict, format, maybeApply} from './utils/common';
+import {
+    dict,
+    format,
+    getIntendedInput,
+    isUniqueTask,
+    isValidTask,
+    maybeApply,
+    populateQueue
+} from './api';
 
 const {assign} = Object;
 const space = ' ';
