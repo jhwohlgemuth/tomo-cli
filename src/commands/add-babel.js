@@ -1,5 +1,10 @@
-import {BabelConfigModuleEditor, PackageJsonEditor, install} from '../utils';
-import {allDoExist, allDoNotExist} from '../utils/common';
+import {
+    BabelConfigModuleEditor,
+    PackageJsonEditor,
+    allDoExist,
+    allDoNotExist,
+    install
+} from '../api';
 
 const BABEL_CORE = [
     '@babel/cli',

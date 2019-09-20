@@ -1,5 +1,11 @@
-import {PackageJsonEditor, PurgecssConfigEditor, install, uninstall} from '../utils';
-import {allDoExist, allDoExistSync} from '../utils/common';
+import {
+    PackageJsonEditor,
+    PurgecssConfigEditor,
+    allDoExist,
+    allDoExistSync,
+    install,
+    uninstall
+} from '../api';
 
 const DISABLED = () => false;
 const DEPLOY_SCRIPTS = {

@@ -88,8 +88,15 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-rollup.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
-import {PackageJsonEditor, RollupConfigEditor, install, uninstall} from &apos;../utils&apos;;
-import {allDoExist, allDoExistSync, allDoNotExist} from &apos;../utils/common&apos;;
+import {
+    PackageJsonEditor,
+    RollupConfigEditor,
+    allDoExist,
+    allDoNotExist,
+    allDoExistSync,
+    install,
+    uninstall
+} from &apos;../api&apos;;
 
 const DEPLOY_SCRIPTS = {
     predeploy: &apos;npm-run-all clean build:es build:css copy:assets&apos;,

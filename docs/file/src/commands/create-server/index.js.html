@@ -91,10 +91,11 @@
 import {
     EslintConfigModuleEditor,
     PackageJsonEditor,
+    Scaffolder,
+    allDoExist,
+    allDoExistSync,
     install
-} from &apos;../../utils&apos;;
-import {allDoExist, allDoExistSync} from &apos;../../utils/common&apos;;
-import {Scaffolder} from &apos;../../utils/Scaffolder&apos;;
+} from &apos;../../api&apos;;
 
 const DEPENDENCIES = [
     &apos;apollo-server-express&apos;,

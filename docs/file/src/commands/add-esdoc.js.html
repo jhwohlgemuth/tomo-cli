@@ -87,9 +87,13 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-esdoc.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {PackageJsonEditor, install} from &apos;../utils&apos;;
-import {allDoExist, allDoNotExist} from &apos;../utils/common&apos;;
-import createJsonEditor from &apos;../utils/createJsonEditor&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+    PackageJsonEditor,
+    allDoExist,
+    allDoNotExist,
+    createJsonEditor,
+    install
+} from &apos;../api&apos;;
 
 const ESDOC_CONF = {
     source: &apos;./src&apos;,

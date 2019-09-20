@@ -1,22 +1,19 @@
-import {
-    readMakefile as read,
-    useTemporaryDirectory
-} from './tomo-test';
+import {join} from 'path';
+import execa from 'execa';
+import {readMakefile as read, useTemporaryDirectory} from './tomo-test';
+import commands from '../src/commands';
 import {
     EslintConfigModuleEditor,
+    MakefileEditor,
     PackageJsonEditor,
     choose,
+    createFunctionModuleEditor,
     getIntendedInput,
     getVersions,
     install,
     uninstall,
     withOptions
-} from '../src/utils';
-import MakefileEditor from '../src/utils/MakefileEditor';
-import {createFunctionModuleEditor} from '../src/utils/createModuleEditor';
-import {join} from 'path';
-import execa from 'execa';
-import commands from '../src/commands';
+} from '../src/api';
 
 jest.mock('execa');
 

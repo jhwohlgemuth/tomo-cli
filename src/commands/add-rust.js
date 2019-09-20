@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import {arrowRight} from 'figures';
-import {PackageJsonEditor} from '../utils';
-import {allDoExist} from '../utils/common';
+import {PackageJsonEditor, allDoExist} from '../api';
 /**
  * @type {task[]}
  * @see https://webpack.js.org/

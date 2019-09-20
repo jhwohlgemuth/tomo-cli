@@ -88,9 +88,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/commands/add-electron/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
-import {PackageJsonEditor, install} from &apos;../../utils&apos;;
-import {allDoExist} from &apos;../../utils/common&apos;;
-import {Scaffolder} from &apos;../../utils/Scaffolder&apos;;
+import {PackageJsonEditor, Scaffolder, allDoExist, install} from &apos;../../api&apos;;
 
 const DEPENDENCIES = [
     &apos;electron&apos;,

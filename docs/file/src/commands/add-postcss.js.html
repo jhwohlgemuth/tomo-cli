@@ -90,10 +90,11 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
     PackageJsonEditor,
     PostcssConfigEditor,
+    allDoExist,
+    allDoNotExist,
     install,
     uninstall
-} from &apos;../utils&apos;;
-import {allDoExist, allDoNotExist} from &apos;../utils/common&apos;;
+} from &apos;../api&apos;;
 
 const POSTCSS_DEPENDENCIES = [
     &apos;cssnano&apos;,

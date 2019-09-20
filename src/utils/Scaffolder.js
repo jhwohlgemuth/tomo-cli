@@ -8,7 +8,7 @@ const silent = () => {};
 /**
  * Class to create scaffolders when creating folders, and copying files/templates
  * @example
- * import {Scaffolder} from './utils';
+ * import {Scaffolder} from './api';
  * const scaffolder = new Scaffolder('path/to/templates');
  * await scaffolder
  *     .target('/path/to/copy/files')

@@ -1,8 +1,10 @@
 import {join} from 'path';
 import {mkdirp} from 'fs-extra';
-import {PackageJsonEditor} from '../utils';
-import {allDoNotExist} from '../utils/common';
-import {Scaffolder} from '../utils/Scaffolder';
+import {
+    PackageJsonEditor,
+    Scaffolder,
+    allDoNotExist
+} from '../api';
 
 /** @ignore */
 export const createEditorConfiguration = [

@@ -89,9 +89,11 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/commands/common.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
 import {mkdirp} from &apos;fs-extra&apos;;
-import {PackageJsonEditor} from &apos;../utils&apos;;
-import {allDoNotExist} from &apos;../utils/common&apos;;
-import {Scaffolder} from &apos;../utils/Scaffolder&apos;;
+import {
+    PackageJsonEditor,
+    Scaffolder,
+    allDoNotExist
+} from &apos;../api&apos;;
 
 /** @ignore */
 export const createEditorConfiguration = [

@@ -1,18 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`API exports utils 1`] = `
+exports[`API exports API 1`] = `
 Array [
-  "dict",
-  "parse",
-  "maybeApply",
-  "getBinDirectory",
-  "format",
-  "someDoExist",
-  "someDoExistSync",
-  "allDoExist",
-  "allDoExistSync",
-  "allDoNotExist",
-  "allDoNotExistSync",
+  "createJsonEditor",
+  "createFunctionModuleEditor",
+  "createModuleEditor",
+  "MakefileEditor",
+  "Scaffolder",
   "populateQueue",
   "isUniqueTask",
   "isValidTask",
@@ -30,5 +24,16 @@ Array [
   "PurgecssConfigEditor",
   "RollupConfigEditor",
   "WebpackConfigEditor",
+  "dict",
+  "parse",
+  "maybeApply",
+  "getBinDirectory",
+  "format",
+  "someDoExist",
+  "someDoExistSync",
+  "allDoExist",
+  "allDoExistSync",
+  "allDoNotExist",
+  "allDoNotExistSync",
 ]
 `;

@@ -1,7 +1,7 @@
 "use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");require("core-js/modules/es.array.iterator"),require("core-js/modules/es.promise"),require("core-js/modules/es.string.split"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=exports.Scaffolder=void 0;var _asyncToGenerator2=_interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator")),_path=require("path"),_pQueue=_interopRequireDefault(require("p-queue")),_memFs=_interopRequireDefault(require("mem-fs")),_memFsEditor=_interopRequireDefault(require("mem-fs-editor"));const{assign}=Object,silent=()=>{};/**
  * Class to create scaffolders when creating folders, and copying files/templates
  * @example
- * import {Scaffolder} from './utils';
+ * import {Scaffolder} from './api';
  * const scaffolder = new Scaffolder('path/to/templates');
  * await scaffolder
  *     .target('/path/to/copy/files')

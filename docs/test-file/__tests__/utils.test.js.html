@@ -87,25 +87,22 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">__tests__/utils.test.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
-    readMakefile as read,
-    useTemporaryDirectory
-} from &apos;./tomo-test&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
+import execa from &apos;execa&apos;;
+import {readMakefile as read, useTemporaryDirectory} from &apos;./tomo-test&apos;;
+import commands from &apos;../src/commands&apos;;
 import {
     EslintConfigModuleEditor,
+    MakefileEditor,
     PackageJsonEditor,
     choose,
+    createFunctionModuleEditor,
     getIntendedInput,
     getVersions,
     install,
     uninstall,
     withOptions
-} from &apos;../src/utils&apos;;
-import MakefileEditor from &apos;../src/utils/MakefileEditor&apos;;
-import {createFunctionModuleEditor} from &apos;../src/utils/createModuleEditor&apos;;
-import {join} from &apos;path&apos;;
-import execa from &apos;execa&apos;;
-import commands from &apos;../src/commands&apos;;
+} from &apos;../src/api&apos;;
 
 jest.mock(&apos;execa&apos;);
 

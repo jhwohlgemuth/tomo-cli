@@ -87,13 +87,12 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/api.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import * as utils from &apos;./utils&apos;;
-import * as common from &apos;./utils/common&apos;;
-
-export default {
-    ...common,
-    ...utils
-};</code></pre>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export * from &apos;./utils&apos;;
+export * from &apos;./utils/common&apos;;
+export {createJsonEditor} from &apos;./utils/createJsonEditor&apos;;
+export {createFunctionModuleEditor, createModuleEditor} from &apos;./utils/createModuleEditor&apos;;
+export {MakefileEditor} from &apos;./utils/MakefileEditor&apos;;
+export {Scaffolder} from &apos;./utils/Scaffolder&apos;;</code></pre>
 
 </div>
 
