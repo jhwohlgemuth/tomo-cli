@@ -13,8 +13,7 @@ import {
 const ALWAYS = () => true;
 const CYPRESS_DEPENDENCIES = [
     'cypress',
-    'cypress-image-snapshot',
-    'cypress-match-screenshot'
+    'cypress-image-snapshot' // https://github.com/palmerhq/cypress-image-snapshot
 ];
 /**
  * @type {task[]}
