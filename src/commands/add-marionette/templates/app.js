@@ -1,7 +1,7 @@
 /**
  * Application Core
  * @version 1.0.0
-*/
+ */
 import * as Backbone from 'backbone';
 import {Application, View} from 'backbone.marionette';
 import AppRouter from 'marionette.approuter';
