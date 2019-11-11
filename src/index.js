@@ -113,6 +113,11 @@ const options = {
             type: 'boolean',
             default: false
         },
+        help: {
+            type: 'boolean',
+            default: false,
+            alias: 'h'
+        },
         ignoreWarnings: {
             type: 'boolean',
             default: false,
