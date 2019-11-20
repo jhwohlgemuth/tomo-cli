@@ -21,6 +21,27 @@ import {
 } from './api';
 
 const {assign} = Object;
+const COMMAND_DESCRIPTIONS = {
+    project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold('ESLint')}, and ${bold.magenta('Jest')}`,
+    app: `Scaffold a new ${bold.red('Marionette.js')} ${bold('web application')} - basically a project with CSS, bundling, and stuff`,
+    server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security "baked in"`,
+    a11y: `Add automated ${bold('accessibility')} testing`,
+    babel: `Use next generation JavaScript, ${bold('today!')}`,
+    browsersync: `Time-saving ${bold('synchronised browser')} testing (demo your app with ${bold.yellow('live-reload')})`,
+    cypress: `${bold('Test')} anything that runs in a ${bold('browser')} (including ${bold.yellow('visual regression testing')})`,
+    electron: `Create a ${bold('native desktop application')} using web technologies`,
+    esdoc: `Generate ${bold('documentation')} from your comments`,
+    eslint: `Pluggable ${bold('linting')} utility for JavaScript and JSX`,
+    jest: `Delightful JavaScript ${bold('Testing')} Framework with a focus on simplicity`,
+    makefile: `Create a ${bold('Makefile')} from your package.json, like ${bold.magenta('magic!')}`,
+    marionette: `${bold('Flexible Backbone framework')} with robust views and architecture solutions`,
+    parcel: `${bold('Bundle')} your application (${bold.red('blazing')} fast with ${bold.white('zero configuration')})`,
+    postcss: `Use ${bold('future CSS')}, never write vendor prefixes again, and much much more!`,
+    react: `Build user interfaces with ${bold('components')} ${figures.arrowRight} learn once, write ${bold('anywhere')}`,
+    reason: `Write functional ${bold('type safe')} code with ${bold.yellow('JavaScript')}-like syntax (works with ${bold('React')})`,
+    rollup: `${bold('Bundle')} your assets (focused on ${bold('ES6')} modules and tree shaking - ${bold.white('best for libraries')})`,
+    webpack: `${bold('Bundle')} your assets (with great support and a rich ecosystem)`
+};
 const space = ' ';
 const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
 const X = () => <Color bold red>{figures.cross}{space}</Color>;
@@ -64,37 +85,17 @@ export const Debug = ({data, title}) => {
         <DebugValue title={'Errors'} value={errors}></DebugValue>
     </Box>;
 };
-const Description = ({command}) => {
+export const Description = ({command, descriptions}) => {
     const getDescription = item => {
         const DEFAULT = `${dim('Sorry, I don\'t have anything to say about')} ${item}`;
-        const lookup = dict({
-            project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold('ESLint')}, and ${bold.magenta('Jest')}`,
-            app: `Scaffold a new ${bold.red('Marionette.js')} ${bold('web application')} - basically a project with CSS, bundling, and stuff`,
-            server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security "baked in"`,
-            a11y: `Add automated ${bold('accessibility')} testing`,
-            babel: `Use next generation JavaScript, ${bold('today!')}`,
-            browsersync: `Time-saving ${bold('synchronised browser')} testing (demo your app with ${bold.yellow('live-reload')})`,
-            cypress: `${bold('Test')} anything that runs in a ${bold('browser')} (including ${bold.yellow('visual regression testing')})`,
-            electron: `Create a ${bold('native desktop application')} using web technologies`,
-            esdoc: `Generate ${bold('documentation')} from your comments`,
-            eslint: `Pluggable ${bold('linting')} utility for JavaScript and JSX`,
-            jest: `Delightful JavaScript ${bold('Testing')} Framework with a focus on simplicity`,
-            makefile: `Create a ${bold('Makefile')} from your package.json, like ${bold.magenta('magic!')}`,
-            marionette: `${bold('Flexible Backbone framework')} with robust views and architecture solutions`,
-            parcel: `${bold('Bundle')} your application (${bold.red('blazing')} fast with ${bold.white('zero configuration')})`,
-            postcss: `Use ${bold('future CSS')}, never write vendor prefixes again, and much much more!`,
-            react: `Build user interfaces with ${bold('components')} ${figures.arrowRight} learn once, write ${bold('anywhere')}`,
-            reason: `Write functional ${bold('type safe')} code with ${bold.yellow('JavaScript')}-like syntax (works with ${bold('React')})`,
-            rollup: `${bold('Bundle')} your assets (focused on ${bold('ES6')} modules and tree shaking - ${bold.white('best for libraries')})`,
-            webpack: `${bold('Bundle')} your assets (with great support and a rich ecosystem)`
-        });
+        const lookup = dict(descriptions);
         return lookup.has(item) ? lookup.get(item) : DEFAULT;
     };
     return <Box marginBottom={1}>
         <Color cyan>{getDescription(command)}</Color>
     </Box>;
 };
-const ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>
+export const ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>
     <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>
         <Color yellow>(╯°□ °)╯ ┻━┻ arrrgh...</Color>
     </InkBox>
@@ -105,7 +106,7 @@ const ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>
         <Color dim><Box>{info}</Box></Color>
     </Box>
 </Box>;
-class ErrorBoundary extends Component {
+export class ErrorBoundary extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -126,14 +127,16 @@ class ErrorBoundary extends Component {
         return hasError ? <ErrorMessage error={error}/> : children;
     }
 }
-const SubCommandSelect = ({command, items, onSelect}) => {
+export const SubCommandSelect = ({command, items, onSelect}) => {
     const [highlighted, setHighlighted] = useState(items[0].value);
     const onHighlight = item => {
         setHighlighted(item.value);
     };
     const showWithRemove = `${bold.yellow('CAUTION:')} tomo shall ${bold.red('remove')} that which tomo would have ${bold.green('added')}`;
     return <Box flexDirection={'column'} paddingTop={1} paddingBottom={1} paddingLeft={1}>
-        {command === 'remove' ? <Box marginBottom={1}>{showWithRemove}</Box> : <Description command={highlighted}></Description>}
+        {command === 'remove' ?
+            <Box marginBottom={1}>{showWithRemove}</Box> :
+            <Description command={highlighted} descriptions={COMMAND_DESCRIPTIONS}></Description>}
         <SelectInput
             items={items}
             onSelect={onSelect}
@@ -143,7 +146,7 @@ const SubCommandSelect = ({command, items, onSelect}) => {
         ></SelectInput>
     </Box>;
 };
-const UnderConstruction = () => <Box marginBottom={1}>
+export const UnderConstruction = () => <Box marginBottom={1}>
     <InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}>
         <Color bold yellow>UNDER CONSTRUCTION</Color>
     </InkBox>
@@ -408,7 +411,8 @@ Debug.propTypes = {
     title: PropTypes.string
 };
 Description.propTypes = {
-    command: PropTypes.string
+    command: PropTypes.string,
+    descriptions: PropTypes.object
 };
 SubCommandSelect.propTypes = {
     command: PropTypes.string,
