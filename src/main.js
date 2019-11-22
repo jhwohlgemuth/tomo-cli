@@ -16,7 +16,7 @@ import commands from './commands';
 
 const descriptions = {
     project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold('ESLint')}, and ${bold.magenta('Jest')}`,
-    app: `Scaffold a new ${bold.red('Marionette.js')} ${bold('web application')} - basically a project with CSS, bundling, and stuff`,
+    app: `Scaffold a new ${bold('web application')} - basically a project with CSS, bundling, and stuff`,
     server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security "baked in"`,
     a11y: `Add automated ${bold('accessibility')} testing`,
     babel: `Use next generation JavaScript, ${bold('today!')}`,
