@@ -1,3 +1,4 @@
+export * from './components';
 export * from './utils';
 export * from './utils/common';
 export {createJsonEditor} from './utils/createJsonEditor';

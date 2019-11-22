@@ -6,8 +6,8 @@ import {render} from 'ink';
 import meow from 'meow';
 import read from 'read-pkg';
 import getStdin from 'get-stdin';
-import Tomo from './ui';
 import updateNotifier from 'update-notifier';
+import UI from './main';
 
 // Notify updater
 const pkg = require(`../package.json`);
@@ -148,9 +148,10 @@ const options = {
         }
     }
 };
+
 const {input, flags} = meow(options);
 (input[0] === 'version' || flags.version) && showVersion();
 (async () => {
     const stdin = await getStdin();
-    render(<Tomo input={input} flags={flags} stdin={stdin}/>, {exitOnCtrlC: true});
+    render(<UI input={input} flags={flags} stdin={stdin}/>, {exitOnCtrlC: true});
 })();

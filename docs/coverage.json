@@ -1,7 +1,7 @@
 {
-  "coverage": "25%",
-  "expectCount": 188,
-  "actualCount": 47,
+  "coverage": "25.51%",
+  "expectCount": 196,
+  "actualCount": 50,
   "files": {
     "src/commands/add-a11y.js": {
       "expectCount": 2,
@@ -24,7 +24,7 @@
       "undocumentLines": [
         13,
         14,
-        86
+        85
       ]
     },
     "src/commands/add-cypress/templates/plugins/index.js": {
@@ -331,13 +331,24 @@
       ]
     },
     "src/index.js": {
-      "expectCount": 4,
+      "expectCount": 5,
       "actualCount": 0,
       "undocumentLines": [
-        15,
-        21,
-        69,
-        145
+        13,
+        16,
+        22,
+        70,
+        152
+      ]
+    },
+    "src/main.js": {
+      "expectCount": 7,
+      "actualCount": 3,
+      "undocumentLines": [
+        17,
+        45,
+        55,
+        65
       ]
     },
     "src/utils/BasicEditor.js": {

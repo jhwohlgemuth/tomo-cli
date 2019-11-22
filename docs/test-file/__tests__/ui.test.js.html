@@ -29,7 +29,8 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/main.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-removeA11y">removeA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addBrowsersync">addBrowsersync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-removeBrowsersync">removeBrowsersync</a></span></span></li>
@@ -92,7 +93,8 @@ import Queue from &apos;p-queue&apos;;
 import React from &apos;react&apos;;
 import {render} from &apos;ink-testing-library&apos;;
 import {populateQueue} from &apos;../src/api&apos;;
-import Tomo, {CommandError, Warning, Task} from &apos;../src/ui&apos;;
+import {CommandError, Warning, Task} from &apos;../src/components&apos;;
+import UI from &apos;../src/main&apos;;
 
 jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; true));
 
@@ -248,14 +250,14 @@ describe(&apos;tomo&apos;, () =&gt; {
     });
     test(&apos;add&apos;, () =&gt; {
         const input = [&apos;add&apos;];
-        const {lastFrame, stdin} = render(&lt;Tomo input={input} flags={{skipInstall}}/&gt;);
+        const {lastFrame, stdin} = render(&lt;UI input={input} flags={{skipInstall}}/&gt;);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
     });
     test(&apos;remove&apos;, () =&gt; {
         const input = [&apos;remove&apos;];
-        const {lastFrame, stdin} = render(&lt;Tomo input={input} flags={{skipInstall}} /&gt;);
+        const {lastFrame, stdin} = render(&lt;UI input={input} flags={{skipInstall}} /&gt;);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
@@ -263,7 +265,7 @@ describe(&apos;tomo&apos;, () =&gt; {
     xtest(&apos;add eslint&apos;, done =&gt; {
         const input = [&apos;add&apos;, &apos;eslint&apos;];
         const flags = {skipInstall};
-        const {lastFrame} = render(&lt;Tomo input={input} flags={flags} done={complete}/&gt;);
+        const {lastFrame} = render(&lt;UI input={input} flags={flags} done={complete}/&gt;);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();
@@ -272,7 +274,7 @@ describe(&apos;tomo&apos;, () =&gt; {
     xtest(&apos;add eslint --use-react&apos;, done =&gt; {
         const input = [&apos;add&apos;, &apos;eslint&apos;];
         const flags = {useReact: true, skipInstall};
-        const {lastFrame} = render(&lt;Tomo input={input} flags={flags} done={complete}/&gt;);
+        const {lastFrame} = render(&lt;UI input={input} flags={flags} done={complete}/&gt;);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();

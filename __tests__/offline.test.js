@@ -1,8 +1,9 @@
 import React from 'react';
 import isOnline from 'is-online';
 import {render} from 'ink-testing-library';
-import {OfflineWarning, TaskList} from '../src/ui';
 import {useTemporaryDirectory} from './tomo-test';
+import {OfflineWarning, TaskList} from '../src/components';
+import commands from '../src/commands';
 
 jest.mock('is-online', () => (async () => false));
 
@@ -33,7 +34,7 @@ describe('Offline warning', () => {
     });
     test('does not render when offline and skipInstall === true', done => {
         const options = {skipInstall: true};
-        const {lastFrame} = render(<TaskList command={'add'} terms={['babel']} options={options} done={complete}></TaskList>);
+        const {lastFrame} = render(<TaskList command={'add'} commands={commands} terms={['babel']} options={options} done={complete}></TaskList>);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();
@@ -41,7 +42,7 @@ describe('Offline warning', () => {
     });
     test('renders when offline and skipInstall === false', done => {
         const options = {skipInstall: false};
-        const {lastFrame} = render(<TaskList command={'add'} terms={['babel']} options={options} done={complete}></TaskList>);
+        const {lastFrame} = render(<TaskList command={'add'} commands={commands} terms={['babel']} options={options} done={complete}></TaskList>);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();

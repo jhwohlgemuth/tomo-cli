@@ -72,6 +72,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "tomo-cli/src/main.js~ui",
+    "class/src/main.js~UI.html",
+    "<span>UI</span> <span class=\"search-result-import-path\">tomo-cli/src/main.js</span>",
+    "class"
+  ],
+  [
     "tomo-cli/src/utils/index.js~webpackconfigeditor",
     "variable/index.html#static-variable-WebpackConfigEditor",
     "<span>WebpackConfigEditor</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
@@ -385,13 +391,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber98",
+    "test-file/__tests__/ui.test.js.html#lineNumber99",
     "CommandError",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber108",
+    "test-file/__tests__/ui.test.js.html#lineNumber109",
     "CommandError can render component and create errors file",
     "test"
   ],
@@ -601,31 +607,31 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/offline.test.js.html#lineNumber9",
+    "test-file/__tests__/offline.test.js.html#lineNumber10",
     "Offline warning",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/offline.test.js.html#lineNumber30",
+    "test-file/__tests__/offline.test.js.html#lineNumber31",
     "Offline warning can render",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/offline.test.js.html#lineNumber34",
+    "test-file/__tests__/offline.test.js.html#lineNumber35",
     "Offline warning does not render when offline and skipInstall === true",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/offline.test.js.html#lineNumber26",
+    "test-file/__tests__/offline.test.js.html#lineNumber27",
     "Offline warning is-online returns false (for testing)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/offline.test.js.html#lineNumber42",
+    "test-file/__tests__/offline.test.js.html#lineNumber43",
     "Offline warning renders when offline and skipInstall === false",
     "test"
   ],
@@ -709,37 +715,37 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber116",
+    "test-file/__tests__/ui.test.js.html#lineNumber117",
     "Task component",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber122",
+    "test-file/__tests__/ui.test.js.html#lineNumber123",
     "Task component can render (completed)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber132",
+    "test-file/__tests__/ui.test.js.html#lineNumber133",
     "Task component can render (errored)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber117",
+    "test-file/__tests__/ui.test.js.html#lineNumber118",
     "Task component can render (pending)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber127",
+    "test-file/__tests__/ui.test.js.html#lineNumber128",
     "Task component can render (skipped)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber137",
+    "test-file/__tests__/ui.test.js.html#lineNumber138",
     "Task component can render with default text",
     "test"
   ],
@@ -853,13 +859,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber91",
+    "test-file/__tests__/ui.test.js.html#lineNumber92",
     "Warning",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber92",
+    "test-file/__tests__/ui.test.js.html#lineNumber93",
     "Warning can render",
     "test"
   ],
@@ -1147,37 +1153,37 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber13",
+    "test-file/__tests__/ui.test.js.html#lineNumber14",
     "populateQueue function",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber75",
+    "test-file/__tests__/ui.test.js.html#lineNumber76",
     "populateQueue function can catch task errors",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber58",
+    "test-file/__tests__/ui.test.js.html#lineNumber59",
     "populateQueue function can only run tasks that pass condition",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber18",
+    "test-file/__tests__/ui.test.js.html#lineNumber19",
     "populateQueue function can run tasks with options and dispatch task results",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber15",
+    "test-file/__tests__/ui.test.js.html#lineNumber16",
     "populateQueue function can run with defaults",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber38",
+    "test-file/__tests__/ui.test.js.html#lineNumber39",
     "populateQueue function dedupes tasks based on text value",
     "test"
   ],
@@ -1722,6 +1728,42 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/main.js",
+    "file/src/main.js.html",
+    "src/main.js",
+    "file"
+  ],
+  [
+    "src/main.js~ui#constructor",
+    "class/src/main.js~UI.html#instance-constructor-constructor",
+    "src/main.js~UI#constructor",
+    "method"
+  ],
+  [
+    "src/main.js~ui#render",
+    "class/src/main.js~UI.html#instance-method-render",
+    "src/main.js~UI#render",
+    "method"
+  ],
+  [
+    "src/main.js~ui#state",
+    "class/src/main.js~UI.html#instance-member-state",
+    "src/main.js~UI#state",
+    "member"
+  ],
+  [
+    "src/main.js~ui#updateterms",
+    "class/src/main.js~UI.html#instance-method-updateTerms",
+    "src/main.js~UI#updateTerms",
+    "method"
+  ],
+  [
+    "src/main.js~ui#updatewarning",
+    "class/src/main.js~UI.html#instance-method-updateWarning",
+    "src/main.js~UI#updateWarning",
+    "method"
+  ],
+  [
     "src/utils/basiceditor.js",
     "file/src/utils/BasicEditor.js.html",
     "src/utils/BasicEditor.js",
@@ -1813,19 +1855,19 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber142",
+    "test-file/__tests__/ui.test.js.html#lineNumber143",
     "tomo",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber160",
+    "test-file/__tests__/ui.test.js.html#lineNumber161",
     "tomo add",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber167",
+    "test-file/__tests__/ui.test.js.html#lineNumber168",
     "tomo remove",
     "test"
   ],

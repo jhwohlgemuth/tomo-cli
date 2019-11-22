@@ -3,7 +3,8 @@ import Queue from 'p-queue';
 import React from 'react';
 import {render} from 'ink-testing-library';
 import {populateQueue} from '../src/api';
-import Tomo, {CommandError, Warning, Task} from '../src/ui';
+import {CommandError, Warning, Task} from '../src/components';
+import UI from '../src/main';
 
 jest.mock('is-online', () => (async () => true));
 
@@ -159,14 +160,14 @@ describe('tomo', () => {
     });
     test('add', () => {
         const input = ['add'];
-        const {lastFrame, stdin} = render(<Tomo input={input} flags={{skipInstall}}/>);
+        const {lastFrame, stdin} = render(<UI input={input} flags={{skipInstall}}/>);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
     });
     test('remove', () => {
         const input = ['remove'];
-        const {lastFrame, stdin} = render(<Tomo input={input} flags={{skipInstall}} />);
+        const {lastFrame, stdin} = render(<UI input={input} flags={{skipInstall}} />);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
@@ -174,7 +175,7 @@ describe('tomo', () => {
     xtest('add eslint', done => {
         const input = ['add', 'eslint'];
         const flags = {skipInstall};
-        const {lastFrame} = render(<Tomo input={input} flags={flags} done={complete}/>);
+        const {lastFrame} = render(<UI input={input} flags={flags} done={complete}/>);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();
@@ -183,7 +184,7 @@ describe('tomo', () => {
     xtest('add eslint --use-react', done => {
         const input = ['add', 'eslint'];
         const flags = {useReact: true, skipInstall};
-        const {lastFrame} = render(<Tomo input={input} flags={flags} done={complete}/>);
+        const {lastFrame} = render(<UI input={input} flags={flags} done={complete}/>);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();

@@ -29,7 +29,8 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/main.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-removeA11y">removeA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addBrowsersync">addBrowsersync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-removeBrowsersync">removeBrowsersync</a></span></span></li>
@@ -90,8 +91,9 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React from &apos;react&apos;;
 import isOnline from &apos;is-online&apos;;
 import {render} from &apos;ink-testing-library&apos;;
-import {OfflineWarning, TaskList} from &apos;../src/ui&apos;;
 import {useTemporaryDirectory} from &apos;./tomo-test&apos;;
+import {OfflineWarning, TaskList} from &apos;../src/components&apos;;
+import commands from &apos;../src/commands&apos;;
 
 jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; false));
 
@@ -122,7 +124,7 @@ describe(&apos;Offline warning&apos;, () =&gt; {
     });
     test(&apos;does not render when offline and skipInstall === true&apos;, done =&gt; {
         const options = {skipInstall: true};
-        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} terms={[&apos;babel&apos;]} options={options} done={complete}&gt;&lt;/TaskList&gt;);
+        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} commands={commands} terms={[&apos;babel&apos;]} options={options} done={complete}&gt;&lt;/TaskList&gt;);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();
@@ -130,7 +132,7 @@ describe(&apos;Offline warning&apos;, () =&gt; {
     });
     test(&apos;renders when offline and skipInstall === false&apos;, done =&gt; {
         const options = {skipInstall: false};
-        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} terms={[&apos;babel&apos;]} options={options} done={complete}&gt;&lt;/TaskList&gt;);
+        const {lastFrame} = render(&lt;TaskList command={&apos;add&apos;} commands={commands} terms={[&apos;babel&apos;]} options={options} done={complete}&gt;&lt;/TaskList&gt;);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();

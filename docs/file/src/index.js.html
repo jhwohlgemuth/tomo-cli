@@ -29,7 +29,8 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/main.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-removeA11y">removeA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addBrowsersync">addBrowsersync</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-removeBrowsersync">removeBrowsersync</a></span></span></li>
@@ -95,11 +96,12 @@ import {render} from &apos;ink&apos;;
 import meow from &apos;meow&apos;;
 import read from &apos;read-pkg&apos;;
 import getStdin from &apos;get-stdin&apos;;
-import Tomo from &apos;./ui&apos;;
-// import updateNotifier from &apos;update-notifier&apos;;
+import updateNotifier from &apos;update-notifier&apos;;
+import UI from &apos;./main&apos;;
+
 // Notify updater
-// const pkg = require(`../package.json`);
-// updateNotifier({pkg}).notify();
+const pkg = require(`../package.json`);
+updateNotifier({pkg}).notify();
 
 const showVersion = () =&gt; {
     const cwd = join(__dirname, &apos;..&apos;);
@@ -201,6 +203,11 @@ const options = {
             type: &apos;boolean&apos;,
             default: false
         },
+        help: {
+            type: &apos;boolean&apos;,
+            default: false,
+            alias: &apos;h&apos;
+        },
         ignoreWarnings: {
             type: &apos;boolean&apos;,
             default: false,
@@ -231,11 +238,12 @@ const options = {
         }
     }
 };
+
 const {input, flags} = meow(options);
 (input[0] === &apos;version&apos; || flags.version) &amp;&amp; showVersion();
 (async () =&gt; {
     const stdin = await getStdin();
-    render(&lt;Tomo input={input} flags={flags} stdin={stdin}/&gt;, {exitOnCtrlC: true});
+    render(&lt;UI input={input} flags={flags} stdin={stdin}/&gt;, {exitOnCtrlC: true});
 })();</code></pre>
 
 </div>
