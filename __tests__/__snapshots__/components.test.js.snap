@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommandError can render component and create errors file 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: tomo-errors.txt,
+            size: 0,
+            type: file
+        }
+    ],
+    size: 0,
+    type: directory
+}
+"
+`;
+
+exports[`CommandError can render component and create errors file 2`] = `
+"
+ [31m[1m✖ [22m[39mSomething has gone horribly [31m[1mwrong[22m[39m
+   ↳ [2mDetails written to ./tomo-errors.txt[22m"
+`;
+
+exports[`Task component can render (completed) 1`] = `"   [32m[1m✔ [22m[39m[2mtest task text[22m"`;
+
+exports[`Task component can render (errored) 1`] = `"   [31m[1m✖ [22m[39mtest task text"`;
+
+exports[`Task component can render (pending) 1`] = `"   [36m⠋[39m[39m[36m [39m[39m[39mtest task text[39m"`;
+
+exports[`Task component can render (skipped) 1`] = `"   [2m[1m✔ [2m[22m[2mtest task text[22m"`;
+
+exports[`Task component can render with default text 1`] = `"   [32m[1m✔ [22m[39m[2mtask description[22m"`;
+
+exports[`Warning can render 1`] = `
+"[33m[39m
+[33m ┌─────────┐[39m
+ [33m│[39m [33moops...[39m [33m│[39m
+[33m └─────────┘[39m
+    ↳ Hello World
+
+      [2mPress [22m[1mENTER[22m[2m to continue[22m
+"
+`;
+
+exports[`populateQueue function can only run tasks that pass condition 1`] = `
+Object {
+  "foo": "bar",
+  "isNotOffline": true,
+}
+`;
+
+exports[`populateQueue function can only run tasks that pass condition 2`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "online": true,
+      },
+      "type": "status",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 0,
+      "type": "complete",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 1,
+      "type": "skipped",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 2,
+      "type": "complete",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 3,
+      "type": "skipped",
+    },
+  ],
+]
+`;
+
+exports[`populateQueue function can run tasks with options and dispatch task results 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "online": true,
+      },
+      "type": "status",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 0,
+      "type": "complete",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 1,
+      "type": "complete",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 2,
+      "type": "complete",
+    },
+  ],
+]
+`;
+
+exports[`populateQueue function dedupes tasks based on text value 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "online": true,
+      },
+      "type": "status",
+    },
+  ],
+  Array [
+    Object {
+      "payload": 0,
+      "type": "complete",
+    },
+  ],
+]
+`;
