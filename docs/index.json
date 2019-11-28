@@ -4225,7 +4225,7 @@
     "__docId__": 233,
     "kind": "file",
     "name": "src/main.js",
-    "content": "import React, {Component} from 'react';\nimport PropTypes from 'prop-types';\nimport {bold} from 'chalk';\nimport figures from 'figures';\nimport {is} from 'ramda';\nimport {Color, Text} from 'ink';\nimport {\n    ErrorBoundary,\n    SubCommandSelect,\n    TaskList,\n    UnderConstruction,\n    Warning,\n    getIntendedInput\n} from './api';\nimport commands from './commands';\n\nconst descriptions = {\n    project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold('ESLint')}, and ${bold.magenta('Jest')}`,\n    app: `Scaffold a new ${bold.red('Marionette.js')} ${bold('web application')} - basically a project with CSS, bundling, and stuff`,\n    server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security \"baked in\"`,\n    a11y: `Add automated ${bold('accessibility')} testing`,\n    babel: `Use next generation JavaScript, ${bold('today!')}`,\n    browsersync: `Time-saving ${bold('synchronised browser')} testing (demo your app with ${bold.yellow('live-reload')})`,\n    cypress: `${bold('Test')} anything that runs in a ${bold('browser')} (including ${bold.yellow('visual regression testing')})`,\n    electron: `Create a ${bold('native desktop application')} using web technologies`,\n    esdoc: `Generate ${bold('documentation')} from your comments`,\n    eslint: `Pluggable ${bold('linting')} utility for JavaScript and JSX`,\n    jest: `Delightful JavaScript ${bold('Testing')} Framework with a focus on simplicity`,\n    makefile: `Create a ${bold('Makefile')} from your package.json, like ${bold.magenta('magic!')}`,\n    marionette: `${bold('Flexible Backbone framework')} with robust views and architecture solutions`,\n    parcel: `${bold('Bundle')} your application (${bold.red('blazing')} fast with ${bold.white('zero configuration')})`,\n    postcss: `Use ${bold('future CSS')}, never write vendor prefixes again, and much much more!`,\n    react: `Build user interfaces with ${bold('components')} ${figures.arrowRight} learn once, write ${bold('anywhere')}`,\n    reason: `Write functional ${bold('type safe')} code with ${bold.yellow('JavaScript')}-like syntax (works with ${bold('React')})`,\n    rollup: `${bold('Bundle')} your assets (focused on ${bold('ES6')} modules and tree shaking - ${bold.white('best for libraries')})`,\n    webpack: `${bold('Bundle')} your assets (with great support and a rich ecosystem)`\n};\n\n/**\n * Main tomo UI component\n * @param {Object} props Component props\n * @return {ReactComponent} Main tomo UI component\n */\nexport default class UI extends Component {\n    constructor(props) {\n        super(props);\n        const {flags, input} = props;\n        const {ignoreWarnings} = flags;\n        const [command, ...terms] = input;\n        const hasCommand = is(String)(command);\n        const hasTerms = terms.length > 0;\n        const {intendedCommand, intendedTerms} = hasCommand ? getIntendedInput(commands, command, terms) : {};\n        const compare = (term, index) => (term !== terms[index]);\n        const showWarning = ((command !== intendedCommand) || (hasTerms && intendedTerms.map(compare).some(Boolean))) && !ignoreWarnings;\n        this.state = {\n            hasTerms,\n            hasCommand,\n            showWarning,\n            intendedTerms,\n            intendedCommand\n        };\n        this.updateWarning = this.updateWarning.bind(this);\n        this.updateTerms = this.updateTerms.bind(this);\n    }\n    render() {\n        const {done, flags} = this.props;\n        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;\n        return <ErrorBoundary>\n            {showWarning ?\n                <Warning callback={this.updateWarning}>\n                    <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>\n                </Warning> :\n                (hasCommand && hasTerms) ?\n                    <TaskList commands={commands} command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :\n                    hasCommand ?\n                        <SubCommandSelect\n                            command={intendedCommand}\n                            descriptions={descriptions}\n                            items={Object.keys(commands[intendedCommand]).map(command => ({label: command, value: command}))}\n                            onSelect={this.updateTerms}>\n                        </SubCommandSelect> :\n                        <UnderConstruction/>\n            }\n        </ErrorBoundary>;\n    }\n    /**\n     * Callback function for warning component\n     * @param {string} data Character data from stdin\n     * @return {undefined} Returns nothing\n     */\n    updateWarning(data) {\n        const key = String(data);\n        (key === '\\r') ? this.setState({showWarning: false}) : process.exit(0);\n    }\n    /**\n     * @param {Object} args Function options\n     * @param {string} args.value Intended term\n     * @return {undefined} Returns nothing\n     */\n    updateTerms({value}) {\n        this.setState({\n            hasTerms: true,\n            intendedTerms: [value]\n        });\n    }\n}\nUI.propTypes = {\n    input: PropTypes.array,\n    flags: PropTypes.object,\n    done: PropTypes.func,\n    stdin: PropTypes.string\n};\nUI.defaultProps = {\n    input: [],\n    flags: {}\n};",
+    "content": "import React, {Component} from 'react';\nimport PropTypes from 'prop-types';\nimport {bold} from 'chalk';\nimport figures from 'figures';\nimport {is} from 'ramda';\nimport {Color, Text} from 'ink';\nimport {\n    ErrorBoundary,\n    SubCommandSelect,\n    TaskList,\n    UnderConstruction,\n    Warning,\n    getIntendedInput\n} from './api';\nimport commands from './commands';\n\nconst descriptions = {\n    project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold('ESLint')}, and ${bold.magenta('Jest')}`,\n    app: `Scaffold a new ${bold('web application')} - basically a project with CSS, bundling, and stuff`,\n    server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security \"baked in\"`,\n    a11y: `Add automated ${bold('accessibility')} testing`,\n    babel: `Use next generation JavaScript, ${bold('today!')}`,\n    browsersync: `Time-saving ${bold('synchronised browser')} testing (demo your app with ${bold.yellow('live-reload')})`,\n    cypress: `${bold('Test')} anything that runs in a ${bold('browser')} (including ${bold.yellow('visual regression testing')})`,\n    electron: `Create a ${bold('native desktop application')} using web technologies`,\n    esdoc: `Generate ${bold('documentation')} from your comments`,\n    eslint: `Pluggable ${bold('linting')} utility for JavaScript and JSX`,\n    jest: `Delightful JavaScript ${bold('Testing')} Framework with a focus on simplicity`,\n    makefile: `Create a ${bold('Makefile')} from your package.json, like ${bold.magenta('magic!')}`,\n    marionette: `${bold('Flexible Backbone framework')} with robust views and architecture solutions`,\n    parcel: `${bold('Bundle')} your application (${bold.red('blazing')} fast with ${bold.white('zero configuration')})`,\n    postcss: `Use ${bold('future CSS')}, never write vendor prefixes again, and much much more!`,\n    react: `Build user interfaces with ${bold('components')} ${figures.arrowRight} learn once, write ${bold('anywhere')}`,\n    reason: `Write functional ${bold('type safe')} code with ${bold.yellow('JavaScript')}-like syntax (works with ${bold('React')})`,\n    rollup: `${bold('Bundle')} your assets (focused on ${bold('ES6')} modules and tree shaking - ${bold.white('best for libraries')})`,\n    webpack: `${bold('Bundle')} your assets (with great support and a rich ecosystem)`\n};\n\n/**\n * Main tomo UI component\n * @param {Object} props Component props\n * @return {ReactComponent} Main tomo UI component\n */\nexport default class UI extends Component {\n    constructor(props) {\n        super(props);\n        const {flags, input} = props;\n        const {ignoreWarnings} = flags;\n        const [command, ...terms] = input;\n        const hasCommand = is(String)(command);\n        const hasTerms = terms.length > 0;\n        const {intendedCommand, intendedTerms} = hasCommand ? getIntendedInput(commands, command, terms) : {};\n        const compare = (term, index) => (term !== terms[index]);\n        const showWarning = ((command !== intendedCommand) || (hasTerms && intendedTerms.map(compare).some(Boolean))) && !ignoreWarnings;\n        this.state = {\n            hasTerms,\n            hasCommand,\n            showWarning,\n            intendedTerms,\n            intendedCommand\n        };\n        this.updateWarning = this.updateWarning.bind(this);\n        this.updateTerms = this.updateTerms.bind(this);\n    }\n    render() {\n        const {done, flags} = this.props;\n        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;\n        return <ErrorBoundary>\n            {showWarning ?\n                <Warning callback={this.updateWarning}>\n                    <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>\n                </Warning> :\n                (hasCommand && hasTerms) ?\n                    <TaskList commands={commands} command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :\n                    hasCommand ?\n                        <SubCommandSelect\n                            command={intendedCommand}\n                            descriptions={descriptions}\n                            items={Object.keys(commands[intendedCommand]).map(command => ({label: command, value: command}))}\n                            onSelect={this.updateTerms}>\n                        </SubCommandSelect> :\n                        <UnderConstruction/>\n            }\n        </ErrorBoundary>;\n    }\n    /**\n     * Callback function for warning component\n     * @param {string} data Character data from stdin\n     * @return {undefined} Returns nothing\n     */\n    updateWarning(data) {\n        const key = String(data);\n        (key === '\\r') ? this.setState({showWarning: false}) : process.exit(0);\n    }\n    /**\n     * @param {Object} args Function options\n     * @param {string} args.value Intended term\n     * @return {undefined} Returns nothing\n     */\n    updateTerms({value}) {\n        this.setState({\n            hasTerms: true,\n            intendedTerms: [value]\n        });\n    }\n}\nUI.propTypes = {\n    input: PropTypes.array,\n    flags: PropTypes.object,\n    done: PropTypes.func,\n    stdin: PropTypes.string\n};\nUI.defaultProps = {\n    input: [],\n    flags: {}\n};",
     "static": true,
     "longname": "/Users/jason/dev/tomo-cli/src/main.js",
     "access": "public",
@@ -5977,7 +5977,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"tomo-cli\",\n  \"version\": \"1.0.9\",\n  \"description\": \"A friendly command line tool designed to help create sustainable software using web technology\",\n  \"license\": \"MIT\",\n  \"main\": \"dist/api.js\",\n  \"bin\": {\n    \"tomo\": \"dist/index.js\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/jhwohlgemuth/tomo-cli.git\"\n  },\n  \"author\": \"Jason Wohlgemuth <jhwohlgemuth@gmail.com> (omaha.js.org)\",\n  \"engines\": {\n    \"node\": \">=6\"\n  },\n  \"scripts\": {\n    \"copy:assets\": \"cpy '**/templates/*.(js|json|re|html|hbs|css|md|png|ico|otf|svg|woff|woff2|ttf|eot|cert|key)' '**/[.]*' '../dist/' --cwd=src --parents --recursive\",\n    \"dev\": \"stmux [ \\\"npm run build:watch\\\" : \\\"npm run lint:watch\\\" ]\",\n    \"prebuild\": \"npm run build:clean\",\n    \"build\": \"babel src --out-dir dist\",\n    \"postbuild\": \"npm run copy:assets\",\n    \"build:clean\": \"rm -frd ./dist\",\n    \"build:watch\": \"watch 'npm run build' ./src\",\n    \"build:docs\": \"esdoc -c ./esdoc.conf.json\",\n    \"test\": \"jest .*.test.js --coverage\",\n    \"test:e2e\": \"jest .*.e2e.js\",\n    \"test:ing\": \"npm test -- --watchAll\",\n    \"open:coverage\": \"open-cli ./coverage/lcov-report/index.html\",\n    \"open:docs\": \"open-cli ./docs/index.html\",\n    \"lint\": \"eslint . -c ./.eslintrc.js --fix\",\n    \"lint:watch\": \"watch 'npm run lint' ./src\",\n    \"lint:tests\": \"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\",\n    \"lint:tests:watch\": \"watch 'npm run lint:tests' ./__tests__\",\n    \"lint:config\": \"eslint -c ./.eslintrc.js *.js --fix\",\n    \"lint:docs\": \"eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\",\n    \"lint:all\": \"npm-run-all lint lint:tests lint:docs\",\n    \"predocs\": \"npm run lint:docs\",\n    \"docs\": \"npm run build:docs\",\n    \"postdocs\": \"npm run open:docs\",\n    \"preversion\": \"npm-run-all lint build test\",\n    \"postversion\": \"git push && git push --tags\",\n    \"prerelease\": \"npm run preversion\",\n    \"release\": \"release\"\n  },\n  \"jest\": {\n    \"testMatch\": [\n      \"**/__tests__/**/*.(e2e|test).[jt]s?(x)\"\n    ],\n    \"testPathIgnorePatterns\": [\n      \"/__tests__/fixtures\"\n    ],\n    \"watchPlugins\": [\n      \"jest-watch-typeahead/filename\",\n      \"jest-watch-typeahead/testname\"\n    ]\n  },\n  \"keywords\": [],\n  \"dependencies\": {\n    \"@babel/runtime\": \"7.6.2\",\n    \"cardinal\": \"^2.1.1\",\n    \"chalk\": \"2.4.2\",\n    \"common-tags\": \"^1.8.0\",\n    \"core-js\": \"^3.1.4\",\n    \"delay\": \"4.3.0\",\n    \"execa\": \"2.0.5\",\n    \"figures\": \"3.0.0\",\n    \"fs-extra\": \"8.1.0\",\n    \"get-stdin\": \"^7.0.0\",\n    \"ink\": \"2.3.0\",\n    \"ink-big-text\": \"1.0.1\",\n    \"ink-box\": \"1.0.0\",\n    \"ink-select-input\": \"3.1.2\",\n    \"ink-spinner\": \"3.0.1\",\n    \"is-online\": \"^8.2.0\",\n    \"lodash.merge\": \"^4.6.2\",\n    \"mem-fs\": \"1.1.3\",\n    \"mem-fs-editor\": \"6.0.0\",\n    \"meow\": \"5.0.0\",\n    \"p-queue\": \"6.1.1\",\n    \"pino\": \"^5.12.3\",\n    \"pino-pretty\": \"^3.0.0\",\n    \"prettier\": \"1.18.2\",\n    \"prop-types\": \"15.7.2\",\n    \"ramda\": \"^0.26.1\",\n    \"react\": \"16.10.2\",\n    \"read-pkg\": \"^5.1.1\",\n    \"semver\": \"6.3.0\",\n    \"string-similarity\": \"3.0.0\",\n    \"update-notifier\": \"3.0.1\",\n    \"validate-npm-package-name\": \"^3.0.0\"\n  },\n  \"devDependencies\": {\n    \"@babel/cli\": \"7.6.2\",\n    \"@babel/core\": \"7.6.2\",\n    \"@babel/plugin-proposal-class-properties\": \"7.5.5\",\n    \"@babel/plugin-proposal-export-default-from\": \"7.5.2\",\n    \"@babel/plugin-proposal-optional-chaining\": \"7.6.0\",\n    \"@babel/plugin-proposal-pipeline-operator\": \"7.5.0\",\n    \"@babel/plugin-transform-runtime\": \"7.6.2\",\n    \"@babel/preset-env\": \"7.6.2\",\n    \"@babel/preset-react\": \"7.0.0\",\n    \"babel-eslint\": \"10.0.3\",\n    \"babel-jest\": \"24.9.0\",\n    \"babel-plugin-ramda\": \"2.0.0\",\n    \"babel-preset-minify\": \"0.5.1\",\n    \"cpy-cli\": \"2.0.0\",\n    \"directory-tree\": \"2.2.4\",\n    \"esdoc\": \"1.1.0\",\n    \"esdoc-ecmascript-proposal-plugin\": \"1.0.0\",\n    \"esdoc-inject-style-plugin\": \"1.0.0\",\n    \"esdoc-jsx-plugin\": \"1.0.0\",\n    \"esdoc-standard-plugin\": \"1.0.0\",\n    \"eslint\": \"6.5.1\",\n    \"eslint-config-omaha-prime-grade\": \"11.0.4\",\n    \"eslint-plugin-react\": \"7.16.0\",\n    \"ink-testing-library\": \"1.0.2\",\n    \"jest\": \"24.9.0\",\n    \"jest-watch-typeahead\": \"0.4.0\",\n    \"npm-run-all\": \"4.1.5\",\n    \"open-cli\": \"5.0.0\",\n    \"release\": \"6.1.0\",\n    \"rimraf\": \"3.0.0\",\n    \"stmux\": \"1.7.1\",\n    \"watch\": \"1.0.2\"\n  },\n  \"bugs\": {\n    \"url\": \"https://github.com/jhwohlgemuth/tomo-cli/issues\"\n  },\n  \"homepage\": \"https://github.com/jhwohlgemuth/tomo-cli#readme\"\n}\n",
+    "content": "{\n  \"name\": \"tomo-cli\",\n  \"version\": \"1.1.0\",\n  \"description\": \"A friendly command line tool designed to help create sustainable software using web technology\",\n  \"license\": \"MIT\",\n  \"main\": \"dist/api.js\",\n  \"bin\": {\n    \"tomo\": \"dist/index.js\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/jhwohlgemuth/tomo-cli.git\"\n  },\n  \"author\": \"Jason Wohlgemuth <jhwohlgemuth@gmail.com> (omaha.js.org)\",\n  \"engines\": {\n    \"node\": \">=6\"\n  },\n  \"scripts\": {\n    \"copy:assets\": \"cpy '**/templates/*.(js|json|re|html|hbs|css|md|png|ico|otf|svg|woff|woff2|ttf|eot|cert|key)' '**/[.]*' '../dist/' --cwd=src --parents --recursive\",\n    \"dev\": \"stmux [ \\\"npm run build:watch\\\" : \\\"npm run lint:watch\\\" ]\",\n    \"prebuild\": \"npm run build:clean\",\n    \"build\": \"babel src --out-dir dist\",\n    \"postbuild\": \"npm run copy:assets\",\n    \"build:clean\": \"rm -frd ./dist\",\n    \"build:watch\": \"watch 'npm run build' ./src\",\n    \"build:docs\": \"esdoc -c ./esdoc.conf.json\",\n    \"test\": \"jest .*.test.js --coverage\",\n    \"test:e2e\": \"jest .*.e2e.js\",\n    \"test:ing\": \"npm test -- --watchAll\",\n    \"open:coverage\": \"open-cli ./coverage/lcov-report/index.html\",\n    \"open:docs\": \"open-cli ./docs/index.html\",\n    \"lint\": \"eslint . -c ./.eslintrc.js --fix\",\n    \"lint:watch\": \"watch 'npm run lint' ./src\",\n    \"lint:tests\": \"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\",\n    \"lint:tests:watch\": \"watch 'npm run lint:tests' ./__tests__\",\n    \"lint:config\": \"eslint -c ./.eslintrc.js *.js --fix\",\n    \"lint:docs\": \"eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\",\n    \"lint:all\": \"npm-run-all lint lint:tests lint:docs\",\n    \"predocs\": \"npm run lint:docs\",\n    \"docs\": \"npm run build:docs\",\n    \"postdocs\": \"npm run open:docs\",\n    \"preversion\": \"npm-run-all lint build test\",\n    \"postversion\": \"git push && git push --tags\",\n    \"prerelease\": \"npm run preversion\",\n    \"release\": \"release\"\n  },\n  \"jest\": {\n    \"testMatch\": [\n      \"**/__tests__/**/*.(e2e|test).[jt]s?(x)\"\n    ],\n    \"testPathIgnorePatterns\": [\n      \"/__tests__/fixtures\"\n    ],\n    \"watchPlugins\": [\n      \"jest-watch-typeahead/filename\",\n      \"jest-watch-typeahead/testname\"\n    ]\n  },\n  \"keywords\": [],\n  \"dependencies\": {\n    \"@babel/runtime\": \"7.6.2\",\n    \"cardinal\": \"^2.1.1\",\n    \"chalk\": \"2.4.2\",\n    \"common-tags\": \"^1.8.0\",\n    \"core-js\": \"^3.1.4\",\n    \"delay\": \"4.3.0\",\n    \"execa\": \"2.0.5\",\n    \"figures\": \"3.0.0\",\n    \"fs-extra\": \"8.1.0\",\n    \"get-stdin\": \"^7.0.0\",\n    \"ink\": \"2.3.0\",\n    \"ink-big-text\": \"1.0.1\",\n    \"ink-box\": \"1.0.0\",\n    \"ink-select-input\": \"3.1.2\",\n    \"ink-spinner\": \"3.0.1\",\n    \"is-online\": \"^8.2.0\",\n    \"lodash.merge\": \"^4.6.2\",\n    \"mem-fs\": \"1.1.3\",\n    \"mem-fs-editor\": \"6.0.0\",\n    \"meow\": \"5.0.0\",\n    \"p-queue\": \"6.1.1\",\n    \"pino\": \"^5.12.3\",\n    \"pino-pretty\": \"^3.0.0\",\n    \"prettier\": \"1.18.2\",\n    \"prop-types\": \"15.7.2\",\n    \"ramda\": \"^0.26.1\",\n    \"react\": \"16.10.2\",\n    \"read-pkg\": \"^5.1.1\",\n    \"semver\": \"6.3.0\",\n    \"string-similarity\": \"3.0.0\",\n    \"update-notifier\": \"3.0.1\",\n    \"validate-npm-package-name\": \"^3.0.0\"\n  },\n  \"devDependencies\": {\n    \"@babel/cli\": \"7.6.2\",\n    \"@babel/core\": \"7.6.2\",\n    \"@babel/plugin-proposal-class-properties\": \"7.5.5\",\n    \"@babel/plugin-proposal-export-default-from\": \"7.5.2\",\n    \"@babel/plugin-proposal-optional-chaining\": \"7.6.0\",\n    \"@babel/plugin-proposal-pipeline-operator\": \"7.5.0\",\n    \"@babel/plugin-transform-runtime\": \"7.6.2\",\n    \"@babel/preset-env\": \"7.6.2\",\n    \"@babel/preset-react\": \"7.0.0\",\n    \"babel-eslint\": \"10.0.3\",\n    \"babel-jest\": \"24.9.0\",\n    \"babel-plugin-ramda\": \"2.0.0\",\n    \"babel-preset-minify\": \"0.5.1\",\n    \"cpy-cli\": \"2.0.0\",\n    \"directory-tree\": \"2.2.4\",\n    \"esdoc\": \"1.1.0\",\n    \"esdoc-ecmascript-proposal-plugin\": \"1.0.0\",\n    \"esdoc-inject-style-plugin\": \"1.0.0\",\n    \"esdoc-jsx-plugin\": \"1.0.0\",\n    \"esdoc-standard-plugin\": \"1.0.0\",\n    \"eslint\": \"6.5.1\",\n    \"eslint-config-omaha-prime-grade\": \"11.0.4\",\n    \"eslint-plugin-react\": \"7.16.0\",\n    \"ink-testing-library\": \"1.0.2\",\n    \"jest\": \"24.9.0\",\n    \"jest-watch-typeahead\": \"0.4.0\",\n    \"npm-run-all\": \"4.1.5\",\n    \"open-cli\": \"5.0.0\",\n    \"release\": \"6.1.0\",\n    \"rimraf\": \"3.0.0\",\n    \"stmux\": \"1.7.1\",\n    \"watch\": \"1.0.2\"\n  },\n  \"bugs\": {\n    \"url\": \"https://github.com/jhwohlgemuth/tomo-cli/issues\"\n  },\n  \"homepage\": \"https://github.com/jhwohlgemuth/tomo-cli#readme\"\n}\n",
     "longname": "/Users/jason/dev/tomo-cli/package.json",
     "name": "package.json",
     "static": true,
@@ -6938,10 +6938,10 @@
   {
     "__docId__": 372,
     "kind": "testFile",
-    "name": "__tests__/offline.test.js",
-    "content": "import React from 'react';\nimport isOnline from 'is-online';\nimport {render} from 'ink-testing-library';\nimport {useTemporaryDirectory} from './tomo-test';\nimport {OfflineWarning, TaskList} from '../src/components';\nimport commands from '../src/commands';\n\njest.mock('is-online', () => (async () => false));\n\ndescribe('Offline warning', () => {\n    let tempDirectory;\n    const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console\n    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();\n    beforeEach(async () => {\n        tempDirectory = await setTempDir();\n        process.chdir(tempDirectory);\n    });\n    afterEach(async () => {\n        await cleanupTempDir();\n    });\n    beforeAll(() => {\n        console.error = jest.fn();//eslint-disable-line no-console\n    });\n    afterAll(() => {\n        console.error = ORIGINAL_CONSOLE_ERROR;//eslint-disable-line no-console\n    });\n    test('is-online returns false (for testing)', async () => {\n        const result = await isOnline();\n        expect(result).toEqual(false);\n    });\n    test('can render', async () => {\n        const {lastFrame} = render(<OfflineWarning/>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('does not render when offline and skipInstall === true', done => {\n        const options = {skipInstall: true};\n        const {lastFrame} = render(<TaskList command={'add'} commands={commands} terms={['babel']} options={options} done={complete}></TaskList>);\n        function complete() {\n            expect(lastFrame()).toMatchSnapshot();\n            done();\n        }\n    });\n    test('renders when offline and skipInstall === false', done => {\n        const options = {skipInstall: false};\n        const {lastFrame} = render(<TaskList command={'add'} commands={commands} terms={['babel']} options={options} done={complete}></TaskList>);\n        function complete() {\n            expect(lastFrame()).toMatchSnapshot();\n            done();\n        }\n    });\n});",
+    "name": "__tests__/components.test.js",
+    "content": "import {getDirectoryTree, useTemporaryDirectory} from './tomo-test';\nimport Queue from 'p-queue';\nimport React from 'react';\nimport {render} from 'ink-testing-library';\nimport {populateQueue} from '../src/api';\nimport {CommandError, Warning, Task} from '../src/components';\n\nconst {assign} = Object;\n\njest.mock('is-online', () => (async () => true));\n\ndescribe('populateQueue function', () => {\n    const text = 'test task text';\n    test('can run with defaults', () => {\n        populateQueue();\n    });\n    test('can run tasks with options and dispatch task results', async () => {\n        const condition = async () => true;\n        const task = jest.fn();\n        const options = {foo: 'bar'};\n        const customOptions = {some: 'option'};\n        const dispatch = jest.fn();\n        const tasks = [\n            {some: 'option'},\n            {condition, task, text: `${text}1`},\n            {condition, task, text: `${text}2`},\n            {condition, task, text: `${text}3`}\n        ];\n        const queue = new Queue({concurrency: tasks.length});\n        await populateQueue({queue, tasks, dispatch, options});\n        expect(task.mock.calls.length).toBe(3);\n        expect(dispatch.mock.calls.length).toBe(4);// eslint-disable-line no-magic-numbers\n        const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];\n        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));\n        expect(dispatch.mock.calls).toMatchSnapshot();\n    });\n    test('dedupes tasks based on text value', async () => {\n        const condition = async () => true;\n        const task = jest.fn();\n        const options = {foo: 'bar'};\n        const customOptions = {some: 'option'};\n        const dispatch = jest.fn();\n        const tasks = [\n            {some: 'option'},\n            {condition, task, text},\n            {condition, task, text},\n            {condition, task, text}\n        ];\n        const queue = new Queue({concurrency: tasks.length});\n        await populateQueue({queue, tasks, dispatch, options});\n        expect(task.mock.calls.length).toBe(1);\n        expect(dispatch.mock.calls.length).toBe(2);// eslint-disable-line no-magic-numbers\n        const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];\n        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));\n        expect(dispatch.mock.calls).toMatchSnapshot();\n    });\n    test('can only run tasks that pass condition', async () => {\n        const task = jest.fn();\n        const options = {foo: 'bar'};\n        const dispatch = jest.fn();\n        const tasks = [\n            {condition: async () => true, task, text: `${text}1`},\n            {condition: async () => false, task, text: `${text}2`},\n            {condition: async () => true, task, text: `${text}3`},\n            {condition: async () => false, task, text: `${text}4`}\n        ];\n        const queue = new Queue({concurrency: tasks.length});\n        await populateQueue({queue, tasks, dispatch, options});\n        const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];\n        expect(passedOptions).toMatchSnapshot();\n        expect(task.mock.calls.length).toBe(2);\n        expect(dispatch.mock.calls).toMatchSnapshot();\n    });\n    test('can catch task errors', async () => {\n        const task = jest.fn();\n        const options = {foo: 'bar'};\n        const dispatch = jest.fn();\n        const tasks = [\n            {text: `${text}1`, condition: async () => true, task},\n            {text: `${text}2`, condition: async () => {throw new Error();}, task},\n            {text: `${text}3`, condition: async () => true, task},\n            {text: `${text}4`, condition: async () => false, task}\n        ];\n        const queue = new Queue({concurrency: tasks.length});\n        await populateQueue({queue, tasks, dispatch, options});\n        expect(task.mock.calls.length).toBe(2);\n        expect(dispatch.mock.calls[2][0].type).toBe('error');\n    });\n});\ndescribe('Warning', () => {\n    test('can render', () => {\n        const callback = jest.fn();\n        const {lastFrame} = render(<Warning callback={callback}>Hello World</Warning>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n});\ndescribe('CommandError', () => {\n    let tempDirectory;\n    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();\n    beforeEach(async () => {\n        tempDirectory = await setTempDir();\n        process.chdir(tempDirectory);\n    });\n    afterEach(async () => {\n        await cleanupTempDir();\n    });\n    test('can render component and create errors file', () => {\n        const errors = [{one: 1}, {two: 2}];\n        const {lastFrame} = render(<CommandError errors={errors}></CommandError>);\n        const tree = getDirectoryTree(tempDirectory);\n        expect(tree).toMatchSnapshot();\n        expect(lastFrame()).toMatchSnapshot();\n    });\n});\ndescribe('Task component', () => {\n    test('can render (pending)', () => {\n        const text = 'test task text';\n        const {lastFrame} = render(<Task text={text} isPending={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('can render (completed)', () => {\n        const text = 'test task text';\n        const {lastFrame} = render(<Task text={text} isComplete={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('can render (skipped)', () => {\n        const text = 'test task text';\n        const {lastFrame} = render(<Task text={text} isComplete={true} isSkipped={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('can render (errored)', () => {\n        const text = 'test task text';\n        const {lastFrame} = render(<Task text={text} isErrored={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('can render with default text', () => {\n        const {lastFrame} = render(<Task isComplete={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n});\n",
     "static": true,
-    "longname": "/Users/jason/dev/tomo-cli/__tests__/offline.test.js",
+    "longname": "/Users/jason/dev/tomo-cli/__tests__/components.test.js",
     "access": null,
     "description": null,
     "lineNumber": 1
@@ -6951,68 +6951,287 @@
     "kind": "test",
     "name": "describe58",
     "testId": 58,
-    "memberof": "__tests__/offline.test.js",
+    "memberof": "__tests__/components.test.js",
     "testDepth": 0,
     "static": true,
-    "longname": "__tests__/offline.test.js~describe58",
+    "longname": "__tests__/components.test.js~describe58",
     "access": null,
-    "description": "Offline warning",
-    "lineNumber": 10
+    "description": "populateQueue function",
+    "lineNumber": 12
   },
   {
     "__docId__": 374,
     "kind": "test",
     "name": "test59",
     "testId": 59,
-    "memberof": "__tests__/offline.test.js~describe58",
+    "memberof": "__tests__/components.test.js~describe58",
     "testDepth": 1,
     "static": true,
-    "longname": "__tests__/offline.test.js~describe58.test59",
+    "longname": "__tests__/components.test.js~describe58.test59",
     "access": null,
-    "description": "is-online returns false (for testing)",
-    "lineNumber": 27
+    "description": "can run with defaults",
+    "lineNumber": 14
   },
   {
     "__docId__": 375,
     "kind": "test",
     "name": "test60",
     "testId": 60,
-    "memberof": "__tests__/offline.test.js~describe58",
+    "memberof": "__tests__/components.test.js~describe58",
     "testDepth": 1,
     "static": true,
-    "longname": "__tests__/offline.test.js~describe58.test60",
+    "longname": "__tests__/components.test.js~describe58.test60",
     "access": null,
-    "description": "can render",
-    "lineNumber": 31
+    "description": "can run tasks with options and dispatch task results",
+    "lineNumber": 17
   },
   {
     "__docId__": 376,
     "kind": "test",
     "name": "test61",
     "testId": 61,
-    "memberof": "__tests__/offline.test.js~describe58",
+    "memberof": "__tests__/components.test.js~describe58",
     "testDepth": 1,
     "static": true,
-    "longname": "__tests__/offline.test.js~describe58.test61",
+    "longname": "__tests__/components.test.js~describe58.test61",
     "access": null,
-    "description": "does not render when offline and skipInstall === true",
-    "lineNumber": 35
+    "description": "dedupes tasks based on text value",
+    "lineNumber": 37
   },
   {
     "__docId__": 377,
     "kind": "test",
     "name": "test62",
     "testId": 62,
-    "memberof": "__tests__/offline.test.js~describe58",
+    "memberof": "__tests__/components.test.js~describe58",
     "testDepth": 1,
     "static": true,
-    "longname": "__tests__/offline.test.js~describe58.test62",
+    "longname": "__tests__/components.test.js~describe58.test62",
+    "access": null,
+    "description": "can only run tasks that pass condition",
+    "lineNumber": 57
+  },
+  {
+    "__docId__": 378,
+    "kind": "test",
+    "name": "test63",
+    "testId": 63,
+    "memberof": "__tests__/components.test.js~describe58",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe58.test63",
+    "access": null,
+    "description": "can catch task errors",
+    "lineNumber": 74
+  },
+  {
+    "__docId__": 379,
+    "kind": "test",
+    "name": "describe64",
+    "testId": 64,
+    "memberof": "__tests__/components.test.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe64",
+    "access": null,
+    "description": "Warning",
+    "lineNumber": 90
+  },
+  {
+    "__docId__": 380,
+    "kind": "test",
+    "name": "test65",
+    "testId": 65,
+    "memberof": "__tests__/components.test.js~describe64",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe64.test65",
+    "access": null,
+    "description": "can render",
+    "lineNumber": 91
+  },
+  {
+    "__docId__": 381,
+    "kind": "test",
+    "name": "describe66",
+    "testId": 66,
+    "memberof": "__tests__/components.test.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe66",
+    "access": null,
+    "description": "CommandError",
+    "lineNumber": 97
+  },
+  {
+    "__docId__": 382,
+    "kind": "test",
+    "name": "test67",
+    "testId": 67,
+    "memberof": "__tests__/components.test.js~describe66",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe66.test67",
+    "access": null,
+    "description": "can render component and create errors file",
+    "lineNumber": 107
+  },
+  {
+    "__docId__": 383,
+    "kind": "test",
+    "name": "describe68",
+    "testId": 68,
+    "memberof": "__tests__/components.test.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe68",
+    "access": null,
+    "description": "Task component",
+    "lineNumber": 115
+  },
+  {
+    "__docId__": 384,
+    "kind": "test",
+    "name": "test69",
+    "testId": 69,
+    "memberof": "__tests__/components.test.js~describe68",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe68.test69",
+    "access": null,
+    "description": "can render (pending)",
+    "lineNumber": 116
+  },
+  {
+    "__docId__": 385,
+    "kind": "test",
+    "name": "test70",
+    "testId": 70,
+    "memberof": "__tests__/components.test.js~describe68",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe68.test70",
+    "access": null,
+    "description": "can render (completed)",
+    "lineNumber": 121
+  },
+  {
+    "__docId__": 386,
+    "kind": "test",
+    "name": "test71",
+    "testId": 71,
+    "memberof": "__tests__/components.test.js~describe68",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe68.test71",
+    "access": null,
+    "description": "can render (skipped)",
+    "lineNumber": 126
+  },
+  {
+    "__docId__": 387,
+    "kind": "test",
+    "name": "test72",
+    "testId": 72,
+    "memberof": "__tests__/components.test.js~describe68",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe68.test72",
+    "access": null,
+    "description": "can render (errored)",
+    "lineNumber": 131
+  },
+  {
+    "__docId__": 388,
+    "kind": "test",
+    "name": "test73",
+    "testId": 73,
+    "memberof": "__tests__/components.test.js~describe68",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/components.test.js~describe68.test73",
+    "access": null,
+    "description": "can render with default text",
+    "lineNumber": 136
+  },
+  {
+    "__docId__": 389,
+    "kind": "testFile",
+    "name": "__tests__/offline.test.js",
+    "content": "import React from 'react';\nimport isOnline from 'is-online';\nimport {render} from 'ink-testing-library';\nimport {useTemporaryDirectory} from './tomo-test';\nimport {OfflineWarning, TaskList} from '../src/components';\nimport commands from '../src/commands';\n\njest.mock('is-online', () => (async () => false));\n\ndescribe('Offline warning', () => {\n    let tempDirectory;\n    const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console\n    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();\n    beforeEach(async () => {\n        tempDirectory = await setTempDir();\n        process.chdir(tempDirectory);\n    });\n    afterEach(async () => {\n        await cleanupTempDir();\n    });\n    beforeAll(() => {\n        console.error = jest.fn();//eslint-disable-line no-console\n    });\n    afterAll(() => {\n        console.error = ORIGINAL_CONSOLE_ERROR;//eslint-disable-line no-console\n    });\n    test('is-online returns false (for testing)', async () => {\n        const result = await isOnline();\n        expect(result).toEqual(false);\n    });\n    test('can render', async () => {\n        const {lastFrame} = render(<OfflineWarning/>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('does not render when offline and skipInstall === true', done => {\n        const options = {skipInstall: true};\n        const {lastFrame} = render(<TaskList command={'add'} commands={commands} terms={['babel']} options={options} done={complete}></TaskList>);\n        function complete() {\n            expect(lastFrame()).toMatchSnapshot();\n            done();\n        }\n    });\n    test('renders when offline and skipInstall === false', done => {\n        const options = {skipInstall: false};\n        const {lastFrame} = render(<TaskList command={'add'} commands={commands} terms={['babel']} options={options} done={complete}></TaskList>);\n        function complete() {\n            expect(lastFrame()).toMatchSnapshot();\n            done();\n        }\n    });\n});",
+    "static": true,
+    "longname": "/Users/jason/dev/tomo-cli/__tests__/offline.test.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 390,
+    "kind": "test",
+    "name": "describe74",
+    "testId": 74,
+    "memberof": "__tests__/offline.test.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "__tests__/offline.test.js~describe74",
+    "access": null,
+    "description": "Offline warning",
+    "lineNumber": 10
+  },
+  {
+    "__docId__": 391,
+    "kind": "test",
+    "name": "test75",
+    "testId": 75,
+    "memberof": "__tests__/offline.test.js~describe74",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/offline.test.js~describe74.test75",
+    "access": null,
+    "description": "is-online returns false (for testing)",
+    "lineNumber": 27
+  },
+  {
+    "__docId__": 392,
+    "kind": "test",
+    "name": "test76",
+    "testId": 76,
+    "memberof": "__tests__/offline.test.js~describe74",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/offline.test.js~describe74.test76",
+    "access": null,
+    "description": "can render",
+    "lineNumber": 31
+  },
+  {
+    "__docId__": 393,
+    "kind": "test",
+    "name": "test77",
+    "testId": 77,
+    "memberof": "__tests__/offline.test.js~describe74",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/offline.test.js~describe74.test77",
+    "access": null,
+    "description": "does not render when offline and skipInstall === true",
+    "lineNumber": 35
+  },
+  {
+    "__docId__": 394,
+    "kind": "test",
+    "name": "test78",
+    "testId": 78,
+    "memberof": "__tests__/offline.test.js~describe74",
+    "testDepth": 1,
+    "static": true,
+    "longname": "__tests__/offline.test.js~describe74.test78",
     "access": null,
     "description": "renders when offline and skipInstall === false",
     "lineNumber": 43
   },
   {
-    "__docId__": 378,
+    "__docId__": 395,
     "kind": "testFile",
     "name": "__tests__/tomo-test.js",
     "content": "import crypto from 'crypto';\nimport {tmpdir} from 'os';\nimport {join} from 'path';\nimport {existsSync, mkdirp, readFileSync} from 'fs-extra';\nimport rimraf from 'rimraf';\nimport dirTree from 'directory-tree';\nimport {omit} from 'ramda';\nimport Queue from 'p-queue';\nimport delay from 'delay';\nimport {format, maybeApply, populateQueue} from '../src/api';\n\n// eslint-disable-next-line no-magic-numbers\nexport const testAsyncFunction = () => async ({skipInstall}) => await delay(skipInstall ? 0 : 1000 * Math.random());\nconst createTemporaryDirectory = async () => {\n    const tempDir = join(tmpdir(), `tomo-test-${crypto.randomBytes(20).toString('hex')}`);// eslint-disable-line no-magic-numbers\n    await mkdirp(tempDir);\n    return tempDir;\n};\nexport const useTemporaryDirectory = () => {\n    let tempDir;\n    const setTempDirectory = async () => {\n        tempDir = await createTemporaryDirectory();\n        return tempDir;\n    };\n    const cleanupTempDirectory = async () => {\n        await new Promise(resolve => rimraf(tempDir, resolve));\n    };\n    return [setTempDirectory, cleanupTempDirectory];\n};\nexport const removeAttributes = (obj, ...attrs) => {\n    const result = Object.entries(obj).reduce((acc, arr) => {\n        const [key, val] = arr;\n        const remove = val => removeAttributes(val, ...attrs);\n        return (key === 'children') ? {...acc, children: val.map(remove)} : {...acc, ...omit(attrs, {[key]: val})};\n    }, {});\n    return result;\n};\nexport const getDirectoryTree = (directory, options = {omit: ['extension', 'path']}) => {\n    const {omit} = options;\n    const tree = dirTree(directory);\n    const result = Object.assign(tree, {name: tree.name.substring(0, 'tomo-test'.length)});\n    return format(removeAttributes(result, ...omit));\n};\nexport const run = (tasks, options) => {\n    const {assign} = Object;\n    const queue = new Queue({concurrency: tasks.length});\n    const dispatch = () => {};\n    const defaults = {\n        assetsDirectory: './assets',\n        sourceDirectory: './source',\n        outputDirectory: './output',\n        port: 4669\n    };\n    const _options = assign({}, options, defaults);\n    return populateQueue({\n        queue,\n        dispatch,\n        tasks: tasks\n            .flatMap(val => maybeApply(val, _options))\n            .flatMap(val => maybeApply(val, _options)),\n        options: _options\n    });\n};\nexport const fileContents = path => {\n    const fullpath = join(process.cwd(), path);\n    return existsSync(fullpath) ? readFileSync(fullpath, 'utf8') : `No file found at ${fullpath}`;\n};\nexport const readMakefile = makefile => {\n    const [, ...rest] = makefile\n        .read()\n        .replace(/bin := .*\\/__tests__/, 'bin := home/user/project/__tests__')\n        .split('\\n');\n    return ['# Makefile created with tomo', ...rest].join('\\n');\n};\nexport const readMakefileContent = () => {\n    const regex = /^# Built from .*\\n/;\n    return fileContents('./Makefile').replace(regex, '# Makefile built from /path/to/package.json');\n};",
@@ -7023,10 +7242,10 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 379,
+    "__docId__": 396,
     "kind": "testFile",
     "name": "__tests__/ui.test.js",
-    "content": "import {getDirectoryTree, useTemporaryDirectory} from './tomo-test';\nimport Queue from 'p-queue';\nimport React from 'react';\nimport {render} from 'ink-testing-library';\nimport {populateQueue} from '../src/api';\nimport {CommandError, Warning, Task} from '../src/components';\nimport UI from '../src/main';\n\njest.mock('is-online', () => (async () => true));\n\nconst ARROW_DOWN = '\\u001B[B';\nconst {assign} = Object;\n\ndescribe('populateQueue function', () => {\n    const text = 'test task text';\n    test('can run with defaults', () => {\n        populateQueue();\n    });\n    test('can run tasks with options and dispatch task results', async () => {\n        const condition = async () => true;\n        const task = jest.fn();\n        const options = {foo: 'bar'};\n        const customOptions = {some: 'option'};\n        const dispatch = jest.fn();\n        const tasks = [\n            {some: 'option'},\n            {condition, task, text: `${text}1`},\n            {condition, task, text: `${text}2`},\n            {condition, task, text: `${text}3`}\n        ];\n        const queue = new Queue({concurrency: tasks.length});\n        await populateQueue({queue, tasks, dispatch, options});\n        expect(task.mock.calls.length).toBe(3);\n        expect(dispatch.mock.calls.length).toBe(4);// eslint-disable-line no-magic-numbers\n        const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];\n        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));\n        expect(dispatch.mock.calls).toMatchSnapshot();\n    });\n    test('dedupes tasks based on text value', async () => {\n        const condition = async () => true;\n        const task = jest.fn();\n        const options = {foo: 'bar'};\n        const customOptions = {some: 'option'};\n        const dispatch = jest.fn();\n        const tasks = [\n            {some: 'option'},\n            {condition, task, text},\n            {condition, task, text},\n            {condition, task, text}\n        ];\n        const queue = new Queue({concurrency: tasks.length});\n        await populateQueue({queue, tasks, dispatch, options});\n        expect(task.mock.calls.length).toBe(1);\n        expect(dispatch.mock.calls.length).toBe(2);// eslint-disable-line no-magic-numbers\n        const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];\n        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));\n        expect(dispatch.mock.calls).toMatchSnapshot();\n    });\n    test('can only run tasks that pass condition', async () => {\n        const task = jest.fn();\n        const options = {foo: 'bar'};\n        const dispatch = jest.fn();\n        const tasks = [\n            {condition: async () => true, task, text: `${text}1`},\n            {condition: async () => false, task, text: `${text}2`},\n            {condition: async () => true, task, text: `${text}3`},\n            {condition: async () => false, task, text: `${text}4`}\n        ];\n        const queue = new Queue({concurrency: tasks.length});\n        await populateQueue({queue, tasks, dispatch, options});\n        const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];\n        expect(passedOptions).toMatchSnapshot();\n        expect(task.mock.calls.length).toBe(2);\n        expect(dispatch.mock.calls).toMatchSnapshot();\n    });\n    test('can catch task errors', async () => {\n        const task = jest.fn();\n        const options = {foo: 'bar'};\n        const dispatch = jest.fn();\n        const tasks = [\n            {text: `${text}1`, condition: async () => true, task},\n            {text: `${text}2`, condition: async () => {throw new Error();}, task},\n            {text: `${text}3`, condition: async () => true, task},\n            {text: `${text}4`, condition: async () => false, task}\n        ];\n        const queue = new Queue({concurrency: tasks.length});\n        await populateQueue({queue, tasks, dispatch, options});\n        expect(task.mock.calls.length).toBe(2);\n        expect(dispatch.mock.calls[2][0].type).toBe('error');\n    });\n});\ndescribe('Warning', () => {\n    test('can render', () => {\n        const callback = jest.fn();\n        const {lastFrame} = render(<Warning callback={callback}>Hello World</Warning>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n});\ndescribe('CommandError', () => {\n    let tempDirectory;\n    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();\n    beforeEach(async () => {\n        tempDirectory = await setTempDir();\n        process.chdir(tempDirectory);\n    });\n    afterEach(async () => {\n        await cleanupTempDir();\n    });\n    test('can render component and create errors file', () => {\n        const errors = [{one: 1}, {two: 2}];\n        const {lastFrame} = render(<CommandError errors={errors}></CommandError>);\n        const tree = getDirectoryTree(tempDirectory);\n        expect(tree).toMatchSnapshot();\n        expect(lastFrame()).toMatchSnapshot();\n    });\n});\ndescribe('Task component', () => {\n    test('can render (pending)', () => {\n        const text = 'test task text';\n        const {lastFrame} = render(<Task text={text} isPending={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('can render (completed)', () => {\n        const text = 'test task text';\n        const {lastFrame} = render(<Task text={text} isComplete={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('can render (skipped)', () => {\n        const text = 'test task text';\n        const {lastFrame} = render(<Task text={text} isComplete={true} isSkipped={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('can render (errored)', () => {\n        const text = 'test task text';\n        const {lastFrame} = render(<Task text={text} isErrored={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('can render with default text', () => {\n        const {lastFrame} = render(<Task isComplete={true}></Task>);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n});\ndescribe('tomo', () => {\n    let tempDirectory;\n    const skipInstall = true;\n    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();\n    const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console\n    beforeAll(() => {\n        console.error = jest.fn();//eslint-disable-line no-console\n    });\n    afterAll(() => {\n        console.error = ORIGINAL_CONSOLE_ERROR;//eslint-disable-line no-console\n    });\n    beforeEach(async () => {\n        tempDirectory = await setTempDir();\n        process.chdir(tempDirectory);\n    });\n    afterEach(async () => {\n        await cleanupTempDir();\n    });\n    test('add', () => {\n        const input = ['add'];\n        const {lastFrame, stdin} = render(<UI input={input} flags={{skipInstall}}/>);\n        expect(lastFrame()).toMatchSnapshot();\n        stdin.write(ARROW_DOWN);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('remove', () => {\n        const input = ['remove'];\n        const {lastFrame, stdin} = render(<UI input={input} flags={{skipInstall}} />);\n        expect(lastFrame()).toMatchSnapshot();\n        stdin.write(ARROW_DOWN);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    xtest('add eslint', done => {\n        const input = ['add', 'eslint'];\n        const flags = {skipInstall};\n        const {lastFrame} = render(<UI input={input} flags={flags} done={complete}/>);\n        function complete() {\n            expect(lastFrame()).toMatchSnapshot();\n            done();\n        }\n    });\n    xtest('add eslint --use-react', done => {\n        const input = ['add', 'eslint'];\n        const flags = {useReact: true, skipInstall};\n        const {lastFrame} = render(<UI input={input} flags={flags} done={complete}/>);\n        function complete() {\n            expect(lastFrame()).toMatchSnapshot();\n            done();\n        }\n    });\n});\n",
+    "content": "import {useTemporaryDirectory} from './tomo-test';\nimport React from 'react';\nimport {render} from 'ink-testing-library';\nimport UI from '../src/main';\n\njest.mock('is-online', () => (async () => true));\n\nconst ARROW_DOWN = '\\u001B[B';\n\ndescribe('tomo interface', () => {\n    let tempDirectory;\n    const skipInstall = true;\n    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();\n    const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console\n    beforeAll(() => {\n        console.error = jest.fn();//eslint-disable-line no-console\n    });\n    afterAll(() => {\n        console.error = ORIGINAL_CONSOLE_ERROR;//eslint-disable-line no-console\n    });\n    beforeEach(async () => {\n        tempDirectory = await setTempDir();\n        process.chdir(tempDirectory);\n    });\n    afterEach(async () => {\n        await cleanupTempDir();\n    });\n    test('add', () => {\n        const input = ['add'];\n        const {lastFrame, stdin} = render(<UI input={input} flags={{skipInstall}}/>);\n        expect(lastFrame()).toMatchSnapshot();\n        stdin.write(ARROW_DOWN);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    test('remove', () => {\n        const input = ['remove'];\n        const {lastFrame, stdin} = render(<UI input={input} flags={{skipInstall}} />);\n        expect(lastFrame()).toMatchSnapshot();\n        stdin.write(ARROW_DOWN);\n        expect(lastFrame()).toMatchSnapshot();\n    });\n    xtest('add eslint', done => {\n        const input = ['add', 'eslint'];\n        const flags = {skipInstall};\n        const {lastFrame} = render(<UI input={input} flags={flags} done={complete}/>);\n        function complete() {\n            expect(lastFrame()).toMatchSnapshot();\n            done();\n        }\n    });\n    xtest('add eslint --use-react', done => {\n        const input = ['add', 'eslint'];\n        const flags = {useReact: true, skipInstall};\n        const {lastFrame} = render(<UI input={input} flags={flags} done={complete}/>);\n        function complete() {\n            expect(lastFrame()).toMatchSnapshot();\n            done();\n        }\n    });\n});\n",
     "static": true,
     "longname": "/Users/jason/dev/tomo-cli/__tests__/ui.test.js",
     "access": null,
@@ -7034,215 +7253,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 380,
-    "kind": "test",
-    "name": "describe63",
-    "testId": 63,
-    "memberof": "__tests__/ui.test.js",
-    "testDepth": 0,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe63",
-    "access": null,
-    "description": "populateQueue function",
-    "lineNumber": 14
-  },
-  {
-    "__docId__": 381,
-    "kind": "test",
-    "name": "test64",
-    "testId": 64,
-    "memberof": "__tests__/ui.test.js~describe63",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe63.test64",
-    "access": null,
-    "description": "can run with defaults",
-    "lineNumber": 16
-  },
-  {
-    "__docId__": 382,
-    "kind": "test",
-    "name": "test65",
-    "testId": 65,
-    "memberof": "__tests__/ui.test.js~describe63",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe63.test65",
-    "access": null,
-    "description": "can run tasks with options and dispatch task results",
-    "lineNumber": 19
-  },
-  {
-    "__docId__": 383,
-    "kind": "test",
-    "name": "test66",
-    "testId": 66,
-    "memberof": "__tests__/ui.test.js~describe63",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe63.test66",
-    "access": null,
-    "description": "dedupes tasks based on text value",
-    "lineNumber": 39
-  },
-  {
-    "__docId__": 384,
-    "kind": "test",
-    "name": "test67",
-    "testId": 67,
-    "memberof": "__tests__/ui.test.js~describe63",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe63.test67",
-    "access": null,
-    "description": "can only run tasks that pass condition",
-    "lineNumber": 59
-  },
-  {
-    "__docId__": 385,
-    "kind": "test",
-    "name": "test68",
-    "testId": 68,
-    "memberof": "__tests__/ui.test.js~describe63",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe63.test68",
-    "access": null,
-    "description": "can catch task errors",
-    "lineNumber": 76
-  },
-  {
-    "__docId__": 386,
-    "kind": "test",
-    "name": "describe69",
-    "testId": 69,
-    "memberof": "__tests__/ui.test.js",
-    "testDepth": 0,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe69",
-    "access": null,
-    "description": "Warning",
-    "lineNumber": 92
-  },
-  {
-    "__docId__": 387,
-    "kind": "test",
-    "name": "test70",
-    "testId": 70,
-    "memberof": "__tests__/ui.test.js~describe69",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe69.test70",
-    "access": null,
-    "description": "can render",
-    "lineNumber": 93
-  },
-  {
-    "__docId__": 388,
-    "kind": "test",
-    "name": "describe71",
-    "testId": 71,
-    "memberof": "__tests__/ui.test.js",
-    "testDepth": 0,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe71",
-    "access": null,
-    "description": "CommandError",
-    "lineNumber": 99
-  },
-  {
-    "__docId__": 389,
-    "kind": "test",
-    "name": "test72",
-    "testId": 72,
-    "memberof": "__tests__/ui.test.js~describe71",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe71.test72",
-    "access": null,
-    "description": "can render component and create errors file",
-    "lineNumber": 109
-  },
-  {
-    "__docId__": 390,
-    "kind": "test",
-    "name": "describe73",
-    "testId": 73,
-    "memberof": "__tests__/ui.test.js",
-    "testDepth": 0,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe73",
-    "access": null,
-    "description": "Task component",
-    "lineNumber": 117
-  },
-  {
-    "__docId__": 391,
-    "kind": "test",
-    "name": "test74",
-    "testId": 74,
-    "memberof": "__tests__/ui.test.js~describe73",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe73.test74",
-    "access": null,
-    "description": "can render (pending)",
-    "lineNumber": 118
-  },
-  {
-    "__docId__": 392,
-    "kind": "test",
-    "name": "test75",
-    "testId": 75,
-    "memberof": "__tests__/ui.test.js~describe73",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe73.test75",
-    "access": null,
-    "description": "can render (completed)",
-    "lineNumber": 123
-  },
-  {
-    "__docId__": 393,
-    "kind": "test",
-    "name": "test76",
-    "testId": 76,
-    "memberof": "__tests__/ui.test.js~describe73",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe73.test76",
-    "access": null,
-    "description": "can render (skipped)",
-    "lineNumber": 128
-  },
-  {
-    "__docId__": 394,
-    "kind": "test",
-    "name": "test77",
-    "testId": 77,
-    "memberof": "__tests__/ui.test.js~describe73",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe73.test77",
-    "access": null,
-    "description": "can render (errored)",
-    "lineNumber": 133
-  },
-  {
-    "__docId__": 395,
-    "kind": "test",
-    "name": "test78",
-    "testId": 78,
-    "memberof": "__tests__/ui.test.js~describe73",
-    "testDepth": 1,
-    "static": true,
-    "longname": "__tests__/ui.test.js~describe73.test78",
-    "access": null,
-    "description": "can render with default text",
-    "lineNumber": 138
-  },
-  {
-    "__docId__": 396,
+    "__docId__": 397,
     "kind": "test",
     "name": "describe79",
     "testId": 79,
@@ -7251,11 +7262,11 @@
     "static": true,
     "longname": "__tests__/ui.test.js~describe79",
     "access": null,
-    "description": "tomo",
-    "lineNumber": 143
+    "description": "tomo interface",
+    "lineNumber": 10
   },
   {
-    "__docId__": 397,
+    "__docId__": 398,
     "kind": "test",
     "name": "test80",
     "testId": 80,
@@ -7265,10 +7276,10 @@
     "longname": "__tests__/ui.test.js~describe79.test80",
     "access": null,
     "description": "add",
-    "lineNumber": 161
+    "lineNumber": 28
   },
   {
-    "__docId__": 398,
+    "__docId__": 399,
     "kind": "test",
     "name": "test81",
     "testId": 81,
@@ -7278,10 +7289,10 @@
     "longname": "__tests__/ui.test.js~describe79.test81",
     "access": null,
     "description": "remove",
-    "lineNumber": 168
+    "lineNumber": 35
   },
   {
-    "__docId__": 399,
+    "__docId__": 400,
     "kind": "testFile",
     "name": "__tests__/utils.test.js",
     "content": "import {join} from 'path';\nimport execa from 'execa';\nimport {readMakefile as read, useTemporaryDirectory} from './tomo-test';\nimport commands from '../src/commands';\nimport {\n    EslintConfigModuleEditor,\n    MakefileEditor,\n    PackageJsonEditor,\n    choose,\n    createFunctionModuleEditor,\n    getIntendedInput,\n    getVersions,\n    install,\n    uninstall,\n    withOptions\n} from '../src/api';\n\njest.mock('execa');\n\nconst testDirectory = join(__dirname, 'tomo-fixtures');\n/**\n * Verify package.json editor can create and edit a package.json manifest file\n * @test {PackageJsonEditor}\n */\ndescribe('package.json mem-fs editor', () => {\n    let pkg;\n    beforeEach(() => {\n        pkg = new PackageJsonEditor(testDirectory);\n    });\n    test('create', async () => {\n        pkg = new PackageJsonEditor('/some/directory');\n        expect(pkg.read()).toEqual('');\n        await pkg.create();\n        expect(pkg.read()).toMatchSnapshot();\n    });\n    test('read', () => {\n        expect(pkg.read()).toMatchSnapshot();\n    });\n    test('extend', async () => {\n        await pkg.extend({scripts: {foo: 'bar'}});\n        expect(pkg.read()).toMatchSnapshot();\n    });\n    test('copy', async () => {\n        const newDirPath = join(testDirectory, 'new');\n        await pkg.copy(newDirPath);\n        expect(pkg.fs.readJSON(join(newDirPath, 'package.json'))).toMatchSnapshot();\n    });\n    test('delete', async () => {\n        pkg = new PackageJsonEditor('/some/directory');\n        expect(pkg.read()).toEqual('');\n        await pkg.create();\n        expect(pkg.read()).toMatchSnapshot();\n        await pkg.delete();\n        expect(pkg.read()).toEqual('');\n    });\n    test('hasSome', () => {\n        expect(pkg.hasSome('react')).toBeFalsy();\n        expect(pkg.hasSome('webpack', 'execa')).toBeTruthy();\n        expect(pkg.hasSome('eslint')).toBeTruthy();\n    });\n    test('hasAll', () => {\n        expect(pkg.hasAll('react')).toBeFalsy();\n        expect(pkg.hasAll('some-module', 'execa')).toBeFalsy();\n        expect(pkg.hasAll('chalk', 'execa')).toBeTruthy();\n        // expect(pkg.hasAll('chalk', 'execa', '@babel/cli')).toBeTruthy();\n        expect(pkg.hasAll('eslint')).toBeTruthy();\n    });\n});\n/**\n * Verify ESLint module editor can create and edit an ESLint configuration file\n * @test {EslintConfigModuleEditor}\n */\ndescribe('.eslintrc.js mem-fs editor', () => {\n    let cfg;\n    let tempDirectory;\n    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();\n    beforeEach(async () => {\n        tempDirectory = await setTempDir();\n        process.chdir(tempDirectory);\n        cfg = new EslintConfigModuleEditor(testDirectory);\n    });\n    afterEach(async () => {\n        await cleanupTempDir();\n    });\n    test('create', async () => {\n        cfg = new EslintConfigModuleEditor('/some/directory');\n        expect(cfg.read()).toEqual('');\n        await cfg.create();\n        expect(cfg.read()).toMatchSnapshot();\n    });\n    test('read', () => {\n        expect(cfg.read()).toMatchSnapshot();\n    });\n    test('extend', async () => {\n        expect(await cfg.read()).toMatchSnapshot();\n        await cfg.extend({key: {foo: `'foo'`}});\n        expect(await cfg.read()).toMatchSnapshot();\n        await cfg.extend({key: {bar: `'bar'`}});\n        expect(await cfg.read()).toMatchSnapshot();\n    });\n    test('delete', async () => {\n        cfg = new EslintConfigModuleEditor('/some/directory');\n        expect(cfg.read()).toEqual('');\n        await cfg.create();\n        expect(cfg.read()).toMatchSnapshot();\n        await cfg.delete();\n        expect(cfg.read()).toEqual('');\n    });\n    test('prepend', async () => {\n        await cfg.prepend(`const {existsSync} = require('fs-extra');`);\n        expect(cfg.read()).toMatchSnapshot();\n        await cfg.prepend(`const {join} = require('path');`);\n        expect(cfg.read()).toMatchSnapshot();\n        await cfg.extend({key: {baz: 'baz'}});\n        expect(cfg.read()).toMatchSnapshot();\n    });\n});\ndescribe('Makefile editor', () => {\n    let makefile;\n    beforeEach(() => {\n        makefile = new MakefileEditor(testDirectory);\n    });\n    test('create', async () => {\n        await makefile.create();\n        expect(read(makefile)).toMatchSnapshot();\n    });\n    test('append', async () => {\n        await makefile.append('test line');\n        expect(read(makefile)).toMatchSnapshot();\n    });\n    test('addTask', async () => {\n        await makefile\n            .addTask('foo', ['echo foo'], {description: 'Foo task'})\n            .addTask('bar', ['echo bar'], {description: 'Bar task'})\n            .done();\n        expect(read(makefile)).toMatchSnapshot();\n    });\n    test('addComment', async () => {\n        await makefile.addComment('Knowledge of the Holy One is understanding');\n        expect(read(makefile)).toMatchSnapshot();\n    });\n    test('importScripts', () => {\n        expect(makefile.scripts).toMatchSnapshot();\n        makefile.importScripts();\n        expect(makefile.scripts).toMatchSnapshot();\n    });\n    test('appendScripts (no bin variable)', async () => {\n        makefile = new MakefileEditor(join(testDirectory, 'other-directory'));\n        await makefile\n            .importScripts()\n            .appendScripts()\n            .done();\n        expect(read(makefile)).toMatchSnapshot();\n    });\n    test('appendScripts (with bin variable)', async () => {\n        await makefile\n            .importScripts()\n            .appendScripts()\n            .done();\n        expect(read(makefile)).toMatchSnapshot();\n    });\n});\ndescribe('createFunctionModuleEditor', () => {\n    const content = {foo: `'bar'`};\n    test('can create function module (defaults)', async () => {\n        const Module = createFunctionModuleEditor('webpack.config.js', content);\n        expect(await (new Module()).create().read()).toMatchSnapshot();\n    });\n    test('can create function module with passed parameters', async () => {\n        const params = ['foo', 'bar'];\n        const Module = createFunctionModuleEditor('webpack.config.js', content, {params});\n        expect(await (new Module()).create().read()).toMatchSnapshot();\n    });\n    test('can create function module with passed []', async () => {\n        const params = [];\n        const Module = createFunctionModuleEditor('webpack.config.js', content, {params});\n        expect(await (new Module()).create().read()).toMatchSnapshot();\n    });\n    test('can create function ES module (defaults)', async () => {\n        const esm = true;\n        const Module = createFunctionModuleEditor('webpack.config.js', content, {esm});\n        expect(await (new Module()).create().read()).toMatchSnapshot();\n    });\n    test('can create function ES module with passed parameters', async () => {\n        const esm = true;\n        const params = ['foo', 'bar'];\n        const Module = createFunctionModuleEditor('webpack.config.js', content, {esm, params});\n        expect(await (new Module()).create().read()).toMatchSnapshot();\n    });\n    test('can create function ES module with passed []', async () => {\n        const esm = true;\n        const params = [];\n        const Module = createFunctionModuleEditor('webpack.config.js', content, {esm, params});\n        expect(await (new Module()).create().read()).toMatchSnapshot();\n    });\n});\ndescribe('choose via options', () => {\n    test('with and without default options', () => {\n        const withoutDefault = {\n            a: ['a', 'aa', 'aaa'],\n            b: ['b', 'bb', 'bbb'],\n            c: ['c', 'cc', 'ccc']\n        };\n        const withDefault = {\n            a: ['a', 'aa', 'aaa'],\n            b: ['b', 'bb', 'bbb'],\n            c: ['c', 'cc', 'ccc'],\n            default: [0, 0, 0]\n        };\n        expect(choose(withoutDefault)({d: true})).toEqual(withoutDefault.a);\n        expect(choose(withDefault)({d: true})).toEqual(withDefault.default);\n        expect(choose(withDefault)({b: true})).toEqual(withDefault.b);\n        expect(choose(withDefault)({b: true, c: true})).toEqual(withDefault.b);\n        expect(choose(withDefault)({a: false, c: true})).toEqual(withDefault.c);\n    });\n});\ndescribe('getIntendedInput', () => {\n    test('return closest matches', () => {\n        const {intendedCommand, intendedTerms} = getIntendedInput(commands, 'ad', ['lint']);\n        expect(intendedCommand).toEqual('add');\n        expect(intendedTerms).toEqual(['eslint']);\n    });\n});\ndescribe('getVersions', () => {\n    test('handle no module name', async () => {\n        expect(await getVersions()).toEqual([]);\n    });\n    test('format response from npm (only allow valid version strings)', async () => {\n        const stdout = '1.0.0 ,\\n 2.0.0 ,\\n not valid ,\\n 3.0.0 ';\n        execa.mockResolvedValue({stdout});\n        expect(await getVersions('some-module-name')).toMatchSnapshot();\n    });\n});\ndescribe('install', () => {\n    const latest = true;\n    const skipInstall = true;\n    const dev = true;\n    test('handle array of string names', async () => {\n        expect(await install()).toEqual(['install']);\n        expect(await install(['some-module'])).toEqual(['install', 'some-module@latest']);\n        expect(await install(['some-module'])).toEqual(['install', 'some-module@latest']);\n        expect(await install(['some-module'], {latest: false, skipInstall})).toEqual(['install', 'some-module']);\n        expect(await install(['foo', 'bar'], {latest: false, skipInstall})).toEqual(['install', 'foo', 'bar']);\n        expect(await install(['some-module'], {dev, skipInstall})).toEqual(['install', 'some-module', '--save-dev']);\n        expect(await install(['some-module'], {dev, latest, skipInstall})).toEqual(['install', 'some-module@latest', '--save-dev']);\n        expect(await install(['foo', 'bar'], {latest: false, dev, skipInstall})).toEqual(['install', 'foo', 'bar', '--save-dev']);\n    });\n    test('only allow valid module names', async () => {\n        const INVALID_NAME = 'eLaBorAtE-paCkAgE-with-mixed-case';\n        expect(await install([INVALID_NAME])).toEqual(['install']);\n        expect(await install(['jest', INVALID_NAME])).toEqual(['install', 'jest@latest']);\n    });\n});\ndescribe('uninstall', () => {\n    test('handle array of string names', async () => {\n        expect(await uninstall()).toEqual(['uninstall']);\n        expect(await uninstall(['some-module'])).toEqual(['uninstall', 'some-module']);\n        expect(await uninstall(['some-module', 'foo', 'bar'])).toEqual(['uninstall', 'some-module', 'foo', 'bar']);\n    });\n    test('only allow valid module names', async () => {\n        const INVALID_NAME = 'eLaBorAtE-paCkAgE-with-mixed-case';\n        expect(await uninstall([INVALID_NAME])).toEqual(['uninstall']);\n        expect(await uninstall(['jest', INVALID_NAME])).toEqual(['uninstall', 'jest']);\n    });\n});\ndescribe('withOptions', () => {\n    test('add custom options', () => {\n        const options = {a: 1, b: 2};\n        expect(withOptions({a: 0, c: 1})(options)).toMatchSnapshot();\n    });\n});",
@@ -7292,7 +7303,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 400,
+    "__docId__": 401,
     "kind": "test",
     "name": "describe82",
     "testId": 82,
@@ -7308,7 +7319,7 @@
     ]
   },
   {
-    "__docId__": 401,
+    "__docId__": 402,
     "kind": "test",
     "name": "test83",
     "testId": 83,
@@ -7321,7 +7332,7 @@
     "lineNumber": 30
   },
   {
-    "__docId__": 402,
+    "__docId__": 403,
     "kind": "test",
     "name": "test84",
     "testId": 84,
@@ -7334,7 +7345,7 @@
     "lineNumber": 36
   },
   {
-    "__docId__": 403,
+    "__docId__": 404,
     "kind": "test",
     "name": "test85",
     "testId": 85,
@@ -7347,7 +7358,7 @@
     "lineNumber": 39
   },
   {
-    "__docId__": 404,
+    "__docId__": 405,
     "kind": "test",
     "name": "test86",
     "testId": 86,
@@ -7360,7 +7371,7 @@
     "lineNumber": 43
   },
   {
-    "__docId__": 405,
+    "__docId__": 406,
     "kind": "test",
     "name": "test87",
     "testId": 87,
@@ -7373,7 +7384,7 @@
     "lineNumber": 48
   },
   {
-    "__docId__": 406,
+    "__docId__": 407,
     "kind": "test",
     "name": "test88",
     "testId": 88,
@@ -7386,7 +7397,7 @@
     "lineNumber": 56
   },
   {
-    "__docId__": 407,
+    "__docId__": 408,
     "kind": "test",
     "name": "test89",
     "testId": 89,
@@ -7399,7 +7410,7 @@
     "lineNumber": 61
   },
   {
-    "__docId__": 408,
+    "__docId__": 409,
     "kind": "test",
     "name": "describe90",
     "testId": 90,
@@ -7415,7 +7426,7 @@
     ]
   },
   {
-    "__docId__": 409,
+    "__docId__": 410,
     "kind": "test",
     "name": "test91",
     "testId": 91,
@@ -7428,7 +7439,7 @@
     "lineNumber": 85
   },
   {
-    "__docId__": 410,
+    "__docId__": 411,
     "kind": "test",
     "name": "test92",
     "testId": 92,
@@ -7441,7 +7452,7 @@
     "lineNumber": 91
   },
   {
-    "__docId__": 411,
+    "__docId__": 412,
     "kind": "test",
     "name": "test93",
     "testId": 93,
@@ -7454,7 +7465,7 @@
     "lineNumber": 94
   },
   {
-    "__docId__": 412,
+    "__docId__": 413,
     "kind": "test",
     "name": "test94",
     "testId": 94,
@@ -7467,7 +7478,7 @@
     "lineNumber": 101
   },
   {
-    "__docId__": 413,
+    "__docId__": 414,
     "kind": "test",
     "name": "test95",
     "testId": 95,
@@ -7480,7 +7491,7 @@
     "lineNumber": 109
   },
   {
-    "__docId__": 414,
+    "__docId__": 415,
     "kind": "test",
     "name": "describe96",
     "testId": 96,
@@ -7493,7 +7504,7 @@
     "lineNumber": 118
   },
   {
-    "__docId__": 415,
+    "__docId__": 416,
     "kind": "test",
     "name": "test97",
     "testId": 97,
@@ -7506,7 +7517,7 @@
     "lineNumber": 123
   },
   {
-    "__docId__": 416,
+    "__docId__": 417,
     "kind": "test",
     "name": "test98",
     "testId": 98,
@@ -7519,7 +7530,7 @@
     "lineNumber": 127
   },
   {
-    "__docId__": 417,
+    "__docId__": 418,
     "kind": "test",
     "name": "test99",
     "testId": 99,
@@ -7532,7 +7543,7 @@
     "lineNumber": 131
   },
   {
-    "__docId__": 418,
+    "__docId__": 419,
     "kind": "test",
     "name": "test100",
     "testId": 100,
@@ -7545,7 +7556,7 @@
     "lineNumber": 138
   },
   {
-    "__docId__": 419,
+    "__docId__": 420,
     "kind": "test",
     "name": "test101",
     "testId": 101,
@@ -7558,7 +7569,7 @@
     "lineNumber": 142
   },
   {
-    "__docId__": 420,
+    "__docId__": 421,
     "kind": "test",
     "name": "test102",
     "testId": 102,
@@ -7571,7 +7582,7 @@
     "lineNumber": 147
   },
   {
-    "__docId__": 421,
+    "__docId__": 422,
     "kind": "test",
     "name": "test103",
     "testId": 103,
@@ -7584,7 +7595,7 @@
     "lineNumber": 155
   },
   {
-    "__docId__": 422,
+    "__docId__": 423,
     "kind": "test",
     "name": "describe104",
     "testId": 104,
@@ -7597,7 +7608,7 @@
     "lineNumber": 163
   },
   {
-    "__docId__": 423,
+    "__docId__": 424,
     "kind": "test",
     "name": "test105",
     "testId": 105,
@@ -7610,7 +7621,7 @@
     "lineNumber": 165
   },
   {
-    "__docId__": 424,
+    "__docId__": 425,
     "kind": "test",
     "name": "test106",
     "testId": 106,
@@ -7623,7 +7634,7 @@
     "lineNumber": 169
   },
   {
-    "__docId__": 425,
+    "__docId__": 426,
     "kind": "test",
     "name": "test107",
     "testId": 107,
@@ -7636,7 +7647,7 @@
     "lineNumber": 174
   },
   {
-    "__docId__": 426,
+    "__docId__": 427,
     "kind": "test",
     "name": "test108",
     "testId": 108,
@@ -7649,7 +7660,7 @@
     "lineNumber": 179
   },
   {
-    "__docId__": 427,
+    "__docId__": 428,
     "kind": "test",
     "name": "test109",
     "testId": 109,
@@ -7662,7 +7673,7 @@
     "lineNumber": 184
   },
   {
-    "__docId__": 428,
+    "__docId__": 429,
     "kind": "test",
     "name": "test110",
     "testId": 110,
@@ -7675,7 +7686,7 @@
     "lineNumber": 190
   },
   {
-    "__docId__": 429,
+    "__docId__": 430,
     "kind": "test",
     "name": "describe111",
     "testId": 111,
@@ -7688,7 +7699,7 @@
     "lineNumber": 197
   },
   {
-    "__docId__": 430,
+    "__docId__": 431,
     "kind": "test",
     "name": "test112",
     "testId": 112,
@@ -7701,7 +7712,7 @@
     "lineNumber": 198
   },
   {
-    "__docId__": 431,
+    "__docId__": 432,
     "kind": "test",
     "name": "describe113",
     "testId": 113,
@@ -7714,7 +7725,7 @@
     "lineNumber": 217
   },
   {
-    "__docId__": 432,
+    "__docId__": 433,
     "kind": "test",
     "name": "test114",
     "testId": 114,
@@ -7727,7 +7738,7 @@
     "lineNumber": 218
   },
   {
-    "__docId__": 433,
+    "__docId__": 434,
     "kind": "test",
     "name": "describe115",
     "testId": 115,
@@ -7740,7 +7751,7 @@
     "lineNumber": 224
   },
   {
-    "__docId__": 434,
+    "__docId__": 435,
     "kind": "test",
     "name": "test116",
     "testId": 116,
@@ -7753,7 +7764,7 @@
     "lineNumber": 225
   },
   {
-    "__docId__": 435,
+    "__docId__": 436,
     "kind": "test",
     "name": "test117",
     "testId": 117,
@@ -7766,7 +7777,7 @@
     "lineNumber": 228
   },
   {
-    "__docId__": 436,
+    "__docId__": 437,
     "kind": "test",
     "name": "describe118",
     "testId": 118,
@@ -7779,7 +7790,7 @@
     "lineNumber": 234
   },
   {
-    "__docId__": 437,
+    "__docId__": 438,
     "kind": "test",
     "name": "test119",
     "testId": 119,
@@ -7792,7 +7803,7 @@
     "lineNumber": 238
   },
   {
-    "__docId__": 438,
+    "__docId__": 439,
     "kind": "test",
     "name": "test120",
     "testId": 120,
@@ -7805,7 +7816,7 @@
     "lineNumber": 248
   },
   {
-    "__docId__": 439,
+    "__docId__": 440,
     "kind": "test",
     "name": "describe121",
     "testId": 121,
@@ -7818,7 +7829,7 @@
     "lineNumber": 254
   },
   {
-    "__docId__": 440,
+    "__docId__": 441,
     "kind": "test",
     "name": "test122",
     "testId": 122,
@@ -7831,7 +7842,7 @@
     "lineNumber": 255
   },
   {
-    "__docId__": 441,
+    "__docId__": 442,
     "kind": "test",
     "name": "test123",
     "testId": 123,
@@ -7844,7 +7855,7 @@
     "lineNumber": 260
   },
   {
-    "__docId__": 442,
+    "__docId__": 443,
     "kind": "test",
     "name": "describe124",
     "testId": 124,
@@ -7857,7 +7868,7 @@
     "lineNumber": 266
   },
   {
-    "__docId__": 443,
+    "__docId__": 444,
     "kind": "test",
     "name": "test125",
     "testId": 125,
@@ -7870,7 +7881,7 @@
     "lineNumber": 267
   },
   {
-    "__docId__": 444,
+    "__docId__": 445,
     "kind": "testFile",
     "name": "__tests__/yodawg.test.js",
     "content": "import {existsSync} from 'fs';\nimport {join} from 'path';\nimport {removeAttributes, getDirectoryTree, useTemporaryDirectory} from './tomo-test';\nimport {format} from '../src/api';\n\ndescribe('Tomo testing tools', () => {\n    test('can create and cleanup temporary directories', async () => {\n        const [setTempDir, cleanupTempDir] = useTemporaryDirectory();\n        const tempDir = await setTempDir();\n        expect(existsSync(tempDir)).toBeTruthy();\n        await cleanupTempDir();\n        expect(existsSync(tempDir)).not.toBeTruthy();\n    });\n    test('can format objects for use as snapshots', () => {\n        const data = {\n            path: 'a',\n            type: 'directory',\n            children: [\n                {\n                    path: 'aa',\n                    type: 'file'\n                },\n                {\n                    path: 'b',\n                    type: 'directory',\n                    children: [\n                        {\n                            path: 'c',\n                            type: 'directory',\n                            children: [\n                                {\n                                    path: 'd',\n                                    type: 'file'\n                                }\n                            ]\n                        }\n                    ]\n                }\n            ]\n        };\n        const result = removeAttributes(data, 'path');\n        expect(format(result)).toMatchSnapshot();\n    });\n    test('get directory tree', () => {\n        const folderpath = join(__dirname, 'tomo-fixtures/test-folder-tree');\n        const tree = getDirectoryTree(folderpath);\n        expect(tree).toMatchSnapshot();\n        const augmentedTree = getDirectoryTree(folderpath, {omit: ['path', 'name']});\n        expect(augmentedTree).toMatchSnapshot();\n    });\n});",
@@ -7881,7 +7892,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 445,
+    "__docId__": 446,
     "kind": "test",
     "name": "describe126",
     "testId": 126,
@@ -7894,7 +7905,7 @@
     "lineNumber": 6
   },
   {
-    "__docId__": 446,
+    "__docId__": 447,
     "kind": "test",
     "name": "test127",
     "testId": 127,
@@ -7907,7 +7918,7 @@
     "lineNumber": 7
   },
   {
-    "__docId__": 447,
+    "__docId__": 448,
     "kind": "test",
     "name": "test128",
     "testId": 128,
@@ -7920,7 +7931,7 @@
     "lineNumber": 14
   },
   {
-    "__docId__": 448,
+    "__docId__": 449,
     "kind": "test",
     "name": "test129",
     "testId": 129,

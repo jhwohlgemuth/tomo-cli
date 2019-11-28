@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">src/main.js | tomo-cli</title>
+  <title data-ice="title">__tests__/components.test.js | tomo-cli</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -87,123 +87,148 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/main.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, {Component} from &apos;react&apos;;
-import PropTypes from &apos;prop-types&apos;;
-import {bold} from &apos;chalk&apos;;
-import figures from &apos;figures&apos;;
-import {is} from &apos;ramda&apos;;
-import {Color, Text} from &apos;ink&apos;;
-import {
-    ErrorBoundary,
-    SubCommandSelect,
-    TaskList,
-    UnderConstruction,
-    Warning,
-    getIntendedInput
-} from &apos;./api&apos;;
-import commands from &apos;./commands&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">__tests__/components.test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {getDirectoryTree, useTemporaryDirectory} from &apos;./tomo-test&apos;;
+import Queue from &apos;p-queue&apos;;
+import React from &apos;react&apos;;
+import {render} from &apos;ink-testing-library&apos;;
+import {populateQueue} from &apos;../src/api&apos;;
+import {CommandError, Warning, Task} from &apos;../src/components&apos;;
 
-const descriptions = {
-    project: `Scaffold a new Node.js project with ${bold.yellow(&apos;Babel&apos;)}, ${bold(&apos;ESLint&apos;)}, and ${bold.magenta(&apos;Jest&apos;)}`,
-    app: `Scaffold a new ${bold(&apos;web application&apos;)} - basically a project with CSS, bundling, and stuff`,
-    server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security &quot;baked in&quot;`,
-    a11y: `Add automated ${bold(&apos;accessibility&apos;)} testing`,
-    babel: `Use next generation JavaScript, ${bold(&apos;today!&apos;)}`,
-    browsersync: `Time-saving ${bold(&apos;synchronised browser&apos;)} testing (demo your app with ${bold.yellow(&apos;live-reload&apos;)})`,
-    cypress: `${bold(&apos;Test&apos;)} anything that runs in a ${bold(&apos;browser&apos;)} (including ${bold.yellow(&apos;visual regression testing&apos;)})`,
-    electron: `Create a ${bold(&apos;native desktop application&apos;)} using web technologies`,
-    esdoc: `Generate ${bold(&apos;documentation&apos;)} from your comments`,
-    eslint: `Pluggable ${bold(&apos;linting&apos;)} utility for JavaScript and JSX`,
-    jest: `Delightful JavaScript ${bold(&apos;Testing&apos;)} Framework with a focus on simplicity`,
-    makefile: `Create a ${bold(&apos;Makefile&apos;)} from your package.json, like ${bold.magenta(&apos;magic!&apos;)}`,
-    marionette: `${bold(&apos;Flexible Backbone framework&apos;)} with robust views and architecture solutions`,
-    parcel: `${bold(&apos;Bundle&apos;)} your application (${bold.red(&apos;blazing&apos;)} fast with ${bold.white(&apos;zero configuration&apos;)})`,
-    postcss: `Use ${bold(&apos;future CSS&apos;)}, never write vendor prefixes again, and much much more!`,
-    react: `Build user interfaces with ${bold(&apos;components&apos;)} ${figures.arrowRight} learn once, write ${bold(&apos;anywhere&apos;)}`,
-    reason: `Write functional ${bold(&apos;type safe&apos;)} code with ${bold.yellow(&apos;JavaScript&apos;)}-like syntax (works with ${bold(&apos;React&apos;)})`,
-    rollup: `${bold(&apos;Bundle&apos;)} your assets (focused on ${bold(&apos;ES6&apos;)} modules and tree shaking - ${bold.white(&apos;best for libraries&apos;)})`,
-    webpack: `${bold(&apos;Bundle&apos;)} your assets (with great support and a rich ecosystem)`
-};
+const {assign} = Object;
 
-/**
- * Main tomo UI component
- * @param {Object} props Component props
- * @return {ReactComponent} Main tomo UI component
- */
-export default class UI extends Component {
-    constructor(props) {
-        super(props);
-        const {flags, input} = props;
-        const {ignoreWarnings} = flags;
-        const [command, ...terms] = input;
-        const hasCommand = is(String)(command);
-        const hasTerms = terms.length &gt; 0;
-        const {intendedCommand, intendedTerms} = hasCommand ? getIntendedInput(commands, command, terms) : {};
-        const compare = (term, index) =&gt; (term !== terms[index]);
-        const showWarning = ((command !== intendedCommand) || (hasTerms &amp;&amp; intendedTerms.map(compare).some(Boolean))) &amp;&amp; !ignoreWarnings;
-        this.state = {
-            hasTerms,
-            hasCommand,
-            showWarning,
-            intendedTerms,
-            intendedCommand
-        };
-        this.updateWarning = this.updateWarning.bind(this);
-        this.updateTerms = this.updateTerms.bind(this);
-    }
-    render() {
-        const {done, flags} = this.props;
-        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
-        return &lt;ErrorBoundary&gt;
-            {showWarning ?
-                &lt;Warning callback={this.updateWarning}&gt;
-                    &lt;Text&gt;Did you mean &lt;Color bold green&gt;{intendedCommand} {intendedTerms.join(&apos; &apos;)}&lt;/Color&gt;?&lt;/Text&gt;
-                &lt;/Warning&gt; :
-                (hasCommand &amp;&amp; hasTerms) ?
-                    &lt;TaskList commands={commands} command={intendedCommand} terms={intendedTerms} options={flags} done={done}&gt;&lt;/TaskList&gt; :
-                    hasCommand ?
-                        &lt;SubCommandSelect
-                            command={intendedCommand}
-                            descriptions={descriptions}
-                            items={Object.keys(commands[intendedCommand]).map(command =&gt; ({label: command, value: command}))}
-                            onSelect={this.updateTerms}&gt;
-                        &lt;/SubCommandSelect&gt; :
-                        &lt;UnderConstruction/&gt;
-            }
-        &lt;/ErrorBoundary&gt;;
-    }
-    /**
-     * Callback function for warning component
-     * @param {string} data Character data from stdin
-     * @return {undefined} Returns nothing
-     */
-    updateWarning(data) {
-        const key = String(data);
-        (key === &apos;\r&apos;) ? this.setState({showWarning: false}) : process.exit(0);
-    }
-    /**
-     * @param {Object} args Function options
-     * @param {string} args.value Intended term
-     * @return {undefined} Returns nothing
-     */
-    updateTerms({value}) {
-        this.setState({
-            hasTerms: true,
-            intendedTerms: [value]
-        });
-    }
-}
-UI.propTypes = {
-    input: PropTypes.array,
-    flags: PropTypes.object,
-    done: PropTypes.func,
-    stdin: PropTypes.string
-};
-UI.defaultProps = {
-    input: [],
-    flags: {}
-};</code></pre>
+jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; true));
+
+describe(&apos;populateQueue function&apos;, () =&gt; {
+    const text = &apos;test task text&apos;;
+    test(&apos;can run with defaults&apos;, () =&gt; {
+        populateQueue();
+    });
+    test(&apos;can run tasks with options and dispatch task results&apos;, async () =&gt; {
+        const condition = async () =&gt; true;
+        const task = jest.fn();
+        const options = {foo: &apos;bar&apos;};
+        const customOptions = {some: &apos;option&apos;};
+        const dispatch = jest.fn();
+        const tasks = [
+            {some: &apos;option&apos;},
+            {condition, task, text: `${text}1`},
+            {condition, task, text: `${text}2`},
+            {condition, task, text: `${text}3`}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        expect(task.mock.calls.length).toBe(3);
+        expect(dispatch.mock.calls.length).toBe(4);// eslint-disable-line no-magic-numbers
+        const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
+        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));
+        expect(dispatch.mock.calls).toMatchSnapshot();
+    });
+    test(&apos;dedupes tasks based on text value&apos;, async () =&gt; {
+        const condition = async () =&gt; true;
+        const task = jest.fn();
+        const options = {foo: &apos;bar&apos;};
+        const customOptions = {some: &apos;option&apos;};
+        const dispatch = jest.fn();
+        const tasks = [
+            {some: &apos;option&apos;},
+            {condition, task, text},
+            {condition, task, text},
+            {condition, task, text}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        expect(task.mock.calls.length).toBe(1);
+        expect(dispatch.mock.calls.length).toBe(2);// eslint-disable-line no-magic-numbers
+        const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
+        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));
+        expect(dispatch.mock.calls).toMatchSnapshot();
+    });
+    test(&apos;can only run tasks that pass condition&apos;, async () =&gt; {
+        const task = jest.fn();
+        const options = {foo: &apos;bar&apos;};
+        const dispatch = jest.fn();
+        const tasks = [
+            {condition: async () =&gt; true, task, text: `${text}1`},
+            {condition: async () =&gt; false, task, text: `${text}2`},
+            {condition: async () =&gt; true, task, text: `${text}3`},
+            {condition: async () =&gt; false, task, text: `${text}4`}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
+        expect(passedOptions).toMatchSnapshot();
+        expect(task.mock.calls.length).toBe(2);
+        expect(dispatch.mock.calls).toMatchSnapshot();
+    });
+    test(&apos;can catch task errors&apos;, async () =&gt; {
+        const task = jest.fn();
+        const options = {foo: &apos;bar&apos;};
+        const dispatch = jest.fn();
+        const tasks = [
+            {text: `${text}1`, condition: async () =&gt; true, task},
+            {text: `${text}2`, condition: async () =&gt; {throw new Error();}, task},
+            {text: `${text}3`, condition: async () =&gt; true, task},
+            {text: `${text}4`, condition: async () =&gt; false, task}
+        ];
+        const queue = new Queue({concurrency: tasks.length});
+        await populateQueue({queue, tasks, dispatch, options});
+        expect(task.mock.calls.length).toBe(2);
+        expect(dispatch.mock.calls[2][0].type).toBe(&apos;error&apos;);
+    });
+});
+describe(&apos;Warning&apos;, () =&gt; {
+    test(&apos;can render&apos;, () =&gt; {
+        const callback = jest.fn();
+        const {lastFrame} = render(&lt;Warning callback={callback}&gt;Hello World&lt;/Warning&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
+describe(&apos;CommandError&apos;, () =&gt; {
+    let tempDirectory;
+    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
+    beforeEach(async () =&gt; {
+        tempDirectory = await setTempDir();
+        process.chdir(tempDirectory);
+    });
+    afterEach(async () =&gt; {
+        await cleanupTempDir();
+    });
+    test(&apos;can render component and create errors file&apos;, () =&gt; {
+        const errors = [{one: 1}, {two: 2}];
+        const {lastFrame} = render(&lt;CommandError errors={errors}&gt;&lt;/CommandError&gt;);
+        const tree = getDirectoryTree(tempDirectory);
+        expect(tree).toMatchSnapshot();
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
+describe(&apos;Task component&apos;, () =&gt; {
+    test(&apos;can render (pending)&apos;, () =&gt; {
+        const text = &apos;test task text&apos;;
+        const {lastFrame} = render(&lt;Task text={text} isPending={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render (completed)&apos;, () =&gt; {
+        const text = &apos;test task text&apos;;
+        const {lastFrame} = render(&lt;Task text={text} isComplete={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render (skipped)&apos;, () =&gt; {
+        const text = &apos;test task text&apos;;
+        const {lastFrame} = render(&lt;Task text={text} isComplete={true} isSkipped={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render (errored)&apos;, () =&gt; {
+        const text = &apos;test task text&apos;;
+        const {lastFrame} = render(&lt;Task text={text} isErrored={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render with default text&apos;, () =&gt; {
+        const {lastFrame} = render(&lt;Task isComplete={true}&gt;&lt;/Task&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+});
+</code></pre>
 
 </div>
 

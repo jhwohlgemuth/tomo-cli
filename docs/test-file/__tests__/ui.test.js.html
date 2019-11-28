@@ -88,149 +88,16 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">__tests__/ui.test.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {getDirectoryTree, useTemporaryDirectory} from &apos;./tomo-test&apos;;
-import Queue from &apos;p-queue&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {useTemporaryDirectory} from &apos;./tomo-test&apos;;
 import React from &apos;react&apos;;
 import {render} from &apos;ink-testing-library&apos;;
-import {populateQueue} from &apos;../src/api&apos;;
-import {CommandError, Warning, Task} from &apos;../src/components&apos;;
 import UI from &apos;../src/main&apos;;
 
 jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; true));
 
 const ARROW_DOWN = &apos;\u001B[B&apos;;
-const {assign} = Object;
 
-describe(&apos;populateQueue function&apos;, () =&gt; {
-    const text = &apos;test task text&apos;;
-    test(&apos;can run with defaults&apos;, () =&gt; {
-        populateQueue();
-    });
-    test(&apos;can run tasks with options and dispatch task results&apos;, async () =&gt; {
-        const condition = async () =&gt; true;
-        const task = jest.fn();
-        const options = {foo: &apos;bar&apos;};
-        const customOptions = {some: &apos;option&apos;};
-        const dispatch = jest.fn();
-        const tasks = [
-            {some: &apos;option&apos;},
-            {condition, task, text: `${text}1`},
-            {condition, task, text: `${text}2`},
-            {condition, task, text: `${text}3`}
-        ];
-        const queue = new Queue({concurrency: tasks.length});
-        await populateQueue({queue, tasks, dispatch, options});
-        expect(task.mock.calls.length).toBe(3);
-        expect(dispatch.mock.calls.length).toBe(4);// eslint-disable-line no-magic-numbers
-        const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
-        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));
-        expect(dispatch.mock.calls).toMatchSnapshot();
-    });
-    test(&apos;dedupes tasks based on text value&apos;, async () =&gt; {
-        const condition = async () =&gt; true;
-        const task = jest.fn();
-        const options = {foo: &apos;bar&apos;};
-        const customOptions = {some: &apos;option&apos;};
-        const dispatch = jest.fn();
-        const tasks = [
-            {some: &apos;option&apos;},
-            {condition, task, text},
-            {condition, task, text},
-            {condition, task, text}
-        ];
-        const queue = new Queue({concurrency: tasks.length});
-        await populateQueue({queue, tasks, dispatch, options});
-        expect(task.mock.calls.length).toBe(1);
-        expect(dispatch.mock.calls.length).toBe(2);// eslint-disable-line no-magic-numbers
-        const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
-        expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));
-        expect(dispatch.mock.calls).toMatchSnapshot();
-    });
-    test(&apos;can only run tasks that pass condition&apos;, async () =&gt; {
-        const task = jest.fn();
-        const options = {foo: &apos;bar&apos;};
-        const dispatch = jest.fn();
-        const tasks = [
-            {condition: async () =&gt; true, task, text: `${text}1`},
-            {condition: async () =&gt; false, task, text: `${text}2`},
-            {condition: async () =&gt; true, task, text: `${text}3`},
-            {condition: async () =&gt; false, task, text: `${text}4`}
-        ];
-        const queue = new Queue({concurrency: tasks.length});
-        await populateQueue({queue, tasks, dispatch, options});
-        const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
-        expect(passedOptions).toMatchSnapshot();
-        expect(task.mock.calls.length).toBe(2);
-        expect(dispatch.mock.calls).toMatchSnapshot();
-    });
-    test(&apos;can catch task errors&apos;, async () =&gt; {
-        const task = jest.fn();
-        const options = {foo: &apos;bar&apos;};
-        const dispatch = jest.fn();
-        const tasks = [
-            {text: `${text}1`, condition: async () =&gt; true, task},
-            {text: `${text}2`, condition: async () =&gt; {throw new Error();}, task},
-            {text: `${text}3`, condition: async () =&gt; true, task},
-            {text: `${text}4`, condition: async () =&gt; false, task}
-        ];
-        const queue = new Queue({concurrency: tasks.length});
-        await populateQueue({queue, tasks, dispatch, options});
-        expect(task.mock.calls.length).toBe(2);
-        expect(dispatch.mock.calls[2][0].type).toBe(&apos;error&apos;);
-    });
-});
-describe(&apos;Warning&apos;, () =&gt; {
-    test(&apos;can render&apos;, () =&gt; {
-        const callback = jest.fn();
-        const {lastFrame} = render(&lt;Warning callback={callback}&gt;Hello World&lt;/Warning&gt;);
-        expect(lastFrame()).toMatchSnapshot();
-    });
-});
-describe(&apos;CommandError&apos;, () =&gt; {
-    let tempDirectory;
-    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
-    beforeEach(async () =&gt; {
-        tempDirectory = await setTempDir();
-        process.chdir(tempDirectory);
-    });
-    afterEach(async () =&gt; {
-        await cleanupTempDir();
-    });
-    test(&apos;can render component and create errors file&apos;, () =&gt; {
-        const errors = [{one: 1}, {two: 2}];
-        const {lastFrame} = render(&lt;CommandError errors={errors}&gt;&lt;/CommandError&gt;);
-        const tree = getDirectoryTree(tempDirectory);
-        expect(tree).toMatchSnapshot();
-        expect(lastFrame()).toMatchSnapshot();
-    });
-});
-describe(&apos;Task component&apos;, () =&gt; {
-    test(&apos;can render (pending)&apos;, () =&gt; {
-        const text = &apos;test task text&apos;;
-        const {lastFrame} = render(&lt;Task text={text} isPending={true}&gt;&lt;/Task&gt;);
-        expect(lastFrame()).toMatchSnapshot();
-    });
-    test(&apos;can render (completed)&apos;, () =&gt; {
-        const text = &apos;test task text&apos;;
-        const {lastFrame} = render(&lt;Task text={text} isComplete={true}&gt;&lt;/Task&gt;);
-        expect(lastFrame()).toMatchSnapshot();
-    });
-    test(&apos;can render (skipped)&apos;, () =&gt; {
-        const text = &apos;test task text&apos;;
-        const {lastFrame} = render(&lt;Task text={text} isComplete={true} isSkipped={true}&gt;&lt;/Task&gt;);
-        expect(lastFrame()).toMatchSnapshot();
-    });
-    test(&apos;can render (errored)&apos;, () =&gt; {
-        const text = &apos;test task text&apos;;
-        const {lastFrame} = render(&lt;Task text={text} isErrored={true}&gt;&lt;/Task&gt;);
-        expect(lastFrame()).toMatchSnapshot();
-    });
-    test(&apos;can render with default text&apos;, () =&gt; {
-        const {lastFrame} = render(&lt;Task isComplete={true}&gt;&lt;/Task&gt;);
-        expect(lastFrame()).toMatchSnapshot();
-    });
-});
-describe(&apos;tomo&apos;, () =&gt; {
+describe(&apos;tomo interface&apos;, () =&gt; {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();

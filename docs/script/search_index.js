@@ -391,13 +391,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber99",
+    "test-file/__tests__/components.test.js.html#lineNumber97",
     "CommandError",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber109",
+    "test-file/__tests__/components.test.js.html#lineNumber107",
     "CommandError can render component and create errors file",
     "test"
   ],
@@ -715,37 +715,37 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber117",
+    "test-file/__tests__/components.test.js.html#lineNumber115",
     "Task component",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber123",
+    "test-file/__tests__/components.test.js.html#lineNumber121",
     "Task component can render (completed)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber133",
+    "test-file/__tests__/components.test.js.html#lineNumber131",
     "Task component can render (errored)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber118",
+    "test-file/__tests__/components.test.js.html#lineNumber116",
     "Task component can render (pending)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber128",
+    "test-file/__tests__/components.test.js.html#lineNumber126",
     "Task component can render (skipped)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber138",
+    "test-file/__tests__/components.test.js.html#lineNumber136",
     "Task component can render with default text",
     "test"
   ],
@@ -859,13 +859,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber92",
+    "test-file/__tests__/components.test.js.html#lineNumber90",
     "Warning",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber93",
+    "test-file/__tests__/components.test.js.html#lineNumber91",
     "Warning can render",
     "test"
   ],
@@ -1020,6 +1020,12 @@ window.esdocSearchIndex = [
     "testFile"
   ],
   [
+    "__tests__/components.test.js",
+    "test-file/__tests__/components.test.js.html",
+    "__tests__/components.test.js",
+    "testFile"
+  ],
+  [
     "__tests__/offline.test.js",
     "test-file/__tests__/offline.test.js.html",
     "__tests__/offline.test.js",
@@ -1153,37 +1159,37 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber14",
+    "test-file/__tests__/components.test.js.html#lineNumber12",
     "populateQueue function",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber76",
+    "test-file/__tests__/components.test.js.html#lineNumber74",
     "populateQueue function can catch task errors",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber59",
+    "test-file/__tests__/components.test.js.html#lineNumber57",
     "populateQueue function can only run tasks that pass condition",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber19",
+    "test-file/__tests__/components.test.js.html#lineNumber17",
     "populateQueue function can run tasks with options and dispatch task results",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber16",
+    "test-file/__tests__/components.test.js.html#lineNumber14",
     "populateQueue function can run with defaults",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber39",
+    "test-file/__tests__/components.test.js.html#lineNumber37",
     "populateQueue function dedupes tasks based on text value",
     "test"
   ],
@@ -1855,20 +1861,20 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber143",
-    "tomo",
+    "test-file/__tests__/ui.test.js.html#lineNumber10",
+    "tomo interface",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber161",
-    "tomo add",
+    "test-file/__tests__/ui.test.js.html#lineNumber28",
+    "tomo interface add",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber168",
-    "tomo remove",
+    "test-file/__tests__/ui.test.js.html#lineNumber35",
+    "tomo interface remove",
     "test"
   ],
   [
