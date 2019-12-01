@@ -67,6 +67,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
@@ -123,6 +124,26 @@ export const choose = choices =&gt; options =&gt; {
     const DEFAULT = lookup.has(&apos;default&apos;) ? lookup.get(&apos;default&apos;) : lookup.get(possible[0]);
     const [choice] = possible.filter(val =&gt; passed.includes(val)).filter(val =&gt; options[val]);
     return choice ? lookup.get(choice) : DEFAULT;
+};
+/**
+ * Get duration since start in &quot;HH:MM:SS&quot; format
+ * @param {object} start Time to determine duration from
+ * @param {number[]} [initial=[0,0,0]] Duration to add to returned elapsed time
+ * @example &lt;caption&gt;Start from 30 seconds&lt;/caption&gt;
+ * const [start] = process.hrtime()
+ * const duration = getElapsedTime(start, [0, 0, 30]);
+ * @return {string} Elapsed duration in format, &quot;HH:MM:SS&quot;
+ */
+export const getElapsedTime = (start, initial = [0, 0, 0]) =&gt; {
+    const SECONDS_PER_MINUTE = 60;
+    const MINUTES_PER_HOUR = SECONDS_PER_MINUTE;
+    const after = (initial[0] * MINUTES_PER_HOUR * SECONDS_PER_MINUTE) + (initial[1] * SECONDS_PER_MINUTE) + initial[2];
+    const total = process.hrtime()[0] + after - start;
+    const seconds = total % SECONDS_PER_MINUTE;
+    const minutes = Math.floor((total / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR);
+    const hours = Math.floor(total / MINUTES_PER_HOUR / SECONDS_PER_MINUTE);
+    const format = val =&gt; val.toString().padStart(2, &apos;0&apos;);
+    return `${format(hours)}:${format(minutes)}:${format(seconds)}`;
 };
 /**
  * Use string-similarity module to determine closest matching string

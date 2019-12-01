@@ -186,6 +186,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils/index.js~getelapsedtime",
+    "function/index.html#static-function-getElapsedTime",
+    "<span>getElapsedTime</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/utils/index.js~getintendedinput",
     "function/index.html#static-function-getIntendedInput",
     "<span>getIntendedInput</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
@@ -547,49 +553,49 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber118",
+    "test-file/__tests__/utils.test.js.html#lineNumber120",
     "Makefile editor",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber138",
+    "test-file/__tests__/utils.test.js.html#lineNumber140",
     "Makefile editor addComment",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber131",
+    "test-file/__tests__/utils.test.js.html#lineNumber133",
     "Makefile editor addTask",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber127",
+    "test-file/__tests__/utils.test.js.html#lineNumber129",
     "Makefile editor append",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber147",
+    "test-file/__tests__/utils.test.js.html#lineNumber149",
     "Makefile editor appendScripts (no bin variable)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber155",
+    "test-file/__tests__/utils.test.js.html#lineNumber157",
     "Makefile editor appendScripts (with bin variable)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber123",
+    "test-file/__tests__/utils.test.js.html#lineNumber125",
     "Makefile editor create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber142",
+    "test-file/__tests__/utils.test.js.html#lineNumber144",
     "Makefile editor importScripts",
     "test"
   ],
@@ -775,85 +781,85 @@ window.esdocSearchIndex = [
   ],
   [
     "eslintconfigmoduleeditor src/utils/index.js~eslintconfigmoduleeditor,eslintconfigmoduleeditor",
-    "test-file/__tests__/utils.test.js.html#lineNumber73",
+    "test-file/__tests__/utils.test.js.html#lineNumber75",
     "Verify ESLint module editor can create and edit an ESLint configuration file",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber85",
+    "test-file/__tests__/utils.test.js.html#lineNumber87",
     "Verify ESLint module editor can create and edit an ESLint configuration file create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber101",
+    "test-file/__tests__/utils.test.js.html#lineNumber103",
     "Verify ESLint module editor can create and edit an ESLint configuration file delete",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber94",
+    "test-file/__tests__/utils.test.js.html#lineNumber96",
     "Verify ESLint module editor can create and edit an ESLint configuration file extend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber109",
+    "test-file/__tests__/utils.test.js.html#lineNumber111",
     "Verify ESLint module editor can create and edit an ESLint configuration file prepend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber91",
+    "test-file/__tests__/utils.test.js.html#lineNumber93",
     "Verify ESLint module editor can create and edit an ESLint configuration file read",
     "test"
   ],
   [
     "packagejsoneditor src/utils/index.js~packagejsoneditor,packagejsoneditor",
-    "test-file/__tests__/utils.test.js.html#lineNumber25",
+    "test-file/__tests__/utils.test.js.html#lineNumber27",
     "Verify package.json editor can create and edit a package.json manifest file",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber43",
+    "test-file/__tests__/utils.test.js.html#lineNumber45",
     "Verify package.json editor can create and edit a package.json manifest file copy",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber30",
+    "test-file/__tests__/utils.test.js.html#lineNumber32",
     "Verify package.json editor can create and edit a package.json manifest file create",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber48",
+    "test-file/__tests__/utils.test.js.html#lineNumber50",
     "Verify package.json editor can create and edit a package.json manifest file delete",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber39",
+    "test-file/__tests__/utils.test.js.html#lineNumber41",
     "Verify package.json editor can create and edit a package.json manifest file extend",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber61",
+    "test-file/__tests__/utils.test.js.html#lineNumber63",
     "Verify package.json editor can create and edit a package.json manifest file hasAll",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber56",
+    "test-file/__tests__/utils.test.js.html#lineNumber58",
     "Verify package.json editor can create and edit a package.json manifest file hasSome",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber36",
+    "test-file/__tests__/utils.test.js.html#lineNumber38",
     "Verify package.json editor can create and edit a package.json manifest file read",
     "test"
   ],
@@ -1057,103 +1063,127 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber197",
+    "test-file/__tests__/utils.test.js.html#lineNumber199",
     "choose via options",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber198",
+    "test-file/__tests__/utils.test.js.html#lineNumber200",
     "choose via options with and without default options",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber163",
+    "test-file/__tests__/utils.test.js.html#lineNumber165",
     "createFunctionModuleEditor",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber179",
+    "test-file/__tests__/utils.test.js.html#lineNumber181",
     "createFunctionModuleEditor can create function ES module (defaults)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber190",
+    "test-file/__tests__/utils.test.js.html#lineNumber192",
     "createFunctionModuleEditor can create function ES module with passed []",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber184",
+    "test-file/__tests__/utils.test.js.html#lineNumber186",
     "createFunctionModuleEditor can create function ES module with passed parameters",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber165",
+    "test-file/__tests__/utils.test.js.html#lineNumber167",
     "createFunctionModuleEditor can create function module (defaults)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber174",
+    "test-file/__tests__/utils.test.js.html#lineNumber176",
     "createFunctionModuleEditor can create function module with passed []",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber169",
+    "test-file/__tests__/utils.test.js.html#lineNumber171",
     "createFunctionModuleEditor can create function module with passed parameters",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber217",
-    "getIntendedInput",
+    "test-file/__tests__/utils.test.js.html#lineNumber219",
+    "getElapsedTime",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber218",
-    "getIntendedInput return closest matches",
+    "test-file/__tests__/utils.test.js.html#lineNumber226",
+    "getElapsedTime can count seconds",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber224",
-    "getVersions",
-    "test"
-  ],
-  [
-    "",
-    "test-file/__tests__/utils.test.js.html#lineNumber228",
-    "getVersions format response from npm (only allow valid version strings)",
-    "test"
-  ],
-  [
-    "",
-    "test-file/__tests__/utils.test.js.html#lineNumber225",
-    "getVersions handle no module name",
+    "test-file/__tests__/utils.test.js.html#lineNumber242",
+    "getElapsedTime can update hours using modular arithmetic",
     "test"
   ],
   [
     "",
     "test-file/__tests__/utils.test.js.html#lineNumber234",
+    "getElapsedTime can update minutes using modular arithmetic",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber251",
+    "getIntendedInput",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber252",
+    "getIntendedInput return closest matches",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber258",
+    "getVersions",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber262",
+    "getVersions format response from npm (only allow valid version strings)",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber259",
+    "getVersions handle no module name",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/utils.test.js.html#lineNumber268",
     "install",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber238",
+    "test-file/__tests__/utils.test.js.html#lineNumber272",
     "install handle array of string names",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber248",
+    "test-file/__tests__/utils.test.js.html#lineNumber282",
     "install only allow valid module names",
     "test"
   ],
@@ -1879,31 +1909,31 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber254",
+    "test-file/__tests__/utils.test.js.html#lineNumber288",
     "uninstall",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber255",
+    "test-file/__tests__/utils.test.js.html#lineNumber289",
     "uninstall handle array of string names",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber260",
+    "test-file/__tests__/utils.test.js.html#lineNumber294",
     "uninstall only allow valid module names",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber266",
+    "test-file/__tests__/utils.test.js.html#lineNumber300",
     "withOptions",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/utils.test.js.html#lineNumber267",
+    "test-file/__tests__/utils.test.js.html#lineNumber301",
     "withOptions add custom options",
     "test"
   ]

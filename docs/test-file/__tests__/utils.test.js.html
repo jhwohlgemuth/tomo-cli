@@ -67,6 +67,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-install">install</a></span></span></li>
@@ -89,6 +90,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">__tests__/utils.test.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
+import sinon from &apos;sinon&apos;;
 import execa from &apos;execa&apos;;
 import {readMakefile as read, useTemporaryDirectory} from &apos;./tomo-test&apos;;
 import commands from &apos;../src/commands&apos;;
@@ -98,6 +100,7 @@ import {
     PackageJsonEditor,
     choose,
     createFunctionModuleEditor,
+    getElapsedTime,
     getIntendedInput,
     getVersions,
     install,
@@ -302,6 +305,38 @@ describe(&apos;choose via options&apos;, () =&gt; {
         expect(choose(withDefault)({b: true})).toEqual(withDefault.b);
         expect(choose(withDefault)({b: true, c: true})).toEqual(withDefault.b);
         expect(choose(withDefault)({a: false, c: true})).toEqual(withDefault.c);
+    });
+});
+describe(&apos;getElapsedTime&apos;, () =&gt; {
+    const second = 1000;
+    const minute = 60 * second; // eslint-disable-line no-magic-numbers
+    const clock = sinon.useFakeTimers();
+    afterAll(() =&gt; {
+        clock.restore();
+    });
+    test(&apos;can count seconds&apos;, () =&gt; {
+        const [start] = process.hrtime();
+        expect(getElapsedTime(start)).toEqual(&apos;00:00:00&apos;);
+        clock.tick(second);
+        expect(getElapsedTime(start)).toEqual(&apos;00:00:01&apos;);
+        clock.tick(second);
+        expect(getElapsedTime(start)).toEqual(&apos;00:00:02&apos;);
+    });
+    test(&apos;can update minutes using modular arithmetic&apos;, () =&gt; {
+        const [start] = process.hrtime();
+        expect(getElapsedTime(start)).toEqual(&apos;00:00:00&apos;);
+        clock.tick(59 * second); // eslint-disable-line no-magic-numbers
+        expect(getElapsedTime(start)).toEqual(&apos;00:00:59&apos;);
+        clock.tick(2 * second);
+        expect(getElapsedTime(start)).toEqual(&apos;00:01:01&apos;);
+    });
+    test(&apos;can update hours using modular arithmetic&apos;, () =&gt; {
+        const [start] = process.hrtime();
+        expect(getElapsedTime(start)).toEqual(&apos;00:00:00&apos;);
+        clock.tick(59 * minute); // eslint-disable-line no-magic-numbers
+        expect(getElapsedTime(start)).toEqual(&apos;00:59:00&apos;);
+        clock.tick(2 * minute);
+        expect(getElapsedTime(start)).toEqual(&apos;01:01:00&apos;);
     });
 });
 describe(&apos;getIntendedInput&apos;, () =&gt; {

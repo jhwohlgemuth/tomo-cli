@@ -1,4 +1,5 @@
 import {join} from 'path';
+import sinon from 'sinon';
 import execa from 'execa';
 import {readMakefile as read, useTemporaryDirectory} from './tomo-test';
 import commands from '../src/commands';
@@ -8,6 +9,7 @@ import {
     PackageJsonEditor,
     choose,
     createFunctionModuleEditor,
+    getElapsedTime,
     getIntendedInput,
     getVersions,
     install,
@@ -212,6 +214,38 @@ describe('choose via options', () => {
         expect(choose(withDefault)({b: true})).toEqual(withDefault.b);
         expect(choose(withDefault)({b: true, c: true})).toEqual(withDefault.b);
         expect(choose(withDefault)({a: false, c: true})).toEqual(withDefault.c);
+    });
+});
+describe('getElapsedTime', () => {
+    const second = 1000;
+    const minute = 60 * second; // eslint-disable-line no-magic-numbers
+    const clock = sinon.useFakeTimers();
+    afterAll(() => {
+        clock.restore();
+    });
+    test('can count seconds', () => {
+        const [start] = process.hrtime();
+        expect(getElapsedTime(start)).toEqual('00:00:00');
+        clock.tick(second);
+        expect(getElapsedTime(start)).toEqual('00:00:01');
+        clock.tick(second);
+        expect(getElapsedTime(start)).toEqual('00:00:02');
+    });
+    test('can update minutes using modular arithmetic', () => {
+        const [start] = process.hrtime();
+        expect(getElapsedTime(start)).toEqual('00:00:00');
+        clock.tick(59 * second); // eslint-disable-line no-magic-numbers
+        expect(getElapsedTime(start)).toEqual('00:00:59');
+        clock.tick(2 * second);
+        expect(getElapsedTime(start)).toEqual('00:01:01');
+    });
+    test('can update hours using modular arithmetic', () => {
+        const [start] = process.hrtime();
+        expect(getElapsedTime(start)).toEqual('00:00:00');
+        clock.tick(59 * minute); // eslint-disable-line no-magic-numbers
+        expect(getElapsedTime(start)).toEqual('00:59:00');
+        clock.tick(2 * minute);
+        expect(getElapsedTime(start)).toEqual('01:01:00');
     });
 });
 describe('getIntendedInput', () => {

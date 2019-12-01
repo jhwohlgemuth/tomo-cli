@@ -35,6 +35,26 @@ export const choose = choices => options => {
     return choice ? lookup.get(choice) : DEFAULT;
 };
 /**
+ * Get duration since start in "HH:MM:SS" format
+ * @param {object} start Time to determine duration from
+ * @param {number[]} [initial=[0,0,0]] Duration to add to returned elapsed time
+ * @example <caption>Start from 30 seconds</caption>
+ * const [start] = process.hrtime()
+ * const duration = getElapsedTime(start, [0, 0, 30]);
+ * @return {string} Elapsed duration in format, "HH:MM:SS"
+ */
+export const getElapsedTime = (start, initial = [0, 0, 0]) => {
+    const SECONDS_PER_MINUTE = 60;
+    const MINUTES_PER_HOUR = SECONDS_PER_MINUTE;
+    const after = (initial[0] * MINUTES_PER_HOUR * SECONDS_PER_MINUTE) + (initial[1] * SECONDS_PER_MINUTE) + initial[2];
+    const total = process.hrtime()[0] + after - start;
+    const seconds = total % SECONDS_PER_MINUTE;
+    const minutes = Math.floor((total / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR);
+    const hours = Math.floor(total / MINUTES_PER_HOUR / SECONDS_PER_MINUTE);
+    const format = val => val.toString().padStart(2, '0');
+    return `${format(hours)}:${format(minutes)}:${format(seconds)}`;
+};
+/**
  * Use string-similarity module to determine closest matching string
  * @param {Object} commands Object with commands as key values, terms as key values for each command object
  * @param {string} command Command string input
