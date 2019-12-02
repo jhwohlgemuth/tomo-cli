@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-import {join} from 'path';
 import React from 'react';
 import {cyan, dim} from 'chalk';
 import {render} from 'ink';
 import meow from 'meow';
-import read from 'read-pkg';
 import getStdin from 'get-stdin';
 import updateNotifier from 'update-notifier';
 import {showVersion} from './api';

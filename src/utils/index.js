@@ -1,6 +1,8 @@
+import {join} from 'path';
 import execa from 'execa';
 import Queue from 'p-queue';
 import semver from 'semver';
+import read from 'read-pkg';
 import {complement, has, head} from 'ramda';
 import isOnline from 'is-online';
 import {oneLineTrim} from 'common-tags';
