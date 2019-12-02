@@ -4110,7 +4110,7 @@
     "__docId__": 227,
     "kind": "file",
     "name": "src/index.js",
-    "content": "#!/usr/bin/env node\nimport {join} from 'path';\nimport React from 'react';\nimport {cyan, dim} from 'chalk';\nimport {render} from 'ink';\nimport meow from 'meow';\nimport read from 'read-pkg';\nimport getStdin from 'get-stdin';\nimport updateNotifier from 'update-notifier';\nimport UI from './main';\n\n// Notify updater\nconst pkg = require(`../package.json`);\nupdateNotifier({pkg}).notify();\n\nconst showVersion = () => {\n    const cwd = join(__dirname, '..');\n    const {version} = read.sync({cwd});\n    console.log(version); // eslint-disable-line no-console\n    process.exit();\n};\nconst help = `\n    ${dim.bold('Usage')}\n\n        ${cyan('>')} tomo [commands] [terms] [options]\n        \n        ${cyan('>')} tomo version\n\n        ${cyan('>')} tomo new app --use-react --use-parcel\n        \n        ${cyan('>')} tomo add\n\n\n    ${dim.bold('Commands')}\n\n        new, add, remove, version\n\n\n    ${dim.bold('Terms')}\n\n        [new]\n        project, app, server\n\n        [add]\n        a11y, babel, browsersync, cypress, electron, esdoc, eslint, jest,\n        marionette, makefile, parcel, postcss, react, reason, rollup, webpack \n\n        [remove]\n        a11y, browsersync, cypress, parcel, postcss, reason, rollup, webpack\n\n\n    ${dim.bold('Options')}\n\n        --version, -v           Print version\n        --source-directory, -d  Directory for source code [Default: ./src]\n        --output-directory, -o  Directory for build targets [Default: ./dist]\n        --assets-directory, -a  Directory for assets [Default: ./assets]\n        --use-rollup,           Use Rollup instead of Webpack [Default: false]\n        --use-parcel,           Use Parcel instead of Webpack [Default: false]\n        --use-react, -r         Add React support to workflow [Default: false]\n        --react-version         React version for ESLint configuration [Default: '16.8']\n        --with-cesium           Add CesiumJS to your project [Default: false]\n        --ignore-warnings, -i   Ignore warning messages [Default: false]\n        --skip-install, -s      Skip npm installations [Default: false]\n        --overwrite             Copy files, even if they alrady exist [Default: false]\n        --browser               Indicate tasks are intended for the browser [Default: false]\n        --port, -p              Configure port for workflow tasks that use it [Default: 4669]\n        --debug                 Show debug data [Default: false]\t\n`;\nconst options = {\n    help,\n    flags: {\n        version: {\n            type: 'boolean',\n            default: false,\n            alias: 'v'\n        },\n        sourceDirectory: {\n            type: 'string',\n            default: './src',\n            alias: 'd'\n        },\n        outputDirectory: {\n            type: 'string',\n            default: './dist',\n            alias: 'o'\n        },\n        assetsDirectory: {\n            type: 'string',\n            default: './assets',\n            alias: 'a'\n        },\n        useRollup: {\n            type: 'boolean',\n            default: false,\n            alias: 'rollup'\n        },\n        useParcel: {\n            type: 'boolean',\n            default: false,\n            alias: 'parcel'\n        },\n        useReact: {\n            type: 'boolean',\n            default: false,\n            alias: ['r', 'react']\n        },\n        reactVersion: {\n            type: 'string',\n            default: '16.8'\n        },\n        withCesium: {\n            type: 'boolean',\n            default: false\n        },\n        help: {\n            type: 'boolean',\n            default: false,\n            alias: 'h'\n        },\n        ignoreWarnings: {\n            type: 'boolean',\n            default: false,\n            alias: 'i'\n        },\n        skipInstall: {\n            type: 'boolean',\n            default: false,\n            alias: 's'\n        },\n        browser: {\n            type: 'boolean',\n            default: false,\n            alias: 'b'\n        },\n        port: {\n            type: 'number',\n            default: 4669,\n            alias: 'p'\n        },\n        overwrite: {\n            type: 'boolean',\n            default: false\n        },\n        debug: {\n            type: 'boolean',\n            default: false\n        }\n    }\n};\n\nconst {input, flags} = meow(options);\n(input[0] === 'version' || flags.version) && showVersion();\n(async () => {\n    const stdin = await getStdin();\n    render(<UI input={input} flags={flags} stdin={stdin}/>, {exitOnCtrlC: true});\n})();",
+    "content": "#!/usr/bin/env node\nimport {join} from 'path';\nimport React from 'react';\nimport {cyan, dim} from 'chalk';\nimport {render} from 'ink';\nimport meow from 'meow';\nimport read from 'read-pkg';\nimport getStdin from 'get-stdin';\nimport updateNotifier from 'update-notifier';\nimport {showVersion} from './api';\nimport UI from './main';\n\n// Notify updater\nconst pkg = require(`../package.json`);\nupdateNotifier({pkg}).notify();\n\nconst help = `\n    ${dim.bold('Usage')}\n\n        ${cyan('>')} tomo [commands] [terms] [options]\n        \n        ${cyan('>')} tomo version\n\n        ${cyan('>')} tomo new app --use-react --use-parcel\n        \n        ${cyan('>')} tomo add\n\n\n    ${dim.bold('Commands')}\n\n        new, add, remove, version\n\n\n    ${dim.bold('Terms')}\n\n        [new]\n        project, app, server\n\n        [add]\n        a11y, babel, browsersync, cypress, electron, esdoc, eslint, jest,\n        marionette, makefile, parcel, postcss, react, reason, rollup, webpack \n\n        [remove]\n        a11y, browsersync, cypress, parcel, postcss, reason, rollup, webpack\n\n\n    ${dim.bold('Options')}\n\n        --version, -v           Print version\n        --source-directory, -d  Directory for source code [Default: ./src]\n        --output-directory, -o  Directory for build targets [Default: ./dist]\n        --assets-directory, -a  Directory for assets [Default: ./assets]\n        --use-rollup,           Use Rollup instead of Webpack [Default: false]\n        --use-parcel,           Use Parcel instead of Webpack [Default: false]\n        --use-react, -r         Add React support to workflow [Default: false]\n        --react-version         React version for ESLint configuration [Default: '16.8']\n        --with-cesium           Add CesiumJS to your project [Default: false]\n        --ignore-warnings, -i   Ignore warning messages [Default: false]\n        --skip-install, -s      Skip npm installations [Default: false]\n        --overwrite             Copy files, even if they alrady exist [Default: false]\n        --browser               Indicate tasks are intended for the browser [Default: false]\n        --port, -p              Configure port for workflow tasks that use it [Default: 4669]\n        --debug                 Show debug data [Default: false]\t\n`;\nconst options = {\n    help,\n    flags: {\n        version: {\n            type: 'boolean',\n            default: false,\n            alias: 'v'\n        },\n        sourceDirectory: {\n            type: 'string',\n            default: './src',\n            alias: 'd'\n        },\n        outputDirectory: {\n            type: 'string',\n            default: './dist',\n            alias: 'o'\n        },\n        assetsDirectory: {\n            type: 'string',\n            default: './assets',\n            alias: 'a'\n        },\n        useRollup: {\n            type: 'boolean',\n            default: false,\n            alias: 'rollup'\n        },\n        useParcel: {\n            type: 'boolean',\n            default: false,\n            alias: 'parcel'\n        },\n        useReact: {\n            type: 'boolean',\n            default: false,\n            alias: ['r', 'react']\n        },\n        reactVersion: {\n            type: 'string',\n            default: '16.8'\n        },\n        withCesium: {\n            type: 'boolean',\n            default: false\n        },\n        help: {\n            type: 'boolean',\n            default: false,\n            alias: 'h'\n        },\n        ignoreWarnings: {\n            type: 'boolean',\n            default: false,\n            alias: 'i'\n        },\n        skipInstall: {\n            type: 'boolean',\n            default: false,\n            alias: 's'\n        },\n        browser: {\n            type: 'boolean',\n            default: false,\n            alias: 'b'\n        },\n        port: {\n            type: 'number',\n            default: 4669,\n            alias: 'p'\n        },\n        overwrite: {\n            type: 'boolean',\n            default: false\n        },\n        debug: {\n            type: 'boolean',\n            default: false\n        }\n    }\n};\n\nconst {input, flags} = meow(options);\n(input[0] === 'version' || flags.version) && showVersion();\n(async () => {\n    const stdin = await getStdin();\n    render(<UI input={input} flags={flags} stdin={stdin}/>, {exitOnCtrlC: true});\n})();",
     "static": true,
     "longname": "/Users/jason/dev/tomo-cli/src/index.js",
     "access": "public",
@@ -4129,7 +4129,7 @@
     "importPath": "tomo-cli/src/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 13,
+    "lineNumber": 14,
     "undocument": true,
     "type": {
       "types": [
@@ -4140,26 +4140,6 @@
   },
   {
     "__docId__": 229,
-    "kind": "function",
-    "name": "showVersion",
-    "memberof": "src/index.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/index.js~showVersion",
-    "access": "public",
-    "export": false,
-    "importPath": "tomo-cli/src/index.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 16,
-    "undocument": true,
-    "params": [],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 230,
     "kind": "variable",
     "name": "help",
     "memberof": "src/index.js",
@@ -4170,7 +4150,7 @@
     "importPath": "tomo-cli/src/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 22,
+    "lineNumber": 17,
     "undocument": true,
     "type": {
       "types": [
@@ -4180,7 +4160,7 @@
     "ignore": true
   },
   {
-    "__docId__": 231,
+    "__docId__": 230,
     "kind": "variable",
     "name": "options",
     "memberof": "src/index.js",
@@ -4191,7 +4171,7 @@
     "importPath": "tomo-cli/src/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 70,
+    "lineNumber": 65,
     "undocument": true,
     "type": {
       "types": [
@@ -4201,7 +4181,7 @@
     "ignore": true
   },
   {
-    "__docId__": 232,
+    "__docId__": 231,
     "kind": "variable",
     "name": "input",
     "memberof": "src/index.js",
@@ -4212,7 +4192,7 @@
     "importPath": "tomo-cli/src/index.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 152,
+    "lineNumber": 147,
     "undocument": true,
     "type": {
       "types": [
@@ -4222,7 +4202,7 @@
     "ignore": true
   },
   {
-    "__docId__": 233,
+    "__docId__": 232,
     "kind": "file",
     "name": "src/main.js",
     "content": "import React, {Component} from 'react';\nimport PropTypes from 'prop-types';\nimport {bold} from 'chalk';\nimport figures from 'figures';\nimport {is} from 'ramda';\nimport {Color, Text} from 'ink';\nimport {\n    ErrorBoundary,\n    SubCommandSelect,\n    TaskList,\n    UnderConstruction,\n    Warning,\n    getIntendedInput\n} from './api';\nimport commands from './commands';\n\nconst descriptions = {\n    project: `Scaffold a new Node.js project with ${bold.yellow('Babel')}, ${bold('ESLint')}, and ${bold.magenta('Jest')}`,\n    app: `Scaffold a new ${bold('web application')} - basically a project with CSS, bundling, and stuff`,\n    server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security \"baked in\"`,\n    a11y: `Add automated ${bold('accessibility')} testing`,\n    babel: `Use next generation JavaScript, ${bold('today!')}`,\n    browsersync: `Time-saving ${bold('synchronised browser')} testing (demo your app with ${bold.yellow('live-reload')})`,\n    cypress: `${bold('Test')} anything that runs in a ${bold('browser')} (including ${bold.yellow('visual regression testing')})`,\n    electron: `Create a ${bold('native desktop application')} using web technologies`,\n    esdoc: `Generate ${bold('documentation')} from your comments`,\n    eslint: `Pluggable ${bold('linting')} utility for JavaScript and JSX`,\n    jest: `Delightful JavaScript ${bold('Testing')} Framework with a focus on simplicity`,\n    makefile: `Create a ${bold('Makefile')} from your package.json, like ${bold.magenta('magic!')}`,\n    marionette: `${bold('Flexible Backbone framework')} with robust views and architecture solutions`,\n    parcel: `${bold('Bundle')} your application (${bold.red('blazing')} fast with ${bold.white('zero configuration')})`,\n    postcss: `Use ${bold('future CSS')}, never write vendor prefixes again, and much much more!`,\n    react: `Build user interfaces with ${bold('components')} ${figures.arrowRight} learn once, write ${bold('anywhere')}`,\n    reason: `Write functional ${bold('type safe')} code with ${bold.yellow('JavaScript')}-like syntax (works with ${bold('React')})`,\n    rollup: `${bold('Bundle')} your assets (focused on ${bold('ES6')} modules and tree shaking - ${bold.white('best for libraries')})`,\n    webpack: `${bold('Bundle')} your assets (with great support and a rich ecosystem)`\n};\n\n/**\n * Main tomo UI component\n * @param {Object} props Component props\n * @return {ReactComponent} Main tomo UI component\n */\nexport default class UI extends Component {\n    constructor(props) {\n        super(props);\n        const {flags, input} = props;\n        const {ignoreWarnings} = flags;\n        const [command, ...terms] = input;\n        const hasCommand = is(String)(command);\n        const hasTerms = terms.length > 0;\n        const {intendedCommand, intendedTerms} = hasCommand ? getIntendedInput(commands, command, terms) : {};\n        const compare = (term, index) => (term !== terms[index]);\n        const showWarning = ((command !== intendedCommand) || (hasTerms && intendedTerms.map(compare).some(Boolean))) && !ignoreWarnings;\n        this.state = {\n            hasTerms,\n            hasCommand,\n            showWarning,\n            intendedTerms,\n            intendedCommand\n        };\n        this.updateWarning = this.updateWarning.bind(this);\n        this.updateTerms = this.updateTerms.bind(this);\n    }\n    render() {\n        const {done, flags} = this.props;\n        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;\n        return <ErrorBoundary>\n            {showWarning ?\n                <Warning callback={this.updateWarning}>\n                    <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>\n                </Warning> :\n                (hasCommand && hasTerms) ?\n                    <TaskList commands={commands} command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList> :\n                    hasCommand ?\n                        <SubCommandSelect\n                            command={intendedCommand}\n                            descriptions={descriptions}\n                            items={Object.keys(commands[intendedCommand]).map(command => ({label: command, value: command}))}\n                            onSelect={this.updateTerms}>\n                        </SubCommandSelect> :\n                        <UnderConstruction/>\n            }\n        </ErrorBoundary>;\n    }\n    /**\n     * Callback function for warning component\n     * @param {string} data Character data from stdin\n     * @return {undefined} Returns nothing\n     */\n    updateWarning(data) {\n        const key = String(data);\n        (key === '\\r') ? this.setState({showWarning: false}) : process.exit(0);\n    }\n    /**\n     * @param {Object} args Function options\n     * @param {string} args.value Intended term\n     * @return {undefined} Returns nothing\n     */\n    updateTerms({value}) {\n        this.setState({\n            hasTerms: true,\n            intendedTerms: [value]\n        });\n    }\n}\nUI.propTypes = {\n    input: PropTypes.array,\n    flags: PropTypes.object,\n    done: PropTypes.func,\n    stdin: PropTypes.string\n};\nUI.defaultProps = {\n    input: [],\n    flags: {}\n};",
@@ -4233,7 +4213,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 234,
+    "__docId__": 233,
     "kind": "variable",
     "name": "descriptions",
     "memberof": "src/main.js",
@@ -4254,7 +4234,7 @@
     "ignore": true
   },
   {
-    "__docId__": 235,
+    "__docId__": 234,
     "kind": "class",
     "name": "UI",
     "memberof": "src/main.js",
@@ -4292,7 +4272,7 @@
     ]
   },
   {
-    "__docId__": 236,
+    "__docId__": 235,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/main.js~UI",
@@ -4306,7 +4286,7 @@
     "undocument": true
   },
   {
-    "__docId__": 237,
+    "__docId__": 236,
     "kind": "member",
     "name": "state",
     "memberof": "src/main.js~UI",
@@ -4323,7 +4303,7 @@
     }
   },
   {
-    "__docId__": 240,
+    "__docId__": 239,
     "kind": "method",
     "name": "render",
     "memberof": "src/main.js~UI",
@@ -4343,7 +4323,7 @@
     }
   },
   {
-    "__docId__": 241,
+    "__docId__": 240,
     "kind": "method",
     "name": "updateWarning",
     "memberof": "src/main.js~UI",
@@ -4376,7 +4356,7 @@
     }
   },
   {
-    "__docId__": 242,
+    "__docId__": 241,
     "kind": "method",
     "name": "updateTerms",
     "memberof": "src/main.js~UI",
@@ -4419,7 +4399,7 @@
     }
   },
   {
-    "__docId__": 243,
+    "__docId__": 242,
     "kind": "file",
     "name": "src/utils/BasicEditor.js",
     "content": "import {join} from 'path';\nimport Queue from 'p-queue';\nimport memFs from 'mem-fs';\nimport editor from 'mem-fs-editor';\n\nconst {assign} = Object;\n/**\n * Base class to serve as base for JSON and module builder classes\n */\nexport class BasicEditor {\n    constructor() {\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {fs, queue});\n    }\n    /**\n     *\n     * @param {string} destination Destination to copy file\n     * @return {BasicEditor} Chaining OK\n     */\n    copy(destination) {\n        const self = this;\n        const {fs, path, queue} = self;\n        const [filename] = path.split('/').reverse();\n        queue.add(() => fs.copy(path, join(destination, filename)));\n        return self;\n    }\n    /**\n     * @return {BasicEditor} Chaining OK\n     */\n    delete() {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.delete(path));\n        return self;\n    }\n    done() {\n        return this.queue.onEmpty();\n    }\n    /**\n     * Write changes to disk\n     * @return {Promise} Resolves when queue is empty\n     */\n    async commit() {\n        const {fs} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await this.done();\n    }\n}\nexport default BasicEditor;",
@@ -4430,7 +4410,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 244,
+    "__docId__": 243,
     "kind": "variable",
     "name": "assign",
     "memberof": "src/utils/BasicEditor.js",
@@ -4451,7 +4431,7 @@
     "ignore": true
   },
   {
-    "__docId__": 245,
+    "__docId__": 244,
     "kind": "class",
     "name": "BasicEditor",
     "memberof": "src/utils/BasicEditor.js",
@@ -4466,7 +4446,7 @@
     "interface": false
   },
   {
-    "__docId__": 246,
+    "__docId__": 245,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/utils/BasicEditor.js~BasicEditor",
@@ -4480,7 +4460,7 @@
     "undocument": true
   },
   {
-    "__docId__": 247,
+    "__docId__": 246,
     "kind": "method",
     "name": "copy",
     "memberof": "src/utils/BasicEditor.js~BasicEditor",
@@ -4513,7 +4493,7 @@
     }
   },
   {
-    "__docId__": 248,
+    "__docId__": 247,
     "kind": "method",
     "name": "delete",
     "memberof": "src/utils/BasicEditor.js~BasicEditor",
@@ -4535,7 +4515,7 @@
     "params": []
   },
   {
-    "__docId__": 249,
+    "__docId__": 248,
     "kind": "method",
     "name": "done",
     "memberof": "src/utils/BasicEditor.js~BasicEditor",
@@ -4555,7 +4535,7 @@
     }
   },
   {
-    "__docId__": 250,
+    "__docId__": 249,
     "kind": "method",
     "name": "commit",
     "memberof": "src/utils/BasicEditor.js~BasicEditor",
@@ -4577,7 +4557,7 @@
     "params": []
   },
   {
-    "__docId__": 251,
+    "__docId__": 250,
     "kind": "file",
     "name": "src/utils/Scaffolder.js",
     "content": "import {join} from 'path';\nimport Queue from 'p-queue';\nimport memFs from 'mem-fs';\nimport editor from 'mem-fs-editor';\n\nconst {assign} = Object;\nconst silent = () => {};\n/**\n * Class to create scaffolders when creating folders, and copying files/templates\n * @example\n * import {Scaffolder} from './api';\n * const scaffolder = new Scaffolder('path/to/templates');\n * await scaffolder\n *     .target('/path/to/copy/files')\n *     .copy('foo.js')\n *     .copy('bar.js')\n *     .commit();\n */\nexport class Scaffolder {\n    /**\n     * @param {string} sourceDirectory Source directory for template files\n     */\n    constructor(sourceDirectory = './templates') {\n        const copyIfExists = false;\n        const targetDirectory = './';\n        const fs = editor.create(memFs.create());\n        const queue = new Queue({concurrency: 1});\n        assign(this, {copyIfExists, fs, queue, sourceDirectory, targetDirectory});\n    }\n    /**\n     * Set target directory\n     * @param {string} targetDirectory Target directory of template files\n     * @returns {Scaffolder} Chaining OK\n     */\n    target(targetDirectory) {\n        return assign(this, {targetDirectory});\n    }\n    /**\n     * Set overwrite flag\n     * @param {boolean} flag Overwrite files (true) or not (false)\n     * @returns {Scaffolder} Chaining OK\n     */\n    overwrite(flag) {\n        return assign(this, {copyIfExists: flag});\n    }\n    /**\n     * Copy a file\n     * @param {string} path Path string of file to be copied\n     * @param {string} [filename] Name for copied file\n     * @returns {Scaffolder} Chaining OK\n     */\n    copy(path, filename) {\n        const self = this;\n        const {copyIfExists, fs, queue, sourceDirectory, targetDirectory} = self;\n        const source = join(sourceDirectory, path);\n        const target = join(process.cwd(), targetDirectory, ...((typeof filename === 'string') ? filename : path).split('/'));\n        const shouldCopy = !fs.exists(target) || copyIfExists;\n        shouldCopy && queue.add(() => fs.copy(source, target)).catch(silent);\n        return self;\n    }\n    /**\n     * Write changes to disk\n     * @return {Promise} Resolves when queue is empty\n     */\n    async commit() {\n        const {fs, queue} = this;\n        await new Promise(resolve => fs.commit(resolve));\n        await queue.onEmpty();\n    }\n}\nexport default Scaffolder;",
@@ -4588,7 +4568,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 252,
+    "__docId__": 251,
     "kind": "variable",
     "name": "assign",
     "memberof": "src/utils/Scaffolder.js",
@@ -4609,7 +4589,7 @@
     "ignore": true
   },
   {
-    "__docId__": 253,
+    "__docId__": 252,
     "kind": "function",
     "name": "silent",
     "memberof": "src/utils/Scaffolder.js",
@@ -4629,7 +4609,7 @@
     "ignore": true
   },
   {
-    "__docId__": 254,
+    "__docId__": 253,
     "kind": "class",
     "name": "Scaffolder",
     "memberof": "src/utils/Scaffolder.js",
@@ -4647,7 +4627,7 @@
     "interface": false
   },
   {
-    "__docId__": 255,
+    "__docId__": 254,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/utils/Scaffolder.js~Scaffolder",
@@ -4672,7 +4652,7 @@
     ]
   },
   {
-    "__docId__": 256,
+    "__docId__": 255,
     "kind": "method",
     "name": "target",
     "memberof": "src/utils/Scaffolder.js~Scaffolder",
@@ -4711,7 +4691,7 @@
     }
   },
   {
-    "__docId__": 257,
+    "__docId__": 256,
     "kind": "method",
     "name": "overwrite",
     "memberof": "src/utils/Scaffolder.js~Scaffolder",
@@ -4750,7 +4730,7 @@
     }
   },
   {
-    "__docId__": 258,
+    "__docId__": 257,
     "kind": "method",
     "name": "copy",
     "memberof": "src/utils/Scaffolder.js~Scaffolder",
@@ -4799,7 +4779,7 @@
     }
   },
   {
-    "__docId__": 259,
+    "__docId__": 258,
     "kind": "method",
     "name": "commit",
     "memberof": "src/utils/Scaffolder.js~Scaffolder",
@@ -4821,7 +4801,7 @@
     "params": []
   },
   {
-    "__docId__": 260,
+    "__docId__": 259,
     "kind": "file",
     "name": "src/utils/createJsonEditor.js",
     "content": "import {join} from 'path';\nimport {existsSync} from 'fs-extra';\nimport BasicEditor from './BasicEditor';\nimport {parse} from './common';\n\nconst {assign} = Object;\nconst INDENT_SPACES = 4;\n/**\n * Create and edit a JSON file with a fluent API\n * @param {string} filename Name of file to edit\n * @param {object} [contents={}] Contents of file\n * @return {JsonEditor} JsonEditor class (extends {@link BasicEditor})\n */\nexport const createJsonEditor = (filename, contents = {}) => class JsonEditor extends BasicEditor {\n    contents = contents;\n    constructor(cwd = process.cwd()) {\n        super();\n        const path = join(cwd, filename);\n        assign(this, {path});\n    }\n    create() {\n        const self = this;\n        const {contents, fs, path, queue} = self;\n        existsSync(path) || queue.add(() => fs.writeJSON(path, contents, null, INDENT_SPACES));\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.readJSON(path) || '';\n    }\n    extend(contents) {\n        const self = this;\n        const {fs, path, queue} = self;\n        queue.add(() => fs.extendJSON(path, contents, null, INDENT_SPACES));\n        return self;\n    }\n    /**\n     * Check if package.json manifest file has dependencies (dependencies or devDependencies)\n     * @param  {...string} modules npm module names\n     * @return {Boolean} Has at least one dependency (true) or none (false)\n     */\n    hasSome(...modules) {\n        const {keys} = Object;\n        const pkg = this.read();\n        const {dependencies, devDependencies} = parse(pkg);\n        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];\n        return modules.some(module => installed.includes(module));\n    }\n    /**\n     * Check if package.json manifest file has dependencies (dependencies or devDependencies)\n     * @param  {...string} modules npm module names\n     * @return {Boolean} Has all dependencies (true) or not all (false)\n     */\n    hasAll(...modules) {\n        const {keys} = Object;\n        const pkg = this.read();\n        const {dependencies, devDependencies} = parse(pkg);\n        const installed = [...keys(dependencies ? dependencies : {}), ...keys(devDependencies ? devDependencies : {})];\n        return modules.every(module => installed.includes(module));\n    }\n};\nexport default createJsonEditor;",
@@ -4832,7 +4812,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 261,
+    "__docId__": 260,
     "kind": "variable",
     "name": "assign",
     "memberof": "src/utils/createJsonEditor.js",
@@ -4853,7 +4833,7 @@
     "ignore": true
   },
   {
-    "__docId__": 262,
+    "__docId__": 261,
     "kind": "variable",
     "name": "INDENT_SPACES",
     "memberof": "src/utils/createJsonEditor.js",
@@ -4874,7 +4854,7 @@
     "ignore": true
   },
   {
-    "__docId__": 263,
+    "__docId__": 262,
     "kind": "function",
     "name": "createJsonEditor",
     "memberof": "src/utils/createJsonEditor.js",
@@ -4922,7 +4902,7 @@
     }
   },
   {
-    "__docId__": 264,
+    "__docId__": 263,
     "kind": "file",
     "name": "src/utils/createModuleEditor.js",
     "content": "import {join} from 'path';\nimport {existsSync} from 'fs-extra';\nimport merge from 'lodash.merge';\nimport {format} from './common';\nimport BasicEditor from './BasicEditor';\n\nconst {assign} = Object;\nconst silent = () => {};\nclass Common extends BasicEditor {\n    create() {\n        const self = this;\n        const {contents, path} = self;\n        self.created || (existsSync(path) || self.write(contents));\n        return self;\n    }\n    read() {\n        const {fs, path} = this;\n        return fs.exists(path) ? fs.read(path) : '';\n    }\n    write(contents) {\n        const self = this;\n        const {esm, fs, path, prependedContents, queue} = self;\n        const exportString = esm ? 'export default ' : 'module.exports = ';\n        const formatted = `${prependedContents}${exportString}${format(contents)}`.replace(/\\r*\\n$/g, ';');\n        queue\n            .add(() => fs.write(path, formatted))\n            .then(() => self.created = existsSync(path))\n            .catch(silent);\n        return assign(self, {contents});\n    }\n    extend(code) {\n        this.contents = merge(this.contents, code);\n        this.write(this.contents);\n        return this;\n    }\n    prepend(code) {\n        const self = this;\n        const {contents, prependedContents} = self;\n        if (typeof code === 'string' && code.length > 0) {\n            self.prependedContents = `${code}\\n${prependedContents}`.replace(/\\n*$/, '\\n\\n');\n        }\n        return self.write(contents);\n    }\n}\n/**\n * Create and edit a JS module with a fluent API\n * @param {string} filename Name of file to edit\n * @param {string} [contents=''] Contents of file\n * @param {Object} options Options to configure module\n * @param {boolean} [options.esm=false] Select to use 'module.exports =' (false) or 'export default' (true)\n * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})\n */\nexport const createModuleEditor = (filename, contents = '', options = {esm: false}) => class ModuleEditor extends Common {\n    prependedContents = '';\n    created = false;\n    constructor(cwd = process.cwd()) {\n        super();\n        const {esm} = options;\n        const path = join(cwd, filename);\n        assign(this, {contents, esm, path});\n    }\n};\n/**\n * Create and edit a JS module (with function export) using a fluent API\n * @param {string} filename Name of file to edit\n * @param {string} [contents=''] Contents of file\n * @param {Object} options Options to configure module\n * @param {string[]} [options.params=[]] Params to use as function parameters. ex: ['a', 'b'] becomes (a, b) => {}\n * @param {boolean} [options.esm=false] Select to use 'module.exports =' (false) or 'export default' (true)\n * @return {ModuleEditor} ModuleEditor class (extends {@link BasicEditor})\n */\nexport const createFunctionModuleEditor = (filename, contents = '', options = {params: [], esm: false}) => class ModuleEditor extends Common {\n    prependedContents = '';\n    created = false;\n    constructor(cwd = process.cwd()) {\n        super();\n        const {esm, params} = options;\n        const path = join(cwd, filename);\n        assign(this, {\n            contents,\n            esm,\n            path,\n            params: params || []\n        });\n    }\n    write(contents) {\n        const self = this;\n        const {esm, fs, params, path, prependedContents, queue} = self;\n        const exportString = esm ? `export default (${params.join(', ')}) => (` : `module.exports = (${params.join(', ')}) => (`;\n        const formatted = `${prependedContents}${exportString}${format(contents)}`.replace(/\\r*\\n$/g, ');');\n        queue\n            .add(() => fs.write(path, formatted))\n            .then(() => self.created = existsSync(path))\n            .catch(silent);\n        return assign(self, {contents});\n    }\n};\nexport default createModuleEditor;",
@@ -4933,7 +4913,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 265,
+    "__docId__": 264,
     "kind": "variable",
     "name": "assign",
     "memberof": "src/utils/createModuleEditor.js",
@@ -4954,7 +4934,7 @@
     "ignore": true
   },
   {
-    "__docId__": 266,
+    "__docId__": 265,
     "kind": "function",
     "name": "silent",
     "memberof": "src/utils/createModuleEditor.js",
@@ -4974,7 +4954,7 @@
     "ignore": true
   },
   {
-    "__docId__": 267,
+    "__docId__": 266,
     "kind": "class",
     "name": "Common",
     "memberof": "src/utils/createModuleEditor.js",
@@ -4994,7 +4974,7 @@
     "ignore": true
   },
   {
-    "__docId__": 268,
+    "__docId__": 267,
     "kind": "method",
     "name": "create",
     "memberof": "src/utils/createModuleEditor.js~Common",
@@ -5014,7 +4994,7 @@
     }
   },
   {
-    "__docId__": 269,
+    "__docId__": 268,
     "kind": "method",
     "name": "read",
     "memberof": "src/utils/createModuleEditor.js~Common",
@@ -5034,7 +5014,7 @@
     }
   },
   {
-    "__docId__": 270,
+    "__docId__": 269,
     "kind": "method",
     "name": "write",
     "memberof": "src/utils/createModuleEditor.js~Common",
@@ -5061,7 +5041,7 @@
     }
   },
   {
-    "__docId__": 271,
+    "__docId__": 270,
     "kind": "method",
     "name": "extend",
     "memberof": "src/utils/createModuleEditor.js~Common",
@@ -5088,7 +5068,7 @@
     }
   },
   {
-    "__docId__": 272,
+    "__docId__": 271,
     "kind": "member",
     "name": "contents",
     "memberof": "src/utils/createModuleEditor.js~Common",
@@ -5105,7 +5085,7 @@
     }
   },
   {
-    "__docId__": 273,
+    "__docId__": 272,
     "kind": "method",
     "name": "prepend",
     "memberof": "src/utils/createModuleEditor.js~Common",
@@ -5132,7 +5112,7 @@
     }
   },
   {
-    "__docId__": 274,
+    "__docId__": 273,
     "kind": "function",
     "name": "createModuleEditor",
     "memberof": "src/utils/createModuleEditor.js",
@@ -5202,7 +5182,7 @@
     }
   },
   {
-    "__docId__": 275,
+    "__docId__": 274,
     "kind": "function",
     "name": "createFunctionModuleEditor",
     "memberof": "src/utils/createModuleEditor.js",
@@ -5284,10 +5264,10 @@
     }
   },
   {
-    "__docId__": 276,
+    "__docId__": 275,
     "kind": "file",
     "name": "src/utils/index.js",
-    "content": "import execa from 'execa';\nimport Queue from 'p-queue';\nimport semver from 'semver';\nimport {complement, has, head} from 'ramda';\nimport isOnline from 'is-online';\nimport {oneLineTrim} from 'common-tags';\nimport validate from 'validate-npm-package-name';\nimport {findBestMatch} from 'string-similarity';\nimport {dict} from './common';\nimport createJsonEditor from './createJsonEditor';\nimport {createFunctionModuleEditor, createModuleEditor} from './createModuleEditor';\n\nconst {assign, keys} = Object;\nconst {isArray} = Array;\n\n// export {createFunctionModuleEditor, createJsonEditor, createModuleEditor};\n// export *  from './common';\n// export {MakefileEditor} from './MakefileEditor';\n// export {Scaffolder} from './Scaffolder';\n\nexport const isUniqueTask = ({text}, index, tasks) => tasks.map(({text}) => text).indexOf(text) === index;\nexport const isValidTask = val => has('text', val) && has('task', val) && (typeof val.text === 'string') && (typeof val.task === 'function');\nexport const withOptions = val => options => ({...options, ...val});\n/**\n * Choose tasks based on CLI options\n * @param {Object} choices Object to create choice dictionary from\n * @return {function} Accepts CLI options and returns array of tasks\n */\nexport const choose = choices => options => {\n    const possible = keys(choices);\n    const passed = keys(options);\n    const lookup = dict(choices);\n    const DEFAULT = lookup.has('default') ? lookup.get('default') : lookup.get(possible[0]);\n    const [choice] = possible.filter(val => passed.includes(val)).filter(val => options[val]);\n    return choice ? lookup.get(choice) : DEFAULT;\n};\n/**\n * Get duration since start in \"HH:MM:SS\" format\n * @param {object} start Time to determine duration from\n * @param {number[]} [initial=[0,0,0]] Duration to add to returned elapsed time\n * @example <caption>Start from 30 seconds</caption>\n * const [start] = process.hrtime()\n * const duration = getElapsedTime(start, [0, 0, 30]);\n * @return {string} Elapsed duration in format, \"HH:MM:SS\"\n */\nexport const getElapsedTime = (start, initial = [0, 0, 0]) => {\n    const SECONDS_PER_MINUTE = 60;\n    const MINUTES_PER_HOUR = SECONDS_PER_MINUTE;\n    const after = (initial[0] * MINUTES_PER_HOUR * SECONDS_PER_MINUTE) + (initial[1] * SECONDS_PER_MINUTE) + initial[2];\n    const total = process.hrtime()[0] + after - start;\n    const seconds = total % SECONDS_PER_MINUTE;\n    const minutes = Math.floor((total / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR);\n    const hours = Math.floor(total / MINUTES_PER_HOUR / SECONDS_PER_MINUTE);\n    const format = val => val.toString().padStart(2, '0');\n    return `${format(hours)}:${format(minutes)}:${format(seconds)}`;\n};\n/**\n * Use string-similarity module to determine closest matching string\n * @param {Object} commands Object with commands as key values, terms as key values for each command object\n * @param {string} command Command string input\n * @param {string[]} [terms=[]] Terms input\n * @example\n * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);\n * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)\n */\nexport const getIntendedInput = (commands, command, terms = []) => {\n    const VALID_COMMANDS = keys(commands);\n    const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);\n    const VALID_TERMS = keys(commands[intendedCommand]);\n    const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);\n    return {intendedCommand, intendedTerms};\n};\n/**\n * Use npm CLI to return array of module versions\n * @param {string} name npm module name\n * @example\n * const versions = getVersions('react');\n * @return {string[]} Array of versions\n */\nexport const getVersions = async (name = '') => (name.length === 0) ? [] : (await execa('npm', ['view', name, 'versions']))\n    .stdout\n    .split(',\\n')\n    .map(str => str.match(/\\d+[.]\\d+[.]\\d+/))\n    .filter(isArray)\n    .map(head)\n    .map(semver.valid)\n    .filter(Boolean);\n/**\n * Install dependencies with npm\n * @param {string[]} [dependencies=[]] Modules to install\n * @param {Object} options Options to configure installation\n * @param {boolean} [options.dev=false] If true, add \"--save-dev\"\n * @param {boolean} [options.latest=true] If true, add \"@latest\" to all module names\n * @param {boolean} [options.skipInstall=false] Do not install (mostly for testing)\n * @example <caption>Install production dependencies</caption>\n * install(['react']);\n * @example <caption>Install development dependencies</caption>\n * install(['jest', 'babel-jest'], {dev: true});\n * @return {string[]} Array of inputs (mostly for testing)\n */\nexport const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) => {\n    const {dev, latest, skipInstall} = options;\n    const identity = i => i;\n    const concat = val => str => str + val;\n    const args = ['install']\n        .concat(dependencies\n            .filter(name => validate(name).validForNewPackages)\n            .map(latest ? concat('@latest') : identity)\n        )\n        .concat(dev ? '--save-dev' : []);\n    skipInstall || await execa('npm', args);\n    return args;\n};\nexport const uninstall = async (dependencies = []) => {\n    const args = ['uninstall'].concat(dependencies.filter(name => validate(name).validForNewPackages));\n    (args.length === 1) || await execa('npm', args);\n    return args;\n};\n/**\n * Add async tasks to a queue, handle completion with actions dispatched via dispatch function\n * @param {Object} data Data to be used for populating queue\n * @param {Queue} [data.queue={}] p-queue instance\n * @param {Object[]} [data.tasks=[]] Array of task objects\n * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions\n * @param {Object} [data.options={}] Options object to pass to task function\n * @return {undefined} Returns nothing (side effects only)\n */\nexport async function populateQueue({concurrency = 1, tasks = [], dispatch = () => {}, options = {skipInstall: false}} = {}) {\n    const {skipInstall} = options;\n    const isNotOffline = skipInstall || await isOnline();\n    const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) => assign(acc, val), options), {isNotOffline});\n    const queue = new Queue({concurrency});\n    dispatch({type: 'status', payload: {online: isNotOffline}});\n    for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {\n        const {condition, task} = item;\n        try {\n            if (await condition(customOptions)) {\n                await queue\n                    .add(() => task(customOptions))\n                    .then(() => dispatch({type: 'complete', payload: index}))\n                    .catch(() => dispatch({\n                        type: 'error', payload: {\n                            index,\n                            title: 'Failed to add task to queue',\n                            location: 'task',\n                            details: item.text\n                        }\n                    }));\n            } else {\n                dispatch({type: 'skipped', payload: index});\n            }\n        } catch (error) {\n            dispatch({\n                type: 'error',\n                payload: {\n                    error,\n                    index,\n                    title: 'Failed to test task conditions',\n                    location: 'condition',\n                    details: item.text\n                }\n            });\n        }\n    }\n}\n/**\n * Create and edit a Babel.js configuration file with a fluent API\n * @type {ModuleEditor}\n * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>\n * await (new BabelConfigModuleEditor())\n *     .create()\n *     .extend({presets: [`'@babel/preset-env'`]})\n *     .prepend(`const {existsSync} = require('fs-extra');`)\n *     .commit();\n */\nexport const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {\n    plugins: [\n        `'@babel/plugin-transform-runtime'`,\n        `'@babel/plugin-proposal-class-properties'`,\n        `'@babel/plugin-proposal-export-default-from'`,\n        `'@babel/plugin-proposal-optional-chaining'`\n    ],\n    presets: [`'@babel/preset-env'`, `'babel-preset-minify'`]\n});\n/**\n * Create and edit an ESLint configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new EslintConfigModuleEditor())\n *     .create()\n *     .commit();\n */\nexport const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {\n    env: {\n        es6: true,\n        jest: true\n    },\n    extends: [\n        `'omaha-prime-grade'`\n    ],\n    parser: `'babel-eslint'`\n});\n/**\n * Create and edit a package.json manifest file with a fluent API\n * @type {JsonEditor}\n * @example <caption>Create a new package.json</caption>\n * await (new PackageJsonEditor())\n *     .create()\n *     .commit();\n * @example <caption>Create a new package.json and read its contents (chaining OK)</caption>\n * const contents = (new PackageJsonEditor())\n *     .create()\n *     .read();\n * @example <caption>Extend a package.json</caption>\n * const script = {test: 'jest --coverage'};\n * await (new PackageJsonEditor())\n *     .extend({script})\n *     .commit();\n * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>\n * const script = {\n *     lint: 'eslint index.js -c ./.eslintrc.js'\n * };\n * await (new PackageJsonEditor())\n *     .create(false)\n *     .extend({script}, false)\n *     .commit();\n */\nexport const PackageJsonEditor = createJsonEditor('package.json', {\n    name: 'my-project',\n    version: '0.0.0',\n    description: 'A super cool app/server/tool/library/widget/thingy',\n    license: 'MIT',\n    keywords: []\n});\nexport const BsConfigJsonEditor = createJsonEditor('bsconfig.json', {\n    'bs-dependencies': ['reason-react'],\n    'bsc-flags': ['-bs-super-errors'],\n    namespace: true,\n    'package-specs': [{\n        module: 'es6',\n        'in-source': true\n    }],\n    'ppx-flags': [],\n    reason: {'react-jsx': 3},\n    refmt: 3,\n    sources: [{\n        dir: 'src',\n        subdirs: true\n    }],\n    suffix: '.bs.js'\n});\n/**\n * Create and edit a PostCSS configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new PostcssConfigEditor())\n *     .create()\n *     .commit();\n */\nexport const PostcssConfigEditor = createModuleEditor('postcss.config.js', {\n    map: true,\n    parser: `require('postcss-safe-parser')`\n});\n/**\n * Create and edit a PurgeCSS configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new PurgecssConfigEditor())\n *     .create()\n *     .commit();\n */\nexport const PurgecssConfigEditor = createModuleEditor('purgecss.config.js', {\n    content: [`'./assets/index.html'`]\n});\n/**\n * Create and edit a Rollup configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new RollupConfigEditor())\n *     .create()\n *     .commit();\n */\nexport const RollupConfigEditor = createModuleEditor('rollup.config.js', {\n    input: `'./src/main.js'`,\n    output: {\n        file: `'./dist/bundle.min.js'`,\n        format: `'iife'`,\n        sourceMap: `'inline'`\n    },\n    plugins: [\n        `babel({exclude: 'node_modules/**', runtimeHelpers: true})`,\n        oneLineTrim`commonjs({\n            namedExports: {\n                './node_modules/backbone/backbone.js': ['Model', 'history'],\n                './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']\n            }\n        })`,\n        `resolve({browser: true})`,\n        `replace({'process.env.NODE_ENV': JSON.stringify('production')})`,\n        `terser()`\n    ]\n}, {esm: true});\n/**\n * Create and edit a Webpack configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new WebpackConfigEditor())\n *     .create()\n *     .commit();\n */\nexport const WebpackConfigEditor = createFunctionModuleEditor('webpack.config.js', {\n    mode: `argv.mode === 'production' ? 'production' : 'development'`,\n    entry: {\n        app: `'./src/main.js'`\n    },\n    devtool: `(argv.mode === 'production') ? void 0 : 'eval-source-map'`,\n    output: {\n        path: `resolve('./dist')`,\n        filename: `'bundle.min.js'`\n    }\n}, {params: ['env', 'argv']});",
+    "content": "import execa from 'execa';\nimport Queue from 'p-queue';\nimport semver from 'semver';\nimport {complement, has, head} from 'ramda';\nimport isOnline from 'is-online';\nimport {oneLineTrim} from 'common-tags';\nimport validate from 'validate-npm-package-name';\nimport {findBestMatch} from 'string-similarity';\nimport {dict} from './common';\nimport createJsonEditor from './createJsonEditor';\nimport {createFunctionModuleEditor, createModuleEditor} from './createModuleEditor';\n\nconst {assign, keys} = Object;\nconst {isArray} = Array;\n\n// export {createFunctionModuleEditor, createJsonEditor, createModuleEditor};\n// export *  from './common';\n// export {MakefileEditor} from './MakefileEditor';\n// export {Scaffolder} from './Scaffolder';\n\nexport const isUniqueTask = ({text}, index, tasks) => tasks.map(({text}) => text).indexOf(text) === index;\nexport const isValidTask = val => has('text', val) && has('task', val) && (typeof val.text === 'string') && (typeof val.task === 'function');\nexport const withOptions = val => options => ({...options, ...val});\n/**\n * Choose tasks based on CLI options\n * @param {Object} choices Object to create choice dictionary from\n * @return {function} Accepts CLI options and returns array of tasks\n */\nexport const choose = choices => options => {\n    const possible = keys(choices);\n    const passed = keys(options);\n    const lookup = dict(choices);\n    const DEFAULT = lookup.has('default') ? lookup.get('default') : lookup.get(possible[0]);\n    const [choice] = possible.filter(val => passed.includes(val)).filter(val => options[val]);\n    return choice ? lookup.get(choice) : DEFAULT;\n};\n/**\n * Get duration since start in \"HH:MM:SS\" format\n * @param {object} start Time to determine duration from\n * @param {number[]} [initial=[0,0,0]] Duration to add to returned elapsed time\n * @example <caption>Start from 30 seconds</caption>\n * const [start] = process.hrtime()\n * const duration = getElapsedTime(start, [0, 0, 30]);\n * @return {string} Elapsed duration in format, \"HH:MM:SS\"\n */\nexport const getElapsedTime = (start, initial = [0, 0, 0]) => {\n    const SECONDS_PER_MINUTE = 60;\n    const MINUTES_PER_HOUR = SECONDS_PER_MINUTE;\n    const after = (initial[0] * MINUTES_PER_HOUR * SECONDS_PER_MINUTE) + (initial[1] * SECONDS_PER_MINUTE) + initial[2];\n    const total = process.hrtime()[0] + after - start;\n    const seconds = total % SECONDS_PER_MINUTE;\n    const minutes = Math.floor((total / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR);\n    const hours = Math.floor(total / MINUTES_PER_HOUR / SECONDS_PER_MINUTE);\n    const format = val => val.toString().padStart(2, '0');\n    return `${format(hours)}:${format(minutes)}:${format(seconds)}`;\n};\n/**\n * Use string-similarity module to determine closest matching string\n * @param {Object} commands Object with commands as key values, terms as key values for each command object\n * @param {string} command Command string input\n * @param {string[]} [terms=[]] Terms input\n * @example\n * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);\n * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)\n */\nexport const getIntendedInput = (commands, command, terms = []) => {\n    const VALID_COMMANDS = keys(commands);\n    const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);\n    const VALID_TERMS = keys(commands[intendedCommand]);\n    const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);\n    return {intendedCommand, intendedTerms};\n};\n/**\n * Use npm CLI to return array of module versions\n * @param {string} name npm module name\n * @example\n * const versions = getVersions('react');\n * @return {string[]} Array of versions\n */\nexport const getVersions = async (name = '') => (name.length === 0) ? [] : (await execa('npm', ['view', name, 'versions']))\n    .stdout\n    .split(',\\n')\n    .map(str => str.match(/\\d+[.]\\d+[.]\\d+/))\n    .filter(isArray)\n    .map(head)\n    .map(semver.valid)\n    .filter(Boolean);\n/**\n * Show version listed in package.json and exit\n * @return {string} Version\n */\nexport const showVersion = () => {\n    const cwd = join(__dirname, '..');\n    const {version} = read.sync({cwd});\n    console.log(version); // eslint-disable-line no-console\n    process.exit();\n};\n/**\n * Install dependencies with npm\n * @param {string[]} [dependencies=[]] Modules to install\n * @param {Object} options Options to configure installation\n * @param {boolean} [options.dev=false] If true, add \"--save-dev\"\n * @param {boolean} [options.latest=true] If true, add \"@latest\" to all module names\n * @param {boolean} [options.skipInstall=false] Do not install (mostly for testing)\n * @example <caption>Install production dependencies</caption>\n * install(['react']);\n * @example <caption>Install development dependencies</caption>\n * install(['jest', 'babel-jest'], {dev: true});\n * @return {string[]} Array of inputs (mostly for testing)\n */\nexport const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) => {\n    const {dev, latest, skipInstall} = options;\n    const identity = i => i;\n    const concat = val => str => str + val;\n    const args = ['install']\n        .concat(dependencies\n            .filter(name => validate(name).validForNewPackages)\n            .map(latest ? concat('@latest') : identity)\n        )\n        .concat(dev ? '--save-dev' : []);\n    skipInstall || await execa('npm', args);\n    return args;\n};\nexport const uninstall = async (dependencies = []) => {\n    const args = ['uninstall'].concat(dependencies.filter(name => validate(name).validForNewPackages));\n    (args.length === 1) || await execa('npm', args);\n    return args;\n};\n/**\n * Add async tasks to a queue, handle completion with actions dispatched via dispatch function\n * @param {Object} data Data to be used for populating queue\n * @param {Queue} [data.queue={}] p-queue instance\n * @param {Object[]} [data.tasks=[]] Array of task objects\n * @param {function} [data.dispatch=()=>{}] Function to dispatch task completion (complete, skip, error) actions\n * @param {Object} [data.options={}] Options object to pass to task function\n * @return {undefined} Returns nothing (side effects only)\n */\nexport async function populateQueue({concurrency = 1, tasks = [], dispatch = () => {}, options = {skipInstall: false}} = {}) {\n    const {skipInstall} = options;\n    const isNotOffline = skipInstall || await isOnline();\n    const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) => assign(acc, val), options), {isNotOffline});\n    const queue = new Queue({concurrency});\n    dispatch({type: 'status', payload: {online: isNotOffline}});\n    for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {\n        const {condition, task} = item;\n        try {\n            if (await condition(customOptions)) {\n                await queue\n                    .add(() => task(customOptions))\n                    .then(() => dispatch({type: 'complete', payload: index}))\n                    .catch(() => dispatch({\n                        type: 'error', payload: {\n                            index,\n                            title: 'Failed to add task to queue',\n                            location: 'task',\n                            details: item.text\n                        }\n                    }));\n            } else {\n                dispatch({type: 'skipped', payload: index});\n            }\n        } catch (error) {\n            dispatch({\n                type: 'error',\n                payload: {\n                    error,\n                    index,\n                    title: 'Failed to test task conditions',\n                    location: 'condition',\n                    details: item.text\n                }\n            });\n        }\n    }\n}\n/**\n * Create and edit a Babel.js configuration file with a fluent API\n * @type {ModuleEditor}\n * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>\n * await (new BabelConfigModuleEditor())\n *     .create()\n *     .extend({presets: [`'@babel/preset-env'`]})\n *     .prepend(`const {existsSync} = require('fs-extra');`)\n *     .commit();\n */\nexport const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {\n    plugins: [\n        `'@babel/plugin-transform-runtime'`,\n        `'@babel/plugin-proposal-class-properties'`,\n        `'@babel/plugin-proposal-export-default-from'`,\n        `'@babel/plugin-proposal-optional-chaining'`\n    ],\n    presets: [`'@babel/preset-env'`, `'babel-preset-minify'`]\n});\n/**\n * Create and edit an ESLint configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new EslintConfigModuleEditor())\n *     .create()\n *     .commit();\n */\nexport const EslintConfigModuleEditor = createModuleEditor('.eslintrc.js', {\n    env: {\n        es6: true,\n        jest: true\n    },\n    extends: [\n        `'omaha-prime-grade'`\n    ],\n    parser: `'babel-eslint'`\n});\n/**\n * Create and edit a package.json manifest file with a fluent API\n * @type {JsonEditor}\n * @example <caption>Create a new package.json</caption>\n * await (new PackageJsonEditor())\n *     .create()\n *     .commit();\n * @example <caption>Create a new package.json and read its contents (chaining OK)</caption>\n * const contents = (new PackageJsonEditor())\n *     .create()\n *     .read();\n * @example <caption>Extend a package.json</caption>\n * const script = {test: 'jest --coverage'};\n * await (new PackageJsonEditor())\n *     .extend({script})\n *     .commit();\n * @example <caption>Create and extend a package.json without writing to disk (chaining OK)</caption>\n * const script = {\n *     lint: 'eslint index.js -c ./.eslintrc.js'\n * };\n * await (new PackageJsonEditor())\n *     .create(false)\n *     .extend({script}, false)\n *     .commit();\n */\nexport const PackageJsonEditor = createJsonEditor('package.json', {\n    name: 'my-project',\n    version: '0.0.0',\n    description: 'A super cool app/server/tool/library/widget/thingy',\n    license: 'MIT',\n    keywords: []\n});\nexport const BsConfigJsonEditor = createJsonEditor('bsconfig.json', {\n    'bs-dependencies': ['reason-react'],\n    'bsc-flags': ['-bs-super-errors'],\n    namespace: true,\n    'package-specs': [{\n        module: 'es6',\n        'in-source': true\n    }],\n    'ppx-flags': [],\n    reason: {'react-jsx': 3},\n    refmt: 3,\n    sources: [{\n        dir: 'src',\n        subdirs: true\n    }],\n    suffix: '.bs.js'\n});\n/**\n * Create and edit a PostCSS configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new PostcssConfigEditor())\n *     .create()\n *     .commit();\n */\nexport const PostcssConfigEditor = createModuleEditor('postcss.config.js', {\n    map: true,\n    parser: `require('postcss-safe-parser')`\n});\n/**\n * Create and edit a PurgeCSS configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new PurgecssConfigEditor())\n *     .create()\n *     .commit();\n */\nexport const PurgecssConfigEditor = createModuleEditor('purgecss.config.js', {\n    content: [`'./assets/index.html'`]\n});\n/**\n * Create and edit a Rollup configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new RollupConfigEditor())\n *     .create()\n *     .commit();\n */\nexport const RollupConfigEditor = createModuleEditor('rollup.config.js', {\n    input: `'./src/main.js'`,\n    output: {\n        file: `'./dist/bundle.min.js'`,\n        format: `'iife'`,\n        sourceMap: `'inline'`\n    },\n    plugins: [\n        `babel({exclude: 'node_modules/**', runtimeHelpers: true})`,\n        oneLineTrim`commonjs({\n            namedExports: {\n                './node_modules/backbone/backbone.js': ['Model', 'history'],\n                './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']\n            }\n        })`,\n        `resolve({browser: true})`,\n        `replace({'process.env.NODE_ENV': JSON.stringify('production')})`,\n        `terser()`\n    ]\n}, {esm: true});\n/**\n * Create and edit a Webpack configuration file with a fluent API\n * @type {ModuleEditor}\n * @example\n * await (new WebpackConfigEditor())\n *     .create()\n *     .commit();\n */\nexport const WebpackConfigEditor = createFunctionModuleEditor('webpack.config.js', {\n    mode: `argv.mode === 'production' ? 'production' : 'development'`,\n    entry: {\n        app: `'./src/main.js'`\n    },\n    devtool: `(argv.mode === 'production') ? void 0 : 'eval-source-map'`,\n    output: {\n        path: `resolve('./dist')`,\n        filename: `'bundle.min.js'`\n    }\n}, {params: ['env', 'argv']});",
     "static": true,
     "longname": "/Users/jason/dev/tomo-cli/src/utils/index.js",
     "access": "public",
@@ -5295,7 +5275,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 277,
+    "__docId__": 276,
     "kind": "variable",
     "name": "assign",
     "memberof": "src/utils/index.js",
@@ -5316,7 +5296,7 @@
     "ignore": true
   },
   {
-    "__docId__": 278,
+    "__docId__": 277,
     "kind": "variable",
     "name": "isArray",
     "memberof": "src/utils/index.js",
@@ -5337,7 +5317,7 @@
     "ignore": true
   },
   {
-    "__docId__": 279,
+    "__docId__": 278,
     "kind": "function",
     "name": "isUniqueTask",
     "memberof": "src/utils/index.js",
@@ -5379,7 +5359,7 @@
     "return": null
   },
   {
-    "__docId__": 280,
+    "__docId__": 279,
     "kind": "function",
     "name": "isValidTask",
     "memberof": "src/utils/index.js",
@@ -5405,7 +5385,7 @@
     "return": null
   },
   {
-    "__docId__": 281,
+    "__docId__": 280,
     "kind": "function",
     "name": "withOptions",
     "memberof": "src/utils/index.js",
@@ -5431,7 +5411,7 @@
     "return": null
   },
   {
-    "__docId__": 282,
+    "__docId__": 281,
     "kind": "function",
     "name": "choose",
     "memberof": "src/utils/index.js",
@@ -5467,7 +5447,7 @@
     }
   },
   {
-    "__docId__": 283,
+    "__docId__": 282,
     "kind": "function",
     "name": "getElapsedTime",
     "memberof": "src/utils/index.js",
@@ -5522,7 +5502,7 @@
     }
   },
   {
-    "__docId__": 284,
+    "__docId__": 283,
     "kind": "function",
     "name": "getIntendedInput",
     "memberof": "src/utils/index.js",
@@ -5583,7 +5563,7 @@
     }
   },
   {
-    "__docId__": 285,
+    "__docId__": 284,
     "kind": "function",
     "name": "getVersions",
     "memberof": "src/utils/index.js",
@@ -5622,6 +5602,31 @@
     }
   },
   {
+    "__docId__": 285,
+    "kind": "function",
+    "name": "showVersion",
+    "memberof": "src/utils/index.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/index.js~showVersion",
+    "access": "public",
+    "export": true,
+    "importPath": "tomo-cli/src/utils/index.js",
+    "importStyle": "{showVersion}",
+    "description": "Show version listed in package.json and exit",
+    "lineNumber": 92,
+    "return": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": "Version"
+    },
+    "params": []
+  },
+  {
     "__docId__": 286,
     "kind": "function",
     "name": "install",
@@ -5639,7 +5644,7 @@
       "<caption>Install production dependencies</caption>\ninstall(['react']);",
       "<caption>Install development dependencies</caption>\ninstall(['jest', 'babel-jest'], {dev: true});"
     ],
-    "lineNumber": 101,
+    "lineNumber": 111,
     "params": [
       {
         "nullable": null,
@@ -5723,7 +5728,7 @@
     "importPath": "tomo-cli/src/utils/index.js",
     "importStyle": "{uninstall}",
     "description": null,
-    "lineNumber": 114,
+    "lineNumber": 124,
     "undocument": true,
     "params": [
       {
@@ -5756,7 +5761,7 @@
     "importPath": "tomo-cli/src/utils/index.js",
     "importStyle": "{populateQueue}",
     "description": "Add async tasks to a queue, handle completion with actions dispatched via dispatch function",
-    "lineNumber": 128,
+    "lineNumber": 138,
     "params": [
       {
         "nullable": null,
@@ -5839,7 +5844,7 @@
     "examples": [
       "<caption>Extend module.exports content and prepend text to the top of the file</caption>\nawait (new BabelConfigModuleEditor())\n    .create()\n    .extend({presets: [`'@babel/preset-env'`]})\n    .prepend(`const {existsSync} = require('fs-extra');`)\n    .commit();"
     ],
-    "lineNumber": 176,
+    "lineNumber": 186,
     "type": {
       "nullable": null,
       "types": [
@@ -5864,7 +5869,7 @@
     "examples": [
       "await (new EslintConfigModuleEditor())\n    .create()\n    .commit();"
     ],
-    "lineNumber": 193,
+    "lineNumber": 203,
     "type": {
       "nullable": null,
       "types": [
@@ -5892,7 +5897,7 @@
       "<caption>Extend a package.json</caption>\nconst script = {test: 'jest --coverage'};\nawait (new PackageJsonEditor())\n    .extend({script})\n    .commit();",
       "<caption>Create and extend a package.json without writing to disk (chaining OK)</caption>\nconst script = {\n    lint: 'eslint index.js -c ./.eslintrc.js'\n};\nawait (new PackageJsonEditor())\n    .create(false)\n    .extend({script}, false)\n    .commit();"
     ],
-    "lineNumber": 228,
+    "lineNumber": 238,
     "type": {
       "nullable": null,
       "types": [
@@ -5914,7 +5919,7 @@
     "importPath": "tomo-cli/src/utils/index.js",
     "importStyle": "{BsConfigJsonEditor}",
     "description": null,
-    "lineNumber": 235,
+    "lineNumber": 245,
     "undocument": true,
     "type": {
       "types": [
@@ -5937,7 +5942,7 @@
     "examples": [
       "await (new PostcssConfigEditor())\n    .create()\n    .commit();"
     ],
-    "lineNumber": 260,
+    "lineNumber": 270,
     "type": {
       "nullable": null,
       "types": [
@@ -5962,7 +5967,7 @@
     "examples": [
       "await (new PurgecssConfigEditor())\n    .create()\n    .commit();"
     ],
-    "lineNumber": 272,
+    "lineNumber": 282,
     "type": {
       "nullable": null,
       "types": [
@@ -5987,7 +5992,7 @@
     "examples": [
       "await (new RollupConfigEditor())\n    .create()\n    .commit();"
     ],
-    "lineNumber": 283,
+    "lineNumber": 293,
     "type": {
       "nullable": null,
       "types": [
@@ -6012,7 +6017,7 @@
     "examples": [
       "await (new WebpackConfigEditor())\n    .create()\n    .commit();"
     ],
-    "lineNumber": 311,
+    "lineNumber": 321,
     "type": {
       "nullable": null,
       "types": [
@@ -6032,7 +6037,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"tomo-cli\",\n  \"version\": \"1.1.0\",\n  \"description\": \"A friendly command line tool designed to help create sustainable software using web technology\",\n  \"license\": \"MIT\",\n  \"main\": \"dist/api.js\",\n  \"bin\": {\n    \"tomo\": \"dist/index.js\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/jhwohlgemuth/tomo-cli.git\"\n  },\n  \"author\": \"Jason Wohlgemuth <jhwohlgemuth@gmail.com> (omaha.js.org)\",\n  \"engines\": {\n    \"node\": \">=6\"\n  },\n  \"scripts\": {\n    \"copy:assets\": \"cpy '**/templates/*.(js|json|re|html|hbs|css|md|png|ico|otf|svg|woff|woff2|ttf|eot|cert|key)' '**/[.]*' '../dist/' --cwd=src --parents --recursive\",\n    \"dev\": \"stmux [ \\\"npm run build:watch\\\" : \\\"npm run lint:watch\\\" ]\",\n    \"prebuild\": \"npm run build:clean\",\n    \"build\": \"babel src --out-dir dist\",\n    \"postbuild\": \"npm run copy:assets\",\n    \"build:clean\": \"rm -frd ./dist\",\n    \"build:watch\": \"watch 'npm run build' ./src\",\n    \"build:docs\": \"esdoc -c ./esdoc.conf.json\",\n    \"test\": \"jest .*.test.js --coverage\",\n    \"test:e2e\": \"jest .*.e2e.js\",\n    \"test:ing\": \"npm test -- --watchAll\",\n    \"open:coverage\": \"open-cli ./coverage/lcov-report/index.html\",\n    \"open:docs\": \"open-cli ./docs/index.html\",\n    \"lint\": \"eslint . -c ./.eslintrc.js --fix\",\n    \"lint:watch\": \"watch 'npm run lint' ./src\",\n    \"lint:tests\": \"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\",\n    \"lint:tests:watch\": \"watch 'npm run lint:tests' ./__tests__\",\n    \"lint:config\": \"eslint -c ./.eslintrc.js *.js --fix\",\n    \"lint:docs\": \"eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\",\n    \"lint:all\": \"npm-run-all lint lint:tests lint:docs\",\n    \"predocs\": \"npm run lint:docs\",\n    \"docs\": \"npm run build:docs\",\n    \"postdocs\": \"npm run open:docs\",\n    \"preversion\": \"npm-run-all lint build test\",\n    \"postversion\": \"git push && git push --tags\",\n    \"prerelease\": \"npm run preversion\",\n    \"release\": \"release\"\n  },\n  \"jest\": {\n    \"testMatch\": [\n      \"**/__tests__/**/*.(e2e|test).[jt]s?(x)\"\n    ],\n    \"testPathIgnorePatterns\": [\n      \"/__tests__/fixtures\"\n    ],\n    \"watchPlugins\": [\n      \"jest-watch-typeahead/filename\",\n      \"jest-watch-typeahead/testname\"\n    ]\n  },\n  \"keywords\": [],\n  \"dependencies\": {\n    \"@babel/runtime\": \"7.6.2\",\n    \"cardinal\": \"^2.1.1\",\n    \"chalk\": \"2.4.2\",\n    \"common-tags\": \"^1.8.0\",\n    \"core-js\": \"^3.1.4\",\n    \"delay\": \"4.3.0\",\n    \"execa\": \"2.0.5\",\n    \"figures\": \"3.0.0\",\n    \"fs-extra\": \"8.1.0\",\n    \"get-stdin\": \"^7.0.0\",\n    \"ink\": \"2.3.0\",\n    \"ink-big-text\": \"1.0.1\",\n    \"ink-box\": \"1.0.0\",\n    \"ink-select-input\": \"3.1.2\",\n    \"ink-spinner\": \"3.0.1\",\n    \"is-online\": \"^8.2.0\",\n    \"lodash.merge\": \"^4.6.2\",\n    \"mem-fs\": \"1.1.3\",\n    \"mem-fs-editor\": \"6.0.0\",\n    \"meow\": \"5.0.0\",\n    \"p-queue\": \"6.1.1\",\n    \"pino\": \"^5.12.3\",\n    \"pino-pretty\": \"^3.0.0\",\n    \"prettier\": \"1.18.2\",\n    \"prop-types\": \"15.7.2\",\n    \"ramda\": \"^0.26.1\",\n    \"react\": \"16.10.2\",\n    \"read-pkg\": \"^5.1.1\",\n    \"semver\": \"6.3.0\",\n    \"string-similarity\": \"3.0.0\",\n    \"update-notifier\": \"3.0.1\",\n    \"validate-npm-package-name\": \"^3.0.0\"\n  },\n  \"devDependencies\": {\n    \"@babel/cli\": \"7.6.2\",\n    \"@babel/core\": \"7.6.2\",\n    \"@babel/plugin-proposal-class-properties\": \"7.5.5\",\n    \"@babel/plugin-proposal-export-default-from\": \"7.5.2\",\n    \"@babel/plugin-proposal-optional-chaining\": \"7.6.0\",\n    \"@babel/plugin-proposal-pipeline-operator\": \"7.5.0\",\n    \"@babel/plugin-transform-runtime\": \"7.6.2\",\n    \"@babel/preset-env\": \"7.6.2\",\n    \"@babel/preset-react\": \"7.0.0\",\n    \"babel-eslint\": \"10.0.3\",\n    \"babel-jest\": \"24.9.0\",\n    \"babel-plugin-ramda\": \"2.0.0\",\n    \"babel-preset-minify\": \"0.5.1\",\n    \"cpy-cli\": \"2.0.0\",\n    \"directory-tree\": \"2.2.4\",\n    \"esdoc\": \"1.1.0\",\n    \"esdoc-ecmascript-proposal-plugin\": \"1.0.0\",\n    \"esdoc-inject-style-plugin\": \"1.0.0\",\n    \"esdoc-jsx-plugin\": \"1.0.0\",\n    \"esdoc-standard-plugin\": \"1.0.0\",\n    \"eslint\": \"6.5.1\",\n    \"eslint-config-omaha-prime-grade\": \"11.0.4\",\n    \"eslint-plugin-react\": \"7.16.0\",\n    \"ink-testing-library\": \"1.0.2\",\n    \"jest\": \"24.9.0\",\n    \"jest-watch-typeahead\": \"0.4.0\",\n    \"npm-run-all\": \"4.1.5\",\n    \"open-cli\": \"5.0.0\",\n    \"release\": \"6.1.0\",\n    \"rimraf\": \"3.0.0\",\n    \"sinon\": \"^7.5.0\",\n    \"stmux\": \"1.7.1\",\n    \"watch\": \"1.0.2\"\n  },\n  \"bugs\": {\n    \"url\": \"https://github.com/jhwohlgemuth/tomo-cli/issues\"\n  },\n  \"homepage\": \"https://github.com/jhwohlgemuth/tomo-cli#readme\"\n}\n",
+    "content": "{\n  \"name\": \"tomo-cli\",\n  \"version\": \"1.2.0\",\n  \"description\": \"A friendly command line tool designed to help create sustainable software using web technology\",\n  \"license\": \"MIT\",\n  \"main\": \"dist/api.js\",\n  \"bin\": {\n    \"tomo\": \"dist/index.js\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/jhwohlgemuth/tomo-cli.git\"\n  },\n  \"author\": \"Jason Wohlgemuth <jhwohlgemuth@gmail.com> (omaha.js.org)\",\n  \"engines\": {\n    \"node\": \">=6\"\n  },\n  \"scripts\": {\n    \"copy:assets\": \"cpy '**/templates/*.(js|json|re|html|hbs|css|md|png|ico|otf|svg|woff|woff2|ttf|eot|cert|key)' '**/[.]*' '../dist/' --cwd=src --parents --recursive\",\n    \"dev\": \"stmux [ \\\"npm run build:watch\\\" : \\\"npm run lint:watch\\\" ]\",\n    \"prebuild\": \"npm run build:clean\",\n    \"build\": \"babel src --out-dir dist\",\n    \"postbuild\": \"npm run copy:assets\",\n    \"build:clean\": \"rm -frd ./dist\",\n    \"build:watch\": \"watch 'npm run build' ./src\",\n    \"build:docs\": \"esdoc -c ./esdoc.conf.json\",\n    \"test\": \"jest .*.test.js --coverage\",\n    \"test:e2e\": \"jest .*.e2e.js\",\n    \"test:ing\": \"npm test -- --watchAll\",\n    \"open:coverage\": \"open-cli ./coverage/lcov-report/index.html\",\n    \"open:docs\": \"open-cli ./docs/index.html\",\n    \"lint\": \"eslint . -c ./.eslintrc.js --fix\",\n    \"lint:watch\": \"watch 'npm run lint' ./src\",\n    \"lint:tests\": \"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\",\n    \"lint:tests:watch\": \"watch 'npm run lint:tests' ./__tests__\",\n    \"lint:config\": \"eslint -c ./.eslintrc.js *.js --fix\",\n    \"lint:docs\": \"eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint\",\n    \"lint:all\": \"npm-run-all lint lint:tests lint:docs\",\n    \"predocs\": \"npm run lint:docs\",\n    \"docs\": \"npm run build:docs\",\n    \"postdocs\": \"npm run open:docs\",\n    \"preversion\": \"npm-run-all lint build test\",\n    \"postversion\": \"git push && git push --tags\",\n    \"prerelease\": \"npm run preversion\",\n    \"release\": \"release\"\n  },\n  \"jest\": {\n    \"testMatch\": [\n      \"**/__tests__/**/*.(e2e|test).[jt]s?(x)\"\n    ],\n    \"testPathIgnorePatterns\": [\n      \"/__tests__/fixtures\"\n    ],\n    \"watchPlugins\": [\n      \"jest-watch-typeahead/filename\",\n      \"jest-watch-typeahead/testname\"\n    ]\n  },\n  \"keywords\": [],\n  \"dependencies\": {\n    \"@babel/runtime\": \"7.6.2\",\n    \"cardinal\": \"^2.1.1\",\n    \"chalk\": \"2.4.2\",\n    \"common-tags\": \"^1.8.0\",\n    \"core-js\": \"^3.1.4\",\n    \"delay\": \"4.3.0\",\n    \"execa\": \"2.0.5\",\n    \"figures\": \"3.0.0\",\n    \"fs-extra\": \"8.1.0\",\n    \"get-stdin\": \"^7.0.0\",\n    \"ink\": \"2.3.0\",\n    \"ink-big-text\": \"1.0.1\",\n    \"ink-box\": \"1.0.0\",\n    \"ink-select-input\": \"3.1.2\",\n    \"ink-spinner\": \"3.0.1\",\n    \"is-online\": \"^8.2.0\",\n    \"lodash.merge\": \"^4.6.2\",\n    \"mem-fs\": \"1.1.3\",\n    \"mem-fs-editor\": \"6.0.0\",\n    \"meow\": \"5.0.0\",\n    \"p-queue\": \"6.1.1\",\n    \"pino\": \"^5.12.3\",\n    \"pino-pretty\": \"^3.0.0\",\n    \"prettier\": \"1.18.2\",\n    \"prop-types\": \"15.7.2\",\n    \"ramda\": \"^0.26.1\",\n    \"react\": \"16.10.2\",\n    \"read-pkg\": \"^5.1.1\",\n    \"semver\": \"6.3.0\",\n    \"string-similarity\": \"3.0.0\",\n    \"update-notifier\": \"3.0.1\",\n    \"validate-npm-package-name\": \"^3.0.0\"\n  },\n  \"devDependencies\": {\n    \"@babel/cli\": \"7.6.2\",\n    \"@babel/core\": \"7.6.2\",\n    \"@babel/plugin-proposal-class-properties\": \"7.5.5\",\n    \"@babel/plugin-proposal-export-default-from\": \"7.5.2\",\n    \"@babel/plugin-proposal-optional-chaining\": \"7.6.0\",\n    \"@babel/plugin-proposal-pipeline-operator\": \"7.5.0\",\n    \"@babel/plugin-transform-runtime\": \"7.6.2\",\n    \"@babel/preset-env\": \"7.6.2\",\n    \"@babel/preset-react\": \"7.0.0\",\n    \"babel-eslint\": \"10.0.3\",\n    \"babel-jest\": \"24.9.0\",\n    \"babel-plugin-ramda\": \"2.0.0\",\n    \"babel-preset-minify\": \"0.5.1\",\n    \"cpy-cli\": \"2.0.0\",\n    \"directory-tree\": \"2.2.4\",\n    \"esdoc\": \"1.1.0\",\n    \"esdoc-ecmascript-proposal-plugin\": \"1.0.0\",\n    \"esdoc-inject-style-plugin\": \"1.0.0\",\n    \"esdoc-jsx-plugin\": \"1.0.0\",\n    \"esdoc-standard-plugin\": \"1.0.0\",\n    \"eslint\": \"6.5.1\",\n    \"eslint-config-omaha-prime-grade\": \"11.0.4\",\n    \"eslint-plugin-react\": \"7.16.0\",\n    \"ink-testing-library\": \"1.0.2\",\n    \"jest\": \"24.9.0\",\n    \"jest-watch-typeahead\": \"0.4.0\",\n    \"npm-run-all\": \"4.1.5\",\n    \"open-cli\": \"5.0.0\",\n    \"release\": \"6.1.0\",\n    \"rimraf\": \"3.0.0\",\n    \"sinon\": \"^7.5.0\",\n    \"stmux\": \"1.7.1\",\n    \"watch\": \"1.0.2\"\n  },\n  \"bugs\": {\n    \"url\": \"https://github.com/jhwohlgemuth/tomo-cli/issues\"\n  },\n  \"homepage\": \"https://github.com/jhwohlgemuth/tomo-cli#readme\"\n}\n",
     "longname": "/Users/jason/dev/tomo-cli/package.json",
     "name": "package.json",
     "static": true,

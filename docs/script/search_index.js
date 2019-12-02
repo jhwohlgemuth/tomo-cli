@@ -288,6 +288,12 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "tomo-cli/src/utils/index.js~showversion",
+    "function/index.html#static-function-showVersion",
+    "<span>showVersion</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/commands/add-electron/index.js~tasks",
     "variable/index.html#static-variable-tasks",
     "<span>tasks</span> <span class=\"search-result-import-path\">tomo-cli/src/commands/add-electron/index.js</span>",

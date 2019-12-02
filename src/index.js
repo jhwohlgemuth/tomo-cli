@@ -7,18 +7,13 @@ import meow from 'meow';
 import read from 'read-pkg';
 import getStdin from 'get-stdin';
 import updateNotifier from 'update-notifier';
+import {showVersion} from './api';
 import UI from './main';
 
 // Notify updater
 const pkg = require(`../package.json`);
 updateNotifier({pkg}).notify();
 
-const showVersion = () => {
-    const cwd = join(__dirname, '..');
-    const {version} = read.sync({cwd});
-    console.log(version); // eslint-disable-line no-console
-    process.exit();
-};
 const help = `
     ${dim.bold('Usage')}
 

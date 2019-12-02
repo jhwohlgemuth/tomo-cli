@@ -86,6 +86,16 @@ export const getVersions = async (name = '') => (name.length === 0) ? [] : (awai
     .map(semver.valid)
     .filter(Boolean);
 /**
+ * Show version listed in package.json and exit
+ * @return {string} Version
+ */
+export const showVersion = () => {
+    const cwd = join(__dirname, '..');
+    const {version} = read.sync({cwd});
+    console.log(version); // eslint-disable-line no-console
+    process.exit();
+};
+/**
  * Install dependencies with npm
  * @param {string[]} [dependencies=[]] Modules to install
  * @param {Object} options Options to configure installation
