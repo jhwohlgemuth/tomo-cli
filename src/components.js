@@ -64,7 +64,7 @@ export const Debug = ({data, title}) => {
 };
 export const Description = ({command, descriptions}) => {
     const getDescription = item => {
-        const DEFAULT = ({item}) => `${dim('Sorry, I don\'t have anything to say about')} ${item}`;
+        const DEFAULT = item => `${dim('Sorry, I don\'t have anything to say about')} ${item}`;
         const lookup = dict(descriptions);
         const value = lookup.has(item) ? lookup.get(item) : (lookup.has('default') ? lookup.get('default') : DEFAULT);
         return typeof value === 'function' ? value(item) : value;
