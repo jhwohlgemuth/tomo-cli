@@ -1,6 +1,7 @@
 import {useTemporaryDirectory} from './tomo-test';
 import React from 'react';
 import {render} from 'ink-testing-library';
+import {descriptions} from '../src/cli';
 import UI from '../src/main';
 
 jest.mock('is-online', () => (async () => true));
@@ -27,7 +28,7 @@ describe('tomo interface', () => {
     });
     test('add', () => {
         const input = ['add'];
-        const {lastFrame, stdin} = render(<UI input={input} flags={{skipInstall}}/>);
+        const {lastFrame, stdin} = render(<UI descriptions={descriptions} input={input} flags={{skipInstall}}/>);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
