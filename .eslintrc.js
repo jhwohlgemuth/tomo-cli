@@ -5,6 +5,7 @@ module.exports = {
             jsx: true
         }
     },
+    plugins: ['react-hooks'],
     env: {
         browser: true,
         node: true,
@@ -19,6 +20,8 @@ module.exports = {
         cy: true
     },
     rules: {
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'warn',
         'compat/compat': 'off',
         'valid-jsdoc': 'off',
         'no-magic-numbers': ['warn', {

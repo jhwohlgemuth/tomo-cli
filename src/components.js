@@ -32,7 +32,7 @@ export const CommandError = errors => {
     );
     useEffect(() => {
         log.error(errors);
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
     return <Box flexDirection={'column'} marginTop={1} marginLeft={1}>
         <Box><X /><Text>Something has gone horribly <Color bold red>wrong</Color></Text></Box>
         <Box marginLeft={2}>↳{space}<Color dim>Details written to ./tomo-errors.txt</Color></Box>
@@ -299,7 +299,7 @@ export const TaskList = ({command, commands, options, terms, done}) => {
     };
     useEffect(() => {
         populateQueue({tasks, dispatch, options: customOptions});
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
     tasksComplete && maybeApply(done);
     return <ErrorBoundary>
         {debug && <Debug data={data} title={'Tasklist data'}></Debug>}
