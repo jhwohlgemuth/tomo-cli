@@ -49,7 +49,7 @@ describe('populateQueue function', () => {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         expect(task.mock.calls.length).toBe(1);
-        expect(dispatch.mock.calls.length).toBe(2);// eslint-disable-line no-magic-numbers
+        expect(dispatch.mock.calls.length).toBe(2);
         const [passedOptions] = [...new Set(task.mock.calls.map(val => val[0]))];
         expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));
         expect(dispatch.mock.calls).toMatchSnapshot();

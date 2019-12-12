@@ -250,13 +250,13 @@ describe('getElapsedTime', () => {
     });
 });
 describe('getElapsedSeconds', () => {
-    test('can convert durations to seconds', () => {
+    test('can convert durations to seconds', () => { /* eslint-disable no-magic-numbers */
         expect(getElapsedSeconds('00:00:15')).toEqual(15);
         expect(getElapsedSeconds('00:00:59')).toEqual(59);
         expect(getElapsedSeconds('00:01:59')).toEqual(119);
         expect(getElapsedSeconds('00:25:03')).toEqual(1503);
         expect(getElapsedSeconds('10:05:45')).toEqual(36345);
-    });
+    });/* eslint-enable no-magic-numbers */
 });
 describe('getIntendedInput', () => {
     test('return closest matches', () => {

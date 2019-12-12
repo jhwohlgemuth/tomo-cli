@@ -34,7 +34,7 @@
     "lint:tests": "eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore",
     "lint:tests:watch": "watch 'npm run lint:tests' ./__tests__",
     "lint:config": "eslint -c ./.eslintrc.js *.js --fix",
-    "lint:docs": "eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint",
+    "lint:docs": "eslint src/*.js src/**/*.js --no-eslintrc --rule valid-jsdoc:error --parser babel-eslint --plugin react-hooks",
     "lint:all": "npm-run-all lint lint:tests lint:docs",
     "predocs": "npm run lint:docs",
     "docs": "npm run build:docs",
