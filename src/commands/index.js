@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 import {choose, withOptions} from '../api';
 import {createEditorConfiguration, createPackageJson, createSourceDirectory} from './common';
 import {addA11y, removeA11y} from './add-a11y';

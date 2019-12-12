@@ -28,6 +28,7 @@ module.exports = {
             ignore: [-1, 0, 1, 2, 3, 10, 100]
         }]
     },
+    reportUnusedDisableDirectives: true,
     settings: {
         react: {
             version: '16.8'
