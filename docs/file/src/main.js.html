@@ -30,6 +30,9 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/main.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-descriptions">descriptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-help">help</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-options">options</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-removeA11y">removeA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addBrowsersync">addBrowsersync</a></span></span></li>
@@ -67,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
@@ -92,8 +96,6 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/main.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, {Component} from &apos;react&apos;;
 import PropTypes from &apos;prop-types&apos;;
-import {bold} from &apos;chalk&apos;;
-import figures from &apos;figures&apos;;
 import {is} from &apos;ramda&apos;;
 import {Color, Text} from &apos;ink&apos;;
 import {
@@ -105,29 +107,6 @@ import {
     getIntendedInput
 } from &apos;./api&apos;;
 import commands from &apos;./commands&apos;;
-
-const descriptions = {
-    project: `Scaffold a new Node.js project with ${bold.yellow(&apos;Babel&apos;)}, ${bold(&apos;ESLint&apos;)}, and ${bold.magenta(&apos;Jest&apos;)}`,
-    app: `Scaffold a new ${bold(&apos;web application&apos;)} - basically a project with CSS, bundling, and stuff`,
-    server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security &quot;baked in&quot;`,
-    a11y: `Add automated ${bold(&apos;accessibility&apos;)} testing`,
-    babel: `Use next generation JavaScript, ${bold(&apos;today!&apos;)}`,
-    browsersync: `Time-saving ${bold(&apos;synchronised browser&apos;)} testing (demo your app with ${bold.yellow(&apos;live-reload&apos;)})`,
-    cypress: `${bold(&apos;Test&apos;)} anything that runs in a ${bold(&apos;browser&apos;)} (including ${bold.yellow(&apos;visual regression testing&apos;)})`,
-    electron: `Create a ${bold(&apos;native desktop application&apos;)} using web technologies`,
-    esdoc: `Generate ${bold(&apos;documentation&apos;)} from your comments`,
-    eslint: `Pluggable ${bold(&apos;linting&apos;)} utility for JavaScript and JSX`,
-    jest: `Delightful JavaScript ${bold(&apos;Testing&apos;)} Framework with a focus on simplicity`,
-    makefile: `Create a ${bold(&apos;Makefile&apos;)} from your package.json, like ${bold.magenta(&apos;magic!&apos;)}`,
-    marionette: `${bold(&apos;Flexible Backbone framework&apos;)} with robust views and architecture solutions`,
-    parcel: `${bold(&apos;Bundle&apos;)} your application (${bold.red(&apos;blazing&apos;)} fast with ${bold.white(&apos;zero configuration&apos;)})`,
-    postcss: `Use ${bold(&apos;future CSS&apos;)}, never write vendor prefixes again, and much much more!`,
-    react: `Build user interfaces with ${bold(&apos;components&apos;)} ${figures.arrowRight} learn once, write ${bold(&apos;anywhere&apos;)}`,
-    reason: `Write functional ${bold(&apos;type safe&apos;)} code with ${bold.yellow(&apos;JavaScript&apos;)}-like syntax (works with ${bold(&apos;React&apos;)})`,
-    rollup: `${bold(&apos;Bundle&apos;)} your assets (focused on ${bold(&apos;ES6&apos;)} modules and tree shaking - ${bold.white(&apos;best for libraries&apos;)})`,
-    webpack: `${bold(&apos;Bundle&apos;)} your assets (with great support and a rich ecosystem)`
-};
-
 /**
  * Main tomo UI component
  * @param {Object} props Component props
@@ -155,7 +134,7 @@ export default class UI extends Component {
         this.updateTerms = this.updateTerms.bind(this);
     }
     render() {
-        const {done, flags} = this.props;
+        const {done, descriptions, flags} = this.props;
         const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
         return &lt;ErrorBoundary&gt;
             {showWarning ?
@@ -199,6 +178,7 @@ export default class UI extends Component {
 UI.propTypes = {
     input: PropTypes.array,
     flags: PropTypes.object,
+    descriptions: PropTypes.object,
     done: PropTypes.func,
     stdin: PropTypes.string
 };

@@ -30,6 +30,9 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/main.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-descriptions">descriptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-help">help</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-options">options</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-removeA11y">removeA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addBrowsersync">addBrowsersync</a></span></span></li>
@@ -67,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
@@ -101,6 +105,7 @@ import {
     PackageJsonEditor,
     choose,
     createFunctionModuleEditor,
+    getElapsedSeconds,
     getElapsedTime,
     getIntendedInput,
     getVersions,
@@ -338,6 +343,15 @@ describe(&apos;getElapsedTime&apos;, () =&gt; {
         expect(getElapsedTime(start)).toEqual(&apos;00:59:00&apos;);
         clock.tick(2 * minute);
         expect(getElapsedTime(start)).toEqual(&apos;01:01:00&apos;);
+    });
+});
+describe(&apos;getElapsedSeconds&apos;, () =&gt; {
+    test(&apos;can convert durations to seconds&apos;, () =&gt; {
+        expect(getElapsedSeconds(&apos;00:00:15&apos;)).toEqual(15);
+        expect(getElapsedSeconds(&apos;00:00:59&apos;)).toEqual(59);
+        expect(getElapsedSeconds(&apos;00:01:59&apos;)).toEqual(119);
+        expect(getElapsedSeconds(&apos;00:25:03&apos;)).toEqual(1503);
+        expect(getElapsedSeconds(&apos;10:05:45&apos;)).toEqual(36345);
     });
 });
 describe(&apos;getIntendedInput&apos;, () =&gt; {

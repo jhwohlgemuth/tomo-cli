@@ -30,6 +30,9 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/main.js~UI.html">UI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-descriptions">descriptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-help">help</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-options">options</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commands">commands</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addA11y">addA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-removeA11y">removeA11y</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addBrowsersync">addBrowsersync</a></span></span></li>
@@ -67,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getVersions">getVersions</a></span></span></li>
@@ -91,156 +95,24 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">#!/usr/bin/env node
-import {join} from &apos;path&apos;;
 import React from &apos;react&apos;;
-import {cyan, dim} from &apos;chalk&apos;;
 import {render} from &apos;ink&apos;;
 import meow from &apos;meow&apos;;
-import read from &apos;read-pkg&apos;;
 import getStdin from &apos;get-stdin&apos;;
 import updateNotifier from &apos;update-notifier&apos;;
 import {showVersion} from &apos;./api&apos;;
+import {descriptions, options} from &apos;./cli&apos;;
 import UI from &apos;./main&apos;;
 
 // Notify updater
 const pkg = require(`../package.json`);
 updateNotifier({pkg}).notify();
 
-const help = `
-    ${dim.bold(&apos;Usage&apos;)}
-
-        ${cyan(&apos;&gt;&apos;)} tomo [commands] [terms] [options]
-        
-        ${cyan(&apos;&gt;&apos;)} tomo version
-
-        ${cyan(&apos;&gt;&apos;)} tomo new app --use-react --use-parcel
-        
-        ${cyan(&apos;&gt;&apos;)} tomo add
-
-
-    ${dim.bold(&apos;Commands&apos;)}
-
-        new, add, remove, version
-
-
-    ${dim.bold(&apos;Terms&apos;)}
-
-        [new]
-        project, app, server
-
-        [add]
-        a11y, babel, browsersync, cypress, electron, esdoc, eslint, jest,
-        marionette, makefile, parcel, postcss, react, reason, rollup, webpack 
-
-        [remove]
-        a11y, browsersync, cypress, parcel, postcss, reason, rollup, webpack
-
-
-    ${dim.bold(&apos;Options&apos;)}
-
-        --version, -v           Print version
-        --source-directory, -d  Directory for source code [Default: ./src]
-        --output-directory, -o  Directory for build targets [Default: ./dist]
-        --assets-directory, -a  Directory for assets [Default: ./assets]
-        --use-rollup,           Use Rollup instead of Webpack [Default: false]
-        --use-parcel,           Use Parcel instead of Webpack [Default: false]
-        --use-react, -r         Add React support to workflow [Default: false]
-        --react-version         React version for ESLint configuration [Default: &apos;16.8&apos;]
-        --with-cesium           Add CesiumJS to your project [Default: false]
-        --ignore-warnings, -i   Ignore warning messages [Default: false]
-        --skip-install, -s      Skip npm installations [Default: false]
-        --overwrite             Copy files, even if they alrady exist [Default: false]
-        --browser               Indicate tasks are intended for the browser [Default: false]
-        --port, -p              Configure port for workflow tasks that use it [Default: 4669]
-        --debug                 Show debug data [Default: false]	
-`;
-const options = {
-    help,
-    flags: {
-        version: {
-            type: &apos;boolean&apos;,
-            default: false,
-            alias: &apos;v&apos;
-        },
-        sourceDirectory: {
-            type: &apos;string&apos;,
-            default: &apos;./src&apos;,
-            alias: &apos;d&apos;
-        },
-        outputDirectory: {
-            type: &apos;string&apos;,
-            default: &apos;./dist&apos;,
-            alias: &apos;o&apos;
-        },
-        assetsDirectory: {
-            type: &apos;string&apos;,
-            default: &apos;./assets&apos;,
-            alias: &apos;a&apos;
-        },
-        useRollup: {
-            type: &apos;boolean&apos;,
-            default: false,
-            alias: &apos;rollup&apos;
-        },
-        useParcel: {
-            type: &apos;boolean&apos;,
-            default: false,
-            alias: &apos;parcel&apos;
-        },
-        useReact: {
-            type: &apos;boolean&apos;,
-            default: false,
-            alias: [&apos;r&apos;, &apos;react&apos;]
-        },
-        reactVersion: {
-            type: &apos;string&apos;,
-            default: &apos;16.8&apos;
-        },
-        withCesium: {
-            type: &apos;boolean&apos;,
-            default: false
-        },
-        help: {
-            type: &apos;boolean&apos;,
-            default: false,
-            alias: &apos;h&apos;
-        },
-        ignoreWarnings: {
-            type: &apos;boolean&apos;,
-            default: false,
-            alias: &apos;i&apos;
-        },
-        skipInstall: {
-            type: &apos;boolean&apos;,
-            default: false,
-            alias: &apos;s&apos;
-        },
-        browser: {
-            type: &apos;boolean&apos;,
-            default: false,
-            alias: &apos;b&apos;
-        },
-        port: {
-            type: &apos;number&apos;,
-            default: 4669,
-            alias: &apos;p&apos;
-        },
-        overwrite: {
-            type: &apos;boolean&apos;,
-            default: false
-        },
-        debug: {
-            type: &apos;boolean&apos;,
-            default: false
-        }
-    }
-};
-
 const {input, flags} = meow(options);
 (input[0] === &apos;version&apos; || flags.version) &amp;&amp; showVersion();
 (async () =&gt; {
     const stdin = await getStdin();
-    render(&lt;UI input={input} flags={flags} stdin={stdin}/&gt;, {exitOnCtrlC: true});
+    render(&lt;UI descriptions={descriptions} input={input} flags={flags} stdin={stdin}/&gt;, {exitOnCtrlC: true});
 })();</code></pre>
 
 </div>

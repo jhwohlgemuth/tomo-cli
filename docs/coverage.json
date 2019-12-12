@@ -1,8 +1,17 @@
 {
-  "coverage": "26.39%",
-  "expectCount": 197,
-  "actualCount": 52,
+  "coverage": "26.76%",
+  "expectCount": 198,
+  "actualCount": 53,
   "files": {
+    "src/cli.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        25,
+        73
+      ]
+    },
     "src/commands/add-a11y.js": {
       "expectCount": 2,
       "actualCount": 1,
@@ -331,23 +340,20 @@
       ]
     },
     "src/index.js": {
-      "expectCount": 4,
+      "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
-        14,
-        17,
-        65,
-        147
+        12,
+        15
       ]
     },
     "src/main.js": {
-      "expectCount": 7,
+      "expectCount": 6,
       "actualCount": 3,
       "undocumentLines": [
-        17,
-        45,
-        55,
-        65
+        20,
+        30,
+        40
       ]
     },
     "src/utils/BasicEditor.js": {
@@ -391,16 +397,16 @@
       ]
     },
     "src/utils/index.js": {
-      "expectCount": 21,
-      "actualCount": 14,
+      "expectCount": 22,
+      "actualCount": 15,
       "undocumentLines": [
-        13,
-        14,
-        21,
-        22,
+        15,
+        16,
         23,
-        124,
-        245
+        24,
+        25,
+        136,
+        257
       ]
     }
   }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">__tests__/commands-parcel.test.js | tomo-cli</title>
+  <title data-ice="title">src/cli.js | tomo-cli</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -93,46 +93,160 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">__tests__/commands-parcel.test.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {fileContents, getDirectoryTree, run, useTemporaryDirectory} from &apos;./tomo-test&apos;;
-import {createPackageJson} from &apos;../src/commands/common&apos;;
-import addEslint from &apos;../src/commands/add-eslint&apos;;
-import {addParcel, removeParcel} from &apos;../src/commands/add-parcel&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">src/cli.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {bold, cyan, dim} from &apos;chalk&apos;;
+import figures from &apos;figures&apos;;
 
-jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; true));
+export const descriptions = {
+    project: `Scaffold a new Node.js project with ${bold.yellow(&apos;Babel&apos;)}, ${bold(&apos;ESLint&apos;)}, and ${bold.magenta(&apos;Jest&apos;)}`,
+    app: `Scaffold a new ${bold(&apos;web application&apos;)} - basically a project with CSS, bundling, and stuff`,
+    server: `Scaffold Node.js WebSocket, GraphQL, and HTTP(S) servers with an 80% solution for security &quot;baked in&quot;`,
+    a11y: `Add automated ${bold(&apos;accessibility&apos;)} testing`,
+    babel: `Use next generation JavaScript, ${bold(&apos;today!&apos;)}`,
+    browsersync: `Time-saving ${bold(&apos;synchronised browser&apos;)} testing (demo your app with ${bold.yellow(&apos;live-reload&apos;)})`,
+    cypress: `${bold(&apos;Test&apos;)} anything that runs in a ${bold(&apos;browser&apos;)} (including ${bold.yellow(&apos;visual regression testing&apos;)})`,
+    electron: `Create a ${bold(&apos;native desktop application&apos;)} using web technologies`,
+    esdoc: `Generate ${bold(&apos;documentation&apos;)} from your comments`,
+    eslint: `Pluggable ${bold(&apos;linting&apos;)} utility for JavaScript and JSX`,
+    jest: `Delightful JavaScript ${bold(&apos;Testing&apos;)} Framework with a focus on simplicity`,
+    makefile: `Create a ${bold(&apos;Makefile&apos;)} from your package.json, like ${bold.magenta(&apos;magic!&apos;)}`,
+    marionette: `${bold(&apos;Flexible Backbone framework&apos;)} with robust views and architecture solutions`,
+    parcel: `${bold(&apos;Bundle&apos;)} your application (${bold.red(&apos;blazing&apos;)} fast with ${bold.white(&apos;zero configuration&apos;)})`,
+    postcss: `Use ${bold(&apos;future CSS&apos;)}, never write vendor prefixes again, and much much more!`,
+    react: `Build user interfaces with ${bold(&apos;components&apos;)} ${figures.arrowRight} learn once, write ${bold(&apos;anywhere&apos;)}`,
+    reason: `Write functional ${bold(&apos;type safe&apos;)} code with ${bold.yellow(&apos;JavaScript&apos;)}-like syntax (works with ${bold(&apos;React&apos;)})`,
+    rollup: `${bold(&apos;Bundle&apos;)} your assets (focused on ${bold(&apos;ES6&apos;)} modules and tree shaking - ${bold.white(&apos;best for libraries&apos;)})`,
+    webpack: `${bold(&apos;Bundle&apos;)} your assets (with great support and a rich ecosystem)`
+};
+export const help = `
+    ${dim.bold(&apos;Usage&apos;)}
 
-describe(&apos;Parcel&apos;, () =&gt; {
-    let tempDirectory;
-    const skipInstall = true;
-    const omit = [&apos;extension&apos;, &apos;path&apos;, &apos;size&apos;, &apos;type&apos;];
-    const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
-    beforeEach(async () =&gt; {
-        tempDirectory = await setTempDir();
-        process.chdir(tempDirectory);
-    });
-    afterEach(async () =&gt; {
-        await cleanupTempDir();
-    });
-    test(&apos;Add support&apos;, async () =&gt; {
-        await run(createPackageJson, {});
-        await run(addEslint, {skipInstall});
-        await run(addParcel, {skipInstall});
-        const pkg = fileContents(&apos;./package.json&apos;);
-        // const purgecssConfig = fileContents(&apos;./purgecss.config.js&apos;);
-        expect(pkg).toMatchSnapshot();
-        // expect(purgecssConfig).toMatchSnapshot();
-    });
-    test(&apos;Remove support&apos;, async () =&gt; {
-        await run(createPackageJson, {});
-        await run(addEslint, {skipInstall});
-        await run(addParcel, {skipInstall});
-        await run(removeParcel, {skipInstall});
-        const tree = getDirectoryTree(tempDirectory, {omit});
-        const pkg = fileContents(&apos;./package.json&apos;);
-        expect(tree).toMatchSnapshot();
-        expect(pkg).toMatchSnapshot();
-    });
-});</code></pre>
+        ${cyan(&apos;&gt;&apos;)} tomo [commands] [terms] [options]
+        
+        ${cyan(&apos;&gt;&apos;)} tomo version
+
+        ${cyan(&apos;&gt;&apos;)} tomo new app --use-react --use-parcel
+        
+        ${cyan(&apos;&gt;&apos;)} tomo add
+
+
+    ${dim.bold(&apos;Commands&apos;)}
+
+        new, add, remove, version
+
+
+    ${dim.bold(&apos;Terms&apos;)}
+
+        [new]
+        project, app, server
+
+        [add]
+        a11y, babel, browsersync, cypress, electron, esdoc, eslint, jest,
+        marionette, makefile, parcel, postcss, react, reason, rollup, webpack 
+
+        [remove]
+        a11y, browsersync, cypress, parcel, postcss, reason, rollup, webpack
+
+
+    ${dim.bold(&apos;Options&apos;)}
+
+        --version, -v           Print version
+        --source-directory, -d  Directory for source code [Default: ./src]
+        --output-directory, -o  Directory for build targets [Default: ./dist]
+        --assets-directory, -a  Directory for assets [Default: ./assets]
+        --use-rollup,           Use Rollup instead of Webpack [Default: false]
+        --use-parcel,           Use Parcel instead of Webpack [Default: false]
+        --use-react, -r         Add React support to workflow [Default: false]
+        --react-version         React version for ESLint configuration [Default: &apos;16.8&apos;]
+        --with-cesium           Add CesiumJS to your project [Default: false]
+        --ignore-warnings, -i   Ignore warning messages [Default: false]
+        --skip-install, -s      Skip npm installations [Default: false]
+        --overwrite             Copy files, even if they alrady exist [Default: false]
+        --browser               Indicate tasks are intended for the browser [Default: false]
+        --port, -p              Configure port for workflow tasks that use it [Default: 4669]
+        --debug                 Show debug data [Default: false]	
+`;
+export const options = {
+    help,
+    flags: {
+        version: {
+            type: &apos;boolean&apos;,
+            default: false,
+            alias: &apos;v&apos;
+        },
+        sourceDirectory: {
+            type: &apos;string&apos;,
+            default: &apos;./src&apos;,
+            alias: &apos;d&apos;
+        },
+        outputDirectory: {
+            type: &apos;string&apos;,
+            default: &apos;./dist&apos;,
+            alias: &apos;o&apos;
+        },
+        assetsDirectory: {
+            type: &apos;string&apos;,
+            default: &apos;./assets&apos;,
+            alias: &apos;a&apos;
+        },
+        useRollup: {
+            type: &apos;boolean&apos;,
+            default: false,
+            alias: &apos;rollup&apos;
+        },
+        useParcel: {
+            type: &apos;boolean&apos;,
+            default: false,
+            alias: &apos;parcel&apos;
+        },
+        useReact: {
+            type: &apos;boolean&apos;,
+            default: false,
+            alias: [&apos;r&apos;, &apos;react&apos;]
+        },
+        reactVersion: {
+            type: &apos;string&apos;,
+            default: &apos;16.8&apos;
+        },
+        withCesium: {
+            type: &apos;boolean&apos;,
+            default: false
+        },
+        help: {
+            type: &apos;boolean&apos;,
+            default: false,
+            alias: &apos;h&apos;
+        },
+        ignoreWarnings: {
+            type: &apos;boolean&apos;,
+            default: false,
+            alias: &apos;i&apos;
+        },
+        skipInstall: {
+            type: &apos;boolean&apos;,
+            default: false,
+            alias: &apos;s&apos;
+        },
+        browser: {
+            type: &apos;boolean&apos;,
+            default: false,
+            alias: &apos;b&apos;
+        },
+        port: {
+            type: &apos;number&apos;,
+            default: 4669,
+            alias: &apos;p&apos;
+        },
+        overwrite: {
+            type: &apos;boolean&apos;,
+            default: false
+        },
+        debug: {
+            type: &apos;boolean&apos;,
+            default: false
+        }
+    }
+};</code></pre>
 
 </div>
 

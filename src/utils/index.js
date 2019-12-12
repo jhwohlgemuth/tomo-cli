@@ -57,6 +57,16 @@ export const getElapsedTime = (start, initial = [0, 0, 0]) => {
     return `${format(hours)}:${format(minutes)}:${format(seconds)}`;
 };
 /**
+ * Convert elapsed duration to seconds
+ * @param {string} duration Duration in format, "HH:MM:SS"
+ * @return {number} Elapsed duration in seconds
+ */
+export const getElapsedSeconds = duration => duration
+    .split(':')
+    .map(Number)
+    .reverse()
+    .reduce((total, value, index) => ((60 ** index) * value) + total, 0); // eslint-disable-line no-magic-numbers
+/**
  * Use string-similarity module to determine closest matching string
  * @param {Object} commands Object with commands as key values, terms as key values for each command object
  * @param {string} command Command string input
