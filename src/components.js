@@ -32,7 +32,7 @@ const Indicator = ({isHighlighted, isSelected}) => <Box marginRight={1}>
 </Box>;
 const CheckBox = ({isSelected}) => (
     <Box marginRight={1}>
-        <Color cyan>{isSelected ? figures.squareSmallFilled : figures.checkboxOff}</Color>
+        <Color cyan>{isSelected ? figures.tick : ' '}</Color>
     </Box>
 );
 export const CommandError = errors => {
@@ -150,7 +150,7 @@ export const SubCommandMultiSelect = ({descriptions, items, onSubmit}) => {
     };
     return <Box flexDirection={'column'} paddingTop={1} paddingBottom={1} paddingLeft={1}>
         <Box>
-            <Color dim>selected{selected.length > 0 ? ' -' : ' '}{selected.join(', ')}</Color>
+            <Color dim>{selected.length > 0 ? `selected ${figures.pointerSmall} ` : '...press spacebar to select item'}{selected.join(', ')}</Color>
         </Box>
         <Description command={highlighted} descriptions={descriptions}></Description>
         <MultiSelectInput
