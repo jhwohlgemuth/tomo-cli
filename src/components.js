@@ -7,6 +7,7 @@ import {Box, Color, StdinContext, Text} from 'ink';
 import {default as InkBox} from 'ink-box';
 import Spinner from 'ink-spinner';
 import SelectInput from 'ink-select-input';
+import MultiSelectInput from 'ink-multi-select';
 import figures from 'figures';
 import {highlight} from 'cardinal';
 import {
@@ -122,6 +123,36 @@ export const SubCommandSelect = ({command, descriptions, items, onSelect}) => {
             itemComponent={Item}
             indicatorComponent={Indicator}
         ></SelectInput>
+    </Box>;
+};
+export const SubCommandMultiSelect = ({descriptions, items, onSubmit}) => {
+    const [highlighted, setHighlighted] = useState(items[0].value);
+    const [selected, setSelected] = useState([]);
+    const onHighlight = item => {
+        setHighlighted(item.value);
+    };
+    const onSelect = item => {
+        const {value} = item;
+        setSelected(selected.concat(value));
+    };
+    const onUnselect = item => {
+        const {value} = item;
+        setSelected(selected.filter(item => item !== value));
+    };
+    return <Box flexDirection={'column'} paddingTop={1} paddingBottom={1} paddingLeft={1}>
+        <Box>
+            <Color dim>selected - {selected.join(', ')}</Color>
+        </Box>
+        <Description command={highlighted} descriptions={descriptions}></Description>
+        <MultiSelectInput
+            items={items}
+            onSubmit={onSubmit}
+            onSelect={onSelect}
+            onUnselect={onUnselect}
+            onHighlight={onHighlight}
+            itemComponent={Item}
+            indicatorComponent={Indicator}
+        ></MultiSelectInput>
     </Box>;
 };
 export const UnderConstruction = () => <Box marginBottom={1}>
@@ -330,6 +361,11 @@ SubCommandSelect.propTypes = {
     descriptions: PropTypes.object,
     items: PropTypes.arrayOf(PropTypes.object),
     onSelect: PropTypes.func
+};
+SubCommandMultiSelect.propTypes = {
+    descriptions: PropTypes.object,
+    items: PropTypes.arrayOf(PropTypes.object),
+    onSubmit: PropTypes.func
 };
 Indicator.propTypes = {
     isSelected: PropTypes.bool
