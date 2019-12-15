@@ -150,7 +150,7 @@ export const SubCommandMultiSelect = ({descriptions, items, onSubmit}) => {
     };
     return <Box flexDirection={'column'} paddingTop={1} paddingBottom={1} paddingLeft={1}>
         <Box>
-            <Color dim>selected - {selected.join(', ')}</Color>
+            <Color dim>selected{selected.length > 0 ? ' -' : ' '}{selected.join(', ')}</Color>
         </Box>
         <Description command={highlighted} descriptions={descriptions}></Description>
         <MultiSelectInput
