@@ -30,6 +30,11 @@ const Indicator = ({isHighlighted, isSelected}) => <Box marginRight={1}>
         <Color bold cyan>{figures.arrowRight}</Color> :
         ' '}
 </Box>;
+const CheckBox = ({isSelected}) => (
+    <Box marginRight={1}>
+        <Color cyan>{isSelected ? figures.squareSmallFilled : figures.checkboxOff}</Color>
+    </Box>
+);
 export const CommandError = errors => {
     const log = pino(
         {prettyPrint: {levelFirst: true}},
@@ -156,6 +161,7 @@ export const SubCommandMultiSelect = ({descriptions, items, onSubmit}) => {
             onHighlight={onHighlight}
             itemComponent={Item}
             indicatorComponent={Indicator}
+            checkboxComponent={CheckBox}
         ></MultiSelectInput>
     </Box>;
 };
@@ -351,6 +357,12 @@ Check.propTypes = {
 };
 Check.defaultProps = {
     isSkipped: false
+};
+CheckBox.propTypes = {
+    isSelected: PropTypes.bool
+};
+CheckBox.defaultProps = {
+    isSelected: false
 };
 Debug.propTypes = {
     data: PropTypes.any,
