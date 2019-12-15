@@ -24,8 +24,12 @@ const space = ' ';
 const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
 const X = () => <Color bold red>{figures.cross}{space}</Color>;
 const Pending = () => <Color cyan><Spinner></Spinner>{space}</Color>;
-const Item = ({isSelected, label}) => <Color bold={isSelected} cyan={isSelected}>{label}</Color>;
-const Indicator = ({isSelected}) => <Box marginRight={1}>{isSelected ? <Color bold cyan>{figures.arrowRight}</Color> : ' '}</Box>;
+const Item = ({isHighlighted, isSelected, label}) => <Color bold={isHighlighted || isSelected} cyan={isSelected}>{label}</Color>;
+const Indicator = ({isHighlighted, isSelected}) => <Box marginRight={1}>
+    {(isHighlighted || isSelected) ?
+        <Color bold cyan>{figures.arrowRight}</Color> :
+        ' '}
+</Box>;
 export const CommandError = errors => {
     const log = pino(
         {prettyPrint: {levelFirst: true}},
@@ -368,16 +372,20 @@ SubCommandMultiSelect.propTypes = {
     onSubmit: PropTypes.func
 };
 Indicator.propTypes = {
+    isHighlighted: PropTypes.bool,
     isSelected: PropTypes.bool
 };
 Indicator.defaultProps = {
+    isHighlighted: false,
     isSelected: false
 };
 Item.propTypes = {
+    isHighlighted: PropTypes.bool,
     isSelected: PropTypes.bool,
     label: PropTypes.string.isRequired
 };
 Item.defaultProps = {
+    isHighlighted: false,
     isSelected: false
 };
 ErrorMessage.propTypes = {
