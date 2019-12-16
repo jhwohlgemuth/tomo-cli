@@ -152,7 +152,7 @@ export const SubCommandMultiSelect = ({descriptions, items, onSubmit}) => {
         <Box>
             <Color dim>{selected.length > 0 ?
                 `selected ${figures.pointerSmall} ` :
-                '...press spacebar to select item'}{selected.sort().join(', ')}
+                '...press spacebar to select items'}{selected.sort().join(', ')}
             </Color>
         </Box>
         <Description command={highlighted} descriptions={descriptions}></Description>
