@@ -1,8 +1,6 @@
-import {join} from 'path';
 import execa from 'execa';
 import Queue from 'p-queue';
 import semver from 'semver';
-import read from 'read-pkg';
 import readClosest from 'read-pkg-up';
 import {complement, has, head} from 'ramda';
 import camelcase from 'lodash.camelcase';
@@ -90,7 +88,7 @@ export const getIntendedInput = (commands, command, terms = []) => {
  */
 export const getProjectName = () => {
     const {packageJson} = readClosest.sync();
-    const {name} = packageJson || {name: 'tomo-project'};
+    const {name} = packageJson;
     return camelcase(name);
 };
 /**
@@ -113,8 +111,8 @@ export const getVersions = async (name = '') => (name.length === 0) ? [] : (awai
  * @return {string} Version
  */
 export const showVersion = () => {
-    const cwd = join(__dirname, '..');
-    const {version} = read.sync({cwd});
+    const {packageJson} = readClosest.sync();
+    const {version} = packageJson;
     console.log(version); // eslint-disable-line no-console
     process.exit();
 };
