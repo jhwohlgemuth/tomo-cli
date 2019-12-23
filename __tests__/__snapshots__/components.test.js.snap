@@ -22,6 +22,58 @@ exports[`CommandError can render component and create errors file 2`] = `
    ↳ [2mDetails written to ./tomo-errors.txt[22m"
 `;
 
+exports[`Sub Command Multi-select Component can render 1`] = `
+"
+ [2m...press spacebar to select items[22m
+
+
+ [36mSelect the A item[39m
+
+ [36m[1m→[22m[39m [39m[36m [39m[39m [39m[36m[1mItem A[22m[39m[39m
+   [36m [39m [39mItem B[39m
+   [36m [39m [39mItem C[39m
+"
+`;
+
+exports[`Sub Command Multi-select Component can render selected items 1`] = `
+"
+ [2mselected › Item B[22m
+ [2m ↳ press ENTER to see suggestions[22m
+
+ [36m[2mSorry, I don't have anything to say about[22m Item B[39m
+
+   [36m [39m [39mItem A[39m
+ [36m[1m→[22m[39m [39m[36m✔[39m[39m [39m[36m[1mItem B[22m[39m[39m
+   [36m [39m [39mItem C[39m
+"
+`;
+
+exports[`Sub Command Multi-select Component can render selected items 2`] = `
+"
+ [2mselected › Item A, Item B[22m
+ [2m ↳ press ENTER to see suggestions[22m
+
+ [36mSelect the A item[39m
+
+ [36m[1m→[22m[39m [39m[36m✔[39m[39m [39m[36m[1mItem A[22m[39m[39m
+   [36m✔[39m [39mItem B[39m
+   [36m [39m [39mItem C[39m
+"
+`;
+
+exports[`Sub Command Multi-select Component can render unknown items 1`] = `
+"
+ [2m...press spacebar to select items[22m
+
+
+ [36m[2mSorry, I don't have anything to say about[22m Item A[39m
+
+ [36m[1m→[22m[39m [39m[36m [39m[39m [39m[36m[1mItem A[22m[39m[39m
+   [36m [39m [39mItem B[39m
+   [36m [39m [39mItem C[39m
+"
+`;
+
 exports[`Task component can render (completed) 1`] = `"   [32m[1m✔ [22m[39m[2mtest task text[22m"`;
 
 exports[`Task component can render (errored) 1`] = `"   [31m[1m✖ [22m[39mtest task text"`;

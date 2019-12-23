@@ -3,11 +3,15 @@ import Queue from 'p-queue';
 import React from 'react';
 import {render} from 'ink-testing-library';
 import {populateQueue} from '../src/api';
-import {CommandError, Warning, Task} from '../src/components';
+import {CommandError, SubCommandMultiSelect, Warning, Task} from '../src/components';
 
 const {assign} = Object;
 
 jest.mock('is-online', () => (async () => true));
+
+const ARROW_UP = '\u001B[A';
+const ARROW_DOWN = '\u001B[B';
+const SPACE = '\u0020';
 
 describe('populateQueue function', () => {
     const text = 'test task text';
@@ -111,6 +115,45 @@ describe('CommandError', () => {
         expect(tree).toMatchSnapshot();
         expect(lastFrame()).toMatchSnapshot();
     });
+});
+describe('Sub Command Multi-select Component', () => {
+    const descriptions = {
+        'Item A': 'Select the A item'
+    };
+    const items = [
+        {value: 'Item A', label: 'Item A'},
+        {value: 'Item B', label: 'Item B'},
+        {value: 'Item C', label: 'Item C'}
+    ];
+    test('can render', () => {
+        const {lastFrame} = render(<SubCommandMultiSelect
+            descriptions={descriptions}
+            items={items}
+            onSubmit={() => {}}/>);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test('can render unknown items', () => {
+        const {lastFrame} = render(<SubCommandMultiSelect
+            descriptions={{}}
+            items={items}
+            onSubmit={() => {}}/>);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test('can render selected items', () => {/* eslint-disable no-console */
+        const CONSOLE_ERROR = console.error;
+        console.error = () => {};
+        const {lastFrame, stdin} = render(<SubCommandMultiSelect
+            descriptions={descriptions}
+            items={items}
+            onSubmit={() => {}}/>);
+        stdin.write(ARROW_DOWN);
+        stdin.write(SPACE);
+        expect(lastFrame()).toMatchSnapshot();
+        stdin.write(ARROW_UP);
+        stdin.write(SPACE);
+        expect(lastFrame()).toMatchSnapshot();
+        console.error = CONSOLE_ERROR;
+    });/* eslint-enable no-console */
 });
 describe('Task component', () => {
     test('can render (pending)', () => {
