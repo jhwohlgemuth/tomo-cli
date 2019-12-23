@@ -24,7 +24,7 @@
 
 (see the wiki for [my full list of alternatives/inspirations](https://github.com/jhwohlgemuth/tomo-cli/wiki/Alternatives))
 
-## Install
+## Global install
 
 ```
 $ npm install --global tomo-cli
@@ -36,6 +36,20 @@ $ tomo [command] [terms] [options]
 ```
 $ npx tomo-cli [command] [terms] [options]
 ```
+
+## Local install
+- Create a package.json with `npm init -y`
+- Add a "setup" script to the package.json
+```json
+{
+  "scripts": {
+    "setup": "tomo-cli new app --use-react --with-cesium",
+    "deploy": "surge dist"
+  }
+}
+```
+- Install tomo locally with `npm install tomo-cli --save-dev`
+- Build a new app with `npm run setup`
 
 ## Install and Deploy
 > tomo web apps work with [surge.sh](https://surge.sh/) and [now.sh](https://zeit.co/download) out of the box!
