@@ -59,7 +59,11 @@ export const addParcel = [
             const scripts = {
                 dev: 'stmux [ \"npm run watch:es\" : \"npm run lint:ing\" ]'
             };
-            await install(['stmux'], {dev: true, skipInstall});
+            try {
+                await install(['stmux'], {dev: true, skipInstall});
+            } catch (_) {
+                // todo: debug message
+            }
             await (new PackageJsonEditor())
                 .extend({scripts})
                 .commit();

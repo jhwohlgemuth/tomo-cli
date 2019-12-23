@@ -182,7 +182,11 @@ export const addWebpack = [
             const scripts = {
                 dev: 'stmux [ \"npm run dashboard\" : \"npm run lint:ing\" ]'
             };
-            await install(['stmux'], {dev: true, skipInstall});
+            try {
+                await install(['stmux'], {dev: true, skipInstall});
+            } catch (_) {
+                // todo: debug message
+            }
             await (new PackageJsonEditor())
                 .extend({scripts})
                 .commit();
