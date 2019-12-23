@@ -3,7 +3,9 @@ import execa from 'execa';
 import Queue from 'p-queue';
 import semver from 'semver';
 import read from 'read-pkg';
+import readClosest from 'read-pkg-up';
 import {complement, has, head} from 'ramda';
+import camelcase from 'lodash.camelcase';
 import isOnline from 'is-online';
 import {oneLineTrim} from 'common-tags';
 import validate from 'validate-npm-package-name';
@@ -81,6 +83,15 @@ export const getIntendedInput = (commands, command, terms = []) => {
     const VALID_TERMS = keys(commands[intendedCommand]);
     const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);
     return {intendedCommand, intendedTerms};
+};
+/**
+ * Get project name from closest package.json
+ * @return {string} Project name (camelCase format)
+ */
+export const getProjectName = () => {
+    const {packageJson} = readClosest.sync();
+    const {name} = packageJson || {name: 'tomo-project'};
+    return camelcase(name);
 };
 /**
  * Use npm CLI to return array of module versions
