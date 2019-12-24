@@ -26,7 +26,7 @@
  */exports.getElapsedSeconds=getElapsedSeconds;const getIntendedInput=(a,b,c=[])=>{const d=keys(a),{bestMatch:{target:e}}=(0,_stringSimilarity.findBestMatch)(b,d),f=keys(a[e]),g=c.map(a=>(0,_stringSimilarity.findBestMatch)(a,f).bestMatch.target);return{intendedCommand:e,intendedTerms:g}};/**
  * Get project name from closest package.json
  * @return {string} Project name (camelCase format)
- */exports.getIntendedInput=getIntendedInput;const getProjectName=()=>{const{packageJson:a}=_readPkgUp.default.sync()||{packageJson:{name:"tomo-project"}},{name:b}=a;return(0,_lodash.default)(b)};/**
+ */exports.getIntendedInput=getIntendedInput;const getProjectName=()=>{const{packageJson:a}=_readPkgUp.default.sync()||{packageJson:{name:"tomo-cli-run"}},{name:b}=a;return(0,_lodash.default)(b)};/**
  * Append debug message to project-specific log file
  * @param {*} data Data to be stringified in log
  * @param {string} [title=''] Log title next to time stamp

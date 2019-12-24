@@ -93,7 +93,7 @@ export const getIntendedInput = (commands, command, terms = []) => {
  * @return {string} Project name (camelCase format)
  */
 export const getProjectName = () => {
-    const {packageJson} = readClosest.sync() || {packageJson: {name: 'tomo-project'}};
+    const {packageJson} = readClosest.sync() || {packageJson: {name: 'tomo-cli-run'}};
     const {name} = packageJson;
     return camelcase(name);
 };
