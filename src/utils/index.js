@@ -7,7 +7,6 @@ import Queue from 'p-queue';
 import semver from 'semver';
 import readClosest from 'read-pkg-up';
 import {complement, has, head} from 'ramda';
-import camelcase from 'lodash.camelcase';
 import isOnline from 'is-online';
 import {oneLineTrim} from 'common-tags';
 import validate from 'validate-npm-package-name';
@@ -93,9 +92,10 @@ export const getIntendedInput = (commands, command, terms = []) => {
  * @return {string} Project name (camelCase format)
  */
 export const getProjectName = () => {
-    const {packageJson} = readClosest.sync() || {packageJson: {name: 'tomo-cli-run'}};
+    const cwd = __dirname;
+    const {packageJson} = readClosest.sync({cwd}) || {packageJson: {name: 'tomo-cli-run'}};
     const {name} = packageJson;
-    return camelcase(name);
+    return name;
 };
 /**
  * Append debug message to project-specific log file
