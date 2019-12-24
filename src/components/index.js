@@ -17,7 +17,7 @@ import {
     isValidTask,
     maybeApply,
     populateQueue
-} from './api';
+} from '../api';
 
 const {assign} = Object;
 const space = ' ';
@@ -345,7 +345,7 @@ export const TaskList = ({command, commands, options, terms, done}) => {
     useEffect(() => {
         populateQueue({tasks, dispatch, options: customOptions});
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
-    tasksComplete && maybeApply(done);
+    tasksComplete && maybeApply(done, customOptions);
     return <ErrorBoundary>
         {debug && <Debug data={data} title={'Tasklist data'}></Debug>}
         <WarningAndErrorsHeader errors={errors} hasError={hasError} isOnline={online} options={customOptions}></WarningAndErrorsHeader>
