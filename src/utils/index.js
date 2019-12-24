@@ -1,3 +1,7 @@
+import {homedir, EOL} from 'os';
+import {join} from 'path';
+import {promisify} from 'util';
+import {appendFile, mkdirp} from 'fs-extra';
 import execa from 'execa';
 import Queue from 'p-queue';
 import semver from 'semver';
@@ -8,9 +12,11 @@ import isOnline from 'is-online';
 import {oneLineTrim} from 'common-tags';
 import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
-import {dict} from './common';
+import {dict, format} from './common';
 import createJsonEditor from './createJsonEditor';
 import {createFunctionModuleEditor, createModuleEditor} from './createModuleEditor';
+
+const append = promisify(appendFile);
 
 const {assign, keys} = Object;
 const {isArray} = Array;
@@ -87,9 +93,32 @@ export const getIntendedInput = (commands, command, terms = []) => {
  * @return {string} Project name (camelCase format)
  */
 export const getProjectName = () => {
-    const {packageJson} = readClosest.sync();
+    const {packageJson} = readClosest.sync() || {packageJson: {name: 'tomo-project'}};
     const {name} = packageJson;
     return camelcase(name);
+};
+/**
+ * Append debug message to project-specific log file
+ * @param {*} data Data to be stringified in log
+ * @param {string} [title=''] Log title next to time stamp
+ * @param {object} options Configuration options for function
+ * @param {string} [options.filename=''] Name for debug file
+ */
+export const debug = async (data, title = '', options = {}) => {
+    const {filename} = options;
+    const name = filename || getProjectName();
+    const savepath = join(homedir(), `.${name}`);
+    const [date] = (new Date()).toISOString().split('T');
+    const time = new Date().toLocaleTimeString('en-US', {hour12: false});
+    const timestamp = `${date} ${time}`;
+    try {
+        await mkdirp(savepath);
+        await append(`${savepath}/debug`, `[${timestamp}] ${title}${EOL}`);
+        await append(`${savepath}/debug`, format(data));
+        (typeof data === 'string' && data.length === 0) || await append(`${savepath}/debug`, EOL);
+    } catch (_) {
+        /* do nothing */
+    }
 };
 /**
  * Use npm CLI to return array of module versions
@@ -158,29 +187,36 @@ export const uninstall = async (dependencies = []) => {
  */
 export async function populateQueue({concurrency = 1, tasks = [], dispatch = () => {}, options = {skipInstall: false}} = {}) {
     const {skipInstall} = options;
+    const filename = 'tomo-cli-run';
     const isNotOffline = skipInstall || await isOnline();
     const customOptions = assign({}, tasks.filter(complement(isValidTask)).reduce((acc, val) => assign(acc, val), options), {isNotOffline});
     const queue = new Queue({concurrency});
     dispatch({type: 'status', payload: {online: isNotOffline}});
+    await debug(customOptions, `Executing <= ${tasks.filter(isValidTask).length} tasks`, {filename});
     for (const [index, item] of tasks.filter(isValidTask).filter(isUniqueTask).entries()) {
         const {condition, task} = item;
         try {
             if (await condition(customOptions)) {
+                await debug('', `Executing "${item.text}" task`, {filename});
                 await queue
                     .add(() => task(customOptions))
                     .then(() => dispatch({type: 'complete', payload: index}))
-                    .catch(() => dispatch({
-                        type: 'error', payload: {
-                            index,
-                            title: 'Failed to add task to queue',
-                            location: 'task',
-                            details: item.text
-                        }
-                    }));
+                    .catch(error => {
+                        debug(error, `Error during "${item.text}" task`, {filename});
+                        dispatch({
+                            type: 'error', payload: {
+                                index,
+                                title: 'Failed to add task to queue',
+                                location: 'task',
+                                details: item.text
+                            }
+                        });
+                    });
             } else {
                 dispatch({type: 'skipped', payload: index});
             }
         } catch (error) {
+            debug(error, `Error during "${item.text}" task`, {filename});
             dispatch({
                 type: 'error',
                 payload: {

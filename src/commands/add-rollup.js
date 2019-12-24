@@ -5,6 +5,7 @@ import {
     allDoExist,
     allDoNotExist,
     allDoExistSync,
+    debug,
     install,
     uninstall
 } from '../api';
@@ -82,8 +83,8 @@ export const addRollup = [
             };
             try {
                 await install(['stmux'], {dev: true, skipInstall});
-            } catch (_) {
-                // todo: debug message
+            } catch (err) {
+                await debug(err, 'Failed to install stmux');
             }
             await (new PackageJsonEditor())
                 .extend({scripts})
