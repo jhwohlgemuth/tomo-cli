@@ -12,8 +12,7 @@ import {
     Warning,
     dict,
     getElapsedTime,
-    getIntendedInput,
-    getProjectName
+    getIntendedInput
 } from './api';
 
 const AnimatedIndicator = ({complete, elapsed}) => {
@@ -52,7 +51,7 @@ const Timer = () => {
 export default class UI extends Component {
     constructor(props) {
         super(props);
-        const {commands, flags, input} = props;
+        const {commands, flags, input, namespace} = props;
         const {ignoreWarnings} = flags;
         const [command, ...terms] = input;
         const isCustom = command => Object.entries(commands)
@@ -67,7 +66,7 @@ export default class UI extends Component {
             {intendedCommand: command, intendedTerms: terms};
         const compare = (term, index) => (term !== terms[index]);
         const showWarning = ((command !== intendedCommand) || (hasTerms && intendedTerms.map(compare).some(Boolean))) && !ignoreWarnings;
-        this.store = new Conf({projectName: getProjectName()});
+        this.store = new Conf({projectName: namespace});
         this.state = {
             hasTerms,
             hasCommand,
@@ -104,7 +103,7 @@ export default class UI extends Component {
                         <CustomCommand/> :
                         (<Fragment>
                             <Timer callback={done} options={{store}}/>
-                            <TaskList commands={commands} command={intendedCommand} terms={intendedTerms} options={flags} done={done}></TaskList>
+                            <TaskList commands={commands} command={intendedCommand} terms={intendedTerms} options={{...flags, store}} done={done}></TaskList>
                         </Fragment>) :
                     hasCommand ?
                         (isTerminalCommand ?
@@ -153,6 +152,7 @@ UI.propTypes = {
     done: PropTypes.func,
     flags: PropTypes.object,
     input: PropTypes.array,
+    namespace: PropTypes.string,
     stdin: PropTypes.string,
     store: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     customCommands: PropTypes.object

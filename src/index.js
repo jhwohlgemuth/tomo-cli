@@ -25,6 +25,7 @@ const {input, flags} = meow(options);
             done={done}
             flags={flags}
             input={input}
+            namespace={'tomo'}
             stdin={stdin}/>
     </Fragment>;
     render(<Main/>, {exitOnCtrlC: true});
