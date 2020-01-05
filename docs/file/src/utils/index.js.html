@@ -70,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-debug">debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -94,19 +95,24 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {join} from &apos;path&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {homedir, EOL} from &apos;os&apos;;
+import {join} from &apos;path&apos;;
+import {promisify} from &apos;util&apos;;
+import {appendFile, mkdirp} from &apos;fs-extra&apos;;
 import execa from &apos;execa&apos;;
 import Queue from &apos;p-queue&apos;;
 import semver from &apos;semver&apos;;
-import read from &apos;read-pkg&apos;;
+import readClosest from &apos;read-pkg-up&apos;;
 import {complement, has, head} from &apos;ramda&apos;;
 import isOnline from &apos;is-online&apos;;
 import {oneLineTrim} from &apos;common-tags&apos;;
 import validate from &apos;validate-npm-package-name&apos;;
 import {findBestMatch} from &apos;string-similarity&apos;;
-import {dict} from &apos;./common&apos;;
+import {dict, format} from &apos;./common&apos;;
 import createJsonEditor from &apos;./createJsonEditor&apos;;
 import {createFunctionModuleEditor, createModuleEditor} from &apos;./createModuleEditor&apos;;
+
+const append = promisify(appendFile);
 
 const {assign, keys} = Object;
 const {isArray} = Array;
@@ -161,7 +167,7 @@ export const getElapsedSeconds = duration =&gt; duration
     .split(&apos;:&apos;)
     .map(Number)
     .reverse()
-    .reduce((total, value, index) =&gt; ((60 ** index) * value) + total, 0);
+    .reduce((total, value, index) =&gt; ((60 ** index) * value) + total, 0); // eslint-disable-line no-magic-numbers
 /**
  * Use string-similarity module to determine closest matching string
  * @param {Object} commands Object with commands as key values, terms as key values for each command object
@@ -177,6 +183,30 @@ export const getIntendedInput = (commands, command, terms = []) =&gt; {
     const VALID_TERMS = keys(commands[intendedCommand]);
     const intendedTerms = terms.map(term =&gt; findBestMatch(term, VALID_TERMS).bestMatch.target);
     return {intendedCommand, intendedTerms};
+};
+/**
+ * Append debug message to project-specific log file
+ * @param {*} data Data to be stringified in log
+ * @param {object} options Configuration options for function
+ * @param {string} [options.filename=&apos;&apos;] Name for debug file
+ * @param {string} [options.title=&apos;&apos;] Log title next to time stamp
+ * @return {undefined} no return
+ */
+export const debug = async (data, options = {}) =&gt; {
+    const {filename, title} = options;
+    const name = filename || &apos;tomo-cli-run&apos;;
+    const savepath = join(homedir(), `.${name}`);
+    const [date] = (new Date()).toISOString().split(&apos;T&apos;);
+    const time = new Date().toLocaleTimeString(&apos;en-US&apos;, {hour12: false});
+    const timestamp = `${date} ${time}`;
+    try {
+        await mkdirp(savepath);
+        await append(`${savepath}/debug`, `[${timestamp}] ${title || &apos;&apos;}${EOL}`);
+        await append(`${savepath}/debug`, format(data));
+        (typeof data === &apos;string&apos; &amp;&amp; data.length === 0) || await append(`${savepath}/debug`, EOL);
+    } catch (_) {
+        /* do nothing */
+    }
 };
 /**
  * Use npm CLI to return array of module versions
@@ -198,8 +228,8 @@ export const getVersions = async (name = &apos;&apos;) =&gt; (name.length === 0)
  * @return {string} Version
  */
 export const showVersion = () =&gt; {
-    const cwd = join(__dirname, &apos;..&apos;);
-    const {version} = read.sync({cwd});
+    const {packageJson} = readClosest.sync();
+    const {version} = packageJson;
     console.log(version); // eslint-disable-line no-console
     process.exit();
 };
@@ -256,14 +286,16 @@ export async function populateQueue({concurrency = 1, tasks = [], dispatch = () 
                 await queue
                     .add(() =&gt; task(customOptions))
                     .then(() =&gt; dispatch({type: &apos;complete&apos;, payload: index}))
-                    .catch(() =&gt; dispatch({
-                        type: &apos;error&apos;, payload: {
-                            index,
-                            title: &apos;Failed to add task to queue&apos;,
-                            location: &apos;task&apos;,
-                            details: item.text
-                        }
-                    }));
+                    .catch(() =&gt; {
+                        dispatch({
+                            type: &apos;error&apos;, payload: {
+                                index,
+                                title: &apos;Failed to add task to queue&apos;,
+                                location: &apos;task&apos;,
+                                details: item.text
+                            }
+                        });
+                    });
             } else {
                 dispatch({type: &apos;skipped&apos;, payload: index});
             }

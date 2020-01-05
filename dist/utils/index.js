@@ -29,6 +29,7 @@
  * @param {object} options Configuration options for function
  * @param {string} [options.filename=''] Name for debug file
  * @param {string} [options.title=''] Log title next to time stamp
+ * @return {undefined} no return
  */exports.getIntendedInput=getIntendedInput;const debug=/*#__PURE__*/function(){var a=(0,_asyncToGenerator2.default)(function*(a,b={}){const{filename:c,title:d}=b,e=(0,_path.join)((0,_os.homedir)(),`.${c||"tomo-cli-run"}`),[f]=new Date().toISOString().split("T"),g=new Date().toLocaleTimeString("en-US",{hour12:!1});try{yield(0,_fsExtra.mkdirp)(e),yield append(`${e}/debug`,`[${`${f} ${g}`}] ${d||""}${_os.EOL}`),yield append(`${e}/debug`,(0,_common.format)(a)),"string"==typeof a&&0===a.length||(yield append(`${e}/debug`,_os.EOL))}catch(a){/* do nothing */}});return function(){return a.apply(this,arguments)}}();/**
  * Use npm CLI to return array of module versions
  * @param {string} name npm module name

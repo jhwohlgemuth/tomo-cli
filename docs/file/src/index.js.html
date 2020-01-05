@@ -70,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-debug">debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -95,7 +96,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">#!/usr/bin/env node
-import React from &apos;react&apos;;
+import React, {Fragment} from &apos;react&apos;;
 import {render} from &apos;ink&apos;;
 import meow from &apos;meow&apos;;
 import getStdin from &apos;get-stdin&apos;;
@@ -103,6 +104,7 @@ import updateNotifier from &apos;update-notifier&apos;;
 import {showVersion} from &apos;./api&apos;;
 import {descriptions, options} from &apos;./cli&apos;;
 import UI from &apos;./main&apos;;
+import commands from &apos;./commands&apos;;
 
 // Notify updater
 const pkg = require(`../package.json`);
@@ -112,7 +114,18 @@ const {input, flags} = meow(options);
 (input[0] === &apos;version&apos; || flags.version) &amp;&amp; showVersion();
 (async () =&gt; {
     const stdin = await getStdin();
-    render(&lt;UI descriptions={descriptions} input={input} flags={flags} stdin={stdin}/&gt;, {exitOnCtrlC: true});
+    const done = () =&gt; typeof global._tomo_tasklist_callback === &apos;function&apos; &amp;&amp; global._tomo_tasklist_callback();
+    const Main = () =&gt; &lt;Fragment&gt;
+        &lt;UI
+            commands={commands}
+            descriptions={descriptions}
+            done={done}
+            flags={flags}
+            input={input}
+            namespace={&apos;tomo&apos;}
+            stdin={stdin}/&gt;
+    &lt;/Fragment&gt;;
+    render(&lt;Main/&gt;, {exitOnCtrlC: true});
 })();</code></pre>
 
 </div>

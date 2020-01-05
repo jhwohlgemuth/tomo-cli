@@ -70,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-debug">debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -290,6 +291,35 @@
         
         
         <div data-ice="description"><p>Create and edit a JS module with a fluent API</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          <span data-ice="async">async</span>
+          
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-debug">debug</a></span></span><span class="code" data-ice="signature">(data: <span>*</span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Append debug message to project-specific log file</p>
 </div>
       </div>
     </td>
@@ -843,11 +873,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber31">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber36">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {choose} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber31">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {choose} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber36">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Choose tasks based on CLI options</p>
@@ -1190,6 +1220,103 @@
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-debug">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    <span data-ice="async">async</span>
+    
+    <span class="code" data-ice="name">debug</span><span class="code" data-ice="signature">(data: <span>*</span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber98">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {debug} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber98">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  
+  
+  <div data-ice="description"><p>Append debug message to project-specific log file</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">data</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Data to be stringified in log</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">options</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Configuration options for function</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">options.filename</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: &apos;&apos;</li></ul></td>
+      <td data-ice="description"><p>Name for debug file</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="1">
+      <td data-ice="name" class="code" data-depth="1">options.title</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: &apos;&apos;</li></ul></td>
+      <td data-ice="description"><p>Log title next to time stamp</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>no return</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-function-footer">
     <span class="access" data-ice="access">public</span>
     
@@ -1260,11 +1387,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber64">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber69">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getElapsedSeconds} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber64">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getElapsedSeconds} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber69">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Convert elapsed duration to seconds</p>
@@ -1334,11 +1461,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber48">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber53">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getElapsedTime} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber48">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getElapsedTime} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber53">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Get duration since start in &quot;HH:MM:SS&quot; format</p>
@@ -1424,11 +1551,11 @@ const duration = getElapsedTime(start, [0, 0, 30]);</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber78">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber83">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getIntendedInput} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber78">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getIntendedInput} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber83">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Use string-similarity module to determine closest matching string</p>
@@ -1520,11 +1647,11 @@ const duration = getElapsedTime(start, [0, 0, 30]);</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber92">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber121">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getVersions} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber92">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {getVersions} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber121">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Use npm CLI to return array of module versions</p>
@@ -1660,11 +1787,11 @@ const duration = getElapsedTime(start, [0, 0, 30]);</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber123">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber152">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {install} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber123">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {install} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber152">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Install dependencies with npm</p>
@@ -1777,11 +1904,11 @@ const duration = getElapsedTime(start, [0, 0, 30]);</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber23">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber28">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isUniqueTask} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber23">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isUniqueTask} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber28">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1848,11 +1975,11 @@ const duration = getElapsedTime(start, [0, 0, 30]);</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber24">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isValidTask} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber24">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {isValidTask} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber29">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -1907,11 +2034,11 @@ const duration = getElapsedTime(start, [0, 0, 30]);</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber150">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber179">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {populateQueue} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber150">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {populateQueue} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber179">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Add async tasks to a queue, handle completion with actions dispatched via dispatch function</p>
@@ -2012,11 +2139,11 @@ const duration = getElapsedTime(start, [0, 0, 30]);</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber104">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber133">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {showVersion} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber104">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {showVersion} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber133">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Show version listed in package.json and exit</p>
@@ -2069,11 +2196,11 @@ const duration = getElapsedTime(start, [0, 0, 30]);</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber136">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber165">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {uninstall} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber136">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {uninstall} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber165">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   
@@ -2141,11 +2268,11 @@ const duration = getElapsedTime(start, [0, 0, 30]);</code></pre>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber25">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/utils/index.js.html#lineNumber30">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {withOptions} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber25">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {withOptions} from &apos;<span><a href="file/src/utils/index.js.html#lineNumber30">tomo-cli/src/utils/index.js</a></span>&apos;</code></pre></div>
   
   
   

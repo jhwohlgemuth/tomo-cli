@@ -70,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-debug">debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -99,11 +100,15 @@ import Queue from &apos;p-queue&apos;;
 import React from &apos;react&apos;;
 import {render} from &apos;ink-testing-library&apos;;
 import {populateQueue} from &apos;../src/api&apos;;
-import {CommandError, Warning, Task} from &apos;../src/components&apos;;
+import {CommandError, SubCommandMultiSelect, Warning, Task} from &apos;../src/components&apos;;
 
 const {assign} = Object;
 
 jest.mock(&apos;is-online&apos;, () =&gt; (async () =&gt; true));
+
+const ARROW_UP = &apos;\u001B[A&apos;;
+const ARROW_DOWN = &apos;\u001B[B&apos;;
+const SPACE = &apos;\u0020&apos;;
 
 describe(&apos;populateQueue function&apos;, () =&gt; {
     const text = &apos;test task text&apos;;
@@ -145,7 +150,7 @@ describe(&apos;populateQueue function&apos;, () =&gt; {
         const queue = new Queue({concurrency: tasks.length});
         await populateQueue({queue, tasks, dispatch, options});
         expect(task.mock.calls.length).toBe(1);
-        expect(dispatch.mock.calls.length).toBe(2);// eslint-disable-line no-magic-numbers
+        expect(dispatch.mock.calls.length).toBe(2);
         const [passedOptions] = [...new Set(task.mock.calls.map(val =&gt; val[0]))];
         expect(passedOptions).toEqual(assign(options, customOptions, {isNotOffline: true}));
         expect(dispatch.mock.calls).toMatchSnapshot();
@@ -207,6 +212,45 @@ describe(&apos;CommandError&apos;, () =&gt; {
         expect(tree).toMatchSnapshot();
         expect(lastFrame()).toMatchSnapshot();
     });
+});
+describe(&apos;Sub Command Multi-select Component&apos;, () =&gt; {
+    const descriptions = {
+        &apos;Item A&apos;: &apos;Select the A item&apos;
+    };
+    const items = [
+        {value: &apos;Item A&apos;, label: &apos;Item A&apos;},
+        {value: &apos;Item B&apos;, label: &apos;Item B&apos;},
+        {value: &apos;Item C&apos;, label: &apos;Item C&apos;}
+    ];
+    test(&apos;can render&apos;, () =&gt; {
+        const {lastFrame} = render(&lt;SubCommandMultiSelect
+            descriptions={descriptions}
+            items={items}
+            onSubmit={() =&gt; {}}/&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render unknown items&apos;, () =&gt; {
+        const {lastFrame} = render(&lt;SubCommandMultiSelect
+            descriptions={{}}
+            items={items}
+            onSubmit={() =&gt; {}}/&gt;);
+        expect(lastFrame()).toMatchSnapshot();
+    });
+    test(&apos;can render selected items&apos;, () =&gt; {/* eslint-disable no-console */
+        const CONSOLE_ERROR = console.error;
+        console.error = () =&gt; {};
+        const {lastFrame, stdin} = render(&lt;SubCommandMultiSelect
+            descriptions={descriptions}
+            items={items}
+            onSubmit={() =&gt; {}}/&gt;);
+        stdin.write(ARROW_DOWN);
+        stdin.write(SPACE);
+        expect(lastFrame()).toMatchSnapshot();
+        stdin.write(ARROW_UP);
+        stdin.write(SPACE);
+        expect(lastFrame()).toMatchSnapshot();
+        console.error = CONSOLE_ERROR;
+    });/* eslint-enable no-console */
 });
 describe(&apos;Task component&apos;, () =&gt; {
     test(&apos;can render (pending)&apos;, () =&gt; {

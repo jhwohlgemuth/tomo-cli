@@ -34,7 +34,7 @@ describe('tomo interface', () => {
             descriptions={descriptions}
             input={input}
             flags={{skipInstall}}
-            namespace={"tomo-testing"}/>);
+            namespace={'tomo-testing'}/>);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe('tomo interface', () => {
             descriptions={descriptions}
             input={input}
             flags={{skipInstall}}
-            namespace={"tomo-testing"}/>);
+            namespace={'tomo-testing'}/>);
         expect(lastFrame()).toMatchSnapshot();
         stdin.write(ARROW_DOWN);
         expect(lastFrame()).toMatchSnapshot();

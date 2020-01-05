@@ -93,6 +93,7 @@ export const getIntendedInput = (commands, command, terms = []) => {
  * @param {object} options Configuration options for function
  * @param {string} [options.filename=''] Name for debug file
  * @param {string} [options.title=''] Log title next to time stamp
+ * @return {undefined} no return
  */
 export const debug = async (data, options = {}) => {
     const {filename, title} = options;

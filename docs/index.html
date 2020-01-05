@@ -70,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-debug">debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -113,10 +114,23 @@
 <p><em>It&apos;s like</em> <a href="https://github.com/sapegin/mrm">mrm</a>, but with mostly different options, built with a React-based UI, and focused more on code, less on config. Honestly, <code>mrm</code> is really cool... <code>tomo</code> and <code>mrm</code> could definitely be used together.</p>
 <p><em>It&apos;s like</em> boilerplate from GitHub, but with a streamlined interface designed to be user friendly (and all of the stuff above too)</p>
 <p>(see the wiki for <a href="https://github.com/jhwohlgemuth/tomo-cli/wiki/Alternatives">my full list of alternatives/inspirations</a>)</p>
-<h2 id="install">Install</h2><pre><code><code class="source-code prettyprint">$ npm install --global tomo-cli
+<h2 id="global-install">Global install</h2><pre><code><code class="source-code prettyprint">$ npm install --global tomo-cli
 $ tomo [command] [terms] [options]</code>
 </code></pre><h2 id="no-install">No install</h2><pre><code><code class="source-code prettyprint">$ npx tomo-cli [command] [terms] [options]</code>
-</code></pre><h2 id="install-and-deploy">Install and Deploy</h2><blockquote>
+</code></pre><h2 id="local-install">Local install</h2><ul>
+<li>Create a package.json with <code>npm init -y</code></li>
+<li>Add a &quot;setup&quot; script to the package.json<pre><code class="lang-json"><code class="source-code prettyprint">{
+&quot;scripts&quot;: {
+  &quot;setup&quot;: &quot;tomo-cli new app --use-react --with-cesium&quot;,
+  &quot;deploy&quot;: &quot;surge dist&quot;
+}
+}</code>
+</code></pre>
+</li>
+<li>Install tomo locally with <code>npm install tomo-cli --save-dev</code></li>
+<li>Build a new app with <code>npm run setup</code></li>
+</ul>
+<h2 id="install-and-deploy">Install and Deploy</h2><blockquote>
 <p>tomo web apps work with <a href="https://surge.sh/">surge.sh</a> and <a href="https://zeit.co/download">now.sh</a> out of the box!</p>
 </blockquote>
 <ol>

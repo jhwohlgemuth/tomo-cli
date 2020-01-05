@@ -180,6 +180,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "tomo-cli/src/utils/index.js~debug",
+    "function/index.html#static-function-debug",
+    "<span>debug</span> <span class=\"search-result-import-path\">tomo-cli/src/utils/index.js</span>",
+    "function"
+  ],
+  [
     "tomo-cli/src/cli.js~descriptions",
     "variable/index.html#static-variable-descriptions",
     "<span>descriptions</span> <span class=\"search-result-import-path\">tomo-cli/src/cli.js</span>",
@@ -427,13 +433,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber97",
+    "test-file/__tests__/components.test.js.html#lineNumber101",
     "CommandError",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber107",
+    "test-file/__tests__/components.test.js.html#lineNumber111",
     "CommandError can render component and create errors file",
     "test"
   ],
@@ -751,37 +757,61 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber115",
+    "test-file/__tests__/components.test.js.html#lineNumber119",
+    "Sub Command Multi-select Component",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/components.test.js.html#lineNumber128",
+    "Sub Command Multi-select Component can render",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/components.test.js.html#lineNumber142",
+    "Sub Command Multi-select Component can render selected items",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/components.test.js.html#lineNumber135",
+    "Sub Command Multi-select Component can render unknown items",
+    "test"
+  ],
+  [
+    "",
+    "test-file/__tests__/components.test.js.html#lineNumber158",
     "Task component",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber121",
+    "test-file/__tests__/components.test.js.html#lineNumber164",
     "Task component can render (completed)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber131",
+    "test-file/__tests__/components.test.js.html#lineNumber174",
     "Task component can render (errored)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber116",
+    "test-file/__tests__/components.test.js.html#lineNumber159",
     "Task component can render (pending)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber126",
+    "test-file/__tests__/components.test.js.html#lineNumber169",
     "Task component can render (skipped)",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber136",
+    "test-file/__tests__/components.test.js.html#lineNumber179",
     "Task component can render with default text",
     "test"
   ],
@@ -895,13 +925,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber90",
+    "test-file/__tests__/components.test.js.html#lineNumber94",
     "Warning",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber91",
+    "test-file/__tests__/components.test.js.html#lineNumber95",
     "Warning can render",
     "test"
   ],
@@ -1231,37 +1261,37 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber12",
+    "test-file/__tests__/components.test.js.html#lineNumber16",
     "populateQueue function",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber74",
+    "test-file/__tests__/components.test.js.html#lineNumber78",
     "populateQueue function can catch task errors",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber57",
+    "test-file/__tests__/components.test.js.html#lineNumber61",
     "populateQueue function can only run tasks that pass condition",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber17",
+    "test-file/__tests__/components.test.js.html#lineNumber21",
     "populateQueue function can run tasks with options and dispatch task results",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber14",
+    "test-file/__tests__/components.test.js.html#lineNumber18",
     "populateQueue function can run with defaults",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/components.test.js.html#lineNumber37",
+    "test-file/__tests__/components.test.js.html#lineNumber41",
     "populateQueue function dedupes tasks based on text value",
     "test"
   ],
@@ -1836,6 +1866,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/main.js~ui#store",
+    "class/src/main.js~UI.html#instance-member-store",
+    "src/main.js~UI#store",
+    "member"
+  ],
+  [
     "src/main.js~ui#updateterms",
     "class/src/main.js~UI.html#instance-method-updateTerms",
     "src/main.js~UI#updateTerms",
@@ -1939,19 +1975,19 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber11",
+    "test-file/__tests__/ui.test.js.html#lineNumber12",
     "tomo interface",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber29",
+    "test-file/__tests__/ui.test.js.html#lineNumber30",
     "tomo interface add",
     "test"
   ],
   [
     "",
-    "test-file/__tests__/ui.test.js.html#lineNumber36",
+    "test-file/__tests__/ui.test.js.html#lineNumber42",
     "tomo interface remove",
     "test"
   ],

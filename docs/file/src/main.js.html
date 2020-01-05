@@ -70,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-debug">debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -94,19 +95,51 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/main.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, {Component} from &apos;react&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, {Component, Fragment, useEffect, useState} from &apos;react&apos;;
 import PropTypes from &apos;prop-types&apos;;
+import Conf from &apos;conf&apos;;
+import {play} from &apos;figures&apos;;
 import {is} from &apos;ramda&apos;;
-import {Color, Text} from &apos;ink&apos;;
+import {Box, Color, Text} from &apos;ink&apos;;
 import {
     ErrorBoundary,
     SubCommandSelect,
     TaskList,
     UnderConstruction,
     Warning,
+    dict,
+    getElapsedTime,
     getIntendedInput
 } from &apos;./api&apos;;
-import commands from &apos;./commands&apos;;
+
+const AnimatedIndicator = ({complete, elapsed}) =&gt; {
+    const Active = () =&gt; &lt;Color cyan&gt;{play}&lt;/Color&gt;;
+    const Inactive = () =&gt; &lt;Color dim&gt;{play}&lt;/Color&gt;;
+    const gate = Number(elapsed.split(&apos;:&apos;)[2]) % 3;
+    return complete ? &lt;Color dim&gt;runtime&lt;/Color&gt; : &lt;Box&gt;
+        {gate === 0 ? &lt;Active /&gt; : &lt;Inactive /&gt;}
+        {gate === 1 ? &lt;Active /&gt; : &lt;Inactive /&gt;}
+        {gate === 2 ? &lt;Active /&gt; : &lt;Inactive /&gt;}
+    &lt;/Box&gt;;
+};
+const Timer = () =&gt; {
+    const [start] = process.hrtime();
+    const [complete, setComplete] = useState(false);
+    const [elapsed, setElapsed] = useState(&apos;00:00:00&apos;);
+    useEffect(() =&gt; {
+        const id = setInterval(() =&gt; {
+            setElapsed(getElapsedTime(start));
+        }, 1000); // eslint-disable-line no-magic-numbers
+        global._tomo_tasklist_callback = () =&gt; {// eslint-disable-line camelcase
+            setComplete(true);
+            clearInterval(id);
+        };
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    return &lt;Box marginTop={1} marginLeft={1}&gt;
+        &lt;AnimatedIndicator elapsed={elapsed} complete={complete}/&gt;
+        &lt;Text&gt; {elapsed}&lt;/Text&gt;
+    &lt;/Box&gt;;
+};
 /**
  * Main tomo UI component
  * @param {Object} props Component props
@@ -115,41 +148,68 @@ import commands from &apos;./commands&apos;;
 export default class UI extends Component {
     constructor(props) {
         super(props);
-        const {flags, input} = props;
+        const {commands, flags, input, namespace} = props;
         const {ignoreWarnings} = flags;
         const [command, ...terms] = input;
+        const isCustom = command =&gt; Object.entries(commands)
+            .filter(([, value]) =&gt; (typeof value === &apos;string&apos;))
+            .map(([name]) =&gt; name)
+            .includes(command);
         const hasCommand = is(String)(command);
+        const isTerminalCommand = hasCommand &amp;&amp; isCustom(command);
         const hasTerms = terms.length &gt; 0;
-        const {intendedCommand, intendedTerms} = hasCommand ? getIntendedInput(commands, command, terms) : {};
+        const {intendedCommand, intendedTerms} = (hasCommand &amp;&amp; !isTerminalCommand) ?
+            getIntendedInput(commands, command, terms) :
+            {intendedCommand: command, intendedTerms: terms};
         const compare = (term, index) =&gt; (term !== terms[index]);
         const showWarning = ((command !== intendedCommand) || (hasTerms &amp;&amp; intendedTerms.map(compare).some(Boolean))) &amp;&amp; !ignoreWarnings;
+        this.store = new Conf({projectName: namespace});
         this.state = {
             hasTerms,
             hasCommand,
             showWarning,
             intendedTerms,
-            intendedCommand
+            intendedCommand,
+            isTerminalCommand
         };
         this.updateWarning = this.updateWarning.bind(this);
         this.updateTerms = this.updateTerms.bind(this);
     }
     render() {
-        const {done, descriptions, flags} = this.props;
-        const {hasCommand, hasTerms, intendedCommand, intendedTerms, showWarning} = this.state;
+        const self = this;
+        const {commands, descriptions, done, flags, customCommands} = self.props;
+        const {hasCommand, hasTerms, intendedCommand, intendedTerms, isTerminalCommand, showWarning} = self.state;
+        const store = self.props.store || self.store;
+        const CustomCommand = () =&gt; {
+            const lookup = dict(customCommands || {});
+            const Command = lookup.has(intendedCommand) ? lookup.get(intendedCommand) : UnderConstruction;
+            return &lt;Command
+                descriptions={descriptions}
+                done={done}
+                options={flags}
+                store={store}
+                terms={intendedTerms}/&gt;;
+        };
         return &lt;ErrorBoundary&gt;
             {showWarning ?
                 &lt;Warning callback={this.updateWarning}&gt;
                     &lt;Text&gt;Did you mean &lt;Color bold green&gt;{intendedCommand} {intendedTerms.join(&apos; &apos;)}&lt;/Color&gt;?&lt;/Text&gt;
                 &lt;/Warning&gt; :
                 (hasCommand &amp;&amp; hasTerms) ?
-                    &lt;TaskList commands={commands} command={intendedCommand} terms={intendedTerms} options={flags} done={done}&gt;&lt;/TaskList&gt; :
+                    isTerminalCommand ?
+                        &lt;CustomCommand/&gt; :
+                        (&lt;Fragment&gt;
+                            &lt;Timer callback={done} options={{store}}/&gt;
+                            &lt;TaskList commands={commands} command={intendedCommand} terms={intendedTerms} options={{...flags, store}} done={done}&gt;&lt;/TaskList&gt;
+                        &lt;/Fragment&gt;) :
                     hasCommand ?
-                        &lt;SubCommandSelect
-                            command={intendedCommand}
-                            descriptions={descriptions}
-                            items={Object.keys(commands[intendedCommand]).map(command =&gt; ({label: command, value: command}))}
-                            onSelect={this.updateTerms}&gt;
-                        &lt;/SubCommandSelect&gt; :
+                        (isTerminalCommand ?
+                            &lt;CustomCommand/&gt; :
+                            &lt;SubCommandSelect
+                                command={intendedCommand}
+                                descriptions={descriptions}
+                                items={Object.keys(commands[intendedCommand]).map(command =&gt; ({label: command, value: command}))}
+                                onSelect={this.updateTerms}/&gt;) :
                         &lt;UnderConstruction/&gt;
             }
         &lt;/ErrorBoundary&gt;;
@@ -175,12 +235,24 @@ export default class UI extends Component {
         });
     }
 }
+AnimatedIndicator.propTypes = {
+    complete: PropTypes.bool,
+    elapsed: PropTypes.string
+};
+Timer.propTypes = {
+    callback: PropTypes.func,
+    options: PropTypes.object
+};
 UI.propTypes = {
-    input: PropTypes.array,
-    flags: PropTypes.object,
+    commands: PropTypes.object,
     descriptions: PropTypes.object,
     done: PropTypes.func,
-    stdin: PropTypes.string
+    flags: PropTypes.object,
+    input: PropTypes.array,
+    namespace: PropTypes.string,
+    stdin: PropTypes.string,
+    store: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+    customCommands: PropTypes.object
 };
 UI.defaultProps = {
     input: [],

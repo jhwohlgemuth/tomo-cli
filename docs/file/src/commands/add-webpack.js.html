@@ -70,6 +70,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createFunctionModuleEditor">createFunctionModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createModuleEditor">createModuleEditor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-choose">choose</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-debug">debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedSeconds">getElapsedSeconds</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getElapsedTime">getElapsedTime</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getIntendedInput">getIntendedInput</a></span></span></li>
@@ -102,6 +103,7 @@ import {
     allDoExist,
     allDoNotExist,
     allDoExistSync,
+    debug,
     install,
     uninstall
 } from &apos;../api&apos;;
@@ -278,7 +280,11 @@ export const addWebpack = [
             const scripts = {
                 dev: &apos;stmux [ \&quot;npm run dashboard\&quot; : \&quot;npm run lint:ing\&quot; ]&apos;
             };
-            await install([&apos;stmux&apos;], {dev: true, skipInstall});
+            try {
+                await install([&apos;stmux&apos;], {dev: true, skipInstall});
+            } catch (err) {
+                await debug(err, &apos;Failed to install stmux&apos;);
+            }
             await (new PackageJsonEditor())
                 .extend({scripts})
                 .commit();
