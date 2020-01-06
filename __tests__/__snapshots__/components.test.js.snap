@@ -29,9 +29,9 @@ exports[`Sub Command Multi-select Component can render 1`] = `
 
  [36mSelect the A item[39m
 
- [36m[1m→[22m[39m [39m[36m [39m[39m [39m[36m[1mItem A[22m[39m[39m
-   [36m [39m [39mItem B[39m
-   [36m [39m [39mItem C[39m
+ [36m[1m→[22m[39m [36m [39m [36m[1mItem A[22m[39m
+   [36m [39m Item B
+   [36m [39m Item C
 "
 `;
 
@@ -42,9 +42,9 @@ exports[`Sub Command Multi-select Component can render selected items 1`] = `
 
  [36m[2mSorry, I don't have anything to say about[22m Item B[39m
 
-   [36m [39m [39mItem A[39m
- [36m[1m→[22m[39m [39m[36m✔[39m[39m [39m[36m[1mItem B[22m[39m[39m
-   [36m [39m [39mItem C[39m
+   [36m [39m Item A
+ [36m[1m→[22m[39m [36m✔[39m [36m[1mItem B[22m[39m
+   [36m [39m Item C
 "
 `;
 
@@ -55,9 +55,9 @@ exports[`Sub Command Multi-select Component can render selected items 2`] = `
 
  [36mSelect the A item[39m
 
- [36m[1m→[22m[39m [39m[36m✔[39m[39m [39m[36m[1mItem A[22m[39m[39m
-   [36m✔[39m [39mItem B[39m
-   [36m [39m [39mItem C[39m
+ [36m[1m→[22m[39m [36m✔[39m [36m[1mItem A[22m[39m
+   [36m✔[39m Item B
+   [36m [39m Item C
 "
 `;
 
@@ -68,9 +68,9 @@ exports[`Sub Command Multi-select Component can render unknown items 1`] = `
 
  [36m[2mSorry, I don't have anything to say about[22m Item A[39m
 
- [36m[1m→[22m[39m [39m[36m [39m[39m [39m[36m[1mItem A[22m[39m[39m
-   [36m [39m [39mItem B[39m
-   [36m [39m [39mItem C[39m
+ [36m[1m→[22m[39m [36m [39m [36m[1mItem A[22m[39m
+   [36m [39m Item B
+   [36m [39m Item C
 "
 `;
 
@@ -78,9 +78,9 @@ exports[`Task component can render (completed) 1`] = `"   [32m[1m✔ [22m[39
 
 exports[`Task component can render (errored) 1`] = `"   [31m[1m✖ [22m[39mtest task text"`;
 
-exports[`Task component can render (pending) 1`] = `"   [36m⠋[39m[39m[36m [39m[39m[39mtest task text[39m"`;
+exports[`Task component can render (pending) 1`] = `"   [36m⠋[39m[36m [39mtest task text"`;
 
-exports[`Task component can render (skipped) 1`] = `"   [2m[1m✔ [2m[22m[2mtest task text[22m"`;
+exports[`Task component can render (skipped) 1`] = `"   [2m[1m✔ [22m[2m[22m[2mtest task text[22m"`;
 
 exports[`Task component can render with default text 1`] = `"   [32m[1m✔ [22m[39m[2mtask description[22m"`;
 
