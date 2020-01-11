@@ -97,6 +97,7 @@ const getAliasOption = (useReact = false, withCesium = false) => {
 };
 const getDevServerOption = (outputDirectory, port) => ({
     port,
+    host: `'0.0.0.0'`,
     contentBase: `'${outputDirectory}'`,
     compress: true,
     watchContentBase: true
