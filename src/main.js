@@ -25,7 +25,8 @@ const AnimatedIndicator = ({complete, elapsed}) => {
         {gate === 2 ? <Active /> : <Inactive />}
     </Box>;
 };
-const Timer = () => {
+const Timer = ({onComplete, options}) => {
+    const {store} = options;
     const [start] = process.hrtime();
     const [complete, setComplete] = useState(false);
     const [elapsed, setElapsed] = useState('00:00:00');
@@ -34,6 +35,7 @@ const Timer = () => {
             setElapsed(getElapsedTime(start));
         }, 1000); // eslint-disable-line no-magic-numbers
         global._tomo_tasklist_callback = () => {// eslint-disable-line camelcase
+            typeof onComplete === 'function' && onComplete(store, start);
             setComplete(true);
             clearInterval(id);
         };
@@ -80,7 +82,7 @@ export default class UI extends Component {
     }
     render() {
         const self = this;
-        const {commands, descriptions, done, flags, customCommands} = self.props;
+        const {commands, descriptions, done, onComplete, flags, customCommands} = self.props;
         const {hasCommand, hasTerms, intendedCommand, intendedTerms, isTerminalCommand, showWarning} = self.state;
         const store = self.props.store || self.store;
         const CustomCommand = () => {
@@ -102,8 +104,14 @@ export default class UI extends Component {
                     isTerminalCommand ?
                         <CustomCommand/> :
                         (<Fragment>
-                            <Timer callback={done} options={{store}}/>
-                            <TaskList commands={commands} command={intendedCommand} terms={intendedTerms} options={{...flags, store}} done={done}></TaskList>
+                            <Timer onComplete={onComplete} options={{store}}/>
+                            <TaskList
+                                commands={commands}
+                                command={intendedCommand}
+                                terms={intendedTerms}
+                                options={{...flags, store}}
+                                done={done}>
+                            </TaskList>
                         </Fragment>) :
                     hasCommand ?
                         (isTerminalCommand ?
@@ -143,7 +151,7 @@ AnimatedIndicator.propTypes = {
     elapsed: PropTypes.string
 };
 Timer.propTypes = {
-    callback: PropTypes.func,
+    onComplete: PropTypes.func,
     options: PropTypes.object
 };
 UI.propTypes = {

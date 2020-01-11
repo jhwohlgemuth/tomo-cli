@@ -96,19 +96,27 @@ export const getIntendedInput = (commands, command, terms = []) => {
  * @return {undefined} no return
  */
 export const debug = async (data, options = {}) => {
-    const {filename, title} = options;
-    const name = filename || 'tomo-cli-run';
+    const {filename, store, title} = options;
+    const name = filename || 'tomo-cli-debug';
     const savepath = join(homedir(), `.${name}`);
     const [date] = (new Date()).toISOString().split('T');
     const time = new Date().toLocaleTimeString('en-US', {hour12: false});
     const timestamp = `${date} ${time}`;
     try {
-        await mkdirp(savepath);
-        await append(`${savepath}/debug`, `[${timestamp}] ${title || ''}${EOL}`);
-        await append(`${savepath}/debug`, format(data));
-        (typeof data === 'string' && data.length === 0) || await append(`${savepath}/debug`, EOL);
+        const previous = store.get('debug') || [];
+        store.set('debug', previous.concat([[
+            `[${timestamp}] ${title || ''}${EOL}`,
+            format(data)
+        ]]));
     } catch (_) {
-        /* do nothing */
+        try {
+            await mkdirp(savepath);
+            await append(`${savepath}/debug`, `[${timestamp}] ${title || ''}${EOL}`);
+            await append(`${savepath}/debug`, format(data));
+            (typeof data === 'string' && data.length === 0) || await append(`${savepath}/debug`, EOL);
+        } catch (_) {
+            /* do nothing */
+        }
     }
 };
 /**
