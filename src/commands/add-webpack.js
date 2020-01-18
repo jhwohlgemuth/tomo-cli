@@ -64,16 +64,16 @@ const WEBPACK_PLUGINS_WITH_CESIUM = [
     `new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')})`,
     oneLineTrim`new CopyWebpackPlugin([
         {
-            from: join(source, workers),
-            to: 'Workers'
+            from: join(source, 'Workers'), to: 'Workers'
         },
         {
-            from: join(source, 'Assets'),
-            to: 'Assets'
+            from: join(source, 'ThirdParty'), to: 'ThirdParty'
         },
         {
-            from: join(source, 'Widgets'),
-            to: 'Widgets'
+            from: join(source, 'Assets'), to: 'Assets'
+        },
+        {
+            from: join(source, 'Widgets'), to: 'Widgets'
         }
     ])`
 ];
@@ -85,16 +85,7 @@ const RESIUM_DEPENDENCIES = [
     ...CESIUM_DEPENDENCIES,
     'resium'
 ];
-const getAliasOption = (useReact = false, withCesium = false) => {
-    const CESIUM_ALIASES = {
-        cesium$: `'cesium/Cesium'`,
-        cesium: `'cesium/Source'`
-    };
-    return {
-        ...(useReact ? {'\'react-dom\'': `'@hot-loader/react-dom'`} : {}),
-        ...(withCesium ? CESIUM_ALIASES : {})
-    };
-};
+const getAliasOption = (useReact = false) => useReact ? {'\'react-dom\'': `'@hot-loader/react-dom'`} : {};
 const getDevServerOption = (outputDirectory, port) => ({
     port,
     host: `'0.0.0.0'`,
@@ -113,11 +104,11 @@ const getEntryOption = (sourceDirectory, useReact = false) => {
     return useReact ? entryWithReact : entryWithoutReact;
 };
 const getResolveOption = (sourceDirectory, alias = {}, useReact = false) => ({
+    mainFields: `['module', 'main']`,
     modules: `[resolve(__dirname, '${sourceDirectory}'), 'node_modules']`,
     extensions: `[${useReact ? `'.js', '.jsx'` : `'.js'`}]`,
     alias
 });
-/*eslint-disable complexity*/
 const getWebpackConfigPrependContent = withCesium => [
     `/* eslint-env node */`,
     `const {${withCesium ? 'join, ' : ''}resolve} = require('path');`,
@@ -125,12 +116,10 @@ const getWebpackConfigPrependContent = withCesium => [
     withCesium && `const CopyWebpackPlugin = require('copy-webpack-plugin');`,
     `const DashboardPlugin = require('webpack-dashboard/plugin');`,
     `const TerserPlugin = require('terser-webpack-plugin');`,
-    withCesium && `const source = 'node_modules/cesium/Source';`,
-    withCesium && `const workers = '../Build/Cesium/Workers';`
+    withCesium && `const source = 'node_modules/cesium/Build/Cesium';`
 ]
     .reverse()// prepend puts last on top
     .filter(val => typeof val === 'string');
-/*eslint-enable complexity*/
 /**
  * @type {task[]}
  * @see https://webpack.js.org/
@@ -140,18 +129,24 @@ export const addWebpack = [
         text: 'Create Webpack configuration file',
         task: async ({outputDirectory, port, sourceDirectory, useReact, withCesium}) => {
             const alias = getAliasOption(useReact, withCesium);
-            const amd = {toUrlUndefined: true};
+            const context = '__dirname';
             const devServer = getDevServerOption(outputDirectory, port);
             const entry = getEntryOption(sourceDirectory, useReact);
-            const node = {fs: `'empty'`};
+            const node = {
+                fs: `'empty'`,
+                Buffer: false,
+                http: `'empty'`,
+                https: `'empty'`,
+                zlib: `'empty'`
+            };
             const optimization = {minimize: `argv.mode === 'production'`, minimizer: `[new TerserPlugin()]`};
             const plugins = withCesium ? WEBPACK_PLUGINS_WITH_CESIUM : WEBPACK_PLUGINS;
             const resolve = getResolveOption(sourceDirectory, alias, useReact);
             const rules = withCesium ? WEBPACK_RULES_WITH_CESIUM : WEBPACK_RULES;
             await getWebpackConfigPrependContent(withCesium)
                 .reduce((config, content) => config.prepend(content), (new WebpackConfigEditor()).create())
-                .extend({devServer, entry, module: {rules}, optimization, plugins, resolve})
-                .extend(withCesium ? {amd, node} : {})
+                .extend({context, devServer, entry, module: {rules}, optimization, plugins, resolve})
+                .extend(withCesium ? {node} : {})
                 .commit();
         },
         condition: () => allDoNotExist('webpack.config.js')

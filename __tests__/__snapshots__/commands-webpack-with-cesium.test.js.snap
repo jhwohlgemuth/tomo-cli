@@ -7,8 +7,7 @@ const {DefinePlugin} = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const source = 'node_modules/cesium/Source';
-const workers = '../Build/Cesium/Workers';
+const source = 'node_modules/cesium/Build/Cesium';
 
 module.exports = (env, argv) => ({
     mode: argv.mode === 'production' ? 'production' : 'development',
@@ -21,6 +20,7 @@ module.exports = (env, argv) => ({
         path: resolve('./dist'),
         filename: 'bundle.min.js'
     },
+    context: __dirname,
     devServer: {
         port: 4669,
         host: '0.0.0.0',
@@ -62,22 +62,22 @@ module.exports = (env, argv) => ({
     plugins: [
         new DashboardPlugin(),
         new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
-        new CopyWebpackPlugin([{from: join(source, workers),to: 'Workers'},{from: join(source, 'Assets'),to: 'Assets'},{from: join(source, 'Widgets'),to: 'Widgets'}])
+        new CopyWebpackPlugin([{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}])
     ],
     resolve: {
+        mainFields: ['module', 'main'],
         modules: [resolve(__dirname, './source'), 'node_modules'],
         extensions: ['.js', '.jsx'],
         alias: {
-            cesium$: 'cesium/Cesium',
-            cesium: 'cesium/Source',
             'react-dom': '@hot-loader/react-dom'
         }
     },
-    amd: {
-        toUrlUndefined: true
-    },
     node: {
-        fs: 'empty'
+        fs: 'empty',
+        Buffer: false,
+        http: 'empty',
+        https: 'empty',
+        zlib: 'empty'
     }
 });"
 `;
@@ -89,8 +89,7 @@ const {DefinePlugin} = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const source = 'node_modules/cesium/Source';
-const workers = '../Build/Cesium/Workers';
+const source = 'node_modules/cesium/Build/Cesium';
 
 module.exports = (env, argv) => ({
     mode: argv.mode === 'production' ? 'production' : 'development',
@@ -102,6 +101,7 @@ module.exports = (env, argv) => ({
         path: resolve('./dist'),
         filename: 'bundle.min.js'
     },
+    context: __dirname,
     devServer: {
         port: 4669,
         host: '0.0.0.0',
@@ -143,21 +143,20 @@ module.exports = (env, argv) => ({
     plugins: [
         new DashboardPlugin(),
         new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
-        new CopyWebpackPlugin([{from: join(source, workers),to: 'Workers'},{from: join(source, 'Assets'),to: 'Assets'},{from: join(source, 'Widgets'),to: 'Widgets'}])
+        new CopyWebpackPlugin([{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}])
     ],
     resolve: {
+        mainFields: ['module', 'main'],
         modules: [resolve(__dirname, './source'), 'node_modules'],
         extensions: ['.js'],
-        alias: {
-            cesium$: 'cesium/Cesium',
-            cesium: 'cesium/Source'
-        }
-    },
-    amd: {
-        toUrlUndefined: true
+        alias: {}
     },
     node: {
-        fs: 'empty'
+        fs: 'empty',
+        Buffer: false,
+        http: 'empty',
+        https: 'empty',
+        zlib: 'empty'
     }
 });"
 `;

@@ -98,6 +98,7 @@ module.exports = (env, argv) => ({
         path: resolve('./dist'),
         filename: 'bundle.min.js'
     },
+    context: __dirname,
     devServer: {
         port: 4669,
         host: '0.0.0.0',
@@ -127,6 +128,7 @@ module.exports = (env, argv) => ({
         new DashboardPlugin()
     ],
     resolve: {
+        mainFields: ['module', 'main'],
         modules: [resolve(__dirname, './source'), 'node_modules'],
         extensions: ['.js', '.jsx'],
         alias: {
@@ -205,6 +207,7 @@ module.exports = (env, argv) => ({
         path: resolve('./dist'),
         filename: 'bundle.min.js'
     },
+    context: __dirname,
     devServer: {
         port: 4669,
         host: '0.0.0.0',
@@ -234,6 +237,7 @@ module.exports = (env, argv) => ({
         new DashboardPlugin()
     ],
     resolve: {
+        mainFields: ['module', 'main'],
         modules: [resolve(__dirname, './source'), 'node_modules'],
         extensions: ['.js'],
         alias: {}
