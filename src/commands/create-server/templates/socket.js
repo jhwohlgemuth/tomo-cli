@@ -17,7 +17,7 @@ wss.broadcast = data => {
     });
 };
 wss.on('connection', socket => {
-    log.info(`${wss.clients.length} client(s) connected.`);
+    log.info(`${wss.clients.size} client(s) connected.`);
     socket.on('message', message => {
         log.info('received: %s', message);
         socket.send(message);
