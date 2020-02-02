@@ -14,7 +14,7 @@ const lusca = require('lusca');
 const helmet = require('helmet');
 const compress = require('compression');
 const hljs = require('highlight.js');
-const Remarkable = require('remarkable');
+const {Remarkable} = require('remarkable');
 
 const md = new Remarkable({
     highlight: (str, lang) => {
