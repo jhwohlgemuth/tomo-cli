@@ -2,13 +2,6 @@ require('dotenv').config();
 
 const config = require('config');
 const log = require('npmlog');
-const fs = require('fs-extra');
-const https = require('https');
-//
-// SSL credentials
-//
-const key = fs.readFileSync('ssl/server.key', 'utf8');
-const cert = fs.readFileSync('ssl/server.cert', 'utf8');
 //
 // Handle error conditions
 //
@@ -27,26 +20,15 @@ process.on('uncaughtException', err => {
 //
 // Static HTTP Server
 //
-const app = require('./server');
-app.listen(config.get('http').port);
-//
-// Static HTTPS Server
-//
-https.createServer({key, cert}, app).listen(config.get('https').port);
+require('./server');
 //
 // WebSocket Server
 //
-const wss = require('./socket');
-wss.on('error', data => log.error(data));
+require('./socket');
 //
 // GraphQL Server
 //
 const gql = require('./graphql');
-gql.listen(config.get('graphql').port);
-//
-// Log startup and port numbers
-//
-log.info('HTTP server started........', 'Listening on port %j', config.get('http').port);
-log.info('HTTPS server started.......', 'Listening on port %j', config.get('https').port);
-log.info('WebSocket server started...', 'Listening on port %j', config.get('websocket').port);
-log.info('GraphQL server started.....', 'Listening on port %j', config.get('graphql').port);
+const {port} = config.get('graphql');
+gql.listen(port);
+log.info('GraphQL server started.....', 'Listening on port %j', port);

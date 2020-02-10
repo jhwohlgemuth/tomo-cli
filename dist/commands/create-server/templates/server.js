@@ -6,6 +6,7 @@
  * @see [helmetjs/helmet]{@link https://github.com/helmetjs/helmet}
  */
 const fs = require('fs-extra');
+const https = require('https');
 const config = require('config');
 const log = require('npmlog');
 const express = require('express');
@@ -80,5 +81,20 @@ app.get('/:page.md', verifyCsrfHeader, (req, res) => {
     const {page} = req.params;
     res.render(`${page}.md`);
 });
+exports.app = app;
+//
+// Static HTTP Server
+//
+const HTTP_PORT = config.get('http').port;
+const server = app.listen(HTTP_PORT);
+log.info('HTTP server started........', 'Listening on port %j', HTTP_PORT);
+//
+// Static HTTPS Server
+//
+const HTTPS_PORT = config.get('https').port;
+const key = fs.readFileSync('ssl/server.key', 'utf8');
+const cert = fs.readFileSync('ssl/server.cert', 'utf8');
+https.createServer({key, cert}, app).listen();
+log.info('HTTPS server started.......', 'Listening on port %j', HTTPS_PORT);
 
-module.exports = app;
+exports.server = server;

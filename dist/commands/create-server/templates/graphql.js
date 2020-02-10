@@ -3,7 +3,7 @@
  * @see {@link https://www.apollographql.com/docs/apollo-server}
  */
 const {ApolloServer, gql} = require('apollo-server-express');
-const app = require('./server');
+const {app} = require('./server');
 //
 // API test data
 //

@@ -2,14 +2,11 @@
  * WebSocket Server
  * @see {@link https://github.com/websockets/ws}
  */
-const config = require('config');
 const log = require('npmlog');
-const {Server} = require('ws');
+const Websocket = require('ws');
+const {server} = require(`${__dirname}/server`);
 
-const wss = new Server({
-    app: require(`${__dirname}/server`),
-    port: config.get('websocket').port
-});
+const wss = new Websocket.Server({server});
 
 wss.broadcast = data => {
     wss.clients.forEach(client => {
@@ -23,5 +20,6 @@ wss.on('connection', socket => {
         socket.send(message);
     });
 });
+wss.on('error', data => log.error(data));
 
 module.exports = wss;
