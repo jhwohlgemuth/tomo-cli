@@ -18,7 +18,7 @@ describe('Create', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    test('new project', async () => {
+    xtest('new project', async () => {
         await run(create.project, {skipInstall});
         const tree = getDirectoryTree(tempDirectory, {omit});
         const config = fileContents('./.editorconfig');
