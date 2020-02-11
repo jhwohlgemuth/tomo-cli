@@ -1,3 +1,4 @@
+/* eslint-env browser */
 /* eslint-disable no-console */
 /**
  * Example WebSocket code
