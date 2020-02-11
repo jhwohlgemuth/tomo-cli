@@ -18,13 +18,13 @@ describe('Create', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    xtest('new project', async () => {
-        await run(create.project, {skipInstall});
-        const tree = getDirectoryTree(tempDirectory, {omit});
-        const config = fileContents('./.editorconfig');
-        expect(tree).toMatchSnapshot();
-        expect(config).toMatchSnapshot();
-    });
+    // test('new project', async () => {
+    //     await run(create.project, {skipInstall});
+    //     const tree = getDirectoryTree(tempDirectory, {omit});
+    //     const config = fileContents('./.editorconfig');
+    //     expect(tree).toMatchSnapshot();
+    //     expect(config).toMatchSnapshot();
+    // });
     test('new app', async () => {
         await run(create.app, {skipInstall});
         const tree = getDirectoryTree(tempDirectory, {omit});
