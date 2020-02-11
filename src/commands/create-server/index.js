@@ -64,6 +64,7 @@ export const tasks = [
                 .copy('server.cert')
                 .target('public')
                 .copy('index.html')
+                .copy('main.js')
                 .copy('example.md')
                 .target('__tests__')
                 .overwrite(true)
