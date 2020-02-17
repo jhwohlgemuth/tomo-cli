@@ -45,10 +45,10 @@ copy: ## Task description
 	npm-run-all --parallel copy:assets copy:index
 
 copy-assets: ## Task description
-	cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive
+	cpy \\"./assets/!(css)/**/*.*\\" \\"./assets/**/[.]*\\" ./output --parents --recursive
 
 copy-index: ## Task description
-	cpy './assets/index.html' ./output
+	cpy \\"./assets/index.html\\" ./output
 
 watch-assets: ## Task description
 	watch 'make copy' ./assets

@@ -66,7 +66,7 @@ export const addReact = [
         task: async ({sourceDirectory, useParcel, useRollup}) => {
             const main = `${sourceDirectory}/main.js`;
             const scripts = {
-                'watch:es': useRollup ? `watch 'npm run build:es' ${sourceDirectory}` : 'webpack-dev-server --hot --open --mode development',
+                'watch:es': useRollup ? `watch \"npm run build:es\" ${sourceDirectory}` : 'webpack-dev-server --hot --open --mode development',
                 start: 'npm-run-all build:es --parallel watch:*'
             };
             await (new PackageJsonEditor())

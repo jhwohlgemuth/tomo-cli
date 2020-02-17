@@ -33,7 +33,7 @@ exports[`Webpack Add support (+React) 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"build:es\\": \\"webpack\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
+        \\"watch:es\\": \\"watch \\\\\\"npm run build:es\\\\\\" ./source\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
@@ -41,11 +41,11 @@ exports[`Webpack Add support (+React) 2`] = `
         \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
         \\"clean\\": \\"del-cli ./output\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
+        \\"copy:assets\\": \\"cpy \\\\\\"./assets/!(css)/**/*.*\\\\\\" \\\\\\"./assets/**/[.]*\\\\\\" ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy \\\\\\"./assets/index.html\\\\\\" ./output\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
+        \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
@@ -171,7 +171,7 @@ exports[`Webpack Add support 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"build:es\\": \\"webpack\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
+        \\"watch:es\\": \\"watch \\\\\\"npm run build:es\\\\\\" ./source\\",
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
@@ -179,11 +179,11 @@ exports[`Webpack Add support 2`] = `
         \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
         \\"clean\\": \\"del-cli ./output\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
+        \\"copy:assets\\": \\"cpy \\\\\\"./assets/!(css)/**/*.*\\\\\\" \\\\\\"./assets/**/[.]*\\\\\\" ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy \\\\\\"./assets/index.html\\\\\\" ./output\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
+        \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run dashboard\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }

@@ -36,13 +36,13 @@ exports[`Rollup Add support (+React) 2`] = `
         \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
         \\"clean\\": \\"del-cli ./output\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
+        \\"copy:assets\\": \\"cpy \\\\\\"./assets/!(css)/**/*.*\\\\\\" \\\\\\"./assets/**/[.]*\\\\\\" ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy \\\\\\"./assets/index.html\\\\\\" ./output\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"build:es\\": \\"rollup -c\\",
         \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
+        \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
+        \\"watch:es\\": \\"watch \\\\\\"npm run build:es\\\\\\" ./source\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }
@@ -110,13 +110,13 @@ exports[`Rollup Add support 2`] = `
         \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
         \\"clean\\": \\"del-cli ./output\\",
         \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
-        \\"copy:assets\\": \\"cpy './assets/!(css)/**/*.*' './assets/**/[.]*' ./output --parents --recursive\\",
-        \\"copy:index\\": \\"cpy './assets/index.html' ./output\\",
+        \\"copy:assets\\": \\"cpy \\\\\\"./assets/!(css)/**/*.*\\\\\\" \\\\\\"./assets/**/[.]*\\\\\\" ./output --parents --recursive\\",
+        \\"copy:index\\": \\"cpy \\\\\\"./assets/index.html\\\\\\" ./output\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"build:es\\": \\"rollup -c\\",
         \\"postbuild:es\\": \\"npm run copy\\",
-        \\"watch:assets\\": \\"watch 'npm run copy' ./assets\\",
-        \\"watch:es\\": \\"watch 'npm run build:es' ./source\\",
+        \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
+        \\"watch:es\\": \\"watch \\\\\\"npm run build:es\\\\\\" ./source\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }
 }

@@ -61,13 +61,13 @@ export const addRollup = [
                 ...DEPLOY_SCRIPTS,
                 clean: `del-cli ${outputDirectory}`,
                 copy: 'npm-run-all --parallel copy:assets copy:index',
-                'copy:assets': `cpy '${assetsDirectory}/!(css)/**/*.*' '${assetsDirectory}/**/[.]*' ${outputDirectory} --parents --recursive`,
-                'copy:index': `cpy '${assetsDirectory}/index.html' ${outputDirectory}`,
+                'copy:assets': `cpy \"${assetsDirectory}/!(css)/**/*.*\" \"${assetsDirectory}/**/[.]*\" ${outputDirectory} --parents --recursive`,
+                'copy:index': `cpy \"${assetsDirectory}/index.html\" ${outputDirectory}`,
                 'prebuild:es': `del-cli ${join(outputDirectory, assetsDirectory)}`,
                 'build:es': 'rollup -c',
                 'postbuild:es': 'npm run copy',
-                'watch:assets': `watch 'npm run copy' ${assetsDirectory}`,
-                'watch:es': `watch 'npm run build:es' ${sourceDirectory}`
+                'watch:assets': `watch \"npm run copy\" ${assetsDirectory}`,
+                'watch:es': `watch \"npm run build:es\" ${sourceDirectory}`
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
