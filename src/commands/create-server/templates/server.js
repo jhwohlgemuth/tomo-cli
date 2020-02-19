@@ -6,6 +6,7 @@
  * @see [helmetjs/helmet]{@link https://github.com/helmetjs/helmet}
  */
 const fs = require('fs-extra');
+const {join} = require('path');
 const https = require('https');
 const config = require('config');
 const log = require('npmlog');
@@ -71,16 +72,16 @@ const app = express()
     .use(helmet.ieNoOpen())
     .use(helmet.referrerPolicy({policy: 'no-referrer'}))
     .use(compress()) // Use gzip compression
-    .use(express.static(__dirname)); // Serve static files
-app.get('/', verifyCsrfHeader, (req, res) => {
-    res.render('index', {
-        message: 'The server is functioning properly!'
-    });
-});
-app.get('/:page.md', verifyCsrfHeader, (req, res) => {
-    const {page} = req.params;
-    res.render(`${page}.md`);
-});
+    .get('/', verifyCsrfHeader, (req, res) => {
+        res.render('index', {
+            message: 'The server is functioning properly!'
+        });
+    })
+    .get('/:page.md', verifyCsrfHeader, (req, res) => {
+        const {page} = req.params;
+        res.render(`${page}.md`);
+    })
+    .use(express.static(join(__dirname, 'public')));
 exports.app = app;
 //
 // Static HTTP Server
