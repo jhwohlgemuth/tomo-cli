@@ -13,7 +13,7 @@ import {
     dict,
     getElapsedTime,
     getIntendedInput
-} from './api';
+} from '../api';
 
 const AnimatedIndicator = ({complete, elapsed}) => {
     const Active = () => <Color cyan>{play} </Color>;

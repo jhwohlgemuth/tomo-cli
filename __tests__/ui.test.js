@@ -3,7 +3,7 @@ import React from 'react';
 import {render} from 'ink-testing-library';
 import {descriptions} from '../src/cli';
 import commands from '../src/commands';
-import UI from '../src/main';
+import UI from '../src/components/main';
 
 jest.mock('is-online', () => (async () => true));
 

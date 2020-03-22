@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-import React, {Fragment} from 'react';
+import React from 'react';
 import {render} from 'ink';
 import meow from 'meow';
 import getStdin from 'get-stdin';
 import updateNotifier from 'update-notifier';
 import {showVersion} from './api';
 import {descriptions, options} from './cli';
-import UI from './main';
+import Main from './components/main';
 import commands from './commands';
 
 // Notify updater
@@ -18,15 +18,14 @@ const {input, flags} = meow(options);
 (async () => {
     const stdin = await getStdin();
     const done = () => typeof global._tomo_tasklist_callback === 'function' && global._tomo_tasklist_callback();
-    const Main = () => <Fragment>
-        <UI
-            commands={commands}
-            descriptions={descriptions}
-            done={done}
-            flags={flags}
-            input={input}
-            namespace={'tomo'}
-            stdin={stdin}/>
-    </Fragment>;
-    render(<Main/>, {exitOnCtrlC: true});
+    const properties = {
+        commands,
+        descriptions,
+        done,
+        flags,
+        input,
+        namespace: 'tomo',
+        stdin
+    };
+    render(<Main {...properties}/>, {exitOnCtrlC: true});
 })();
