@@ -3,7 +3,7 @@ import React from 'react';
 import {render} from 'ink-testing-library';
 import {descriptions} from '../src/cli';
 import commands from '../src/commands';
-import UI from '../src/components/main';
+import Main from '../src/components/main';
 
 jest.mock('is-online', () => (async () => true));
 
@@ -29,7 +29,7 @@ describe('tomo interface', () => {
     });
     test('add', () => {
         const input = ['add'];
-        const {lastFrame, stdin} = render(<UI
+        const {lastFrame, stdin} = render(<Main
             commands={commands}
             descriptions={descriptions}
             input={input}
@@ -41,7 +41,7 @@ describe('tomo interface', () => {
     });
     test('remove', () => {
         const input = ['remove'];
-        const {lastFrame, stdin} = render(<UI
+        const {lastFrame, stdin} = render(<Main
             commands={commands}
             descriptions={descriptions}
             input={input}
@@ -54,7 +54,7 @@ describe('tomo interface', () => {
     xtest('add eslint', done => {
         const input = ['add', 'eslint'];
         const flags = {skipInstall};
-        const {lastFrame} = render(<UI input={input} flags={flags} done={complete}/>);
+        const {lastFrame} = render(<Main input={input} flags={flags} done={complete}/>);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();
@@ -63,7 +63,7 @@ describe('tomo interface', () => {
     xtest('add eslint --use-react', done => {
         const input = ['add', 'eslint'];
         const flags = {useReact: true, skipInstall};
-        const {lastFrame} = render(<UI input={input} flags={flags} done={complete}/>);
+        const {lastFrame} = render(<Main input={input} flags={flags} done={complete}/>);
         function complete() {
             expect(lastFrame()).toMatchSnapshot();
             done();
