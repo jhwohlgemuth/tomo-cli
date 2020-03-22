@@ -18,6 +18,7 @@ import {
     maybeApply,
     populateQueue
 } from '../api';
+export {default as Main} from './main';
 
 const {assign} = Object;
 const space = ' ';
@@ -26,9 +27,7 @@ const X = () => <Color bold red>{figures.cross}{space}</Color>;
 const Pending = () => <Color cyan><Spinner></Spinner>{space}</Color>;
 const Item = ({isHighlighted, isSelected, label}) => <Color bold={isHighlighted || isSelected} cyan={isHighlighted || isSelected}>{label}</Color>;
 const Indicator = ({isHighlighted, isSelected}) => <Box marginRight={1}>
-    {(isHighlighted || isSelected) ?
-        <Color bold cyan>{figures.arrowRight}</Color> :
-        ' '}
+    {(isHighlighted || isSelected) ? <Color bold cyan>{figures.arrowRight}</Color> : ' '}
 </Box>;
 const CheckBox = ({isSelected}) => (
     <Box marginRight={1}>

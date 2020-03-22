@@ -82,9 +82,10 @@ export default class UI extends Component {
     }
     render() {
         const self = this;
-        const {commands, descriptions, done, onComplete, flags, customCommands} = self.props;
+        const {commands, descriptions, onComplete, flags, customCommands} = self.props;
         const {hasCommand, hasTerms, intendedCommand, intendedTerms, isTerminalCommand, showWarning} = self.state;
         const store = self.props.store || self.store;
+        const done = () => typeof global._tomo_tasklist_callback === 'function' && global._tomo_tasklist_callback();
         const CustomCommand = () => {
             const lookup = dict(customCommands || {});
             const Command = lookup.has(intendedCommand) ? lookup.get(intendedCommand) : UnderConstruction;
@@ -157,7 +158,6 @@ Timer.propTypes = {
 UI.propTypes = {
     commands: PropTypes.object,
     descriptions: PropTypes.object,
-    done: PropTypes.func,
     flags: PropTypes.object,
     input: PropTypes.array,
     namespace: PropTypes.string,
