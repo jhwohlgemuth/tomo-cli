@@ -72,6 +72,13 @@ const app = express()
     .use(helmet.ieNoOpen())
     .use(helmet.referrerPolicy({policy: 'no-referrer'}))
     .use(helmet.frameguard({action: 'sameorigin'}))
+    .use(helmet.featurePolicy({ // https://helmetjs.github.io/docs/feature-policy/
+        camera: [`'none'`],
+        fullscreen: [`'self'`],
+        geolocation: [`'self'`],
+        microphone: [`'none'`],
+        payment: [`'self'`]
+    }))
     .use(compress()) // Use gzip compression
     .get('/', verifyCsrfHeader, (req, res) => {
         res.render('index', {
