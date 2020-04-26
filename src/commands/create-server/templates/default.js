@@ -32,7 +32,7 @@ module.exports = {
     },
     csp: {
         'frame-ancestors': `'self'`,
-        'default-src': `'self'`,
+        'default-src': `'none'`,
         'script-src':  `'self' cdnjs.cloudflare.com`,
         'font-src': `'self' fonts.gstatic.com data:`
     }

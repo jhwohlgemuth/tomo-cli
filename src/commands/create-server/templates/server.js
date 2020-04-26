@@ -64,8 +64,8 @@ const app = express()
     .use(session(config.get('session')))
     .use(setCsrfHeader)
     .disable('x-powered-by') // Do not advertise Express
-    // .use(lusca.csrf()) // Cross Site Request Forgery
-    // .use(lusca.csp({policy: config.csp})) // Content Security Policy
+    .use(lusca.csrf()) // Cross Site Request Forgery
+    .use(lusca.csp({policy: config.csp})) // Content Security Policy
     .use(lusca.hsts({maxAge: 31536000}))
     .use(lusca.xssProtection(true))
     .use(helmet.noSniff())
