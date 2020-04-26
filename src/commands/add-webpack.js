@@ -15,52 +15,68 @@ const DEPLOY_SCRIPTS = {
     predeploy: 'npm-run-all clean "build:es -- --mode=production" build:css',
     deploy: 'echo \"Not yet implemented - now.sh or surge.sh are supported out of the box\" && exit 1'
 };
-const BUILD_DEPENDENCIES = [
+const DEV_DEPENDENCIES = [
     'cpy-cli',
     'del-cli',
     'npm-run-all'
 ];
-const WEBPACK_DEPENDENCIES = [
+const DEPENDENCIES = [
     'webpack',
     'webpack-cli',
     'webpack-dashboard',
     'webpack-jarvis',
     'webpack-dev-server',
     'babel-loader',
+    'css-loader',
+    'file-loader',
+    'style-loader',
     'terser-webpack-plugin'
 ];
-const WEBPACK_WITH_CESIUM_DEPENDENCIES = [
+const WITH_CESIUM_DEPENDENCIES = [
     'copy-webpack-plugin',
-    'css-loader',
-    'style-loader',
     'url-loader'
 ];
-const WEBPACK_RULES = [
+const CSS_RULES = [
     {
-        test: `/\.jsx?$/`,
-        exclude: `/node_modules/`,
-        loader: `'babel-loader'`,
-        query: {
-            presets: [`'@babel/env'`]
-        }
-    }
-];
-const WEBPACK_RULES_WITH_CESIUM = [
-    ...WEBPACK_RULES,
-    {
-        test: `/\.css$/`,
+        test: `/.css$/`,
+        resourceQuery: `/thirdparty/`,
         use: [`'style-loader'`, `'css-loader'`]
     },
+    {
+        test: `/.css$/`,
+        exclude: `/node_modules/`,
+        use: [
+            `'style-loader'`,
+            {loader: `'css-loader'`, options: {importLoaders: 1}},
+            `'postcss-loader'`
+        ]
+    }
+];
+const FONT_RULES = [
+    {
+        test: `/\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/`,
+        use: [`'file-loader'`]
+    }
+];
+const IMAGE_RULES = [
     {
         test: `/\.(png|gif|jpg|jpeg|svg|xml|json)$/`,
         use: [`'url-loader'`]
     }
 ];
-const WEBPACK_PLUGINS = [
+const RULES = [
+    ...CSS_RULES,
+    ...FONT_RULES
+];
+const RULES_WITH_CESIUM = [
+    ...RULES,
+    ...IMAGE_RULES
+];
+const PLUGINS = [
     `new DashboardPlugin()`
 ];
-const WEBPACK_PLUGINS_WITH_CESIUM = [
-    ...WEBPACK_PLUGINS,
+const PLUGINS_WITH_CESIUM = [
+    ...PLUGINS,
     `new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')})`,
     oneLineTrim`new CopyWebpackPlugin([
         {
@@ -78,7 +94,7 @@ const WEBPACK_PLUGINS_WITH_CESIUM = [
     ])`
 ];
 const CESIUM_DEPENDENCIES = [
-    ...WEBPACK_WITH_CESIUM_DEPENDENCIES,
+    ...WITH_CESIUM_DEPENDENCIES,
     'cesium'
 ];
 const RESIUM_DEPENDENCIES = [
@@ -140,9 +156,9 @@ export const addWebpack = [
                 zlib: `'empty'`
             };
             const optimization = {minimize: `argv.mode === 'production'`, minimizer: `[new TerserPlugin()]`};
-            const plugins = withCesium ? WEBPACK_PLUGINS_WITH_CESIUM : WEBPACK_PLUGINS;
+            const plugins = withCesium ? PLUGINS_WITH_CESIUM : PLUGINS;
             const resolve = getResolveOption(sourceDirectory, alias, useReact);
-            const rules = withCesium ? WEBPACK_RULES_WITH_CESIUM : WEBPACK_RULES;
+            const rules = withCesium ? RULES_WITH_CESIUM : RULES;
             await getWebpackConfigPrependContent(withCesium)
                 .reduce((config, content) => config.prepend(content), (new WebpackConfigEditor()).create())
                 .extend({context, devServer, entry, module: {rules}, optimization, plugins, resolve})
@@ -193,7 +209,7 @@ export const addWebpack = [
     },
     {
         text: 'Install Webpack and development dependencies',
-        task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES], {dev: true, skipInstall}),
+        task: ({skipInstall}) => install([...DEV_DEPENDENCIES, ...DEPENDENCIES], {dev: true, skipInstall}),
         condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     },
     {
@@ -238,14 +254,14 @@ export const removeWebpack = [
     },
     {
         text: 'Uninstall Webpack dependencies',
-        task: () => uninstall([...BUILD_DEPENDENCIES, ...WEBPACK_DEPENDENCIES, 'stmux']),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_DEPENDENCIES),
+        task: () => uninstall([...DEV_DEPENDENCIES, ...DEPENDENCIES, 'stmux']),
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...DEPENDENCIES),
         optional: ({skipInstall}) => !skipInstall
     },
     {
         text: 'Uninstall Cesium Webpack dependencies',
-        task: () => uninstall(WEBPACK_WITH_CESIUM_DEPENDENCIES),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WEBPACK_WITH_CESIUM_DEPENDENCIES), //eslint-disable-line max-len
+        task: () => uninstall(WITH_CESIUM_DEPENDENCIES),
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WITH_CESIUM_DEPENDENCIES), //eslint-disable-line max-len
         optional: ({skipInstall, withCesium}) => !skipInstall && withCesium
     }
 ];

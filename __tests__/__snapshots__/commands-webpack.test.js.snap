@@ -109,14 +109,32 @@ module.exports = (env, argv) => ({
     module: {
         rules: [
             {
-                test: /.jsx?$/,
+                test: /.css$/,
+                resourceQuery: /thirdparty/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /.css$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-                query: {
-                    presets: [
-                        '@babel/env'
-                    ]
-                }
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1
+                        }
+                    },
+                    'postcss-loader'
+                ]
+            },
+            {
+                test: /.(woff(2)?|ttf|eot|svg)(?v=d+.d+.d+)?$/,
+                use: [
+                    'file-loader'
+                ]
             }
         ]
     },
@@ -218,14 +236,32 @@ module.exports = (env, argv) => ({
     module: {
         rules: [
             {
-                test: /.jsx?$/,
+                test: /.css$/,
+                resourceQuery: /thirdparty/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /.css$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-                query: {
-                    presets: [
-                        '@babel/env'
-                    ]
-                }
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1
+                        }
+                    },
+                    'postcss-loader'
+                ]
+            },
+            {
+                test: /.(woff(2)?|ttf|eot|svg)(?v=d+.d+.d+)?$/,
+                use: [
+                    'file-loader'
+                ]
             }
         ]
     },
