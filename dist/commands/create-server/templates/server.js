@@ -71,6 +71,7 @@ const app = express()
     .use(helmet.noSniff())
     .use(helmet.ieNoOpen())
     .use(helmet.referrerPolicy({policy: 'no-referrer'}))
+    .use(helmet.frameguard({action: 'sameorigin'}))
     .use(compress()) // Use gzip compression
     .get('/', verifyCsrfHeader, (req, res) => {
         res.render('index', {
