@@ -1,8 +1,1 @@
-import React from 'react';
-
-const Body = () => <section>
-    <img src={'assets/images/react.png'} />
-    <p>What happens next is up to you...</p>
-</section>;
-
-export default Body;
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");var _react=_interopRequireDefault(require("react"));Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;const Body=()=>_react.default.createElement("section",null,_react.default.createElement("img",{src:"assets/images/react.png"}),_react.default.createElement("p",null,"What happens next is up to you..."));var _default=Body;exports.default=_default;

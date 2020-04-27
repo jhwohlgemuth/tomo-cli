@@ -58,7 +58,7 @@ export const tasks = [
         text: 'Add lint tasks to package.json',
         task: async ({sourceDirectory}) => {
             const scripts = {
-                lint: `eslint . -c ./.eslintrc.js --fix`,
+                lint: `eslint . -c ./.eslintrc.js --ext .js,.jsx --fix`,
                 'lint:ing': `watch 'npm run lint' ${sourceDirectory}`,
                 'lint:tests': 'eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore'
             };

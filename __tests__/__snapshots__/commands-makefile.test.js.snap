@@ -14,7 +14,7 @@ watch-es: ## Task description
 	watch 'make build-es' ./source
 
 lint: ## Task description
-	eslint . -c ./.eslintrc.js --fix
+	eslint . -c ./.eslintrc.js --ext .js,.jsx --fix
 
 lint-ing: ## Task description
 	watch 'make lint' ./source

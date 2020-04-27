@@ -1,17 +1,3 @@
-/**
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault"),_react=_interopRequireDefault(require("react")),_reactDom=require("react-dom"),_App=_interopRequireDefault(require("./components/App"));/**
  * Main entry point for application
- */
-import React from 'react';
-import {render} from 'react-dom';
-import App from './components/App';
-
-const name = 'My tomo application';
-const root = document.getElementById('root');
-
-render(<App name={name} />, root);
-
-if (module.hot) {
-    module.hot.accept(() => {
-        render(<App name={name} />, root);
-    });
-}
+ */const name="My tomo application",root=document.getElementById("root");(0,_reactDom.render)(_react.default.createElement(_App.default,{name:"My tomo application"}),root),module.hot&&module.hot.accept(()=>{(0,_reactDom.render)(_react.default.createElement(_App.default,{name:name}),root)});

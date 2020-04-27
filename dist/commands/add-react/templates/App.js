@@ -1,18 +1,1 @@
-import React, {Fragment} from 'react';
-import {hot} from 'react-hot-loader';
-import PropTypes from 'prop-types';
-import Header from './Header';
-import Body from './Body';
-import Footer from './Footer';
-
-const App = ({name}) => <Fragment>
-    <Header></Header>
-    <Body></Body>
-    <Footer name={name}></Footer>
-</Fragment>;
-
-App.propTypes = {
-    name: PropTypes.string
-};
-
-export default hot(module)(App);
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault"),_interopRequireWildcard=require("@babel/runtime/helpers/interopRequireWildcard");Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var _react=_interopRequireWildcard(require("react")),_reactHotLoader=require("react-hot-loader"),_propTypes=_interopRequireDefault(require("prop-types")),_Header=_interopRequireDefault(require("./Header")),_Body=_interopRequireDefault(require("./Body")),_Footer=_interopRequireDefault(require("./Footer"));const App=({name:a})=>_react.default.createElement(_react.Fragment,null,_react.default.createElement(_Header.default,null),_react.default.createElement(_Body.default,null),_react.default.createElement(_Footer.default,{name:a}));App.propTypes={name:_propTypes.default.string};var _default=(0,_reactHotLoader.hot)(module)(App);exports.default=_default;

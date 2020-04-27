@@ -8,7 +8,7 @@ exports[`Parcel Add support 1`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --ext .js,.jsx --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"predeploy\\": \\"npm-run-all clean build:es build:css copy:assets\\",
@@ -56,7 +56,7 @@ exports[`Parcel Remove support 2`] = `
     \\"license\\": \\"MIT\\",
     \\"keywords\\": [],
     \\"scripts\\": {
-        \\"lint\\": \\"eslint . -c ./.eslintrc.js --fix\\",
+        \\"lint\\": \\"eslint . -c ./.eslintrc.js --ext .js,.jsx --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"predeploy\\": \\"npm-run-all clean build:es build:css copy:assets\\",
