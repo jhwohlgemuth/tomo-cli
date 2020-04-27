@@ -16,7 +16,7 @@
     "node": ">=6"
   },
   "scripts": {
-    "copy:assets": "cpy '**/templates/*.(js|json|re|html|hbs|css|md|png|ico|otf|svg|woff|woff2|ttf|eot|cert|key)' '**/[.]*' '../dist/' --cwd=src --parents --recursive",
+    "copy:assets": "cpy '**/templates/*.(js|jsx|json|re|html|hbs|css|md|png|ico|otf|svg|woff|woff2|ttf|eot|cert|key)' '**/[.]*' '../dist/' --cwd=src --parents --recursive",
     "dev": "stmux [ \"npm run build:watch\" : \"npm run lint:watch\" ]",
     "prebuild": "npm run build:clean",
     "build": "babel src --out-dir dist",

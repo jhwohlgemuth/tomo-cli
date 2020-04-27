@@ -1,2 +1,15 @@
-"use strict";var _interopRequireWildcard=require("@babel/runtime/helpers/interopRequireWildcard");var _react=_interopRequireWildcard(require("react"));require("core-js/modules/es.array.iterator"),Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;const Header=()=>{const[a,b]=(0,_react.useState)(0);return(0,_react.useEffect)(()=>{const c=setInterval(()=>b(a+1),1e3);// eslint-disable-line no-magic-numbers
-return()=>clearInterval(c)}),_react.default.createElement("header",null,_react.default.createElement("p",null,"HMR Check"),_react.default.createElement("p",null,"Count: ",a))};var _default=Header;exports.default=_default;
+import React, {useState, useEffect} from 'react';
+
+const Header = () => {
+    const [count, setCount] = useState(0);
+    useEffect(() => {
+        const counter = setInterval(() => setCount(count + 1), 1000);// eslint-disable-line no-magic-numbers
+        return () => clearInterval(counter);
+    });
+    return <header>
+        <p>HMR Check</p>
+        <p>Count: {count}</p>
+    </header>;
+};
+
+export default Header;
