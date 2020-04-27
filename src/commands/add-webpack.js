@@ -112,7 +112,7 @@ const getDevServerOption = (outputDirectory, port) => ({
 const getEntryOption = (sourceDirectory, useReact = false) => {
     const entryWithReact = [
         `...(argv.mode === 'production' ? [] : ['react-hot-loader/patch'])`,
-        `'${sourceDirectory}/main.js'`
+        `'${sourceDirectory}/main.jsx'`
     ];
     const entryWithoutReact = {
         app: `'${sourceDirectory}/main.js'`

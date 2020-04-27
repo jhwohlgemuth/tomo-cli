@@ -13,7 +13,7 @@ module.exports = (env, argv) => ({
     mode: argv.mode === 'production' ? 'production' : 'development',
     entry: [
         ...(argv.mode === 'production' ? [] : ['react-hot-loader/patch']),
-        './source/main.js'
+        './source/main.jsx'
     ],
     devtool: (argv.mode === 'production') ? void 0 : 'eval-source-map',
     output: {

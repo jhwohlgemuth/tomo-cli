@@ -35,11 +35,11 @@ export const addRollup = [
     {
         text: 'Create Rollup configuration file',
         task: async ({outputDirectory, sourceDirectory, useReact}) => {
-            const input =  `'${sourceDirectory}/main.js'`;
+            const input =  `'${sourceDirectory}/main.js${useReact ? 'x' : ''}'`;
             const output = {
                 file: `'${outputDirectory}/bundle.min.js'`
             };
-            const plugins = [, `commonjs()`];
+            const plugins = [, `commonjs()`]; // the commonjs plugin needs to be the second item in the array
             await (new RollupConfigEditor())
                 .create()
                 .prepend(`import {terser} from 'rollup-plugin-terser';`)

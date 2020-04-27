@@ -58,7 +58,7 @@ import replace from 'rollup-plugin-replace';
 import {terser} from 'rollup-plugin-terser';
 
 export default {
-    input: './source/main.js',
+    input: './source/main.jsx',
     output: {
         file: './output/bundle.min.js',
         format: 'iife',
