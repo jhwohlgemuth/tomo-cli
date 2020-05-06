@@ -6,6 +6,8 @@ const {join, resolve} = require('path');
 const {DefinePlugin} = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
 const source = 'node_modules/cesium/Build/Cesium';
 
@@ -18,7 +20,8 @@ module.exports = (env, argv) => ({
     devtool: (argv.mode === 'production') ? void 0 : 'eval-source-map',
     output: {
         path: resolve('./dist'),
-        filename: 'bundle.min.js'
+        filename: 'bundle.min.js',
+        crossOrigin: 'anonymous'
     },
     context: __dirname,
     devServer: {
@@ -72,6 +75,8 @@ module.exports = (env, argv) => ({
     },
     plugins: [
         new DashboardPlugin(),
+        new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
+        new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
         new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
         new CopyWebpackPlugin([{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}])
     ],
@@ -99,6 +104,8 @@ const {join, resolve} = require('path');
 const {DefinePlugin} = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
 const source = 'node_modules/cesium/Build/Cesium';
 
@@ -110,7 +117,8 @@ module.exports = (env, argv) => ({
     devtool: (argv.mode === 'production') ? void 0 : 'eval-source-map',
     output: {
         path: resolve('./dist'),
-        filename: 'bundle.min.js'
+        filename: 'bundle.min.js',
+        crossOrigin: 'anonymous'
     },
     context: __dirname,
     devServer: {
@@ -164,6 +172,8 @@ module.exports = (env, argv) => ({
     },
     plugins: [
         new DashboardPlugin(),
+        new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
+        new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
         new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
         new CopyWebpackPlugin([{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}])
     ],

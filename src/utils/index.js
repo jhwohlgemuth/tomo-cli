@@ -377,6 +377,7 @@ export const WebpackConfigEditor = createFunctionModuleEditor('webpack.config.js
     devtool: `(argv.mode === 'production') ? void 0 : 'eval-source-map'`,
     output: {
         path: `resolve('./dist')`,
-        filename: `'bundle.min.js'`
+        filename: `'bundle.min.js'`,
+        crossOrigin: `'anonymous'`
     }
 }, {params: ['env', 'argv']});
