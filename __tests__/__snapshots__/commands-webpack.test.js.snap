@@ -40,9 +40,8 @@ exports[`Webpack Add support (+React) 2`] = `
         \\"predeploy\\": \\"npm-run-all clean \\\\\\"build:es -- --mode=production\\\\\\" build:css\\",
         \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
         \\"clean\\": \\"del-cli ./output\\",
-        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets\\",
         \\"copy:assets\\": \\"cpy \\\\\\"./assets/!(css)/**/*.*\\\\\\" \\\\\\"./assets/**/[.]*\\\\\\" ./output --parents --recursive\\",
-        \\"copy:index\\": \\"cpy \\\\\\"./assets/index.html\\\\\\" ./output\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"postbuild:es\\": \\"npm run copy\\",
         \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
@@ -85,6 +84,8 @@ exports[`Webpack Add support (+React) 4`] = `
 "/* eslint-env node */
 const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => ({
@@ -96,7 +97,8 @@ module.exports = (env, argv) => ({
     devtool: (argv.mode === 'production') ? void 0 : 'eval-source-map',
     output: {
         path: resolve('./dist'),
-        filename: 'bundle.min.js'
+        filename: 'bundle.min.js',
+        crossOriginLoading: 'anonymous'
     },
     context: __dirname,
     devServer: {
@@ -108,6 +110,16 @@ module.exports = (env, argv) => ({
     },
     module: {
         rules: [
+            {
+                test: /.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        '@babel/env'
+                    ]
+                }
+            },
             {
                 test: /.css$/,
                 resourceQuery: /thirdparty/,
@@ -131,7 +143,7 @@ module.exports = (env, argv) => ({
                 ]
             },
             {
-                test: /.(woff(2)?|ttf|eot|svg)(?v=d+.d+.d+)?$/,
+                test: /\\\\\\\\.(woff(2)?|ttf|eot|svg)(\\\\\\\\?v=\\\\\\\\d+\\\\\\\\.\\\\\\\\d+\\\\\\\\.\\\\\\\\d+)?$/,
                 use: [
                     'file-loader'
                 ]
@@ -143,7 +155,9 @@ module.exports = (env, argv) => ({
         minimizer: [new TerserPlugin()]
     },
     plugins: [
-        new DashboardPlugin()
+        new DashboardPlugin(),
+        new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
+        new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'})
     ],
     resolve: {
         mainFields: ['module', 'main'],
@@ -196,9 +210,8 @@ exports[`Webpack Add support 2`] = `
         \\"predeploy\\": \\"npm-run-all clean \\\\\\"build:es -- --mode=production\\\\\\" build:css\\",
         \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
         \\"clean\\": \\"del-cli ./output\\",
-        \\"copy\\": \\"npm-run-all --parallel copy:assets copy:index\\",
+        \\"copy\\": \\"npm-run-all --parallel copy:assets\\",
         \\"copy:assets\\": \\"cpy \\\\\\"./assets/!(css)/**/*.*\\\\\\" \\\\\\"./assets/**/[.]*\\\\\\" ./output --parents --recursive\\",
-        \\"copy:index\\": \\"cpy \\\\\\"./assets/index.html\\\\\\" ./output\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
         \\"postbuild:es\\": \\"npm run copy\\",
         \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
@@ -213,6 +226,8 @@ exports[`Webpack Add support 3`] = `
 "/* eslint-env node */
 const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => ({
@@ -223,7 +238,8 @@ module.exports = (env, argv) => ({
     devtool: (argv.mode === 'production') ? void 0 : 'eval-source-map',
     output: {
         path: resolve('./dist'),
-        filename: 'bundle.min.js'
+        filename: 'bundle.min.js',
+        crossOriginLoading: 'anonymous'
     },
     context: __dirname,
     devServer: {
@@ -235,6 +251,16 @@ module.exports = (env, argv) => ({
     },
     module: {
         rules: [
+            {
+                test: /.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        '@babel/env'
+                    ]
+                }
+            },
             {
                 test: /.css$/,
                 resourceQuery: /thirdparty/,
@@ -258,7 +284,7 @@ module.exports = (env, argv) => ({
                 ]
             },
             {
-                test: /.(woff(2)?|ttf|eot|svg)(?v=d+.d+.d+)?$/,
+                test: /\\\\\\\\.(woff(2)?|ttf|eot|svg)(\\\\\\\\?v=\\\\\\\\d+\\\\\\\\.\\\\\\\\d+\\\\\\\\.\\\\\\\\d+)?$/,
                 use: [
                     'file-loader'
                 ]
@@ -270,7 +296,9 @@ module.exports = (env, argv) => ({
         minimizer: [new TerserPlugin()]
     },
     plugins: [
-        new DashboardPlugin()
+        new DashboardPlugin(),
+        new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
+        new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'})
     ],
     resolve: {
         mainFields: ['module', 'main'],

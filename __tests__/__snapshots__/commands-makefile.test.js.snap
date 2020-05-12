@@ -42,13 +42,10 @@ clean: ## Task description
 	del-cli ./output
 
 copy: ## Task description
-	npm-run-all --parallel copy:assets copy:index
+	npm-run-all --parallel copy:assets
 
 copy-assets: ## Task description
 	cpy \\"./assets/!(css)/**/*.*\\" \\"./assets/**/[.]*\\" ./output --parents --recursive
-
-copy-index: ## Task description
-	cpy \\"./assets/index.html\\" ./output
 
 watch-assets: ## Task description
 	watch 'make copy' ./assets

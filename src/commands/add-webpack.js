@@ -26,15 +26,27 @@ const DEPENDENCIES = [
     'webpack-dashboard',
     'webpack-jarvis',
     'webpack-dev-server',
+    'webpack-subresource-integrity',
     'babel-loader',
     'css-loader',
     'file-loader',
     'style-loader',
+    'html-webpack-plugin',
     'terser-webpack-plugin'
 ];
 const WITH_CESIUM_DEPENDENCIES = [
     'copy-webpack-plugin',
     'url-loader'
+];
+const JAVASCRIPT_RULES = [
+    {
+        test: `/.jsx?$/`,
+        exclude: `/node_modules/`,
+        loader: `'babel-loader'`,
+        options: {
+            presets: [`'@babel/env'`]
+        }
+    }
 ];
 const CSS_RULES = [
     {
@@ -54,7 +66,7 @@ const CSS_RULES = [
 ];
 const FONT_RULES = [
     {
-        test: `/\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/`,
+        test: `/\\.(woff(2)?|ttf|eot|svg)(\\?v=\\d+\\.\\d+\\.\\d+)?$/`,
         use: [`'file-loader'`]
     }
 ];
@@ -65,6 +77,7 @@ const IMAGE_RULES = [
     }
 ];
 const RULES = [
+    ...JAVASCRIPT_RULES,
     ...CSS_RULES,
     ...FONT_RULES
 ];
@@ -73,7 +86,15 @@ const RULES_WITH_CESIUM = [
     ...IMAGE_RULES
 ];
 const PLUGINS = [
-    `new DashboardPlugin()`
+    `new DashboardPlugin()`,
+    oneLineTrim`new HtmlWebpackPlugin({
+        title: \`tomo webapp [\${argv.mode}]\`, 
+        template: 'assets/index.html'
+    })`,
+    oneLineTrim`new SriPlugin({
+        hashFuncNames: ['sha256'], 
+        enabled: argv.mode === 'production'
+    })`
 ];
 const PLUGINS_WITH_CESIUM = [
     ...PLUGINS,
@@ -131,6 +152,8 @@ const getWebpackConfigPrependContent = withCesium => [
     withCesium && `const {DefinePlugin} = require('webpack');`,
     withCesium && `const CopyWebpackPlugin = require('copy-webpack-plugin');`,
     `const DashboardPlugin = require('webpack-dashboard/plugin');`,
+    `const HtmlWebpackPlugin = require('html-webpack-plugin');`,
+    `const SriPlugin = require('webpack-subresource-integrity');`,
     `const TerserPlugin = require('terser-webpack-plugin');`,
     withCesium && `const source = 'node_modules/cesium/Build/Cesium';`
 ]
@@ -173,9 +196,8 @@ export const addWebpack = [
             const scripts = {
                 ...DEPLOY_SCRIPTS,
                 clean: `del-cli ${outputDirectory}`,
-                copy: 'npm-run-all --parallel copy:assets copy:index',
+                copy: 'npm-run-all --parallel copy:assets',
                 'copy:assets': `cpy \"${assetsDirectory}/!(css)/**/*.*\" \"${assetsDirectory}/**/[.]*\" ${outputDirectory} --parents --recursive`,
-                'copy:index': `cpy \"${assetsDirectory}/index.html\" ${outputDirectory}`,
                 'prebuild:es': `del-cli ${join(outputDirectory, assetsDirectory)}`,
                 'build:es': 'webpack',
                 'postbuild:es': 'npm run copy',

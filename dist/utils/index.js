@@ -133,4 +133,4 @@ console.log(b),process.exit()};/**
  * await (new WebpackConfigEditor())
  *     .create()
  *     .commit();
- */exports.RollupConfigEditor=RollupConfigEditor;const WebpackConfigEditor=(0,_createModuleEditor.createFunctionModuleEditor)("webpack.config.js",{mode:`argv.mode === 'production' ? 'production' : 'development'`,entry:{app:`'./src/main.js'`},devtool:`(argv.mode === 'production') ? void 0 : 'eval-source-map'`,output:{path:`resolve('./dist')`,filename:`'bundle.min.js'`}},{params:["env","argv"]});exports.WebpackConfigEditor=WebpackConfigEditor;
+ */exports.RollupConfigEditor=RollupConfigEditor;const WebpackConfigEditor=(0,_createModuleEditor.createFunctionModuleEditor)("webpack.config.js",{mode:`argv.mode === 'production' ? 'production' : 'development'`,entry:{app:`'./src/main.js'`},devtool:`(argv.mode === 'production') ? void 0 : 'eval-source-map'`,output:{path:`resolve('./dist')`,filename:`'bundle.min.js'`,crossOriginLoading:`'anonymous'`}},{params:["env","argv"]});exports.WebpackConfigEditor=WebpackConfigEditor;
