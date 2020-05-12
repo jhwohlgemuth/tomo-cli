@@ -378,6 +378,6 @@ export const WebpackConfigEditor = createFunctionModuleEditor('webpack.config.js
     output: {
         path: `resolve('./dist')`,
         filename: `'bundle.min.js'`,
-        crossOrigin: `'anonymous'`
+        crossOriginLoading: `'anonymous'`
     }
 }, {params: ['env', 'argv']});

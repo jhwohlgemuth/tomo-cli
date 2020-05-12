@@ -38,6 +38,16 @@ const WITH_CESIUM_DEPENDENCIES = [
     'copy-webpack-plugin',
     'url-loader'
 ];
+const JAVASCRIPT_RULES = [
+    {
+        test: `/.jsx?$/`,
+        exclude: `/node_modules/`,
+        loader: `'babel-loader'`,
+        options: {
+            presets: [`'@babel/env'`]
+        }
+    }
+];
 const CSS_RULES = [
     {
         test: `/.css$/`,
@@ -56,7 +66,7 @@ const CSS_RULES = [
 ];
 const FONT_RULES = [
     {
-        test: `/\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/`,
+        test: `/\\.(woff(2)?|ttf|eot|svg)(\\?v=\\d+\\.\\d+\\.\\d+)?$/`,
         use: [`'file-loader'`]
     }
 ];
@@ -67,6 +77,7 @@ const IMAGE_RULES = [
     }
 ];
 const RULES = [
+    ...JAVASCRIPT_RULES,
     ...CSS_RULES,
     ...FONT_RULES
 ];

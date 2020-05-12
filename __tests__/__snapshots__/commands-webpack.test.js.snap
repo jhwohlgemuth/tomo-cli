@@ -98,7 +98,7 @@ module.exports = (env, argv) => ({
     output: {
         path: resolve('./dist'),
         filename: 'bundle.min.js',
-        crossOrigin: 'anonymous'
+        crossOriginLoading: 'anonymous'
     },
     context: __dirname,
     devServer: {
@@ -110,6 +110,16 @@ module.exports = (env, argv) => ({
     },
     module: {
         rules: [
+            {
+                test: /.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        '@babel/env'
+                    ]
+                }
+            },
             {
                 test: /.css$/,
                 resourceQuery: /thirdparty/,
@@ -133,7 +143,7 @@ module.exports = (env, argv) => ({
                 ]
             },
             {
-                test: /.(woff(2)?|ttf|eot|svg)(?v=d+.d+.d+)?$/,
+                test: /\\\\\\\\.(woff(2)?|ttf|eot|svg)(\\\\\\\\?v=\\\\\\\\d+\\\\\\\\.\\\\\\\\d+\\\\\\\\.\\\\\\\\d+)?$/,
                 use: [
                     'file-loader'
                 ]
@@ -229,7 +239,7 @@ module.exports = (env, argv) => ({
     output: {
         path: resolve('./dist'),
         filename: 'bundle.min.js',
-        crossOrigin: 'anonymous'
+        crossOriginLoading: 'anonymous'
     },
     context: __dirname,
     devServer: {
@@ -241,6 +251,16 @@ module.exports = (env, argv) => ({
     },
     module: {
         rules: [
+            {
+                test: /.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        '@babel/env'
+                    ]
+                }
+            },
             {
                 test: /.css$/,
                 resourceQuery: /thirdparty/,
@@ -264,7 +284,7 @@ module.exports = (env, argv) => ({
                 ]
             },
             {
-                test: /.(woff(2)?|ttf|eot|svg)(?v=d+.d+.d+)?$/,
+                test: /\\\\\\\\.(woff(2)?|ttf|eot|svg)(\\\\\\\\?v=\\\\\\\\d+\\\\\\\\.\\\\\\\\d+\\\\\\\\.\\\\\\\\d+)?$/,
                 use: [
                     'file-loader'
                 ]
