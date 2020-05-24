@@ -43,6 +43,8 @@ exports[`Webpack Add support (+React) 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets\\",
         \\"copy:assets\\": \\"cpy \\\\\\"./assets/!(css)/**/*.*\\\\\\" \\\\\\"./assets/**/[.]*\\\\\\" ./output --parents --recursive\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
+        \\"build:stats\\": \\"webpack --mode production --profile --json > stats.json\\",
+        \\"build:analyze\\": \\"webpack-bundle-analyzer ./stats.json\\",
         \\"postbuild:es\\": \\"npm run copy\\",
         \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
@@ -213,6 +215,8 @@ exports[`Webpack Add support 2`] = `
         \\"copy\\": \\"npm-run-all --parallel copy:assets\\",
         \\"copy:assets\\": \\"cpy \\\\\\"./assets/!(css)/**/*.*\\\\\\" \\\\\\"./assets/**/[.]*\\\\\\" ./output --parents --recursive\\",
         \\"prebuild:es\\": \\"del-cli output/assets\\",
+        \\"build:stats\\": \\"webpack --mode production --profile --json > stats.json\\",
+        \\"build:analyze\\": \\"webpack-bundle-analyzer ./stats.json\\",
         \\"postbuild:es\\": \\"npm run copy\\",
         \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
         \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
@@ -341,7 +345,9 @@ exports[`Webpack Remove support 2`] = `
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --ext .js,.jsx --fix\\",
         \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
-        \\"clean\\": \\"del-cli ./output\\"
+        \\"clean\\": \\"del-cli ./output\\",
+        \\"build:stats\\": \\"webpack --mode production --profile --json > stats.json\\",
+        \\"build:analyze\\": \\"webpack-bundle-analyzer ./stats.json\\"
     }
 }
 "

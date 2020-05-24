@@ -32,7 +32,8 @@ const DEPENDENCIES = [
     'file-loader',
     'style-loader',
     'html-webpack-plugin',
-    'terser-webpack-plugin'
+    'terser-webpack-plugin',
+    'webpack-bundle-analyzer'
 ];
 const WITH_CESIUM_DEPENDENCIES = [
     'copy-webpack-plugin',
@@ -200,6 +201,8 @@ export const addWebpack = [
                 'copy:assets': `cpy \"${assetsDirectory}/!(css)/**/*.*\" \"${assetsDirectory}/**/[.]*\" ${outputDirectory} --parents --recursive`,
                 'prebuild:es': `del-cli ${join(outputDirectory, assetsDirectory)}`,
                 'build:es': 'webpack',
+                'build:stats': 'webpack --mode production --profile --json > stats.json',
+                'build:analyze': 'webpack-bundle-analyzer ./stats.json',
                 'postbuild:es': 'npm run copy',
                 'watch:assets': `watch \"npm run copy\" ${assetsDirectory}`,
                 'watch:es': `watch \"npm run build:es\" ${sourceDirectory}`,

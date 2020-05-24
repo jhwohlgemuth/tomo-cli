@@ -47,6 +47,12 @@ copy: ## Task description
 copy-assets: ## Task description
 	cpy \\"./assets/!(css)/**/*.*\\" \\"./assets/**/[.]*\\" ./output --parents --recursive
 
+build-stats: ## Task description
+	webpack --mode production --profile --json > stats.json
+
+build-analyze: ## Task description
+	webpack-bundle-analyzer ./stats.json
+
 watch-assets: ## Task description
 	watch 'make copy' ./assets
 
