@@ -14,6 +14,9 @@ exports[`Create new app 1`] = `
             name: .eslintrc.js
         },
         {
+            name: .gitignore
+        },
+        {
             name: __tests__,
             children: [
                 {
@@ -259,6 +262,174 @@ trim_trailing_whitespace = true
 indent_size = 2"
 `;
 
+exports[`Create new react app (with Rust) 1`] = `
+"{
+    name: tomo-test,
+    children: [
+        {
+            name: .editorconfig
+        },
+        {
+            name: .eslintignore
+        },
+        {
+            name: .eslintrc.js
+        },
+        {
+            name: .gitignore
+        },
+        {
+            name: Cargo.toml
+        },
+        {
+            name: __tests__,
+            children: [
+                {
+                    name: example.test.js
+                },
+                {
+                    name: setup.js
+                }
+            ]
+        },
+        {
+            name: assets,
+            children: [
+                {
+                    name: css,
+                    children: [
+                        {
+                            name: fonts.css
+                        },
+                        {
+                            name: style.css
+                        }
+                    ]
+                },
+                {
+                    name: fonts,
+                    children: [
+                        {
+                            name: SansForgetica-Regular.eot
+                        },
+                        {
+                            name: SansForgetica-Regular.svg
+                        },
+                        {
+                            name: SansForgetica-Regular.ttf
+                        },
+                        {
+                            name: SansForgetica-Regular.woff
+                        },
+                        {
+                            name: SansForgetica-Regular.woff2
+                        }
+                    ]
+                },
+                {
+                    name: images,
+                    children: [
+                        {
+                            name: preferences.png
+                        },
+                        {
+                            name: react.png
+                        }
+                    ]
+                },
+                {
+                    name: index.html
+                },
+                {
+                    name: library,
+                    children: [
+                        {
+                            name: .gitkeep
+                        }
+                    ]
+                },
+                {
+                    name: workers,
+                    children: [
+                        {
+                            name: .gitkeep
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: babel.config.js
+        },
+        {
+            name: package.json
+        },
+        {
+            name: postcss.config.js
+        },
+        {
+            name: rust-to-wasm,
+            children: [
+                {
+                    name: Cargo.toml
+                },
+                {
+                    name: src,
+                    children: [
+                        {
+                            name: lib.rs
+                        },
+                        {
+                            name: utils.rs
+                        }
+                    ]
+                },
+                {
+                    name: tests,
+                    children: [
+                        {
+                            name: app.rs
+                        },
+                        {
+                            name: web.rs
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: source,
+            children: [
+                {
+                    name: components,
+                    children: [
+                        {
+                            name: App.jsx
+                        },
+                        {
+                            name: Body.jsx
+                        },
+                        {
+                            name: Footer.jsx
+                        },
+                        {
+                            name: Header.jsx
+                        }
+                    ]
+                },
+                {
+                    name: main.jsx
+                }
+            ]
+        },
+        {
+            name: webpack.config.js
+        }
+    ]
+}
+"
+`;
+
 exports[`Create new react app 1`] = `
 "{
     name: tomo-test,
@@ -271,6 +442,9 @@ exports[`Create new react app 1`] = `
         },
         {
             name: .eslintrc.js
+        },
+        {
+            name: .gitignore
         },
         {
             name: __tests__,

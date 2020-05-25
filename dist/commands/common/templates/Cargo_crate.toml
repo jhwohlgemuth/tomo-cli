@@ -1,0 +1,36 @@
+[package]
+name = "rust_to_wasm"
+description = "Rust code to be used within webapp as WebAssembly"
+version = "0.1.0"
+authors = ["your@email"]
+categories = ["wasm"]
+edition = "2018"
+
+[lib]
+# "lib" is required for integration tests to see crate
+crate-type = ["cdylib", "lib"]
+path = "src/lib.rs"
+
+[profile.release]
+lto = true
+
+[features]
+# If you uncomment this line, it will enable `wee_alloc`:
+#default = ["wee_alloc"]
+default-features = ["console_error_panic_hook"]
+
+[dependencies]
+cfg-if = "0.1.6"
+console_error_panic_hook = { version = "0.1.5", optional = true }
+wasm-bindgen = "0.2.45"
+wee_alloc = { version = "0.4.2", optional = true }
+
+[dependencies.web-sys]
+version = "0.3.22"
+features = ["console"]
+
+[dev-dependencies]
+wasm-bindgen-test = "0.2.45"
+futures = "0.1.27"
+js-sys = "0.3.22"
+wasm-bindgen-futures = "0.3.22"

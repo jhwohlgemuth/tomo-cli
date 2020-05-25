@@ -39,6 +39,9 @@ const WITH_CESIUM_DEPENDENCIES = [
     'copy-webpack-plugin',
     'url-loader'
 ];
+const WITH_RUST_DEPENDENCIES = [
+    '@wasm-tool/wasm-pack-plugin'
+];
 const JAVASCRIPT_RULES = [
     {
         test: `/.jsx?$/`,
@@ -86,35 +89,6 @@ const RULES_WITH_CESIUM = [
     ...RULES,
     ...IMAGE_RULES
 ];
-const PLUGINS = [
-    `new DashboardPlugin()`,
-    oneLineTrim`new HtmlWebpackPlugin({
-        title: \`tomo webapp [\${argv.mode}]\`, 
-        template: 'assets/index.html'
-    })`,
-    oneLineTrim`new SriPlugin({
-        hashFuncNames: ['sha256'], 
-        enabled: argv.mode === 'production'
-    })`
-];
-const PLUGINS_WITH_CESIUM = [
-    ...PLUGINS,
-    `new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')})`,
-    oneLineTrim`new CopyWebpackPlugin([
-        {
-            from: join(source, 'Workers'), to: 'Workers'
-        },
-        {
-            from: join(source, 'ThirdParty'), to: 'ThirdParty'
-        },
-        {
-            from: join(source, 'Assets'), to: 'Assets'
-        },
-        {
-            from: join(source, 'Widgets'), to: 'Widgets'
-        }
-    ])`
-];
 const CESIUM_DEPENDENCIES = [
     ...WITH_CESIUM_DEPENDENCIES,
     'cesium'
@@ -141,12 +115,50 @@ const getEntryOption = (sourceDirectory, useReact = false) => {
     };
     return useReact ? entryWithReact : entryWithoutReact;
 };
+const getPlugins = ({withCesium, withRust}) => {
+    const PLUGINS = [
+        `new DashboardPlugin()`,
+        oneLineTrim`new HtmlWebpackPlugin({
+            title: \`tomo webapp [\${argv.mode}]\`, 
+            template: 'assets/index.html'
+        })`,
+        oneLineTrim`new SriPlugin({
+            hashFuncNames: ['sha256'], 
+            enabled: argv.mode === 'production'
+        })`
+    ];
+    const WITH_CESIUM = [
+        `new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')})`,
+        oneLineTrim`new CopyWebpackPlugin([
+            {from: join(source, 'Workers'), to: 'Workers'},
+            {from: join(source, 'ThirdParty'), to: 'ThirdParty'},
+            {from: join(source, 'Assets'), to: 'Assets'},
+            {from: join(source, 'Widgets'), to: 'Widgets'}
+        ])`
+    ];
+    const WITH_RUST = [
+        oneLineTrim`new WasmPackPlugin({
+            crateDirectory: resolve(__dirname, 'rust-to-wasm'),
+            watchDirectories: [
+                resolve(__dirname, 'rust-to-wasm', 'src'),
+                resolve(__dirname, 'rust-to-wasm', 'tests')
+            ],
+            forceMode: argv.mode === 'production' ? 'production' : 'development'
+        })`
+    ];
+    return [
+        ...PLUGINS,
+        ...(withCesium ? WITH_CESIUM : []),
+        ...(withRust ? WITH_RUST : [])
+    ];
+};
 const getResolveOption = (sourceDirectory, alias = {}, useReact = false) => ({
     mainFields: `['module', 'main']`,
     modules: `[resolve(__dirname, '${sourceDirectory}'), 'node_modules']`,
     extensions: `[${useReact ? `'.js', '.jsx'` : `'.js'`}]`,
     alias
 });
+const getRules = ({withCesium}) => withCesium ? RULES_WITH_CESIUM : RULES;
 const getWebpackConfigPrependContent = withCesium => [
     `/* eslint-env node */`,
     `const {${withCesium ? 'join, ' : ''}resolve} = require('path');`,
@@ -156,6 +168,7 @@ const getWebpackConfigPrependContent = withCesium => [
     `const HtmlWebpackPlugin = require('html-webpack-plugin');`,
     `const SriPlugin = require('webpack-subresource-integrity');`,
     `const TerserPlugin = require('terser-webpack-plugin');`,
+    `const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');`,
     withCesium && `const source = 'node_modules/cesium/Build/Cesium';`
 ]
     .reverse()// prepend puts last on top
@@ -167,7 +180,7 @@ const getWebpackConfigPrependContent = withCesium => [
 export const addWebpack = [
     {
         text: 'Create Webpack configuration file',
-        task: async ({outputDirectory, port, sourceDirectory, useReact, withCesium}) => {
+        task: async ({outputDirectory, port, sourceDirectory, useReact, withCesium, withRust}) => {
             const alias = getAliasOption(useReact, withCesium);
             const context = '__dirname';
             const devServer = getDevServerOption(outputDirectory, port);
@@ -180,9 +193,9 @@ export const addWebpack = [
                 zlib: `'empty'`
             };
             const optimization = {minimize: `argv.mode === 'production'`, minimizer: `[new TerserPlugin()]`};
-            const plugins = withCesium ? PLUGINS_WITH_CESIUM : PLUGINS;
+            const plugins = getPlugins({withCesium, withRust});
             const resolve = getResolveOption(sourceDirectory, alias, useReact);
-            const rules = withCesium ? RULES_WITH_CESIUM : RULES;
+            const rules = getRules({withCesium});
             await getWebpackConfigPrependContent(withCesium)
                 .reduce((config, content) => config.prepend(content), (new WebpackConfigEditor()).create())
                 .extend({context, devServer, entry, module: {rules}, optimization, plugins, resolve})
@@ -242,6 +255,12 @@ export const addWebpack = [
         task: ({skipInstall, useReact}) => install(useReact ? RESIUM_DEPENDENCIES : CESIUM_DEPENDENCIES, {skipInstall}),
         condition: ({withCesium}) => withCesium,
         optional: ({withCesium}) => withCesium
+    },
+    {
+        text: 'Install Rust dependencies',
+        task: ({skipInstall}) => install(WITH_RUST_DEPENDENCIES, {dev: true, skipInstall}),
+        condition: ({withRust}) => withRust,
+        optional: ({withRust}) => withRust
     }
 ];
 export const removeWebpack = [
@@ -288,6 +307,12 @@ export const removeWebpack = [
         task: () => uninstall(WITH_CESIUM_DEPENDENCIES),
         condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WITH_CESIUM_DEPENDENCIES), //eslint-disable-line max-len
         optional: ({skipInstall, withCesium}) => !skipInstall && withCesium
+    },
+    {
+        text: 'Uninstall Rust Webpack dependencies',
+        task: () => uninstall(WITH_RUST_DEPENDENCIES),
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WITH_RUST_DEPENDENCIES), //eslint-disable-line max-len
+        optional: ({skipInstall, withRust}) => !skipInstall && withRust
     }
 ];
 export default addWebpack;

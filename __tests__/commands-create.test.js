@@ -7,6 +7,7 @@ describe('Create', () => {
     let tempDirectory;
     const skipInstall = true;
     const useReact = true;
+    const withRust = true;
     const reactVersion = '16.2';
     const {create} = commands;
     const omit = ['extension', 'path', 'size', 'type'];
@@ -43,6 +44,12 @@ describe('Create', () => {
         expect(tree).toMatchSnapshot();
         expect(pkg).toMatchSnapshot();
         expect(cfg).toMatchSnapshot();
+    });
+    test('new react app (with Rust)', async () => {
+        const options = {reactVersion, skipInstall, useReact, withRust};
+        await run(create.app, options);
+        const tree = getDirectoryTree(tempDirectory, {omit});
+        expect(tree).toMatchSnapshot();
     });
     test('new server', async () => {
         await run(create.server, {skipInstall});
