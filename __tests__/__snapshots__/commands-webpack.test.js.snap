@@ -89,6 +89,7 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
+const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 
 module.exports = (env, argv) => ({
     mode: argv.mode === 'production' ? 'production' : 'development',
@@ -233,6 +234,7 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
+const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 
 module.exports = (env, argv) => ({
     mode: argv.mode === 'production' ? 'production' : 'development',

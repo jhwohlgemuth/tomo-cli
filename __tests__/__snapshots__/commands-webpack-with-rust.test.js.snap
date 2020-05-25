@@ -1,16 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Webpack with Cesium Add support (+React) 1`] = `
+exports[`Webpack with Rust Add support (+React) 1`] = `
 "/* eslint-env node */
-const {join, resolve} = require('path');
-const {DefinePlugin} = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
 const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
-const source = 'node_modules/cesium/Build/Cesium';
 
 module.exports = (env, argv) => ({
     mode: argv.mode === 'production' ? 'production' : 'development',
@@ -71,12 +68,6 @@ module.exports = (env, argv) => ({
                 use: [
                     'file-loader'
                 ]
-            },
-            {
-                test: /.(png|gif|jpg|jpeg|svg|xml|json)$/,
-                use: [
-                    'url-loader'
-                ]
             }
         ]
     },
@@ -88,8 +79,7 @@ module.exports = (env, argv) => ({
         new DashboardPlugin(),
         new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
         new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
-        new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
-        new CopyWebpackPlugin([{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}])
+        new WasmPackPlugin({crateDirectory: resolve(__dirname, 'rust-to-wasm'),watchDirectories: [resolve(__dirname, 'rust-to-wasm', 'src'),resolve(__dirname, 'rust-to-wasm', 'tests')],forceMode: argv.mode === 'production' ? 'production' : 'development'})
     ],
     resolve: {
         mainFields: ['module', 'main'],
@@ -98,28 +88,18 @@ module.exports = (env, argv) => ({
         alias: {
             'react-dom': '@hot-loader/react-dom'
         }
-    },
-    node: {
-        fs: 'empty',
-        Buffer: false,
-        http: 'empty',
-        https: 'empty',
-        zlib: 'empty'
     }
 });"
 `;
 
-exports[`Webpack with Cesium Add support 1`] = `
+exports[`Webpack with Rust Add support 1`] = `
 "/* eslint-env node */
-const {join, resolve} = require('path');
-const {DefinePlugin} = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
 const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
-const source = 'node_modules/cesium/Build/Cesium';
 
 module.exports = (env, argv) => ({
     mode: argv.mode === 'production' ? 'production' : 'development',
@@ -179,12 +159,6 @@ module.exports = (env, argv) => ({
                 use: [
                     'file-loader'
                 ]
-            },
-            {
-                test: /.(png|gif|jpg|jpeg|svg|xml|json)$/,
-                use: [
-                    'url-loader'
-                ]
             }
         ]
     },
@@ -196,21 +170,13 @@ module.exports = (env, argv) => ({
         new DashboardPlugin(),
         new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
         new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
-        new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
-        new CopyWebpackPlugin([{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}])
+        new WasmPackPlugin({crateDirectory: resolve(__dirname, 'rust-to-wasm'),watchDirectories: [resolve(__dirname, 'rust-to-wasm', 'src'),resolve(__dirname, 'rust-to-wasm', 'tests')],forceMode: argv.mode === 'production' ? 'production' : 'development'})
     ],
     resolve: {
         mainFields: ['module', 'main'],
         modules: [resolve(__dirname, './source'), 'node_modules'],
         extensions: ['.js'],
         alias: {}
-    },
-    node: {
-        fs: 'empty',
-        Buffer: false,
-        http: 'empty',
-        https: 'empty',
-        zlib: 'empty'
     }
 });"
 `;

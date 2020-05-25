@@ -1,0 +1,8 @@
+[workspace]
+members = ["rust-to-wasm"]
+default-members = ["rust-to-wasm"]
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1

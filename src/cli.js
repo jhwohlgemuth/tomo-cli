@@ -63,6 +63,7 @@ export const help = `
         --use-react, -r         Add React support to workflow [Default: false]
         --react-version         React version for ESLint configuration [Default: '16.8']
         --with-cesium           Add CesiumJS to your project [Default: false]
+        --with-rust             Add "Rust to WASM" support to your project [Default: false]
         --ignore-warnings, -i   Ignore warning messages [Default: false]
         --skip-install, -s      Skip npm installations [Default: false]
         --overwrite             Copy files, even if they alrady exist [Default: false]
@@ -113,6 +114,10 @@ export const options = {
             default: '16.8'
         },
         withCesium: {
+            type: 'boolean',
+            default: false
+        },
+        withRust: {
             type: 'boolean',
             default: false
         },

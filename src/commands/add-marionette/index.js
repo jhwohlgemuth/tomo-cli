@@ -44,6 +44,8 @@ export const tasks = [
                 .commit();
             await (new Scaffolder(join(__dirname, '..', 'common', 'templates')))
                 .overwrite(overwrite)
+                .target('.')
+                .copy('gitignore', '.gitignore')
                 .target(`${assetsDirectory}`)
                 .copy(index, 'index.html')
                 .target(`${assetsDirectory}/css`)
@@ -65,6 +67,26 @@ export const tasks = [
                 .commit();
         },
         condition: ALWAYS
+    },
+    {
+        text: 'Copy Rust boilerplate',
+        task: async ({overwrite}) => {
+            await (new Scaffolder(join(__dirname, '..', 'common', 'templates')))
+                .overwrite(overwrite)
+                .target('.')
+                .copy('Cargo.toml')
+                .target('rust-to-wasm')
+                .copy('Cargo_crate.toml', 'Cargo.toml')
+                .target('rust-to-wasm/src')
+                .copy('lib.rs')
+                .copy('utils.rs')
+                .target('rust-to-wasm/tests')
+                .copy('app.rs')
+                .copy('web.rs')
+                .commit();
+        },
+        condition: ({withRust}) => withRust,
+        optional: ({withRust}) => withRust
     },
     {
         text: 'Set package.json "main" attribute',
