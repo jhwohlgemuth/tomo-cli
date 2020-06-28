@@ -31,7 +31,6 @@ exports[`Tomo testing tools get directory tree 1`] = `
     children: [
         {
             name: a.txt,
-            size: 279,
             type: file
         },
         {
@@ -39,11 +38,9 @@ exports[`Tomo testing tools get directory tree 1`] = `
             children: [
                 {
                     name: b.txt,
-                    size: 167,
                     type: file
                 }
             ],
-            size: 167,
             type: directory
         },
         {
@@ -51,7 +48,6 @@ exports[`Tomo testing tools get directory tree 1`] = `
             children: [
                 {
                     name: c.txt,
-                    size: 130,
                     type: file
                 },
                 {
@@ -59,19 +55,15 @@ exports[`Tomo testing tools get directory tree 1`] = `
                     children: [
                         {
                             name: d.txt,
-                            size: 113,
                             type: file
                         }
                     ],
-                    size: 113,
                     type: directory
                 }
             ],
-            size: 243,
             type: directory
         }
     ],
-    size: 689,
     type: directory
 }
 "
@@ -81,45 +73,37 @@ exports[`Tomo testing tools get directory tree 2`] = `
 "{
     children: [
         {
-            size: 279,
             extension: .txt,
             type: file
         },
         {
             children: [
                 {
-                    size: 167,
                     extension: .txt,
                     type: file
                 }
             ],
-            size: 167,
             type: directory
         },
         {
             children: [
                 {
-                    size: 130,
                     extension: .txt,
                     type: file
                 },
                 {
                     children: [
                         {
-                            size: 113,
                             extension: .txt,
                             type: file
                         }
                     ],
-                    size: 113,
                     type: directory
                 }
             ],
-            size: 243,
             type: directory
         }
     ],
-    size: 689,
     type: directory
 }
 "

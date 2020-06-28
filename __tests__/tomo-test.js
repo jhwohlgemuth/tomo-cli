@@ -39,7 +39,7 @@ export const getDirectoryTree = (directory, options = {omit: ['extension', 'path
     const {omit} = options;
     const tree = dirTree(directory);
     const result = Object.assign(tree, {name: tree.name.substring(0, 'tomo-test'.length)});
-    return format(removeAttributes(result, ...omit));
+    return format(removeAttributes(result, 'size', ...omit));
 };
 export const run = (tasks, options) => {
     const {assign} = Object;
