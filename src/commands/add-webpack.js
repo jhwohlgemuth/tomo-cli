@@ -159,7 +159,7 @@ const getResolveOption = (sourceDirectory, alias = {}, useReact = false) => ({
     alias
 });
 const getRules = ({withCesium}) => withCesium ? RULES_WITH_CESIUM : RULES;
-const getWebpackConfigPrependContent = withCesium => [
+const getWebpackConfigPrependContent = ({withCesium, withRust}) => [
     `/* eslint-env node */`,
     `const {${withCesium ? 'join, ' : ''}resolve} = require('path');`,
     withCesium && `const {DefinePlugin} = require('webpack');`,
@@ -168,7 +168,7 @@ const getWebpackConfigPrependContent = withCesium => [
     `const HtmlWebpackPlugin = require('html-webpack-plugin');`,
     `const SriPlugin = require('webpack-subresource-integrity');`,
     `const TerserPlugin = require('terser-webpack-plugin');`,
-    `const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');`,
+    withRust && `const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');`,
     withCesium && `const source = 'node_modules/cesium/Build/Cesium';`
 ]
     .reverse()// prepend puts last on top
@@ -196,7 +196,7 @@ export const addWebpack = [
             const plugins = getPlugins({withCesium, withRust});
             const resolve = getResolveOption(sourceDirectory, alias, useReact);
             const rules = getRules({withCesium});
-            await getWebpackConfigPrependContent(withCesium)
+            await getWebpackConfigPrependContent({withCesium, withRust})
                 .reduce((config, content) => config.prepend(content), (new WebpackConfigEditor()).create())
                 .extend({context, devServer, entry, module: {rules}, optimization, plugins, resolve})
                 .extend(withCesium ? {node} : {})
