@@ -8,6 +8,9 @@ install:
 script:
   - npm test
   - codecov
+os:
+  - linux
+  - windows
 node_js:
   - 'node'
   - '12'
