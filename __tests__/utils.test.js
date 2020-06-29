@@ -163,7 +163,7 @@ describeOnlyOnLinux('Makefile editor', () => {
         expect(read(makefile)).toMatchSnapshot();
     });
 });
-describe('createFunctionModuleEditor', () => {
+describeOnlyOnLinux('createFunctionModuleEditor', () => {
     const content = {foo: `'bar'`};
     test('can create function module (defaults)', async () => {
         const Module = createFunctionModuleEditor('webpack.config.js', content);
