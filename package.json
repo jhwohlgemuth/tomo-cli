@@ -45,6 +45,9 @@
     "release": "release"
   },
   "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/__setup.js"
+    ],
     "testMatch": [
       "**/__tests__/**/*.(e2e|test).[jt]s?(x)"
     ],

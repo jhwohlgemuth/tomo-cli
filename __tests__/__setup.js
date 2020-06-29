@@ -1,0 +1,1 @@
+global.describeOnlyOnLinux = (process.platform === 'linux' ? describe : describe.skip);

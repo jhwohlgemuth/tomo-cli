@@ -7,7 +7,7 @@ import commands from '../src/commands';
 
 jest.mock('is-online', () => (async () => false));
 
-describe('Offline warning', () => {
+describeOnlyOnLinux('Offline warning', () => {
     let tempDirectory;
     const ORIGINAL_CONSOLE_ERROR = console.error;//eslint-disable-line no-console
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();

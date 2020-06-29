@@ -98,7 +98,7 @@ describe('Warning', () => {
         expect(lastFrame()).toMatchSnapshot();
     });
 });
-describe('CommandError', () => {
+describeOnlyOnLinux('CommandError', () => {
     let tempDirectory;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
@@ -116,7 +116,7 @@ describe('CommandError', () => {
         expect(lastFrame()).toMatchSnapshot();
     });
 });
-describe('Sub Command Multi-select Component', () => {
+describeOnlyOnLinux('Sub Command Multi-select Component', () => {
     const descriptions = {
         'Item A': 'Select the A item'
     };

@@ -3,7 +3,7 @@ import commands from '../src/commands';
 
 jest.mock('is-online', () => (async () => true));
 
-describe('Create', () => {
+describeOnlyOnLinux('Create', () => {
     let tempDirectory;
     const skipInstall = true;
     const useReact = true;

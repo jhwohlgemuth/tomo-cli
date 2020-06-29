@@ -25,7 +25,7 @@ const testDirectory = join(__dirname, 'tomo-fixtures');
  * Verify package.json editor can create and edit a package.json manifest file
  * @test {PackageJsonEditor}
  */
-describe('package.json mem-fs editor', () => {
+describeOnlyOnLinux('package.json mem-fs editor', () => {
     let pkg;
     beforeEach(() => {
         pkg = new PackageJsonEditor(testDirectory);
@@ -73,7 +73,7 @@ describe('package.json mem-fs editor', () => {
  * Verify ESLint module editor can create and edit an ESLint configuration file
  * @test {EslintConfigModuleEditor}
  */
-describe('.eslintrc.js mem-fs editor', () => {
+describeOnlyOnLinux('.eslintrc.js mem-fs editor', () => {
     let cfg;
     let tempDirectory;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
@@ -118,7 +118,7 @@ describe('.eslintrc.js mem-fs editor', () => {
         expect(cfg.read()).toMatchSnapshot();
     });
 });
-describe('Makefile editor', () => {
+describeOnlyOnLinux('Makefile editor', () => {
     let makefile;
     beforeEach(() => {
         makefile = new MakefileEditor(testDirectory);
