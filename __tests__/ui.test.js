@@ -9,7 +9,7 @@ jest.mock('is-online', () => (async () => true));
 
 const ARROW_DOWN = '\u001B[B';
 
-describe('tomo interface', () => {
+describeOnlyOnLinux('tomo interface', () => {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();

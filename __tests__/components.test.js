@@ -91,7 +91,7 @@ describe('populateQueue function', () => {
         expect(dispatch.mock.calls[2][0].type).toBe('error');
     });
 });
-describe('Warning', () => {
+describeOnlyOnLinux('Warning', () => {
     test('can render', () => {
         const callback = jest.fn();
         const {lastFrame} = render(<Warning callback={callback}>Hello World</Warning>);
