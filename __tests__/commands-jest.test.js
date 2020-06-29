@@ -4,7 +4,7 @@ import addJest from '../src/commands/add-jest';
 
 jest.mock('is-online', () => (async () => true));
 
-describe('Jest', () => {
+describeOnlyOnLinux('Jest', () => {
     let tempDirectory;
     const browser = true;
     const skipInstall = true;

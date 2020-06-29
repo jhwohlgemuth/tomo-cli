@@ -4,7 +4,7 @@ import addMakefile from '../src/commands/add-makefile';
 
 jest.mock('is-online', () => (async () => true));
 
-describe('Makefile', () => {
+describeOnlyOnLinux('Makefile', () => {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();

@@ -6,7 +6,7 @@ import {addBrowsersync, removeBrowsersync} from '../src/commands/add-browsersync
 
 jest.mock('is-online', () => (async () => true));
 
-describe('Browsersync', () => {
+describeOnlyOnLinux('Browsersync', () => {
     let tempDirectory;
     const skipInstall = true;
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();

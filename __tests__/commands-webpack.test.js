@@ -6,7 +6,7 @@ import {addWebpack, removeWebpack} from '../src/commands/add-webpack';
 
 jest.mock('is-online', () => (async () => true));
 
-describe('Webpack', () => {
+describeOnlyOnLinux('Webpack', () => {
     let tempDirectory;
     const skipInstall = true;
     const useReact = true;

@@ -5,7 +5,7 @@ import {addRollup, removeRollup} from '../src/commands/add-rollup';
 
 jest.mock('is-online', () => (async () => true));
 
-describe('Rollup', () => {
+describeOnlyOnLinux('Rollup', () => {
     let tempDirectory;
     const skipInstall = true;
     const useReact = true;
