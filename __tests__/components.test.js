@@ -155,7 +155,7 @@ describeOnlyOnLinux('Sub Command Multi-select Component', () => {
         console.error = CONSOLE_ERROR;
     });/* eslint-enable no-console */
 });
-describe('Task component', () => {
+describeOnlyOnLinux('Task component', () => {
     test('can render (pending)', () => {
         const text = 'test task text';
         const {lastFrame} = render(<Task text={text} isPending={true}></Task>);
