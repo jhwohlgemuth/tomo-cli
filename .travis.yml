@@ -1,8 +1,6 @@
 sudo: false
 language: node_js
 install:
-  - npm install -g npm@latest
-  - npm -v
   - npm install -g codecov
   - npm link
 script:
