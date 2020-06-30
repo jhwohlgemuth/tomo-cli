@@ -10,20 +10,20 @@
  *     .commit();
  */class Scaffolder{/**
      * @param {string} sourceDirectory Source directory for template files
-     */constructor(a="./templates"){const b=_memFsEditor.default.create(_memFs.default.create()),c=new _pQueue.default({concurrency:1});assign(this,{copyIfExists:!1,fs:b,queue:c,sourceDirectory:a,targetDirectory:"./"})}/**
+     */constructor(sourceDirectory="./templates"){const fs=_memFsEditor.default.create(_memFs.default.create()),queue=new _pQueue.default({concurrency:1});assign(this,{copyIfExists:!1,fs,queue,sourceDirectory,targetDirectory:"./"})}/**
      * Set target directory
      * @param {string} targetDirectory Target directory of template files
      * @returns {Scaffolder} Chaining OK
-     */target(a){return assign(this,{targetDirectory:a})}/**
+     */target(targetDirectory){return assign(this,{targetDirectory})}/**
      * Set overwrite flag
      * @param {boolean} flag Overwrite files (true) or not (false)
      * @returns {Scaffolder} Chaining OK
-     */overwrite(a){return assign(this,{copyIfExists:a})}/**
+     */overwrite(flag){return assign(this,{copyIfExists:flag})}/**
      * Copy a file
      * @param {string} path Path string of file to be copied
      * @param {string} [filename] Name for copied file
      * @returns {Scaffolder} Chaining OK
-     */copy(a,b){const c=this,{copyIfExists:d,fs:e,queue:f,sourceDirectory:g,targetDirectory:h}=c,i=(0,_path.join)(g,a),j=(0,_path.join)(process.cwd(),h,...("string"==typeof b?b:a).split("/")),k=!e.exists(j)||d;return k&&f.add(()=>e.copy(i,j)).catch(silent),c}/**
+     */copy(path,filename){const self=this,{copyIfExists,fs,queue,sourceDirectory,targetDirectory}=self,source=(0,_path.join)(sourceDirectory,path),target=(0,_path.join)(process.cwd(),targetDirectory,...("string"==typeof filename?filename:path).split("/")),shouldCopy=!fs.exists(target)||copyIfExists;return shouldCopy&&queue.add(()=>fs.copy(source,target)).catch(silent),self}/**
      * Write changes to disk
      * @return {Promise} Resolves when queue is empty
-     */commit(){var a=this;return(0,_asyncToGenerator2.default)(function*(){const{fs:b,queue:c}=a;yield new Promise(a=>b.commit(a)),yield c.onEmpty()})()}}exports.Scaffolder=Scaffolder;var _default=Scaffolder;exports.default=_default;
+     */commit(){var _this=this;return(0,_asyncToGenerator2.default)(function*(){const{fs,queue}=_this;yield new Promise(resolve=>fs.commit(resolve)),yield queue.onEmpty()})()}}exports.Scaffolder=Scaffolder;var _default=Scaffolder;exports.default=_default;
