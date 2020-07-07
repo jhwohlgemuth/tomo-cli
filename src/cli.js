@@ -32,11 +32,13 @@ export const help = `
         ${cyan('>')} tomo new app --use-react --use-parcel
         
         ${cyan('>')} tomo add
+        
+        ${cyan('>')} tomo add eslint --browser
 
 
     ${dim.bold('Commands')}
 
-        new, add, remove, version
+        new, add, remove, version, help
 
 
     ${dim.bold('Terms')}
@@ -60,6 +62,7 @@ export const help = `
         --assets-directory, -a  Directory for assets [Default: ./assets]
         --use-rollup,           Use Rollup instead of Webpack [Default: false]
         --use-parcel,           Use Parcel instead of Webpack [Default: false]
+        --use-snowpack,         Use Snowpack instead of Webpack [Default: false]
         --use-react, -r         Add React support to workflow [Default: false]
         --react-version         React version for ESLint configuration [Default: '16.8']
         --with-cesium           Add CesiumJS to your project [Default: false]
