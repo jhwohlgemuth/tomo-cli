@@ -104,6 +104,11 @@ export const options = {
             default: false,
             alias: 'parcel'
         },
+        useSnowpack: {
+            type: 'boolean',
+            default: false,
+            alias: 'snowpack'
+        },
         useReact: {
             type: 'boolean',
             default: false,

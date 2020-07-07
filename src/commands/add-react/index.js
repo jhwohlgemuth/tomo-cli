@@ -10,8 +10,7 @@ const REACT_DEPENDENCIES = [
     'prop-types',
     'react',
     'react-dom',
-    'wouter', // https://github.com/molefrog/wouter
-    '@hot-loader/react-dom'
+    'wouter' // https://github.com/molefrog/wouter
 ];
 const DEV_DEPENDENCIES = [
     'npm-run-all'
@@ -24,17 +23,18 @@ const ALWAYS = () => true;
 export const addReact = [
     {
         text: 'Copy React boilerplate and assets',
-        task: async ({assetsDirectory, sourceDirectory, overwrite, useParcel}) => {
-            const index = useParcel ? 'index-in-place-react.html' : 'index-react.html';
-            const fonts = useParcel ? 'fonts-in-place.css' : 'fonts.css';
+        task: async ({assetsDirectory, sourceDirectory, overwrite, useParcel, useSnowpack}) => {
+            const inPlace = (useParcel || useSnowpack) ? '-in-place' : '';
+            const index = `index${inPlace}-react${useSnowpack ? '-snowpack' : ''}.html`;
+            const fonts = `fonts${inPlace}.css`;
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)
                 .target(sourceDirectory)
-                .copy('main.js', 'main.jsx')
+                .copy(useSnowpack ? 'main-snowpack.js' : 'main.js', `main.js${useSnowpack ? '' : 'x'}`)
                 .target(`${sourceDirectory}/components`)
-                .copy('App.js', 'App.jsx')
+                .copy(useSnowpack ? 'App-snowpack.js' : 'App.js', 'App.jsx')
                 .copy('Header.js', 'Header.jsx')
-                .copy('Body.js', 'Body.jsx')
+                .copy(useSnowpack ? 'Body-snowpack.js' : 'Body.js', 'Body.jsx')
                 .copy('Footer.js', 'Footer.jsx')
                 .commit();
             await (new Scaffolder(join(__dirname, '..', 'common', 'templates')))
@@ -44,7 +44,7 @@ export const addReact = [
                 .target(`${assetsDirectory}`)
                 .copy(index, 'index.html')
                 .target(`${assetsDirectory}/css`)
-                .copy('style.css')
+                .copy(useSnowpack ? 'style-snowpack.css' : 'style.css', 'style.css')
                 .copy(fonts, 'fonts.css')
                 .target(`${assetsDirectory}/images`)
                 .copy('react.png')
@@ -85,11 +85,14 @@ export const addReact = [
     },
     {
         text: 'Set package.json "main" attribute and add scripts tasks',
-        task: async ({sourceDirectory, useParcel, useRollup}) => {
+        task: async ({sourceDirectory, useParcel, useRollup, useSnowpack}) => {
             const main = `${sourceDirectory}/main.js`;
+            const watches = {
+                'watch:es': useRollup ? `watch \"npm run build:es\" ${sourceDirectory}` : 'webpack-dev-server --hot --open --mode development'
+            };
             const scripts = {
-                'watch:es': useRollup ? `watch \"npm run build:es\" ${sourceDirectory}` : 'webpack-dev-server --hot --open --mode development',
-                start: 'npm-run-all build:es --parallel watch:*'
+                ...(useSnowpack ? {} : watches),
+                start: useSnowpack ? 'snowpack dev' : 'npm-run-all build:es --parallel watch:*'
             };
             await (new PackageJsonEditor())
                 .extend({main})
@@ -100,7 +103,14 @@ export const addReact = [
     },
     {
         text: 'Install React dependencies',
-        task: ({skipInstall}) => install([...REACT_DEPENDENCIES, ...DEV_DEPENDENCIES], {skipInstall}),
+        task: ({skipInstall, useSnowpack}) => {
+            const dependencies = [
+                ...REACT_DEPENDENCIES,
+                ...(useSnowpack ? [] : ['@hot-loader/react-dom'])
+            ];
+            install(dependencies, {skipInstall});
+            install(DEV_DEPENDENCIES, {dev: true, skipInstall});
+        },
         condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
     }
 ];

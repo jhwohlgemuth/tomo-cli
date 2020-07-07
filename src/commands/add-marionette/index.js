@@ -24,9 +24,10 @@ const ALWAYS = async () => true;
 export const tasks = [
     {
         text: 'Copy Marionette.js boilerplate and assets',
-        task: async ({assetsDirectory, overwrite, sourceDirectory, useParcel, usePika}) => {
-            const index = (useParcel || usePika) ? 'index-in-place.html' : 'index.html';
-            const fonts = useParcel ? 'fonts-in-place.css' : 'fonts.css';
+        task: async ({assetsDirectory, overwrite, sourceDirectory, useParcel, useSnowpack}) => {
+            const inPlace = (useParcel || useSnowpack) ? '-in-place' : '';
+            const index = `index${inPlace}.html`;
+            const fonts = `fonts${inPlace}.css`;
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)
                 .target(sourceDirectory)
@@ -34,7 +35,7 @@ export const tasks = [
                 .target(`${sourceDirectory}/components`)
                 .copy('app.js')
                 .copy('header.js')
-                .copy('body.js')
+                .copy(useSnowpack ? 'body-snowpack.js' : 'body.js', 'body.js')
                 .copy('footer.js')
                 .target(`${sourceDirectory}/shims`)
                 .copy('mn.renderer.shim.js')
@@ -49,7 +50,7 @@ export const tasks = [
                 .target(`${assetsDirectory}`)
                 .copy(index, 'index.html')
                 .target(`${assetsDirectory}/css`)
-                .copy('style.css')
+                .copy(`style${useSnowpack ? '-snowpack' : ''}.css`, 'style.css')
                 .copy(fonts, 'fonts.css')
                 .target(`${assetsDirectory}/images`)
                 .copy('blank_canvas.png')

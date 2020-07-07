@@ -35,7 +35,8 @@ const create = {
         choose({
             default: addWebpack,
             useRollup: addRollup,
-            useParcel: addParcel
+            useParcel: addParcel,
+            useSnowpack: [] // do nothing
         }),
         choose({
             default: addMarionette,
@@ -54,6 +55,7 @@ const create = {
             useRollup: addBrowsersync,
             native: [], // do nothing
             useParcel: [], // do nothing
+            useSnowpack: [], // do nothing
             useReact: [] // do nothing
         })
     ],

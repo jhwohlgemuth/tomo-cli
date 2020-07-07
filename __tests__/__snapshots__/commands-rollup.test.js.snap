@@ -62,7 +62,7 @@ export default {
     output: {
         file: './output/bundle.min.js',
         format: 'iife',
-        sourceMap: 'inline'
+        sourcemap: 'inline'
     },
     plugins: [
         babel({exclude: 'node_modules/**', runtimeHelpers: true}),
@@ -136,7 +136,7 @@ export default {
     output: {
         file: './output/bundle.min.js',
         format: 'iife',
-        sourceMap: 'inline'
+        sourcemap: 'inline'
     },
     plugins: [
         babel({exclude: 'node_modules/**', runtimeHelpers: true}),

@@ -24,7 +24,7 @@ const POSTCSS_DEPENDENCIES = [
 export const addPostcss = [
     {
         text: 'Create PostCSS config file',
-        task: async () => {
+        task: async ({useSnowpack}) => {
             const plugins = [
                 `require('stylelint')({config: {extends: 'stylelint-config-recommended'}})`,
                 `require('postcss-import')()`,
@@ -35,6 +35,7 @@ export const addPostcss = [
             await (new PostcssConfigEditor())
                 .create()
                 .extend({plugins})
+                .extend(useSnowpack ? {map: 'false'} : {})
                 .commit();
         },
         condition: () => allDoNotExist('postcss.config.js')

@@ -346,7 +346,7 @@ export const RollupConfigEditor = createModuleEditor('rollup.config.js', {
     output: {
         file: `'./dist/bundle.min.js'`,
         format: `'iife'`,
-        sourceMap: `'inline'`
+        sourcemap: `'inline'`
     },
     plugins: [
         `babel({exclude: 'node_modules/**', runtimeHelpers: true})`,
@@ -361,6 +361,14 @@ export const RollupConfigEditor = createModuleEditor('rollup.config.js', {
         `terser()`
     ]
 }, {esm: true});
+export const SnowpackConfigEditor = createModuleEditor('snowpack.config.js', {
+    extends: `'@snowpack/app-scripts-react'`,
+    scripts: {
+        [`'build:css'`]: `'postcss'`,
+        [`'mount:public'`]: `'mount assets --to /'`
+    },
+    plugins: [`'@snowpack/plugin-react-refresh'`]
+});
 /**
  * Create and edit a Webpack configuration file with a fluent API
  * @type {ModuleEditor}
