@@ -63,7 +63,7 @@ export const addReason = [
             await install(DEPENDENCIES, {skipInstall});
             await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
         },
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     }
 ];
 export const removeReason = [

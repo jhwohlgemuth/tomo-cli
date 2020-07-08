@@ -96,7 +96,7 @@ export const addRollup = [
     {
         text: 'Install Rollup dependencies',
         task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...ROLLUP_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     }
 ];
 export const removeRollup = [
@@ -132,8 +132,7 @@ export const removeRollup = [
     {
         text: 'Uninstall Rollup dependencies',
         task: () => uninstall([...BUILD_DEPENDENCIES, ...ROLLUP_DEPENDENCIES, 'stmux']),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...ROLLUP_DEPENDENCIES),
-        optional: ({skipInstall}) => !skipInstall
+        condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...ROLLUP_DEPENDENCIES)
     }
 ];
 export default addRollup;

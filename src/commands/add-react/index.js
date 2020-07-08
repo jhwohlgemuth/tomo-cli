@@ -103,15 +103,15 @@ export const addReact = [
     },
     {
         text: 'Install React dependencies',
-        task: ({skipInstall, useSnowpack}) => {
+        task: async ({skipInstall, useSnowpack}) => {
             const dependencies = [
                 ...REACT_DEPENDENCIES,
                 ...(useSnowpack ? [] : ['@hot-loader/react-dom'])
             ];
-            install(dependencies, {skipInstall});
-            install(DEV_DEPENDENCIES, {dev: true, skipInstall});
+            await install(dependencies, {skipInstall});
+            await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
         },
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     }
 ];
 export default addReact;

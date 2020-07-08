@@ -34,7 +34,6 @@ const DEV_DEPENDENCIES = [
     'stmux',
     'supertest'
 ];
-const ALWAYS = () => true;
 /**
  * @type {task[]}
  * @see https://expressjs.com/
@@ -71,7 +70,7 @@ export const tasks = [
                 .copy('example.test.js')
                 .commit();
         },
-        condition: ALWAYS
+        condition: () => true
     },
     {
         text: 'Configure metadata and add tasks to package.json',
@@ -112,7 +111,7 @@ export const tasks = [
             await install(DEPENDENCIES, {skipInstall});
             await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
         },
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     }
 ];
 export default tasks;

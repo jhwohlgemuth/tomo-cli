@@ -87,7 +87,7 @@ export const addParcel = [
     {
         text: 'Install Parcel development dependencies',
         task: ({skipInstall}) => install([...BUILD_DEPENDENCIES, ...PARCEL_DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     }
 ];
 export const removeParcel = [
@@ -127,8 +127,7 @@ export const removeParcel = [
     {
         text: 'Uninstall Parcel dependencies',
         task: () => uninstall([...BUILD_DEPENDENCIES, ...PARCEL_DEPENDENCIES, 'stmux']),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...PARCEL_DEPENDENCIES),
-        optional: ({skipInstall}) => !skipInstall
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...PARCEL_DEPENDENCIES)
     }
 ];
 export default addParcel;

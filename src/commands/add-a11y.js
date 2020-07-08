@@ -24,7 +24,7 @@ export const addA11y = [
     {
         text: 'Install pa11y for checking accessibility rules',
         task: ({skipInstall}) => install(['pa11y'], {dev: true, skipInstall}),
-        condition: ({isNotOffline}) => isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     }
 ];
 export const removeA11y = [
@@ -43,8 +43,7 @@ export const removeA11y = [
     {
         text: 'Uninstall pa11y',
         task: () => uninstall(['pa11y']),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll('pa11y'),
-        optional: ({skipInstall}) => !skipInstall
+        condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll('pa11y')
     }
 ];
 export default addA11y;

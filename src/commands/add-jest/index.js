@@ -52,7 +52,7 @@ export const addJest = [
     {
         text: 'Install Jest dependencies',
         task: ({skipInstall}) => install(JEST_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     }
 ];
 export default addJest;

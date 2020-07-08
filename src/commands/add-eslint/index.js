@@ -52,7 +52,7 @@ export const tasks = [
                 .copy('.eslintignore')
                 .commit();
         },
-        condition: ({overwrite}) => allDoNotExist('.eslintrc.js', '.eslintrc', '.eslintrc.json', '.eslintrc.yml') || overwrite
+        condition: ({overwrite}) => overwrite || allDoNotExist('.eslintrc.js', '.eslintrc', '.eslintrc.json', '.eslintrc.yml')
     },
     {
         text: 'Add lint tasks to package.json',
@@ -71,12 +71,12 @@ export const tasks = [
     {
         text: 'Install ESLint dependencies',
         task: ({skipInstall}) => install(ESLINT_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     },
     {
         text: 'Install ESLint React plugins',
         task: ({skipInstall}) => install(ESLINT_REACT_PLUGINS, {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall, useReact}) => !skipInstall && isNotOffline && useReact && allDoExist('package.json'),
+        condition: ({skipInstall, useReact}) => !skipInstall && useReact && allDoExist('package.json'),
         optional: ({useReact}) => useReact
     },
     {
@@ -90,7 +90,7 @@ export const tasks = [
                 .extend({extends: [, `'plugin:lit/recommended'`]})
                 .commit();
         },
-        condition: ({browser, isNotOffline, useReact}) => isNotOffline && browser && !useReact && allDoExist('package.json', '.eslintrc.js'),
+        condition: ({browser, useReact}) => browser && !useReact && allDoExist('package.json', '.eslintrc.js'),
         optional: ({browser, useReact}) => browser && !useReact
     },
     {

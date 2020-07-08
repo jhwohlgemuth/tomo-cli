@@ -248,18 +248,18 @@ export const addWebpack = [
     {
         text: 'Install Webpack and development dependencies',
         task: ({skipInstall}) => install([...DEV_DEPENDENCIES, ...DEPENDENCIES], {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     },
     {
         text: 'Install Cesium dependencies',
         task: ({skipInstall, useReact}) => install(useReact ? RESIUM_DEPENDENCIES : CESIUM_DEPENDENCIES, {skipInstall}),
-        condition: ({withCesium}) => withCesium,
+        condition: ({skipInstall, withCesium}) => !skipInstall && withCesium,
         optional: ({withCesium}) => withCesium
     },
     {
         text: 'Install Rust dependencies',
         task: ({skipInstall}) => install(WITH_RUST_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({withRust}) => withRust,
+        condition: ({skipInstall, withRust}) => !skipInstall && withRust,
         optional: ({withRust}) => withRust
     }
 ];
@@ -299,20 +299,19 @@ export const removeWebpack = [
     {
         text: 'Uninstall Webpack dependencies',
         task: () => uninstall([...DEV_DEPENDENCIES, ...DEPENDENCIES, 'stmux']),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...DEPENDENCIES),
-        optional: ({skipInstall}) => !skipInstall
+        condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...DEPENDENCIES)
     },
     {
         text: 'Uninstall Cesium Webpack dependencies',
         task: () => uninstall(WITH_CESIUM_DEPENDENCIES),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WITH_CESIUM_DEPENDENCIES), //eslint-disable-line max-len
-        optional: ({skipInstall, withCesium}) => !skipInstall && withCesium
+        condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WITH_CESIUM_DEPENDENCIES),
+        optional: ({withCesium}) => withCesium
     },
     {
         text: 'Uninstall Rust Webpack dependencies',
         task: () => uninstall(WITH_RUST_DEPENDENCIES),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WITH_RUST_DEPENDENCIES), //eslint-disable-line max-len
-        optional: ({skipInstall, withRust}) => !skipInstall && withRust
+        condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WITH_RUST_DEPENDENCIES),
+        optional: ({withRust}) => withRust
     }
 ];
 export default addWebpack;

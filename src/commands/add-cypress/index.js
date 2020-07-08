@@ -79,7 +79,7 @@ export const addCypress = [
     {
         text: 'Install Cypress dependencies',
         task: ({skipInstall}) => install([...CYPRESS_DEPENDENCIES, 'npm-run-all', 'del-cli'], {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     }
 ];
 export const removeCypress = [
@@ -123,8 +123,7 @@ export const removeCypress = [
     {
         text: 'Uninstall Cypress dependencies',
         task: () => uninstall(CYPRESS_DEPENDENCIES),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...CYPRESS_DEPENDENCIES),
-        optional: ({skipInstall}) => !skipInstall
+        condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...CYPRESS_DEPENDENCIES)
     }
 ];
 export default addCypress;

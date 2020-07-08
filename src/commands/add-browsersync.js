@@ -32,7 +32,7 @@ export const addBrowsersync = [
     {
         text: 'Install Browsersync dependencies',
         task: ({skipInstall}) => install(BROWSERSYNC_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall}) => !skipInstall && isNotOffline && allDoExist('package.json')
+        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
     }
 ];
 export const removeBrowsersync = [
@@ -53,8 +53,7 @@ export const removeBrowsersync = [
     {
         text: 'Uninstall Browsersync dependencies',
         task: () => uninstall(BROWSERSYNC_DEPENDENCIES),
-        condition: ({skipInstall}) => !skipInstall && allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...BROWSERSYNC_DEPENDENCIES),
-        optional: ({skipInstall}) => !skipInstall
+        condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...BROWSERSYNC_DEPENDENCIES)
     }
 ];
 export default addBrowsersync;

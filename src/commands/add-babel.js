@@ -87,8 +87,8 @@ export const addBabel = [
                 .extend({plugins, presets})
                 .commit();
         },
-        condition: ({useReact, useSnowpack}) => !useSnowpack && useReact && allDoExist('babel.config.js'),
-        optional: ({useReact, useSnowpack}) => !useSnowpack && useReact
+        condition: ({useReact, useSnowpack}) => useReact && !useSnowpack && allDoExist('babel.config.js'),
+        optional: ({useReact, useSnowpack}) => useReact && !useSnowpack
     },
     {
         text: 'Add Babel build task to package.json',
@@ -107,19 +107,19 @@ export const addBabel = [
     {
         text: 'Install Babel core, CLI, presets, and plugins',
         task: ({skipInstall}) => install(BABEL_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall, useSnowpack}) => !useSnowpack && !skipInstall && isNotOffline && (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && allDoExist('package.json')), // eslint-disable-line max-len
+        condition: ({skipInstall, useSnowpack}) => !useSnowpack && !skipInstall && (!(new PackageJsonEditor()).hasAll(...BABEL_DEPENDENCIES) && allDoExist('package.json')), // eslint-disable-line max-len
         optional: ({useSnowpack}) => !useSnowpack
     },
     {
         text: 'Install Babel React presets and plugins',
         task: ({skipInstall}) => install([...BABEL_REACT_PRESETS, ...BABEL_REACT_PLUGINS], {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall, useReact, useSnowpack}) => !useSnowpack && !skipInstall && isNotOffline && useReact && allDoExist('package.json'), // eslint-disable-line max-len
-        optional: ({useReact, useSnowpack}) => !useSnowpack && useReact
+        condition: ({skipInstall, useReact, useSnowpack}) => !useSnowpack && !skipInstall && useReact && allDoExist('package.json'), // eslint-disable-line max-len
+        optional: ({useReact, useSnowpack}) => useReact && !useSnowpack
     },
     {
         text: 'Install Snowpack dependencies',
         task: ({skipInstall}) => install(SNOWPACK_DEPENDENCIES, {dev: true, skipInstall}),
-        condition: ({isNotOffline, skipInstall, useSnowpack}) => useSnowpack && !skipInstall && isNotOffline && (!(new PackageJsonEditor()).hasAll(...SNOWPACK_DEPENDENCIES) && allDoExist('package.json')), // eslint-disable-line max-len
+        condition: ({skipInstall, useSnowpack}) => !skipInstall && useSnowpack && (!(new PackageJsonEditor()).hasAll(...SNOWPACK_DEPENDENCIES) && allDoExist('package.json')), // eslint-disable-line max-len
         optional: ({useSnowpack}) => useSnowpack
     }
 ];
