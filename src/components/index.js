@@ -207,11 +207,8 @@ export const OfflineWarning = () => <Box flexDirection={'column'} marginBottom={
         <Color yellow>(⌒_⌒;) This is awkward...</Color>
     </InkBox>
     <Box marginLeft={4} flexDirection={'column'}>
-        <Box>↳{space}<Text>...you appear to be <Color bold red>offline</Color></Text></Box>
-        <Box>↳{space}<Text>Please connect to the internet and <Color bold cyan>try again</Color></Text></Box>
-    </Box>
-    <Box marginLeft={6} marginTop={1}>
-        <Color dim>No dependencies will be installed</Color>
+        <Box>↳{space}<Text>...you appear to be <Color bold red>offline</Color>. If this is expected, </Text></Box>
+        <Box>↳{space}<Text>feel free to ignore this warning or use the <Color bold cyan>--ignore-warnings</Color> flag</Text></Box>
     </Box>
 </Box>;
 export const Status = ({tasks, completed, skipped}) => {
@@ -238,8 +235,8 @@ export const Status = ({tasks, completed, skipped}) => {
         </Box>
     </Box>;
 };
-export const WarningAndErrorsHeader = ({errors, hasError, isOnline, options: {skipInstall}}) => <Fragment>
-    {!isOnline && !skipInstall && <OfflineWarning/>}
+export const WarningAndErrorsHeader = ({errors, hasError, isOnline, options: {ignoreWarnings, skipInstall}}) => <Fragment>
+    {!isOnline && !(skipInstall || ignoreWarnings) && <OfflineWarning/>}
     {hasError && <CommandError errors={errors}></CommandError>}
 </Fragment>;
 /**

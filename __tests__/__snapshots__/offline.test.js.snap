@@ -5,10 +5,8 @@ exports[`Offline warning can render 1`] = `
 [33m ┌───────────────────────────┐[39m
  [33m│[39m [33m(⌒_⌒;) This is awkward...[39m [33m│[39m
 [33m └───────────────────────────┘[39m
-    ↳ ...you appear to be [31m[1moffline[22m[39m
-    ↳ Please connect to the internet and [36m[1mtry again[22m[39m
-
-      [2mNo dependencies will be installed[22m
+    ↳ ...you appear to be [31m[1moffline[22m[39m. If this is expected,
+    ↳ feel free to ignore this warning or use the [36m[1m--ignore-warnings[22m[39m flag
 "
 `;
 
@@ -31,10 +29,8 @@ exports[`Offline warning renders when offline and skipInstall === false 1`] = `
 [33m ┌───────────────────────────┐[39m
  [33m│[39m [33m(⌒_⌒;) This is awkward...[39m [33m│[39m
 [33m └───────────────────────────┘[39m
-    ↳ ...you appear to be [31m[1moffline[22m[39m
-    ↳ Please connect to the internet and [36m[1mtry again[22m[39m
-
-      [2mNo dependencies will be installed[22m
+    ↳ ...you appear to be [31m[1moffline[22m[39m. If this is expected,
+    ↳ feel free to ignore this warning or use the [36m[1m--ignore-warnings[22m[39m flag
 
 [36m[39m
 [36m ╭───────────╮[39m
