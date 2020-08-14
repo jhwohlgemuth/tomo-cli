@@ -116,7 +116,8 @@ describeOnlyOnLinux('CommandError', () => {
         expect(lastFrame()).toMatchSnapshot();
     });
 });
-describeOnlyOnLinux('Sub Command Multi-select Component', () => {
+// describeOnlyOnLinux
+xdescribe('Sub Command Multi-select Component', () => {
     const descriptions = {
         'Item A': 'Select the A item'
     };

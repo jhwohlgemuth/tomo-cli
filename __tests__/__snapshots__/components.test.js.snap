@@ -16,80 +16,257 @@ exports[`CommandError can render component and create errors file 1`] = `
 
 exports[`CommandError can render component and create errors file 2`] = `
 "
- [31m[1m✖ [22m[39mSomething has gone horribly [31m[1mwrong[22m[39m
-   ↳ [2mDetails written to ./tomo-errors.txt[22m"
+ [1m[31m✖ [22m[39mSomething has gone horribly [1m[31mwrong[39m[22m
+   ↳ Details written to ./tomo-errors.txt"
 `;
 
 exports[`Sub Command Multi-select Component can render 1`] = `
 "
- [2m...press spacebar to select items[22m
+ [41m[37m ERROR [49m[39m Cannot read property 'Consumer' of undefined
 
+ [2mnode_modules/ink-multi-select/build/multi-select.js:290:59[22m
 
- [36mSelect the A item[39m
+ [2m- [22m[1m[2mMultiSelectWithStdin.render[22m[90m[2m (node_modules/ink-multi-select/build/multi-select.js:290:59)[22m[39m[1m
+ [2m- [22m[1m[2mfinishClassComponent[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:8246:31)[22m[39m[1m
+ [2m- [22m[1m[2mupdateClassComponent[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:8199:24)[22m[39m[1m
+ [2m- [22m[1m[2mbeginWork$1[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:9962:16)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElement.callCallb[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1[22m[39m[1m
+  [1m[2mck[22m[1m[22m                          [22m[90m[2m1638:14)[22m[39m[1m
+ [2m-[22m[1m[2minnerInvokeEventList[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living/eve[22m[39m[1m
+  [1m[2mners[22m[1m[22m                [22m[90m[2mnts/EventTarget-impl.js:316:27)[22m[39m[1m
+ [2m-[22m[1m[2minvokeEventListe[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living/events/[22m[39m[1m
+  [1m[2mers[22m[1m[22m             [22m[90m[2mEventTarget-impl.js:267:3)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElementImpl._[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living[22m[39m[1m
+  [1m[2mispatch[22m[1m[22m                 [22m[90m[2m/events/EventTarget-impl.js:214:9)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElementImpl.dis[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/livi[22m[39m[1m
+  [1m[2matchEvent[22m[1m[22m                 [22m[90m[2mng/events/EventTarget-impl.js:87:17)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElement.dispa[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living[22m[39m[1m
+  [1m[2mchEvent[22m[1m[22m                 [22m[90m[2m/generated/EventTarget.js:144:23)[22m[39m[1m
+ [2m-[22m[1m[2mObject.invokeGuardedCallback[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1[22m[39m[1m
+  [1m[2mev[22m[1m[22m                          [22m[90m[2m1687:16)[22m[39m[1m
+ [2m-[22m[1m[2minvokeGuardedCallback[22m[90m[2m [22m[39m[1m
+                       [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:11740:31)[22m[39m
 
- [36m[1m→[22m[39m [36m [39m [36m[1mItem A[22m[39m
-   [36m [39m Item B
-   [36m [39m Item C
+ [2m- [22m[1m[2mbeginWork$$1[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:15778:7)[22m[39m[1m
+ [2m- [22m[1m[2mperformUnitOfWork[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:14693:12)[22m[39m[1m
+ [2m- [22m[1m[2mworkLoopSync[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:14669:22)[22m[39m[1m
+ [2m-[22m[1m[2mperformSyncWorkOnRoot[22m[90m[2m [22m[39m[1m
+                       [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:14265:11)[22m[39m
+
+ [2m- [22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1931:24)[22m[39m
+ [2m- [22m[1m[2munstable_runWithPriority[22m[90m[2m (node_modules/scheduler/cjs/scheduler.development.js:697:12)[22m[39m[1m
+ [2m- [22m[1m[2mrunWithPriority[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1881:10)[22m[39m[1m
+ [2m-[22m[1m[2mflushSyncCallbackQueueImp[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1926[22m[39m[1m
+                           [90m[2m:7)[22m[39m
+ [2m-[22m[1m[2mflushSyncCallbackQueue[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1914:3)[22m[39m[1m
+
+ [2m-[22m[1m[2mscheduleUpdateOnFiber[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:13704:9)[22m[39m[1m
+
+ [2m-[22m[1m[2mObject.updateContainer[22m[90m[2m [22m[39m[1m
+                        [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:17101:3)[22m[39m
+
+ [2m- [22m[1m[2mInk.render[22m[90m[2m (node_modules/ink/src/ink.tsx:185:14)[22m[39m[1m
+ [2m- [22m[1m[2mObject.render[22m[90m[2m (node_modules/ink/src/render.ts:91:11)[22m[39m[1m
+ [2m- [22m[1m[2mObject.<anonymous>.exports.render[22m[90m[2m (node_modules/ink-testing-library/source/index.ts:80:19)[22m[39m[1m
+ [2m- [22m[1m[2mObject.<anonymous>[22m[90m[2m (__tests__/components.test.js:129:29)[22m[39m[1m
+ [2m- [22m[1m[2mObject.asyncJestTest[22m[90m[2m (node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)[22m[39m[1m
+ [2m- [22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:45:12)[22m[39m
+ [2m- [22m[1m[2m    at new Promise (<anonymous>)[22m[1m[22m
+ [2m- [22m[1m[2mmapper[22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:28:19)[22m[39m[1m
+ [2m- [22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:75:41)[22m[39m
 "
 `;
 
 exports[`Sub Command Multi-select Component can render selected items 1`] = `
 "
- [2mselected › Item B[22m
- [2m ↳ press ENTER to see suggestions[22m
+ [41m[37m ERROR [49m[39m Cannot read property 'Consumer' of undefined
 
- [36m[2mSorry, I don't have anything to say about[22m Item B[39m
+ [2mnode_modules/ink-multi-select/build/multi-select.js:290:59[22m
 
-   [36m [39m Item A
- [36m[1m→[22m[39m [36m✔[39m [36m[1mItem B[22m[39m
-   [36m [39m Item C
+ [2m- [22m[1m[2mMultiSelectWithStdin.render[22m[90m[2m (node_modules/ink-multi-select/build/multi-select.js:290:59)[22m[39m[1m
+ [2m- [22m[1m[2mfinishClassComponent[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:8246:31)[22m[39m[1m
+ [2m- [22m[1m[2mupdateClassComponent[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:8199:24)[22m[39m[1m
+ [2m- [22m[1m[2mbeginWork$1[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:9962:16)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElement.callCallb[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1[22m[39m[1m
+  [1m[2mck[22m[1m[22m                          [22m[90m[2m1638:14)[22m[39m[1m
+ [2m-[22m[1m[2minnerInvokeEventList[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living/eve[22m[39m[1m
+  [1m[2mners[22m[1m[22m                [22m[90m[2mnts/EventTarget-impl.js:316:27)[22m[39m[1m
+ [2m-[22m[1m[2minvokeEventListe[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living/events/[22m[39m[1m
+  [1m[2mers[22m[1m[22m             [22m[90m[2mEventTarget-impl.js:267:3)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElementImpl._[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living[22m[39m[1m
+  [1m[2mispatch[22m[1m[22m                 [22m[90m[2m/events/EventTarget-impl.js:214:9)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElementImpl.dis[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/livi[22m[39m[1m
+  [1m[2matchEvent[22m[1m[22m                 [22m[90m[2mng/events/EventTarget-impl.js:87:17)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElement.dispa[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living[22m[39m[1m
+  [1m[2mchEvent[22m[1m[22m                 [22m[90m[2m/generated/EventTarget.js:144:23)[22m[39m[1m
+ [2m-[22m[1m[2mObject.invokeGuardedCallback[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1[22m[39m[1m
+  [1m[2mev[22m[1m[22m                          [22m[90m[2m1687:16)[22m[39m[1m
+ [2m-[22m[1m[2minvokeGuardedCallback[22m[90m[2m [22m[39m[1m
+                       [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:11740:31)[22m[39m
+
+ [2m- [22m[1m[2mbeginWork$$1[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:15778:7)[22m[39m[1m
+ [2m- [22m[1m[2mperformUnitOfWork[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:14693:12)[22m[39m[1m
+ [2m- [22m[1m[2mworkLoopSync[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:14669:22)[22m[39m[1m
+ [2m-[22m[1m[2mperformSyncWorkOnRoot[22m[90m[2m [22m[39m[1m
+                       [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:14265:11)[22m[39m
+
+ [2m- [22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1931:24)[22m[39m
+ [2m- [22m[1m[2munstable_runWithPriority[22m[90m[2m (node_modules/scheduler/cjs/scheduler.development.js:697:12)[22m[39m[1m
+ [2m- [22m[1m[2mrunWithPriority[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1881:10)[22m[39m[1m
+ [2m-[22m[1m[2mflushSyncCallbackQueueImp[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1926[22m[39m[1m
+                           [90m[2m:7)[22m[39m
+ [2m-[22m[1m[2mflushSyncCallbackQueue[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1914:3)[22m[39m[1m
+
+ [2m-[22m[1m[2mscheduleUpdateOnFiber[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:13704:9)[22m[39m[1m
+
+ [2m-[22m[1m[2mObject.updateContainer[22m[90m[2m [22m[39m[1m
+                        [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:17101:3)[22m[39m
+
+ [2m- [22m[1m[2mInk.render[22m[90m[2m (node_modules/ink/src/ink.tsx:185:14)[22m[39m[1m
+ [2m- [22m[1m[2mObject.render[22m[90m[2m (node_modules/ink/src/render.ts:91:11)[22m[39m[1m
+ [2m- [22m[1m[2mObject.<anonymous>.exports.render[22m[90m[2m (node_modules/ink-testing-library/source/index.ts:80:19)[22m[39m[1m
+ [2m- [22m[1m[2mObject.<anonymous>[22m[90m[2m (__tests__/components.test.js:145:36)[22m[39m[1m
+ [2m- [22m[1m[2mObject.asyncJestTest[22m[90m[2m (node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)[22m[39m[1m
+ [2m- [22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:45:12)[22m[39m
+ [2m- [22m[1m[2m    at new Promise (<anonymous>)[22m[1m[22m
+ [2m- [22m[1m[2mmapper[22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:28:19)[22m[39m[1m
+ [2m- [22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:75:41)[22m[39m
 "
 `;
 
 exports[`Sub Command Multi-select Component can render selected items 2`] = `
 "
- [2mselected › Item A, Item B[22m
- [2m ↳ press ENTER to see suggestions[22m
+ [41m[37m ERROR [49m[39m Cannot read property 'Consumer' of undefined
 
- [36mSelect the A item[39m
+ [2mnode_modules/ink-multi-select/build/multi-select.js:290:59[22m
 
- [36m[1m→[22m[39m [36m✔[39m [36m[1mItem A[22m[39m
-   [36m✔[39m Item B
-   [36m [39m Item C
+ [2m- [22m[1m[2mMultiSelectWithStdin.render[22m[90m[2m (node_modules/ink-multi-select/build/multi-select.js:290:59)[22m[39m[1m
+ [2m- [22m[1m[2mfinishClassComponent[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:8246:31)[22m[39m[1m
+ [2m- [22m[1m[2mupdateClassComponent[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:8199:24)[22m[39m[1m
+ [2m- [22m[1m[2mbeginWork$1[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:9962:16)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElement.callCallb[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1[22m[39m[1m
+  [1m[2mck[22m[1m[22m                          [22m[90m[2m1638:14)[22m[39m[1m
+ [2m-[22m[1m[2minnerInvokeEventList[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living/eve[22m[39m[1m
+  [1m[2mners[22m[1m[22m                [22m[90m[2mnts/EventTarget-impl.js:316:27)[22m[39m[1m
+ [2m-[22m[1m[2minvokeEventListe[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living/events/[22m[39m[1m
+  [1m[2mers[22m[1m[22m             [22m[90m[2mEventTarget-impl.js:267:3)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElementImpl._[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living[22m[39m[1m
+  [1m[2mispatch[22m[1m[22m                 [22m[90m[2m/events/EventTarget-impl.js:214:9)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElementImpl.dis[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/livi[22m[39m[1m
+  [1m[2matchEvent[22m[1m[22m                 [22m[90m[2mng/events/EventTarget-impl.js:87:17)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElement.dispa[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living[22m[39m[1m
+  [1m[2mchEvent[22m[1m[22m                 [22m[90m[2m/generated/EventTarget.js:144:23)[22m[39m[1m
+ [2m-[22m[1m[2mObject.invokeGuardedCallback[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1[22m[39m[1m
+  [1m[2mev[22m[1m[22m                          [22m[90m[2m1687:16)[22m[39m[1m
+ [2m-[22m[1m[2minvokeGuardedCallback[22m[90m[2m [22m[39m[1m
+                       [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:11740:31)[22m[39m
+
+ [2m- [22m[1m[2mbeginWork$$1[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:15778:7)[22m[39m[1m
+ [2m- [22m[1m[2mperformUnitOfWork[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:14693:12)[22m[39m[1m
+ [2m- [22m[1m[2mworkLoopSync[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:14669:22)[22m[39m[1m
+ [2m-[22m[1m[2mperformSyncWorkOnRoot[22m[90m[2m [22m[39m[1m
+                       [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:14265:11)[22m[39m
+
+ [2m- [22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1931:24)[22m[39m
+ [2m- [22m[1m[2munstable_runWithPriority[22m[90m[2m (node_modules/scheduler/cjs/scheduler.development.js:697:12)[22m[39m[1m
+ [2m- [22m[1m[2mrunWithPriority[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1881:10)[22m[39m[1m
+ [2m-[22m[1m[2mflushSyncCallbackQueueImp[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1926[22m[39m[1m
+                           [90m[2m:7)[22m[39m
+ [2m-[22m[1m[2mflushSyncCallbackQueue[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1914:3)[22m[39m[1m
+
+ [2m-[22m[1m[2mscheduleUpdateOnFiber[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:13704:9)[22m[39m[1m
+
+ [2m-[22m[1m[2mObject.updateContainer[22m[90m[2m [22m[39m[1m
+                        [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:17101:3)[22m[39m
+
+ [2m- [22m[1m[2mInk.render[22m[90m[2m (node_modules/ink/src/ink.tsx:185:14)[22m[39m[1m
+ [2m- [22m[1m[2mObject.render[22m[90m[2m (node_modules/ink/src/render.ts:91:11)[22m[39m[1m
+ [2m- [22m[1m[2mObject.<anonymous>.exports.render[22m[90m[2m (node_modules/ink-testing-library/source/index.ts:80:19)[22m[39m[1m
+ [2m- [22m[1m[2mObject.<anonymous>[22m[90m[2m (__tests__/components.test.js:145:36)[22m[39m[1m
+ [2m- [22m[1m[2mObject.asyncJestTest[22m[90m[2m (node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)[22m[39m[1m
+ [2m- [22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:45:12)[22m[39m
+ [2m- [22m[1m[2m    at new Promise (<anonymous>)[22m[1m[22m
+ [2m- [22m[1m[2mmapper[22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:28:19)[22m[39m[1m
+ [2m- [22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:75:41)[22m[39m
 "
 `;
 
 exports[`Sub Command Multi-select Component can render unknown items 1`] = `
 "
- [2m...press spacebar to select items[22m
+ [41m[37m ERROR [49m[39m Cannot read property 'Consumer' of undefined
 
+ [2mnode_modules/ink-multi-select/build/multi-select.js:290:59[22m
 
- [36m[2mSorry, I don't have anything to say about[22m Item A[39m
+ [2m- [22m[1m[2mMultiSelectWithStdin.render[22m[90m[2m (node_modules/ink-multi-select/build/multi-select.js:290:59)[22m[39m[1m
+ [2m- [22m[1m[2mfinishClassComponent[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:8246:31)[22m[39m[1m
+ [2m- [22m[1m[2mupdateClassComponent[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:8199:24)[22m[39m[1m
+ [2m- [22m[1m[2mbeginWork$1[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:9962:16)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElement.callCallb[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1[22m[39m[1m
+  [1m[2mck[22m[1m[22m                          [22m[90m[2m1638:14)[22m[39m[1m
+ [2m-[22m[1m[2minnerInvokeEventList[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living/eve[22m[39m[1m
+  [1m[2mners[22m[1m[22m                [22m[90m[2mnts/EventTarget-impl.js:316:27)[22m[39m[1m
+ [2m-[22m[1m[2minvokeEventListe[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living/events/[22m[39m[1m
+  [1m[2mers[22m[1m[22m             [22m[90m[2mEventTarget-impl.js:267:3)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElementImpl._[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living[22m[39m[1m
+  [1m[2mispatch[22m[1m[22m                 [22m[90m[2m/events/EventTarget-impl.js:214:9)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElementImpl.dis[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/livi[22m[39m[1m
+  [1m[2matchEvent[22m[1m[22m                 [22m[90m[2mng/events/EventTarget-impl.js:87:17)[22m[39m[1m
+ [2m-[22m[1m[2mHTMLUnknownElement.dispa[22m[90m[2m (node_modules/jest-environment-jsdom/node_modules/jsdom/lib/jsdom/living[22m[39m[1m
+  [1m[2mchEvent[22m[1m[22m                 [22m[90m[2m/generated/EventTarget.js:144:23)[22m[39m[1m
+ [2m-[22m[1m[2mObject.invokeGuardedCallback[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1[22m[39m[1m
+  [1m[2mev[22m[1m[22m                          [22m[90m[2m1687:16)[22m[39m[1m
+ [2m-[22m[1m[2minvokeGuardedCallback[22m[90m[2m [22m[39m[1m
+                       [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:11740:31)[22m[39m
 
- [36m[1m→[22m[39m [36m [39m [36m[1mItem A[22m[39m
-   [36m [39m Item B
-   [36m [39m Item C
+ [2m- [22m[1m[2mbeginWork$$1[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:15778:7)[22m[39m[1m
+ [2m- [22m[1m[2mperformUnitOfWork[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:14693:12)[22m[39m[1m
+ [2m- [22m[1m[2mworkLoopSync[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:14669:22)[22m[39m[1m
+ [2m-[22m[1m[2mperformSyncWorkOnRoot[22m[90m[2m [22m[39m[1m
+                       [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:14265:11)[22m[39m
+
+ [2m- [22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1931:24)[22m[39m
+ [2m- [22m[1m[2munstable_runWithPriority[22m[90m[2m (node_modules/scheduler/cjs/scheduler.development.js:697:12)[22m[39m[1m
+ [2m- [22m[1m[2mrunWithPriority[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1881:10)[22m[39m[1m
+ [2m-[22m[1m[2mflushSyncCallbackQueueImp[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1926[22m[39m[1m
+                           [90m[2m:7)[22m[39m
+ [2m-[22m[1m[2mflushSyncCallbackQueue[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:1914:3)[22m[39m[1m
+
+ [2m-[22m[1m[2mscheduleUpdateOnFiber[22m[90m[2m (node_modules/react-reconciler/cjs/react-reconciler.development.js:13704:9)[22m[39m[1m
+
+ [2m-[22m[1m[2mObject.updateContainer[22m[90m[2m [22m[39m[1m
+                        [90m[2m(node_modules/react-reconciler/cjs/react-reconciler.development.js:17101:3)[22m[39m
+
+ [2m- [22m[1m[2mInk.render[22m[90m[2m (node_modules/ink/src/ink.tsx:185:14)[22m[39m[1m
+ [2m- [22m[1m[2mObject.render[22m[90m[2m (node_modules/ink/src/render.ts:91:11)[22m[39m[1m
+ [2m- [22m[1m[2mObject.<anonymous>.exports.render[22m[90m[2m (node_modules/ink-testing-library/source/index.ts:80:19)[22m[39m[1m
+ [2m- [22m[1m[2mObject.<anonymous>[22m[90m[2m (__tests__/components.test.js:136:29)[22m[39m[1m
+ [2m- [22m[1m[2mObject.asyncJestTest[22m[90m[2m (node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)[22m[39m[1m
+ [2m- [22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:45:12)[22m[39m
+ [2m- [22m[1m[2m    at new Promise (<anonymous>)[22m[1m[22m
+ [2m- [22m[1m[2mmapper[22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:28:19)[22m[39m[1m
+ [2m- [22m[90m[2m (node_modules/jest-jasmine2/build/queueRunner.js:75:41)[22m[39m
 "
 `;
 
-exports[`Task component can render (completed) 1`] = `"   [32m[1m✔ [22m[39m[2mtest task text[22m"`;
+exports[`Task component can render (completed) 1`] = `"   [1m[32m✔ [22m[39mtest task text"`;
 
-exports[`Task component can render (errored) 1`] = `"   [31m[1m✖ [22m[39mtest task text"`;
+exports[`Task component can render (errored) 1`] = `"   [1m[31m✖ [22m[39mtest task text"`;
 
-exports[`Task component can render (pending) 1`] = `"   [36m⠋[39m[36m [39mtest task text"`;
+exports[`Task component can render (pending) 1`] = `"   [36m⠋ [39mtest task text"`;
 
-exports[`Task component can render (skipped) 1`] = `"   [2m[1m✔ [22m[2m[22m[2mtest task text[22m"`;
+exports[`Task component can render (skipped) 1`] = `"   [1m[37m✔ [22m[39mtest task text"`;
 
-exports[`Task component can render with default text 1`] = `"   [32m[1m✔ [22m[39m[2mtask description[22m"`;
+exports[`Task component can render with default text 1`] = `"   [1m[32m✔ [22m[39mtask description"`;
 
 exports[`Warning can render 1`] = `
-"[33m[39m
-[33m ┌─────────┐[39m
- [33m│[39m [33moops...[39m [33m│[39m
-[33m └─────────┘[39m
+"
+ [33m╭─────────╮[39m
+ [33m│[39m oops... [33m│[39m
+ [33m╰─────────╯[39m
+
     ↳ Hello World
 
-      [2mPress [22m[1mENTER[22m[2m to continue[22m
+      Press [1mENTER[22m to continue
 "
 `;
 

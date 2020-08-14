@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Conf from 'conf';
 import {play} from 'figures';
 import {is} from 'ramda';
-import {Box, Color, Text} from 'ink';
+import {Box, Text} from 'ink';
 import {
     ErrorBoundary,
     SubCommandSelect,
@@ -16,10 +16,10 @@ import {
 } from '../api';
 
 const AnimatedIndicator = ({complete, elapsed}) => {
-    const Active = () => <Color cyan>{play} </Color>;
-    const Inactive = () => <Color dim>{play} </Color>;
+    const Active = () => <Text color="cyan">{play} </Text>;
+    const Inactive = () => <Text dim>{play} </Text>;
     const gate = Number(elapsed.split(':')[2]) % 3;
-    return complete ? <Color dim>runtime</Color> : <Box>
+    return complete ? <Text dim>runtime</Text> : <Box>
         {gate === 0 ? <Active /> : <Inactive />}
         {gate === 1 ? <Active /> : <Inactive />}
         {gate === 2 ? <Active /> : <Inactive />}
@@ -99,7 +99,7 @@ export default class UI extends Component {
         return <ErrorBoundary>
             {showWarning ?
                 <Warning callback={this.updateWarning}>
-                    <Text>Did you mean <Color bold green>{intendedCommand} {intendedTerms.join(' ')}</Color>?</Text>
+                    <Text>Did you mean <Text bold color="green">{intendedCommand} {intendedTerms.join(' ')}</Text>?</Text>
                 </Warning> :
                 (hasCommand && hasTerms) ?
                     isTerminalCommand ?

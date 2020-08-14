@@ -1,9 +1,9 @@
-import React, {Component, Fragment, useContext, useEffect, useReducer, useState} from 'react';
+import React, {Component, Fragment, useEffect, useReducer, useState} from 'react';
 import PropTypes from 'prop-types';
 import {complement, is} from 'ramda';
 import {bold, dim} from 'chalk';
 import pino from 'pino';
-import {Box, Color, StdinContext, Text} from 'ink';
+import {Box, Text, useStdin} from 'ink';
 import {default as InkBox} from 'ink-box';
 import Spinner from 'ink-spinner';
 import SelectInput from 'ink-select-input';
@@ -22,16 +22,20 @@ export {default as Main} from './main';
 
 const {assign} = Object;
 const space = ' ';
-const Check = ({isSkipped}) => <Color bold green={!isSkipped} dim={isSkipped}>{figures.tick}{space}</Color>;
-const X = () => <Color bold red>{figures.cross}{space}</Color>;
-const Pending = () => <Color cyan><Spinner></Spinner>{space}</Color>;
-const Item = ({isHighlighted, isSelected, label}) => <Color bold={isHighlighted || isSelected} cyan={isHighlighted || isSelected}>{label}</Color>;
+const Check = ({isSkipped}) => <Text bold color={isSkipped ? 'white' : 'green'} dim={isSkipped}>{figures.tick}{space}</Text>;
+const X = () => <Text bold color="red">{figures.cross}{space}</Text>;
+const Pending = () => <Text color="cyan"><Spinner></Spinner>{space}</Text>;
+const Item = ({isHighlighted, isSelected, label}) => <Text
+    bold={isHighlighted || isSelected}
+    color={(isHighlighted || isSelected) ? 'cyan' : 'white'}>
+    {label}
+</Text>;
 const Indicator = ({isHighlighted, isSelected}) => <Box marginRight={1}>
-    {(isHighlighted || isSelected) ? <Color bold cyan>{figures.arrowRight}</Color> : ' '}
+    {(isHighlighted || isSelected) ? <Text bold color="cyan">{figures.arrowRight}</Text> : <Text> </Text>}
 </Box>;
 const CheckBox = ({isSelected}) => (
     <Box marginRight={1}>
-        <Color cyan>{isSelected ? figures.tick : ' '}</Color>
+        <Text color="cyan">{isSelected ? figures.tick : ' '}</Text>
     </Box>
 );
 export const CommandError = errors => {
@@ -42,9 +46,15 @@ export const CommandError = errors => {
     useEffect(() => {
         log.error(errors);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
-    return <Box flexDirection={'column'} marginTop={1} marginLeft={1}>
-        <Box><X /><Text>Something has gone horribly <Color bold red>wrong</Color></Text></Box>
-        <Box marginLeft={2}>↳{space}<Color dim>Details written to ./tomo-errors.txt</Color></Box>
+    return <Box flexDirection="column" marginTop={1} marginLeft={1}>
+        <Box>
+            <X/>
+            <Text>Something has gone horribly <Text bold color="red">wrong</Text></Text>
+        </Box>
+        <Box marginLeft={2}>
+            <Text>↳{space}</Text>
+            <Text dim>Details written to ./tomo-errors.txt</Text>
+        </Box>
     </Box>;
 };
 export const Debug = ({data, title}) => {
@@ -55,14 +65,15 @@ export const Debug = ({data, title}) => {
         .sort();
     const print = value => value |> format |> highlight;
     const DebugValue = ({title = 'value', value}) => <Box>
-        <Fragment><Color dim>{title}</Color>: {print(value)}</Fragment>
+        <Text><Text dim>{title}</Text>: {print(value)}</Text>
     </Box>;
     DebugValue.propTypes = {
         value: PropTypes.any
     };
     return <Box flexDirection={'column'} marginTop={1} marginLeft={1}>
         <Box marginBottom={1}>
-            <Color bold cyan>DEBUG: </Color><Color bold dim>{title}</Color>
+            <Text bold color="cyan">DEBUG: </Text>
+            <Text bold dim>{title}</Text>
         </Box>
         <DebugValue title={'Terms'} value={terms}></DebugValue>
         <DebugValue title={'Options'} value={formatted}></DebugValue>
@@ -79,18 +90,19 @@ export const Description = ({command, descriptions}) => {
         return typeof value === 'function' ? value(item) : value;
     };
     return <Box marginBottom={1}>
-        <Color cyan>{getDescription(command)}</Color>
+        <Text color="cyan">{getDescription(command)}</Text>
     </Box>;
 };
 export const ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>
     <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>
-        <Color yellow>(╯°□ °)╯ ┻━┻ arrrgh...</Color>
+        <Text color="yellow">(╯°□ °)╯ ┻━┻ arrrgh...</Text>
     </InkBox>
     <Box marginLeft={4}>
-        ↳{space}<Color dim>Something went wrong...</Color>
+        <Text>↳{space}</Text>
+        <Text dim>Something went wrong...</Text>
     </Box>
     <Box marginLeft={6} marginTop={1}>
-        <Color dim><Box>{info}</Box></Color>
+        <Text dim>{info}</Text>
     </Box>
 </Box>;
 export class ErrorBoundary extends Component {
@@ -122,15 +134,15 @@ export const SubCommandSelect = ({command, descriptions, items, onSelect}) => {
     const showWithRemove = `${bold.yellow('CAUTION:')} tomo shall ${bold.red('remove')} that which tomo would have ${bold.green('added')}`;
     return <Box flexDirection={'column'} paddingTop={1} paddingBottom={1} paddingLeft={1}>
         {command === 'remove' ?
-            <Box marginBottom={1}>{showWithRemove}</Box> :
+            <Text marginBottom={1}>{showWithRemove}</Text> :
             <Description command={highlighted} descriptions={descriptions}></Description>}
         <SelectInput
             items={items}
             onSelect={onSelect}
             onHighlight={onHighlight}
             itemComponent={Item}
-            indicatorComponent={Indicator}
-        ></SelectInput>
+            indicatorComponent={Indicator}>
+        </SelectInput>
     </Box>;
 };
 export const SubCommandMultiSelect = ({descriptions, items, onSubmit}) => {
@@ -149,11 +161,11 @@ export const SubCommandMultiSelect = ({descriptions, items, onSubmit}) => {
     };
     return <Box flexDirection={'column'} paddingTop={1} paddingBottom={1} paddingLeft={1}>
         <Box flexDirection="column" marginBottom={1}>
-            <Color dim>{selected.length > 0 ?
+            <Text dim>{selected.length > 0 ?
                 `selected ${figures.pointerSmall} ` :
                 '...press spacebar to select items'}{selected.sort().join(', ')}
-            </Color>
-            {selected.length > 0 ? <Color dim> ↳ press ENTER to see suggestions</Color> : <Text> </Text>}
+            </Text>
+            {selected.length > 0 ? <Text dim> ↳ press ENTER to see suggestions</Text> : <Text> </Text>}
         </Box>
         <Description command={highlighted} descriptions={descriptions}></Description>
         <MultiSelectInput
@@ -170,7 +182,7 @@ export const SubCommandMultiSelect = ({descriptions, items, onSubmit}) => {
 };
 export const UnderConstruction = () => <Box marginBottom={1}>
     <InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}>
-        <Color bold yellow>UNDER CONSTRUCTION</Color>
+        <Text bold color="yellow">UNDER CONSTRUCTION</Text>
     </InkBox>
 </Box>;
 /**
@@ -181,7 +193,7 @@ export const UnderConstruction = () => <Box marginBottom={1}>
  * @return {ReactComponent} Warning component
  */
 export const Warning = ({callback, children}) => {
-    const {setRawMode, stdin} = useContext(StdinContext);
+    const {setRawMode, stdin} = useStdin();
     useEffect(() => {
         setRawMode && setRawMode(true);
         stdin.on('data', callback);
@@ -191,47 +203,52 @@ export const Warning = ({callback, children}) => {
         };
     });
     return <Box flexDirection={'column'} marginBottom={1}>
-        <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>
-            <Color yellow>oops...</Color>
-        </InkBox>
+        <Box borderStyle="round" borderColor="yellow" margin={1} paddingLeft={1} paddingRight={1} width={11}>
+            <Text yellow>oops...</Text>
+        </Box>
         <Box marginLeft={4}>
-            ↳{space}{children}
+            <Text>↳{space}{children}</Text>
         </Box>
         <Box marginLeft={6} marginTop={1}>
-            <Color dim>Press </Color><Text bold>ENTER</Text><Color dim> to continue</Color>
+            <Text dim>Press </Text>
+            <Text bold>ENTER</Text><Text dim> to continue</Text>
         </Box>
     </Box>;
 };
-export const OfflineWarning = () => <Box flexDirection={'column'} marginBottom={1}>
-    <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>
-        <Color yellow>(⌒_⌒;) This is awkward...</Color>
-    </InkBox>
-    <Box marginLeft={4} flexDirection={'column'}>
-        <Box>↳{space}<Text>...you appear to be <Color bold red>offline</Color>. If this is expected, </Text></Box>
-        <Box>↳{space}<Text>feel free to ignore this warning or use the <Color bold cyan>--ignore-warnings</Color> flag</Text></Box>
-    </Box>
-</Box>;
+export const OfflineWarning = () => {
+    const SPACE = 4;
+    const title = '(⌒_⌒;) This is awkward...';
+    return <Box flexDirection={'column'} marginBottom={1}>
+        <Box borderStyle="round" borderColor="yellow" margin={1} paddingLeft={1} paddingRight={1} width={title.length + SPACE}>
+            <Text color="yellow">{title}</Text>
+        </Box>
+        <Box marginLeft={4} flexDirection={'column'}>
+            <Text>↳{space}<Text>...you appear to be <Text bold color="red">offline</Text>. If this is expected, </Text></Text>
+            <Text>↳{space}<Text>feel free to ignore this warning or use the <Text bold color="cyan">--ignore-warnings</Text> flag</Text></Text>
+        </Box>
+    </Box>;
+};
 export const Status = ({tasks, completed, skipped}) => {
     const tasksComplete = (completed.length + skipped.length) === tasks.length;
     return <Box flexDirection={'column'}>
         <Box marginLeft={4} marginBottom={1}>
-            <Color dim>↳{space}</Color>
+            <Text dim>↳{space}</Text>
             {tasksComplete ?
-                <Color bold green>All Done!</Color> :
+                <Text bold color="green">All Done!</Text> :
                 <Fragment>
-                    <Color dim>Finished </Color>
-                    <Color bold white>{completed.length}</Color>
-                    <Color bold dim> of </Color>
-                    <Color bold white>{tasks.length - skipped.length}</Color>
-                    <Color dim> tasks</Color>
+                    <Text dim>Finished </Text>
+                    <Text bold color="white">{completed.length}</Text>
+                    <Text bold dim> of </Text>
+                    <Text bold color="white">{tasks.length - skipped.length}</Text>
+                    <Text dim> tasks</Text>
                 </Fragment>
             }
-            <Color dim> (</Color>
-            <Color bold>{completed.length}</Color>
-            <Color dim> completed, </Color>
-            <Color bold>{skipped.length}</Color>
-            <Color dim> skipped</Color>
-            <Color>)</Color>
+            <Text dim> (</Text>
+            <Text bold>{completed.length}</Text>
+            <Text dim> completed, </Text>
+            <Text bold>{skipped.length}</Text>
+            <Text dim> skipped</Text>
+            <Text>)</Text>
         </Box>
     </Box>;
 };
@@ -254,7 +271,7 @@ export const Task = ({isComplete, isErrored, isPending, isSkipped, text}) => <Bo
     {isComplete && <Check isSkipped={isSkipped}></Check>}
     {isErrored && <X/>}
     {isPending && <Pending/>}
-    <Text><Color dim={isComplete}>{text}</Color></Text>
+    <Text dim={isComplete}>{text}</Text>
 </Box>;
 export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='column' marginBottom={1}>{
     tasks
@@ -267,7 +284,7 @@ export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='col
             const isErrored = errors.map(error => error.payload.index).includes(index);
             const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
             const maybeApplyOrReturnTrue = (val, options) => (val === undefined) || (is(Function)(val) && val(options));
-            const showDebug = debug && <Color cyan>{index} - {text}</Color>;
+            const showDebug = debug && <Text color="cyan">{index} - {text}</Text>;
             const shouldBeShown = maybeApplyOrReturnTrue(optional, options);
             const isCurrentOrPrevious = index <= Math.max(...completed, ...skipped) + 1;
             return (isCurrentOrPrevious && shouldBeShown) ?
@@ -279,16 +296,22 @@ export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='col
                     isErrored={isErrored}
                     isPending={isPending}>
                 </Task> :
-                <Box key={text}>{showDebug}</Box>;
+                <Text key={text}>{showDebug}</Text>;
         })
 }</Box>;
-export const TaskListTitle = ({command, hasError, isComplete, terms}) => <InkBox
-    margin={{left: 1, top: 1}}
-    padding={{left: 1, right: 1}}
-    borderColor={isComplete ? 'green' : (hasError ? 'red' : 'cyan')}
-    borderStyle={'round'}>
-    <Color bolds>{command} {terms.join(' ')}</Color>
-</InkBox>;
+export const TaskListTitle = ({command, hasError, isComplete, terms}) => {
+    const SPACE = 4;
+    const title = `${command} ${terms.join(' ')}`;
+    return <Box
+        borderColor={isComplete ? 'green' : (hasError ? 'red' : 'cyan')}
+        borderStyle="round"
+        margin={1}
+        paddingLeft={1}
+        paddingRight={1}
+        width={title.length + SPACE}>
+        <Text bold>{title}</Text>
+    </Box>;
+};
 /**
  * Task list component
  * @param {Object} props Function component props
