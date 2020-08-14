@@ -4,7 +4,6 @@ import {complement, is} from 'ramda';
 import {bold, dim} from 'chalk';
 import pino from 'pino';
 import {Box, Text, useStdin} from 'ink';
-import {default as InkBox} from 'ink-box';
 import Spinner from 'ink-spinner';
 import SelectInput from 'ink-select-input';
 import MultiSelectInput from 'ink-multi-select';
@@ -94,9 +93,9 @@ export const Description = ({command, descriptions}) => {
     </Box>;
 };
 export const ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>
-    <InkBox borderColor={'yellow'} margin={{left: 1, top: 1}} padding={{left: 1, right: 1}}>
+    <Box borderStyle="single" borderColor="yellow" margin={1} paddingLeft={1} paddingRight={1}>
         <Text color="yellow">(╯°□ °)╯ ┻━┻ arrrgh...</Text>
-    </InkBox>
+    </Box>
     <Box marginLeft={4}>
         <Text>↳{space}</Text>
         <Text dim>Something went wrong...</Text>
@@ -170,20 +169,20 @@ export const SubCommandMultiSelect = ({descriptions, items, onSubmit}) => {
         <Description command={highlighted} descriptions={descriptions}></Description>
         <MultiSelectInput
             items={items}
-            onSubmit={onSubmit}
             onSelect={onSelect}
+            onSubmit={onSubmit}
             onUnselect={onUnselect}
             onHighlight={onHighlight}
             itemComponent={Item}
             indicatorComponent={Indicator}
-            checkboxComponent={CheckBox}
-        ></MultiSelectInput>
+            checkboxComponent={CheckBox}>
+        </MultiSelectInput>
     </Box>;
 };
 export const UnderConstruction = () => <Box marginBottom={1}>
-    <InkBox padding={{left: 1, right: 1}} margin={{left: 1, top: 1}}>
+    <Box borderStyle="classic" borderColor="yellow" margin={1} paddingLeft={1} paddingRight={1}>
         <Text bold color="yellow">UNDER CONSTRUCTION</Text>
-    </InkBox>
+    </Box>
 </Box>;
 /**
  * Component to display warning message requiring user input

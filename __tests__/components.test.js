@@ -116,8 +116,7 @@ describeOnlyOnLinux('CommandError', () => {
         expect(lastFrame()).toMatchSnapshot();
     });
 });
-// describeOnlyOnLinux
-xdescribe('Sub Command Multi-select Component', () => {
+describeOnlyOnLinux('Sub Command Multi-select Component', () => {
     const descriptions = {
         'Item A': 'Select the A item'
     };
@@ -126,21 +125,21 @@ xdescribe('Sub Command Multi-select Component', () => {
         {value: 'Item B', label: 'Item B'},
         {value: 'Item C', label: 'Item C'}
     ];
-    test('can render', () => {
+    xtest('can render', () => {
         const {lastFrame} = render(<SubCommandMultiSelect
             descriptions={descriptions}
             items={items}
             onSubmit={() => {}}/>);
-        expect(lastFrame()).toMatchSnapshot();
+        // expect(lastFrame()).toMatchSnapshot();
     });
-    test('can render unknown items', () => {
+    xtest('can render unknown items', () => {
         const {lastFrame} = render(<SubCommandMultiSelect
             descriptions={{}}
             items={items}
             onSubmit={() => {}}/>);
         expect(lastFrame()).toMatchSnapshot();
     });
-    test('can render selected items', () => {/* eslint-disable no-console */
+    xtest('can render selected items', () => {/* eslint-disable no-console */
         const CONSOLE_ERROR = console.error;
         console.error = () => {};
         const {lastFrame, stdin} = render(<SubCommandMultiSelect
