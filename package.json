@@ -23,7 +23,7 @@
     "postbuild": "npm run copy:assets",
     "build:clean": "rimraf dist",
     "build:watch": "watch 'npm run build' ./src",
-    "build:html": "pug -wP {index,index-react,index-in-place,index-in-place-react,index-in-place-snowpack}.pug",
+    "build:html": "pug -wP -o src/commands/common/templates src/commands/common/templates/pug/{index,index-react,index-in-place,index-in-place-react,index-in-place-snowpack}.pug",
     "build:docs": "esdoc -c ./esdoc.conf.json",
     "test": "jest .*.test.js --coverage",
     "test:e2e": "jest .*.e2e.js",
