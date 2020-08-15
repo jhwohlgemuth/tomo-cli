@@ -1,0 +1,51 @@
+mixin base(title, useReact, useSnowpack, isInPlace)
+    - var assetsPath = isInPlace ? (useSnowpack ? '/' : '../assets/') : 'assets/'
+
+    doctype html
+    html(lang="en")
+        head
+            meta(charset='utf-8')
+            title !{title}
+            meta(http-equiv='x-ua-compatible' content='ie-edge')
+            meta(name='description' content='Web Application')
+            meta(name='keywords' content='')
+            if isInPlace
+                unless useSnowpack
+                    link(rel='stylesheet' type='text/css' href='./css/style.css')
+                else
+                    link(rel='stylesheet' type='text/css' href='/css/style.css')
+                unless useReact
+                    script(src='../src/main.js')
+            else
+                link(rel='stylesheet' type='text/css' href='style.css')
+            noscript
+                style
+                    include no-script.css
+                section
+                    |
+                    |
+                    img(src=assetsPath + 'images/preferences.png')
+                    p Please enable JavaScript in your browser for a better experience
+                    p より良い体験のため、ブラウザでJavaScriptを有効にして下さい
+                    p 请在你的浏览器中启用JavaScript以便享受最佳体验
+                    p Veuillez activer Java Script dans votre navigateur pour une meilleure expérience.
+                    |
+                    |
+        if isInPlace
+            unless useReact
+                |
+                <!-- https://google.github.io/styleguide/htmlcssguide.html#Optional_Tags -->
+            else
+                body
+                    #root
+                    if useSnowpack
+                        script(src='/_dist_/main.js' type='module')
+                    else
+                        script(src='../src/main.jsx')
+        else if useReact
+            body
+                #root
+                if isInPlace
+                    script(src='../src/main.jsx')
+        else
+            body
