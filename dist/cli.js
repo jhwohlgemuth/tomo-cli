@@ -32,21 +32,21 @@
 
     ${_chalk.dim.bold("Options")}
 
-        --version, -v           Print version
-        --source-directory, -d  Directory for source code [Default: ./src]
-        --output-directory, -o  Directory for build targets [Default: ./dist]
         --assets-directory, -a  Directory for assets [Default: ./assets]
-        --use-rollup,           Use Rollup instead of Webpack [Default: false]
-        --use-parcel,           Use Parcel instead of Webpack [Default: false]
-        --use-snowpack,         Use Snowpack instead of Webpack [Default: false]
-        --use-react, -r         Add React support to workflow [Default: false]
+        --browser               Indicate tasks are intended for the browser [Default: false]
+        --debug                 Show debug data [Default: false]	
+        --ignore-warnings, -i   Ignore warning messages [Default: false]
+        --output-directory, -o  Directory for build targets [Default: ./dist]
+        --overwrite             Copy files, even if they alrady exist [Default: false]
+        --port, -p              Configure port for workflow tasks that use it [Default: 4669]
         --react-version         React version for ESLint configuration [Default: '16.8']
+        --skip-install, -s      Skip npm installations [Default: false]
+        --source-directory, -d  Directory for source code [Default: ./src]
+        --use-parcel,           Use Parcel instead of Webpack [Default: false]
+        --use-react, -r         Add React support to workflow [Default: false]
+        --use-rollup,           Use Rollup instead of Webpack [Default: false]
+        --use-snowpack,         Use Snowpack instead of Webpack [Default: false]
+        --version, -v           Print version
         --with-cesium           Add CesiumJS to your project [Default: false]
         --with-rust             Add "Rust to WASM" support to your project [Default: false]
-        --ignore-warnings, -i   Ignore warning messages [Default: false]
-        --skip-install, -s      Skip npm installations [Default: false]
-        --overwrite             Copy files, even if they alrady exist [Default: false]
-        --browser               Indicate tasks are intended for the browser [Default: false]
-        --port, -p              Configure port for workflow tasks that use it [Default: 4669]
-        --debug                 Show debug data [Default: false]	
 `;exports.help=help;const options={help,flags:{version:{type:"boolean",default:!1,alias:"v"},sourceDirectory:{type:"string",default:"./src",alias:"d"},outputDirectory:{type:"string",default:"./dist",alias:"o"},assetsDirectory:{type:"string",default:"./assets",alias:"a"},useRollup:{type:"boolean",default:!1,alias:"rollup"},useParcel:{type:"boolean",default:!1,alias:"parcel"},useSnowpack:{type:"boolean",default:!1,alias:"snowpack"},useReact:{type:"boolean",default:!1,alias:["r","react"]},reactVersion:{type:"string",default:"16.8"},withCesium:{type:"boolean",default:!1},withRust:{type:"boolean",default:!1},help:{type:"boolean",default:!1,alias:"h"},ignoreWarnings:{type:"boolean",default:!1,alias:"i"},skipInstall:{type:"boolean",default:!1,alias:"s"},browser:{type:"boolean",default:!1,alias:"b"},port:{type:"number",default:4669,alias:"p"},overwrite:{type:"boolean",default:!1},debug:{type:"boolean",default:!1}}};exports.options=options;
