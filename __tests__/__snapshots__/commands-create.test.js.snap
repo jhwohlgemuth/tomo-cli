@@ -735,7 +735,7 @@ exports[`Create new server 1`] = `
 
 exports[`Create new server 2`] = `
 "{
-    \\"name\\": \\"tomo-server\\",
+    \\"name\\": \\"server-made-with-tomo\\",
     \\"version\\": \\"0.0.0\\",
     \\"description\\": \\"Node.js HTTP(S), WebSocket, and GraphQL servers with an 80% solution for security 'baked in'\\",
     \\"license\\": \\"MIT\\",
@@ -750,7 +750,9 @@ exports[`Create new server 2`] = `
         \\"dev\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\",
         \\"prestart\\": \\"npm audit --production\\",
         \\"start\\": \\"node index.js\\",
-        \\"open\\": \\"open-cli http://localhost:8111\\"
+        \\"open\\": \\"open-cli http://localhost:8111\\",
+        \\"perf:measure\\": \\"autocannon -c 1000 -d 30 http://localhost:8111\\",
+        \\"perf:analyze\\": \\"clinic doctor -- node index.js\\"
     },
     \\"jest\\": {
         \\"testMatch\\": [

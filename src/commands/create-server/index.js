@@ -30,6 +30,8 @@ const DEPENDENCIES = [
     'ws'
 ];
 const DEV_DEPENDENCIES = [
+    'autocannon',
+    'clinic',
     'nodemon',
     'open-cli',
     'stmux',
@@ -78,13 +80,16 @@ export const tasks = [
         task: async () => {
             const description = `Node.js HTTP(S), WebSocket, and GraphQL servers with an 80% solution for security 'baked in'`;
             const main = 'index.js';
-            const name = 'tomo-server';
+            const name = 'server-made-with-tomo';
+            const PORT = 8111;
             const scripts = {
                 predev: 'npm run open',
-                dev: 'stmux [ \"nodemon index.js\" : \"npm run lint:ing\" ]',
+                dev: `stmux [ "nodemon ${main}" : "npm run lint:ing" ]`,
                 prestart: 'npm audit --production',
                 start: `node ${main}`,
-                open: 'open-cli http://localhost:8111'
+                open: `open-cli http://localhost:${PORT}`,
+                'perf:measure': `autocannon -c 1000 -d 30 http://localhost:${PORT}`,
+                'perf:analyze': `clinic doctor -- node ${main}`
             };
             await (new PackageJsonEditor())
                 .extend({description, main, name, scripts})
