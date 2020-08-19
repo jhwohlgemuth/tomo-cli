@@ -14,6 +14,8 @@ const ESLINT_DEPENDENCIES = [
     'eslint',
     'babel-eslint',
     'eslint-config-omaha-prime-grade',
+    'eslint-plugin-import',
+    'eslint-plugin-promise',
     'watch'
 ];
 const ESLINT_REACT_PLUGINS = [
@@ -21,7 +23,10 @@ const ESLINT_REACT_PLUGINS = [
 ];
 const ESLINT_SETTINGS = {
     extends: [
-        `'omaha-prime-grade'`
+        `'omaha-prime-grade'`,
+        `'plugin:import/errors'`,
+        `'plugin:import/warnings'`,
+        `'plugin:promise/recommended'`
     ]
 };
 const REACT_ESLINT_SETTINGS = merge({}, ESLINT_SETTINGS, {
@@ -30,9 +35,10 @@ const REACT_ESLINT_SETTINGS = merge({}, ESLINT_SETTINGS, {
             jsx: true
         }
     },
-    plugins: [`'jsx-a11y'`],
-    extends: [
-        `'omaha-prime-grade'`,
+    plugins: [
+        `'jsx-a11y'`
+    ],
+    extends: [,,,,
         `'plugin:react/recommended'`,
         `'plugin:jsx-a11y/recommended'`
     ]
@@ -87,7 +93,7 @@ export const tasks = [
             await install(['eslint-plugin-lit'], {dev: true, skipInstall});
             await (new EslintConfigModuleEditor())
                 .extend(merge({}, ESLINT_SETTINGS, {env, plugins}))
-                .extend({extends: [, `'plugin:lit/recommended'`]})
+                .extend({extends: [,,, `'plugin:lit/recommended'`]})
                 .commit();
         },
         condition: ({browser, useReact}) => browser && !useReact && allDoExist('package.json', '.eslintrc.js'),
