@@ -24,9 +24,9 @@ const ALWAYS = async () => true;
 export const tasks = [
     {
         text: 'Copy Marionette.js boilerplate and assets',
-        task: async ({assetsDirectory, overwrite, sourceDirectory, useParcel, useSnowpack}) => {
+        task: async ({assetsDirectory, overwrite, sourceDirectory, useParcel, useRollup, useSnowpack}) => {
             const inPlace = (useParcel || useSnowpack) ? '-in-place' : '';
-            const index = `index${inPlace}.html`;
+            const index = `index${inPlace}${useRollup ? '-rollup' : ''}.html`;
             const fonts = `fonts${inPlace}.css`;
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)

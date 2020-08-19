@@ -18,7 +18,7 @@
   "scripts": {
     "copy:assets": "cpy \"**/templates/*.(js|jsx|json|re|html|hbs|css|rs|toml|md|png|ico|otf|svg|woff|woff2|ttf|eot|cert|key)\" \"**/[.]*\" \"../dist/\" --cwd=src --parents --recursive",
     "dev": "stmux [ \"npm run build:watch\" : \"npm run lint:watch\" ]",
-    "prebuild": "npm run build:clean",
+    "prebuild": "npm-run-all build:clean build:html",
     "build": "babel src --out-dir dist",
     "postbuild": "npm run copy:assets",
     "build:clean": "rimraf dist",

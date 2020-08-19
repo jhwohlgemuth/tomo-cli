@@ -1,4 +1,4 @@
-mixin base(title, useReact, useSnowpack, isInPlace)
+mixin base(title, useReact, useSnowpack, isInPlace, useRollup)
     - var assetsPath = isInPlace ? (useSnowpack ? '/' : '../assets/') : 'assets/'
 
     doctype html
@@ -47,5 +47,12 @@ mixin base(title, useReact, useSnowpack, isInPlace)
                 #root
                 if isInPlace
                     script(src='../src/main.jsx')
+                else if useRollup
+                    script(src='bundle.min.js')
         else
-            body
+            if useRollup
+                body
+                    #root
+                    script(src='bundle.min.js')
+            else
+                body
