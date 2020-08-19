@@ -1,4 +1,4 @@
-const uuid = require('uuid/v1');
+const {v4} = require('uuid');
 
 module.exports = {
     execMap: {
@@ -9,7 +9,7 @@ module.exports = {
         name: 'customSessionId',
         secret: 'Quidquid latine dictum, altum videtur',
         genid: function() {
-            return uuid();
+            return v4();
         },
         resave: false,
         saveUninitialized: false,

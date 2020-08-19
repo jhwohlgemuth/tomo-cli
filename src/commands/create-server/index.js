@@ -17,6 +17,7 @@ const DEPENDENCIES = [
     'ejs',
     'express',
     'express-session',
+    'feature-policy',
     'fs-extra',
     'graphql',
     'helmet',
