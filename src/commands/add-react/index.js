@@ -23,9 +23,9 @@ const ALWAYS = () => true;
 export const addReact = [
     {
         text: 'Copy React boilerplate and assets',
-        task: async ({assetsDirectory, sourceDirectory, overwrite, useParcel, useRollup, useSnowpack}) => {
+        task: async ({assetsDirectory, sourceDirectory, overwrite, useParcel, useSnowpack}) => {
             const inPlace = (useParcel || useSnowpack) ? '-in-place' : '';
-            const index = `index${inPlace}-react${useSnowpack ? '-snowpack' : ''}${useRollup ? '-rollup' : ''}.html`;
+            const index = `index${inPlace}-react${useSnowpack ? '-snowpack' : ''}.html`;
             const fonts = `fonts${inPlace}.css`;
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)

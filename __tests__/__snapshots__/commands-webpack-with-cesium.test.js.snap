@@ -88,7 +88,7 @@ module.exports = (env, argv) => ({
         new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
         new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
         new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
-        new CopyWebpackPlugin([{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}])
+        new CopyWebpackPlugin({patterns: [{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}]})
     ],
     resolve: {
         mainFields: ['module', 'main'],
@@ -195,7 +195,7 @@ module.exports = (env, argv) => ({
         new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
         new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
         new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
-        new CopyWebpackPlugin([{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}])
+        new CopyWebpackPlugin({patterns: [{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}]})
     ],
     resolve: {
         mainFields: ['module', 'main'],

@@ -35,7 +35,7 @@ const DEPENDENCIES = [
     'terser-webpack-plugin',
     'webpack-bundle-analyzer'
 ];
-const WITH_CESIUM_DEPENDENCIES = [
+const CESIUM_DEV_DEPENDENCIES = [
     'copy-webpack-plugin',
     'url-loader'
 ];
@@ -89,14 +89,6 @@ const RULES_WITH_CESIUM = [
     ...RULES,
     ...IMAGE_RULES
 ];
-const CESIUM_DEPENDENCIES = [
-    ...WITH_CESIUM_DEPENDENCIES,
-    'cesium'
-];
-const RESIUM_DEPENDENCIES = [
-    ...CESIUM_DEPENDENCIES,
-    'resium'
-];
 const getAliasOption = (useReact = false) => useReact ? {'\'react-dom\'': `'@hot-loader/react-dom'`} : {};
 const getDevServerOption = (outputDirectory, port) => ({
     port,
@@ -129,12 +121,14 @@ const getPlugins = ({withCesium, withRust}) => {
     ];
     const WITH_CESIUM = [
         `new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')})`,
-        oneLineTrim`new CopyWebpackPlugin([
-            {from: join(source, 'Workers'), to: 'Workers'},
-            {from: join(source, 'ThirdParty'), to: 'ThirdParty'},
-            {from: join(source, 'Assets'), to: 'Assets'},
-            {from: join(source, 'Widgets'), to: 'Widgets'}
-        ])`
+        oneLineTrim`new CopyWebpackPlugin({
+            patterns: [
+                {from: join(source, 'Workers'), to: 'Workers'},
+                {from: join(source, 'ThirdParty'), to: 'ThirdParty'},
+                {from: join(source, 'Assets'), to: 'Assets'},
+                {from: join(source, 'Widgets'), to: 'Widgets'}
+            ]
+        })`
     ];
     const WITH_RUST = [
         oneLineTrim`new WasmPackPlugin({
@@ -252,7 +246,11 @@ export const addWebpack = [
     },
     {
         text: 'Install Cesium dependencies',
-        task: ({skipInstall, useReact}) => install(useReact ? RESIUM_DEPENDENCIES : CESIUM_DEPENDENCIES, {skipInstall}),
+        task: async ({skipInstall, useReact}) => {
+            const installDependencies = await install(useReact ? ['cesium', 'resium'] : ['cesium'], {skipInstall});
+            const installDevelopmentDependencies = await install(CESIUM_DEV_DEPENDENCIES, {dev: true, skipInstall});
+            return [installDependencies, installDevelopmentDependencies];
+        },
         condition: ({skipInstall, withCesium}) => !skipInstall && withCesium,
         optional: ({withCesium}) => withCesium
     },
@@ -302,9 +300,9 @@ export const removeWebpack = [
         condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...DEPENDENCIES)
     },
     {
-        text: 'Uninstall Cesium Webpack dependencies',
-        task: () => uninstall(WITH_CESIUM_DEPENDENCIES),
-        condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll(...WITH_CESIUM_DEPENDENCIES),
+        text: 'Uninstall Cesium dependencies',
+        task: () => uninstall(['cesium', 'resium']),
+        condition: () => allDoExist('package.json') && (new PackageJsonEditor()).hasAll(['cesium']),
         optional: ({withCesium}) => withCesium
     },
     {
