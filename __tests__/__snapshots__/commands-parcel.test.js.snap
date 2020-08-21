@@ -9,7 +9,7 @@ exports[`Parcel Add support 1`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --ext .js,.jsx --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
+        \\"lint:ing\\": \\"watch \\\\\\"npm run lint\\\\\\" ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"predeploy\\": \\"npm-run-all clean build:es build:css copy:assets\\",
         \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\",
@@ -57,7 +57,7 @@ exports[`Parcel Remove support 2`] = `
     \\"keywords\\": [],
     \\"scripts\\": {
         \\"lint\\": \\"eslint . -c ./.eslintrc.js --ext .js,.jsx --fix\\",
-        \\"lint:ing\\": \\"watch 'npm run lint' ./source\\",
+        \\"lint:ing\\": \\"watch \\\\\\"npm run lint\\\\\\" ./source\\",
         \\"lint:tests\\": \\"eslint __tests__/**/*.js -c ./.eslintrc.js --fix --no-ignore\\",
         \\"predeploy\\": \\"npm-run-all clean build:es build:css copy:assets\\",
         \\"deploy\\": \\"echo \\\\\\"Not yet implemented - now.sh or surge.sh are supported out of the box\\\\\\" && exit 1\\"
