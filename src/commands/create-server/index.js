@@ -33,9 +33,11 @@ const DEV_DEPENDENCIES = [
     'autocannon',
     'clinic',
     'nodemon',
+    'npm-run-all',
     'open-cli',
     'stmux',
-    'supertest'
+    'supertest',
+    'wait-on'
 ];
 /**
  * @type {task[]}
@@ -83,8 +85,10 @@ export const tasks = [
             const name = 'server-made-with-tomo';
             const PORT = 8111;
             const scripts = {
-                predev: 'npm run open',
-                dev: `stmux [ "nodemon ${main}" : "npm run lint:ing" ]`,
+                'dev:wait': `wait-on http://localhost:${PORT}`,
+                'dev:open': 'npm-run-all --silent dev:wait open',
+                'dev:start': `stmux [ "nodemon ${main}" : "npm run lint:ing" ]`,
+                dev: 'npm-run-all --parallel --silent dev:open dev:start',
                 prestart: 'npm audit --production',
                 start: `node ${main}`,
                 open: `open-cli http://localhost:${PORT}`,
