@@ -31,7 +31,8 @@ exports[`.eslintrc.js mem-fs editor delete 1`] = `
 `;
 
 exports[`.eslintrc.js mem-fs editor extend 1`] = `
-"const {join} = require('path');
+"/* eslint-disable no-unused-vars */
+const {join} = require('path');
 const {existsSync} = require('fs-extra');
 
 module.exports = {
@@ -135,7 +136,8 @@ module.exports = {
 `;
 
 exports[`.eslintrc.js mem-fs editor read 1`] = `
-"const {join} = require('path');
+"/* eslint-disable no-unused-vars */
+const {join} = require('path');
 const {existsSync} = require('fs-extra');
 
 module.exports = {

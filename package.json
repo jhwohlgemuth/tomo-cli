@@ -16,6 +16,7 @@
     "node": ">=6"
   },
   "scripts": {
+    "all": "npm-run-all lint:all test build",
     "copy:assets": "cpy \"**/templates/*.(js|jsx|json|re|html|hbs|css|rs|toml|md|png|ico|otf|svg|woff|woff2|ttf|eot|cert|key)\" \"**/[.]*\" \"../dist/\" --cwd=src --parents --recursive",
     "dev": "stmux [ \"npm run build:watch\" : \"npm run lint:watch\" ]",
     "prebuild": "npm-run-all build:clean build:html",

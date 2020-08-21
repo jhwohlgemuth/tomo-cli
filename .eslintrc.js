@@ -17,7 +17,8 @@ module.exports = {
         'plugin:react/recommended'
     ],
     globals: {
-        cy: true
+        cy: true,
+        describeOnlyOnLinux: true
     },
     rules: {
         'react-hooks/rules-of-hooks': 'error',

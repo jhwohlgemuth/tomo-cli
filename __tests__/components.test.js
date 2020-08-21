@@ -130,7 +130,7 @@ describeOnlyOnLinux('Sub Command Multi-select Component', () => {
             descriptions={descriptions}
             items={items}
             onSubmit={() => {}}/>);
-        // expect(lastFrame()).toMatchSnapshot();
+        expect(lastFrame()).toMatchSnapshot();
     });
     xtest('can render unknown items', () => {
         const {lastFrame} = render(<SubCommandMultiSelect

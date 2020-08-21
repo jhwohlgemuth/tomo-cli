@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const {join} = require('path');
 const {existsSync} = require('fs-extra');
 

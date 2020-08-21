@@ -88,7 +88,7 @@ export const tasks = [
                 'dev:wait': `wait-on http://localhost:${PORT}`,
                 'dev:open': 'npm-run-all --silent dev:wait open',
                 'dev:start': `stmux [ "nodemon ${main}" : "npm run lint:ing" ]`,
-                dev: 'npm-run-all --parallel --silent dev:open dev:start',
+                dev: 'npm-run-all --parallel dev:open dev:start',
                 prestart: 'npm audit --production',
                 start: `node ${main}`,
                 open: `open-cli http://localhost:${PORT}`,

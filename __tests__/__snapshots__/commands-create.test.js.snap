@@ -749,7 +749,7 @@ exports[`Create new server 2`] = `
         \\"dev:wait\\": \\"wait-on http://localhost:8111\\",
         \\"dev:open\\": \\"npm-run-all --silent dev:wait open\\",
         \\"dev:start\\": \\"stmux [ \\\\\\"nodemon index.js\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\",
-        \\"dev\\": \\"npm-run-all --parallel --silent dev:open dev:start\\",
+        \\"dev\\": \\"npm-run-all --parallel dev:open dev:start\\",
         \\"prestart\\": \\"npm audit --production\\",
         \\"start\\": \\"node index.js\\",
         \\"open\\": \\"open-cli http://localhost:8111\\",
