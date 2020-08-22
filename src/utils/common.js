@@ -15,6 +15,7 @@ const joinPath = name => join(process.cwd(), name);
 const checkPathExists = name => name |> joinPath |> pathExists;
 const checkPathExistsSync = name => name |> joinPath |> pathExistsSync;
 export const dict = val => val |> Object.entries |> newMap;
+export const isEmptyString = data => typeof data === 'string' && data.length === 0;
 export const parse = data => data |> JSON.stringify |> JSON.parse;
 export const maybeApply = (val, options) => is(Function)(val) ? val(options) : val;
 export const getBinDirectory = path => {

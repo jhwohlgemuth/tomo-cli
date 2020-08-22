@@ -11,7 +11,7 @@ import isOnline from 'is-online';
 import {oneLineTrim} from 'common-tags';
 import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
-import {dict, format} from './common';
+import {dict, format, isEmptyString} from './common';
 import createJsonEditor from './createJsonEditor';
 import {createFunctionModuleEditor, createModuleEditor} from './createModuleEditor';
 
@@ -96,24 +96,23 @@ export const getIntendedInput = (commands, command, terms = []) => {
  * @return {undefined} no return
  */
 export const debug = async (data, options = {}) => {
-    const {filename, store, title} = options;
-    const name = filename || 'tomo-cli-debug';
-    const savepath = join(homedir(), `.${name}`);
+    const {filename = 'tomo-cli-debug', store, title = ''} = options;
+    const savepath = join(homedir(), `.${filename}`);
     const [date] = (new Date()).toISOString().split('T');
     const time = new Date().toLocaleTimeString('en-US', {hour12: false});
     const timestamp = `${date} ${time}`;
     try {
         const previous = store.get('debug') || [];
         store.set('debug', previous.concat([[
-            `[${timestamp}] ${title || ''}${EOL}`,
+            `[${timestamp}] ${title}${EOL}`,
             format(data)
         ]]));
     } catch (_) {
         try {
             await mkdirp(savepath);
-            await append(`${savepath}/debug`, `[${timestamp}] ${title || ''}${EOL}`);
+            await append(`${savepath}/debug`, `[${timestamp}] ${title}${EOL}`);
             await append(`${savepath}/debug`, format(data));
-            (typeof data === 'string' && data.length === 0) || await append(`${savepath}/debug`, EOL);
+            isEmptyString(data) || await append(`${savepath}/debug`, EOL);
         } catch (_) {
             /* do nothing */
         }
