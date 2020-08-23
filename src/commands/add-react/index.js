@@ -27,14 +27,18 @@ export const addReact = [
             const inPlace = (useParcel || useSnowpack) ? '-in-place' : '';
             const index = `index${inPlace}-react${useSnowpack ? '-snowpack' : ''}.html`;
             const fonts = `fonts${inPlace}.css`;
+            const format = filename => {
+                const [name, extension] = filename.split('.');
+                return `${name}${useSnowpack ? '-snowpack' : ''}.${extension}`;
+            };
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)
                 .target(sourceDirectory)
-                .copy(useSnowpack ? 'main-snowpack.js' : 'main.js', `main.js${useSnowpack ? '' : 'x'}`)
+                .copy(format('main.js'), `main.js${useSnowpack ? '' : 'x'}`)
                 .target(`${sourceDirectory}/components`)
-                .copy(useSnowpack ? 'App-snowpack.js' : 'App.js', 'App.jsx')
+                .copy(format('App.js'), 'App.jsx')
                 .copy('Header.js', 'Header.jsx')
-                .copy(useSnowpack ? 'Body-snowpack.js' : 'Body.js', 'Body.jsx')
+                .copy(format('Body.js'), 'Body.jsx')
                 .copy('Footer.js', 'Footer.jsx')
                 .commit();
             await (new Scaffolder(join(__dirname, '..', 'common', 'templates')))
@@ -44,7 +48,7 @@ export const addReact = [
                 .target(`${assetsDirectory}`)
                 .copy(index, 'index.html')
                 .target(`${assetsDirectory}/css`)
-                .copy(useSnowpack ? 'style-snowpack.css' : 'style.css', 'style.css')
+                .copy(format('style.css'), 'style.css')
                 .copy(fonts, 'fonts.css')
                 .target(`${assetsDirectory}/images`)
                 .copy('react.png')
