@@ -153,17 +153,18 @@ const getResolveOption = (sourceDirectory, alias = {}, useReact = false) => ({
     alias
 });
 const getRules = ({withCesium}) => withCesium ? RULES_WITH_CESIUM : RULES;
+const iff = (condition, value) => condition ? value : undefined;
 const getWebpackConfigPrependContent = ({withCesium, withRust}) => [
     `/* eslint-env node */`,
     `const {${withCesium ? 'join, ' : ''}resolve} = require('path');`,
-    withCesium && `const {DefinePlugin} = require('webpack');`,
-    withCesium && `const CopyWebpackPlugin = require('copy-webpack-plugin');`,
+    iff(withCesium, `const {DefinePlugin} = require('webpack');`),
+    iff(withCesium, `const CopyWebpackPlugin = require('copy-webpack-plugin');`),
     `const DashboardPlugin = require('webpack-dashboard/plugin');`,
     `const HtmlWebpackPlugin = require('html-webpack-plugin');`,
     `const SriPlugin = require('webpack-subresource-integrity');`,
     `const TerserPlugin = require('terser-webpack-plugin');`,
-    withRust && `const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');`,
-    withCesium && `const source = 'node_modules/cesium/Build/Cesium';`
+    iff(withRust, `const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');`),
+    iff(withCesium, `const source = 'node_modules/cesium/Build/Cesium';`)
 ]
     .reverse()// prepend puts last on top
     .filter(val => typeof val === 'string');
