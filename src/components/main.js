@@ -1,3 +1,4 @@
+/* eslint complexity: ["warn", 8] */
 import React, {Component, Fragment, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import Conf from 'conf';
@@ -57,15 +58,15 @@ export default class UI extends Component {
         const {ignoreWarnings} = flags;
         const [command, ...terms] = input;
         const isCustom = command => Object.entries(commands)
-            .filter(([, value]) => (typeof value === 'string'))
+            .filter(([, value]) => is(String)(value))
             .map(([name]) => name)
             .includes(command);
         const hasCommand = is(String)(command);
-        const isTerminalCommand = hasCommand && isCustom(command);
+        const isCustomCommand = isCustom(command);
         const hasTerms = terms.length > 0;
-        const {intendedCommand, intendedTerms} = (hasCommand && !isTerminalCommand) ?
-            getIntendedInput(commands, command, terms) :
-            {intendedCommand: command, intendedTerms: terms};
+        const {intendedCommand, intendedTerms} = isCustom(command) ?
+            {intendedCommand: command, intendedTerms: terms} :
+            getIntendedInput(commands, command, terms);
         const compare = (term, index) => (term !== terms[index]);
         const showWarning = ((command !== intendedCommand) || (hasTerms && intendedTerms.map(compare).some(Boolean))) && !ignoreWarnings;
         this.store = new Conf({projectName: namespace});
@@ -75,19 +76,19 @@ export default class UI extends Component {
             showWarning,
             intendedTerms,
             intendedCommand,
-            isTerminalCommand
+            isCustomCommand
         };
         this.updateWarning = this.updateWarning.bind(this);
         this.updateTerms = this.updateTerms.bind(this);
     }
     render() {
         const self = this;
-        const {commands, descriptions, onComplete, flags, customCommands} = self.props;
-        const {hasCommand, hasTerms, intendedCommand, intendedTerms, isTerminalCommand, showWarning} = self.state;
+        const {commands, descriptions, onComplete, flags, customCommands = {}} = self.props;
+        const {hasCommand, hasTerms, intendedCommand, intendedTerms, isCustomCommand, showWarning} = self.state;
         const store = self.props.store || self.store;
         const done = () => typeof global._tomo_tasklist_callback === 'function' && global._tomo_tasklist_callback();
         const CustomCommand = () => {
-            const lookup = dict(customCommands || {});
+            const lookup = dict(customCommands);
             const Command = lookup.has(intendedCommand) ? lookup.get(intendedCommand) : UnderConstruction;
             return <Command
                 descriptions={descriptions}
@@ -102,7 +103,7 @@ export default class UI extends Component {
                     <Text>Did you mean <Text bold color="green">{intendedCommand} {intendedTerms.join(' ')}</Text>?</Text>
                 </Warning> :
                 (hasCommand && hasTerms) ?
-                    isTerminalCommand ?
+                    isCustomCommand ?
                         <CustomCommand/> :
                         (<Fragment>
                             <Timer onComplete={onComplete} options={{store}}/>
@@ -115,7 +116,7 @@ export default class UI extends Component {
                             </TaskList>
                         </Fragment>) :
                     hasCommand ?
-                        (isTerminalCommand ?
+                        (isCustomCommand ?
                             <CustomCommand/> :
                             <SubCommandSelect
                                 command={intendedCommand}

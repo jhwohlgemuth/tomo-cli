@@ -80,12 +80,16 @@ export const getElapsedSeconds = duration => duration
  * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);
  * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)
  */
-export const getIntendedInput = (commands, command, terms = []) => {
+export const getIntendedInput = (commands, command = '', terms = []) => {
+    const hasCommand = command.length > 0;
     const VALID_COMMANDS = keys(commands);
     const {bestMatch: {target: intendedCommand}} = findBestMatch(command, VALID_COMMANDS);
     const VALID_TERMS = keys(commands[intendedCommand]);
     const intendedTerms = terms.map(term => findBestMatch(term, VALID_TERMS).bestMatch.target);
-    return {intendedCommand, intendedTerms};
+    return {
+        intendedCommand: hasCommand ? intendedCommand : undefined,
+        intendedTerms: hasCommand ? intendedTerms : undefined
+    };
 };
 /**
  * Append debug message to project-specific log file

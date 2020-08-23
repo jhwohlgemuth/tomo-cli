@@ -23,7 +23,7 @@
  * @example
  * const [intendedCommand, intendedTerms] = getIntendedInput(commands, command, terms);
  * @return {string[]} [intendedCommand, intendedTerms] Array destructed assignment is recommended (see example)
- */exports.getElapsedSeconds=getElapsedSeconds;const getIntendedInput=(commands,command,terms=[])=>{const VALID_COMMANDS=keys(commands),{bestMatch:{target:intendedCommand}}=(0,_stringSimilarity.findBestMatch)(command,VALID_COMMANDS),VALID_TERMS=keys(commands[intendedCommand]),intendedTerms=terms.map(term=>(0,_stringSimilarity.findBestMatch)(term,VALID_TERMS).bestMatch.target);return{intendedCommand,intendedTerms}};/**
+ */exports.getElapsedSeconds=getElapsedSeconds;const getIntendedInput=(commands,command="",terms=[])=>{const hasCommand=0<command.length,VALID_COMMANDS=keys(commands),{bestMatch:{target:intendedCommand}}=(0,_stringSimilarity.findBestMatch)(command,VALID_COMMANDS),VALID_TERMS=keys(commands[intendedCommand]),intendedTerms=terms.map(term=>(0,_stringSimilarity.findBestMatch)(term,VALID_TERMS).bestMatch.target);return{intendedCommand:hasCommand?intendedCommand:void 0,intendedTerms:hasCommand?intendedTerms:void 0}};/**
  * Append debug message to project-specific log file
  * @param {*} data Data to be stringified in log
  * @param {object} options Configuration options for function

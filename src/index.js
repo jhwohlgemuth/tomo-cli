@@ -17,5 +17,5 @@ const {input, flags} = meow(options);
 (async () => {
     const stdin = await getStdin();
     const properties = {commands, descriptions, flags, input, stdin};
-    render(<Main namespace={'tomo'} {...properties}/>, {exitOnCtrlC: true});
+    render(<Main namespace="tomo" {...properties}/>, {exitOnCtrlC: true});
 })();
