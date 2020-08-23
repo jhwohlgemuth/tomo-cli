@@ -28,6 +28,10 @@ export const tasks = [
             const inPlace = (useParcel || useSnowpack) ? '-in-place' : '';
             const index = `index${inPlace}${useRollup ? '-rollup' : ''}.html`;
             const fonts = `fonts${inPlace}.css`;
+            const format = filename => {
+                const [name, extension] = filename.split('.');
+                return `${name}${useSnowpack ? '-snowpack' : ''}.${extension}`;
+            };
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)
                 .target(sourceDirectory)
@@ -35,7 +39,7 @@ export const tasks = [
                 .target(`${sourceDirectory}/components`)
                 .copy('app.js')
                 .copy('header.js')
-                .copy(useSnowpack ? 'body-snowpack.js' : 'body.js', 'body.js')
+                .copy(format('body.js'), 'body.js')
                 .copy('footer.js')
                 .target(`${sourceDirectory}/shims`)
                 .copy('mn.renderer.shim.js')
@@ -50,7 +54,7 @@ export const tasks = [
                 .target(`${assetsDirectory}`)
                 .copy(index, 'index.html')
                 .target(`${assetsDirectory}/css`)
-                .copy(`style${useSnowpack ? '-snowpack' : ''}.css`, 'style.css')
+                .copy(format('style.css'), 'style.css')
                 .copy(fonts, 'fonts.css')
                 .target(`${assetsDirectory}/images`)
                 .copy('blank_canvas.png')
