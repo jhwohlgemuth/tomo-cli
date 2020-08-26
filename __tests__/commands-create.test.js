@@ -19,7 +19,7 @@ describeOnlyOnLinux('Create', () => {
     afterEach(async () => {
         await cleanupTempDir();
     });
-    xtest('new project', async () => {
+    test('new project', async () => {
         await run(create.project, {skipInstall});
         const tree = getDirectoryTree(tempDirectory, {omit});
         const config = fileContents('./.editorconfig');
