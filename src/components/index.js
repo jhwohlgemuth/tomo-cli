@@ -93,7 +93,7 @@ export const Description = ({command, descriptions}) => {
     </Box>;
 };
 export const ErrorMessage = ({info}) => <Box flexDirection={'column'} marginBottom={1}>
-    <Box borderStyle="single" borderColor="yellow" margin={1} paddingLeft={1} paddingRight={1}>
+    <Box borderStyle="single" borderColor="yellow" margin={1} paddingLeft={1} paddingRight={1} width={26}>
         <Text color="yellow">(╯°□ °)╯ ┻━┻ arrrgh...</Text>
     </Box>
     <Box marginLeft={4}>

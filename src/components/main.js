@@ -83,7 +83,7 @@ export default class UI extends Component {
     }
     render() {
         const self = this;
-        const {commands, descriptions, onComplete, flags, customCommands = {}} = self.props;
+        const {commands, descriptions, onComplete, flags, customCommands = {}, stdin} = self.props;
         const {hasCommand, hasTerms, intendedCommand, intendedTerms, isCustomCommand, showWarning} = self.state;
         const store = self.props.store || self.store;
         const done = () => typeof global._tomo_tasklist_callback === 'function' && global._tomo_tasklist_callback();
@@ -94,6 +94,7 @@ export default class UI extends Component {
                 descriptions={descriptions}
                 done={done}
                 options={flags}
+                stdin={stdin}
                 store={store}
                 terms={intendedTerms}/>;
         };
@@ -104,7 +105,7 @@ export default class UI extends Component {
                 </Warning> :
                 (hasCommand && hasTerms) ?
                     isCustomCommand ?
-                        <CustomCommand/> :
+                        <CustomCommand stdin={stdin}/> :
                         (<Fragment>
                             <Timer onComplete={onComplete} options={{store}}/>
                             <TaskList
@@ -117,7 +118,7 @@ export default class UI extends Component {
                         </Fragment>) :
                     hasCommand ?
                         (isCustomCommand ?
-                            <CustomCommand/> :
+                            <CustomCommand stdin={stdin}/> :
                             <SubCommandSelect
                                 command={intendedCommand}
                                 descriptions={descriptions}
