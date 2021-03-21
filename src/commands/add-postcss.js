@@ -9,6 +9,7 @@ import {
 
 const POSTCSS_DEPENDENCIES = [
     'cssnano',
+    'postcss',
     'postcss-cli',
     'postcss-reporter',
     'postcss-safe-parser',
