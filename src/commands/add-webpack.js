@@ -111,7 +111,7 @@ const getPlugins = ({withCesium, withRust}) => {
     const PLUGINS = [
         `new DashboardPlugin()`,
         oneLineTrim`new HtmlWebpackPlugin({
-            title: \`tomo webapp [\${argv.mode}]\`, 
+            title: \`tomo webapp [\${argv.mode === 'production' ? 'production' : 'development'}]\`, 
             template: 'assets/index.html'
         })`,
         oneLineTrim`new SriPlugin({
