@@ -92,7 +92,7 @@ export const addReact = [
         task: async ({sourceDirectory, useParcel, useRollup, useSnowpack}) => {
             const main = `${sourceDirectory}/main.js`;
             const watches = {
-                'watch:es': useRollup ? `watch \"npm run build:es\" ${sourceDirectory}` : 'webpack-dev-server --hot --open --mode development'
+                'watch:es': useRollup ? `watch \"npm run build:es\" ${sourceDirectory}` : 'webpack serve --hot --open --mode development'
             };
             const scripts = {
                 ...(useSnowpack ? {} : watches),

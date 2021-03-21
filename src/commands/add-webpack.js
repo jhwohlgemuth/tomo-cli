@@ -92,7 +92,7 @@ const RULES_WITH_CESIUM = [
 const getAliasOption = (useReact = false) => useReact ? {'\'react-dom\'': `'@hot-loader/react-dom'`} : {};
 const getDevServerOption = (outputDirectory, port) => ({
     port,
-    host: `'0.0.0.0'`,
+    host: `'127.0.0.1'`,
     contentBase: `'${outputDirectory}'`,
     compress: true,
     watchContentBase: true
@@ -214,7 +214,7 @@ export const addWebpack = [
                 'postbuild:es': 'npm run copy',
                 'watch:assets': `watch \"npm run copy\" ${assetsDirectory}`,
                 'watch:es': `watch \"npm run build:es\" ${sourceDirectory}`,
-                dashboard: 'webpack-dashboard -- webpack-dev-server --config ./webpack.config.js'
+                dashboard: 'webpack-dashboard -- webpack serve --config ./webpack.config.js'
             };
             await (new PackageJsonEditor())
                 .extend({scripts})
