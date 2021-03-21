@@ -26,7 +26,7 @@ module.exports = (env, argv) => ({
     context: __dirname,
     devServer: {
         port: 4669,
-        host: '0.0.0.0',
+        host: '127.0.0.1',
         contentBase: './output',
         compress: true,
         watchContentBase: true
@@ -85,7 +85,7 @@ module.exports = (env, argv) => ({
     },
     plugins: [
         new DashboardPlugin(),
-        new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
+        new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode === 'production' ? 'production' : 'development'}]\`, template: 'assets/index.html'}),
         new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
         new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
         new CopyWebpackPlugin({patterns: [{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}]})
@@ -133,7 +133,7 @@ module.exports = (env, argv) => ({
     context: __dirname,
     devServer: {
         port: 4669,
-        host: '0.0.0.0',
+        host: '127.0.0.1',
         contentBase: './output',
         compress: true,
         watchContentBase: true
@@ -192,7 +192,7 @@ module.exports = (env, argv) => ({
     },
     plugins: [
         new DashboardPlugin(),
-        new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode}]\`, template: 'assets/index.html'}),
+        new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode === 'production' ? 'production' : 'development'}]\`, template: 'assets/index.html'}),
         new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
         new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')}),
         new CopyWebpackPlugin({patterns: [{from: join(source, 'Workers'), to: 'Workers'},{from: join(source, 'ThirdParty'), to: 'ThirdParty'},{from: join(source, 'Assets'), to: 'Assets'},{from: join(source, 'Widgets'), to: 'Widgets'}]})
