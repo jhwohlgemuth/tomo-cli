@@ -28,7 +28,6 @@
 
 ```
 $ npm install --global tomo-cli
-$ tomo [command] [terms] [options]
 ```
 
 ## No install
@@ -36,6 +35,8 @@ $ tomo [command] [terms] [options]
 ```
 $ npx tomo-cli [command] [terms] [options]
 ```
+
+> View available commands, terms and options with `tomo -h`
 
 ## Local install
 - Create a package.json with `npm init -y`
