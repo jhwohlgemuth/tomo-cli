@@ -57,7 +57,7 @@ watch-assets: ## Task description
 	watch 'make copy' ./assets
 
 dashboard: ## Task description
-	webpack-dashboard -- webpack-dev-server --config ./webpack.config.js
+	webpack-dashboard -- webpack serve --config ./webpack.config.js
 
 dev: ## Task description
 	stmux [ 'make dashboard' : 'make lint-ing' ]

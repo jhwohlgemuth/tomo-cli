@@ -31,7 +31,7 @@ exports[`Browsersync Add support 2`] = `
         \\"postbuild:es\\": \\"npm run copy\\",
         \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
         \\"watch:es\\": \\"watch \\\\\\"npm run build:es\\\\\\" ./source\\",
-        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack serve --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./output\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\",
         \\"prestart\\": \\"npm run build:es\\",
@@ -62,7 +62,7 @@ exports[`Browsersync Remove support 1`] = `
         \\"postbuild:es\\": \\"npm run copy\\",
         \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
         \\"watch:es\\": \\"watch \\\\\\"npm run build:es\\\\\\" ./source\\",
-        \\"dashboard\\": \\"webpack-dashboard -- webpack-dev-server --config ./webpack.config.js\\",
+        \\"dashboard\\": \\"webpack-dashboard -- webpack serve --config ./webpack.config.js\\",
         \\"build:css\\": \\"postcss ./assets/css/style.css --dir ./output\\",
         \\"watch:css\\": \\"npm run build:css -- --watch\\"
     }
