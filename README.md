@@ -4,7 +4,7 @@
 <br />
 <div align="center">
     <a href="https://www.npmjs.com/package/tomo-cli"><img alt="Module Version" src="https://img.shields.io/npm/v/tomo-cli?style=for-the-badge" /></a>
-    <a href="https://travis-ci.org/jhwohlgemuth/tomo-cli"><img alt="Build Status" src="https://img.shields.io/travis/jhwohlgemuth/tomo-cli.svg?logo=travis&style=for-the-badge" /></a>
+    <a href="https://travis-ci.com/jhwohlgemuth/tomo-cli"><img alt="Build Status" src="https://img.shields.io/travis/jhwohlgemuth/tomo-cli.svg?logo=travis&style=for-the-badge" /></a>
     <a href="https://codecov.io/gh/jhwohlgemuth/tomo-cli"><img alt="Code Coverage" src="https://img.shields.io/codecov/c/github/jhwohlgemuth/tomo-cli.svg?logo=codecov&style=for-the-badge" /></a>
 </div>
 
