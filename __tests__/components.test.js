@@ -125,21 +125,21 @@ describeOnlyOnLinux('Sub Command Multi-select Component', () => {
         {value: 'Item B', label: 'Item B'},
         {value: 'Item C', label: 'Item C'}
     ];
-    xtest('can render', () => {
+    test('can render', () => {
         const {lastFrame} = render(<SubCommandMultiSelect
             descriptions={descriptions}
             items={items}
             onSubmit={() => {}}/>);
         expect(lastFrame()).toMatchSnapshot();
     });
-    xtest('can render unknown items', () => {
+    test('can render unknown items', () => {
         const {lastFrame} = render(<SubCommandMultiSelect
             descriptions={{}}
             items={items}
             onSubmit={() => {}}/>);
         expect(lastFrame()).toMatchSnapshot();
     });
-    xtest('can render selected items', () => {/* eslint-disable no-console */
+    test('can render selected items', () => {/* eslint-disable no-console */
         const CONSOLE_ERROR = console.error;
         console.error = () => {};
         const {lastFrame, stdin} = render(<SubCommandMultiSelect
