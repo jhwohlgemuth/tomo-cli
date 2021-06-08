@@ -56,23 +56,23 @@ export const help = `
 
     ${dim.bold('Options')}
 
-        --assets-directory, -a  Directory for assets [Default: ./assets]
-        --browser               Indicate tasks are intended for the browser [Default: false]
-        --debug                 Show debug data [Default: false]	
-        --ignore-warnings, -i   Ignore warning messages [Default: false]
-        --output-directory, -o  Directory for build targets [Default: ./dist]
-        --overwrite             Copy files, even if they alrady exist [Default: false]
-        --port, -p              Configure port for workflow tasks that use it [Default: 4669]
-        --react-version         React version for ESLint configuration [Default: '16.8']
-        --skip-install, -s      Skip npm installations [Default: false]
-        --source-directory, -d  Directory for source code [Default: ./src]
-        --use-parcel,           Use Parcel instead of Webpack [Default: false]
-        --use-react, -r         Add React support to workflow [Default: false]
-        --use-rollup,           Use Rollup instead of Webpack [Default: false]
-        --use-snowpack,         Use Snowpack instead of Webpack [Default: false]
+        --assets-directory, -a  Directory for assets ${dim('[Default: ./assets]')}
+        --browser               Indicate tasks are intended for the browser ${dim('[Default: false]')}
+        --debug                 Show debug data ${dim('[Default: false]')}	
+        --ignore-warnings, -i   Ignore warning messages ${dim('[Default: false]')}
+        --output-directory, -o  Directory for build targets ${dim('[Default: ./dist]')}
+        --overwrite             Copy files, even if they alrady exist ${dim('[Default: false]')}
+        --port, -p              Configure port for workflow tasks that use it ${dim('[Default: 4669]')}
+        --react-version         React version for ESLint configuration ${dim('[Default: "16.8"]')}
+        --skip-install, -s      Skip npm installations ${dim('[Default: false]')}
+        --source-directory, -d  Directory for source code ${dim('[Default: ./src]')}
+        --use-parcel,           Use Parcel instead of Webpack ${dim('[Default: false]')}
+        --use-react, -r         Add React support to workflow ${dim('[Default: false]')}
+        --use-rollup,           Use Rollup instead of Webpack ${dim('[Default: false]')}
+        --use-snowpack,         Use Snowpack instead of Webpack ${dim('[Default: false]')}
         --version, -v           Print version
-        --with-cesium           Add CesiumJS to your project [Default: false]
-        --with-rust             Add "Rust to WASM" support to your project [Default: false]
+        --with-cesium           Add CesiumJS to your project ${dim('[Default: false]')}
+        --with-rust             Add "Rust to WASM" support to your project ${dim('[Default: false]')}
 `;
 export const options = {
     help,

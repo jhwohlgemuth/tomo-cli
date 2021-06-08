@@ -32,21 +32,21 @@
 
     ${_chalk.dim.bold("Options")}
 
-        --assets-directory, -a  Directory for assets [Default: ./assets]
-        --browser               Indicate tasks are intended for the browser [Default: false]
-        --debug                 Show debug data [Default: false]	
-        --ignore-warnings, -i   Ignore warning messages [Default: false]
-        --output-directory, -o  Directory for build targets [Default: ./dist]
-        --overwrite             Copy files, even if they alrady exist [Default: false]
-        --port, -p              Configure port for workflow tasks that use it [Default: 4669]
-        --react-version         React version for ESLint configuration [Default: '16.8']
-        --skip-install, -s      Skip npm installations [Default: false]
-        --source-directory, -d  Directory for source code [Default: ./src]
-        --use-parcel,           Use Parcel instead of Webpack [Default: false]
-        --use-react, -r         Add React support to workflow [Default: false]
-        --use-rollup,           Use Rollup instead of Webpack [Default: false]
-        --use-snowpack,         Use Snowpack instead of Webpack [Default: false]
+        --assets-directory, -a  Directory for assets ${(0,_chalk.dim)("[Default: ./assets]")}
+        --browser               Indicate tasks are intended for the browser ${(0,_chalk.dim)("[Default: false]")}
+        --debug                 Show debug data ${(0,_chalk.dim)("[Default: false]")}	
+        --ignore-warnings, -i   Ignore warning messages ${(0,_chalk.dim)("[Default: false]")}
+        --output-directory, -o  Directory for build targets ${(0,_chalk.dim)("[Default: ./dist]")}
+        --overwrite             Copy files, even if they alrady exist ${(0,_chalk.dim)("[Default: false]")}
+        --port, -p              Configure port for workflow tasks that use it ${(0,_chalk.dim)("[Default: 4669]")}
+        --react-version         React version for ESLint configuration ${(0,_chalk.dim)("[Default: \"16.8\"]")}
+        --skip-install, -s      Skip npm installations ${(0,_chalk.dim)("[Default: false]")}
+        --source-directory, -d  Directory for source code ${(0,_chalk.dim)("[Default: ./src]")}
+        --use-parcel,           Use Parcel instead of Webpack ${(0,_chalk.dim)("[Default: false]")}
+        --use-react, -r         Add React support to workflow ${(0,_chalk.dim)("[Default: false]")}
+        --use-rollup,           Use Rollup instead of Webpack ${(0,_chalk.dim)("[Default: false]")}
+        --use-snowpack,         Use Snowpack instead of Webpack ${(0,_chalk.dim)("[Default: false]")}
         --version, -v           Print version
-        --with-cesium           Add CesiumJS to your project [Default: false]
-        --with-rust             Add "Rust to WASM" support to your project [Default: false]
+        --with-cesium           Add CesiumJS to your project ${(0,_chalk.dim)("[Default: false]")}
+        --with-rust             Add "Rust to WASM" support to your project ${(0,_chalk.dim)("[Default: false]")}
 `;exports.help=help;const options={help,flags:{version:{type:"boolean",default:!1,alias:"v"},sourceDirectory:{type:"string",default:"./src",alias:"d"},outputDirectory:{type:"string",default:"./dist",alias:"o"},assetsDirectory:{type:"string",default:"./assets",alias:"a"},useRollup:{type:"boolean",default:!1,alias:"rollup"},useParcel:{type:"boolean",default:!1,alias:"parcel"},useSnowpack:{type:"boolean",default:!1,alias:"snowpack"},useReact:{type:"boolean",default:!1,alias:["r","react"]},reactVersion:{type:"string",default:"16.8"},withCesium:{type:"boolean",default:!1},withRust:{type:"boolean",default:!1},help:{type:"boolean",default:!1,alias:"h"},ignoreWarnings:{type:"boolean",default:!1,alias:"i"},skipInstall:{type:"boolean",default:!1,alias:"s"},browser:{type:"boolean",default:!1,alias:"b"},port:{type:"number",default:4669,alias:"p"},overwrite:{type:"boolean",default:!1},debug:{type:"boolean",default:!1}}};exports.options=options;
