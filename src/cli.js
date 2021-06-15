@@ -63,7 +63,7 @@ export const help = `
         --output-directory, -o  Directory for build targets ${dim('[Default: ./dist]')}
         --overwrite             Copy files, even if they alrady exist ${dim('[Default: false]')}
         --port, -p              Configure port for workflow tasks that use it ${dim('[Default: 4669]')}
-        --react-version         React version for ESLint configuration ${dim('[Default: "16.8"]')}
+        --react-version         React version for ESLint configuration ${dim('[Default: "^16"]')}
         --skip-install, -s      Skip npm installations ${dim('[Default: false]')}
         --source-directory, -d  Directory for source code ${dim('[Default: ./src]')}
         --use-parcel,           Use Parcel instead of Webpack ${dim('[Default: false]')}
@@ -119,7 +119,7 @@ export const options = {
         },
         reactVersion: {
             type: 'string',
-            default: '16.8'
+            default: '^16'
         },
         withCesium: {
             type: 'boolean',

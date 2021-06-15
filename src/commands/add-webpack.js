@@ -92,9 +92,11 @@ const RULES_WITH_CESIUM = [
 const getAliasOption = (useReact = false) => useReact ? {'\'react-dom\'': `'@hot-loader/react-dom'`} : {};
 const getDevServerOption = (outputDirectory, port) => ({
     port,
-    host: `'127.0.0.1'`,
+    disableHostCheck: true,
     contentBase: `'${outputDirectory}'`,
     compress: true,
+    host: `'0.0.0.0'`,
+    useLocalIp: true,
     watchContentBase: true
 });
 const getEntryOption = (sourceDirectory, useReact = false) => {

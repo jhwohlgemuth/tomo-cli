@@ -6,12 +6,6 @@ import {
     install
 } from '../../api';
 
-const REACT_DEPENDENCIES = [
-    'prop-types',
-    'react',
-    'react-dom',
-    'wouter' // https://github.com/molefrog/wouter
-];
 const DEV_DEPENDENCIES = [
     'npm-run-all'
 ];
@@ -107,12 +101,15 @@ export const addReact = [
     },
     {
         text: 'Install React dependencies',
-        task: async ({skipInstall, useSnowpack}) => {
+        task: async ({reactVersion, skipInstall, useSnowpack}) => {
             const dependencies = [
-                ...REACT_DEPENDENCIES,
+                'prop-types',
+                `react@${reactVersion}`,
+                `react-dom@${reactVersion}`,
+                'wouter', // https://github.com/molefrog/wouter
                 ...(useSnowpack ? [] : ['@hot-loader/react-dom'])
             ];
-            await install(dependencies, {skipInstall});
+            await install(dependencies, {latest: false, skipInstall});
             await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
         },
         condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')

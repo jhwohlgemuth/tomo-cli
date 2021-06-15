@@ -9,7 +9,6 @@ describe('ESLint', () => {
     const browser = true;
     const skipInstall = true;
     const useReact = true;
-    const reactVersion = '16.8';
     const omit = ['extension', 'path', 'size', 'type'];
     const [setTempDir, cleanupTempDir] = useTemporaryDirectory();
     beforeEach(async () => {
@@ -37,7 +36,7 @@ describe('ESLint', () => {
     });
     test('Add support (+Browser+React)', async () => {
         await run(createPackageJson, {});
-        await run(addEslint, {skipInstall, browser, useReact, reactVersion});
+        await run(addEslint, {skipInstall, browser, useReact});
         const eslintConfig = fileContents('./.eslintrc.js');
         expect(eslintConfig).toMatchSnapshot();
     });

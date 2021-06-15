@@ -101,11 +101,11 @@ export const tasks = [
     },
     {
         text: 'Add React support to ESLint configuration file',
-        task: async ({browser, reactVersion, skipInstall}) => {
+        task: async ({browser, skipInstall}) => {
             const env = {browser};
             const settings = {
                 react: {
-                    version: `'${reactVersion}'`
+                    version: `'detect'`
                 }
             };
             await install(['eslint-plugin-jsx-a11y'], {dev: true, skipInstall});

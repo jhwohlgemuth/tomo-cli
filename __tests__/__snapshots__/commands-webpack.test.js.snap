@@ -79,7 +79,7 @@ exports[`Webpack Add support (+React) 3`] = `
     ],
     settings: {
         react: {
-            version: 'undefined'
+            version: 'detect'
         }
     }
 };"
@@ -108,9 +108,11 @@ module.exports = (env, argv) => ({
     context: __dirname,
     devServer: {
         port: 4669,
-        host: '127.0.0.1',
+        disableHostCheck: true,
         contentBase: './output',
         compress: true,
+        host: '0.0.0.0',
+        useLocalIp: true,
         watchContentBase: true
     },
     module: {
@@ -251,9 +253,11 @@ module.exports = (env, argv) => ({
     context: __dirname,
     devServer: {
         port: 4669,
-        host: '127.0.0.1',
+        disableHostCheck: true,
         contentBase: './output',
         compress: true,
+        host: '0.0.0.0',
+        useLocalIp: true,
         watchContentBase: true
     },
     module: {

@@ -280,19 +280,24 @@ describe('install', () => {
     const skipInstall = true;
     const dev = true;
     test('handle array of string names', async () => {
-        expect(await install()).toEqual(['install']);
-        expect(await install(['some-module'])).toEqual(['install', 'some-module@latest']);
-        expect(await install(['some-module'])).toEqual(['install', 'some-module@latest']);
-        expect(await install(['some-module'], {latest: false, skipInstall})).toEqual(['install', 'some-module']);
-        expect(await install(['foo', 'bar'], {latest: false, skipInstall})).toEqual(['install', 'foo', 'bar']);
-        expect(await install(['some-module'], {dev, skipInstall})).toEqual(['install', 'some-module', '--save-dev']);
+        expect(await install([], {skipInstall})).toEqual(['install']);
+        expect(await install(['some-module'], {skipInstall})).toEqual(['install', 'some-module@latest']);
+        expect(await install(['some-module@^42'], {skipInstall})).toEqual(['install', 'some-module@^42']);
+        expect(await install(['some-module'], {latest, skipInstall})).toEqual(['install', 'some-module@latest']);
+        expect(await install(['some-module@^42'], {latest, skipInstall})).toEqual(['install', 'some-module@latest']);
+        expect(await install(['foo', 'bar'], {skipInstall})).toEqual(['install', 'foo@latest', 'bar@latest']);
+        expect(await install(['foo@^16', 'bar'], {skipInstall})).toEqual(['install', 'foo@^16', 'bar@latest']);
+        expect(await install(['foo@^16', 'bar'], {latest, skipInstall})).toEqual(['install', 'foo@latest', 'bar@latest']);
+        expect(await install(['some-module'], {dev, skipInstall})).toEqual(['install', 'some-module@latest', '--save-dev']);
         expect(await install(['some-module'], {dev, latest, skipInstall})).toEqual(['install', 'some-module@latest', '--save-dev']);
-        expect(await install(['foo', 'bar'], {latest: false, dev, skipInstall})).toEqual(['install', 'foo', 'bar', '--save-dev']);
+        expect(await install(['foo', 'bar'], {dev, skipInstall})).toEqual(['install', 'foo@latest', 'bar@latest', '--save-dev']);
     });
     test('only allow valid module names', async () => {
+        const skipInstall = true;
         const INVALID_NAME = 'eLaBorAtE-paCkAgE-with-mixed-case';
-        expect(await install([INVALID_NAME])).toEqual(['install']);
-        expect(await install(['jest', INVALID_NAME])).toEqual(['install', 'jest@latest']);
+        expect(await install([INVALID_NAME], {skipInstall})).toEqual(['install']);
+        expect(await install(['jest', INVALID_NAME], {skipInstall})).toEqual(['install', 'jest@latest']);
+        expect(await install(['  super messed up!?!?!?!?'], {skipInstall})).toEqual(['install']);
     });
 });
 describe('uninstall', () => {

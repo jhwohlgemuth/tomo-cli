@@ -9,6 +9,7 @@ import readClosest from 'read-pkg-up';
 import {complement, has, head} from 'ramda';
 import isOnline from 'is-online';
 import {oneLineTrim} from 'common-tags';
+import npmArgumentParser from 'npm-package-arg';
 import validate from 'validate-npm-package-name';
 import {findBestMatch} from 'string-similarity';
 import {dict, format, isEmptyString} from './common';
@@ -160,15 +161,24 @@ export const showVersion = () => {
  * install(['jest', 'babel-jest'], {dev: true});
  * @return {string[]} Array of inputs (mostly for testing)
  */
-export const install = async (dependencies = [], options = {dev: false, latest: true, skipInstall: false}) => {
+export const install = async (dependencies = [], options = {dev: false, latest: false, skipInstall: false}) => {
     const {dev, latest, skipInstall} = options;
-    const identity = i => i;
-    const concat = val => str => str + val;
     const args = ['install']
         .concat(dependencies
-            .filter(name => validate(name).validForNewPackages)
-            .map(latest ? concat('@latest') : identity)
-        )
+            .map(str => {
+                let data;
+                try {
+                    data = npmArgumentParser(str);
+                } catch {
+                    data = {};
+                }
+                return data;
+            })
+            .filter(({name}) => validate(name).validForNewPackages)
+            .map(({name, fetchSpec}) => {
+                const version = latest ? 'latest' : fetchSpec;
+                return `${name}@${version}`;
+            }))
         .concat(dev ? '--save-dev' : []);
     skipInstall || await execa('npm', args);
     return args;
