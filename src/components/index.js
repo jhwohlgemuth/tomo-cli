@@ -243,8 +243,10 @@ export const Status = ({tasks, completed, skipped}) => {
                 </Fragment>
             }
             <Text dim> (</Text>
-            <Text bold>{completed.length}</Text>
-            <Text dim> completed, </Text>
+            {tasksComplete && <Fragment>
+                <Text bold>{completed.length}</Text>
+                <Text dim> completed, </Text>
+            </Fragment>}
             <Text bold>{skipped.length}</Text>
             <Text dim> skipped</Text>
             <Text>)</Text>
