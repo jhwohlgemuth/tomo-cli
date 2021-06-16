@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 const links = {
@@ -7,7 +6,6 @@ const links = {
     undraw: 'https://undraw.co/',
     forgetica: 'https://www.sansforgetica.rmit/'
 };
-
 const Footer = ({name}) => <footer>
     <p>{name} was created with <span className="heart">❤</span> using <a href={links.tomo}>tomo</a></p>
     <p>Illustration created by <a href={links.ninalimpi}>Katerina Limpitsouni</a>, available at <a href={links.undraw}>unDraw</a></p>

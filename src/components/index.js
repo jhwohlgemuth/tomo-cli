@@ -1,4 +1,4 @@
-import React, {Component, Fragment, useEffect, useReducer, useState} from 'react';
+import {Component, Fragment, useEffect, useReducer, useState} from 'react';
 import PropTypes from 'prop-types';
 import {complement, is} from 'ramda';
 import {bold, dim} from 'chalk';

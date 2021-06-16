@@ -82,7 +82,9 @@ export const addBabel = [
             const maybeRemove = name => (!useRollup || name !== 'react-hot-loader');
             const maybeRename = name => (name === 'react-hot-loader') ? 'react-hot-loader/babel' : name;
             const plugins = [...BABEL_REACT_PLUGINS, ...BABEL_PLUGINS].filter(maybeRemove).map(name => name |> maybeRename |> addQuotes);
-            const presets = [...BABEL_PRESETS, ...BABEL_REACT_PRESETS].map(addQuotes);
+            const presets = [...BABEL_PRESETS]
+                .map(addQuotes)
+                .concat([[`'@babel/preset-react'`, {runtime: `'automatic'`}]]);
             await (new BabelConfigModuleEditor())
                 .extend({plugins, presets})
                 .commit();

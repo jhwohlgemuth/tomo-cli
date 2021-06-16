@@ -1,5 +1,5 @@
 /* eslint complexity: ["warn", 8] */
-import React, {Component, Fragment, useEffect, useState} from 'react';
+import {Component, Fragment, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import Conf from 'conf';
 import {play} from 'figures';

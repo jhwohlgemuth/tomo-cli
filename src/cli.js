@@ -119,7 +119,7 @@ export const options = {
         },
         reactVersion: {
             type: 'string',
-            default: '^16'
+            default: '^17'
         },
         withCesium: {
             type: 'boolean',

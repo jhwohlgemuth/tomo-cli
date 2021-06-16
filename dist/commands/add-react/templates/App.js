@@ -1,4 +1,4 @@
-import React, {StrictMode} from 'react';
+import {StrictMode} from 'react';
 import {hot} from 'react-hot-loader';
 import PropTypes from 'prop-types';
 import Header from './Header.jsx';

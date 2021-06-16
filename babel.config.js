@@ -1,7 +1,7 @@
 module.exports = {
     presets: [
         ['@babel/preset-env', {targets: {node: '6.10'}, useBuiltIns: 'usage', corejs: 3}],
-        '@babel/preset-react',
+        ['@babel/preset-react', {runtime: 'automatic'}],
         ['minify', {mangle: false}]
     ],
     ignore: [
