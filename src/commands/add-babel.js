@@ -37,7 +37,8 @@ const SNOWPACK_DEPENDENCIES = [
     'snowpack',
     '@snowpack/app-scripts-react',
     '@snowpack/plugin-react-refresh',
-    '@snowpack/plugin-postcss'
+    '@snowpack/plugin-postcss',
+    '@snowpack/plugin-optimize'
 ];
 /**
  * @type {task[]}

@@ -379,7 +379,11 @@ export const SnowpackConfigEditor = createModuleEditor('snowpack.config.js', {
     mount: {
         assets: `'/'`
     },
-    plugins: [`'@snowpack/plugin-react-refresh', '@snowpack/plugin-postcss'`]
+    plugins: [
+        `'@snowpack/plugin-react-refresh'`, 
+        `'@snowpack/plugin-postcss'`,
+        `'@snowpack/plugin-optimize'`
+    ]
 });
 /**
  * Create and edit a Webpack configuration file with a fluent API
