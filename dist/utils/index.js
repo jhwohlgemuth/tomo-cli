@@ -126,7 +126,7 @@ console.log(version),process.exit()};/**
                 './node_modules/backbone/backbone.js': ['Model', 'history'],
                 './node_modules/backbone.marionette/lib/backbone.marionette.js': ['Application', 'View', 'MnObject']
             }
-        })`,`resolve({browser: true})`,`replace({'process.env.NODE_ENV': JSON.stringify('production')})`,`terser()`]},{esm:!0});exports.RollupConfigEditor=RollupConfigEditor;const SnowpackConfigEditor=(0,_createModuleEditor.createModuleEditor)("snowpack.config.js",{extends:`'@snowpack/app-scripts-react'`,scripts:{[`'build:css'`]:`'postcss'`,[`'mount:public'`]:`'mount assets --to /'`},plugins:[`'@snowpack/plugin-react-refresh'`]});/**
+        })`,`resolve({browser: true})`,`replace({'process.env.NODE_ENV': JSON.stringify('production')})`,`terser()`]},{esm:!0});exports.RollupConfigEditor=RollupConfigEditor;const SnowpackConfigEditor=(0,_createModuleEditor.createModuleEditor)("snowpack.config.js",{extends:`'@snowpack/app-scripts-react'`,mount:{assets:`'/'`},plugins:[`'@snowpack/plugin-react-refresh', '@snowpack/plugin-postcss'`]});/**
  * Create and edit a Webpack configuration file with a fluent API
  * @type {ModuleEditor}
  * @example

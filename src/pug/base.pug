@@ -39,7 +39,7 @@ mixin base(title, useReact, useSnowpack, isInPlace, useRollup)
                 body
                     #root
                     if useSnowpack
-                        script(src='/_dist_/main.js' type='module')
+                        script(src='/dist/main.js' type='module')
                     else
                         script(src='../src/main.jsx')
         else if useReact

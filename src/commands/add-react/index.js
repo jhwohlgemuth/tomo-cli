@@ -31,9 +31,9 @@ export const addReact = [
                 .copy(format('main.js'), `main.js${useSnowpack ? '' : 'x'}`)
                 .target(`${sourceDirectory}/components`)
                 .copy(format('App.js'), 'App.jsx')
-                .copy('Header.js', 'Header.jsx')
+                .copy(format('Header.js'), 'Header.jsx')
                 .copy(format('Body.js'), 'Body.jsx')
-                .copy('Footer.js', 'Footer.jsx')
+                .copy(format('Footer.js'), 'Footer.jsx')
                 .commit();
             await (new Scaffolder(join(__dirname, '..', 'common', 'templates')))
                 .overwrite(overwrite)

@@ -36,7 +36,8 @@ const BABEL_DEPENDENCIES = [
 const SNOWPACK_DEPENDENCIES = [
     'snowpack',
     '@snowpack/app-scripts-react',
-    '@snowpack/plugin-react-refresh'
+    '@snowpack/plugin-react-refresh',
+    '@snowpack/plugin-postcss'
 ];
 /**
  * @type {task[]}

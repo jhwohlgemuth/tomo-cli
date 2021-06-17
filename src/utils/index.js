@@ -376,11 +376,10 @@ export const RollupConfigEditor = createModuleEditor('rollup.config.js', {
 }, {esm: true});
 export const SnowpackConfigEditor = createModuleEditor('snowpack.config.js', {
     extends: `'@snowpack/app-scripts-react'`,
-    scripts: {
-        [`'build:css'`]: `'postcss'`,
-        [`'mount:public'`]: `'mount assets --to /'`
+    mount: {
+        assets: `'/'`
     },
-    plugins: [`'@snowpack/plugin-react-refresh'`]
+    plugins: [`'@snowpack/plugin-react-refresh', '@snowpack/plugin-postcss'`]
 });
 /**
  * Create and edit a Webpack configuration file with a fluent API
