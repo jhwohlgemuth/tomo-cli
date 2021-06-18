@@ -380,7 +380,7 @@ export const SnowpackConfigEditor = createModuleEditor('snowpack.config.js', {
         assets: `'/'`
     },
     plugins: [
-        `'@snowpack/plugin-react-refresh'`, 
+        `'@snowpack/plugin-react-refresh'`,
         `'@snowpack/plugin-postcss'`,
         `'@snowpack/plugin-optimize'`
     ]
