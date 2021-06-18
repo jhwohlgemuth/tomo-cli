@@ -21,7 +21,9 @@ export {default as Main} from './main';
 
 const {assign} = Object;
 const space = ' ';
-const Check = ({isSkipped}) => <Text bold color={isSkipped ? 'white' : 'green'} dim={isSkipped}>{figures.tick}{space}</Text>;
+const Check = ({isSkipped}) => isSkipped ?
+    <Text bold color="white" dim={true}>{figures.dot}{space}</Text> :
+    <Text bold color="red">{figures.main.tick}{space}</Text>;
 const X = () => <Text bold color="red">{figures.cross}{space}</Text>;
 const Pending = () => <Text color="cyan"><Spinner></Spinner>{space}</Text>;
 const Item = ({isHighlighted, isSelected, label}) => <Text
@@ -34,7 +36,7 @@ const Indicator = ({isHighlighted, isSelected}) => <Box marginRight={1}>
 </Box>;
 const CheckBox = ({isSelected}) => (
     <Box marginRight={1}>
-        <Text color="cyan">{isSelected ? figures.tick : ' '}</Text>
+        <Text color="cyan">{isSelected ? figures.main.tick : ' '}</Text>
     </Box>
 );
 export const CommandError = errors => {
