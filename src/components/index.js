@@ -242,16 +242,7 @@ export const Status = ({tasks, completed, skipped}) => {
                     <Text bold dim> of </Text>
                     <Text bold color="white">{tasks.length - skipped.length}</Text>
                     <Text dim> tasks</Text>
-                </Fragment>
-            }
-            <Text dim> (</Text>
-            {tasksComplete && <Fragment>
-                <Text bold>{completed.length}</Text>
-                <Text dim> completed, </Text>
-            </Fragment>}
-            <Text bold>{skipped.length}</Text>
-            <Text dim> skipped</Text>
-            <Text>)</Text>
+                </Fragment>}
         </Box>
     </Box>;
 };
