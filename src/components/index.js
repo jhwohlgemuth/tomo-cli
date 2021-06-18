@@ -285,7 +285,7 @@ export const Tasks = ({debug, options, state, tasks}) => <Box flexDirection='col
             const isErrored = errors.map(error => error.payload.index).includes(index);
             const isPending = [isComplete, isSkipped, isErrored].every(val => !val);
             const maybeApplyOrReturnTrue = (val, options) => (val === undefined) || (is(Function)(val) && val(options));
-            const showDebug = debug && <Text color="cyan">{index} - {text}</Text>;
+            const showDebug = debug && <Text color="cyan">{String(index).padStart(2, ' ')} - {text}</Text>;
             const shouldBeShown = maybeApplyOrReturnTrue(optional, options);
             const isCurrentOrPrevious = index <= Math.max(...completed, ...skipped) + 1;
             return (isCurrentOrPrevious && shouldBeShown) ?
