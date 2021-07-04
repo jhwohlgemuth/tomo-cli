@@ -161,8 +161,8 @@ export const showVersion = () => {
  * install(['jest', 'babel-jest'], {dev: true});
  * @return {string[]} Array of inputs (mostly for testing)
  */
-export const install = async (dependencies = [], options = {dev: false, latest: false, skipInstall: false}) => {
-    const {dev, latest, skipInstall} = options;
+export const install = async (dependencies = [], options = {dev: false, latest: false, legacy: false, skipInstall: false}) => {
+    const {dev, latest, legacy, skipInstall} = options;
     const args = ['install']
         .concat(dependencies
             .map(str => {
@@ -179,7 +179,8 @@ export const install = async (dependencies = [], options = {dev: false, latest: 
                 const version = latest ? 'latest' : fetchSpec;
                 return `${name}@${version}`;
             }))
-        .concat(dev ? '--save-dev' : []);
+        .concat(dev ? '--save-dev' : [])
+        .concat(legacy ? '--legacy-peer-deps' : []);
     skipInstall || await execa('npm', args);
     return args;
 };

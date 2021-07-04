@@ -101,7 +101,7 @@ export const addReact = [
     },
     {
         text: 'Install React dependencies',
-        task: async ({reactVersion, skipInstall, useSnowpack}) => {
+        task: async ({legacyNpm, reactVersion, skipInstall, useSnowpack}) => {
             const dependencies = [
                 'prop-types',
                 `react@${reactVersion}`,
@@ -109,7 +109,7 @@ export const addReact = [
                 'wouter', // https://github.com/molefrog/wouter
                 ...(useSnowpack ? [] : ['@hot-loader/react-dom'])
             ];
-            await install(dependencies, {latest: false, skipInstall});
+            await install(dependencies, {latest: false, legacy: legacyNpm, skipInstall});
             await install(DEV_DEPENDENCIES, {dev: true, skipInstall});
         },
         condition: ({skipInstall}) => !skipInstall && allDoExist('package.json')
