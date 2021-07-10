@@ -20,16 +20,16 @@ const hljs = require('highlight.js');
 const {Remarkable} = require('remarkable');
 
 const md = new Remarkable({
-    highlight: (str, lang) => {
-        if (lang && hljs.getLanguage(lang)) {
+    highlight: (code, language) => {
+        if (language && hljs.getLanguage(language)) {
             try {
-                return hljs.highlight(lang, str).value;
+                return hljs.highlight(code, {language}).value;
             } catch {
                 log.error('Failed to highlight language');
             }
         }
         try {
-            return hljs.highlightAuto(str).value;
+            return hljs.highlightAuto(code).value;
         } catch {
             log.error('Failed to auto highlight language');
         }
