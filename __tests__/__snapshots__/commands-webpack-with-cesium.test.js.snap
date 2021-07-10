@@ -99,13 +99,6 @@ module.exports = (env, argv) => ({
         alias: {
             'react-dom': '@hot-loader/react-dom'
         }
-    },
-    node: {
-        fs: 'empty',
-        Buffer: false,
-        http: 'empty',
-        https: 'empty',
-        zlib: 'empty'
     }
 });"
 `;
@@ -206,13 +199,6 @@ module.exports = (env, argv) => ({
         modules: [resolve(__dirname, './source'), 'node_modules'],
         extensions: ['.js'],
         alias: {}
-    },
-    node: {
-        fs: 'empty',
-        Buffer: false,
-        http: 'empty',
-        https: 'empty',
-        zlib: 'empty'
     }
 });"
 `;

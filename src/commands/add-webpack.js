@@ -182,13 +182,6 @@ export const addWebpack = [
             const context = '__dirname';
             const devServer = getDevServerOption(outputDirectory, port);
             const entry = getEntryOption(sourceDirectory, useReact);
-            const node = {
-                fs: `'empty'`,
-                Buffer: false,
-                http: `'empty'`,
-                https: `'empty'`,
-                zlib: `'empty'`
-            };
             const optimization = {minimize: `argv.mode === 'production'`, minimizer: `[new TerserPlugin()]`};
             const plugins = getPlugins({withCesium, withRust});
             const resolve = getResolveOption(sourceDirectory, alias, useReact);
@@ -196,7 +189,6 @@ export const addWebpack = [
             await getWebpackConfigPrependContent({withCesium, withRust})
                 .reduce((config, content) => config.prepend(content), (new WebpackConfigEditor()).create())
                 .extend({context, devServer, entry, module: {rules}, optimization, plugins, resolve})
-                .extend(withCesium ? {node} : {})
                 .commit();
         },
         condition: () => allDoNotExist('webpack.config.js')
