@@ -239,7 +239,20 @@ export async function populateQueue({concurrency = 1, tasks = [], dispatch = () 
     }
 }
 /**
- * Create and edit a Babel.js configuration file with a fluent API
+ * Create and edit a Babel.js configuration file (JSON) with a fluent API
+ * @type {JsonEditor}
+ */
+export const BabelConfigJsonEditor = createJsonEditor('babel.config.json', {
+    plugins: [
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-export-default-from',
+        '@babel/plugin-proposal-optional-chaining'
+    ],
+    presets: ['@babel/preset-env', 'babel-preset-minify']
+});
+/**
+ * Create and edit a Babel.js configuration file (JS) with a fluent API
  * @type {ModuleEditor}
  * @example <caption>Extend module.exports content and prepend text to the top of the file</caption>
  * await (new BabelConfigModuleEditor())
@@ -256,6 +269,23 @@ export const BabelConfigModuleEditor = createModuleEditor('babel.config.js', {
         `'@babel/plugin-proposal-optional-chaining'`
     ],
     presets: [`'@babel/preset-env'`, `'babel-preset-minify'`]
+});
+export const BsConfigJsonEditor = createJsonEditor('bsconfig.json', {
+    'bs-dependencies': ['reason-react'],
+    'bsc-flags': ['-bs-super-errors'],
+    namespace: true,
+    'package-specs': [{
+        module: 'es6',
+        'in-source': true
+    }],
+    'ppx-flags': [],
+    reason: {'react-jsx': 3},
+    refmt: 3,
+    sources: [{
+        dir: 'src',
+        subdirs: true
+    }],
+    suffix: '.bs.js'
 });
 /**
  * Create and edit an ESLint configuration file with a fluent API
@@ -306,23 +336,6 @@ export const PackageJsonEditor = createJsonEditor('package.json', {
     description: 'A super cool app/server/tool/library/widget/thingy',
     license: 'MIT',
     keywords: []
-});
-export const BsConfigJsonEditor = createJsonEditor('bsconfig.json', {
-    'bs-dependencies': ['reason-react'],
-    'bsc-flags': ['-bs-super-errors'],
-    namespace: true,
-    'package-specs': [{
-        module: 'es6',
-        'in-source': true
-    }],
-    'ppx-flags': [],
-    reason: {'react-jsx': 3},
-    refmt: 3,
-    sources: [{
-        dir: 'src',
-        subdirs: true
-    }],
-    suffix: '.bs.js'
 });
 /**
  * Create and edit a PostCSS configuration file with a fluent API

@@ -18,11 +18,11 @@ exports[`Parcel Add support 1`] = `
         \\"copy:assets\\": \\"cpy \\\\\\"./assets/!(css)/**/*.*\\\\\\" \\\\\\"./assets/**/[.]*\\\\\\" ./output --parents --recursive\\",
         \\"copy:index\\": \\"cpy \\\\\\"./assets/index.html\\\\\\" ./output\\",
         \\"prebuild:es\\": \\"npm run clean\\",
-        \\"build:es\\": \\"parcel build --out-dir ./output --public-url ./ ./assets/index.html\\",
+        \\"build:es\\": \\"parcel build --dist-dir ./output --public-url ./ ./assets/index.html\\",
         \\"watch:assets\\": \\"watch \\\\\\"npm run copy\\\\\\" ./assets\\",
         \\"prewatch:es\\": \\"npm run clean\\",
         \\"watch:es\\": \\"npm run build:es\\",
-        \\"serve\\": \\"parcel ./assets/index.html --out-dir ./output --port 4669 --open\\",
+        \\"serve\\": \\"parcel ./assets/index.html --dist-dir ./output --port 4669 --open\\",
         \\"start\\": \\"npm-run-all --parallel watch:assets serve\\",
         \\"dev\\": \\"stmux [ \\\\\\"npm run watch:es\\\\\\" : \\\\\\"npm run lint:ing\\\\\\" ]\\"
     }

@@ -18,12 +18,42 @@ export const addReact = [
     {
         text: 'Copy React boilerplate and assets',
         task: async ({assetsDirectory, sourceDirectory, overwrite, useParcel, useSnowpack}) => {
-            const inPlace = (useParcel || useSnowpack) ? '-in-place' : '';
-            const index = `index${inPlace}-react${useSnowpack ? '-snowpack' : ''}.html`;
-            const fonts = `fonts${inPlace}.css`;
             const format = filename => {
                 const [name, extension] = filename.split('.');
-                return `${name}${useSnowpack ? '-snowpack' : ''}.${extension}`;
+                const type = useSnowpack ? 'snowpack' : (useParcel ? 'parcel' : 'default');
+                const dict = {
+                    snowpack: {
+                        main: `main-snowpack.${extension}`,
+                        app: `App-snowpack.${extension}`,
+                        body: `Body-snowpack.${extension}`,
+                        header: `Header-snowpack.${extension}`,
+                        footer: `Footer-snowpack.${extension}`,
+                        index: `index-in-place-react-snowpack.${extension}`,
+                        style: `style-snowpack.${extension}`,
+                        fonts: 'fonts-in-place.css'
+                    },
+                    parcel: {
+                        main: `main-parcel.${extension}`,
+                        app: `App-parcel.${extension}`,
+                        body: `Body.${extension}`,
+                        header: `Header.${extension}`,
+                        footer: `Footer.${extension}`,
+                        index: `index-in-place-react.html`,
+                        style: `style.${extension}`,
+                        fonts: 'fonts-in-place.css'
+                    },
+                    default: {
+                        main: `main.${extension}`,
+                        app: `App.${extension}`,
+                        body: `Body.${extension}`,
+                        header: `Header.${extension}`,
+                        footer: `Footer.${extension}`,
+                        index: `index-react.html`,
+                        style: `style.${extension}`,
+                        fonts: 'fonts.css'
+                    }
+                };
+                return dict[type][name.toLowerCase()];
             };
             await (new Scaffolder(join(__dirname, 'templates')))
                 .overwrite(overwrite)
@@ -40,10 +70,10 @@ export const addReact = [
                 .target('.')
                 .copy('gitignore', '.gitignore')
                 .target(`${assetsDirectory}`)
-                .copy(index, 'index.html')
+                .copy(format('index.html'), 'index.html')
                 .target(`${assetsDirectory}/css`)
                 .copy(format('style.css'), 'style.css')
-                .copy(fonts, 'fonts.css')
+                .copy(format('fonts.css'), 'fonts.css')
                 .target(`${assetsDirectory}/images`)
                 .copy('react.png')
                 .copy('preferences.png')

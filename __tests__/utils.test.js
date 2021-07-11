@@ -282,6 +282,7 @@ describe('install', () => {
     test('handle array of string names', async () => {
         expect(await install([], {skipInstall})).toEqual(['install']);
         expect(await install(['some-module'], {skipInstall})).toEqual(['install', 'some-module@latest']);
+        expect(await install(['some-module@next'], {skipInstall})).toEqual(['install', 'some-module@next']);
         expect(await install(['some-module@^42'], {skipInstall})).toEqual(['install', 'some-module@^42']);
         expect(await install(['some-module'], {latest, skipInstall})).toEqual(['install', 'some-module@latest']);
         expect(await install(['some-module@^42'], {latest, skipInstall})).toEqual(['install', 'some-module@latest']);

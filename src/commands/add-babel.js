@@ -1,10 +1,12 @@
 import {
     BabelConfigModuleEditor,
+    BabelConfigJsonEditor,
     PackageJsonEditor,
     SnowpackConfigEditor,
     allDoExist,
     allDoNotExist,
-    install
+    install,
+    someDoExist
 } from '../api';
 
 const BABEL_CORE = [
@@ -47,12 +49,12 @@ const SNOWPACK_DEPENDENCIES = [
 export const addBabel = [
     {
         text: 'Create Babel config file',
-        task: async () => {
-            await (new BabelConfigModuleEditor())
+        task: async ({useParcel}) => {
+            await (useParcel ? new BabelConfigJsonEditor() : new BabelConfigModuleEditor())
                 .create()
                 .commit();
         },
-        condition: () => allDoNotExist('babel.config.js', '.babelrc', '.babelrc.js')
+        condition: () => allDoNotExist('babel.config.js', 'babel.config.json', '.babelrc', '.babelrc.js')
     },
     {
         text: 'Create Snowpack config and Configure Babel for Snowpack',
@@ -79,19 +81,26 @@ export const addBabel = [
     },
     {
         text: 'Add React support to Babel configuration file',
-        task: async ({useRollup}) => {
-            const addQuotes = str => `'${str}'`;
+        task: async ({useParcel, useRollup}) => {
+            const addQuotes = str => useParcel ? str : `'${str}'`;
             const maybeRemove = name => (!useRollup || name !== 'react-hot-loader');
             const maybeRename = name => (name === 'react-hot-loader') ? 'react-hot-loader/babel' : name;
-            const plugins = [...BABEL_REACT_PLUGINS, ...BABEL_PLUGINS].filter(maybeRemove).map(name => name |> maybeRename |> addQuotes);
+            const plugins = [
+                ...(useParcel ? [] : BABEL_REACT_PLUGINS),
+                ...BABEL_PLUGINS
+            ]
+                .filter(maybeRemove)
+                .map(name => name |> maybeRename |> addQuotes);
             const presets = [...BABEL_PRESETS]
                 .map(addQuotes)
-                .concat([[`'@babel/preset-react'`, {runtime: `'automatic'`}]]);
-            await (new BabelConfigModuleEditor())
+                .concat([useParcel ?
+                    ['@babel/preset-react', {runtime: 'automatic'}] :
+                    [`'@babel/preset-react'`, {runtime: `'automatic'`}]]);
+            await (useParcel ? new BabelConfigJsonEditor() : new BabelConfigModuleEditor())
                 .extend({plugins, presets})
                 .commit();
         },
-        condition: ({useReact, useSnowpack}) => useReact && !useSnowpack && allDoExist('babel.config.js'),
+        condition: ({useReact, useSnowpack}) => useReact && !useSnowpack && someDoExist('babel.config.js', 'babel.config.json'),
         optional: ({useReact, useSnowpack}) => useReact && !useSnowpack
     },
     {
@@ -104,7 +113,6 @@ export const addBabel = [
             await (new PackageJsonEditor())
                 .extend(useSnowpack ? {scripts: {build: 'snowpack build'}} : {scripts})
                 .commit();
-
         },
         condition: () => allDoExist('package.json')
     },
@@ -116,7 +124,7 @@ export const addBabel = [
     },
     {
         text: 'Install Babel React presets and plugins',
-        task: ({skipInstall}) => install([...BABEL_REACT_PRESETS, ...BABEL_REACT_PLUGINS], {dev: true, skipInstall}),
+        task: ({skipInstall, useParcel}) => install([...BABEL_REACT_PRESETS, ...(useParcel ? [] : BABEL_REACT_PLUGINS)], {dev: true, skipInstall}),
         condition: ({skipInstall, useReact, useSnowpack}) => !useSnowpack && !skipInstall && useReact && allDoExist('package.json'), // eslint-disable-line max-len
         optional: ({useReact, useSnowpack}) => useReact && !useSnowpack
     },

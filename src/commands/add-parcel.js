@@ -19,7 +19,7 @@ const BUILD_DEPENDENCIES = [
     'npm-run-all'
 ];
 const PARCEL_DEPENDENCIES = [
-    'parcel-bundler',
+    'parcel@next',
     'parcel-plugin-purgecss'
 ];
 /**
@@ -29,10 +29,7 @@ const PARCEL_DEPENDENCIES = [
 export const addParcel = [
     {
         text: 'Add Parcel build tasks to package.json',
-        task: async ({assetsDirectory, outputDirectory, port, useReact}) => {
-            const alias = {
-                'react-dom': '@hot-loader/react-dom'
-            };
+        task: async ({assetsDirectory, outputDirectory, port}) => {
             const scripts = {
                 ...DEPLOY_SCRIPTS,
                 clean: `del-cli ${outputDirectory}`,
@@ -40,15 +37,14 @@ export const addParcel = [
                 'copy:assets': `cpy \"${assetsDirectory}/!(css)/**/*.*\" \"${assetsDirectory}/**/[.]*\" ${outputDirectory} --parents --recursive`,
                 'copy:index': `cpy \"${assetsDirectory}/index.html\" ${outputDirectory}`,
                 'prebuild:es': 'npm run clean',
-                'build:es': `parcel build --out-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
+                'build:es': `parcel build --dist-dir ${outputDirectory} --public-url ./ ${assetsDirectory}/index.html`,
                 'watch:assets': `watch \"npm run copy\" ${assetsDirectory}`,
                 'prewatch:es': 'npm run clean',
                 'watch:es': `npm run build:es`,
-                serve: `parcel ${assetsDirectory}/index.html --out-dir ${outputDirectory} --port ${port} --open`,
+                serve: `parcel ${assetsDirectory}/index.html --dist-dir ${outputDirectory} --port ${port} --open`,
                 start: 'npm-run-all --parallel watch:assets serve'
             };
             await (new PackageJsonEditor())
-                .extend(useReact ? {alias} : {})
                 .extend({scripts})
                 .commit();
         },
