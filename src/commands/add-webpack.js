@@ -116,10 +116,7 @@ const getPlugins = ({withCesium, withRust}) => {
             title: \`tomo webapp [\${argv.mode === 'production' ? 'production' : 'development'}]\`, 
             template: 'assets/index.html'
         })`,
-        oneLineTrim`new SriPlugin({
-            hashFuncNames: ['sha256'], 
-            enabled: argv.mode === 'production'
-        })`
+        `new SubresourceIntegrityPlugin()`
     ];
     const WITH_CESIUM = [
         `new DefinePlugin({CESIUM_BASE_URL: JSON.stringify('/')})`,
@@ -163,7 +160,7 @@ const getWebpackConfigPrependContent = ({withCesium, withRust}) => [
     iff(withCesium, `const CopyWebpackPlugin = require('copy-webpack-plugin');`),
     `const DashboardPlugin = require('webpack-dashboard/plugin');`,
     `const HtmlWebpackPlugin = require('html-webpack-plugin');`,
-    `const SriPlugin = require('webpack-subresource-integrity');`,
+    `const {SubresourceIntegrityPlugin} = require('webpack-subresource-integrity');`,
     `const TerserPlugin = require('terser-webpack-plugin');`,
     iff(withRust, `const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');`),
     iff(withCesium, `const source = 'node_modules/cesium/Build/Cesium';`)
