@@ -19,7 +19,7 @@ const BUILD_DEPENDENCIES = [
     'npm-run-all'
 ];
 const PARCEL_DEPENDENCIES = [
-    'parcel@next',
+    'parcel',
     'parcel-plugin-purgecss'
 ];
 /**

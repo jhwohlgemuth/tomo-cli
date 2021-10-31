@@ -11,7 +11,7 @@ import {
 } from '../../api';
 
 const ESLINT_DEPENDENCIES = [
-    'eslint',
+    'eslint@^7',
     'babel-eslint',
     'eslint-config-omaha-prime-grade',
     'eslint-plugin-import',

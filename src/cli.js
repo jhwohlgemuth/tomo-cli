@@ -73,7 +73,7 @@ export const help = `
         --with-cesium, -c       Add CesiumJS to your project ${dim('[Default: false]')}
         --with-rust, -w         Add "Rust to WASM" support to your project ${dim('[Default: false]')}
         --debug, -D             Show debug data ${dim('[Default: false]')}
-        --legacy-npm, -L        Do not install npm peer dependencies by default (use this option if your npm version is <7)
+        --legacy-npm, -L        Do not install npm peer dependencies by default (use this option if your npm version is >=7)
 `;
 export const options = {
     help,
