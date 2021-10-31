@@ -15,7 +15,7 @@ const ESLINT_DEPENDENCIES = [
     'babel-eslint',
     'eslint-config-omaha-prime-grade',
     'eslint-plugin-import',
-    'eslint-plugin-promise',
+    // 'eslint-plugin-promise'
     'watch'
 ];
 const ESLINT_REACT_PLUGINS = [
