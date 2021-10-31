@@ -5,7 +5,7 @@ exports[`Webpack with Rust Add support (+React) 1`] = `
 const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const SriPlugin = require('webpack-subresource-integrity');
+const {SubresourceIntegrityPlugin} = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
 const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 
@@ -80,7 +80,7 @@ module.exports = (env, argv) => ({
     plugins: [
         new DashboardPlugin(),
         new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode === 'production' ? 'production' : 'development'}]\`, template: 'assets/index.html'}),
-        new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
+        new SubresourceIntegrityPlugin(),
         new WasmPackPlugin({crateDirectory: resolve(__dirname, 'rust-to-wasm'),watchDirectories: [resolve(__dirname, 'rust-to-wasm', 'src'),resolve(__dirname, 'rust-to-wasm', 'tests')],forceMode: argv.mode === 'production' ? 'production' : 'development'})
     ],
     resolve: {
@@ -99,7 +99,7 @@ exports[`Webpack with Rust Add support 1`] = `
 const {resolve} = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const SriPlugin = require('webpack-subresource-integrity');
+const {SubresourceIntegrityPlugin} = require('webpack-subresource-integrity');
 const TerserPlugin = require('terser-webpack-plugin');
 const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 
@@ -173,7 +173,7 @@ module.exports = (env, argv) => ({
     plugins: [
         new DashboardPlugin(),
         new HtmlWebpackPlugin({title: \`tomo webapp [\${argv.mode === 'production' ? 'production' : 'development'}]\`, template: 'assets/index.html'}),
-        new SriPlugin({hashFuncNames: ['sha256'], enabled: argv.mode === 'production'}),
+        new SubresourceIntegrityPlugin(),
         new WasmPackPlugin({crateDirectory: resolve(__dirname, 'rust-to-wasm'),watchDirectories: [resolve(__dirname, 'rust-to-wasm', 'src'),resolve(__dirname, 'rust-to-wasm', 'tests')],forceMode: argv.mode === 'production' ? 'production' : 'development'})
     ],
     resolve: {
