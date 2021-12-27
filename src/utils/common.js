@@ -14,6 +14,13 @@ const newMap = val => new Map(val);
 const joinPath = name => join(process.cwd(), name);
 const checkPathExists = name => name |> joinPath |> pathExists;
 const checkPathExistsSync = name => name |> joinPath |> pathExistsSync;
+export const appendToObjectValues = (obj, val) => {
+    const newObj = {};
+    Object.keys(obj).forEach(key => {
+        newObj[key] = [...obj[key], val];
+    });
+    return newObj;
+};
 export const dict = val => val |> Object.entries |> newMap;
 export const isEmptyString = data => typeof data === 'string' && data.length === 0;
 export const parse = data => data |> JSON.stringify |> JSON.parse;
